@@ -1,7 +1,10 @@
+## recipes for usage of SUSYAnalysis User Code
+
 cmsrel CMSSW_3_8_3
 cd CMSSW_3_8_3/src
 cmsenv
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
 cvs co ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py
 cvs co ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py
