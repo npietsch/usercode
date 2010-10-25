@@ -1,4 +1,4 @@
-## recipes for usage of SUSYAnalysis User Code
+## recipe for usage of SUSYAnalysis User Code
 
 cmsrel CMSSW_3_8_3
 cd CMSSW_3_8_3/src
