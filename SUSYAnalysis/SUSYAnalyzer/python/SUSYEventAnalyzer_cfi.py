@@ -6,7 +6,7 @@ import FWCore.ParameterSet.Config as cms
 analyzeSUSYEvent = cms.EDAnalyzer("SUSYEventAnalyzer",
                                   met = cms.InputTag("patMETs"),
                                   source = cms.InputTag("genParticles"),
-                                  jets = cms.InputTag("goodJets")                                
+                                  jets = cms.InputTag("selectedPatJets")                                
 )
 
 

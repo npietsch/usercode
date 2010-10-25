@@ -39,8 +39,8 @@ process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
 from SUSYAnalysis.SUSYAnalyzer.testSelector_cfi import *
 process.selectedGenParticles = selectedGenParticles.clone(src= "genParticles",
                                                           cut =
-                                                          'abs(pdgId)=1000021 &'
-                                                          'numberOfDaughters > 0'
+                                                          'abs(pdgId)=1000021 '
+                                                          #'numberOfDaughters > 0'
                                                           #'abs(daughter(0).pdgId) == 6'
                                                           )
 
