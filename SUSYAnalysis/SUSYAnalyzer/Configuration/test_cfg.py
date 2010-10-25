@@ -9,7 +9,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    'file:/afs/naf.desy.de/user/n/npietsch/public/testfile.root'
+    'file:/afs/cern.ch/user/n/npietsch/public/testfile.root'
     #'/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
     )
 )
