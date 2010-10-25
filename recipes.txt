@@ -1,0 +1,15 @@
+cmsrel CMSSW_3_8_3
+cd CMSSW_3_8_3/src
+cmsenv
+cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
+cvs co ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py
+cvs co ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py
+cp ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
+cp ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/pyton
+
+## edit simpleEledIdSequence_cff.py and simpleCutBsedElectronIDSpring10_cfi.py
+
+rm -r ElectroWeakAnalysis
+
+scram b -r -j 4
