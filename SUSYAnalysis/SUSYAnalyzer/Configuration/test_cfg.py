@@ -86,8 +86,8 @@ from SUSYAnalysis.SUSYAnalyzer.testSelector_cfi import *
 process.selectedGenParticles = selectedGenParticles.clone(src= "genParticles",
                                                           cut =
                                                           'abs(pdgId)=1000021 &'
-                                                          'numberOfDaughters > 0 &'
-                                                          'abs(daughter(0).pdgId) == 6'
+                                                          'numberOfDaughters > 0'
+                                                          #'abs(daughter(0).pdgId) == 6'
                                                           )
 
 ## create jet collection
