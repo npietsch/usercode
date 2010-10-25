@@ -1,5 +1,5 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "PhysicsTools/PatAlgos/plugins/PATObjectSelector.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/testSelector.h"
 
 using namespace pat;
 

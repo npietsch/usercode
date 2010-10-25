@@ -85,8 +85,9 @@ process.patMuons.usePV = False
 from SUSYAnalysis.SUSYAnalyzer.testSelector_cfi import *
 process.selectedGenParticles = selectedGenParticles.clone(src= "genParticles",
                                                           cut =
-                                                          'abs(pdgId)=1000021 '
-                                                          #'abs(daughter(0).pdgId) == 6'
+                                                          'abs(pdgId)=1000021 &'
+                                                          'numberOfDaughters > 0 &'
+                                                          'abs(daughter(0).pdgId) == 6'
                                                           )
 
 ## create jet collection
@@ -112,7 +113,9 @@ process.countGenParticles = countGenParticles.clone(src = 'selectedGenParticles'
 #-------------------------------------------------
 
 from SUSYAnalysis.SUSYAnalyzer.SUSYEventAnalyzer_cfi import analyzeSUSYEvent
-process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "patMETs")
+process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "patMETs",
+                                                  source = "selectedGenParticles"
+                                                  )
 
 #-------------------------------------------------
 # selection path
