@@ -1,4 +1,4 @@
-## resipes for set up SUSYAnalysis User Code of Niklas Pietsch
+## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 
 cmsrel CMSSW_3_8_3
 cd CMSSW_3_8_3/src
@@ -14,7 +14,9 @@ cp ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py ./Reco
 cp ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/pyton
 rm -r ElectroWeakAnalysis
 
-cvs -r CMSSW_3_8_3  AnalysisDataFormats/TopObjects
+cvs co -r CMSSW_3_8_3 TopQuarkAnalysis
+
+cvs co -r CMSSW_3_8_3  AnalysisDataFormats/TopObjects
 mv SUSYAnalysis/SUSYObjetcs/interface/SUSYGenEvent.h ./AnalysisDataFormats/TopObject/interface/
 mv SUSYAnalysis/SUSYObjetcs/src/SUSYGenEvent.cc ./AnalysisDataFormats/TopObject/src/
 
