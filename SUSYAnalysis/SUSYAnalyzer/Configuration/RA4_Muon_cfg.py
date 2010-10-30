@@ -11,7 +11,7 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
     #'/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0063/308A872D-F578-DF11-96F3-0017A4770020.root'
 
-    '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
+    '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
 
     
 ##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root',

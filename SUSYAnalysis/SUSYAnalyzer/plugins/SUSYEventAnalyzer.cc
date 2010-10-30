@@ -120,16 +120,22 @@ SUSYEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
   for( ;g!=collection.end();++g)
     { 
-      std::cout << "===========================================" << std::endl;
-      std::cout << "===========================pdgId: " << g->pdgId() << std::endl;
-      std::cout << "===========================================" << std::endl;
+      //std::cout << "===========================================" << std::endl;
+      //std::cout << "===========================pdgId: " << g->pdgId() << std::endl;
+      //std::cout << "===========================================" << std::endl;
 
       // if particle1 is gluino
-      if(abs(g->pdgId())==1000021 && g->status()==3 )
+      if(abs(g->pdgId())==1000021)
 	{
+
+	  //std::cout << "gluino status: " << g->status() << std::endl;
+	  //std::cout << "Number of glunio mothers: " << g->numberOfMothers() << std::endl;
+
 	  for(reco::GenParticle::const_iterator gd=g->begin(); gd!=g->end(); ++gd)
 	    {
-	      std::cout << "daughter: " << gd->pdgId() << std::endl;
+	      //std::cout << "Number of daughters mothers: " << gd->numberOfMothers() << std::endl;
+	      //std::cout << "daughter: " << gd->pdgId() << std::endl;
+	      //std::cout << "daughter status: " << gd->status() << std::endl;
 
 	      if(abs(gd->pdgId())==6)
 		{
@@ -167,7 +173,8 @@ SUSYEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		{
 		  for(reco::GenParticle::const_iterator gdd=gd->begin(); gdd!=gd->end(); ++gdd)
 		    {
-		      //std::cout << "daughterdaughter: " << gdd->pdgId() << std::endl;
+		      std::cout << "granddaughter: " << gdd->pdgId() << std::endl;
+	      	      std::cout << "granddaughter status: " << gdd->status() << std::endl;
 
 		      if(abs(gdd->pdgId())== 6)
 			{ 

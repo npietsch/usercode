@@ -7,19 +7,17 @@ process.load("FWCore.MessageLogger.MessageLogger_cfi")
 #process.MessageLogger.cerr.threshold = 'INFO'
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
+# Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0063/308A872D-F578-DF11-96F3-0017A4770020.root'
 ##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
 ##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
-##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0063/308A872D-F578-DF11-96F3-0017A4770020.root'
-##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0073/B4D5AD28-2D4B-DF11-B5DD-00215E21D540.root'
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200)
+    input = cms.untracked.int32(1000)
 )
 
 process.options = cms.untracked.PSet(
@@ -108,8 +106,7 @@ process.patElectrons.electronIDSources = cms.PSet(
 # Create Gen Events 
 #------------------------------------------------
 
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.SUSYGenEvent_cff")
-
+process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
 #------------------------------------------------
@@ -149,45 +146,62 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 #------------------------------------------------
 
 from SUSYAnalysis.SUSYAnalyzer.SUSYEventAnalyzer_cfi import analyzeSUSYEvent
-process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "patMETs")
 
+# change input tags to analyze selected Jets and MET
+process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "goodMETs",
+                                                  jets = "goodJets"
+                                                  )
 
 #-------------------------------------------------
-# selection paths
+# Selection paths
 #-------------------------------------------------
 
 process.RA4MuonSelection = cms.Path(process.patDefaultSequence *
                                     process.preselection *
-                                    
                                     process.muonSelection *
                                     process.jetSelection *
                                     process.metSelection *
-
                                     process.makeSUSYGenEvt *
- 
-                                    process.singleObjectsAnalysis
+                                    process.singleObjectsAnalysis *
+                                    process.muonVeto
+                                    ) 
+
+process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
+                                    process.preselection *
+                                    process.electronSelection *
+                                    process.jetSelection *
+                                    process.metSelection *
+                                    process.makeSUSYGenEvt *
+                                    process.singleObjectsAnalysis *
+                                    process.electronVeto
                                     )
 
 #-------------------------------------------------
-# optional: write patTuple
+# Optional: write patTuple
 #-------------------------------------------------
+
 process.EventSelection = cms.PSet(
    SelectEvents = cms.untracked.PSet(
-   SelectEvents = cms.vstring('RA4MuonSelection')
+   SelectEvents = cms.vstring('RA4MuonSelection',
+                              'RA4ElecSelection'
+                              )
    )
 )
 
 process.out = cms.OutputModule("PoolOutputModule",
    process.EventSelection,
-   #outputCommands = cms.untracked.vstring('drop *'),
-   #dropMetaData = cms.untracked.string('DROPPED'),
+   outputCommands = cms.untracked.vstring('drop *'),
+   dropMetaData = cms.untracked.string('DROPPED'),
    fileName = cms.untracked.string('PATtuple.root')
 )
 
-## from PhysicsTools.PatAlgos.patEventContent_cff import *
-## process.out.outputCommands += patEventContentNoCleaning
-## process.out.outputCommands += patExtraAodEventContent
-## from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-## process.out.outputCommands += tqafEventContent
+# Specify what to keep in the event content
+from PhysicsTools.PatAlgos.patEventContent_cff import *
+process.out.outputCommands += patEventContentNoCleaning
+process.out.outputCommands += patExtraAodEventContent
+from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+process.out.outputCommands += SUSYEventContent
+#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+#process.out.outputCommands += tqafEventContent
 
 process.outpath = cms.EndPath(process.out)

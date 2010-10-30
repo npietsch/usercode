@@ -19,6 +19,8 @@
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/PatCandidates/interface/CompositeCandidate.h"
 
+#include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
+
 #include "PhysicsTools/PatAlgos/plugins/PATJetSelector.h"
 
 #include <vector>
