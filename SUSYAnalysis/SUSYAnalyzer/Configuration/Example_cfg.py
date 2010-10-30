@@ -159,6 +159,20 @@ process.analyzeSUSY = analyzeSUSY.clone(met = "goodMETs",
 # from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvent
 
 #-------------------------------------------------
+# Load any other modules you want to use
+#-------------------------------------------------
+
+# E.g: Load module to rescale jet energy by an abitrary factor 
+process.load("TopAnalysis.TopUtils.JetEnergyScale_cff")
+
+# E.g: Load modules to reconstruct ttbar events with
+#      kinematic fit and anlyze hypotheses  
+process.load("TopQuarkAnalyis.TopEventProducers.TtSemiLepEvtBuilder")
+process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cff")
+
+# ...
+
+#-------------------------------------------------
 # Selection paths
 #-------------------------------------------------
 
