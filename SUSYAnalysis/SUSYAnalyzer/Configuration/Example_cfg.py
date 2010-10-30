@@ -114,7 +114,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 #------------------------------------------------
 
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
-process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="numberOfLeptons(True)=2")
+process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="numberOfLeptons()=2")
 
 ##from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
 ## process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
@@ -151,9 +151,12 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import analyzeSUSY
 
 # change input tags to analyze selected Jets and MET
-process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "goodMETs",
-                                                  jets = "goodJets"
-                                                  )
+process.analyzeSUSY = analyzeSUSY.clone(met = "goodMETs",
+                                        jets = "goodJets"
+                                        )
+
+# SUSYAnalyzer will be replaced/extended by SUSYGenEventAnalyzer soon
+# from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvent
 
 #-------------------------------------------------
 # Selection paths
