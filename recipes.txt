@@ -1,18 +1,35 @@
-## recipe for usage of SUSYAnalysis User Code
+## resipes for set up SUSYAnalysis User Code of Niklas Pietsch
 
 cmsrel CMSSW_3_8_3
 cd CMSSW_3_8_3/src
 cmsenv
+
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
 cvs co ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py
 cvs co ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py
+
 cp ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 cp ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/pyton
-
-## edit simpleEledIdSequence_cff.py and simpleCutBsedElectronIDSpring10_cfi.py
-
 rm -r ElectroWeakAnalysis
+
+cvs -r CMSSW_3_8_3  AnalysisDataFormats/TopObjects
+mv SUSYAnalysis/SUSYObjetcs/interface/SUSYGenEvent.h ./AnalysisDataFormats/TopObject/interface/
+mv SUSYAnalysis/SUSYObjetcs/src/SUSYGenEvent.cc ./AnalysisDataFormats/TopObject/src/
+
+## open AnalysisDataFormats/TopObject/src/classes.h and add following line in the header ...
+
+#include "AnalysisDataFormats/TopObjects/interface/SUSYGenEvent.h"
+
+## ... and following lines in dictionary
+edm::Wrapper<SUSYGenEvent> w_susygen;
+SUSYGenEvent susygen;
+
+## open AnalysisDataFormats/TopObject/src/classes_def.xml and add following lines
+<class name="SUSYGenEvent" />
+<class name="edm::Wrapper<SUSYGenEvent>" />
+
+## update the header of simpleEledIdSequence_cff.py and simpleCutBasedElectronIDSpring10_cfi.py
 
 scram b -r -j 4
