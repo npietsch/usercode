@@ -152,7 +152,7 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                )
 
 #------------------------------
-# Sequences
+# Define sequences
 #------------------------------
 
 muonSelection = cms.Sequence(goodJets *
@@ -174,10 +174,14 @@ metSelection = cms.Sequence(goodMETs *
                             oneGoodMET
                             )
 
-muonVeto = cms.Sequence(oneVetoMuon *
+muonVeto = cms.Sequence(vetoMuons *
+                        vetoElectrons *
+                        oneVetoMuon *
                         noVetoElectron
                         )
 
-electronVeto = cms.Sequence(oneVetoElectron *
+electronVeto = cms.Sequence(vetoMuons *
+                            vetoElectrons *
+                            oneVetoElectron *
                             noVetoMuon
                             )
