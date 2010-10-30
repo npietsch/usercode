@@ -113,6 +113,9 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 # Gen Event Selection 
 #------------------------------------------------
 
+from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
+process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="numberOfLeptons(True)=2")
+
 ##from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
 ## process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
 
@@ -145,7 +148,7 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 # Modules for analysis on generator level
 #------------------------------------------------
 
-from SUSYAnalysis.SUSYAnalyzer.SUSYEventAnalyzer_cfi import analyzeSUSYEvent
+from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import analyzeSUSY
 
 # change input tags to analyze selected Jets and MET
 process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "goodMETs",
@@ -157,21 +160,23 @@ process.analyzeSUSYEvent = analyzeSUSYEvent.clone(met = "goodMETs",
 #-------------------------------------------------
 
 process.RA4MuonSelection = cms.Path(process.patDefaultSequence *
+                                    process.makeSUSYGenEvt *
+                                    process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.muonSelection *
                                     process.jetSelection *
                                     process.metSelection *
-                                    process.makeSUSYGenEvt *
                                     process.singleObjectsAnalysis *
                                     process.muonVeto
                                     ) 
 
 process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
+                                    process.makeSUSYGenEvt *
+                                    process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.electronSelection *
                                     process.jetSelection *
                                     process.metSelection *
-                                    process.makeSUSYGenEvt *
                                     process.singleObjectsAnalysis *
                                     process.electronVeto
                                     )
