@@ -7,7 +7,7 @@ import FWCore.ParameterSet.Config as cms
 
 ## analyze muons
 from TopAnalysis.TopAnalyzer.MuonKinematics_cfi import *
-#process.analyzeMuonKinematics.src = "goodMuons"
+analyzeMuonKinematics.src = "goodMuons"
 
 ## analyze electrons
 from TopAnalysis.TopAnalyzer.ElectronKinematics_cfi import *
@@ -15,11 +15,11 @@ analyzeElectronKinematics.src = "goodElectrons"
 
 ## analyze jets
 from TopAnalysis.TopAnalyzer.JetKinematics_cfi import *
-#process.analyzeJetKinematics.src = "goodJets"
+analyzeJetKinematics.src = "goodJets"
 
 ## analyze MET
 from TopAnalysis.TopAnalyzer.METKinematics_cfi import *
-#process.analyzeMETKinematics.srcA = "goodMET"
+analyzeMETKinematics.srcA = "goodMET"
 
 #------------------------------------------------
 # Define Sequences
