@@ -133,7 +133,9 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Preselection_cff")
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")                                                
 
 # Example how to change selection criteria:
-# process.oneGoodMuon.minNumber = 2
+# process.oneGoodMuon.cut = 'minNumber = 2 &'
+#                           'pt > 30 &'
+#                           ... 
 
 #------------------------------------------------
 # Sequence for analysis of single objects
