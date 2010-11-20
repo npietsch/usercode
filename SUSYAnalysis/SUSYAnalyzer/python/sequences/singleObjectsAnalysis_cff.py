@@ -19,7 +19,7 @@ analyzeJetKinematics.src = "goodJets"
 
 ## analyze MET
 from TopAnalysis.TopAnalyzer.METKinematics_cfi import *
-analyzeMETKinematics.srcA = "goodMET"
+analyzeMETKinematics.srcA = "goodMETs"
 
 #------------------------------------------------
 # Define Sequences
