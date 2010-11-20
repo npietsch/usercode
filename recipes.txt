@@ -7,8 +7,8 @@ cmsenv
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 
-cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
-cvs co ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py
+cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
+cvs co ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py (r 1.6)
 cvs co ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py
 
 cp ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
@@ -43,3 +43,5 @@ edm::Wrapper<SUSYGenEvent> w_susygen;
 scram b -j 8
 
 ## ignore warnings in TopAnalysis/TopAnalyzer/plugins/TagAndProbeAnalyzer.h
+
+## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia 
