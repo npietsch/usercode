@@ -1,37 +1,45 @@
 ## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 
-cmsrel CMSSW_3_8_3
-cd CMSSW_3_8_3/src
+cmsrel CMSSW_3_8_6
+cd CMSSW_3_8_6/src
 cmsenv
 
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
-cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
-cvs co ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py
-cvs co ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py
 
-cp ElectroWeakAnalysis/WENu/python/simpleCutBsedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
-cp ElectroWeakAnalysis/WENu/python/simpleEledIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/pyton
+cvs co -r  V00-03-13 RecoEgamma/ElectronIdentification
+cvs co ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py
+cvs co ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py
+
+cp ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
+cp ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/python
 rm -r ElectroWeakAnalysis
 
-cvs co -r CMSSW_3_8_3 TopQuarkAnalysis
+cvs co -r V06-07-04 TopQuarkAnalysis
 
 cvs co -r CMSSW_3_8_3  AnalysisDataFormats/TopObjects
-mv SUSYAnalysis/SUSYObjetcs/interface/SUSYGenEvent.h ./AnalysisDataFormats/TopObject/interface/
-mv SUSYAnalysis/SUSYObjetcs/src/SUSYGenEvent.cc ./AnalysisDataFormats/TopObject/src/
 
-## open AnalysisDataFormats/TopObject/src/classes.h and add following line in the header ...
+cvs co -r V08-00-26 PhysicsTools/PatAlgos
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
+
+mv SUSYAnalysis/SUSYObjetcs/interface/SUSYGenEvent.h ./AnalysisDataFormats/TopObjects/interface/
+mv SUSYAnalysis/SUSYObjetcs/src/SUSYGenEvent.cc ./AnalysisDataFormats/TopObjects/src/
+
+## open AnalysisDataFormats/TopObjects/src/classes.h and add following line in the header ...
 
 #include "AnalysisDataFormats/TopObjects/interface/SUSYGenEvent.h"
 
 ## ... and following lines in dictionary
-edm::Wrapper<SUSYGenEvent> w_susygen;
 SUSYGenEvent susygen;
+edm::Wrapper<SUSYGenEvent> w_susygen;
 
-## open AnalysisDataFormats/TopObject/src/classes_def.xml and add following lines
+## open AnalysisDataFormats/TopObjects/src/classes_def.xml and add following lines
 <class name="SUSYGenEvent" />
 <class name="edm::Wrapper<SUSYGenEvent>" />
 
-## update the header of simpleEledIdSequence_cff.py and simpleCutBasedElectronIDSpring10_cfi.py
+## update the header of SUSYAnalysis/SUSYAnalyzer/python/simpleEleIdSequence_cff.py
 
-scram b -r -j 4
+scram b -j 8
+
+## ignore warnings in TopAnalysis/TopAnalyzer/plugins/TagAndProbeAnalyzer.h
