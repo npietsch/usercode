@@ -3,7 +3,7 @@
 
 #include "CommonTools/CandUtils/interface/pdgIdUtils.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-#include "AnalysisDataFormats/TopObjetcs/interface/SUSYGenEvent.h"
+#include "AnalysisDataFormats/TopObjects/interface/SUSYGenEvent.h"
 
 
 /// default contructor
