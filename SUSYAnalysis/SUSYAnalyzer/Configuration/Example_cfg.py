@@ -10,14 +10,17 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
+    '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/GEN-SIM-RECO/START38_V12-v1/0004/287CF124-2ED6-DF11-AA7D-002618943C22.root'
+##     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root'
+    
 ##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
-    '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
+##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
 ##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(-1)
 )
 
 process.options = cms.untracked.PSet(
@@ -41,50 +44,50 @@ process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
 ## std sequence for pat
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
 
-#from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
-#run36xOn35xInput(process)
-
-## remove MC matching, photons, taus and cleaning from PAT default sequence
-from PhysicsTools.PatAlgos.tools.coreTools import *
-removeMCMatching(process, ['All'])
-removeSpecificPATObjects(process,
-                         ['Photons','Taus'],
-                         outputInProcess=False)
-removeCleaning(process,
-               outputInProcess=False)
-
-## add PF jets and MET
-from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
-addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
-                 doJTA        = True,
-                 doBTagging   = True,
-                 jetCorrLabel = ('AK5', 'PF'),
-                 doType1MET   = False,
-                 doL1Cleaning = True,
-                 doL1Counters = False,
-                 genJetCollection=None,
-                 doJetID      = True,
-                 ) 
-from PhysicsTools.PatAlgos.tools.metTools import addPfMET
-addPfMET(process, 'PF')
-
-## remove TagInfos from jets
-process.patJets.addTagInfos = False
-process.patJetsAK5PF.addTagInfos = False
-
 ## use the correct jet energy corrections
-process.patJetCorrFactors.corrSample = "Spring10"
-process.patJetCorrFactors.sampleType = "ttbar"
-process.patJetCorrFactorsAK5PF.corrSample = "Spring10"
-process.patJetCorrFactorsAK5PF.sampleType = "ttbar"
+#process.patJetCorrFactors.corrSample = "Spring10"
+#process.patJetCorrFactors.sampleType = "ttbar"
+#process.patJetCorrFactorsAK5PF.corrSample = "Spring10"
+#process.patJetCorrFactorsAK5PF.sampleType = "ttbar"
 
 #calculate impact parameter w.r.t beam spot (instead of primary vertex)
-process.patMuons.usePV = False
+#process.patMuons.usePV = False
 
-process.load("TopAnalysis.TopAnalyzer.simpleEleIdSequence_cff")
+## add PF MET
+#from PhysicsTools.PatAlgos.tools.metTools import addPfMET
+#addPfMET(process, 'PF')
+
+## remove MC matching, photons, taus and cleaning from PAT default sequence
+## from PhysicsTools.PatAlgos.tools.coreTools import *
+## removeMCMatching(process, ['All'])
+## removeSpecificPATObjects(process,
+##                          ['Photons','Taus'],
+##                          outputInProcess=False)
+## removeCleaning(process,
+##                outputInProcess=False)
+
+## add PF jets
+## from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+## addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
+##                  doJTA        = True,
+##                  doBTagging   = True,
+##                  jetCorrLabel = ('AK5', 'PF'),
+##                  doType1MET   = False,
+##                  doL1Cleaning = False,
+##                  doL1Counters = False,
+##                  genJetCollection=cms.InputTag("ak5GenJets"),
+##                  doJetID      = True,
+##                  ) 
+
+
+## remove TagInfos from jets
+## process.patJets.addTagInfos = True
+## process.patJetsAK5PF.addTagInfos = True
+
+process.load("SUSYAnalysis.SUSYAnalyzer.simpleEleIdSequence_cff")
 
 process.patElectronIDs = cms.Sequence(process.simpleEleIdSequence)
-process.makePatElectrons = cms.Sequence(process.patElectronIDs*process.patElectronIsolation*process.patElectrons)
+process.makePatElectrons = cms.Sequence(process.electronMatch*process.patElectronIDs*process.patElectronIsolation*process.patElectrons)
 
 process.patElectrons.addElectronID = cms.bool(True)
 process.patElectrons.electronIDSources = cms.PSet(
@@ -169,8 +172,8 @@ process.load("TopAnalysis.TopUtils.JetEnergyScale_cff")
 
 # E.g: Load modules to reconstruct ttbar events with
 #      kinematic fit and anlyze hypotheses  
-process.load("TopQuarkAnalyis.TopEventProducers.TtSemiLepEvtBuilder")
-process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cff")
+process.load("TopQuarkAnalysis.TopEventProducers.producers.TtSemiLepEvtBuilder_cfi")
+process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
 
 # ...
 
@@ -204,28 +207,28 @@ process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
 # Optional: write patTuple
 #-------------------------------------------------
 
-process.EventSelection = cms.PSet(
-   SelectEvents = cms.untracked.PSet(
-   SelectEvents = cms.vstring('RA4MuonSelection',
-                              'RA4ElecSelection'
-                              )
-   )
-)
+## process.EventSelection = cms.PSet(
+##    SelectEvents = cms.untracked.PSet(
+##    SelectEvents = cms.vstring('RA4MuonSelection',
+##                               'RA4ElecSelection'
+##                               )
+##    )
+## )
 
-process.out = cms.OutputModule("PoolOutputModule",
-   process.EventSelection,
-   outputCommands = cms.untracked.vstring('drop *'),
-   dropMetaData = cms.untracked.string('DROPPED'),
-   fileName = cms.untracked.string('PATtuple.root')
-)
+## process.out = cms.OutputModule("PoolOutputModule",
+##    process.EventSelection,
+##    outputCommands = cms.untracked.vstring('drop *'),
+##    dropMetaData = cms.untracked.string('DROPPED'),
+##    fileName = cms.untracked.string('PATtuple.root')
+## )
 
-# Specify what to keep in the event content
-from PhysicsTools.PatAlgos.patEventContent_cff import *
-process.out.outputCommands += patEventContentNoCleaning
-process.out.outputCommands += patExtraAodEventContent
-from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-process.out.outputCommands += SUSYEventContent
-#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-#process.out.outputCommands += tqafEventContent
+## # Specify what to keep in the event content
+## from PhysicsTools.PatAlgos.patEventContent_cff import *
+## process.out.outputCommands += patEventContentNoCleaning
+## process.out.outputCommands += patExtraAodEventContent
+## from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+## process.out.outputCommands += SUSYEventContent
+## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+## #process.out.outputCommands += tqafEventContent
 
-process.outpath = cms.EndPath(process.out)
+## process.outpath = cms.EndPath(process.out)
