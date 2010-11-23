@@ -10,9 +10,12 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/GEN-SIM-RECO/START38_V12-v1/0004/287CF124-2ED6-DF11-AA7D-002618943C22.root'
+##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/GEN-SIM-RECO/START38_V12-v1/0004/287CF124-2ED6-DF11-AA7D-002618943C22.root'
 ##     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root'
-    
+##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/B41F22A2-00D6-DF11-A419-0019BBEBB558.root'
+    '/store/mc/Fall10/TTJets_TuneD6T_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0021/0EC47D66-39E3-DF11-AEDE-0026B958EFD4.root'
+##    'file:/afs/naf.desy.de/user/n/npietsch/CMSSW_3_8_6/src/test.root'
+
 ##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
 ##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
 ##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
@@ -45,17 +48,17 @@ process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
 
 ## use the correct jet energy corrections
-#process.patJetCorrFactors.corrSample = "Spring10"
-#process.patJetCorrFactors.sampleType = "ttbar"
+process.patJetCorrFactors.corrSample = "Spring10"
+process.patJetCorrFactors.sampleType = "ttbar"
 #process.patJetCorrFactorsAK5PF.corrSample = "Spring10"
 #process.patJetCorrFactorsAK5PF.sampleType = "ttbar"
 
 #calculate impact parameter w.r.t beam spot (instead of primary vertex)
-#process.patMuons.usePV = False
+process.patMuons.usePV = False
 
 ## add PF MET
-#from PhysicsTools.PatAlgos.tools.metTools import addPfMET
-#addPfMET(process, 'PF')
+from PhysicsTools.PatAlgos.tools.metTools import addPfMET
+addPfMET(process, 'PF')
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
 ## from PhysicsTools.PatAlgos.tools.coreTools import *
@@ -67,22 +70,22 @@ process.load("PhysicsTools.PatAlgos.patSequences_cff")
 ##                outputInProcess=False)
 
 ## add PF jets
-## from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
-## addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
-##                  doJTA        = True,
-##                  doBTagging   = True,
-##                  jetCorrLabel = ('AK5', 'PF'),
-##                  doType1MET   = False,
-##                  doL1Cleaning = False,
-##                  doL1Counters = False,
-##                  genJetCollection=cms.InputTag("ak5GenJets"),
-##                  doJetID      = True,
-##                  ) 
+from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
+                  doJTA        = True,
+                  doBTagging   = True,
+                  jetCorrLabel = ('AK5', 'PF'),
+                  doType1MET   = False,
+                  doL1Cleaning = False,
+                  doL1Counters = False,
+                  genJetCollection=cms.InputTag("ak5GenJets"),
+                  doJetID      = True,
+                  ) 
 
 
 ## remove TagInfos from jets
-## process.patJets.addTagInfos = True
-## process.patJetsAK5PF.addTagInfos = True
+process.patJets.addTagInfos = False
+process.patJetsAK5PF.addTagInfos = False
 
 process.load("SUSYAnalysis.SUSYAnalyzer.simpleEleIdSequence_cff")
 
@@ -138,7 +141,10 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")
 # Example how to change selection criteria:
 # process.oneGoodMuon.cut = 'minNumber = 2 &'
 #                           'pt > 30 &'
-#                           ... 
+#                           ...
+
+#process.goodElectrons.cut = 'pt > 20. & abs(eta) < 2.4'
+
 
 #------------------------------------------------
 # Sequence for analysis of single objects
@@ -177,6 +183,14 @@ process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
 
 # ...
 
+
+#-------------------------------------------------
+# Temp
+#-------------------------------------------------
+
+process.load("TopAnalysis.TopAnalyzer.ElectronQuality_cfi")
+
+
 #-------------------------------------------------
 # Selection paths
 #-------------------------------------------------
@@ -208,19 +222,19 @@ process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
 #-------------------------------------------------
 
 ## process.EventSelection = cms.PSet(
-##    SelectEvents = cms.untracked.PSet(
-##    SelectEvents = cms.vstring('RA4MuonSelection',
-##                               'RA4ElecSelection'
-##                               )
-##    )
-## )
+##     SelectEvents = cms.untracked.PSet(
+##     SelectEvents = cms.vstring('RA4MuonSelection',
+##                                'RA4ElecSelection'
+##                                )
+##     )
+##     )
 
 ## process.out = cms.OutputModule("PoolOutputModule",
-##    process.EventSelection,
-##    outputCommands = cms.untracked.vstring('drop *'),
-##    dropMetaData = cms.untracked.string('DROPPED'),
-##    fileName = cms.untracked.string('PATtuple.root')
-## )
+##                                process.EventSelection,
+##                                outputCommands = cms.untracked.vstring('drop *'),
+##                                dropMetaData = cms.untracked.string('DROPPED'),
+##                                fileName = cms.untracked.string('PATtuple.root')
+##                                )
 
 ## # Specify what to keep in the event content
 ## from PhysicsTools.PatAlgos.patEventContent_cff import *
@@ -232,3 +246,4 @@ process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
 ## #process.out.outputCommands += tqafEventContent
 
 ## process.outpath = cms.EndPath(process.out)
+ 
