@@ -14,7 +14,7 @@
 using namespace std;
 
 SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
-  inputGenEvent_(cfg.getParameter<edm::InputTag>("SEvent"))
+  inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent"))
 { 
   edm::Service<TFileService> fs;
 
@@ -28,10 +28,10 @@ SUSYGenEventAnalyzer::~SUSYGenEventAnalyzer()
 void
 SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 {
-  edm::Handle<SUSYGenEvent> SEvent;
-  evt.getByLabel(inputGenEvent_, SEvent);
+  edm::Handle<SUSYGenEvent> susyGenEvent;
+  evt.getByLabel(inputGenEvent_, susyGenEvent);
   
-  number_of_BQuarks_->Fill(SEvent->numberOfLeptons());
+  number_of_BQuarks_->Fill(susyGenEvent->numberOfLeptons());
 }
 
  
