@@ -11,9 +11,9 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
 ##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/GEN-SIM-RECO/START38_V12-v1/0004/287CF124-2ED6-DF11-AA7D-002618943C22.root'
-##     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root'
+     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root'
 ##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/B41F22A2-00D6-DF11-A419-0019BBEBB558.root'
-    '/store/mc/Fall10/TTJets_TuneD6T_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0021/0EC47D66-39E3-DF11-AEDE-0026B958EFD4.root'
+##    '/store/mc/Fall10/TTJets_TuneD6T_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0021/0EC47D66-39E3-DF11-AEDE-0026B958EFD4.root'
 ##    'file:/afs/naf.desy.de/user/n/npietsch/CMSSW_3_8_6/src/test.root'
 
 ##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
@@ -23,7 +23,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(1000)
 )
 
 process.options = cms.untracked.PSet(
@@ -31,7 +31,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('RA.root')
+                                   fileName = cms.string('Example.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -82,7 +82,6 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
                   doJetID      = True,
                   ) 
 
-
 ## remove TagInfos from jets
 process.patJets.addTagInfos = False
 process.patJetsAK5PF.addTagInfos = False
@@ -122,8 +121,8 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="numberOfLeptons()=2")
 
-##from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
-## process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
 
 #------------------------------------------------
 # RA4 Event Selection
@@ -136,13 +135,9 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Preselection_cff")
 # process.scrapingVeto.thresh = 15
 
 # Object Selection
-process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")                                                
+process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")
 
 # Example how to change selection criteria:
-# process.oneGoodMuon.cut = 'minNumber = 2 &'
-#                           'pt > 30 &'
-#                           ...
-
 #process.goodElectrons.cut = 'pt > 20. & abs(eta) < 2.4'
 
 
@@ -159,15 +154,10 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 # Modules for analysis on generator level
 #------------------------------------------------
 
-from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import analyzeSUSY
+from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvt
 
 # change input tags to analyze selected Jets and MET
-process.analyzeSUSY = analyzeSUSY.clone(met = "goodMETs",
-                                        jets = "goodJets"
-                                        )
-
-# SUSYAnalyzer will be replaced/extended by SUSYGenEventAnalyzer soon
-# from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvent
+process.analyzeSUSYGenEvt = analyzeSUSYGenEvt.clone()
 
 #-------------------------------------------------
 # Load any other modules you want to use
@@ -197,7 +187,8 @@ process.load("TopAnalysis.TopAnalyzer.ElectronQuality_cfi")
 
 process.RA4MuonSelection = cms.Path(process.patDefaultSequence *
                                     process.makeSUSYGenEvt *
-                                    process.SUSYGenEventFilter *
+                                    process.analyzeSUSYGenEvt *
+                                    #process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.muonSelection *
                                     process.jetSelection *
@@ -208,7 +199,8 @@ process.RA4MuonSelection = cms.Path(process.patDefaultSequence *
 
 process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
                                     process.makeSUSYGenEvt *
-                                    process.SUSYGenEventFilter *
+                                    process.analyzeSUSYGenEvt *
+                                    #process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.electronSelection *
                                     process.jetSelection *
