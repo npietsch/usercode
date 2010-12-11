@@ -19,6 +19,8 @@ rm -r ElectroWeakAnalysis
 
 ## Co CMSSW packages
 cvs co -r V06-07-04 TopQuarkAnalysis
+cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.py
+cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 cvs co -r CMSSW_3_8_3 AnalysisDataFormats/TopObjects
 cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
 
