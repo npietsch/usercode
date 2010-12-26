@@ -1,6 +1,7 @@
 ##-----------------------------------------------------------------
 ## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 ##-----------------------------------------------------------------
+
 cmsrel CMSSW_3_8_6
 cd CMSSW_3_8_6/src
 cmsenv
