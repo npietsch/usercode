@@ -1,0 +1,10 @@
+<lcgdict>
+
+  
+  <class name="SUSYGenEvent" />
+  <class name="SUSYEvent" />
+  <class name="edm::Wrapper<SUSYGenEvent>" />
+  <class name="edm::Wrapper<SUSYEvent>" />
+
+</lcgdict>
+
