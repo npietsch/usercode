@@ -40,7 +40,7 @@ goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            cut =
                                            'pt > 20. &'
                                            'abs(eta) < 2.4 &'
-                                           'electronID(\"simpleEleId80relIso\")=7 '
+                                           'electronID(\"simpleEleId80relIso\")=7'
                                            #'(abs(eta) < 1.47 | abs(eta) > 1.507) $'
                                            )
 
@@ -155,19 +155,20 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
 # Define sequences
 #------------------------------
 
-muonSelection = cms.Sequence(goodJets *
+muonSelection = cms.Sequence(#goodJets *
                              goodMuons *
                              goodElectrons *
                              oneGoodMuon
                              )
 
-electronSelection = cms.Sequence(goodJets *
+electronSelection = cms.Sequence(#goodJets *
                                  goodElectrons *
                                  goodMuons *
                                  oneGoodElectron
                                  )
 
-jetSelection = cms.Sequence(fourGoodJets
+jetSelection = cms.Sequence(goodJets *
+                            fourGoodJets
                             )
 
 metSelection = cms.Sequence(goodMETs *

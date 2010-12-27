@@ -25,6 +25,6 @@ from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 preselection = cms.Sequence(trigger *
                             scrapingVeto *
-                            primaryVertexFilter*
-                            HBHENoiseFilter
+                            primaryVertexFilter #*
+                            #HBHENoiseFilter
                             )
