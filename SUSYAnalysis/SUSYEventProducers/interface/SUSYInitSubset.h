@@ -4,6 +4,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include <string>
 
 namespace SUSYInitID{
   static const int status = 3;
@@ -18,9 +19,14 @@ class SUSYInitSubset : public edm::EDProducer {
   ~SUSYInitSubset();
   
   virtual void produce(edm::Event&, const edm::EventSetup&);
-  void fillOutput(const reco::GenParticleCollection&, reco::GenParticleCollection&);
+  void fillOutput(const reco::GenParticleCollection&, reco::GenParticleCollection&, reco::GenParticleCollection&);
 
  private:
 
   edm::InputTag src_;  
+
+  std::string InitParticles_;
+  std::string InitSparticles_;
+
+
 };

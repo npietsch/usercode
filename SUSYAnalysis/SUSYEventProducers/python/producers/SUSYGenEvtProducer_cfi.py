@@ -6,7 +6,8 @@ import FWCore.ParameterSet.Config as cms
 #
 SUSYGenEvt = cms.EDProducer("SUSYGenEventReco",
     src  = cms.InputTag("genParticles"),
-    init = cms.InputTag("SUSYInitSubset")
+    init = cms.InputTag("SUSYInitSubset:genParticles"),
+    sparticles = cms.InputTag("SUSYInitSubset")                      
 )
 
 

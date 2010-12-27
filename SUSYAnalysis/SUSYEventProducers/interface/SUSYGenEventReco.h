@@ -26,5 +26,5 @@ class SUSYGenEventReco : public edm::EDProducer {
 
  private:
 
-  edm::InputTag src_, init_; 
+  edm::InputTag src_, init_, sparticles_;
 };
