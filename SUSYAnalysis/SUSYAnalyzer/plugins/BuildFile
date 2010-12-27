@@ -1,6 +1,7 @@
 <use name=PhysicsTools/PatAlgos>
 <use name=CommonTools/UtilAlgos>
 <use name=AnalysisDataFormats/TopObjects>
+<use name=AnalysisDataFormats/SUSYObjects>
 #<use name=DataFormats/Common>
 #<use name=FWCore/MessageLogger>
 #<use name=FWCore/ParameterSet>

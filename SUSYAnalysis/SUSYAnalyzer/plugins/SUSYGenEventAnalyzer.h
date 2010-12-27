@@ -31,8 +31,16 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   virtual void endJob() ;
 
   edm::InputTag inputGenEvent_;
-  TH1F *number_of_BQuarks_;
-  
-};  
+  edm::InputTag initSubset_;
+  edm::InputTag jets_;
 
+  TH1F *number_of_BQuarks_;
+  TH1F *number_of_BQuarks_sgsg_;
+  TH1F *number_of_BQuarks_sqsq_;
+  TH1F *number_of_BQuarks_sgsq_;
+  TH2F *number_of_BQuarks_jet1_et_;
+  TH1F *jet1_et_0BQuarks_;
+  TH1F *jet1_et_2BQuarks_;
+  TH1F *jet1_et_4BQuarks_;
+};  
 #endif  
