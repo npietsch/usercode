@@ -12,6 +12,7 @@ cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.
 cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 cvs co -r CMSSW_3_8_3 AnalysisDataFormats/TopObjects
 cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
+cvs co SusyAnalysis/EventSelector ## currently HEAD is not combatible with CMSSW_3_8_6 --> requires "bug" fix
 
 ## Co metSelector and metCountFilter
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
