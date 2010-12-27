@@ -2,6 +2,10 @@
 ## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 ##-----------------------------------------------------------------
 
+# 
+# Currently some "dirty" hacks are necessary 
+#
+
 cmsrel CMSSW_3_8_6
 cd CMSSW_3_8_6/src
 cmsenv
@@ -12,7 +16,11 @@ cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.
 cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 cvs co -r CMSSW_3_8_3 AnalysisDataFormats/TopObjects
 cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
-cvs co SusyAnalysis/EventSelector ## currently HEAD is not combatible with CMSSW_3_8_6 --> requires "bug" fix
+cvs co SusyAnalysis/EventSelector
+
+## HEAD of TopAnalysis is not combatible with CMSSW_3_8_6, therefore
+rm SusyAnalysis/EventSelector/plugins/AddOtherVariables.cc
+rm SusyAnalysis/EventSelector/interface/AddOtherVariables.h
 
 ## Co metSelector and metCountFilter
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
@@ -23,7 +31,11 @@ cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
 
-mv SUSYAnalysis/SUSYObjetcs ./AnalysisDataFormats
+## HEAD of TopAnalysis is not combatible with CMSSW_3_8_6, therefore
+rm ~/public/JetQuality.cc TopAnalysis/TopAnalyzer/src/
+rm ~/public/JetQuality.h TopAnalysis/TopAnalyzer/interface/
+
+mv SUSYAnalysis/SUSYObjects ./AnalysisDataFormats
 
 ## Enable cut based electron ID
 cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
