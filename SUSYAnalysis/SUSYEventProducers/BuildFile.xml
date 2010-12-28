@@ -3,7 +3,7 @@
 <use   name="CommonTools/Utils"/>
 <use   name="DataFormats/PatCandidates"/>
 <use   name="AnalysisDataFormats/TopObjects"/>
-<use   name="AnalysisDataFormats/SUSYObjects"/>
+<use   name="SUSYAnalysis/SUSYObjects"/>
 <use   name="TopQuarkAnalysis/TopSkimming"/>
 <use   name="TopQuarkAnalysis/TopKinFitter"/>
 <use   name="TopQuarkAnalysis/TopJetCombination"/>

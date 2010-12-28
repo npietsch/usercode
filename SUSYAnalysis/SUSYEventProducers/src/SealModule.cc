@@ -7,7 +7,7 @@ DEFINE_FWK_MODULE(SUSYInitSubset);
 DEFINE_FWK_MODULE(SUSYGenEventReco);
 
 #include "TopQuarkAnalysis/TopEventProducers/interface/StringCutObjectEvtFilter.h"
-#include "AnalysisDataFormats/SUSYObjects/interface/SUSYGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
 
 typedef StringCutObjectEvtFilter<SUSYGenEvent> SUSYGenEvtFilter;
 

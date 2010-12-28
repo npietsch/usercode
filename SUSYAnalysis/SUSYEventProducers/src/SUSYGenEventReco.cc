@@ -1,7 +1,7 @@
 #include "FWCore/Utilities/interface/EDMException.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "AnalysisDataFormats/SUSYObjects/interface/SUSYGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
 #include "SUSYAnalysis/SUSYEventProducers/interface/SUSYGenEventReco.h"
 #include "SUSYAnalysis/SUSYEventProducers/interface/SUSYInitSubset.h"
 
