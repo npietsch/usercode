@@ -3,7 +3,7 @@
 ##-----------------------------------------------------------------
 
 # 
-# Currently some "dirty" hacks are necessary 
+# Currently some "dirty hacks" are necessary 
 #
 
 cmsrel CMSSW_3_8_6
@@ -11,20 +11,18 @@ cd CMSSW_3_8_6/src
 cmsenv
 
 ## Co CMSSW packages
+cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
 cvs co -r V06-07-04 TopQuarkAnalysis
 cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.py
 cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 cvs co -r CMSSW_3_8_3 AnalysisDataFormats/TopObjects
-cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
 cvs co SusyAnalysis/EventSelector
 
-## HEAD of TopAnalysis is not combatible with CMSSW_3_8_6, therefore
+## HEAD of SusyAnalysis is not combatible with CMSSW_3_8_6, therefore
 rm SusyAnalysis/EventSelector/plugins/AddOtherVariables.cc
 rm SusyAnalysis/EventSelector/interface/AddOtherVariables.h
-
-## Co metSelector and metCountFilter
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
 
 ## Co UserCode
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
@@ -32,20 +30,14 @@ cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
 
 ## HEAD of TopAnalysis is not combatible with CMSSW_3_8_6, therefore
-rm ~/public/JetQuality.cc TopAnalysis/TopAnalyzer/src/
-rm ~/public/JetQuality.h TopAnalysis/TopAnalyzer/interface/
+cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.cc TopAnalysis/TopAnalyzer/src/
+cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.h TopAnalysis/TopAnalyzer/interface/
 
 mv SUSYAnalysis/SUSYObjects ./AnalysisDataFormats
 
 ## Enable cut based electron ID
 cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
-cvs co ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py (r 1.6)
-cvs co ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py
-cp ElectroWeakAnalysis/WENu/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
-cp ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py ./SUSYAnalysis/SUSYAnalyzer/python
-rm -r ElectroWeakAnalysis
-
-## change "from ElectroWeakAnalysis.WENu.simpleCutBasedElectronIDSpring10_cfi import * " to "from RecoEgamma.ElectronIdentification.simpleCutBasedElectronIDSpring10_cfi import * " in the header of SUSYAnalysis/SUSYAnalyzer/python/simpleEleIdSequence_cff.py
+cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 
 ## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia
 
