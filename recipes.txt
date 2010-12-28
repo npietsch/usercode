@@ -16,7 +16,7 @@ cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
 
 ## Co UserCode
 cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
-cvs co -d SusyAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 
 # Enable cut based electron ID
