@@ -25,7 +25,7 @@ cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./Re
 ## Co additional tools if needed, e.g.
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
-cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.py
+cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEvtFilter_cfi.py
 cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 
 ## Resolve current incompatibilities between CMSSW_3_8_6 and HEAD of SusyAnalysis and UserCode/Bromo/TopAnalysis
