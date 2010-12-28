@@ -1,5 +1,5 @@
 ##
-## This files is a Copy of ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py
+## This files is a Copy of ElectroWeakAnalysis/WENu/python/simpleEleIdSequence_cff.py 1.1
 ##
 
 import FWCore.ParameterSet.Config as cms
