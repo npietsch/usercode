@@ -3,7 +3,7 @@
 
 #include "CommonTools/CandUtils/interface/pdgIdUtils.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-#include "AnalysisDataFormats/SUSYObjects/interface/SUSYEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
 
 
 // SUSYEvent::SUSYEvent()

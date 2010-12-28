@@ -1,5 +1,5 @@
-#include "AnalysisDataFormats/SUSYObjects/interface/SUSYGenEvent.h"
-#include "AnalysisDataFormats/SUSYObjects/interface/SUSYEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
 
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "TString.h"
