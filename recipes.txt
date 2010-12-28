@@ -2,42 +2,37 @@
 ## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 ##-----------------------------------------------------------------
 
-# 
-# Currently some "dirty hacks" are necessary 
-#
 
+## Set up CMSSW
 cmsrel CMSSW_3_8_6
 cd CMSSW_3_8_6/src
 cmsenv
 
 ## Co CMSSW packages
 cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
-cvs co -r V06-07-04 TopQuarkAnalysis
-cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.py
-cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
-cvs co -r CMSSW_3_8_3 AnalysisDataFormats/TopObjects
 cvs co SusyAnalysis/EventSelector
-
-## HEAD of SusyAnalysis is not combatible with CMSSW_3_8_6, therefore
-rm SusyAnalysis/EventSelector/plugins/AddOtherVariables.cc
-rm SusyAnalysis/EventSelector/interface/AddOtherVariables.h
+cvs co -r V06-07-04 TopQuarkAnalysis
+cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
 
 ## Co UserCode
-cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
+cvs co -d SusyAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 
-## HEAD of TopAnalysis is not combatible with CMSSW_3_8_6, therefore
+# Enable cut based electron ID
+cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
+
+## Co additional tools if needed, e.g.
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
+cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
+cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEventFilter_cfi.py
+cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
+
+## Resolve current incompatibilities between CMSSW_3_8_6 and HEAD of SusyAnalysis and UserCode/Bromo/TopAnalysis
+rm SusyAnalysis/EventSelector/plugins/AddOtherVariables.cc
+rm SusyAnalysis/EventSelector/interface/AddOtherVariables.h
 cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.cc TopAnalysis/TopAnalyzer/src/
 cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.h TopAnalysis/TopAnalyzer/interface/
-
-mv SUSYAnalysis/SUSYObjects ./AnalysisDataFormats
-
-## Enable cut based electron ID
-cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
-cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 
 ## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia
 
