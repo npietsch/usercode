@@ -4,20 +4,20 @@
 
 
 ## Set up CMSSW
-cmsrel CMSSW_3_8_6
-cd CMSSW_3_8_6/src
+cmsrel CMSSW_3_8_7
+cd CMSSW_3_8_7/src
 cmsenv
 
 ## Co CMSSW packages
-cvs co -r CMSSW_3_8_6 PhysicsTools/PatAlgos
+cvs co -r CMSSW_3_8_7 PhysicsTools/PatAlgos
+cvs co -r CMSSW_3_8_7 TopQuarkAnalysis
 cvs co SusyAnalysis/EventSelector
-cvs co -r V06-07-04 TopQuarkAnalysis
 cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
 
 ## Co UserCode
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 
 # Enable cut based electron ID
 cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
@@ -27,12 +27,6 @@ cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
 cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEvtFilter_cfi.py
 cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
-
-## Resolve current incompatibilities between CMSSW_3_8_6 and HEAD of SusyAnalysis and UserCode/Bromo/TopAnalysis
-rm SusyAnalysis/EventSelector/plugins/AddOtherVariables.cc
-rm SusyAnalysis/EventSelector/interface/AddOtherVariables.h
-cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.cc TopAnalysis/TopAnalyzer/src/
-cp /afs/naf.desy.de/user/n/npietsch/public/JetQuality.h TopAnalysis/TopAnalyzer/interface/
 
 ## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia
 

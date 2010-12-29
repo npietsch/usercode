@@ -51,44 +51,34 @@ process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
 ## std sequence for pat
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
 
-## use the correct jet energy corrections
-process.patJetCorrFactors.corrSample = "Spring10"
-process.patJetCorrFactors.sampleType = "ttbar"
-#process.patJetCorrFactorsAK5PF.corrSample = "Spring10"
-#process.patJetCorrFactorsAK5PF.sampleType = "ttbar"
+from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 
-#calculate impact parameter w.r.t beam spot (instead of primary vertex)
+## remove MC matching, photons, taus and cleaning from PAT default sequence
+from PhysicsTools.PatAlgos.tools.coreTools import *
+## removeMCMatching(process, ['All'])
+
+removeSpecificPATObjects(process,
+                         ['Photons'],  # 'Tau' has currently been taken out due to problems with tau discriminators
+                         outputInProcess=False)
+
+removeCleaning(process,
+               outputInProcess=False)
+
+process.patJetCorrFactors.payload = 'AK5Calo'
+# For data:
+#process.patJetCorrFactors.levels = ['L2Relative', 'L3Absolute', 'L2L3Residual', 'L5Flavor', 'L7Parton']
+# For MC:
+process.patJetCorrFactors.levels = ['L2Relative', 'L3Absolute']
+#process.patJetCorrFactors.flavorType = "T"
+
 process.patMuons.usePV = False
 
 ## add PF MET
-from PhysicsTools.PatAlgos.tools.metTools import addPfMET
-addPfMET(process, 'PF')
+## from PhysicsTools.PatAlgos.tools.metTools import addPfMET
+## addPfMET(process, 'PF')
 
-## remove MC matching, photons, taus and cleaning from PAT default sequence
-## from PhysicsTools.PatAlgos.tools.coreTools import *
-## removeMCMatching(process, ['All'])
-## removeSpecificPATObjects(process,
-##                          ['Photons','Taus'],
-##                          outputInProcess=False)
-## removeCleaning(process,
-##                outputInProcess=False)
-
-## add PF jets
-from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
-addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
-                  doJTA        = True,
-                  doBTagging   = True,
-                  jetCorrLabel = ('AK5', 'PF'),
-                  doType1MET   = False,
-                  doL1Cleaning = False,
-                  doL1Counters = False,
-                  genJetCollection=cms.InputTag("ak5GenJets"),
-                  doJetID      = True,
-                  ) 
-
-## remove TagInfos from jets
+## remove TagInfos from jets to run on AOD
 process.patJets.addTagInfos = False
-process.patJetsAK5PF.addTagInfos = False
 
 process.load("SUSYAnalysis.SUSYAnalyzer.simpleEleIdSequence_cff")
 
