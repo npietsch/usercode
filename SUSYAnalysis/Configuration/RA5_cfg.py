@@ -150,8 +150,11 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 # Trigger + Noise cleaning sequence
 process.load("SUSYAnalysis.SUSYFilter.sequences.RAPreselection_cff")
 
-# Example how to change selection criteria:
+# Example how to change preselection criteria:
+
 process.trigger.HLTPaths = ["HLT_Mu9"]
+# Example how to change preselection criteria:
+# process.scrapingVeto.thresh = 15 ## <-- for MC
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA5Selection_cff")
