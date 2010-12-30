@@ -112,30 +112,29 @@ goodMETs = selectedPatMET.clone(src = 'patMETsPF',
 
 ## select events with at least good hard muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
-twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
-                                   minNumber = 2
-                                   )
+countGoodMuons = countPatMuons.clone(src = 'goodMuons',
+                                     minNumber = 2
+                                     )
 ## select events with no veto muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
-twoVetoMuons = countPatMuons.clone(src = 'vetoMuons',
-                                   maxNumber = 2
-                                   )
+countVetoMuons = countPatMuons.clone(src = 'vetoMuons',
+                                     maxNumber = 2
+                                     )
 ## select events with one veto electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
-noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
-                                         maxNumber = 0
-                                         )
+countVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
+                                            maxNumber = 0
+                                            )
 ## select events with 2 good jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-twoGoodJets = countPatJets.clone(src = 'goodJets',
-                                  minNumber = 2
-                                 )
+countGoodJets = countPatJets.clone(src = 'goodJets',
+                                   minNumber = 2
+                                   )
 ## select events with good one good MET
 from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
-oneGoodMET = countPatMET.clone(src = 'goodMETs',
-                               minNumber = 1
-                               )
-
+countGoodMET = countPatMET.clone(src = 'goodMETs',
+                                 minNumber = 1
+                                 )
 
 #------------------------------
 # Event Filter
@@ -143,25 +142,29 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
 
 from SUSYAnalysis.SUSYFilter.selections.HTSelection_cff import *
 
+from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
+SSignMuMUFilter = filterMuonPair.clone()
+ZVeto = filterMuonPair.clone()
+mLowVeto5 = filterMuonPair.clone()
+
 #------------------------------
 # Define sequences
 #------------------------------
 
 muonSelection = cms.Sequence(goodMuons *
-                             twoGoodMuons *
-                             vetoMuons *
-                             twoVetoMuons *
-                             vetoElectrons *
-                             noVetoElectron
+                             countGoodMuons *
+                             SSignMuMUFilter *
+                             ZVeto *
+                             mLowVeto5
                              )
 
 jetSelection = cms.Sequence(goodElectrons *
                             goodJets *
-                            twoGoodJets
+                            countGoodJets
                             )
 
 metSelection = cms.Sequence(goodMETs *
-                            oneGoodMET
+                            countGoodMET
                             )
 
 HTSelection = cms.Sequence(HTCut)
