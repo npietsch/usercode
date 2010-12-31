@@ -87,6 +87,7 @@ process.patMuons.usePV = False
 from PhysicsTools.PatAlgos.tools.metTools import addPfMET
 addPfMET(process, 'PF')
 
+
 ## Add particle flow jets
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
@@ -131,7 +132,7 @@ process.patElectrons.electronIDSources = cms.PSet(
 #------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+#process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
 #------------------------------------------------
 # Gen Event Selection 
@@ -159,6 +160,7 @@ process.trigger.HLTPaths = ["HLT_Mu9"]
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA5Selection_cff")
 
+## Configure DiMuon filter
 process.SSignMuMUFilter.muons = "goodMuons"
 process.SSignMuMUFilter.filterCharge = 1
 process.SSignMuMUFilter.filterMass = False
@@ -172,7 +174,6 @@ process.mLowVeto5.filterCharge = 1
 process.mLowVeto5.Cut = 0.,5.
 process.mLowVeto5.isVeto = True
 
-
 #------------------------------------------------
 # Sequence for analysis of single objects
 #------------------------------------------------
@@ -180,7 +181,7 @@ process.mLowVeto5.isVeto = True
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 
 # Example how to change input tags:
-# process.analyzeMuonKinematics.src = "selectedaPatMuons"
+#process.analyzeMuonKinematics.src = "selectedPatMuons"
 
 #------------------------------------------------
 # Modules for analysis on generator level
@@ -188,9 +189,9 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 
 from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvt
 
-# change input tags to analyze selected Jets and MET
-#process.analyzeSUSYGenEvt = analyzeSUSYGenEvt.clone()
-#process.analyzeSUSYGenEvt.jets = "goodJets"
+# change input tags to consider only selected Jets
+process.analyzeSUSYGenEvt = analyzeSUSYGenEvt.clone()
+process.analyzeSUSYGenEvt.jets = "goodJets"
 
 #-------------------------------------------------
 # Load any other modules you want to use
@@ -220,16 +221,15 @@ from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvt
 
 process.RA5LowPtMuon = cms.Path(#process.printGenParticles *
                                 process.patDefaultSequence *
-                                process.SUSYInitSubset *
                                 process.makeSUSYGenEvt *
-                                #process.SUSYGenEventFilter *
+                                process.SUSYGenEventFilter *
                                 process.preselection *
                                 process.muonSelection *
                                 process.jetSelection *
                                 process.metSelection *
                                 process.HTSelection
-                                #process.singleObjectsAnalysis *
-                                #process.analyzeSUSYGenEvt
+                                process.singleObjectsAnalysis *
+                                process.analyzeSUSYGenEvt
                                 ) 
 
 #-------------------------------------------------

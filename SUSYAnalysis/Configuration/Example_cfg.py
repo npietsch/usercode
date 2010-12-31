@@ -15,13 +15,6 @@ process.source = cms.Source("PoolSource",
     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root',
     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0002/141EEE1B-90D4-DF11-8D67-003048C6B50E.root',
     '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/00AD38DB-BAD4-DF11-BD52-001A644EB21C.root'
-##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/B41F22A2-00D6-DF11-A419-0019BBEBB558.root'
-##    '/store/mc/Fall10/TTJets_TuneD6T_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0021/0EC47D66-39E3-DF11-AEDE-0026B958EFD4.root'
-##    'file:/afs/naf.desy.de/user/n/npietsch/CMSSW_3_8_6/src/test.root'
-
-##     '/store/mc/Summer10/TTbar/GEN-SIM-RECO/START36_V9_S09-v1/0055/36AC87AA-8C78-DF11-8C7B-0017A4770838.root'
-##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
-##     '/store/mc/Spring10/LM1/GEN-SIM-RECO/START3X_V26_S09-v1/0026/B27B78AC-1548-DF11-8117-E41F13181AF8.root'
     )
 )
 
@@ -71,15 +64,40 @@ process.patJetCorrFactors.payload = 'AK5Calo'
 process.patJetCorrFactors.levels = ['L2Relative', 'L3Absolute']
 #process.patJetCorrFactors.flavorType = "T"
 
+# embed IsoDeposits
+process.patMuons.isoDeposits = cms.PSet(
+    tracker = cms.InputTag("muIsoDepositTk"),
+    ecal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","ecal"),
+    hcal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","hcal"),
+    user    = cms.VInputTag(
+                            cms.InputTag("muIsoDepositCalByAssociatorTowers","ho"),
+                            cms.InputTag("muIsoDepositJets")
+                            ),
+    )
 process.patMuons.usePV = False
 
 ## add PF MET
-## from PhysicsTools.PatAlgos.tools.metTools import addPfMET
-## addPfMET(process, 'PF')
+from PhysicsTools.PatAlgos.tools.metTools import addPfMET
+addPfMET(process, 'PF')
+
+## Add particle flow jets
+from PhysicsTools.PatAlgos.tools.jetTools import *
+
+addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
+                 doJTA        = True,
+                 doBTagging   = True,
+                 jetCorrLabel = ('AK5PF', ['L2Relative', 'L3Absolute']),
+                 doType1MET   = False,
+                 doL1Cleaning = False,
+                 doL1Counters = False,
+                 genJetCollection=None,
+                 doJetID      = True,
+                 )
 
 ## remove TagInfos from jets to run on AOD
 process.patJets.addTagInfos = False
 
+## produce cut based electron IDs
 process.load("SUSYAnalysis.SUSYAnalyzer.simpleEleIdSequence_cff")
 
 process.patElectronIDs = cms.Sequence(process.simpleEleIdSequence)
@@ -106,7 +124,7 @@ process.patElectrons.electronIDSources = cms.PSet(
 #------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+#process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
 #------------------------------------------------
 # Gen Event Selection 
@@ -115,18 +133,18 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="decayChainA()==1000021")
 
-from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
-process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
+#from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+#process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
 
 #------------------------------------------------
-# RA4 Event Selection
+# Example Event Selection
 #------------------------------------------------
 
 # Trigger + Noise cleaning sequence
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Preselection_cff")
 
-# Example how to change selection criteria:
-# process.scrapingVeto.thresh = 15
+# Example how to change prselection criteria:
+#process.scrapingVeto.thresh = 15 ## <-- for MC
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")
@@ -142,7 +160,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 
 # Example how to change input tags:
-# process.analyzeMuonKinematics.src = "selectedPAtMuons"
+#process.analyzeMuonKinematics.src = "selectedPatMuons"
 
 #------------------------------------------------
 # Modules for analysis on generator level
@@ -150,34 +168,30 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
 
 from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvt
 
-# change input tags to analyze selected Jets and MET
-process.analyzeSUSYGenEvt1 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt2 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt2.jets = "goodJets"
+# change input tags to consider only selected Jets
+process.analyzeSUSYGenEvt = analyzeSUSYGenEvt.clone()
+process.analyzeSUSYGenEvt.jets = "goodJets"
 
 #-------------------------------------------------
 # Load any other modules you want to use
 #-------------------------------------------------
 
 # E.g: Load module to rescale jet energy by an abitrary factor 
-process.load("TopAnalysis.TopUtils.JetEnergyScale_cff")
+#process.load("TopAnalysis.TopUtils.JetEnergyScale_cff")
 
 # E.g: Load modules to reconstruct ttbar events with
 #      kinematic fit and anlyze hypotheses  
-process.load("TopQuarkAnalysis.TopEventProducers.producers.TtSemiLepEvtBuilder_cfi")
-process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
+#process.load("TopQuarkAnalysis.TopEventProducers.producers.TtSemiLepEvtBuilder_cfi")
+#process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
 
 # ...
-
 
 #-------------------------------------------------
 # Temp
 #-------------------------------------------------
 
-process.load("TopAnalysis.TopAnalyzer.ElectronQuality_cfi")
-
 ## produce printout of particle listings (for debugging)
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
 
 #-------------------------------------------------
@@ -186,9 +200,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 
 process.RA4MuonSelection = cms.Path(#process.printGenParticles *
                                     process.patDefaultSequence *
-                                    process.SUSYInitSubset *
                                     process.makeSUSYGenEvt *
-                                    #process.analyzeSUSYGenEvt1 *
                                     process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.jetSelection *
@@ -196,13 +208,11 @@ process.RA4MuonSelection = cms.Path(#process.printGenParticles *
                                     process.metSelection *
                                     process.singleObjectsAnalysis *
                                     process.muonVeto *
-                                    process.analyzeSUSYGenEvt2
+                                    process.analyzeSUSYGenEvt
                                     ) 
 
 process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
-                                    process.SUSYInitSubset *
                                     process.makeSUSYGenEvt *
-                                    #process.analyzeSUSYGenEvt1 *
                                     process.SUSYGenEventFilter *
                                     process.preselection *
                                     process.jetSelection *
@@ -210,27 +220,27 @@ process.RA4ElecSelection = cms.Path(process.patDefaultSequence *
                                     process.metSelection *
                                     process.singleObjectsAnalysis *
                                     process.electronVeto *
-                                    process.analyzeSUSYGenEvt2
+                                    process.analyzeSUSYGenEvt
                                     )
 
 #-------------------------------------------------
 # Optional: write patTuple
 #-------------------------------------------------
 
-process.EventSelection = cms.PSet(
-    SelectEvents = cms.untracked.PSet(
-    SelectEvents = cms.vstring('RA4MuonSelection',
-                               'RA4ElecSelection'
-                               )
-    )
-    )
+## process.EventSelection = cms.PSet(
+##     SelectEvents = cms.untracked.PSet(
+##     SelectEvents = cms.vstring('RA4MuonSelection',
+##                                'RA4ElecSelection'
+##                                )
+##     )
+##     )
 
-process.out = cms.OutputModule("PoolOutputModule",
-                               process.EventSelection,
+## process.out = cms.OutputModule("PoolOutputModule",
+##                                process.EventSelection,
                                #outputCommands = cms.untracked.vstring('drop *'),
                                #dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('PATtuple.root')
-                               )
+##                                fileName = cms.untracked.string('PATtuple.root')
+##                                )
 
 ## # Specify what to keep in the event content
 ## from PhysicsTools.PatAlgos.patEventContent_cff import *
@@ -241,5 +251,5 @@ process.out = cms.OutputModule("PoolOutputModule",
 ## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
 ## #process.out.outputCommands += tqafEventContent
 
-process.outpath = cms.EndPath(process.out)
+## process.outpath = cms.EndPath(process.out)
  
