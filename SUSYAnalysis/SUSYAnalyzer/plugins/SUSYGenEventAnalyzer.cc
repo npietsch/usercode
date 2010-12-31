@@ -48,9 +48,9 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   
   reco::GenParticleCollection initSub=*initSubset;
 
-  for(reco::GenParticleCollection::const_iterator p=initSub.begin(); p!=initSub.end(); ++p){
-    std::cout << "pdg-ID: " << p->pdgId() << std::endl;
-  }
+  //for(reco::GenParticleCollection::const_iterator p=initSub.begin(); p!=initSub.end(); ++p){
+  //  std::cout << "pdg-ID: " << p->pdgId() << std::endl;
+  //}
   
   const std::vector<pat::Jet>& Jets=*jets;
   std::vector<pat::Jet>::const_iterator jet = Jets.begin();
@@ -70,21 +70,21 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       jet1_et_4BQuarks_->Fill(jet[0].et());
     }
 
-  std::cout << "Test1" << std::cout << endl;
+  //std::cout << "Test1" << std::cout << endl;
 
   if(susyGenEvent->GluinoGluinoDecay()==true)
     {
-      std::cout << "Test2" << std::cout << endl;
+      //std::cout << "Test2" << std::cout << endl;
       number_of_BQuarks_sgsg_->Fill(susyGenEvent->numberOfBQuarks());
     }
   if(susyGenEvent->SquarkSquarkDecay()==true)
     {
-      std::cout << "Test3" << std::cout << endl;
+      //std::cout << "Test3" << std::cout << endl;
       number_of_BQuarks_sqsq_->Fill(susyGenEvent->numberOfBQuarks());
     }
   if(susyGenEvent->GluinoSquarkDecay()==true)
     {
-      std::cout << "Test4" << std::cout << endl;
+      //std::cout << "Test4" << std::cout << endl;
       number_of_BQuarks_sgsq_->Fill(susyGenEvent->numberOfBQuarks());
     }
 
