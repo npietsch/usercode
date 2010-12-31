@@ -27,7 +27,7 @@ primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 preselection = cms.Sequence(trigger *
+                            HBHENoiseFilter *
                             scrapingVeto *
-                            primaryVertexFilter #*
-                            #HBHENoiseFilter
+                            primaryVertexFilter
                             )
