@@ -140,7 +140,9 @@ countGoodMET = countPatMET.clone(src = 'goodMETs',
 # Event Filter
 #------------------------------
 
-from SUSYAnalysis.SUSYFilter.selections.HTSelection_cff import *
+#from SUSYAnalysis.SUSYFilter.selections.HTSelection_cff import *
+from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
+filterHT.jets= "goodJets"
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMUFilter = filterMuonPair.clone()
@@ -167,4 +169,4 @@ metSelection = cms.Sequence(goodMETs *
                             countGoodMET
                             )
 
-HTSelection = cms.Sequence(HTCut)
+HTSelection = cms.Sequence(filterHT)
