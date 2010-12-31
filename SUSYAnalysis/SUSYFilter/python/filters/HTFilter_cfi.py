@@ -4,7 +4,7 @@ filterHT = cms.EDFilter("HTFilter",
     ## sources
     jets = cms.InputTag("selectedPatJets"),
     ## cut on HT
-    Cut   = cms.vdouble(100.,300.),
+    Cut   = cms.double(300.),
 )
 
 
