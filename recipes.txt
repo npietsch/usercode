@@ -2,7 +2,6 @@
 ## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
 ##-----------------------------------------------------------------
 
-
 ## Set up CMSSW
 cmsrel CMSSW_3_8_7
 cd CMSSW_3_8_7/src
@@ -22,7 +21,7 @@ cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 # Enable cut based electron ID
 cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 
-## Co additional tools if needed, e.g.
+## Co additional tools
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
 cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
 cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEvtFilter_cfi.py
@@ -30,6 +29,8 @@ cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
 
 ## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia
 
-scram b -r -j 8
+scram b -j 8
 
 ## ignore warnings in TopAnalysis/TopAnalyzer/plugins/TagAndProbeAnalyzer.h
+
+cmsRun SUSYAnalysis/Configuration/Example_cfg.py
