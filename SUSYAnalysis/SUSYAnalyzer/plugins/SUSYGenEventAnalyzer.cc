@@ -52,9 +52,30 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
 
+  if(susyGenEvent->numberOfBQuarks()==1)
+    {
   std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
-  std::cout << "| SUSGenEventAnalyzer: Decay cascade: " << susyGenEvent->decayCascadeA() << std::endl;
+  std::cout << "| SUSGenEventAnalyzer: One BQuark from top, stop or sbottom decay found." << std::endl;
+  std::cout << "| Decay cascade A: " << susyGenEvent->decayCascadeA() << std::endl;
+  std::cout << "| Decay cascade B: " << susyGenEvent->decayCascadeB() << std::endl;
   std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+    }
+  if(susyGenEvent->numberOfBQuarks()==3)
+    {
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+  std::cout << "| SUSGenEventAnalyzer: Three BQuarks from top, stop or sbottom decay found." << std::endl;
+  std::cout << "| Decay cascade A: " << susyGenEvent->decayCascadeA() << std::endl;
+  std::cout << "| Decay cascade B: " << susyGenEvent->decayCascadeB() << std::endl;
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+    }
+  if(susyGenEvent->numberOfBQuarks()>4)
+    {
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+  std::cout << "| SUSGenEventAnalyzer: More than four BQuarks from top, stop or sbottom decay found." << std::endl;
+  std::cout << "| Decay cascade A: " << susyGenEvent->decayCascadeA() << std::endl;
+  std::cout << "| Decay cascade B: " << susyGenEvent->decayCascadeB() << std::endl;
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+    }
 
   // number of bottom quarks for different processes of sparticle porduction
   if(susyGenEvent->GluinoSquarkDecay()) nrBQuarks_gq_->Fill(susyGenEvent->numberOfBQuarks());

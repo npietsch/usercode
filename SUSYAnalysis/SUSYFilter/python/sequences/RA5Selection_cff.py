@@ -145,9 +145,9 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 filterHT.jets= "goodJets"
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
-SSignMuMUFilter = filterMuonPair.clone()
-ZVeto = filterMuonPair.clone()
+SSignMuMuFilter = filterMuonPair.clone()
 mLowVeto5 = filterMuonPair.clone()
+ZVeto = filterMuonPair.clone()
 
 #------------------------------
 # Define sequences
@@ -155,9 +155,9 @@ mLowVeto5 = filterMuonPair.clone()
 
 muonSelection = cms.Sequence(goodMuons *
                              countGoodMuons *
-                             SSignMuMUFilter *
-                             ZVeto *
-                             mLowVeto5
+                             SSignMuMuFilter *
+                             mLowVeto5 *
+                             ZVeto
                              )
 
 jetSelection = cms.Sequence(goodElectrons *

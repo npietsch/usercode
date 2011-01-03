@@ -31,25 +31,64 @@ SUSYGenEvent::candidate(int id, unsigned int parentId) const
   return cand;
 }
 
-// returns number of all leptons
+// is lepton
+bool SUSYGenEvent::isLepton(const reco::GenParticle & genParticle) const
+{
+  bool lep=false;
+  if(abs(genParticle.pdgId())==11 || abs(genParticle.pdgId())==13)
+    {
+      if(abs(genParticle.mother()->pdgId())==24 || abs(genParticle.mother()->pdgId())==23 ||
+	 abs(genParticle.mother()->pdgId())==1000022 || abs(genParticle.mother()->pdgId())==1000023 ||
+	 abs(genParticle.mother()->pdgId())==1000024 || abs(genParticle.mother()->pdgId())==1000025 ||
+	 abs(genParticle.mother()->pdgId())==1000035 || abs(genParticle.mother()->pdgId())==1000037 ||
+	 abs(genParticle.mother()->pdgId())==1000011 || abs(genParticle.mother()->pdgId())==1000012 ||
+	 abs(genParticle.mother()->pdgId())==1000013 || abs(genParticle.mother()->pdgId())==1000014 ||
+	 abs(genParticle.mother()->pdgId())==1000015 || abs(genParticle.mother()->pdgId())==1000016 ||
+	 abs(genParticle.mother()->pdgId())==2000011 || abs(genParticle.mother()->pdgId())==2000012 ||
+	 abs(genParticle.mother()->pdgId())==2000013 || abs(genParticle.mother()->pdgId())==2000014 ||
+	 abs(genParticle.mother()->pdgId())==2000015 || abs(genParticle.mother()->pdgId())==2000016 ||
+	 abs(genParticle.mother()->pdgId())==25 || abs(genParticle.mother()->pdgId())==35 ||
+	 abs(genParticle.mother()->pdgId())==36 )
+	{   
+	  lep=true;
+	}
+    }
+  return lep;
+}
+
+// returns number of leptons from the decay of W, Z
 int
-SUSYGenEvent::numberOfLeptons(bool fromWBoson) const
+SUSYGenEvent::numberOfLeptons() const
 {
   int lep=0;
   const reco::GenParticleCollection& partsColl = *parts_;
-  for(unsigned int i = 0; i < partsColl.size(); ++i) {
-    if(reco::isLepton(partsColl[i])) {
-      if(fromWBoson){
-	if(partsColl[i].mother() &&  std::abs(partsColl[i].mother()->pdgId())==SUSYDecayID::WID){
-	  ++lep;
-	}
-      }
-      else{
-	++lep;
-      }
-    }
-  }
+  for(unsigned int i = 0; i < partsColl.size(); ++i)
+    {
+      if(isLepton(partsColl[i])==true) ++lep;
+    } 
   return lep;
+}
+
+// is di-lepton
+int SUSYGenEvent::isDiLepton() const
+{
+  int lep=0;
+  int charge=1;
+  int DiLep=0;
+  
+  const reco::GenParticleCollection& partsColl = *parts_;
+  for(unsigned int i = 0; i < partsColl.size(); ++i)
+    {
+      if(isLepton(partsColl[i])==true)
+	{
+	  ++lep;
+	  charge=charge*(partsColl[i].charge());
+	}
+    } 
+  if(numberOfLeptons()==2 && charge==1) DiLep=1;
+  else if(numberOfLeptons()==2 && charge==-1) DiLep=-1;
+
+  return DiLep;
 }
 
 // has to be looked through
@@ -97,18 +136,21 @@ SUSYGenEvent::numberOfLeptons(Wdecay::LepType typeRestriction, bool fromWBoson) 
   return lep;
 }
 
-// returns number of bottom-quarks from the decay of top, stop or bottom 
+// returns number of bottom-quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
 int
 SUSYGenEvent::numberOfBQuarks() const
 {
   int bq=0;
   const reco::GenParticleCollection & partsColl = *parts_;
   for (unsigned int i = 0; i < partsColl.size(); ++i) {
-    if(std::abs(partsColl[i].pdgId())==SUSYDecayID::bID &&
-       (std::abs(partsColl[i].mother()->pdgId())==SUSYDecayID::tID ||
+    if(std::abs(partsColl[i].pdgId())==5 &&
+       (std::abs(partsColl[i].mother()->pdgId())==6 || std::abs(partsColl[i].mother()->pdgId())==1000021 ||
 	std::abs(partsColl[i].mother()->pdgId())==1000005 || std::abs(partsColl[i].mother()->pdgId())==1000006 ||
-	std::abs(partsColl[i].mother()->pdgId())==2000005 || std::abs(partsColl[i].mother()->pdgId())==2000006) )
+	std::abs(partsColl[i].mother()->pdgId())==2000005 || std::abs(partsColl[i].mother()->pdgId())==2000006 ||
+	std::abs(partsColl[i].mother()->pdgId())==25 || std::abs(partsColl[i].mother()->pdgId())==35 ||
+	std::abs(partsColl[i].mother()->pdgId())==36) )
       {
+	//std::cout << "mother of BQuark: " << partsColl[i].mother()->pdgId() << std::endl;
 	++bq;
       }
   }
@@ -292,6 +334,26 @@ bool SUSYGenEvent::SquarkSquarkDecay() const
   if (isSquark(initSpartsColl[0])==true  && isSquark(initSpartsColl[1])==true) squarkSquarkDecay=true;
   
   return squarkSquarkDecay;
+}
+
+// is same sign squark-squark decay
+bool SUSYGenEvent::SSignSquarkSquarkDecay() const
+{
+  bool sSignSquarkSquarkDecay=false;
+  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+  if (SquarkSquarkDecay()==true && initSpartsColl[0].charge()==initSpartsColl[1].charge() ) sSignSquarkSquarkDecay=true;
+  
+  return sSignSquarkSquarkDecay;
+}
+
+// is opposite sign squark-squark decay
+bool SUSYGenEvent::OSignSquarkSquarkDecay() const
+{
+  bool oSignSquarkSquarkDecay=false;
+  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+  if (SquarkSquarkDecay()==true && initSpartsColl[0].charge()!=initSpartsColl[1].charge() ) oSignSquarkSquarkDecay=true;
+  
+  return oSignSquarkSquarkDecay;
 }
 
 // is gluino-squark decay

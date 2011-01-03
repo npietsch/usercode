@@ -32,7 +32,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000),
+    input = cms.untracked.int32(-1),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -216,33 +216,34 @@ process.analyzeSUSYGenEvt6.jets = "goodJets"
 #-------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
 
 #-------------------------------------------------
 # Selection paths
 #-------------------------------------------------
 
-process.RA4MuonSelection = cms.Path(process.patDefaultSequence *
-                                    process.makeSUSYGenEvt *
-                                    #process.SUSYGenEventFilter *
-                                    process.preselection *
-                                    process.goodJets *
-                                    process.twoGoodJets *
-                                    process.analyzeSUSYGenEvt1 *
-                                    process.threeGoodJets *
-                                    process.analyzeSUSYGenEvt2 *
-                                    process.fourGoodJets *
-                                    process.analyzeSUSYGenEvt3 *
-                                    process.muonSelection *
-                                    process.analyzeSUSYGenEvt4 *
-                                    process.metSelection *
-                                    process.analyzeSUSYGenEvt5 #*
-                                    #process.singleObjectsAnalysis *
-                                    #process.muonVeto *
-                                    ) 
+process.MuonSelection = cms.Path(process.patDefaultSequence *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 process.preselection *
+                                 process.goodJets *
+                                 process.twoGoodJets *
+                                 process.analyzeSUSYGenEvt1##  *
+##                                  process.printGenParticles *
+##                                  process.threeGoodJets *
+##                                  process.analyzeSUSYGenEvt2 *
+##                                  process.fourGoodJets *
+##                                  process.analyzeSUSYGenEvt3 *
+##                                  process.muonSelection *
+##                                  process.analyzeSUSYGenEvt4 *
+##                                  process.metSelection *
+##                                  process.analyzeSUSYGenEvt5 #*
+                                 #process.singleObjectsAnalysis *
+                                 #process.muonVeto *
+                                 ) 
 
-
+## implement same sign di-muon selection and loose JetCriteria
 
 #-------------------------------------------------
 # Optional: write patTuple

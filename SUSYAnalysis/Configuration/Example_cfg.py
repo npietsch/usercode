@@ -19,7 +19,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(1),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -193,14 +193,13 @@ process.analyzeSUSYGenEvt = analyzeSUSYGenEvt.clone()
 #-------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
-
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
 #-------------------------------------------------
 # Selection paths
 #-------------------------------------------------
 
-process.RA4MuonSelection = cms.Path(#process.printGenParticles *
+process.RA4MuonSelection = cms.Path(process.printGenParticles *
                                     process.patDefaultSequence *
                                     process.makeSUSYGenEvt *
                                     process.SUSYGenEventFilter *

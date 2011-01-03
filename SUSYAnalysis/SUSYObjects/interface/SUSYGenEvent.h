@@ -50,10 +50,15 @@ class SUSYGenEvent {
   /// return radiated gluons from particle with pdgId
   std::vector<const reco::GenParticle*> radiatedGluons(int pdgId) const;
 
+  // is muon or electron?
+  bool isLepton(const reco::GenParticle&) const;
   /// return number of leptons in the decay chain
-  int numberOfLeptons(bool fromWBoson=true) const;
+  int numberOfLeptons() const;
+  // is di-lepton
+  int isDiLepton() const;
   /// return number of leptons in the decay chain
   int numberOfLeptons(Wdecay::LepType type, bool fromWBoson=true) const;
+
   /// return number of b quarks in the decay chain
   int numberOfBQuarks() const;
 
@@ -82,6 +87,10 @@ class SUSYGenEvent {
   bool GluinoGluinoDecay() const;
   /// is squark-squark decay?
   bool SquarkSquarkDecay() const;
+  /// is same sign squark-squark decay?
+  bool SSignSquarkSquarkDecay() const;
+  /// is opposite sign squark-squark decay?
+  bool OSignSquarkSquarkDecay() const;
   /// is gluino-squark decay?
   bool GluinoSquarkDecay() const;
 
