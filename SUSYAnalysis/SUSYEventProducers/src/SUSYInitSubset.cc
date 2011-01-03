@@ -61,9 +61,8 @@ void SUSYInitSubset::fillOutput(const reco::GenParticleCollection& src, reco::Ge
 		  //std::cout << "mother pdgId: " << t->mother(0)->pdgId() << std::endl;
 		  //std::cout << "mother's daughter: " << t->mother(0)->daughter(idx)->pdgId() << std::endl;
 
-		  reco::GenParticle* daughter = new reco::GenParticle( t->mother(0)->daughter(idx)->threeCharge(), t->mother(0)->daughter(idx)->p4(), 
-								       t->mother(0)->daughter(idx)->vertex(), t->mother(0)->daughter(idx)->pdgId(), 
-								       t->mother(0)->daughter(idx)->status(), false );
+		  reco::GenParticle* daughter = new reco::GenParticle( t->mother(0)->daughter(idx)->threeCharge(), t->mother(0)->daughter(idx)->p4(), t->mother(0)->daughter(idx)->vertex(), t->mother(0)->daughter(idx)->pdgId(), t->mother(0)->daughter(idx)->status(), false );
+
 		  std::auto_ptr<reco::GenParticle> dtr( daughter );
 		  sparticles.push_back( *dtr ); 
 		}

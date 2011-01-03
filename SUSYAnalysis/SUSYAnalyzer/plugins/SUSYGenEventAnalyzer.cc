@@ -19,15 +19,23 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
 { 
   edm::Service<TFileService> fs;
 
-  number_of_BQuarks_ = fs->make<TH1F>("nr_BQuarks",    "nr BQuarks",     9, -0.5, 8.5);
-  number_of_BQuarks_sgsg_ = fs->make<TH1F>("nr_BQuarks_sgsg",    "nr BQuarks for sgsg",     9, -0.5, 8.5);
-  number_of_BQuarks_sqsq_ = fs->make<TH1F>("nr_BQuarks_sqsq",    "nr BQuarks for sqsq",     9, -0.5, 8.5);
-  number_of_BQuarks_sgsq_ = fs->make<TH1F>("nr_BQuarks_sgsq",    "nr BQuarks for sgsq",     9, -0.5, 8.5);
+  nrBQuarks_gq_ = fs->make<TH1F>("nrBQuarks_gq",    "nr BQuarks gq",     9, -0.5, 8.5);
+  nrBQuarks_gg_ = fs->make<TH1F>("nrBQuarks_gg",    "nr BQuarks gg",     9, -0.5, 8.5);
+  nrBQuarks_qq_ = fs->make<TH1F>("nrBQuarks_qq",    "nr BQuarks qq",     9, -0.5, 8.5);
+  nrBQuarks_other_ = fs->make<TH1F>("nrBQuarks_other",    "nr BQuarks other",     9, -0.5, 8.5);
+  nrBQuarks_ = fs->make<TH1F>("nrBQuarks",    "nr BQuarks",     9, -0.5, 8.5);
 
-  number_of_BQuarks_jet1_et_ = fs->make<TH2F>("nr_BQuarks_jet1_et",    "nr BQuarks vs. jet1 et",     9, -0.5, 8.5, 30, 0, 900);
-  jet1_et_0BQuarks_ = fs->make<TH1F>("jet1_et_0BQuarks",    "et jet1",     30, 0, 900);
-  jet1_et_2BQuarks_ = fs->make<TH1F>("jet1_et_2BQuarks",    "et jet1",     30, 0, 900);
-  jet1_et_4BQuarks_ = fs->make<TH1F>("jet1_et_4BQuarks",    "et jet1",     30, 0, 900);
+  EtJet1_2BQuarks_gq_ = fs->make<TH1F>("EtJet1_2BQuarks_gq",    "Et Jet1 gq",     30, 0, 900);
+  EtJet1_2BQuarks_gg_ = fs->make<TH1F>("EtJet1_2BQuarks_gg",    "Et Jet1 gg",     30, 0, 900);
+  EtJet1_2BQuarks_qq_ = fs->make<TH1F>("EtJet1_2BQuarks_qq",    "Et Jet1 qq",     30, 0, 900);
+  EtJet1_2BQuarks_other_ = fs->make<TH1F>("EtJet1_2BQuarks_other",    "Et Jet1 other",     30, 0, 900);
+  EtJet1_2BQuarks_ = fs->make<TH1F>("EtJet1_2BQuarks_",    "Et Jet1",     30, 0, 900);
+
+  EtJet1_012BQuarks_gq_ = fs->make<TH1F>("EtJet1_012BQuarks_gq",    "Et Jet1 gq",     30, 0, 900);
+  EtJet1_012BQuarks_gg_ = fs->make<TH1F>("EtJet1_012BQuarks_gg",    "Et Jet1 gg",     30, 0, 900);
+  EtJet1_012BQuarks_qq_ = fs->make<TH1F>("EtJet1_012BQuarks_qq",    "Et Jet1 qq",     30, 0, 900);
+  EtJet1_012BQuarks_other_ = fs->make<TH1F>("EtJet1_012BQuarks_other",    "Et Jet1 other",     30, 0, 900);
+  EtJet1_012BQuarks_ = fs->make<TH1F>("EtJet1_012BQuarks_",    "Et Jet1",     30, 0, 900);
 }
 
 SUSYGenEventAnalyzer::~SUSYGenEventAnalyzer()
@@ -44,50 +52,36 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
 
-  number_of_BQuarks_->Fill(susyGenEvent->numberOfBQuarks());
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+  std::cout << "| SUSGenEventAnalyzer: Decay cascade: " << susyGenEvent->decayCascadeA() << std::endl;
+  std::cout << "---------------------------------------------------------------------------------------------------"<< std::endl;
+
+  // number of bottom quarks for different processes of sparticle porduction
+  if(susyGenEvent->GluinoSquarkDecay()) nrBQuarks_gq_->Fill(susyGenEvent->numberOfBQuarks());
+  else if(susyGenEvent->GluinoGluinoDecay()) nrBQuarks_gg_->Fill(susyGenEvent->numberOfBQuarks());
+  else if(susyGenEvent->SquarkSquarkDecay()) nrBQuarks_qq_->Fill(susyGenEvent->numberOfBQuarks());
+  else nrBQuarks_other_->Fill(susyGenEvent->numberOfBQuarks());
+  nrBQuarks_->Fill(susyGenEvent->numberOfBQuarks());
   
-  reco::GenParticleCollection initSub=*initSubset;
-
-  //for(reco::GenParticleCollection::const_iterator p=initSub.begin(); p!=initSub.end(); ++p){
-  //  std::cout << "pdg-ID: " << p->pdgId() << std::endl;
-  //}
-  
-  const std::vector<pat::Jet>& Jets=*jets;
-  std::vector<pat::Jet>::const_iterator jet = Jets.begin();
-
-  number_of_BQuarks_jet1_et_->Fill(susyGenEvent->numberOfBQuarks(),jet[0].et());
-
-  if(susyGenEvent->numberOfBQuarks()==0)
-    {
-      jet1_et_0BQuarks_->Fill(jet[0].et());
-    }
+  // correlation betweem #BQuarks and et(jet1)
   if(susyGenEvent->numberOfBQuarks()==2)
     {
-      jet1_et_2BQuarks_->Fill(jet[0].et());
-    }
-  if(susyGenEvent->numberOfBQuarks()==4)
-    {
-      jet1_et_4BQuarks_->Fill(jet[0].et());
-    }
-
-  //std::cout << "Test1" << std::cout << endl;
-
-  if(susyGenEvent->GluinoGluinoDecay()==true)
-    {
-      //std::cout << "Test2" << std::cout << endl;
-      number_of_BQuarks_sgsg_->Fill(susyGenEvent->numberOfBQuarks());
-    }
-  if(susyGenEvent->SquarkSquarkDecay()==true)
-    {
-      //std::cout << "Test3" << std::cout << endl;
-      number_of_BQuarks_sqsq_->Fill(susyGenEvent->numberOfBQuarks());
-    }
-  if(susyGenEvent->GluinoSquarkDecay()==true)
-    {
-      //std::cout << "Test4" << std::cout << endl;
-      number_of_BQuarks_sgsq_->Fill(susyGenEvent->numberOfBQuarks());
+      if(susyGenEvent->GluinoSquarkDecay()) EtJet1_2BQuarks_gq_->Fill((*jets)[0].et());
+      else if(susyGenEvent->GluinoGluinoDecay()) EtJet1_2BQuarks_gg_->Fill((*jets)[0].et());
+      else if(susyGenEvent->SquarkSquarkDecay()) EtJet1_2BQuarks_qq_->Fill((*jets)[0].et());
+      else EtJet1_2BQuarks_other_->Fill((*jets)[0].et());
+      EtJet1_2BQuarks_->Fill((*jets)[0].et()); 
     }
 
+  // correlation betweem #BQuarks and et(jet1)
+  if(susyGenEvent->numberOfBQuarks()<=2)
+    {
+      if(susyGenEvent->GluinoSquarkDecay()) EtJet1_012BQuarks_gq_->Fill((*jets)[0].et());
+      else if(susyGenEvent->GluinoGluinoDecay()) EtJet1_012BQuarks_gg_->Fill((*jets)[0].et());
+      else if(susyGenEvent->SquarkSquarkDecay()) EtJet1_012BQuarks_qq_->Fill((*jets)[0].et());
+      else EtJet1_012BQuarks_other_->Fill((*jets)[0].et());
+      EtJet1_012BQuarks_->Fill((*jets)[0].et()); 
+    }
 }
 
 void SUSYGenEventAnalyzer::beginJob()

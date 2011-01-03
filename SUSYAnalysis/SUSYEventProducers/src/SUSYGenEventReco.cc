@@ -6,6 +6,7 @@
 #include "SUSYAnalysis/SUSYEventProducers/interface/SUSYInitSubset.h"
 
 SUSYGenEventReco::SUSYGenEventReco(const edm::ParameterSet& cfg):
+  Generation_(cfg.getParameter<int> ("Generation")) ,
   src_ ( cfg.getParameter<edm::InputTag>( "src"  ) ),
   init_( cfg.getParameter<edm::InputTag>( "init" ) ),
   sparticles_( cfg.getParameter<edm::InputTag>( "sparticles" ) )
@@ -39,7 +40,7 @@ SUSYGenEventReco::produce(edm::Event& evt, const edm::EventSetup& setup)
   reco::GenParticleRefProd initSparts( sparts );
 
   //add genEvt to the output stream
-  SUSYGenEvent* SgenEvt = new SUSYGenEvent( cands, initParts, initSparts );
+  SUSYGenEvent* SgenEvt = new SUSYGenEvent(Generation_,  cands, initParts, initSparts );
   std::auto_ptr<SUSYGenEvent> gen (SgenEvt);
   evt.put( gen );
 }

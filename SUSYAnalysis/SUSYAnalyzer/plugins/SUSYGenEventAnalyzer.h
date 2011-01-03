@@ -34,13 +34,22 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   edm::InputTag initSubset_;
   edm::InputTag jets_;
 
-  TH1F *number_of_BQuarks_;
-  TH1F *number_of_BQuarks_sgsg_;
-  TH1F *number_of_BQuarks_sqsq_;
-  TH1F *number_of_BQuarks_sgsq_;
-  TH2F *number_of_BQuarks_jet1_et_;
-  TH1F *jet1_et_0BQuarks_;
-  TH1F *jet1_et_2BQuarks_;
-  TH1F *jet1_et_4BQuarks_;
-};  
+  TH1F *nrBQuarks_gq_;
+  TH1F *nrBQuarks_gg_;
+  TH1F *nrBQuarks_qq_;
+  TH1F *nrBQuarks_other_;
+  TH1F *nrBQuarks_;
+
+  TH1F *EtJet1_2BQuarks_gq_;
+  TH1F *EtJet1_2BQuarks_gg_;
+  TH1F *EtJet1_2BQuarks_qq_;
+  TH1F *EtJet1_2BQuarks_other_;
+  TH1F *EtJet1_2BQuarks_;
+
+  TH1F *EtJet1_012BQuarks_gq_;
+  TH1F *EtJet1_012BQuarks_gg_;
+  TH1F *EtJet1_012BQuarks_qq_;
+  TH1F *EtJet1_012BQuarks_other_;
+  TH1F *EtJet1_012BQuarks_;
+  };  
 #endif  

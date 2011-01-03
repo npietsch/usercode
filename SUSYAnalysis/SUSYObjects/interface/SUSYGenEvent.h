@@ -3,7 +3,11 @@
 
 #include "DataFormats/Candidate/interface/Candidate.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-
+#include <string>
+/* #include "FWCore/Framework/interface/Event.h" */
+/* #include "FWCore/Framework/interface/EDFilter.h" */
+/* #include "FWCore/Framework/interface/Frameworkfwd.h" */
+/* #include "FWCore/ParameterSet/interface/ParameterSet.h" */
 
 
 namespace SUSYDecayID{
@@ -34,7 +38,7 @@ class SUSYGenEvent {
   /// empty constructor
   SUSYGenEvent(){};
   /// default constructor
-  SUSYGenEvent(reco::GenParticleRefProd& decaySubset, reco::GenParticleRefProd& iniSubset, reco::GenParticleRefProd& iniSparticles);
+  SUSYGenEvent(int, reco::GenParticleRefProd& decaySubset, reco::GenParticleRefProd& iniSubset, reco::GenParticleRefProd& iniSparticles);
   /// default destructor
   virtual ~SUSYGenEvent(){};
 
@@ -52,10 +56,24 @@ class SUSYGenEvent {
   int numberOfLeptons(Wdecay::LepType type, bool fromWBoson=true) const;
   /// return number of b quarks in the decay chain
   int numberOfBQuarks() const;
-  /// is squark of first or second generation?
-  bool isSquark(const reco::GenParticle & genParticle) const;
+
   /// is gluino?
   bool isGluino(const reco::GenParticle & genParticle) const;
+  /// is squark of first or second generation?
+  bool isSquark(const reco::GenParticle & genParticle) const;
+  /// is stop quark?
+  bool isStop(const reco::GenParticle & genParticle) const;
+  /// is sbottom quark?
+  bool isSbottom(const reco::GenParticle & genParticle) const;
+    /// is chargino?
+  bool isChargino(const reco::GenParticle & genParticle) const;
+  /// is neutralino?
+  bool isNeutralino(const reco::GenParticle & genParticle) const;
+  /// is neutral higgs?
+  bool isNeutralHiggs(const reco::GenParticle & genParticle) const;
+  /// is slepton?
+  bool isSlepton(const reco::GenParticle & genParticle) const;
+
   /// is gluino decay?
   bool GluinoDecay() const;
   /// is squark decay?
@@ -66,24 +84,36 @@ class SUSYGenEvent {
   bool SquarkSquarkDecay() const;
   /// is gluino-squark decay?
   bool GluinoSquarkDecay() const;
+
   /// return pdgId of initial sparticle A
   int decayChainA() const;
-  /// return pdgId of initial sparticle B
+  /// returns pdgId of initial sparticle B
   int decayChainB() const;
+
+  /// creates daughter gen particle
+  //reco::GenParticle* createDaughter(const reco::Candidate*, int) const;
+  /// creates susy daughter of a gen particle
+  const reco::Candidate* createSdaughter(const reco::Candidate*) const;
+  /// returns sparticle name
+  std::string sparticleName(const reco::Candidate*) const;
+  /// returns decay cascade
+  std::string decayCascade(int) const;
+  /// returns decay cascadeA
+  std::string decayCascadeA() const;
+ /// returns decay cascadeB
+  std::string decayCascadeB() const;
 
   /// get candidate with given pdg id if available; 0 else 
   const reco::GenParticle* candidate(int id, unsigned int parentId=0) const;
 
  protected:
-
   // reference to the top decay chain (has to be kept in the event!)
   reco::GenParticleRefProd parts_;       
   // reference to the list of initial partons (has to be kept in the event!)
   reco::GenParticleRefProd initPartons_;
    // reference to the list of initial sparticles (has to be kept in the event!)
-  reco::GenParticleRefProd initSparticles_; 
+  reco::GenParticleRefProd initSparticles_;
+  int generation_;
 };
 
 #endif
-
-
