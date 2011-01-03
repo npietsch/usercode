@@ -10,12 +10,12 @@ cmsenv
 ## Co CMSSW packages
 cvs co -r CMSSW_3_8_7 PhysicsTools/PatAlgos
 cvs co -r CMSSW_3_8_7 TopQuarkAnalysis
-cvs co SusyAnalysis/EventSelector
+##cvs co SusyAnalysis/EventSelector
 cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
 
 ## Co UserCode
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
-cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
+##cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 
 # Enable cut based electron ID
