@@ -146,7 +146,7 @@ process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="decayChainA()==100002
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Preselection_cff")
 
 # Example how to change prselection criteria:
-#process.scrapingVeto.thresh = 15 ## <-- for MC
+#process.scrapingVeto.thresh = 0.15 ## <-- for MC
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Selection_cff")
