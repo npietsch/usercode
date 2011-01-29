@@ -1,15 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-#from HLTrigger.HLTfilters.hltHighLevelDev_cfi import hltHighLevelDev
-#process.trigger = hltHighLevelDev.clone(HLTPaths = ['HLT_Mu9'], HLTPathsPrescales = [1], andOr = True)
-
 ##from TopAnalysis.TopFilter.sequences.triggerFilter_cff import *
 
 ## high level trigger filter
 from HLTrigger.HLTfilters.hltHighLevel_cfi import *
-hltMu9 = hltHighLevel.clone(HLTPaths = ["HLT_Mu9"])
-
-trigger=hltMu9.clone()
+trigger = hltHighLevel.clone(HLTPaths = ["HLT_HT100U"]) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
 
 scrapingVeto = cms.EDFilter("FilterOutScraping",
                             applyfilter = cms.untracked.bool(True),
@@ -28,6 +23,6 @@ from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 preselection = cms.Sequence(trigger *
                             primaryVertexFilter *
-                            HBHENoiseFilter *
+                            ##HBHENoiseFilter *
                             scrapingVeto
                             )

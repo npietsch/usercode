@@ -69,26 +69,48 @@ SUSYGenEvent::numberOfLeptons() const
   return lep;
 }
 
-// is di-lepton
-int SUSYGenEvent::isDiLepton() const
+// same sign di-lepton
+bool SUSYGenEvent::SSignDiLepton() const
 {
-  int lep=0;
-  int charge=1;
-  int DiLep=0;
-  
+  int posCharge=0;
+  int negCharge=0;
+  bool sSDiLep=false;
+
   const reco::GenParticleCollection& partsColl = *parts_;
+
   for(unsigned int i = 0; i < partsColl.size(); ++i)
     {
       if(isLepton(partsColl[i])==true)
 	{
-	  ++lep;
-	  charge=charge*(partsColl[i].charge());
+	  if(partsColl[i].charge()>0) ++posCharge;
+	  if(partsColl[i].charge()<0) ++negCharge;
 	}
     } 
-  if(numberOfLeptons()==2 && charge==1) DiLep=1;
-  else if(numberOfLeptons()==2 && charge==-1) DiLep=-1;
+  if(posCharge>=2 || negCharge>=2) sSDiLep=true;
 
-  return DiLep;
+  return sSDiLep;
+}
+
+// opposite sign di-lepton
+bool SUSYGenEvent::OSignDiLepton() const
+{
+  int posCharge=0;
+  int negCharge=0;
+  bool oSDiLep=false;
+
+  const reco::GenParticleCollection& partsColl = *parts_;
+
+  for(unsigned int i = 0; i < partsColl.size(); ++i)
+    {
+      if(isLepton(partsColl[i])==true)
+	{
+	  if(partsColl[i].charge()>0) ++posCharge;
+	  if(partsColl[i].charge()<0) ++negCharge;
+	}
+    } 
+  if(posCharge>=1 && negCharge>=1) oSDiLep=true;
+
+  return oSDiLep;
 }
 
 // has to be looked through
@@ -148,13 +170,34 @@ SUSYGenEvent::numberOfBQuarks() const
 	std::abs(partsColl[i].mother()->pdgId())==1000005 || std::abs(partsColl[i].mother()->pdgId())==1000006 ||
 	std::abs(partsColl[i].mother()->pdgId())==2000005 || std::abs(partsColl[i].mother()->pdgId())==2000006 ||
 	std::abs(partsColl[i].mother()->pdgId())==25 || std::abs(partsColl[i].mother()->pdgId())==35 ||
-	std::abs(partsColl[i].mother()->pdgId())==36) )
+	std::abs(partsColl[i].mother()->pdgId())==36 ) )
       {
 	//std::cout << "mother of BQuark: " << partsColl[i].mother()->pdgId() << std::endl;
 	++bq;
       }
   }
   return bq;
+}
+
+// returns number of bottom-quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
+int
+SUSYGenEvent::numberOfTops() const
+{
+  int tq=0;
+  const reco::GenParticleCollection & partsColl = *parts_;
+  for (unsigned int i = 0; i < partsColl.size(); ++i) {
+    if(std::abs(partsColl[i].pdgId())==6 &&
+       (std::abs(partsColl[i].mother()->pdgId())==1000021 ||
+	std::abs(partsColl[i].mother()->pdgId())==1000005 || std::abs(partsColl[i].mother()->pdgId())==1000006 ||
+	std::abs(partsColl[i].mother()->pdgId())==2000005 || std::abs(partsColl[i].mother()->pdgId())==2000006 ||
+	std::abs(partsColl[i].mother()->pdgId())==25 || std::abs(partsColl[i].mother()->pdgId())==35 ||
+	std::abs(partsColl[i].mother()->pdgId())==36 ) )
+      {
+	//std::cout << "mother of BQuark: " << partsColl[i].mother()->pdgId() << std::endl;
+	++tq;
+      }
+  }
+  return tq;
 }
 
 // has to be looked through
@@ -333,6 +376,13 @@ bool SUSYGenEvent::SquarkSquarkDecay() const
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
   if (isSquark(initSpartsColl[0])==true  && isSquark(initSpartsColl[1])==true) squarkSquarkDecay=true;
   
+//   std::cout << "------------------------------------" << std::endl;
+//   std::cout <<  "initSpartsColl[0].pdgId(): " << initSpartsColl[0].pdgId() << std::endl;
+//   std::cout <<  "initSpartsColl[0].threeCharge(): " << initSpartsColl[0].threeCharge() << std::endl;
+//   std::cout <<  "initSpartsColl[1].pdgId(): " << initSpartsColl[1].pdgId() << std::endl;
+//   std::cout <<  "initSpartsColl[1].threeCharge(): " << initSpartsColl[1].threeCharge() << std::endl;
+//   std::cout << "------------------------------------" << std::endl;
+
   return squarkSquarkDecay;
 }
 
@@ -341,8 +391,7 @@ bool SUSYGenEvent::SSignSquarkSquarkDecay() const
 {
   bool sSignSquarkSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  if (SquarkSquarkDecay()==true && initSpartsColl[0].charge()==initSpartsColl[1].charge() ) sSignSquarkSquarkDecay=true;
-  
+  if (SquarkSquarkDecay()==true && ((initSpartsColl[0].threeCharge())*(initSpartsColl[1].threeCharge())>0)) sSignSquarkSquarkDecay=true;
   return sSignSquarkSquarkDecay;
 }
 
@@ -351,7 +400,7 @@ bool SUSYGenEvent::OSignSquarkSquarkDecay() const
 {
   bool oSignSquarkSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  if (SquarkSquarkDecay()==true && initSpartsColl[0].charge()!=initSpartsColl[1].charge() ) oSignSquarkSquarkDecay=true;
+  if (SquarkSquarkDecay()==true &&((initSpartsColl[0].threeCharge())*(initSpartsColl[1].threeCharge())<0)) oSignSquarkSquarkDecay=true;
   
   return oSignSquarkSquarkDecay;
 }
@@ -374,6 +423,9 @@ bool SUSYGenEvent::GluinoSquarkDecay() const
 int SUSYGenEvent::decayChainA() const
 {
   int initialSparticle=0;
+
+  //std::cout << "(*initSpartsColl_)[0].pdgId(): " <<  (*initSparticles_)[0].pdgId() << std::endl;
+
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
   initialSparticle=initSpartsColl[0].pdgId();
     

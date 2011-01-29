@@ -2,8 +2,8 @@ import FWCore.ParameterSet.Config as cms
 
 from RA2.Selection.RA2Selection_cfi import *
 
-RA2Selection.selectors.HT.clone(jetTag = "goodJets")
-RA2Selection.selectionSequence = cms.vstring('HT')
+#RA2Selection.selectors.HT.clone(jetTag = "goodJets")
+#RA2Selection.selectionSequence = cms.vstring('HT')
 
 HTCut = cms.EDFilter("Selection",
                      selections = RA2Selection,

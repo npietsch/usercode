@@ -54,13 +54,17 @@ class SUSYGenEvent {
   bool isLepton(const reco::GenParticle&) const;
   /// return number of leptons in the decay chain
   int numberOfLeptons() const;
-  // is di-lepton
-  int isDiLepton() const;
+  // is same sign di-lepton?
+  bool SSignDiLepton() const;
+  // is opposite sign di-lepton?
+  bool OSignDiLepton() const;
   /// return number of leptons in the decay chain
   int numberOfLeptons(Wdecay::LepType type, bool fromWBoson=true) const;
 
   /// return number of b quarks in the decay chain
   int numberOfBQuarks() const;
+  /// return number of b quarks in the decay chain
+  int numberOfTops() const;
 
   /// is gluino?
   bool isGluino(const reco::GenParticle & genParticle) const;

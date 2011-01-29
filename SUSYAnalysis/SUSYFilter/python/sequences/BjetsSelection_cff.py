@@ -22,7 +22,7 @@ goodMuons = cleanPatMuons.clone(preselection =
                                 'globalTrack.hitPattern.numberOfValidTrackerHits > 10'
                                 )
 
-## Check good Muons for overlap with jets 
+## Check good muons for overlap with jets 
 goodMuons.checkOverlaps = cms.PSet(
     jets = cms.PSet(src       = cms.InputTag("goodJets"),
                     algorithm = cms.string("byDeltaR"),
@@ -42,7 +42,22 @@ goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            'abs(eta) < 2.4 &'
                                            'electronID(\"simpleEleId80relIso\")=7'
                                            #'(abs(eta) < 1.47 | abs(eta) > 1.507) $'
+
                                            )
+## create collection of good muons that can be matched to a generator muon
+from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
+matchedMuons = selectedPatMuons.clone(src = 'goodMuons',
+                                      cut =  'genLepton.isNull = 0 &'
+                                      'abs(genLepton.pdgId) = 13'
+                                      )
+
+## create collection of good electrons that can be matched to a generator electron
+from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
+matchedElectrons = selectedPatElectrons.clone(src = 'goodElectrons',
+                                              cut = 'genLepton.isNull = 0 &'
+                                              'abs(genLepton.pdgId) = 11'
+                                              )
+
 
 #------------------------------
 # lepton-veto collections
@@ -72,7 +87,7 @@ vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 # jet collection
 #------------------------------
 
-## create jet collection
+## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 goodJets = selectedPatJets.clone(src = 'selectedPatJets',
                                  cut =
@@ -82,6 +97,36 @@ goodJets = selectedPatJets.clone(src = 'selectedPatJets',
                                  'jetID.fHPD < 0.98 &'
                                  'jetID.n90Hits > 1'
                                  )
+
+## create loose bjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+looseBjets = selectedPatJets.clone(src = 'goodJets',
+                                  cut = 'bDiscriminator(\"trackCountingHighPurBJetTags\") > 1.19'
+                                  )
+
+## create medium bjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+mediumBjets = selectedPatJets.clone(src = 'goodJets',
+                                  cut = 'bDiscriminator(\"trackCountingHighPurBJetTags\") > 1.93'
+                                  )
+
+## create tight bjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+tightBjets = selectedPatJets.clone(src = 'goodJets',
+                                  cut = 'bDiscriminator(\"trackCountingHighPurBJetTags\") > 3.41'
+                                  )
+
+## create collection of good jets that can be matched to a generator b-quark
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+matchedBjets = selectedPatJets.clone(src = 'goodJets',
+                                     cut = 'abs(partonFlavour())=5'
+                                     )
+
+## create jet collection that can be matched to a generator light quark
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+matchedLightJets = selectedPatJets.clone(src = 'goodJets',
+                                         cut = 'abs(partonFlavour())<5'
+                                     )
 
 #------------------------------
 # MET collection
@@ -98,10 +143,16 @@ goodMETs = selectedPatMET.clone(src = 'patMETs',
 # filter
 #------------------------------
 
-## select events with at least good hard muon
+## select events with at least good muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 oneGoodMuon = countPatMuons.clone(src = 'goodMuons',
                                   minNumber = 1
+                                  )
+
+## select events with at least two good muons
+from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
+twoGoodMuon = countPatMuons.clone(src = 'goodMuons',
+                                  minNumber = 2
                                   )
 
 ## select events with at least one good electron
@@ -109,8 +160,13 @@ from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 oneGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
                                           minNumber = 1
                                           )
+## select events with at least two good electrons
+from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
+twoGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
+                                          minNumber = 2
+                                          )
 
-## select events with no veto muon
+## select events with one veto muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 oneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
                                   maxNumber = 1
@@ -128,23 +184,17 @@ oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                           maxNumber = 1
                                           )
 
-## select events with one veto electron
+## select events with no veto electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                          maxNumber = 0
                                          )
-
-## select events with one veto electron
-from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
-noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
-                                         maxNumber = 0
-                                         )
-## select events with 4 good jets
+## select events with 2 good jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 twoGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 2
                                   )
-## select events with 4 good jets
+## select events with 3 good jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 threeGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 3
@@ -155,52 +205,99 @@ fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
 
-## select events with 4 good jets
+## select events with 5 good jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fiveGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 5
                                   )
 
+## select events with 1 medium bjet
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+oneMediumBjet = countPatJets.clone(src = 'mediumBjets',
+                                     minNumber = 1
+                                     )
 
+## select events with 2 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+twoMediumBjet = countPatJets.clone(src = 'mediumBjets',
+                                     minNumber = 2
+                                     )
 
-## select events with good one good MET
+## select events with 3 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+threeMediumBjet = countPatJets.clone(src = 'mediumBjets',
+                                     minNumber = 3
+                                     )
+
+## select events with 4 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+fourMediumBjet = countPatJets.clone(src = 'mediumBjets',
+                                     minNumber = 4
+                                     )
+
+## select events with one good MET
 from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
 oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                minNumber = 1
                                )
 
+#-----------------------------
+# Event Filter
+#-----------------------------
+
+from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
+SSignMuMuFilter = filterMuonPair.clone()
+ZVeto = filterMuonPair.clone()
+
+from TopAnalysis.TopFilter.filters.DiElecFilter_cfi import *
+SSignElElFilter = filterElecPair.clone()
+ZVeto = filterElecPair.clone()
+
+from PhysicsTools.PatAlgos.selectionLayer1.leptonCountFilter_cfi import *
+oneLepton = countPatLeptons.clone()
+twoLepton = countPatLeptons.clone()
+leptonVeto = countPatLeptons.clone()
+
+
+
 #------------------------------
 # Define sequences
 #------------------------------
 
-muonSelection = cms.Sequence(#goodJets *
-                             goodMuons *
-                             goodElectrons *
-                             oneGoodMuon
+matchedGoodObjects = cms.Sequence(matchedBjets *
+                                  matchedLightJets ##*
+                                  ##matchedMuons  *
+                                  ##matchedElectrons
+                                  )
+
+goodObjects = cms.Sequence(goodJets *
+                           looseBjets *
+                           mediumBjets *
+                           tightBjets *
+                           goodMuons *
+                           goodElectrons*
+                           goodMETs *
+                           vetoMuons *
+                           vetoElectrons
+                           )
+
+muonSelection = cms.Sequence(oneGoodMuon
                              )
 
-electronSelection = cms.Sequence(#goodJets *
-                                 goodElectrons *
-                                 goodMuons *
-                                 oneGoodElectron
+electronSelection = cms.Sequence(oneGoodElectron
                                  )
 
-jetSelection = cms.Sequence(goodJets *
-                            fourGoodJets
+metSelection = cms.Sequence(oneGoodMET
                             )
 
-metSelection = cms.Sequence(goodMETs *
-                            oneGoodMET
-                            )
-
-muonVeto = cms.Sequence(vetoMuons *
-                        vetoElectrons *
-                        oneVetoMuon *
+muonVeto = cms.Sequence(oneVetoMuon *
                         noVetoElectron
                         )
 
-electronVeto = cms.Sequence(vetoMuons *
-                            vetoElectrons *
-                            oneVetoElectron *
+electronVeto = cms.Sequence(oneVetoElectron *
                             noVetoMuon
                             )
+
+makeObjects = cms.Sequence(goodObjects *
+                          matchedGoodObjects
+                          )
