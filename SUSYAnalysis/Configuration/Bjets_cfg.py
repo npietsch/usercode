@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Example")
+process = cms.Process("Bjets")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -8,31 +8,8 @@ process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
-# Choose input files
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-    ##     '/store/mc/Fall10/LM1_SUSY_sftsht_7TeV-pythia6/GEN-SIM-RECO/START38_V12-v1/0004/287CF124-2ED6-DF11-AA7D-002618943C22.root'
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0004/4E83A256-AAD6-DF11-93B3-00215E222382.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0002/141EEE1B-90D4-DF11-8D67-003048C6B50E.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/00AD38DB-BAD4-DF11-BD52-001A644EB21C.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/1483817B-A6D4-DF11-8C18-003048C6B548.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/245D9D92-38D5-DF11-BA5B-00215E21DAF2.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/2ADA1E6A-9ED4-DF11-817C-003048C559D2.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/3A2C5144-A8D4-DF11-BB36-003048CEABE0.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/5A13A826-3AD5-DF11-B46E-00215E22200A.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/7EDA374B-AAD4-DF11-9425-00304894566E.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/805DA928-A4D4-DF11-AF15-001F29C95558.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/8AD90145-9FD4-DF11-8EA1-001A644E9962.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/8E3354A5-ACD4-DF11-A838-001F29C9650A.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/8EB5D8E8-80D4-DF11-A8ED-003048C56D1A.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/9E700298-AFD4-DF11-B7DF-003048C57484.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/B6AB1253-D7D4-DF11-B123-002618943C0A.root',
-    '/store/mc/Fall10/LM8_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0003/C60AED24-9ED4-DF11-9217-001A644E983C.root'
-    )
-)
-
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -47,28 +24,28 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-#process.GlobalTag.globaltag = cms.string('START38_V7::All')
-process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
+process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
+
 
 #-------------------------------------------------
 # PAT configuration
 #-------------------------------------------------
 
-## std sequence for pat
+## Standard pat sequence
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
 
 from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
 from PhysicsTools.PatAlgos.tools.coreTools import *
-## removeMCMatching(process, ['All'])
+##removeMCMatching(process, ['All'])
 
-removeSpecificPATObjects(process,
-                         ['Photons'],  # 'Tau' has currently been taken out due to problems with tau discriminators
-                         outputInProcess=False)
+#removeSpecificPATObjects(process,
+#                         ['Photons'],  # 'Tau' has currently been taken out due to problems with tau discriminators
+#                         outputInProcess=False)
 
-removeCleaning(process,
-               outputInProcess=False)
+#removeCleaning(process,
+#               outputInProcess=False)
 
 process.patJetCorrFactors.payload = 'AK5Calo'
 # For data:
@@ -137,9 +114,9 @@ process.patElectrons.electronIDSources = cms.PSet(
 #------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-# set to 2,3,4,5
-process.SUSYGenEvt.Generation = 5
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+# trace back susy decay cascades to 1st, 2nd, 3rd, 4th or 5th sparticle
+process.SUSYGenEvt.Generation = 3
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
 #------------------------------------------------
 # Gen Event Selection 
@@ -148,130 +125,164 @@ process.SUSYGenEvt.Generation = 5
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="GluinoGluinoDecay")
 
-#from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
-#process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
 
 #------------------------------------------------
-# Example Event Selection
+# Event Selection
 #------------------------------------------------
 
 # Trigger + Noise cleaning sequence
-process.load("SUSYAnalysis.SUSYFilter.sequences.RA4Preselection_cff")
-
-# Example how to change prselection criteria:
-#process.scrapingVeto.thresh = 15 ## <-- for MC
+process.load("SUSYAnalysis.SUSYFilter.sequences.RAPreselection_cff")
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-# Example how to change selection criteria:
-#process.goodElectrons.cut = 'pt > 20. & abs(eta) < 2.4'
+process.oneLepton.electronSource = "goodElectrons"
+process.oneLepton.muonSource = "goodMuons"                           
+process.oneLepton.minNumber = 1
 
-
-#------------------------------------------------
-# Sequence for analysis of single objects
-#------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.singleObjectsAnalysis_cff")
-
-# Example how to change input tags:
-#process.analyzeMuonKinematics.src = "selectedPatMuons"
+process.twoLepton.electronSource = "goodElectrons"
+process.twoLepton.muonSource = "goodMuons"                           
+process.twoLepton.minNumber = 2
 
 #------------------------------------------------
-# Modules for analysis on generator level
+# Analysis
 #------------------------------------------------
 
-from SUSYAnalysis.SUSYAnalyzer.SUSYGenEventAnalyzer_cfi import analyzeSUSYGenEvt
-
-# change input tags to consider only selected Jets
-process.analyzeSUSYGenEvt1 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt1.jets = "goodJets"
-process.analyzeSUSYGenEvt2 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt2.jets = "goodJets"
-process.analyzeSUSYGenEvt3 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt3.jets = "goodJets"
-process.analyzeSUSYGenEvt4 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt4.jets = "goodJets"
-process.analyzeSUSYGenEvt5 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt5.jets = "goodJets"
-process.analyzeSUSYGenEvt6 = analyzeSUSYGenEvt.clone()
-process.analyzeSUSYGenEvt6.jets = "goodJets"
-
-#-------------------------------------------------
-# Load any other modules you want to use
-#-------------------------------------------------
-
-# E.g: Load module to rescale jet energy by an abitrary factor 
-#process.load("TopAnalysis.TopUtils.JetEnergyScale_cff")
-
-# E.g: Load modules to reconstruct ttbar events with
-#      kinematic fit and anlyze hypotheses  
-#process.load("TopQuarkAnalysis.TopEventProducers.producers.TtSemiLepEvtBuilder_cfi")
-#process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
-
-# ...
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
 #-------------------------------------------------
 # Temp
 #-------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
 
 #-------------------------------------------------
 # Selection paths
 #-------------------------------------------------
 
-process.MuonSelection = cms.Path(process.patDefaultSequence *
+process.Selection1b1l = cms.Path(#process.printGenParticles *
+                                 process.patDefaultSequence *
+                                 process.makeObjects *
                                  process.makeSUSYGenEvt *
+                                 #process.makeGenEvt *
                                  #process.SUSYGenEventFilter *
+                                 #process.ttGenEventFitler *
                                  process.preselection *
-                                 process.goodJets *
-                                 process.twoGoodJets *
-                                 process.analyzeSUSYGenEvt1##  *
-##                                  process.printGenParticles *
-##                                  process.threeGoodJets *
-##                                  process.analyzeSUSYGenEvt2 *
-##                                  process.fourGoodJets *
-##                                  process.analyzeSUSYGenEvt3 *
-##                                  process.muonSelection *
-##                                  process.analyzeSUSYGenEvt4 *
-##                                  process.metSelection *
-##                                  process.analyzeSUSYGenEvt5 #*
-                                 #process.singleObjectsAnalysis *
-                                 #process.muonVeto *
-                                 ) 
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets1b1l_1 *
+                                 process.oneMediumBjet *
+                                 process.analyzeSUSYBjets1b1l_2 *
+                                 process.oneLepton *
+                                 process.analyzeSUSYBjets1b1l_3
+                                 )
 
-## implement same sign di-muon selection and loose JetCriteria
+process.Selection2b1l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets2b1l_1 *
+                                 process.twoMediumBjet *
+                                 process.analyzeSUSYBjets2b1l_2 *
+                                 process.oneLepton *
+                                 process.analyzeSUSYBjets2b1l_3
+                                 )
 
-#-------------------------------------------------
-# Optional: write patTuple
-#-------------------------------------------------
+process.Selection3b1l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets3b1l_1 *
+                                 process.threeMediumBjet *
+                                 process.analyzeSUSYBjets3b1l_2 *
+                                 process.oneLepton *
+                                 process.analyzeSUSYBjets3b1l_3
+                                 )
 
-## process.EventSelection = cms.PSet(
-##     SelectEvents = cms.untracked.PSet(
-##     SelectEvents = cms.vstring('',
-##                                '' 
-##                                )
-##     )
-##     )
+process.Selection4b1l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets4b1l_1 *
+                                 process.fourMediumBjet *
+                                 process.analyzeSUSYBjets4b1l_2 *
+                                 process.oneLepton *
+                                 process.analyzeSUSYBjets4b1l_3
+                                 )
 
-## process.out = cms.OutputModule("PoolOutputModule",
-##                                process.EventSelection,
-                               #outputCommands = cms.untracked.vstring('drop *'),
-                               #dropMetaData = cms.untracked.string('DROPPED'),
-##                                fileName = cms.untracked.string('PATtuple.root')
-##                                )
+process.Selection1b2l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets1b2l_1 *
+                                 process.twoMediumBjet *
+                                 process.analyzeSUSYBjets1b2l_2 *
+                                 process.oneLepton *
+                                 process.analyzeSUSYBjets1b2l_3
+                                 )
 
-## # Specify what to keep in the event content
-## from PhysicsTools.PatAlgos.patEventContent_cff import *
-## process.out.outputCommands += patEventContentNoCleaning
-## process.out.outputCommands += patExtraAodEventContent
-## from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-## process.out.outputCommands += SUSYEventContent
-## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-## #process.out.outputCommands += tqafEventContent
+process.Selection2b2l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets2b2l_1 *
+                                 process.twoMediumBjet *
+                                 process.analyzeSUSYBjets2b2l_2 *
+                                 process.twoLepton *
+                                 process.analyzeSUSYBjets2b2l_3
+                                 )
 
-## process.outpath = cms.EndPath(process.out)
- 
+process.Selection3b2l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets3b2l_1 *
+                                 process.threeMediumBjet *
+                                 process.analyzeSUSYBjets3b2l_2 *
+                                 process.twoLepton *
+                                 process.analyzeSUSYBjets3b2l_3
+                                 )
+
+process.Selection4b2l = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.preselection *
+                                 process.threeGoodJets *
+                                 process.analyzeSUSYBjets4b2l_1 *
+                                 process.fourMediumBjet *
+                                 process.analyzeSUSYBjets4b2l_2 *
+                                 process.twoLepton *
+                                 process.analyzeSUSYBjets4b2l_3
+                                 )
+
+process.Selection3b = cms.Path(process.patDefaultSequence *
+                               process.makeObjects *
+                               process.makeSUSYGenEvt *
+                               process.preselection *
+                               process.threeGoodJets *
+                               process.analyzeSUSYBjets3b_1 *
+                               process.threeMediumBjet *
+                               process.analyzeSUSYBjets3b_2 *
+                               process.analyzeSUSYBjets3b_3
+                               )
+
+process.Selection4b = cms.Path(process.patDefaultSequence *
+                               process.makeObjects *
+                               process.makeSUSYGenEvt *
+                               process.preselection *
+                               process.threeGoodJets *
+                               process.analyzeSUSYBjets4b_1 *
+                               process.fourMediumBjet *
+                               process.analyzeSUSYBjets4b_2 *
+                               process.analyzeSUSYBjets4b_3
+                               )
+

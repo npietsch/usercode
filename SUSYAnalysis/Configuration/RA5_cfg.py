@@ -11,8 +11,7 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    
-'/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0006/0496C14C-9BE4-DF11-8C37-0030485A3C51.root',
+    '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0006/0496C14C-9BE4-DF11-8C37-0030485A3C51.root',
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0006/0815F007-F2E4-DF11-AA69-A4BADB3CE8FE.root',
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0006/083AC44F-A2E4-DF11-97C8-00D0680BF90E.root',
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0006/0CA389A7-58E5-DF11-84D6-485B39800BF0.root',
@@ -118,7 +117,6 @@ process.source = cms.Source("PoolSource",
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0009/6EE559BE-11E7-DF11-B575-00145E5513C1.root',
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0009/E847D402-12E7-DF11-97C5-003048D4EF1D.root',
 '/store/mc/Fall10/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/START38_V12-v2/0009/E8B2CA4D-42E7-DF11-988C-90E6BA442F16.root'
-
     )
 )
 
@@ -139,7 +137,7 @@ process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.GlobalTag.globaltag = cms.string('START38_V7::All')
-process.GlobalTag.globaltag = cms.string('GR_R_38X_V8::All')
+process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 
 #-------------------------------------------------
 # PAT configuration
@@ -324,10 +322,10 @@ process.RA5LowPtMuon = cms.Path(#process.printGenParticles *
                                 process.preselection *
                                 process.muonSelection *
                                 process.jetSelection *
-                                process.metSelection *
                                 process.HTSelection *
-                                process.singleObjectsAnalysis *
-                                process.analyzeSUSYGenEvt
+                                process.metSelection #*
+                                #process.singleObjectsAnalysis *
+                                #process.analyzeSUSYGenEvt
                                 ) 
 
 #-------------------------------------------------
