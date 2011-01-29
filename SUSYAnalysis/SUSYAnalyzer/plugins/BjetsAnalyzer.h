@@ -1,5 +1,5 @@
-#ifndef SUSYAnalyzer_h  
-#define SUSYAnalyzer_h
+#ifndef BjetsAnalyzer_h  
+#define BjetsAnalyzer_h
 
 #include "TH1.h"
 #include "TH2.h"
@@ -19,12 +19,12 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
-class SUSYAnalyzer : public edm::EDAnalyzer {
+class BjetsAnalyzer : public edm::EDAnalyzer {
 
  public:
   
-  explicit SUSYAnalyzer(const edm::ParameterSet&);
-  ~SUSYAnalyzer();
+  explicit BjetsAnalyzer(const edm::ParameterSet&);
+  ~BjetsAnalyzer();
 
  private:
 
@@ -38,18 +38,19 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag jets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+  edm::InputTag bjets_;
 
-  TH1F *MET_;
-  TH1F *HT_;
-  TH1F *nJets_;
-  TH1F *nMuons_;
-  TH1F *nElec_;
-  TH1F *nLep_;
-  TH1F *HTall_;
+  TH1F *nbjets_[4][5];
+  TH1F *bdisc_[4][6];
+  TH1F *EtBtag_[4][6];
 
-  std::vector<TH1F*> Jet_Et_;
-  std::vector<TH1F*> Muon_pt_;
-  std::vector<TH1F*> Elec_pt_;
+  TH1F *nLooseBjetsTrackHighPur_;
+  TH1F *nMediumBjetsTrackHighPur_;
+  TH1F *nTightBjetsTrackHighPur_;
+
+  TH1F *nLooseBjetsTrackHighEff_;
+  TH1F *nMediumBjetsTrackHighEff_;
+  TH1F *nTightBjetsTrackHighEff_;
 };  
 
 #endif  

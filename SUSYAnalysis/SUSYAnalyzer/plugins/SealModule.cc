@@ -5,3 +5,6 @@ DEFINE_FWK_MODULE(SUSYAnalyzer);
 
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/SUSYGenEventAnalyzer.h"
 DEFINE_FWK_MODULE(SUSYGenEventAnalyzer);
+
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/BjetsAnalyzer.h"
+DEFINE_FWK_MODULE(BjetsAnalyzer);

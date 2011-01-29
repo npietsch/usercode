@@ -8,7 +8,7 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              source = cms.InputTag("genParticles"),
                              jets = cms.InputTag("selectedPatJets"),
                              muons = cms.InputTag("selectedPatMuons"),
-                             electrons = cms.InputTag("selectedPatMuons")
+                             electrons = cms.InputTag("selectedPatElectrons")
                              )
 
 

@@ -40,32 +40,29 @@ void SUSYInitSubset::fillOutput(const reco::GenParticleCollection& src, reco::Ge
     {
       if(t->numberOfMothers()==2)
 	{
-	  //std::cout << "-----pdgId: " << t->pdgId() << std::endl;
 	  for(int idx=0; idx<(int)t->numberOfMothers(); ++idx)
 	    {      
 	      //std::cout << "mother pdgId: " << t->mother(idx)->pdgId() << std::endl;
-	      //std::cout << "mother's daughter: " << t->mother(idx)->daughter(0)->pdgId() << std::endl;
+	      //std::cout << "nr of mother's daughters: " << t->mother(idx)->numberOfDaughters() << std::endl;
 	      	      
 	      reco::GenParticle* cand = new reco::GenParticle( t->mother(idx)->threeCharge(), t->mother(idx)->p4(), 
 							       t->mother(idx)->vertex(), t->mother(idx)->pdgId(), 
-								   t->mother(idx)->status(), false );
+							       t->mother(idx)->status(), false );
 	      std::auto_ptr<reco::GenParticle> ptr( cand );
 	      sel.push_back( *ptr );
 	    }
-	  
-	  if(t->mother(0)->numberOfDaughters()==2)
+	  for(int idx=0; idx<(int)t->mother(0)->numberOfDaughters(); ++idx)
 	    {
-	      //std::cout << "-----Jihaa----- " << std::endl;
-	      for(int idx=0; idx<(int)t->mother(0)->numberOfDaughters(); ++idx)
-		{
-		  //std::cout << "mother pdgId: " << t->mother(0)->pdgId() << std::endl;
-		  //std::cout << "mother's daughter: " << t->mother(0)->daughter(idx)->pdgId() << std::endl;
-
-		  reco::GenParticle* daughter = new reco::GenParticle( t->mother(0)->daughter(idx)->threeCharge(), t->mother(0)->daughter(idx)->p4(), t->mother(0)->daughter(idx)->vertex(), t->mother(0)->daughter(idx)->pdgId(), t->mother(0)->daughter(idx)->status(), false );
-
-		  std::auto_ptr<reco::GenParticle> dtr( daughter );
-		  sparticles.push_back( *dtr ); 
-		}
+	      //std::cout << "mother pdgId: " << t->mother(0)->pdgId() << std::endl;
+	      //std::cout << "mother's daughter: " << t->mother(0)->daughter(idx)->pdgId() << std::endl;
+	      
+	      reco::GenParticle* daughter = new reco::GenParticle( t->mother(0)->daughter(idx)->threeCharge(),
+								   t->mother(0)->daughter(idx)->p4(), 
+								   t->mother(0)->daughter(idx)->vertex(), 
+								   t->mother(0)->daughter(idx)->pdgId(), 
+								   t->mother(0)->daughter(idx)->status(), false );
+	      std::auto_ptr<reco::GenParticle> dtr( daughter );
+	      sparticles.push_back( *dtr ); 
 	    }
 	  break;
 	}
