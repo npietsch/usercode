@@ -1,36 +1,24 @@
-##-----------------------------------------------------------------
-## recipes for set up SUSYAnalysis User Code of Niklas Pietsch
-##-----------------------------------------------------------------
-
 ## Set up CMSSW
-cmsrel CMSSW_3_8_7
-cd CMSSW_3_8_7/src
+export SCRAM_ARCH=slc5_amd64_gcc434
+cmsrel CMSSW_4_1_4
+cd CMSSW_4_1_4/src
 cmsenv
 
+kinit Username@CERN.CH
+
 ## Co CMSSW packages
-cvs co -r CMSSW_3_8_7 PhysicsTools/PatAlgos
-cvs co -r CMSSW_3_8_7 TopQuarkAnalysis
-##cvs co SusyAnalysis/EventSelector
-cvs co -r V00-03-14-02 RecoEgamma/ElectronIdentification
+cvs co -r V00-03-19 RecoEgamma/ElectronIdentification
 
 ## Co UserCode
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
-##cvs co -d RA2/Selection UserCode/SusyAnalysis/RA2/Selection
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 
 # Enable cut based electron ID
 cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 
-## Co additional tools
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metSelector_cfi.py
-cvs co PhysicsTools/PatAlgos/python/selectionLayer1/metCountFilter_cfi.py
-cvs co TopQuarkAnalysis/TopEventProducers/python/producers/TtGenEvtFilter_cfi.py
-cvs co TopQuarkAnalysis/TopEventProducers/src/SealModule.cc
+## If you want to create the TtGenEvent for non-SM samples, you have to replace in the constructor of  TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
-## debug TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc by replacing "kStart" by "kPythia" in constructor, when using a sample produced with Pythia
+scram b -r -j 8
 
-scram b -j 8
-
-## ignore warnings in TopAnalysis/TopAnalyzer/plugins/TagAndProbeAnalyzer.h
-
-cmsRun SUSYAnalysis/Configuration/Example_cfg.py
+cd SUSYAnalysis/Configuration/
+nafJobSplitter.pl 23 Bjets_LM1_cfg.py
