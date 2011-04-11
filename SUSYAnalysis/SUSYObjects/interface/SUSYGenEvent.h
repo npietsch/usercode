@@ -103,6 +103,9 @@ class SUSYGenEvent {
   /// returns pdgId of initial sparticle B
   int decayChainB() const;
 
+  /// return ratio of initial sparticles pz
+  double ratio() const; 
+
   /// creates daughter gen particle
   //reco::GenParticle* createDaughter(const reco::Candidate*, int) const;
   /// creates susy daughter of a gen particle
