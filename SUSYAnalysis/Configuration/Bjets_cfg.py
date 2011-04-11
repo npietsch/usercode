@@ -87,8 +87,7 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
 ## remove TagInfos from jets to run on AOD
 process.patJets.addTagInfos = False
 
-## produce cut based electron IDs
-process.load("SUSYAnalysis.SUSYAnalyzer.simpleEleIdSequence_cff")
+process.load("ElectroWeakAnalysis.WENu.simpleEleIdSequence_cff")
 
 process.patElectronIDs = cms.Sequence(process.simpleEleIdSequence)
 process.makePatElectrons = cms.Sequence(process.electronMatch*process.patElectronIDs*process.patElectronIsolation*process.patElectrons)
