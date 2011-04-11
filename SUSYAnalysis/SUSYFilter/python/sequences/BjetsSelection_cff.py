@@ -373,7 +373,7 @@ from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()
 ZVeto = filterMuonPair.clone()
 
-from TopAnalysis.TopFilter.filters.DiElecFilter_cfi import *
+from TopAnalysis.TopFilter.filters.DiElectronFilter_cfi import *
 SSignElElFilter = filterElecPair.clone()
 ZVeto = filterElecPair.clone()
 
