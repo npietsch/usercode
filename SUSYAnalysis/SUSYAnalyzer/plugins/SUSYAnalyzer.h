@@ -39,13 +39,16 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag muons_;
   edm::InputTag electrons_;
 
+  // TH1F histograms
   TH1F *MET_;
+  TH1F *MET_SSDiLepReco_;
+  TH1F *MET_OSDiLepReco_;
   TH1F *HT_;
   TH1F *nJets_;
   TH1F *nMuons_;
-  TH1F *nElec_;
-  TH1F *nLep_;
-  TH1F *HTall_;
+  TH1F *nElectrons_;
+  TH1F *nLeptons_;
+  TH1F *MT_;
 
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;

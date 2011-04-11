@@ -1,4 +1,4 @@
-from BjetsPat_cfg import *
+from BjetsQCDPat_cfg import *
 
 # Choose input files
 process.source = cms.Source("PoolSource",

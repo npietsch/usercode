@@ -1,4 +1,5 @@
 <use name=PhysicsTools/PatAlgos>
+<use name=PhysicsTools/CandUtils>
 <use name=CommonTools/UtilAlgos>
 <use name=AnalysisDataFormats/TopObjects>
 <use name=SUSYAnalysis/SUSYObjects>

@@ -85,31 +85,81 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *nrBTags_ssqq_;
   TH1F *nrBTags_osqq_;
 
-  TH1F *EtJet1_2BQuarks_gq_;
-  TH1F *EtJet1_2BQuarks_gg_;
-  TH1F *EtJet1_2BQuarks_qq_;
-  TH1F *EtJet1_2BQuarks_other_;
-  TH1F *EtJet1_2BQuarks_;
+  TH1F *ratio_gg_;
+  TH1F *ratio_gq_;
+  TH1F *ratio_qq_;
+  TH1F *ratio_other_;
+  TH1F *ratio_;
+  TH1F *ratio_ssqq_;
+  TH1F *ratio_osqq_;
 
-  TH1F *EtJet1_012BQuarks_gq_;
-  TH1F *EtJet1_012BQuarks_gg_;
-  TH1F *EtJet1_012BQuarks_qq_;
-  TH1F *EtJet1_012BQuarks_other_;
-  TH1F *EtJet1_012BQuarks_;
+  TH1F *Jet1_Et_2BQuarks_gq_;
+  TH1F *Jet1_Et_2BQuarks_gg_;
+  TH1F *Jet1_Et_2BQuarks_qq_;
+  TH1F *Jet1_Et_2BQuarks_other_;
+  TH1F *Jet1_Et_2BQuarks_;
 
-  TH1F *EtJet1_3456BQuarks_gq_;
-  TH1F *EtJet1_3456BQuarks_gg_;
-  TH1F *EtJet1_3456BQuarks_qq_;
-  TH1F *EtJet1_3456BQuarks_other_;
-  TH1F *EtJet1_3456BQuarks_;
+  TH1F *Jet1_Et_012BQuarks_gq_;
+  TH1F *Jet1_Et_012BQuarks_gg_;
+  TH1F *Jet1_Et_012BQuarks_qq_;
+  TH1F *Jet1_Et_012BQuarks_other_;
+  TH1F *Jet1_Et_012BQuarks_;
 
-  TH1F *nrLep_ss_;
-  TH1F *nrLep_os_;
-  TH1F *nrLep_;
+  TH1F *Jet1_Et_3456BQuarks_gq_;
+  TH1F *Jet1_Et_3456BQuarks_gg_;
+  TH1F *Jet1_Et_3456BQuarks_qq_;
+  TH1F *Jet1_Et_3456BQuarks_other_;
+  TH1F *Jet1_Et_3456BQuarks_;
+
+  TH1F *nrLeptons_ss_;
+  TH1F *nrLeptons_os_;
+  TH1F *nrLeptons_;
 
   TH1F *angleb1b2_;
   TH1F *mbb_;
   TH1F *HTB_;
   TH1F *DeltaMT_min_;
+
+  TH1F *deltaPhi_b1b2_;
+  TH1F *deltaPhi_b1MET_;
+  TH1F *deltaPhi_b2MET_;
+  TH1F *deltaPhi_b12MET_;
+
+  TH1F *deltaPhi_MuMET_;
+  TH1F *deltaPhi_ElMET_;
+  TH1F *deltaPhi_LepMET_;
+
+  TH1F *deltaPhi_Lep1Lep2_;
+  TH1F *deltaPhi_Lep1MET_;
+  TH1F *deltaPhi_Lep2MET_; 
+  TH1F *deltaPhi_Lep12MET_;
+
+  TH1F *deltaPhi_Mu1Mu2_;
+  TH1F *deltaPhi_Mu1MET_;
+  TH1F *deltaPhi_Mu2MET_;
+  TH1F *deltaPhi_Mu12MET_;
+
+  TH1F *deltaPhi_El1El2_;
+  TH1F *deltaPhi_El1MET_;
+  TH1F *deltaPhi_El2MET_;
+  TH1F *deltaPhi_El12MET_;
+
+  TH1F *deltaPhi_MuEl_;
+  TH1F *deltaPhi_MuElMET_;
+
+  TH1F *sphericity_bjetsMET_;
+  TH1F *aplanarity_bjetsMET_;
+  TH1F *circularity_bjetsMET_;
+  TH1F *isotropy_bjetsMET_;
+
+  TH1F *Jet1_Et_2Bjets_;
+  TH1F *Bjet1_Et_;
+  TH1F *Bjet2_Et_;
+  TH1F *HT_2Bjets_;
+  TH1F *HT_2Bjets_1LightJet_;
+
+  TH1F *MET_SSDiLep_;
+  TH1F *MET_OSDiLep_;
+
   };  
 #endif  

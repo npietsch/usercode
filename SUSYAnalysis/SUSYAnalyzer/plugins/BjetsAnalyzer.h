@@ -38,11 +38,17 @@ class BjetsAnalyzer : public edm::EDAnalyzer {
   edm::InputTag jets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
-  edm::InputTag bjets_;
+  edm::InputTag looseTrackHighPurBjets_;
+  edm::InputTag mediumTrackHighPurBjets_;
+  edm::InputTag tightTrackHighPurBjets_;
+  edm::InputTag looseTrackHighEffBjets_;
+  edm::InputTag mediumTrackHighEffBjets_;
+  edm::InputTag tightTrackHighEffBjets_;
 
+  // TH1F
   TH1F *nbjets_[4][5];
-  TH1F *bdisc_[4][6];
-  TH1F *EtBtag_[4][6];
+  TH1F *Bdisc_[4][6];
+  TH1F *BtagEt_[4][6];
 
   TH1F *nLooseBjetsTrackHighPur_;
   TH1F *nMediumBjetsTrackHighPur_;
@@ -51,6 +57,15 @@ class BjetsAnalyzer : public edm::EDAnalyzer {
   TH1F *nLooseBjetsTrackHighEff_;
   TH1F *nMediumBjetsTrackHighEff_;
   TH1F *nTightBjetsTrackHighEff_;
+
+  std::vector<TH1F*> angleb1b2_;
+  std::vector<TH1F*>  mbb_;
+  std::vector<TH1F*> deltaPhi_;
+  std::vector<TH1F*> Jet1_Et_2Bjets_;
+  std::vector<TH1F*> Bjet1_Et_;
+  std::vector<TH1F*> Bjet2_Et_;
+  std::vector<TH1F*> HT_2Bjets_;
+  std::vector<TH1F*> HT_2Bjets_1LightJet_;
 };  
 
 #endif  

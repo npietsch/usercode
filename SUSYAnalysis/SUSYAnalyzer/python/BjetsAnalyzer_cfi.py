@@ -9,7 +9,12 @@ analyzeBjets = cms.EDAnalyzer("BjetsAnalyzer",
                               jets = cms.InputTag("goodJets"),
                               muons = cms.InputTag("goodMuons"),
                               electrons = cms.InputTag("goodElectrons"),
-                              bjets = cms.InputTag("selectedPatJets"),
+                              looseTrackHighEffBjets = cms.InputTag("selectedPatJets"),
+                              mediumTrackHighEffBjets = cms.InputTag("selectedPatJets"),
+                              tightTrackHighEffBjets = cms.InputTag("selectedPatJets"),
+                              looseTrackHighPurBjets = cms.InputTag("selectedPatJets"),
+                              mediumTrackHighPurBjets = cms.InputTag("selectedPatJets"),
+                              tightTrackHighPurBjets = cms.InputTag("selectedPatJets")
                              )
 
 
