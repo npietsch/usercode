@@ -6,15 +6,12 @@ cmsenv
 
 kinit Username@CERN.CH
 
-## Co CMSSW packages
-cvs co -r V00-03-19 RecoEgamma/ElectronIdentification
+## add CMSSW packages
+addpkg ElectroWeakAnalysis/WENu V00-04-00
 
 ## Co UserCode
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
-
-# Enable cut based electron ID
-cp SUSYAnalysis/SUSYAnalyzer/python/simpleCutBasedElectronIDSpring10_cfi.py ./RecoEgamma/ElectronIdentification/python
 
 ## If you want to create the TtGenEvent for non-SM samples, you have to replace in the constructor of  TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
