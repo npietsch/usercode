@@ -1,4 +1,3 @@
-## Set up CMSSW
 export SCRAM_ARCH=slc5_amd64_gcc434
 cmsrel CMSSW_4_1_4
 cd CMSSW_4_1_4/src
@@ -6,16 +5,15 @@ cmsenv
 
 kinit Username@CERN.CH
 
-## add CMSSW packages
-addpkg ElectroWeakAnalysis/WENu V00-04-00
-
-## Co UserCode
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+addpkg ElectroWeakAnalysis/WENu V00-04-00
 
-## If you want to create the TtGenEvent for non-SM samples, you have to replace in the constructor of  TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
+## If you want to create the TtGenEvent for non-SM samples, type
+## cvs co TopQuarkAnalysis
+## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
-scram b -r -j 8
+scram b -r -j 5
 
 cd SUSYAnalysis/Configuration/
 nafJobSplitter.pl 23 Bjets_LM1_cfg.py
