@@ -1,4 +1,4 @@
-from Bjets_Data_cfg import *
+from Bjets_Data2010A1B2_cfg import *
 
 # Choose input files
 process.source = cms.Source("PoolSource",
