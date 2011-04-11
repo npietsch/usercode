@@ -442,6 +442,27 @@ int SUSYGenEvent::decayChainB() const
   return initialSparticle;
 }
 
+// x1-x2 ratio
+double SUSYGenEvent::ratio() const
+{
+  double x1=0;
+  double x2=0;
+  double ratio=0;
+  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  x1=initSpartsColl[0].pz();
+  x2=initSpartsColl[1].pz();
+
+  //std::cout << "x1 :" << x1 << std::endl;
+  //std::cout << "x2 :" << x2 << std::endl;
+
+  if(abs(x1)>abs(x2) && (x2 != 0) ) ratio=(x1/x2);
+  else if(abs(x2)>abs(x1) && (x1 != 0) ) ratio=(x2/x1);
+
+  return ratio;
+}
+
+
 // create susy daughter
 const reco::Candidate* SUSYGenEvent::createSdaughter(const reco::Candidate* mother) const
 {
