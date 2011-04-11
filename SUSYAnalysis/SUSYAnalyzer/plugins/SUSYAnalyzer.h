@@ -33,7 +33,6 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   virtual void endJob() ;
            	
   //edm::InputTag inputGenEvent_;
-  edm::InputTag src_;
   edm::InputTag met_;
   edm::InputTag jets_;
   edm::InputTag muons_;

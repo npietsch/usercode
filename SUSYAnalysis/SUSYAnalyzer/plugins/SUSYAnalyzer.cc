@@ -12,7 +12,6 @@
 using namespace std;
  
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
-  src_          (cfg.getParameter<edm::InputTag>("source")),
   met_          (cfg.getParameter<edm::InputTag>("met")),
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
@@ -61,8 +60,6 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   // Handles
   //-------------------------------------------------
   
-  edm::Handle<reco::GenParticleCollection> src;
-  evt.getByLabel(src_, src);
   edm::Handle<std::vector<pat::MET> > met;
   evt.getByLabel(met_, met);
   edm::Handle<std::vector<pat::Jet> > jets;
