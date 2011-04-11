@@ -122,7 +122,7 @@ process.patElectrons.electronIDSources = cms.PSet(
     simpleEleId80cIso= cms.InputTag("simpleEleId80cIso"),
     simpleEleId70cIso= cms.InputTag("simpleEleId70cIso"),
     simpleEleId60cIso= cms.InputTag("simpleEleId60cIso"))
-process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectrons)
+process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectronIsolation+process.patElectrons)
 
 # Trigger + Noise cleaning sequence
 process.load("SUSYAnalysis.SUSYFilter.sequences.RAPreselection_cff")
@@ -135,7 +135,7 @@ process.scrapingVeto.thresh = 0.15 ## <-- for MC
 #----------------------------------------------
 
 process.PATTuple = cms.Path(process.patDefaultSequence*
-                            process.preselectionData)
+                            process.preselectionData3)
 
 #-------------------------------------------------
 # Optional: write patTuple

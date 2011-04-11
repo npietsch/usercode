@@ -16,7 +16,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -180,7 +180,7 @@ from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import analyzeSUSY
 
 # clone module and change input
 process.analyzeSUSY = analyzeSUSY.clone()
-process.analyzeSUSY.met='goodMets'
+process.analyzeSUSY.met='goodMETs'
 process.analyzeSUSY.jets="goodJets"
 process.analyzeSUSY.muons="goodMuons"
 process.analyzeSUSY.electrons="goodElectrons"
@@ -216,10 +216,11 @@ process.p = cms.Path(#process.printGenParticles *
                      process.SUSYGenEventFilter *
                      process.preselection *
                      process.goodObjects *
+                     process.analyzeSUSYGenEvt *
                      process.fourGoodJets *
                      process.muonSelection *
                      process.metSelection *
-                     process.analyzeSUSYGenEvt *
+                     #process.analyzeSUSYGenEvt *
                      process.singleObjectsAnalysis *
                      process.analyzeSUSY
                      ) 

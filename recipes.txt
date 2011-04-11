@@ -9,6 +9,9 @@ cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
+mv SUSYAnalysis/SUSYFilters/plugins/Di* ./TopAnalysis/TopFilter/plugins
+mv SUSYAnalysis/SUSYFilters/python/filters/Di* ./TopAnalysis/TopFilter/python/filters
+
 ## If you want to create the TtGenEvent for non-SM samples, type
 ## cvs co TopQuarkAnalysis
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
