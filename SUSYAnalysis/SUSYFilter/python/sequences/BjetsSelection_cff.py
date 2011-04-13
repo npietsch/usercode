@@ -44,6 +44,22 @@ goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            #'(abs(eta) < 1.47 | abs(eta) > 1.507) $'
                                            )
 
+## create veto-muon collection
+from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
+looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
+                                   cut =
+                                   'pt > 10. &'
+                                   'abs(eta) < 2.5'
+                                   )
+
+## create veto-electron collection
+from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
+looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                           cut =
+                                           'pt > 10. &'
+                                           'abs(eta) < 2.5 '
+                                           )
+
 #------------------------------
 # matched-lepton collections 
 #------------------------------
