@@ -13,7 +13,7 @@ mv SUSYAnalysis/SUSYFilters/plugins/Di* ./TopAnalysis/TopFilter/plugins
 mv SUSYAnalysis/SUSYFilters/python/filters/Di* ./TopAnalysis/TopFilter/python/filters
 
 ## If you want to create the TtGenEvent for non-SM samples, type
-## cvs co TopQuarkAnalysis
+## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
 scram b -r -j 5
