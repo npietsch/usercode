@@ -2,7 +2,7 @@ from BjetsPat_cfg import *
 
 # Choose input files
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
+    fileNames = cms.untracked.vstring( 
     '/store/user/mgoerner/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/PAT_FALL10HH/148435cd71339b79cc0025730c13472a/fall10MC_9_1_rxl.root',
     '/store/user/mgoerner/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/PAT_FALL10HH/148435cd71339b79cc0025730c13472a/fall10MC_8_1_Ecw.root',
     '/store/user/mgoerner/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/PAT_FALL10HH/148435cd71339b79cc0025730c13472a/fall10MC_7_2_R2z.root',
