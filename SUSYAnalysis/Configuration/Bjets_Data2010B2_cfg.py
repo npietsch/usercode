@@ -60,7 +60,6 @@ process.twoLepton.minNumber = 2
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYLooseBjetsAnalysis_Data_cff")
 
-
 #-------------------------------------------------
 # Temp
 #-------------------------------------------------
@@ -68,86 +67,41 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYLooseBjetsAnalysis_Data_cf
 ## produce printout of particle listings (for debugging)
 #process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
-from SUSYAnalysis.SUSYAnalyzer.LeptonQualityAnalyzer_cfi import *
-
-process.analyzeLeptonQuality1 = analyzeLeptonQuality.clone()
-process.analyzeLeptonQuality1.muons = 'looseMuons'
-process.analyzeLeptonQuality1.electrons = 'looseElectrons'
-
-process.analyzeLeptonQuality2 = analyzeLeptonQuality.clone()
-process.analyzeLeptonQuality2.muons = 'looseMuons'
-process.analyzeLeptonQuality2.electrons = 'looseElectrons'
 
 from TopAnalysis.TopAnalyzer.MuonQuality_cfi import *
 from TopAnalysis.TopAnalyzer.ElectronQuality_cfi import *
 
-## 1
 process.analyzeMuonQuality1 = analyzeMuonQuality.clone()
 process.analyzeMuonQuality1.src= 'looseMuons'
-process.analyzeMuonQuality1.analyze.index = 0
+process.analyzeMuonQuality1.analyze.index = 1
 
 process.analyzeMuonQuality2 = analyzeMuonQuality.clone()
 process.analyzeMuonQuality2.src= 'looseMuons'
-process.analyzeMuonQuality2.analyze.index = 1
+process.analyzeMuonQuality2.analyze.index = 2
 
 process.analyzeElectronQuality1 = analyzeElectronQuality.clone()
 process.analyzeElectronQuality1.src= 'looseElectrons'
-process.analyzeElectronQuality1.analyze.index = 0
+process.analyzeElectronQuality1.analyze.index = 1
 
 process.analyzeElectronQuality2 = analyzeElectronQuality.clone()
 process.analyzeElectronQuality2.src= 'looseElectrons'
-process.analyzeElectronQuality2.analyze.index = 1
-
-## 2
-process.analyzeMuonQuality1_2 = analyzeMuonQuality.clone()
-process.analyzeMuonQuality1_2.src= 'looseMuons'
-process.analyzeMuonQuality1_2.analyze.index = 0
-
-process.analyzeMuonQuality2_2 = analyzeMuonQuality.clone()
-process.analyzeMuonQuality2_2.src= 'looseMuons'
-process.analyzeMuonQuality2_2.analyze.index = 1
-
-process.analyzeElectronQuality1_2 = analyzeElectronQuality.clone()
-process.analyzeElectronQuality1_2.src= 'looseElectrons'
-process.analyzeElectronQuality1_2.analyze.index = 0
-
-process.analyzeElectronQuality2_2 = analyzeElectronQuality.clone()
-process.analyzeElectronQuality2_2.src= 'looseElectrons'
-process.analyzeElectronQuality2_2.analyze.index = 1
+process.analyzeElectronQuality2.analyze.index = 2
 
 #-------------------------------------------------
 # Selection paths 
 #-------------------------------------------------
 
-process.Selection2b1l_1 = cms.Path(#process.patDefaultSequence *
-                                   process.makeObjects *
-                                   #process.makeSUSYGenEvt *
-                                   #process.SUSYGenEventFilter *
-                                   process.preselectionData2 *
-                                   process.muonSelection *
-                                   process.threeGoodJets *
-                                   process.twoMediumTrackHighEffBjet *
-                                   process.analyzeLeptonQuality1 *
-                                   process.analyzeSUSYLooseBjets2b1l_1 *
-                                   process.analyzeMuonQuality1 *
-                                   process.analyzeMuonQuality2 *
-                                   process.analyzeElectronQuality1 *
-                                   process.analyzeElectronQuality2
-                                   )
-
-process.Selection2b1l_2 = cms.Path(#process.patDefaultSequence *
-                                   process.makeObjects *
-                                   #process.makeSUSYGenEvt *
-                                   #process.SUSYGenEventFilter *
-                                   process.preselectionData2 *
-                                   process.muonSelection *
-                                   process.fourGoodJets *
-                                   #process.metSelection *
-                                   process.twoMediumTrackHighEffBjet *
-                                   process.analyzeLeptonQuality2 *
-                                   process.analyzeSUSYLooseBjets2b1l_2 *
-                                   process.analyzeMuonQuality1_2 *
-                                   process.analyzeMuonQuality2_2 *
-                                   process.analyzeElectronQuality1_2 *
-                                   process.analyzeElectronQuality2_2
-                                   )
+process.Selection2b1l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 #process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 process.preselectionData2 *
+                                 process.muonSelection *
+                                 process.threeGoodJets *
+                                 process.twoMediumTrackHighEffBjet *
+                                 process.analyzeSUSYLooseBjets2b1l_1 *
+                                 process.analyzeMuonQuality1 *
+                                 process.analyzeMuonQuality2 *
+                                 process.analyzeElectronQuality1 *
+                                 process.analyzeElectronQuality2
+                                 )
