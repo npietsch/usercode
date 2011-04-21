@@ -85,13 +85,69 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *nrBTags_ssqq_;
   TH1F *nrBTags_osqq_;
 
-  TH1F *ratio_gg_;
+  TH1F *nrLeptons_gq_;
+  TH1F *nrLeptons_gg_;
+  TH1F *nrLeptons_qq_;
+  TH1F *nrLeptons_other_;
+  TH1F *nrLeptons_ssqq_;
+  TH1F *nrLeptons_osqq_;
+
+  TH1F *nrLeptons_ss_;
+  TH1F *nrLeptons_os_;
+  TH1F *nrLeptons_;
+
+  TH1F *nrJets_gq_;
+  TH1F *nrJets_gg_;
+  TH1F *nrJets_qq_;
+  TH1F *nrJets_other_;
+  TH1F *nrJets_ssqq_;
+  TH1F *nrJets_osqq_;
+  TH1F *nrJets_;
+
+  TH1F *nrJets_gq_0l_;
+  TH1F *nrJets_gg_0l_;
+  TH1F *nrJets_qq_0l_;
+  TH1F *nrJets_other_0l_;
+  TH1F *nrJets_ssqq_0l_;
+  TH1F *nrJets_osqq_0l_;
+  TH1F *nrJets_0l_;
+  
+  TH1F *nrJets_gq_1l_;
+  TH1F *nrJets_gg_1l_;
+  TH1F *nrJets_qq_1l_;
+  TH1F *nrJets_other_1l_;
+  TH1F *nrJets_ssqq_1l_;
+  TH1F *nrJets_osqq_1l_;
+  TH1F *nrJets_1l_;
+
+  TH1F *nrJets_gq_2l_;
+  TH1F *nrJets_gg_2l_;
+  TH1F *nrJets_qq_2l_;
+  TH1F *nrJets_other_2l_;
+  TH1F *nrJets_ssqq_2l_;
+  TH1F *nrJets_osqq_2l_;
+  TH1F *nrJets_2l_;
+
+  TH1F *nrJets_gq_3l_;
+  TH1F *nrJets_gg_3l_;
+  TH1F *nrJets_qq_3l_;
+  TH1F *nrJets_other_3l_;
+  TH1F *nrJets_ssqq_3l_;
+  TH1F *nrJets_osqq_3l_;
+  TH1F *nrJets_3l_;
+
   TH1F *ratio_gq_;
+  TH1F *ratio_gg_;
   TH1F *ratio_qq_;
   TH1F *ratio_other_;
   TH1F *ratio_;
   TH1F *ratio_ssqq_;
   TH1F *ratio_osqq_;
+
+  TH1F *flavor_bjet1_;
+  TH1F *flavor_bjet2_;
+  TH1F *flavor_bjet3_;
+  TH1F *flavor_bjet4_;
 
   TH1F *Jet1_Et_2BQuarks_gq_;
   TH1F *Jet1_Et_2BQuarks_gg_;
@@ -110,10 +166,6 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *Jet1_Et_3456BQuarks_qq_;
   TH1F *Jet1_Et_3456BQuarks_other_;
   TH1F *Jet1_Et_3456BQuarks_;
-
-  TH1F *nrLeptons_ss_;
-  TH1F *nrLeptons_os_;
-  TH1F *nrLeptons_;
 
   TH1F *angleb1b2_;
   TH1F *mbb_;

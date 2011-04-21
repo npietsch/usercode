@@ -21,13 +21,13 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
-  MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
   nElectrons_ = fs->make<TH1F>("nElectrons","nElectrons",7 , -0.5, 6.5);
   nLeptons_ = fs->make<TH1F>("nLeptons","nLeptons",13 , -0.5, 12.5);
   MT_ = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
+  invMuMuMass_= fs->make<TH1F>("invMuMuMass","invMuMuMass",200,0.,200);
 
   for(int idx=0; idx<6; ++idx)
     {
@@ -136,6 +136,13 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       if(chargeSign>0)MET_SSDiLepReco_->Fill((*met)[0].et());
       else if(chargeSign < 0) MET_OSDiLepReco_->Fill((*met)[0].et());
     }
+
+  if(muons->size() >= 2)
+    {
+      double MuMu_p4_square = ((*muons)[0].p4()+(*muons)[1].p4()).Dot((*muons)[0].p4()+(*muons)[1].p4());
+      invMuMuMass_->Fill(sqrt(MuMu_p4_square));
+    }
+
 }
 
 void SUSYAnalyzer::beginJob()
