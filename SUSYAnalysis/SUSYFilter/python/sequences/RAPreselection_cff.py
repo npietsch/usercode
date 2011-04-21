@@ -64,8 +64,8 @@ preselectionData2 = cms.Sequence(MUTriggerData2##  *
 ##                                 scrapingVeto
                                  )
 
-preselectionData3 = cms.Sequence(MUTriggerData3  *
-                                 primaryVertexFilter *
-                                 HBHENoiseFilter *
-                                 scrapingVeto
+preselectionData3 = cms.Sequence(MUTriggerData3 ##  *
+##                                  primaryVertexFilter *
+##                                  HBHENoiseFilter *
+##                                  scrapingVeto
                                  )
