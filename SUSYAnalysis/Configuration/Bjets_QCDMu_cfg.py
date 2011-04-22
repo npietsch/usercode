@@ -1,4 +1,7 @@
-from BjetsQCDPat_cfg import *
+from BjetsPat_cfg import *
+
+from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
+process.preselection = preselectionQCD
 
 # Choose input files
 process.source = cms.Source("PoolSource",
