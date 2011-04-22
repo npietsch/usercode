@@ -19,4 +19,12 @@ mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/fil
 scram b -r -j 5
 
 cd SUSYAnalysis/Configuration/
-nafJobSplitter.pl 23 Bjets_LM1_cfg.py
+
+## Configure BjetsAOD_cfg.py, BjetsPAT_cfg.py and BjetsPATData_cfg.pt to run on AOD, PAT MC and PAT Data files, resp.
+## It might be sufficient to only modify the cms.Path. Various modules to create PAT object collections, filter and anlzye events are
+## pre-defined, in SUSYAnalysis/SUSYFilter/python/sequences/ and SUSYAnalysis/SUSYAnalyzer/python
+
+./jobSubmit.sh
+
+## To copy output files to one directory after jobs are finished
+./copy.sh directory
