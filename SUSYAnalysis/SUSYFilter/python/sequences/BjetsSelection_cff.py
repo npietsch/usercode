@@ -419,8 +419,8 @@ from PhysicsTools.PatAlgos.selectionLayer1.leptonCountFilter_cfi import *
 oneLepton = countPatLeptons.clone()                           
 oneLepton.minNumber = 1
 
-twoLepton = countPatLeptons.clone()                           
-twoLepton.minNumber = 2
+twoLeptons = countPatLeptons.clone()                           
+twoLeptons.minNumber = 2
 
 oneGoodLepton = countPatLeptons.clone()
 oneGoodLepton.electronSource = "goodElectrons"
