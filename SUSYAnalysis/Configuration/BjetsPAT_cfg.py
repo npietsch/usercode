@@ -77,7 +77,9 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # Selection paths. Configure your analysis here, if possible
 #-----------------------------------------------------------------
 
-process.Selection1l = cms.Path(process.makeObjects *
+## 1-lepton selections
+process.Selection1l = cms.Path(#process.patDefaultSequence *
+                               process.makeObjects *
                                process.makeSUSYGenEvt *
                                #process.SUSYGenEventFilter *
                                #process.makeGenEvt *
@@ -93,3 +95,178 @@ process.Selection1l = cms.Path(process.makeObjects *
                                process.ZVetoMu *
                                process.analyzeSUSYBjets1l_2
                                )
+
+process.Selection1b1l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.fourGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.oneMediumTrackHighEffBjet *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets1b1l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets1b1l_2
+                                 )
+
+process.Selection2b1l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.fourGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.twoMediumTrackHighEffBjets *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets2b1l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets2b1l_2
+                                 )
+
+process.Selection3b1l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.fourGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.threeMediumTrackHighEffBjets *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets3b1l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets3b1l_2
+                                 )
+
+process.Selection4b1l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.fourGoodJets *
+                                 process.twoMediumJets *
+                                 process.fourMediumTrackHighEffBjets *
+                                 process.oneTightJet *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets4b1l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets4b1l_2
+                                 )
+## 2-lepton selections
+process.Selection2l = cms.Path(#process.patDefaultSequence *
+                               process.makeObjects *
+                               process.makeSUSYGenEvt *
+                               #process.SUSYGenEventFilter *
+                               #process.makeGenEvt *
+                               #process.ttGenEventFitler *
+                               process.preselection *
+                               process.oneGoodMuon*
+                               process.twoGoodLeptons *
+                               process.threeGoodJets *
+                               process.twoMediumJets *
+                               process.oneTightJet *
+                               process.metSelection *
+                               process.HTSelection *
+                               process.analyzeSUSYBjets2l_1 *
+                               process.ZVetoMu *
+                               process.analyzeSUSYBjets2l_2
+                               )
+
+process.Selection1b2l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.twoGoodLeptons *
+                                 process.threeGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.oneMediumTrackHighEffBjet *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets1b2l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets1b2l_2
+                                 )
+
+process.Selection2b2l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.twoGoodLeptons *
+                                 process.threeGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.twoMediumTrackHighEffBjets *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets2b2l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets2b2l_2
+                                 )
+
+process.Selection3b2l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.twoGoodLeptons *
+                                 process.threeGoodJets *
+                                 process.twoMediumJets *
+                                 process.oneTightJet *
+                                 process.threeMediumTrackHighEffBjets *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets3b2l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets3b2l_2
+                                 )
+
+process.Selection4b2l = cms.Path(#process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 #process.SUSYGenEventFilter *
+                                 #process.makeGenEvt *
+                                 #process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.oneGoodMuon*
+                                 process.twoGoodLeptons *
+                                 process.threeGoodJets *
+                                 process.twoMediumJets *
+                                 process.fourMediumTrackHighEffBjets *
+                                 process.oneTightJet *
+                                 process.metSelection *
+                                 process.HTSelection *
+                                 process.analyzeSUSYBjets4b2l_1 *
+                                 process.ZVetoMu *
+                                 process.analyzeSUSYBjets4b2l_2
+                                 )
