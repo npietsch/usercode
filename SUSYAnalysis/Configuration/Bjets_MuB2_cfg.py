@@ -1,4 +1,7 @@
-from Bjets_Data2010B2_cfg import *
+from BjetsData_cfg import *
+
+from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
+process.preselection = preselectionData2
 
 # Choose input files
 process.source = cms.Source("PoolSource",
