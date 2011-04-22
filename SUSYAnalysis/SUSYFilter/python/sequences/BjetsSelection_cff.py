@@ -217,9 +217,9 @@ oneGoodMuon = countPatMuons.clone(src = 'goodMuons',
 
 ## select events with at least two good muons
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
-twoGoodMuon = countPatMuons.clone(src = 'goodMuons',
-                                  minNumber = 2
-                                  )
+twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
+                                   minNumber = 2
+                                   )
 
 #------------------------------
 # electron countFilter
@@ -232,9 +232,9 @@ oneGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
                                           )
 ## select events with at least two good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
-twoGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
-                                          minNumber = 2
-                                          )
+twoGoodElectrons = countPatElectrons.clone(src = 'goodElectrons',
+                                           minNumber = 2
+                                           )
 
 #------------------------------
 # veto-lepton countFilter
@@ -245,24 +245,21 @@ from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 oneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
                                   maxNumber = 1
                                   )
-
 ## select events with no veto muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 noVetoMuon = countPatMuons.clone(src = 'vetoMuons',
-                                 maxNumber = 0
-                                 )
-
+                                  maxNumber = 0
+                                  )
 ## select events with one veto electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                           maxNumber = 1
                                           )
-
 ## select events with no veto electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
-                                         maxNumber = 0
-                                         )
+                                          maxNumber = 0
+                                          )
 
 #------------------------------
 # jet countFilter
@@ -307,50 +304,43 @@ fiveGoodJets = countPatJets.clone(src = 'goodJets',
 ## select events with 1 medium bjet
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneLooseTrackHighEffBjet = countPatJets.clone(src = 'looseTrackHighEffBjets',
-                                     minNumber = 1
-                                     )
-
+                                              minNumber = 1
+                                              )
 ## select events with 2 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-twoLooseTrackHighEffBjet = countPatJets.clone(src = 'looseTrackHighEffBjets',
-                                     minNumber = 2
-                                     )
-
+twoLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
+                                               minNumber = 2
+                                               )
 ## select events with 3 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-threeLooseTrackHighEffBjet = countPatJets.clone(src = 'looseTrackHighEffBjets',
-                                     minNumber = 3
-                                     )
-
+threeLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
+                                                 minNumber = 3
+                                                 )
 ## select events with 4 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-fourLooseTrackHighEffBjet = countPatJets.clone(src = 'looseTrackHighEffBjets',
-                                     minNumber = 4
-                                     )
-
+fourLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
+                                                minNumber = 4
+                                                )
 ## select events with 1 medium bjet
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                     minNumber = 1
-                                     )
-
+                                               minNumber = 1
+                                               )
 ## select events with 2 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-twoMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                     minNumber = 2
-                                     )
-
+twoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                minNumber = 2
+                                                )
 ## select events with 3 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-threeMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                     minNumber = 3
-                                     )
-
+threeMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                  minNumber = 3
+                                                  )
 ## select events with 4 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-fourMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                     minNumber = 4
-                                     )
+fourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                 minNumber = 4
+                                                 )
 
 #------------------------------
 # trackHighPurBjet countFilter
@@ -359,50 +349,44 @@ fourMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
 ## select events with 1 medium bjet
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneLooseTrackHighPurBjet = countPatJets.clone(src = 'looseTrackHighPurBjets',
-                                     minNumber = 1
-                                     )
-
+                                              minNumber = 1
+                                              )
 ## select events with 2 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-twoLooseTrackHighPurBjet = countPatJets.clone(src = 'looseTrackHighPurBjets',
-                                     minNumber = 2
-                                     )
-
+twoLooseTrackHighPurBjets = countPatJets.clone(src = 'looseTrackHighPurBjets',
+                                               minNumber = 2
+                                               )
 ## select events with 3 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-threeLooseTrackHighPurBjet = countPatJets.clone(src = 'looseTrackHighPurBjets',
-                                     minNumber = 3
-                                     )
-
+threeLooseTrackHighPurBjets = countPatJets.clone(src = 'looseTrackHighPurBjets',
+                                                 minNumber = 3
+                                                 )
 ## select events with 4 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-fourLooseTrackHighPurBjet = countPatJets.clone(src = 'looseTrackHighPurBjets',
-                                     minNumber = 4
-                                     )
-
+fourLooseTrackHighPurBjets = countPatJets.clone(src = 'looseTrackHighPurBjets',
+                                                minNumber = 4
+                                                )
 ## select events with 1 medium bjet
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneMediumTrackHighPurBjet = countPatJets.clone(src = 'mediumTrackHighPurBjets',
-                                     minNumber = 1
-                                     )
+                                               minNumber = 1
+                                               )
 
 ## select events with 2 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-twoMediumTrackHighPurBjet = countPatJets.clone(src = 'mediumTrackHighPurBjets',
-                                     minNumber = 2
-                                     )
-
+twoMediumTrackHighPurBjetss = countPatJets.clone(src = 'mediumTrackHighPurBjets',
+                                                 minNumber = 2
+                                                 )
 ## select events with 3 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-threeMediumTrackHighPurBjet = countPatJets.clone(src = 'mediumTrackHighPurBjets',
-                                     minNumber = 3
-                                     )
-
+threeMediumTrackHighPurBjets = countPatJets.clone(src = 'mediumTrackHighPurBjets',
+                                                  minNumber = 3
+                                                  )
 ## select events with 4 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-fourMediumTrackHighPurBjet = countPatJets.clone(src = 'mediumTrackHighPurBjets',
-                                     minNumber = 4
-                                     )
+fourMediumTrackHighPurBjets = countPatJets.clone(src = 'mediumTrackHighPurBjets',
+                                                 minNumber = 4
+                                                 )
 
 #------------------------------
 # MET countFilter
@@ -431,8 +415,23 @@ ZVetoEl = filterElecPair.clone()
 ZVetoEl.isVeto = True
 
 from PhysicsTools.PatAlgos.selectionLayer1.leptonCountFilter_cfi import *
-oneLepton = countPatLeptons.clone()
-twoLepton = countPatLeptons.clone()
+
+oneLepton = countPatLeptons.clone()                           
+oneLepton.minNumber = 1
+
+twoLepton = countPatLeptons.clone()                           
+twoLepton.minNumber = 2
+
+oneGoodLepton = countPatLeptons.clone()
+oneGoodLepton.electronSource = "goodElectrons"
+oneGoodLepton.muonSource = "goodMuons"                           
+oneGoodLepton.minNumber = 1
+
+twoGoodLeptons = countPatLeptons.clone()
+twoGoodLeptons.electronSource = "goodElectrons"
+twoGoodLeptons.muonSource = "goodMuons"                           
+twoGoodLeptons.minNumber = 2
+
 leptonVeto = countPatLeptons.clone()
 
 #------------------------------
