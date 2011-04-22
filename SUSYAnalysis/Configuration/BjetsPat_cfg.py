@@ -1,8 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Bjets")
+process = cms.Process("Bjets") 
 
-## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 #process.MessageLogger.cerr.threshold = 'INFO'
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
@@ -27,18 +26,20 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 
 
-#------------------------------------------------
-# Create Gen Events 
-#------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------
+# Load modules to create SUSY Gen Event and TtGenEvent
+#
+# Note: To create the TtGenEvent for non-SM samples, a small modification in the TQAF is needed:
+#       - Checkout TopQuarkAnalysis/TopEventProducers  (for CMSSW_4_1_4: cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers)
+#       - replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
+#-------------------------------------------------------------------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-# trace back susy decay cascades to 1st, 2nd, 3rd, 4th or 5th sparticle
-process.SUSYGenEvt.Generation = 3
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
-#------------------------------------------------
-# Gen Event Selection 
-#------------------------------------------------
+#------------------------------------------------------
+# Import modules to filter events on generator level 
+#------------------------------------------------------
 
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="GluinoGluinoDecay")
@@ -46,51 +47,45 @@ process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="GluinoGluinoDecay")
 from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
 process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
 
-#------------------------------------------------
-# Event Selection
-#------------------------------------------------
+#-----------------------------------------------------------------
+# Load modules for preselection. Can be configured later
+#-----------------------------------------------------------------
 
-# Trigger + Noise cleaning sequence
-process.load("SUSYAnalysis.SUSYFilter.sequences.RAPreselection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+
+#-----------------------------------------------------------------
+# Load modules to create objects and filter events on reco level
+#-----------------------------------------------------------------
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-process.oneLepton.electronSource = "goodElectrons"
-process.oneLepton.muonSource = "goodMuons"                           
-process.oneLepton.minNumber = 1
-
-process.twoLepton.electronSource = "goodElectrons"
-process.twoLepton.muonSource = "goodMuons"                           
-process.twoLepton.minNumber = 2
-
-#------------------------------------------------
-# Analysis
-#------------------------------------------------
+#--------------------------------------------------------
+# Load modules for analysis on generator and reco-level
+#--------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYLooseBjetsAnalysis_cff")
 
 #-------------------------------------------------
-# Temp
+# Temporary
 #-------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
-#-------------------------------------------------
-# Selection paths 
-#-------------------------------------------------
+#-----------------------------------------------------------------
+# Selection paths. Configure your analysis here, if possible
+#-----------------------------------------------------------------
 
-process.Selection1l = cms.Path(#process.patDefaultSequence *
-                               process.makeObjects *
+process.Selection1l = cms.Path(process.makeObjects *
                                process.makeSUSYGenEvt *
-                               #process.makeGenEvt *
                                #process.SUSYGenEventFilter *
+                               #process.makeGenEvt *
                                #process.ttGenEventFitler *
                                process.preselection *
-                               process.twoLepton *
-                               process.threeGoodJets *
+                               process.oneGoodMuon*
+                               process.fourGoodJets *
                                process.twoMediumJets *
                                process.oneTightJet *
                                process.metSelection *
@@ -99,79 +94,3 @@ process.Selection1l = cms.Path(#process.patDefaultSequence *
                                process.ZVetoMu *
                                process.analyzeSUSYBjets1l_2
                                )
-
-process.Selection1b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 #process.makeGenEvt *
-                                 #process.SUSYGenEventFilter *
-                                 #process.ttGenEventFitler *
-                                 process.preselection *
-                                 process.twoLepton *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.oneMediumTrackHighEffBjet *
-                                 process.metSelection *
-                                 process.HTSelection *
-                                 process.analyzeSUSYBjets1b1l_1 *
-                                 process.ZVetoMu *
-                                 process.analyzeSUSYBjets1b1l_2
-                                 )
-
-process.Selection2b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 #process.makeGenEvt *
-                                 #process.SUSYGenEventFilter *
-                                 #process.ttGenEventFitler *
-                                 process.preselection *
-                                 process.twoLepton *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.twoMediumTrackHighEffBjet *
-                                 process.metSelection *
-                                 process.HTSelection *
-                                 process.analyzeSUSYBjets2b1l_1 *
-                                 process.ZVetoMu *
-                                 process.analyzeSUSYBjets2b1l_2
-                                 )
-
-process.Selection3b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 #process.makeGenEvt *
-                                 #process.SUSYGenEventFilter *
-                                 #process.ttGenEventFitler *
-                                 process.preselection *
-                                 process.twoLepton *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.threeMediumTrackHighEffBjet *
-                                 process.metSelection *
-                                 process.HTSelection *
-                                 process.analyzeSUSYBjets3b1l_1 *
-                                 process.ZVetoMu *
-                                 process.analyzeSUSYBjets3b1l_2
-                                 )
-
-process.Selection4b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 #process.makeGenEvt *
-                                 #process.SUSYGenEventFilter *
-                                 #process.ttGenEventFitler *
-                                 process.preselection *
-                                 process.twoLepton *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.fourMediumTrackHighEffBjet *
-                                 process.metSelection *
-                                 process.HTSelection *
-                                 process.analyzeSUSYBjets4b1l_1 *
-                                 process.ZVetoMu *
-                                 process.analyzeSUSYBjets4b1l_2
-                                 )
