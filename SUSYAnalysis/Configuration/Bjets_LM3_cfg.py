@@ -1,4 +1,4 @@
-from Bjets_cfg import *
+from BjetsAOD_cfg import *
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
