@@ -1,4 +1,4 @@
-from BjetsQCDPat_cfg import *
+from BjetsPAT_cfg import *
 
 from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
 process.preselection = preselectionQCD
