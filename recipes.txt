@@ -6,8 +6,8 @@ cmsenv
 kinit Username@CERN.CH
 
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
-cvs co -d Tools UserCode/npietsch/Tools
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d Tools UserCode/npietsch/Tools
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
 mv SUSYAnalysis/SUSYFilter/plugins/Di* ./TopAnalysis/TopFilter/plugins
@@ -28,7 +28,7 @@ cd SUSYAnalysis/Configuration/
 ./jobSubmit.sh
 
 ## To check if jobs are finished, type: qstat -u Username. To copy output files to one directory YouDir after jobs are finished type:
-./copy.sh YouDir,
+./copy.sh YouDir
 
 ## To display cutflows and create cutflow-tables that may directly be used in LaTex, do:
 cp ../../Tools/EventCounter.C YouDir
