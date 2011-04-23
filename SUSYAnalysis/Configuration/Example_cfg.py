@@ -180,10 +180,11 @@ process.filterHT.Cut = 800
 process.ZVetoMu.isVeto = False ## <- Events containing a muon pair with an inv. mass within the Z mass window will be selected, not vetoed
 process.ZVetoMu.filterCharge = -1 ## <- Only events containing an os muon pair will be selected
 process.ZVetoMu.isVeto.Cut = 70,120 ## <- define Z mass window
-# Same for electrons
-process.ZVetoEl.isVeto = False
-process.ZVetoEl.filterCharge = -1
-process.ZVetoMu.isVeto.Cut = 70,120
+
+# Same example for electrons
+#process.ZVetoEl.isVeto = False
+#process.ZVetoEl.filterCharge = -1
+#process.ZVetoMu.isVeto.Cut = 70,120
 
 #--------------------------------------------------------
 # Load modules for analysis on generator and reco-level
@@ -226,7 +227,6 @@ process.p = cms.Path(process.patDefaultSequence *
                      #process.ttGenEventFilter
                      #process.preselection *
                      process.ZVetoMu *
-                     process.ZVetoEl *
                      process.tightJets *
                      process.twoTightJets *
                      process.goodMETs *

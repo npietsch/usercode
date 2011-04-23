@@ -171,7 +171,6 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 process.twoTightJets = countPatJets.clone(src = 'tightJets',
                                           minNumber = 2
                                           )
-
 ## Configure HT filter
 process.filterHT.jets = "tightJets"
 process.filterHT.Cut = 800
@@ -219,24 +218,47 @@ process.analyzeSUSY.jets = "tightJets"
 # Selection paths
 #-------------------------------------------------
 
-process.p = cms.Path(process.patDefaultSequence *
-                     process.makeSUSYGenEvt *
-                     #process.SUSYGenEventFilter *
-                     #process.makeGenEvt *
-                     #process.ttGenEventFilter
-                     #process.preselection *
-                     process.ZVetoMu *
-                     process.ZVetoEl *
-                     process.tightJets *
-                     process.twoTightJets *
-                     process.goodMETs *
-                     process.oneGoodMET *
-                     process.metSelection *
-                     process.analyzeSUSYGenEvt *
-                     process.analyzeSUSY *
-                     process.analyzeBjets *
-                     process.analyzeBTags
-                     ) 
+process.MuMu = cms.Path(process.patDefaultSequence *
+                        process.makeSUSYGenEvt *
+                        #process.SUSYGenEventFilter *
+                        #process.makeGenEvt *
+                        #process.ttGenEventFilter
+                        #process.preselection *
+                        process.ZVetoMu *
+                        process.tightJets *
+                        process.twoTightJets *
+                        process.filterHT *
+                        #process.mjj * ## <- has still to be implemented
+                        #process.deltaRZj ## <- has still to be implemented
+                        process.goodMETs *
+                        process.oneGoodMET *
+                        #process.MZj * ## <- has still to be implemented
+                        process.analyzeSUSYGenEvt *
+                        process.analyzeSUSY *
+                        process.analyzeBjets *
+                        process.analyzeBTags
+                        ) 
+
+process.ElEl = cms.Path(process.patDefaultSequence *
+                        process.makeSUSYGenEvt *
+                        #process.SUSYGenEventFilter *
+                        #process.makeGenEvt *
+                        #process.ttGenEventFilter
+                        #process.preselection *
+                        process.ZVetoEl *
+                        process.tightJets *
+                        process.twoTightJets *
+                        process.filterHT *
+                        #process.mjj * ## <- has still to be implemented
+                        #process.deltaRZj ## <- has still to be implemented
+                        process.goodMETs *
+                        process.oneGoodMET *
+                        #process.MZj * ## <- has still to be implemented
+                        process.analyzeSUSYGenEvt *
+                        process.analyzeSUSY *
+                        process.analyzeBjets *
+                        process.analyzeBTags
+                        ) 
 
 #-------------------------------------------------
 # Optional: write patTuple
@@ -244,7 +266,8 @@ process.p = cms.Path(process.patDefaultSequence *
 
 ## process.EventSelection = cms.PSet(
 ##     SelectEvents = cms.untracked.PSet(
-##     SelectEvents = cms.vstring('p'
+##     SelectEvents = cms.vstring('MuMu',
+##                                'ElEl'  
 ##                                )
 ##     )
 ##     )
