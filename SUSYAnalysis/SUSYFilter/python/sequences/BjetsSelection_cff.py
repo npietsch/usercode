@@ -403,7 +403,7 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
 #-----------------------------
 
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
-process.HTFilter.jets = goodJets
+filterHT.jets = "goodJets"
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()

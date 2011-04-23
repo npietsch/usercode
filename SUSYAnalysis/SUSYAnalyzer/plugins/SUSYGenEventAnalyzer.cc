@@ -255,9 +255,9 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   if(susyGenEvent->GluinoSquarkDecay()==true)
     {
       nrBQuarks_gq_->Fill(susyGenEvent->numberOfBQuarks());
-      nrBJets_gg_->Fill(nmatchedbjets);
-      nrBTags_gg_->Fill(nbtags);
-      ratio_gq_->Fill(susyGenEvent->ratio());
+      nrBJets_gq_->Fill(nmatchedbjets);
+      nrBTags_gq_->Fill(nbtags);
+      //ratio_gq_->Fill(susyGenEvent->ratio());
       nrLeptons_gq_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_gq_->Fill(jets->size());
       if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_gq_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
@@ -271,9 +271,9 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   else if(susyGenEvent->GluinoGluinoDecay()==true)
     {
       nrBQuarks_gg_->Fill(susyGenEvent->numberOfBQuarks());
-      nrBJets_gq_->Fill(nmatchedbjets);
-      nrBTags_gq_->Fill(nbtags);
-      ratio_gg_->Fill(susyGenEvent->ratio());
+      nrBJets_gg_->Fill(nmatchedbjets);
+      nrBTags_gg_->Fill(nbtags);
+      //ratio_gg_->Fill(susyGenEvent->ratio());
       nrLeptons_gg_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_gg_->Fill(jets->size());
       if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_gg_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
@@ -289,7 +289,7 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       nrBQuarks_qq_->Fill(susyGenEvent->numberOfBQuarks());
       nrBJets_qq_->Fill(nmatchedbjets);
       nrBTags_qq_->Fill(nbtags);
-      ratio_qq_->Fill(susyGenEvent->ratio());
+      //ratio_qq_->Fill(susyGenEvent->ratio());
       nrLeptons_qq_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_qq_->Fill(jets->size());
       if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_qq_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
@@ -305,11 +305,11 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       nrBQuarks_other_->Fill(susyGenEvent->numberOfBQuarks());
       nrBJets_other_->Fill(nmatchedbjets);
       nrBTags_other_->Fill(nbtags);
-      ratio_other_->Fill(susyGenEvent->ratio());
+      //ratio_other_->Fill(susyGenEvent->ratio());
       nrLeptons_other_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_other_->Fill(jets->size());
-      if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
-      if(susyGenEvent->OSignDiLepton()==true) nrBQuarks_osDiLep_->Fill(susyGenEvent->numberOfBQuarks());
+      if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_other_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
+      if(susyGenEvent->OSignDiLepton()==true) nrBQuarks_other_osDiLep_->Fill(susyGenEvent->numberOfBQuarks());
       if(susyGenEvent->numberOfLeptons()==0) nrJets_other_0l_->Fill(jets->size());
       if(susyGenEvent->numberOfLeptons()==1) nrJets_other_1l_->Fill(jets->size());
       if(susyGenEvent->numberOfLeptons()==2) nrJets_other_2l_->Fill(jets->size());
@@ -321,7 +321,7 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       nrBQuarks_ssqq_->Fill(susyGenEvent->numberOfBQuarks());
       nrBJets_ssqq_->Fill(nmatchedbjets);
       nrBTags_ssqq_->Fill(nbtags);
-      ratio_ssqq_->Fill(susyGenEvent->ratio());
+      //ratio_ssqq_->Fill(susyGenEvent->ratio());
       nrLeptons_ssqq_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_ssqq_->Fill(jets->size());
       if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_ssqq_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
@@ -337,7 +337,7 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       nrBQuarks_osqq_->Fill(susyGenEvent->numberOfBQuarks());
       nrBJets_osqq_->Fill(nmatchedbjets);
       nrBTags_osqq_->Fill(nbtags);
-      ratio_osqq_->Fill(susyGenEvent->ratio());
+      //ratio_osqq_->Fill(susyGenEvent->ratio());
       nrLeptons_osqq_->Fill(susyGenEvent->numberOfLeptons());
       nrJets_osqq_->Fill(jets->size());
       if(susyGenEvent->SSignDiLepton()==true) nrBQuarks_osqq_ssDiLep_->Fill(susyGenEvent->numberOfBQuarks());
@@ -348,95 +348,103 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       if(susyGenEvent->numberOfLeptons()>=3) nrJets_osqq_3l_->Fill(jets->size());
     }
   // all
-  nrBQuarks_->Fill(susyGenEvent->numberOfBQuarks());
+  if(susyGenEvent->numberOfLeptons()>=0) // just to check if susyGenEvent exists
+    {
+      nrBQuarks_->Fill(susyGenEvent->numberOfBQuarks());
+      ratio_->Fill(susyGenEvent->ratio());
+      nrLeptons_->Fill(susyGenEvent->numberOfLeptons());
+    }
   nrBJets_->Fill(nmatchedbjets);
   nrBTags_->Fill(nbtags);
-  ratio_->Fill(susyGenEvent->ratio());
-  nrLeptons_->Fill(susyGenEvent->numberOfLeptons());
   nrJets_->Fill(jets->size());
   if(susyGenEvent->numberOfLeptons()==0) nrJets_0l_->Fill(jets->size());
   if(susyGenEvent->numberOfLeptons()==1) nrJets_1l_->Fill(jets->size());
   if(susyGenEvent->numberOfLeptons()==2) nrJets_2l_->Fill(jets->size());
   if(susyGenEvent->numberOfLeptons()>=3) nrJets_3l_->Fill(jets->size());
 
+  //std::cout << "Hallo" << std::endl;
+
+  //std::cout << "susyGenEvent->decayChainA()" << susyGenEvent->decayChainA() << std::endl;
+  //std::cout << "susyGenEvent->decayChainB()" << susyGenEvent->decayChainB() << std::endl;
+
   //---------------------------------------------------------------------------------------------
   // correlation between ss/os di-lepton and ss/os squark-squark production, MET
   //---------------------------------------------------------------------------------------------
 
-  if(susyGenEvent->SSignDiLepton()==true && susyGenEvent->OSignDiLepton()==false)
-    {
-      nrLeptons_ss_->Fill(susyGenEvent->numberOfLeptons());
-      MET_SSDiLep_->Fill((*met)[0].et());
-    }
-  if(susyGenEvent->OSignDiLepton()==true && susyGenEvent->SSignDiLepton()==false)
-    {
-      nrLeptons_os_->Fill(susyGenEvent->numberOfLeptons());
-      MET_OSDiLep_->Fill((*met)[0].et());
-    }
+//   if(susyGenEvent->SSignDiLepton()==true && susyGenEvent->OSignDiLepton()==false)
+//     {
+//       nrLeptons_ss_->Fill(susyGenEvent->numberOfLeptons());
+//       MET_SSDiLep_->Fill((*met)[0].et());
+//     }
+//   if(susyGenEvent->OSignDiLepton()==true && susyGenEvent->SSignDiLepton()==false)
+//     {
+//       nrLeptons_os_->Fill(susyGenEvent->numberOfLeptons());
+//       MET_OSDiLep_->Fill((*met)[0].et());
+//     }
 
 //   ---------------------------------------------------------------------------------------------
 //   Flavor of parton matched to 1st, 2nd, 3rd and 4th jet leading in bdisc.
 //   ---------------------------------------------------------------------------------------------
 
-  double bdisc=-100;
-  double bdisc1=-100;
-  double bdisc2=-100;
-  double bdisc3=-100;
-  double bdisc4=-100;
+//   double bdisc=-100;
+//   double bdisc1=-100;
+//   double bdisc2=-100;
+//   double bdisc3=-100;
+//   double bdisc4=-100;
 
-  double flavor=0;
-  double flavor1=0;
-  double flavor2=0;
-  double flavor3=0;
-  double flavor4=0;
+//   double flavor=0;
+//   double flavor1=0;
+//   double flavor2=0;
+//   double flavor3=0;
+//   double flavor4=0;
 
-  for(int jdx=0; jdx<(int)jets->size(); ++jdx)
-    {
-      bdisc=(*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags");
-      flavor=(*jets)[jdx].partonFlavour();
+//   for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+//     {
+//       bdisc=(*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags");
+//       flavor=(*jets)[jdx].partonFlavour();
 
-      if(bdisc>bdisc1)
-	{
-	  bdisc4=bdisc3;
-	  bdisc3=bdisc2;
-	  bdisc2=bdisc1;
-	  bdisc1=bdisc;
+//       if(bdisc>bdisc1)
+// 	{
+// 	  bdisc4=bdisc3;
+// 	  bdisc3=bdisc2;
+// 	  bdisc2=bdisc1;
+// 	  bdisc1=bdisc;
 
-	  flavor4=flavor3;
-	  flavor3=flavor2;
-	  flavor2=flavor1;
-	  flavor1=flavor;
-	}
-      else if(bdisc>bdisc2)
-	{
-	  bdisc4=bdisc3;
-	  bdisc3=bdisc2;
-	  bdisc2=bdisc;
+// 	  flavor4=flavor3;
+// 	  flavor3=flavor2;
+// 	  flavor2=flavor1;
+// 	  flavor1=flavor;
+// 	}
+//       else if(bdisc>bdisc2)
+// 	{
+// 	  bdisc4=bdisc3;
+// 	  bdisc3=bdisc2;
+// 	  bdisc2=bdisc;
 
-	  flavor4=flavor3;
-	  flavor3=flavor2;
-	  flavor2=flavor;
-	}
-      else if(bdisc>bdisc3)
-	{
-	  bdisc4=bdisc3;
-	  bdisc3=bdisc;
+// 	  flavor4=flavor3;
+// 	  flavor3=flavor2;
+// 	  flavor2=flavor;
+// 	}
+//       else if(bdisc>bdisc3)
+// 	{
+// 	  bdisc4=bdisc3;
+// 	  bdisc3=bdisc;
 
-	  flavor4=flavor3;
-	  flavor3=flavor;
-	}
-      else if(bdisc>bdisc4)
-	{
-	  bdisc4=bdisc;
+// 	  flavor4=flavor3;
+// 	  flavor3=flavor;
+// 	}
+//       else if(bdisc>bdisc4)
+// 	{
+// 	  bdisc4=bdisc;
 
-	  flavor4=flavor;
-	}
-    }
+// 	  flavor4=flavor;
+// 	}
+//     }
 
-  flavor_bjet1_->Fill(abs(flavor1));
-  flavor_bjet2_->Fill(abs(flavor2));
-  flavor_bjet3_->Fill(abs(flavor3));
-  flavor_bjet4_->Fill(abs(flavor4));
+//   flavor_bjet1_->Fill(abs(flavor1));
+//   flavor_bjet2_->Fill(abs(flavor2));
+//   flavor_bjet3_->Fill(abs(flavor3));
+//   flavor_bjet4_->Fill(abs(flavor4));
 
   //-------------------------------------------------------
   // correlation between number of b-quarks and jet1 et
@@ -490,12 +498,12 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
 //   kinematics of matched bjets
 //   ------------------------------
 
-  double HTB=0;
-  for(int hdx=0; hdx<(int)matchedbjets->size(); ++hdx)
-    {
-      HTB=HTB+(*matchedbjets)[hdx].et();
-    }
-  HTB_->Fill(HTB);
+//   double HTB=0;
+//   for(int hdx=0; hdx<(int)matchedbjets->size(); ++hdx)
+//     {
+//       HTB=HTB+(*matchedbjets)[hdx].et();
+//     }
+//   HTB_->Fill(HTB);
 
   //------------------------------------------------------
   // kinematics, topology of events with 2 matched bjets
