@@ -162,21 +162,21 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-## Example how to change the object definition
+## Change some object definition
 process.tightJets.cut = 'abs(eta) < 2.4 & pt > 100. &emEnergyFraction > 0.01 &jetID.fHPD < 0.98 &jetID.n90Hits > 1'
 process.goodMETs.cut  = 'et > 150' 
 
-## Example how to use the PAT count filter
+## Configure jetCountFilter
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 process.twoTightJets = countPatJets.clone(src = 'tightJets',
                                           minNumber = 2
                                           )
 
-## Example how to configure an evetn filter
+## Configure HT filter
 process.filterHT.jets = "tightJets"
 process.filterHT.Cut = 800
 
-## Examples how to configure DiLepton filters
+## Configure DiLepton filters
 process.ZVetoMu.isVeto = False ## <- Events containing a muon pair with an inv. mass within the Z mass window will be selected, not vetoed
 process.ZVetoMu.filterCharge = -1 ## <- Only events containing an os muon pair will be selected
 process.ZVetoMu.isVeto.Cut = 70,120 ## <- define Z mass window
