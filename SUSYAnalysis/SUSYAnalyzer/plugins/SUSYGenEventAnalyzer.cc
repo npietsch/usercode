@@ -351,7 +351,7 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   if(susyGenEvent->numberOfLeptons()>=0) // just to check if susyGenEvent exists
     {
       nrBQuarks_->Fill(susyGenEvent->numberOfBQuarks());
-      ratio_->Fill(susyGenEvent->ratio());
+      //ratio_->Fill(susyGenEvent->ratio());
       nrLeptons_->Fill(susyGenEvent->numberOfLeptons());
     }
   nrBJets_->Fill(nmatchedbjets);
@@ -362,8 +362,6 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   if(susyGenEvent->numberOfLeptons()==2) nrJets_2l_->Fill(jets->size());
   if(susyGenEvent->numberOfLeptons()>=3) nrJets_3l_->Fill(jets->size());
 
-  //std::cout << "Hallo" << std::endl;
-
   //std::cout << "susyGenEvent->decayChainA()" << susyGenEvent->decayChainA() << std::endl;
   //std::cout << "susyGenEvent->decayChainB()" << susyGenEvent->decayChainB() << std::endl;
 
@@ -371,172 +369,172 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   // correlation between ss/os di-lepton and ss/os squark-squark production, MET
   //---------------------------------------------------------------------------------------------
 
-//   if(susyGenEvent->SSignDiLepton()==true && susyGenEvent->OSignDiLepton()==false)
-//     {
-//       nrLeptons_ss_->Fill(susyGenEvent->numberOfLeptons());
-//       MET_SSDiLep_->Fill((*met)[0].et());
-//     }
-//   if(susyGenEvent->OSignDiLepton()==true && susyGenEvent->SSignDiLepton()==false)
-//     {
-//       nrLeptons_os_->Fill(susyGenEvent->numberOfLeptons());
-//       MET_OSDiLep_->Fill((*met)[0].et());
-//     }
+  if(susyGenEvent->SSignDiLepton()==true && susyGenEvent->OSignDiLepton()==false)
+    {
+      nrLeptons_ss_->Fill(susyGenEvent->numberOfLeptons());
+      MET_SSDiLep_->Fill((*met)[0].et());
+    }
+  if(susyGenEvent->OSignDiLepton()==true && susyGenEvent->SSignDiLepton()==false)
+    {
+      nrLeptons_os_->Fill(susyGenEvent->numberOfLeptons());
+      MET_OSDiLep_->Fill((*met)[0].et());
+    }
 
 //   ---------------------------------------------------------------------------------------------
 //   Flavor of parton matched to 1st, 2nd, 3rd and 4th jet leading in bdisc.
 //   ---------------------------------------------------------------------------------------------
 
-//   double bdisc=-100;
-//   double bdisc1=-100;
-//   double bdisc2=-100;
-//   double bdisc3=-100;
-//   double bdisc4=-100;
+  double bdisc=-100;
+  double bdisc1=-100;
+  double bdisc2=-100;
+  double bdisc3=-100;
+  double bdisc4=-100;
 
-//   double flavor=0;
-//   double flavor1=0;
-//   double flavor2=0;
-//   double flavor3=0;
-//   double flavor4=0;
+  double flavor=0;
+  double flavor1=0;
+  double flavor2=0;
+  double flavor3=0;
+  double flavor4=0;
 
-//   for(int jdx=0; jdx<(int)jets->size(); ++jdx)
-//     {
-//       bdisc=(*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags");
-//       flavor=(*jets)[jdx].partonFlavour();
+  for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+    {
+      bdisc=(*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags");
+      flavor=(*jets)[jdx].partonFlavour();
 
-//       if(bdisc>bdisc1)
-// 	{
-// 	  bdisc4=bdisc3;
-// 	  bdisc3=bdisc2;
-// 	  bdisc2=bdisc1;
-// 	  bdisc1=bdisc;
+      if(bdisc>bdisc1)
+	{
+	  bdisc4=bdisc3;
+	  bdisc3=bdisc2;
+	  bdisc2=bdisc1;
+	  bdisc1=bdisc;
 
-// 	  flavor4=flavor3;
-// 	  flavor3=flavor2;
-// 	  flavor2=flavor1;
-// 	  flavor1=flavor;
-// 	}
-//       else if(bdisc>bdisc2)
-// 	{
-// 	  bdisc4=bdisc3;
-// 	  bdisc3=bdisc2;
-// 	  bdisc2=bdisc;
+	  flavor4=flavor3;
+	  flavor3=flavor2;
+	  flavor2=flavor1;
+	  flavor1=flavor;
+	}
+      else if(bdisc>bdisc2)
+	{
+	  bdisc4=bdisc3;
+	  bdisc3=bdisc2;
+	  bdisc2=bdisc;
 
-// 	  flavor4=flavor3;
-// 	  flavor3=flavor2;
-// 	  flavor2=flavor;
-// 	}
-//       else if(bdisc>bdisc3)
-// 	{
-// 	  bdisc4=bdisc3;
-// 	  bdisc3=bdisc;
+	  flavor4=flavor3;
+	  flavor3=flavor2;
+	  flavor2=flavor;
+	}
+      else if(bdisc>bdisc3)
+	{
+	  bdisc4=bdisc3;
+	  bdisc3=bdisc;
 
-// 	  flavor4=flavor3;
-// 	  flavor3=flavor;
-// 	}
-//       else if(bdisc>bdisc4)
-// 	{
-// 	  bdisc4=bdisc;
+	  flavor4=flavor3;
+	  flavor3=flavor;
+	}
+      else if(bdisc>bdisc4)
+	{
+	  bdisc4=bdisc;
 
-// 	  flavor4=flavor;
-// 	}
-//     }
+	  flavor4=flavor;
+	}
+    }
 
-//   flavor_bjet1_->Fill(abs(flavor1));
-//   flavor_bjet2_->Fill(abs(flavor2));
-//   flavor_bjet3_->Fill(abs(flavor3));
-//   flavor_bjet4_->Fill(abs(flavor4));
+  flavor_bjet1_->Fill(abs(flavor1));
+  flavor_bjet2_->Fill(abs(flavor2));
+  flavor_bjet3_->Fill(abs(flavor3));
+  flavor_bjet4_->Fill(abs(flavor4));
 
   //-------------------------------------------------------
   // correlation between number of b-quarks and jet1 et
   //-------------------------------------------------------
 
-//   if(jets->size() >= 1)
-//     {
-//       // 0,1 b-quarks
-//       if(susyGenEvent->numberOfBQuarks()<=2)
-// 	{
-// 	  if(susyGenEvent->GluinoSquarkDecay()) Jet1_Et_012BQuarks_gq_->Fill((*jets)[0].et());
-// 	  else if(susyGenEvent->GluinoGluinoDecay()) Jet1_Et_012BQuarks_gg_->Fill((*jets)[0].et());
-// 	  else if(susyGenEvent->SquarkSquarkDecay()) Jet1_Et_012BQuarks_qq_->Fill((*jets)[0].et());
-// 	  else Jet1_Et_012BQuarks_other_->Fill((*jets)[0].et());
-// 	  Jet1_Et_012BQuarks_->Fill((*jets)[0].et()); 
-// 	}
-//       // 2 b-quarks
-//       if(susyGenEvent->numberOfBQuarks()==2)
-// 	{
-// 	  if(susyGenEvent->GluinoSquarkDecay()) Jet1_Et_2BQuarks_gq_->Fill((*jets)[0].et());
-// 	  else if(susyGenEvent->GluinoGluinoDecay()) Jet1_Et_2BQuarks_gg_->Fill((*jets)[0].et());
-// 	  else if(susyGenEvent->SquarkSquarkDecay()) Jet1_Et_2BQuarks_qq_->Fill((*jets)[0].et());
-// 	  else Jet1_Et_2BQuarks_other_->Fill((*jets)[0].et());
-// 	  Jet1_Et_2BQuarks_->Fill((*jets)[0].et()); 
-// 	}
+  if(jets->size() >= 1)
+    {
+      // 0,1 b-quarks
+      if(susyGenEvent->numberOfBQuarks()<=2)
+	{
+	  if(susyGenEvent->GluinoSquarkDecay()) Jet1_Et_012BQuarks_gq_->Fill((*jets)[0].et());
+	  else if(susyGenEvent->GluinoGluinoDecay()) Jet1_Et_012BQuarks_gg_->Fill((*jets)[0].et());
+	  else if(susyGenEvent->SquarkSquarkDecay()) Jet1_Et_012BQuarks_qq_->Fill((*jets)[0].et());
+	  else Jet1_Et_012BQuarks_other_->Fill((*jets)[0].et());
+	  Jet1_Et_012BQuarks_->Fill((*jets)[0].et()); 
+	}
+      // 2 b-quarks
+      if(susyGenEvent->numberOfBQuarks()==2)
+	{
+	  if(susyGenEvent->GluinoSquarkDecay()) Jet1_Et_2BQuarks_gq_->Fill((*jets)[0].et());
+	  else if(susyGenEvent->GluinoGluinoDecay()) Jet1_Et_2BQuarks_gg_->Fill((*jets)[0].et());
+	  else if(susyGenEvent->SquarkSquarkDecay()) Jet1_Et_2BQuarks_qq_->Fill((*jets)[0].et());
+	  else Jet1_Et_2BQuarks_other_->Fill((*jets)[0].et());
+	  Jet1_Et_2BQuarks_->Fill((*jets)[0].et()); 
+	}
       
-//       // 3,4, ... b-quarks
-//       if(susyGenEvent->numberOfBQuarks()>=3)
-// 	{
-// 	  if(susyGenEvent->GluinoSquarkDecay())
-// 	    {
-// 	      Jet1_Et_3456BQuarks_gq_->Fill((*jets)[0].et());
-// 	    }
-// 	  else if(susyGenEvent->GluinoGluinoDecay())
-// 	    {
-// 	      Jet1_Et_3456BQuarks_gg_->Fill((*jets)[0].et());
-// 	    }
-// 	  else if(susyGenEvent->SquarkSquarkDecay())
-// 	    {
-// 	      Jet1_Et_3456BQuarks_qq_->Fill((*jets)[0].et());
-// 	    }
-// 	  else 
-// 	    {
-// 	      Jet1_Et_3456BQuarks_other_->Fill((*jets)[0].et());
-// 	    }
-// 	  Jet1_Et_3456BQuarks_->Fill((*jets)[0].et()); 
-// 	}
-//     }
+      // 3,4, ... b-quarks
+      if(susyGenEvent->numberOfBQuarks()>=3)
+	{
+	  if(susyGenEvent->GluinoSquarkDecay())
+	    {
+	      Jet1_Et_3456BQuarks_gq_->Fill((*jets)[0].et());
+	    }
+	  else if(susyGenEvent->GluinoGluinoDecay())
+	    {
+	      Jet1_Et_3456BQuarks_gg_->Fill((*jets)[0].et());
+	    }
+	  else if(susyGenEvent->SquarkSquarkDecay())
+	    {
+	      Jet1_Et_3456BQuarks_qq_->Fill((*jets)[0].et());
+	    }
+	  else 
+	    {
+	      Jet1_Et_3456BQuarks_other_->Fill((*jets)[0].et());
+	    }
+	  Jet1_Et_3456BQuarks_->Fill((*jets)[0].et()); 
+	}
+    }
 
 //   ------------------------------
 //   kinematics of matched bjets
 //   ------------------------------
 
-//   double HTB=0;
-//   for(int hdx=0; hdx<(int)matchedbjets->size(); ++hdx)
-//     {
-//       HTB=HTB+(*matchedbjets)[hdx].et();
-//     }
-//   HTB_->Fill(HTB);
+  double HTB=0;
+  for(int hdx=0; hdx<(int)matchedbjets->size(); ++hdx)
+    {
+      HTB=HTB+(*matchedbjets)[hdx].et();
+    }
+  HTB_->Fill(HTB);
 
   //------------------------------------------------------
   // kinematics, topology of events with 2 matched bjets
   //-----------------------------------------------------
 
-//   if(matchedbjets->size()==2)
-//     {
-//       reco::Particle::LorentzVector bjet1=(*matchedbjets)[0].p4();
-//       reco::Particle::LorentzVector bjet2=(*matchedbjets)[1].p4();
-//       reco::Particle::LorentzVector MET=(*met)[0].p4();
+  if(matchedbjets->size()==2)
+    {
+      reco::Particle::LorentzVector bjet1=(*matchedbjets)[0].p4();
+      reco::Particle::LorentzVector bjet2=(*matchedbjets)[1].p4();
+      reco::Particle::LorentzVector MET=(*met)[0].p4();
 
-//       double mbb=sqrt(bjet1.Dot(bjet2));
-//       double dPhi=abs(deltaPhi((*matchedbjets)[0].phi(),(*matchedbjets)[1].phi()));
-//       double dPhi1=abs(deltaPhi((*matchedbjets)[0].phi(),(*met)[0].phi()));
-//       double dPhi2=abs(deltaPhi((*matchedbjets)[1].phi(),(*met)[0].phi()));
+      double mbb=sqrt(bjet1.Dot(bjet2));
+      double dPhi=abs(deltaPhi((*matchedbjets)[0].phi(),(*matchedbjets)[1].phi()));
+      double dPhi1=abs(deltaPhi((*matchedbjets)[0].phi(),(*met)[0].phi()));
+      double dPhi2=abs(deltaPhi((*matchedbjets)[1].phi(),(*met)[0].phi()));
 
-//       mbb_->Fill(mbb);
-//       angleb1b2_->Fill(abs(angle(bjet1,bjet2)));
-//       deltaPhi_b1b2_->Fill(dPhi);
-//       deltaPhi_b1MET_->Fill(dPhi1);
-//       deltaPhi_b2MET_->Fill(dPhi1);
-//       deltaPhi_b12MET_->Fill(abs(dPhi1-dPhi2));
+      mbb_->Fill(mbb);
+      angleb1b2_->Fill(abs(angle(bjet1,bjet2)));
+      deltaPhi_b1b2_->Fill(dPhi);
+      deltaPhi_b1MET_->Fill(dPhi1);
+      deltaPhi_b2MET_->Fill(dPhi1);
+      deltaPhi_b12MET_->Fill(abs(dPhi1-dPhi2));
 
-//       Bjet1_Et_->Fill((*matchedbjets)[0].et());
-//       Bjet2_Et_->Fill((*matchedbjets)[1].et());
-//       HT_2Bjets_->Fill((*matchedbjets)[0].et()+(*matchedbjets)[1].et());
+      Bjet1_Et_->Fill((*matchedbjets)[0].et());
+      Bjet2_Et_->Fill((*matchedbjets)[1].et());
+      HT_2Bjets_->Fill((*matchedbjets)[0].et()+(*matchedbjets)[1].et());
 
-//       if(matchedqjets->size()>=1)
-// 	{
-// 	  Jet1_Et_2Bjets_->Fill((*matchedqjets)[0].et());
-// 	  HT_2Bjets_1LightJet_->Fill((*matchedbjets)[0].et()+(*matchedbjets)[1].et()+(*matchedqjets)[0].et());
-// 	}
-//     }
+      if(matchedqjets->size()>=1)
+	{
+	  Jet1_Et_2Bjets_->Fill((*matchedqjets)[0].et());
+	  HT_2Bjets_1LightJet_->Fill((*matchedbjets)[0].et()+(*matchedbjets)[1].et()+(*matchedqjets)[0].et());
+	}
+    }
 
   //--------------------------------------------------------------
   // kinematics, topology of events with 2 or more matched bjets
@@ -576,39 +574,39 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
 // 	}
 //     }
 
-//   if(matchedbjets->size()==4)
-//     {
-//       std::vector<math::XYZVector> bjetsMET;
+  if(matchedbjets->size()==4)
+    {
+      std::vector<math::XYZVector> bjetsMET;
 
-//       for(int idx=0; idx<(int)matchedbjets->size(); ++idx)
-// 	{
-// 	  math::XYZVector bjetsp3;
+      for(int idx=0; idx<(int)matchedbjets->size(); ++idx)
+	{
+	  math::XYZVector bjetsp3;
 	  
-// 	  bjetsp3.SetX((*matchedbjets)[idx].px());
-// 	  bjetsp3.SetY((*matchedbjets)[idx].py());
-// 	  bjetsp3.SetZ((*matchedbjets)[idx].pz());
-// 	  bjetsMET.push_back(bjetsp3);
-// 	}
+	  bjetsp3.SetX((*matchedbjets)[idx].px());
+	  bjetsp3.SetY((*matchedbjets)[idx].py());
+	  bjetsp3.SetZ((*matchedbjets)[idx].pz());
+	  bjetsMET.push_back(bjetsp3);
+	}
 
-//       math::XYZVector metp3;
-//       metp3.SetX((*met)[0].px());
-//       metp3.SetY((*met)[0].py());
-//       metp3.SetZ((*met)[0].pz());
-//       bjetsMET.push_back(metp3);
+      math::XYZVector metp3;
+      metp3.SetX((*met)[0].px());
+      metp3.SetY((*met)[0].py());
+      metp3.SetZ((*met)[0].pz());
+      bjetsMET.push_back(metp3);
 
-//       EventShapeVariables evtshape(bjetsMET);
+      EventShapeVariables evtshape(bjetsMET);
 
-//       double sphericity_bjetsMET = evtshape.sphericity();
-//       double aplanarity_bjetsMET = evtshape.aplanarity();
-//       double circularity_bjetsMET = evtshape.circularity();
-//       double isotropy_bjetsMET = evtshape.isotropy();
+      double sphericity_bjetsMET = evtshape.sphericity();
+      double aplanarity_bjetsMET = evtshape.aplanarity();
+      double circularity_bjetsMET = evtshape.circularity();
+      double isotropy_bjetsMET = evtshape.isotropy();
       
-//       sphericity_bjetsMET_->Fill(sphericity_bjetsMET);          
-//       aplanarity_bjetsMET_->Fill(aplanarity_bjetsMET);   
-//       circularity_bjetsMET_->Fill(circularity_bjetsMET);        
-//       isotropy_bjetsMET_->Fill(isotropy_bjetsMET);          
+      sphericity_bjetsMET_->Fill(sphericity_bjetsMET);          
+      aplanarity_bjetsMET_->Fill(aplanarity_bjetsMET);   
+      circularity_bjetsMET_->Fill(circularity_bjetsMET);        
+      isotropy_bjetsMET_->Fill(isotropy_bjetsMET);          
       
-//     }
+    }
 
   //--------------------------------------------------------------
   // kinematics, topology of events with 1 matched lepton
