@@ -35,9 +35,12 @@ int EventCounter()
   int bf=bgFiles.size();
 
   //sgFiles.push_back (new TFile("Bjets_Mu.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM3.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM3.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM7.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM9.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM12.root", "READ"));
   int sf=sgFiles.size();
   
   // names
@@ -45,11 +48,13 @@ int EventCounter()
   bgNames.push_back("W+Jets");
   bgNames.push_back("Z+Jets");
   bgNames.push_back("QCD Mu");
-
   //sgNames.push_back("Run2010 Mu");
-  sgNames.push_back("LM1");
-  sgNames.push_back("LM3");
-  sgNames.push_back("LM8");
+  //sgNames.push_back("LM1");
+  //sgNames.push_back("LM3");
+  //sgNames.push_back("LM8");
+  sgNames.push_back("LM7");
+  sgNames.push_back("LM9");
+  sgNames.push_back("LM12");
 
   // lumi in fb-1
   //double lumi=0.0359;
@@ -63,6 +68,9 @@ int EventCounter()
   double xsecLM1=4.888;
   double xsecLM3=3.438;
   double xsecLM8=0.73;
+  double xsecLM7=1.209;
+  double xsecLM9=7.134;
+  double xsecLM12=4.414;
   double xsecG400=8.31098;
   double xsecG500=1.87644;
   double xsecG700=0.157907;
@@ -76,23 +84,29 @@ int EventCounter()
   double nLM1=219190;
   double nLM3=220000;
   double nLM8=220000;
+  double nLM7=220000;
+  double nLM9=220000;
+  double nLM12=219595;
   double nG400=10000;
   double nG500=10000;
   double nG700=10000;
   double nG800=10000;
 
   // weights
-  double sQCDMu=lumi*1000*xsecQCDMu/(nQCD);  //3.72322;
-  double sZjets=lumi*1000*xsecZjets/(nZjets);  //1.19824;
-  double sWjets=lumi*1000*xsecWjets/(nWjets);  //2.11502;
-  double sTTJets=lumi*1000*xsecTTJets/(nTTJets);  //0.13623;
-  double sLM1=lumi*1000*xsecLM1/(nLM1);  //0.02230;
-  double sLM3=lumi*1000*xsecLM3/(nLM3);  //0.01563;
-  double sLM8=lumi*1000*xsecLM8/(nLM8);  //0.00332;
-  double sG400=lumi*1000*xsecG400/(nG400);  //0.02230;
-  double sG500=lumi*1000*xsecG500/(nG500);  //0.02230;
-  double sG700=lumi*1000*xsecG700/(nG700);  //0.01563;
-  double sG800=lumi*1000*xsecG800/(nG800);  //0.00332;
+  double sQCDMu=lumi*1000*xsecQCDMu/(nQCD);
+  double sZjets=lumi*1000*xsecZjets/(nZjets);
+  double sWjets=lumi*1000*xsecWjets/(nWjets);
+  double sTTJets=lumi*1000*xsecTTJets/(nTTJets);
+  double sLM1=lumi*1000*xsecLM1/(nLM1);
+  double sLM3=lumi*1000*xsecLM3/(nLM3);
+  double sLM8=lumi*1000*xsecLM8/(nLM8);
+  double sLM7=lumi*1000*xsecLM7/(nLM7);
+  double sLM9=lumi*1000*xsecLM9/(nLM9);
+  double sLM12=lumi*1000*xsecLM12/(nLM12);
+  double sG400=lumi*1000*xsecG400/(nG400);
+  double sG500=lumi*1000*xsecG500/(nG500);
+  double sG700=lumi*1000*xsecG700/(nG700);
+  double sG800=lumi*1000*xsecG800/(nG800);
   double sData=1;
 
   bgScales.push_back(sTTJets);
@@ -101,23 +115,24 @@ int EventCounter()
   bgScales.push_back(sQCDMu);
 
   //sgScales.push_back(sData);
-  sgScales.push_back(sLM1);  
-  sgScales.push_back(sLM3);
-  sgScales.push_back(sLM8);
+  //sgScales.push_back(sLM1);  
+  //sgScales.push_back(sLM3);
+  //sgScales.push_back(sLM8);
+  sgScales.push_back(sLM7);  
+  sgScales.push_back(sLM9);
+  sgScales.push_back(sLM12);
 
   // selection
-  selection.push_back("1l");
-  //selection.push_back("2l";)
+  selection.push_back("1l");;
   selection.push_back("1b1l");
-  //selection.push_back("1b2l");
   selection.push_back("2b1l");
-  //selection.push_back("2b2l");
-  //selection.push_back("3b");
   selection.push_back("3b1l");
-  //selection.push_back("3b2l");
-  //selection.push_back("4b");
   selection.push_back("4b1l");
-  //selection.push_back("4b2l");
+  selection.push_back("2l");
+  selection.push_back("1b2l");
+  selection.push_back("2b2l");
+  selection.push_back("3b2l");
+  selection.push_back("4b2l");
   
   int s=selection.size();
 
