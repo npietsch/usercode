@@ -6,13 +6,14 @@ cmsenv
 kinit Username@CERN.CH
 
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
+cvs co -d Tools UserCode/npietsch/Tools
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
 mv SUSYAnalysis/SUSYFilter/plugins/Di* ./TopAnalysis/TopFilter/plugins
 mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/filters
 
-## If you want to create the TtGenEvent for non-SM samples, type:
+## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
@@ -21,15 +22,16 @@ scram b -r -j 5
 cd SUSYAnalysis/Configuration/
 
 ## Configure BjetsAOD_cfg.py, BjetsPAT_cfg.py and BjetsPATData_cfg.pt to run on AOD, PAT MC and PAT Data files, resp.
-## It might be sufficient to only modify the cms.Path. Various modules to create PAT object collections, filter and anlzye events are
+## It might be sufficient to only modify the cmsPath. Various modules to create PAT object collections and to filter and anlzye events are
 ## predefined in SUSYAnalysis/SUSYFilter/python/sequences/ and SUSYAnalysis/SUSYAnalyzer/python
 
 ./jobSubmit.sh
 
-## To check if jobs are finished type: qstat -u Username. To copy output files to one directory YouDir after jobs are finished type
-./copy.sh YouDir
+## To check if jobs are finished, type: qstat -u Username. To copy output files to one directory YouDir after jobs are finished type:
+./copy.sh YouDir,
 
-## To display cutflows and create cutflow-tables that may directly be used in LaTex, do
-cp Tools/EventCounter.C YouDir
+## To display cutflows and create cutflow-tables that may directly be used in LaTex, do:
+cp ../../Tools/EventCounter.C YouDir
+cd YouDir
 root -l
 .x EventCounter.C+
