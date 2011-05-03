@@ -8,7 +8,7 @@ HTTrigger = hltHighLevel.clone(HLTPaths = ["HLT_HT100U"]) ## add trigger: HLTPat
 MUTrigger = hltHighLevel.clone(HLTPaths = ["HLT_Mu9"]) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
 MUTriggerData = hltHighLevel.clone(HLTPaths = ["HLT_Mu9"]) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
 MUTriggerData2 = hltHighLevel.clone(HLTPaths = ["HLT_Mu15_v1"]) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
-MUTriggerData3 = hltHighLevel.clone(HLTPaths = ["HLT_Mu15_v2"]) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
+MUTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v2'],throw = False) ## add trigger: HLTPaths = ["HLT_Mu9", "HLT_Ele10_SW_L1R", ...]
 
 HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::REDIGI38X", HLTPaths = ["HLT_HT100U","HLT_HT120U","HLT_HT140U"])
 MuTriggerQCD = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::REDIGI38X", HLTPaths = ["HLT_Mu9"])
@@ -30,7 +30,7 @@ from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 preselection = cms.Sequence(MUTrigger *
                             primaryVertexFilter *
-                            ##HBHENoiseFilter *
+                            HBHENoiseFilter *
                             scrapingVeto
                             )
 
@@ -64,8 +64,20 @@ preselectionData2 = cms.Sequence(MUTriggerData2##  *
 ##                                 scrapingVeto
                                  )
 
-preselectionData3 = cms.Sequence(MUTriggerData3 ##  *
+preselectionData3 = cms.Sequence(MUTriggerData3 ## *
 ##                                  primaryVertexFilter *
 ##                                  HBHENoiseFilter *
 ##                                  scrapingVeto
                                  )
+
+preselectionData2PAT = cms.Sequence(MUTriggerData3 *
+                                    primaryVertexFilter *
+                                    HBHENoiseFilter *
+                                    scrapingVeto
+                                    )
+
+preselectionMC2PAT = cms.Sequence(MUTriggerData3 *
+                                  primaryVertexFilter *
+                                  HBHENoiseFilter *
+                                  scrapingVeto
+                                  )

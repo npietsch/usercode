@@ -29,23 +29,26 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   MT_ = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
   invMuMuMass_= fs->make<TH1F>("invMuMuMass","invMuMuMass",200,0.,200);
 
+  RelIsoMu1_= fs->make<TH1F>("RelIsoMu1","RelIso Muon 1",40,0.,1.0);
+  RelIsoMu2_= fs->make<TH1F>("RelIsoMu2","RelIso Muon 2",100,0.,5.0);
+
   for(int idx=0; idx<6; ++idx)
     {
       char histname[20];
       sprintf(histname,"Jet%i_Et",idx);
-      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 30, 0., 900.));
+      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
     }
   for(int idx=0; idx<3; ++idx)
     {
       char histname[20];
       sprintf(histname,"Muon%i_Et",idx);
-      Muon_pt_.push_back(fs->make<TH1F>(histname,histname, 20, 0., 600.));
+      Muon_pt_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
     }
   for(int idx=0; idx<3; ++idx)
     {
       char histname[20];
       sprintf(histname,"Elec%i_Et",idx);
-      Elec_pt_.push_back(fs->make<TH1F>(histname,histname, 20, 0., 600.));
+      Elec_pt_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
     }
 }
 
@@ -97,6 +100,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   double lepHT=0;
   std::vector<int> charge;
   
+  double RelIso=100;
+  double RelIso1=100;
+  double RelIso2=100;
+
   for(int i=0; i<(int)muons->size(); ++i)
     {
       if(i<3) Muon_pt_[i]->Fill((*muons)[i].pt());
@@ -106,8 +113,26 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       //std::cout << "muon charge: " << (*muons)[i].charge() << std::endl;
       charge.push_back((*muons)[i].charge());
       //if((*muons)[i].genLepton()) std::cout << (*muons)[i].genLepton()->pdgId() << std::endl;
+
+      RelIso=((*muons)[i].trackIso()+(*muons)[i].caloIso())/((*muons)[i].pt());
+
+      if(RelIso < RelIso1)
+	{
+	  RelIso2=RelIso1;
+	  RelIso1=RelIso;
+	}
+      else if(RelIso < RelIso2)
+	{
+	  RelIso2=RelIso;
+	}
     }
-  
+
+  if(RelIso1 >= 1 && RelIso1 < 100) RelIso1=0.9999;
+  if(RelIso1 >= 5 && RelIso2 < 100) RelIso2=0.4999;
+
+  RelIsoMu1_->Fill(RelIso1);
+  RelIsoMu2_->Fill(RelIso2);
+
   for(int i=0; i<(int)electrons->size(); ++i)
     {
       if(i<3) Elec_pt_[i]->Fill((*electrons)[i].pt());

@@ -11,15 +11,19 @@ from PhysicsTools.PatAlgos.cleaningLayer1.muonCleaner_cfi import *
 goodMuons = cleanPatMuons.clone(preselection =
                                 # Global Muon Prompt Tight
                                 'isGlobalMuon &'
-                                'globalTrack.normalizedChi2 < 10.0 &'
+                                'globalTrack.chi2 < 10.0 &'
                                 'globalTrack.hitPattern.numberOfValidMuonHits > 0 &'
                                 # other requirements 
                                 'isTrackerMuon &'
-                                'pt > 20. &'
-                                'abs(eta) < 2.1 &'
-                                '(trackIso+caloIso)/pt < 0.05 &'
+                                'pt >= 20. &'
+                                'abs(eta) <= 2.1 &'
+                                '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                 'abs(dB) < 0.02 &' # !! 'abs(track.d0) < 0.02 &' # abs(dB) = abs(dxy(Beam Spot))??
-                                'globalTrack.hitPattern.numberOfValidTrackerHits > 10'
+                                'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
+                                'numberOfMatches() > 1 &'
+                                'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 '
+                                #'abs(track.dz) < 1 '
+                                #'abs( innerTrack().vertex().z() - PV().z()) < 1'
                                 )
 
 ## Check good muons for overlap with jets 
@@ -38,10 +42,10 @@ goodMuons.checkOverlaps = cms.PSet(
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            cut =
-                                           'pt > 20. &'
-                                           'abs(eta) < 2.4 &'
-                                           'electronID(\"simpleEleId80relIso\")=7'
-                                           #'(abs(eta) < 1.47 | abs(eta) > 1.507) $'
+                                           'pt >= 20. &'
+                                           'abs(eta) <= 2.4 &'
+                                           'electronID(\"simpleEleId80relIso\")=7 &'
+                                           '(abs(eta) < 1.4442 | abs(eta) > 1.566)'
                                            )
 
 ## create veto-muon collection
@@ -87,8 +91,8 @@ from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 vetoMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                    cut =
                                    'isGlobalMuon &'
-                                   'pt > 10. &'
-                                   'abs(eta) < 2.5 &'
+                                   'pt >= 10. &'
+                                   'abs(eta) <= 2.5 &'
                                    '(trackIso+caloIso)/pt <  0.2'
                                    )
 
@@ -96,10 +100,11 @@ vetoMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            cut =
-                                           'pt > 15. &'
-                                           'abs(eta) < 2.5 &'
-                                           #'(abs(eta) < 1.47 | abs(eta) > 1.507) $'
-                                           '(dr03TkSumPt+dr03EcalRecHitSumEt+dr03HcalTowerSumEt)/et<0.2 '
+                                           'pt >= 15. &'
+                                           'abs(eta) <= 2.4 &'
+                                           '(abs(eta) < 1.4442 | abs(eta) > 1.566) &'
+                                           #'(abs(eta) < 1.47 | abs(eta) > 1.507) &'
+                                           'electronID(\"simpleEleId95relIso\")=7 '
                                            )
 
 #------------------------------
@@ -276,6 +281,11 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 twoMediumJets = countPatJets.clone(src = 'mediumJets',
                                    minNumber = 2
                                    )
+## select events with 2 good jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+oneGoodJet = countPatJets.clone(src = 'goodJets',
+                                minNumber = 1
+                                )
 ## select events with 2 good jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 twoGoodJets = countPatJets.clone(src = 'goodJets',

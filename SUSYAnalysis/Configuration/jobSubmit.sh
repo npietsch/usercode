@@ -23,5 +23,15 @@ nafJobSplitter.pl 1 Bjets_GluinoOSET700_cfg.py
 nafJobSplitter.pl 1 Bjets_GluinoOSET750_cfg.py
 nafJobSplitter.pl 1 Bjets_GluinoOSET800_cfg.py
 
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET400_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET450_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET500_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET550_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET600_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET650_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET700_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET750_cfg.py
+nafJobSplitter.pl 1 Bjets_tbGluinoOSET800_cfg.py
+
 nafJobSplitter.pl 181 Bjets_MuAB1_cfg.py
 nafJobSplitter.pl 225 Bjets_MuB2_cfg.py

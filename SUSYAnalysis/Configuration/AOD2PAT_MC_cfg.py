@@ -11,8 +11,7 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    #'/store/data/Run2011A/MuHad/AOD/PromptReco-v1/000/160/329/F07BDC20-2F4E-E011-A03B-0030487CD14E.root'
-    '/store/data/Run2011A/MuHad/AOD/PromptReco-v1/000/161/176/DE7AF847-B556-E011-9AD4-000423D94908.root'
+    '/store/mc/Fall10/LM3_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0001/0224B8CD-D5D3-DF11-BC57-0019BBEB54B2.root',
 
     )
 )
@@ -36,6 +35,9 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.GlobalTag.globaltag = cms.string('START38_V7::All')
 process.GlobalTag.globaltag = cms.string('START311_V2A::All')
 
+
+
+
 #-------------------------------------------------
 # PAT configuration
 #-------------------------------------------------
@@ -54,7 +56,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
 from PhysicsTools.PatAlgos.tools.coreTools import *
-removeMCMatching(process, ['All'])
+#removeMCMatching(process, ['All'])
 
 #removeSpecificPATObjects(process,
 #                         ['Photons'],  # 'Tau' has currently been taken out due to problems with tau discriminators
@@ -128,15 +130,12 @@ process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSeque
 # Trigger + Noise cleaning sequence
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-# Example how to change prselection criteria:
-process.scrapingVeto.thresh = 0.15 ## <-- for MC
-
 #-------------------------------------------------
 # cmsPath
 #----------------------------------------------
 
 process.PATTuple = cms.Path(process.patDefaultSequence*
-                            process.preselectionData2PAT)
+                            process.preselectionMC2PAT)
 
 #-------------------------------------------------
 # Optional: write patTuple

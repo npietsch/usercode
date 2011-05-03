@@ -17,6 +17,16 @@ cp naf_Bjets_GluinoOSET700_cfg/Bjets.root $1/Bjets_GluinoOSET700.root
 cp naf_Bjets_GluinoOSET750_cfg/Bjets.root $1/Bjets_GluinoOSET750.root
 cp naf_Bjets_GluinoOSET800_cfg/Bjets.root $1/Bjets_GluinoOSET800.root
 
+cp naf_Bjets_tbGluinoOSET400_cfg/Bjets.root $1/Bjets_tbGluinoOSET400.root
+cp naf_Bjets_tbGluinoOSET450_cfg/Bjets.root $1/Bjets_tbGluinoOSET450.root
+cp naf_Bjets_tbGluinoOSET500_cfg/Bjets.root $1/Bjets_tbGluinoOSET500.root
+cp naf_Bjets_tbGluinoOSET550_cfg/Bjets.root $1/Bjets_tbGluinoOSET550.root
+cp naf_Bjets_tbGluinoOSET600_cfg/Bjets.root $1/Bjets_tbGluinoOSET600.root
+cp naf_Bjets_tbGluinoOSET650_cfg/Bjets.root $1/Bjets_tbGluinoOSET650.root
+cp naf_Bjets_tbGluinoOSET700_cfg/Bjets.root $1/Bjets_tbGluinoOSET700.root
+cp naf_Bjets_tbGluinoOSET750_cfg/Bjets.root $1/Bjets_tbGluinoOSET750.root
+cp naf_Bjets_tbGluinoOSET800_cfg/Bjets.root $1/Bjets_tbGluinoOSET800.root
+
 cp naf_Bjets_TTJets_cfg/Bjets.root $1/Bjets_TTJets.root
 cp naf_Bjets_Wjets_cfg/Bjets.root $1/Bjets_Wjets.root
 cp naf_Bjets_Zjets_cfg/Bjets.root $1/Bjets_Zjets.root

@@ -49,6 +49,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *nLeptons_;
   TH1F *MT_;
   TH1F *invMuMuMass_;
+  TH1F *RelIsoMu1_;
+  TH1F *RelIsoMu2_;
 
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;
