@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.muonCleaner_cfi import *
 goodMuons = cleanPatMuons.clone(preselection =
                                 # Global Muon Prompt Tight
                                 'isGlobalMuon &'
-                                'globalTrack.normalizeChi2 < 10.0 &'
+                                'globalTrack.normalizedChi2 < 10.0 &'
                                 'globalTrack.hitPattern.numberOfValidMuonHits > 0 &'
                                 # other requirements 
                                 'isTrackerMuon &'
