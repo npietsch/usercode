@@ -18,7 +18,7 @@ goodMuons = cleanPatMuons.clone(preselection =
                                 'pt >= 20. &'
                                 'abs(eta) <= 2.1 &'
                                 '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
-                                'abs(dB) < 0.02 &' # !! 'abs(track.d0) < 0.02 &' # abs(dB) = abs(dxy(Beam Spot))??
+                                #'abs(dB) < 0.02 &' # !! 'abs(track.d0) < 0.02 &' # abs(dB) = abs(dxy(Beam Spot))??
                                 'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
                                 'numberOfMatches() > 1 &'
                                 'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 '

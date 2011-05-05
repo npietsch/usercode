@@ -11,14 +11,14 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Fall10/LM3_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0001/0224B8CD-D5D3-DF11-BC57-0019BBEB54B2.root',
-
+    #'/store/mc/Fall10/LM3_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0001/0224B8CD-D5D3-DF11-BC57-0019BBEB54B2.root',
+    '/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0009/84209FB0-4B51-E011-8538-001D0967C035.root'
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(1000),
-    skipEvents = cms.untracked.uint32(10)
+    skipEvents = cms.untracked.uint32(1)
 )
 
 process.options = cms.untracked.PSet(
@@ -51,7 +51,7 @@ from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Data2011_StreamExpress160433-161312.root')
+    fileName = cms.untracked.string('Spring11.root')
 )
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
@@ -127,15 +127,29 @@ process.patElectrons.electronIDSources = cms.PSet(
     simpleEleId60cIso= cms.InputTag("simpleEleId60cIso"))
 process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectronIsolation+process.patElectrons)
 
-# Trigger + Noise cleaning sequence
-process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+## # Trigger + Noise cleaning sequence
+## process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+
+## high level trigger filter (non existing Triggers are ignored)
+process.load("HLTrigger.HLTfilters.hltHighLevel_cfi")
+process.filterHlt = process.hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
+    #2010 trigger ('v*' to be immune to version changes)
+    'HLT_Mu15_v*',
+    #2011 1E33 trigger ('v*' to be immune to version changes)
+    'HLT_Mu17_TriCentralJet30_v*', 'HLT_Mu17_CentralJet30_v*', 'HLT_Mu17_DiCentralJet30_v*',
+    #2011 1E33-2E33 trigger ('v*' to be immune to version changes)
+    'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
+    'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*',
+    #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
+    'HLT_Mu8_HT200_v*'],throw = False)
+
 
 #-------------------------------------------------
 # cmsPath
 #----------------------------------------------
 
 process.PATTuple = cms.Path(process.patDefaultSequence*
-                            process.preselectionMC2PAT)
+                            process.filterHlt)
 
 #-------------------------------------------------
 # Optional: write patTuple
