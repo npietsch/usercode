@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Bjets")
+process = cms.Process("RA4Synch")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -38,7 +38,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -170,6 +170,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 #--------------------------------------------------------
 # Load modules for analysis on generator and reco-level
@@ -190,36 +191,23 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 #-----------------------------------------------------------------
 
 
-## 1-lepton
-process.Selection1l = cms.Path(process.patDefaultSequence *
-                               process.makeObjects *
-                               #process.makeSUSYGenEvt *
-                               #process.SUSYGenEventFilter *
-                               #process.makeGenEvt *
-                               #process.ttGenEventFitler *
-                               process.preselection *
-                               process.oneGoodMuon *
-                               process.oneVetoMuon *
-                               process.noVetoElectron *
-                               process.oneGoodJet*
-                               process.twoGoodJets *
-                               process.threeGoodJets *
-                               process.fourGoodJets *
-                               process.metSelection
-                               )
-## process.Selection2l = cms.Path(process.patDefaultSequence *
-##                                process.makeObjects *
-##                                process.makeSUSYGenEvt *
-##                                #process.SUSYGenEventFilter *
-##                                #process.makeGenEvt *
-##                                #process.ttGenEventFitler *
-##                                process.preselection *
-##                                process.oneGoodElectron *
-##                                process.oneVetoElectron *
-##                                process.noVetoMuon *
-##                                process.oneGoodJet*
-##                                process.twoGoodJets *
-##                                process.threeGoodJets *
-##                                process.fourGoodJets*
-##                                process.metSelection 
-##                                )
+## Muon
+process.MuonSelection = cms.Path(process.patDefaultSequence *
+                                 process.makeObjects *
+                                 process.RA4MuonCollections *
+##                                  process.makeSUSYGenEvt *
+##                                  process.SUSYGenEventFilter *
+##                                  process.makeGenEvt *
+##                                  process.ttGenEventFitler *
+                                 process.preselection *
+                                 process.RA4MuonSelection *
+                                 process.oneGoodMuon *
+                                 process.oneVetoMuon *
+                                 process.noVetoElectron *
+                                 process.oneGoodJet*
+                                 process.twoGoodJets *
+                                 process.threeGoodJets *
+                                 process.fourGoodJets *
+                                 process.metSelection
+                                 )
+

@@ -112,7 +112,7 @@ vetoMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                    'isGlobalMuon &'
                                    'pt >= 10. &'
                                    'abs(eta) <= 2.5 &'
-                                   '(trackIso+caloIso)/pt <  0.2'
+                                   '(trackIso+hcalIso+ecalIso)/pt <  0.2'
                                    )
 
 ## create veto-electron collection
@@ -140,12 +140,11 @@ goodJets = cleanPatJets.clone(src = 'selectedPatJets',
                               'jetID.n90Hits > 1'
                               )
 
-
 goodJets.checkOverlaps.muons.src = 'goodMuons'
 goodJets.checkOverlaps.muons.deltaR = 0.5
 goodJets.checkOverlaps.muons.requireNoOverlaps = True
 
-goodJets.checkOverlaps.electrons.src = 'godElectrons'
+goodJets.checkOverlaps.electrons.src = 'goodElectrons'
 goodJets.checkOverlaps.electrons.deltaR = 0.5
 goodJets.checkOverlaps.electrons.requireNoOverlaps = True
 
@@ -160,7 +159,7 @@ mediumJets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 tightJets = selectedPatJets.clone(src = 'selectedPatJets',
                                   cut =
-                                  'pt > 100. &'
+                                  'pt > 100.'
                                   )
 
 #------------------------------
@@ -282,8 +281,8 @@ oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
 ## select events with no veto electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
-                                          maxNumber = 0
-                                          )
+                                         maxNumber = 0
+                                         )
 
 #------------------------------
 # jet countFilter
@@ -433,6 +432,7 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
 
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 filterHT.jets = "goodJets"
+filterHT.Cut = 350
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()

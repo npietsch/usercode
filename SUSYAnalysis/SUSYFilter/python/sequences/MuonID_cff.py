@@ -20,17 +20,17 @@ globalPromptTightMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                                 #'globalTrack.normalizedChi2 < 10.0 &'
                                                 #'globalTrack.hitPattern.numberOfValidMuonHits > 0 &'
                                                 'isGood("GlobalMuonPromptTight")'
-                                                ) 
-                                                
-trackMuons = selectedPatMuons.clone(src = "globalPromptTightMuons",
-                                    cut =
-                                    ## Track Muon
-                                    ##-------------
-                                    #'isTrackerMuon &'
-                                    'isGood("AllTrackerMuons")'
-                                    )
+                                                )
 
-ptMuons = selectedPatMuons.clone(src = "trackMuons",
+AllTrackerMuons = selectedPatMuons.clone(src = "globalPromptTightMuons",
+                                         cut =
+                                         ## Track Muon
+                                         ##-------------
+                                         #'isTrackerMuon &'
+                                         'isGood("AllTrackerMuons")'
+                                         )
+
+ptMuons = selectedPatMuons.clone(src = "AllTrackerMuons",
                                  cut =
                                  'pt >= 20.'
                                  )
@@ -65,7 +65,7 @@ pixelMuons = selectedPatMuons.clone(src = "matchesMuons",
                                     'innerTrack.hitPattern.pixelLayersWithMeasurement >= 1'
                                     )
 
-RA4Muons = vertexSelectedMuons.clone(src = "trackMuons"
+RA4Muons = vertexSelectedMuons.clone(src = "pixelMuons"
                                      )
 
 #------------------------------
@@ -133,7 +133,7 @@ oneRA4Muon = countPatMuons.clone(src = 'RA4Muons',
                                  )
 
 RA4MuonCollections = cms.Sequence(globalPromptTightMuons*
-                                  trackMuons *
+                                  AllTrackerMuons *
                                   ptMuons *
                                   etaMuons *
                                   isolatedMuons *
@@ -158,7 +158,7 @@ analyzeMuonQualityGlobal = analyzeMuonQuality.clone()
 analyzeMuonQualityGlobal.src = 'globalPromptTightMuons'
 
 analyzeMuonQualityTrack = analyzeMuonQuality.clone()
-analyzeMuonQualityTrack.src = 'trackMuons'
+analyzeMuonQualityTrack.src = 'AllTrackerMuons'
 
 analyzeMuonQualityPt = analyzeMuonQuality.clone()
 analyzeMuonQualityPt.src = 'ptMuons'
@@ -194,7 +194,7 @@ analyzeMuonKinematicsGlobal = analyzeMuonKinematics.clone()
 analyzeMuonKinematicsGlobal.src = 'globalPromptTightMuons'
 
 analyzeMuonKinematicsTrack = analyzeMuonKinematics.clone()
-analyzeMuonKinematicsTrack.src = 'trackMuons'
+analyzeMuonKinematicsTrack.src = 'AllTrackerMuons'
 
 analyzeMuonKinematicsPt = analyzeMuonKinematics.clone()
 analyzeMuonKinematicsPt.src = 'ptMuons'
