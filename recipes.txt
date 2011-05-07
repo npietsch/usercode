@@ -1,7 +1,15 @@
+##------------------------
+## Set up cms release
+##------------------------
+
 export SCRAM_ARCH=slc5_amd64_gcc434
 cmsrel CMSSW_4_1_4
 cd CMSSW_4_1_4/src
 cmsenv
+
+##-------------------------------
+## Check out and compile code
+##-------------------------------
 
 kinit Username@CERN.CH
 
@@ -19,19 +27,70 @@ mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/fil
 
 scram b -r -j 5
 
-cd SUSYAnalysis/Configuration/
+#-------------------------------
+# Run the analysis
+#-------------------------------
 
-## Configure BjetsAOD_cfg.py, BjetsPAT_cfg.py and BjetsPATData_cfg.pt to run on AOD, PAT MC and PAT Data files, resp.
-## It might be sufficient to only modify the cmsPath. Various modules to create PAT object collections and to filter and anlzye events are
-## predefined in SUSYAnalysis/SUSYFilter/python/sequences/ and SUSYAnalysis/SUSYAnalyzer/python
+cd SUSYAnalysis/Configuration/Run2010/
 
 ./jobSubmit.sh
 
-## To check if jobs are finished, type: qstat -u Username. To copy output files to one directory YouDir after jobs are finished type:
-./copy.sh YouDir
+## This will execute the nafJobSplitter.pl script (located at TopAnalysis/TopUtils/scripts) for different
+## background samples (QCD Muon enriched, TTJets, W+Jets, Z+Jets), 2010 Data (MuAB1, MuB2) and several signal
+## samples (mSUGRA LM1, LM3, LM7, LM8, LM9, LM12, 4top OSET, 2top2bottom OSET samples). If you want to run over a
+## subset of samples, comment out the corresponding lines in jobSubmit.sh.
+##
+## The nafJobSplitter.pl script will split each sample into the specified number of jobs, e.g. the line
+## nafJobSplitter.pl 106 Bjets_TTJets_cfg.py will split the TTJets sample into 106 jobs.
+## The max. number of jobs you can split a sample into, is the number of different files the sample consists of.
+## (The TTJets sample consists of exactly 106 root files stored at dCache.) The specified numbers are optimized
+## with regard to thr runtime, which however depends on the performance of the NAF. If the NAF performs well all
+## jobs should ne finished within 2 hours.
+##
+## To check the status of the jobs are, type: qstat -u Username
+## If all jobs for a given sample are finished the output root files will automatically be merged. The name of the
+## merged file ("Bjets.root") is the name specified in the cfg files. If there is no such file available for a given
+## sample this then means that either at least one job is still running or failed. To merge root files manually,
+## type e.g.: hadd Bjets_TTJets.root naf_Bjets_TTJets_cfg/Bjets_TTjets_cfg*.root (For a given sample all output
+## files will be stored in a folder named naf_Bjets_SampleName_cfg and created by the nafJobSplitter.pl script.)
+##
+## Note: As the number of samples contained in one cms cfg file is restricted top 250, there exists two QCD Muon
+## enriched cfg files (Bjets_QCDMuAB1_cfg.py and Bjets_QCDB2_cfg.py) and two 2010 data cfg files (Bjets_MuAB1_cfg.py## and Bjets_MuB2_cfg.py). These have to be merged in the end either manually or by usind the copy.sh script.
 
-## To display cutflows and create cutflow-tables that may directly be used in LaTex, do:
-cp ../../Tools/EventCounter.C YouDir
-cd YouDir
+## To copy (and merge output) files to one directory YouDir after all jobs are finished type:
+./copy.sh ../../../Results
+
+## To display cutflows and create cutflow-tables that may directly be used in LaTex, you may use the EvetnCounter.C ## script:
+cp ../../../Results
 root -l
 .x EventCounter.C+
+
+##------------------------------------------
+## Change the configiration
+##------------------------------------------
+
+## The names cfg files that you would run with interactuvely by typing "cmsRun XYZ_cfg.py" are of the type
+## Bjets_SampleName_cfg.py (note the first underscore). These are actually doing noting, but containing the samples 
+## and importing the basic configuration defined in BjetsAOD_cfg.py, BjetsPAT_cfg.py and BjetsPATData_cfg.py. In
+## some files also the cms.Sequence preselection is defined (as this sequence contains the trigger pathes/settings),
+## which are different e.g. for Run2010AB1 and Run2010B2.
+##
+## The basic configuration files (BjetsAOD_cfg.py, BjetsPAT_cfg.py and BjetsPATData_cfg.py) contain a couple of
+## different cms.Paths, which are different and independent from each other. Currently there several paths for the
+## purpose of single-muon and di-lepton analysis, including several monitoring steps and n-1 plot modules.
+##
+## If you only want to change the definition of objects (e.g. set the et cut for 'tightJets' from 100 to 150 GeV)
+## you just have to configure SUSYAnalysis/SUSYFilter/python/sequences/Bjets_Selection_cff.py. This is the file were
+## a couple of object collections, cut filter and event selectors are predefined.
+##
+## To apply other selections you need to change the cmsPaths however. The line 
+## process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff") (already included into the basic
+## cfg files) enbales you to run all sequences/moduls defined in 
+## SUSYAnalysis/SUSYFilter/python/sequences/Bjets_Selection_cff.py by adding process.XYZ to the cmsPath.
+
+## Comments how to change cuts etc. in SUSYAnalysis/SUSYFilter/python/sequences/Bjets_Selection_cff.py will be
+## included in this file later.
+## A few comments how to change the configuration in a cfg files are alreday given in 
+## SUSYAnalysis/Configuration/Example_cfg.py.
+
+
