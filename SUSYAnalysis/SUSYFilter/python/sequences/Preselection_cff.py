@@ -107,3 +107,26 @@ preselectionMC2PAT = cms.Sequence(AOD2PATTrigger *
                                   HBHENoiseFilter *
                                   scrapingVeto
                                   )
+
+## Filter on member functions of TtGenEvent
+
+from TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff import *
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+ttGenEventFilterSemiMuon = ttGenEventFilter.clone(cut="semiLeptonicChannel==2")
+ttGenEventFilterOther = ttGenEventFilter.clone(cut="semiLeptonicChannel!=2")
+
+preselectionSemiMuonTTBar = cms.Sequence(makeGenEvt *
+                                         ttGenEventFilterSemiMuon *
+                                         MUTrigger *
+                                         primaryVertexFilter *
+                                         HBHENoiseFilter *
+                                         scrapingVeto
+                                         )
+
+preselectionOtherTTBar = cms.Sequence(makeGenEvt *
+                                      ttGenEventFilterOther *
+                                      MUTrigger *
+                                      primaryVertexFilter *
+                                      HBHENoiseFilter *
+                                      scrapingVeto
+                                      )

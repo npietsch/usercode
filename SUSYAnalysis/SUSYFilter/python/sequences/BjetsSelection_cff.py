@@ -152,7 +152,7 @@ goodJets.checkOverlaps.electrons.requireNoOverlaps = True
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumJets = selectedPatJets.clone(src = 'goodJets',
                                    cut =
-                                   'pt > 60.'
+                                   'pt > 30.'
                                    )
 
 ## create good jet collection
@@ -227,6 +227,13 @@ goodMETs = selectedPatMET.clone(src = 'patMETs',
                                 cut =
                                 'et > 100.'
                                 )
+
+## create MET collection
+from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
+looseMETs = selectedPatMET.clone(src = 'patMETs',
+                                 cut =
+                                 'et > 50.'
+                                 )
 
 #------------------------------
 # muon countFilter
@@ -426,13 +433,25 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                minNumber = 1
                                )
 
+## select events with one good MET
+from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
+oneLooseMET = countPatMET.clone(src = 'looseMETs',
+                                minNumber = 1
+                                )
+
 #-----------------------------
 # Event Filter
 #-----------------------------
 
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
-filterHT.jets = "goodJets"
-filterHT.Cut = 350
+
+filterHT1 = filterHT.clone()
+filterHT1.jets = "goodJets"
+filterHT1.Cut = 300
+
+filterHT2 = filterHT.clone()
+filterHT2.jets = "goodJets"
+filterHT2.Cut = 350
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()
@@ -479,6 +498,7 @@ goodObjects = cms.Sequence(trackMuons *
                            goodMuons *
                            goodElectrons*
                            goodMETs *
+                           looseMETs *
                            vetoMuons *
                            vetoElectrons *
                            goodJets *
@@ -503,7 +523,12 @@ electronSelection = cms.Sequence(oneGoodElectron
 metSelection = cms.Sequence(oneGoodMET
                             )
 
-HTSelection = cms.Sequence(filterHT)
+looseMetSelection = cms.Sequence(oneLooseMET
+                                 )
+
+HTSelection = cms.Sequence(filterHT1)
+
+tightHTSelection = cms.Sequence(filterHT2)
 
 muonVeto = cms.Sequence(oneVetoMuon *
                         noVetoElectron
