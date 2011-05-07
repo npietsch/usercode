@@ -35,12 +35,34 @@ int EventCounter()
   int bf=bgFiles.size();
 
   //sgFiles.push_back (new TFile("Bjets_Mu.root", "READ"));
-  //sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
-  //sgFiles.push_back (new TFile("Bjets_LM3.root", "READ"));
-  //sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM7.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM9.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM12.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM3.root", "READ"));
+  sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM7.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM9.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM12.root", "READ"));
+
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET400.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET450.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET500.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET550.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET650.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET750.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_GluinoOSET800.root", "READ"));
+
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET400.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET450.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET500.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET550.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET600.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET650.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET600.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET750.root", "READ"));
+//   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET800.root", "READ"));
+
+
   int sf=sgFiles.size();
   
   // names
@@ -48,17 +70,27 @@ int EventCounter()
   bgNames.push_back("W+Jets");
   bgNames.push_back("Z+Jets");
   bgNames.push_back("QCD Mu");
-  //sgNames.push_back("Run2010 Mu");
-  //sgNames.push_back("LM1");
-  //sgNames.push_back("LM3");
-  //sgNames.push_back("LM8");
-  sgNames.push_back("LM7");
-  sgNames.push_back("LM9");
-  sgNames.push_back("LM12");
+  //sgNames.push_back("2010 Data");
+  sgNames.push_back("LM1");
+  sgNames.push_back("LM3");
+  sgNames.push_back("LM8");
+  //sgNames.push_back("LM7");
+  //sgNames.push_back("LM9");
+  //sgNames.push_back("LM12");
+
+//   sgNames.push_back("400");
+//   sgNames.push_back("450");
+//   sgNames.push_back("500");
+//   sgNames.push_back("550");
+//   sgNames.push_back("600");
+//   sgNames.push_back("650");
+//   sgNames.push_back("700");
+//   sgNames.push_back("750");
+//   sgNames.push_back("800");
 
   // lumi in fb-1
-  //double lumi=0.0359;
-  double lumi=0.25;
+  double lumi=0.0359;
+  //double lumi=0.25;
 
   // cross-sections
   double xsecQCDMu=296900000*0.00037;
@@ -71,9 +103,14 @@ int EventCounter()
   double xsecLM7=1.209;
   double xsecLM9=7.134;
   double xsecLM12=4.414;
-  double xsecG400=8.31098;
-  double xsecG500=1.87644;
+  double xsecG400=19.3944;
+  double xsecG450=8.31098;
+  double xsecG500=1.86744;
+  double xsecG550=0.967942;
+  double xsecG600=0.507335;
+  double xsecG650=0.28241;
   double xsecG700=0.157907;
+  double xsecG750=0.0902996;
   double xsecG800=0.0526242;
 
   // number of events
@@ -88,8 +125,13 @@ int EventCounter()
   double nLM9=220000;
   double nLM12=219595;
   double nG400=10000;
+  double nG450=10000;
   double nG500=10000;
+  double nG550=10000;
+  double nG600=10000;
+  double nG650=10000;
   double nG700=10000;
+  double nG750=10000;
   double nG800=10000;
 
   // weights
@@ -103,10 +145,16 @@ int EventCounter()
   double sLM7=lumi*1000*xsecLM7/(nLM7);
   double sLM9=lumi*1000*xsecLM9/(nLM9);
   double sLM12=lumi*1000*xsecLM12/(nLM12);
-  double sG400=lumi*1000*xsecG400/(nG400);
-  double sG500=lumi*1000*xsecG500/(nG500);
-  double sG700=lumi*1000*xsecG700/(nG700);
-  double sG800=lumi*1000*xsecG800/(nG800);
+  double sG400=lumi*1000*xsecG400/(nG400);  //0.02230;
+  double sG450=lumi*1000*xsecG450/(nG450);  //0.02230;
+  double sG500=lumi*1000*xsecG500/(nG500);  //0.01563;
+  double sG550=lumi*1000*xsecG550/(nG550);  //0.02230;
+  double sG600=lumi*1000*xsecG600/(nG600);  //0.02230;
+  double sG650=lumi*1000*xsecG650/(nG650);  //0.01563;
+  double sG700=lumi*1000*xsecG700/(nG700);  //0.02230;
+  double sG750=lumi*1000*xsecG750/(nG750);  //0.02230;
+  double sG800=lumi*1000*xsecG800/(nG800);  //0.01563;
+
   double sData=1;
 
   bgScales.push_back(sTTJets);
@@ -115,31 +163,49 @@ int EventCounter()
   bgScales.push_back(sQCDMu);
 
   //sgScales.push_back(sData);
-  //sgScales.push_back(sLM1);  
-  //sgScales.push_back(sLM3);
-  //sgScales.push_back(sLM8);
-  sgScales.push_back(sLM7);  
-  sgScales.push_back(sLM9);
-  sgScales.push_back(sLM12);
+  sgScales.push_back(sLM1);  
+  sgScales.push_back(sLM3);
+  sgScales.push_back(sLM8);
+  //sgScales.push_back(sLM7);  
+  //sgScales.push_back(sLM9);
+  //sgScales.push_back(sLM12);
 
+//   sgScales.push_back(sG400);  
+//   sgScales.push_back(sG450);
+//   sgScales.push_back(sG500);
+//   sgScales.push_back(sG550);  
+//   sgScales.push_back(sG600);
+//   sgScales.push_back(sG650);
+//   sgScales.push_back(sG700);  
+//   sgScales.push_back(sG750);
+//   sgScales.push_back(sG800);
+  
   // selection
-  selection.push_back("1l");;
-  selection.push_back("1b1l");
-  selection.push_back("2b1l");
-  selection.push_back("3b1l");
-  selection.push_back("4b1l");
-  selection.push_back("2l");
-  selection.push_back("1b2l");
-  selection.push_back("2b2l");
-  selection.push_back("3b2l");
-  selection.push_back("4b2l");
+  selection.push_back("1l");
+  //   selection.push_back("1b1l");
+  //   selection.push_back("2b1l");
+  //   selection.push_back("3b1l");
+  //   selection.push_back("4b1l");
+  //   selection.push_back("2l");
+  //   selection.push_back("1b2l");
+  //   selection.push_back("2b2l");
+  //   selection.push_back("3b2l");
+  //   selection.push_back("4b2l");
   
   int s=selection.size();
 
   // number of selection steps
-  steps.push_back("1");  
-  //steps.push_back("ZVeto");
-  //steps.push_back("MET");
+
+  //steps.push_back("1");
+
+  steps.push_back("no Cuts");
+  steps.push_back("presel.");
+  steps.push_back("1 Muon");
+  steps.push_back("4 Jets");
+  steps.push_back("Jet1 Et$>$100");
+  steps.push_back("Jet2 Et$>$60");
+  steps.push_back("HT $>$350 ");
+  steps.push_back("MET $>$100");
 
   int h=steps.size();
   int lastStep=h-1;
@@ -155,14 +221,37 @@ int EventCounter()
       for(int j=0; j<bf; ++j)
 	{
 	  //bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
-	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  //bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+
+
+	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+	  bgHists[i][4][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+	  bgHists[i][5][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+	  bgHists[i][6][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
+	  bgHists[i][7][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
+
 	  //bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
 	  //bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 	  	  	}
       for(int k=0; k<sf; ++k)
 	{
 	  //sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
-	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  //sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+
+
+	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+	  sgHists[i][4][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+	  sgHists[i][5][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+	  sgHists[i][6][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
+	  sgHists[i][7][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
+
+
 	  //sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
 	  //sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 	}
