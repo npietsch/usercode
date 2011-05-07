@@ -51,7 +51,7 @@ from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Spring11.root')
+    fileName = cms.untracked.string('Spring11MC.root')
 )
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
@@ -166,7 +166,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('PAT.root')
+                               fileName = cms.untracked.string('Spring11MC.root')
                                )
 
 # Specify what to keep in the event content

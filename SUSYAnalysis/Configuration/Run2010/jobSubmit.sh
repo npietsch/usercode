@@ -7,6 +7,8 @@ nafJobSplitter.pl 18 Bjets_LM7_cfg.py
 nafJobSplitter.pl 23 Bjets_LM3_cfg.py
 nafJobSplitter.pl 23 Bjets_LM1_cfg.py
 nafJobSplitter.pl 106 Bjets_TTJets_cfg.py
+nafJobSplitter.pl 106 Bjets_TTJetsSemiMuon_cfg.py
+nafJobSplitter.pl 106 Bjets_TTJetsOther_cfg.py
 
 nafJobSplitter.pl 200 Bjets_QCDMu_cfg.py
 nafJobSplitter.pl 98 Bjets_QCDMu2_cfg.py

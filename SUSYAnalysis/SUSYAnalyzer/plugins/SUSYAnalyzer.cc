@@ -18,10 +18,13 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   electrons_    (cfg.getParameter<edm::InputTag>("electrons"))
 { 
   edm::Service<TFileService> fs;
+
   MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
+  HTsqrtMET_ = fs->make<TH1F>("HTsqrtMET","HTsqrtMET", 50, 0., 50);
+
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
   nElectrons_ = fs->make<TH1F>("nElectrons","nElectrons",7 , -0.5, 6.5);
@@ -89,6 +92,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   MET_->Fill((*met)[0].et());
   HT_->Fill(HT);
   nJets_->Fill(njets);
+
+  HTsqrtMET_->Fill(HT/(sqrt((*met)[0].et())));
 
   //-------------------------------------------------
   // Lepton pt, nMuons, nElectrons, nLeptons

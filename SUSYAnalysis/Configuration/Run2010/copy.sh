@@ -28,6 +28,8 @@ cp naf_Bjets_tbGluinoOSET750_cfg/Bjets.root $1/Bjets_tbGluinoOSET750.root
 cp naf_Bjets_tbGluinoOSET800_cfg/Bjets.root $1/Bjets_tbGluinoOSET800.root
 
 cp naf_Bjets_TTJets_cfg/Bjets.root $1/Bjets_TTJets.root
+cp naf_Bjets_TTJetsSemiMuon_cfg/Bjets.root $1/Bjets_TTJetsSemiMuon.root
+cp naf_Bjets_TTJetsOther_cfg/Bjets.root $1/Bjets_TTJetsOther.root
 cp naf_Bjets_Wjets_cfg/Bjets.root $1/Bjets_Wjets.root
 cp naf_Bjets_Zjets_cfg/Bjets.root $1/Bjets_Zjets.root
 
