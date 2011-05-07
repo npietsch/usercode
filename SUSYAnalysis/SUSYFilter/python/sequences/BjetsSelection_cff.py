@@ -152,7 +152,7 @@ goodJets.checkOverlaps.electrons.requireNoOverlaps = True
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumJets = selectedPatJets.clone(src = 'goodJets',
                                    cut =
-                                   'pt > 30.'
+                                   'pt > 60.'
                                    )
 
 ## create good jet collection
