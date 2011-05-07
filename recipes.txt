@@ -16,6 +16,7 @@ kinit Username@CERN.CH
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Tools UserCode/npietsch/Tools
+cvs co -d Results UserCode/npietsch/Results
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
 mv SUSYAnalysis/SUSYFilter/plugins/Di* ./TopAnalysis/TopFilter/plugins
