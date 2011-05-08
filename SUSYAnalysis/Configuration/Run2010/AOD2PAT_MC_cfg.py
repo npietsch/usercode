@@ -143,14 +143,14 @@ process.filterHlt = process.hltHighLevel.clone(TriggerResultsTag = 'TriggerResul
     #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
     'HLT_Mu8_HT200_v*'],throw = False)
 
-process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+#process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 #-------------------------------------------------
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.patDefaultSequence *
-                            process.preselectionMC2PAT
+process.PATTuple = cms.Path(process.patDefaultSequence #*
+                            #process.preselectionMC2PAT
                             )
 
 #-------------------------------------------------
