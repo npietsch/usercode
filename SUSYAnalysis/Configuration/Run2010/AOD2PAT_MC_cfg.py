@@ -51,7 +51,7 @@ from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Spring2011MC.root')
+    fileName = cms.untracked.string('Spring11.root')
 )
 
 ## remove MC matching, photons, taus and cleaning from PAT default sequence
@@ -100,7 +100,7 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
                  doL1Counters = False,
                  genJetCollection=None,
                  doJetID      = True,
-                 )
+                 ) 
 
 ## remove TagInfos from jets to run on AOD
 process.patJets.addTagInfos = False
@@ -143,16 +143,20 @@ process.filterHlt = process.hltHighLevel.clone(TriggerResultsTag = 'TriggerResul
     #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
     'HLT_Mu8_HT200_v*'],throw = False)
 
+process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 #-------------------------------------------------
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.patDefaultSequence*
-                            process.filterHlt)
+process.PATTuple = cms.Path(process.patDefaultSequence *
+                            process.preselectionMC2PAT
+                            )
 
 #-------------------------------------------------
 # Optional: write patTuple
+goodJets.checkOverlaps.muons.src = "goodMuons"
+goodJets.checkOverlaps.muons.deltaR = 0.3
 #-------------------------------------------------
 
 process.EventSelection = cms.PSet(
@@ -166,7 +170,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Spring2011MC.root')
+                               fileName = cms.untracked.string('Spring11.root')
                                )
 
 # Specify what to keep in the event content

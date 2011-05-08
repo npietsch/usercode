@@ -140,13 +140,40 @@ goodJets = cleanPatJets.clone(src = 'selectedPatJets',
                               'jetID.n90Hits > 1'
                               )
 
-goodJets.checkOverlaps.muons.src = 'goodMuons'
-goodJets.checkOverlaps.muons.deltaR = 0.5
+goodJets.checkOverlaps.muons.src = "goodMuons"
+goodJets.checkOverlaps.muons.deltaR = 0.3
 goodJets.checkOverlaps.muons.requireNoOverlaps = True
 
-goodJets.checkOverlaps.electrons.src = 'goodElectrons'
-goodJets.checkOverlaps.electrons.deltaR = 0.5
+goodJets.checkOverlaps.electrons.src = "goodElectrons"
+goodJets.checkOverlaps.electrons.deltaR = 0.3
 goodJets.checkOverlaps.electrons.requireNoOverlaps = True
+
+goodJets.checkOverlaps.photons.src = "goodElectrons"
+
+goodJets.checkOverlaps.taus.src = "goodElectrons"
+
+goodJets.checkOverlaps.tkIsoElectrons.src = "goodElectrons"
+
+## goodJets.checkOverlap = cms.PSet(
+##         muons = cms.PSet(
+##            src       = cms.InputTag("goodMuons"),
+##            algorithm = cms.string("byDeltaR"),
+##            preselection        = cms.string(""),
+##            deltaR              = cms.double(0.3),
+##            checkRecoComponents = cms.bool(False),
+##            pairCut             = cms.string(""),
+##            requireNoOverlaps   = cms.bool(True),
+##         ),
+##         electrons = cms.PSet(
+##            src       = cms.InputTag("goodElectrons"),
+##            algorithm = cms.string("byDeltaR"),
+##            preselection        = cms.string(""),
+##            deltaR              = cms.double(0.3),
+##            checkRecoComponents = cms.bool(False),
+##            pairCut             = cms.string(""),
+##            requireNoOverlaps   = cms.bool(True),
+##        )
+## )
 
 ## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *

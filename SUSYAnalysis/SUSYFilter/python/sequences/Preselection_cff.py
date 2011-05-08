@@ -14,10 +14,10 @@ HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X
 MUTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
-MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v1'],throw = False)
+MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
-MUHTTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu8_HT200_v1','HLT_Mu8_HT200_v2','HLT_Mu8_HT200_v3','HLT_Mu8_HT200_v4','HLT_Mu8_HT200_v5'],throw = False)
+MUHTTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT100*', 'HLT_Mu5_HT200*', 'HLT_Mu8_HT200_v*'],throw = False)
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
@@ -29,7 +29,7 @@ AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI3
     'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
     'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*',
     #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
-    'HLT_Mu8_HT200_v*'],throw = False)
+    'HLT_Mu5_HT*','HLT_Mu8_HT200_v*'],throw = False)
 
 ##----------------------------
 ## event cleaning modules
@@ -56,7 +56,7 @@ from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 preselection = cms.Sequence(MUTrigger *
                             primaryVertexFilter *
-                            HBHENoiseFilter *
+                            #HBHENoiseFilter *
                             scrapingVeto
                             )
 
@@ -102,7 +102,7 @@ preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     scrapingVeto
                                     )
 
-preselectionMC2PAT = cms.Sequence(AOD2PATTrigger *
+preselectionMC2PAT = cms.Sequence(#AOD2PATTrigger *
                                   primaryVertexFilter *
                                   HBHENoiseFilter *
                                   scrapingVeto

@@ -80,7 +80,7 @@ oneGlobalPromptTightMuon = countPatMuons.clone(src = 'globalPromptTightMuons',
 
 ## select events with at least good muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
-oneTrackMuon = countPatMuons.clone(src = 'trackMuons',
+oneTrackMuon = countPatMuons.clone(src = 'AllTrackerMuons',
                                    minNumber = 1
                                    )
 
