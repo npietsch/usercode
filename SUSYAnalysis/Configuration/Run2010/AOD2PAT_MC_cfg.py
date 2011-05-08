@@ -17,7 +17,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(100),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -155,8 +155,6 @@ process.PATTuple = cms.Path(process.patDefaultSequence *
 
 #-------------------------------------------------
 # Optional: write patTuple
-goodJets.checkOverlaps.muons.src = "goodMuons"
-goodJets.checkOverlaps.muons.deltaR = 0.3
 #-------------------------------------------------
 
 process.EventSelection = cms.PSet(
