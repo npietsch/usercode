@@ -1,15 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Bjets")
+process = cms.Process("Bjets") 
 
-## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 #process.MessageLogger.cerr.threshold = 'INFO'
-process.MessageLogger.cerr.FwkReport.reportEvery = 1000
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(100),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -26,20 +25,33 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 
+
+#-------------------------------------------------------------------------------------------------------------------------------
+# Load modules to create SUSY Gen Event and TtGenEvent
+#
+# Note: To create the TtGenEvent for non-SM samples, a small modification in the TQAF is needed:
+#       - Checkout TopQuarkAnalysis/TopEventProducers  (for CMSSW_4_1_4: cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers)
+#       - replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
+#-------------------------------------------------------------------------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
+## process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+
+#------------------------------------------------------
+# Import modules to filter events on generator level 
+#------------------------------------------------------
+
+from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
+process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut="GluinoGluinoDecay")
+
+## from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+## process.ttGenEventFilter = ttGenEventFilter.clone(cut="isSemiLeptonic")
+
 #-----------------------------------------------------------------
 # Load modules for preselection. Can be configured later
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
-
-## process.load("TopAnalysis.TopUtils.JetEnergyScale_cfi")
-## process.scaledJetEnergy.inputJets = "selectedPatJets"
-## process.scaledJetEnergy.inputMETs = "patMETs"
-## process.scaledJetEnergy.scaleType   = "jes:up"
-## #process.scaledJetEnergy.scaleFactor = 0.985#flat offset when using scaleType = "top:*"
-## process.scaledJetEnergy.payload = "AK5Calo"
-
-#process.goodJets.src="scaledJetEnergy:selectedPatJets"
 
 #-----------------------------------------------------------------
 # Load modules to create objects and filter events on reco level
@@ -53,7 +65,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 # Load modules for analysis on generator and reco-level
 #--------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
 #-------------------------------------------------
 # Temporary
@@ -71,7 +83,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 process.Selection1l = cms.Path(#process.patDefaultSequence *
                                process.makeObjects *
                                process.RA4MuonCollections *
-                               #process.makeSUSYGenEvt *
+                               process.makeSUSYGenEvt *
                                #process.SUSYGenEventFilter *
                                #process.makeGenEvt *
                                #process.ttGenEventFilter *
@@ -97,7 +109,7 @@ process.Selection1l = cms.Path(#process.patDefaultSequence *
 process.Selection2 = cms.Path(#process.patDefaultSequence *
                               process.makeObjects *
                               process.RA4MuonCollections *
-                              #process.makeSUSYGenEvt *
+                              process.makeSUSYGenEvt *
                               #process.SUSYGenEventFilter *
                               #process.makeGenEvt *
                               #process.ttGenEventFilter *
@@ -115,7 +127,7 @@ process.Selection2 = cms.Path(#process.patDefaultSequence *
 process.Selection3 = cms.Path(#process.patDefaultSequence *
                               process.makeObjects *
                               process.RA4MuonCollections *
-                              #process.makeSUSYGenEvt *
+                              process.makeSUSYGenEvt *
                               #process.SUSYGenEventFilter *
                               #process.makeGenEvt *
                               #process.ttGenEventFilter *
@@ -133,7 +145,7 @@ process.Selection3 = cms.Path(#process.patDefaultSequence *
 ## 1-lepton n-1 plots
 process.Selection1l_nminus1_oneGoodMuon = cms.Path(#process.patDefaultSequence *
                                                    process.makeObjects *
-                                                   #process.makeSUSYGenEvt *
+                                                   process.makeSUSYGenEvt *
                                                    #process.SUSYGenEventFilter *
                                                    #process.makeGenEvt *
                                                    #process.ttGenEventFilter *
@@ -147,7 +159,7 @@ process.Selection1l_nminus1_oneGoodMuon = cms.Path(#process.patDefaultSequence *
                                                    )
 process.Selection1l_nminus1_fourGoodJets = cms.Path(#process.patDefaultSequence *
                                                     process.makeObjects *
-                                                    #process.makeSUSYGenEvt *
+                                                    process.makeSUSYGenEvt *
                                                     #process.SUSYGenEventFilter *
                                                     #process.makeGenEvt *
                                                     #process.ttGenEventFilter *
@@ -159,7 +171,7 @@ process.Selection1l_nminus1_fourGoodJets = cms.Path(#process.patDefaultSequence 
                                                     )
 process.Selection1l_nminus1_oneTightJet = cms.Path(#process.patDefaultSequence *
                                                    process.makeObjects *
-                                                   #process.makeSUSYGenEvt *
+                                                   process.makeSUSYGenEvt *
                                                    #process.SUSYGenEventFilter *
                                                    #process.makeGenEvt *
                                                    #process.ttGenEventFilter *
@@ -172,7 +184,7 @@ process.Selection1l_nminus1_oneTightJet = cms.Path(#process.patDefaultSequence *
                                                    )
 process.Selection1l_nminus1_twoMediumJets = cms.Path(#process.patDefaultSequence *
                                                      process.makeObjects *
-                                                     #process.makeSUSYGenEvt *
+                                                     process.makeSUSYGenEvt *
                                                      #process.SUSYGenEventFilter *
                                                      #process.makeGenEvt *
                                                      #process.ttGenEventFilter *
@@ -186,7 +198,7 @@ process.Selection1l_nminus1_twoMediumJets = cms.Path(#process.patDefaultSequence
                                                      )
 process.Selection1l_nminus1_metSelection = cms.Path(#process.patDefaultSequence *
                                                     process.makeObjects *
-                                                    #process.makeSUSYGenEvt *
+                                                    process.makeSUSYGenEvt *
                                                     #process.SUSYGenEventFilter *
                                                     #process.makeGenEvt *
                                                     #process.ttGenEventFilter *
@@ -200,7 +212,7 @@ process.Selection1l_nminus1_metSelection = cms.Path(#process.patDefaultSequence 
                                                     )
 process.Selection1l_nminus1_HTSelection = cms.Path(#process.patDefaultSequence *
                                                    process.makeObjects *
-                                                   #process.makeSUSYGenEvt *
+                                                   process.makeSUSYGenEvt *
                                                    #process.SUSYGenEventFilter *
                                                    #process.makeGenEvt *
                                                    #process.ttGenEventFilter *
@@ -215,7 +227,7 @@ process.Selection1l_nminus1_HTSelection = cms.Path(#process.patDefaultSequence *
 # 1-lepton selections
 process.Selection1b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -232,7 +244,7 @@ process.Selection1b1l = cms.Path(#process.patDefaultSequence *
 
 process.Selection2b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -249,7 +261,7 @@ process.Selection2b1l = cms.Path(#process.patDefaultSequence *
 
 process.Selection3b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -266,7 +278,7 @@ process.Selection3b1l = cms.Path(#process.patDefaultSequence *
 
 process.Selection4b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -283,7 +295,7 @@ process.Selection4b1l = cms.Path(#process.patDefaultSequence *
 ## 2 lepton
 process.Selection2l = cms.Path(#process.patDefaultSequence *
                                process.makeObjects *
-                               #process.makeSUSYGenEvt *
+                               process.makeSUSYGenEvt *
                                #process.SUSYGenEventFilter *
                                #process.makeGenEvt *
                                #process.ttGenEventFilter *
@@ -310,7 +322,7 @@ process.Selection2l = cms.Path(#process.patDefaultSequence *
 ## 2-lepton selections
 process.Selection1b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -330,7 +342,7 @@ process.Selection1b2l = cms.Path(#process.patDefaultSequence *
 
 process.Selection2b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -350,7 +362,7 @@ process.Selection2b2l = cms.Path(#process.patDefaultSequence *
 
 process.Selection3b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -370,7 +382,7 @@ process.Selection3b2l = cms.Path(#process.patDefaultSequence *
 
 process.Selection4b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
-                                 #process.makeSUSYGenEvt *
+                                 process.makeSUSYGenEvt *
                                  #process.SUSYGenEventFilter *
                                  #process.makeGenEvt *
                                  #process.ttGenEventFilter *
@@ -387,4 +399,3 @@ process.Selection4b2l = cms.Path(#process.patDefaultSequence *
                                  process.ZVetoMu *
                                  process.analyzeSUSYBjets4b2l_2
                                  )
-
