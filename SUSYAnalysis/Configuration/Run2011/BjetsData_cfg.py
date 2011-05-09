@@ -66,8 +66,6 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # Selection paths. Configure your analysis here, if possible
 #-----------------------------------------------------------------
 
-
-
 ## 1-lepton
 process.Selection1l = cms.Path(#process.patDefaultSequence *
                                process.makeObjects *
@@ -85,7 +83,11 @@ process.Selection1l = cms.Path(#process.patDefaultSequence *
                                process.oneTightJet *
                                process.analyzeSUSYBjets1l_oneTightJet *
                                process.twoMediumJets *
-                               process.analyzeSUSYBjets1l_twoMediumJets
+                               process.analyzeSUSYBjets1l_twoMediumJets *
+                               process.HTSelection *
+                               process.analyzeSUSYBjets1l_1 *
+                               process.metSelection *
+                               process.analyzeSUSYBjets1l_2
                                )
 
 # 1-lepton selections
@@ -169,7 +171,11 @@ process.Selection2l = cms.Path(#process.patDefaultSequence *
                                process.oneTightJet *
                                process.analyzeSUSYBjets2l_oneTightJet *
                                process.twoMediumJets *
-                               process.analyzeSUSYBjets2l_twoMediumJets
+                               process.analyzeSUSYBjets2l_twoMediumJets *
+                               process.HTSelection *
+                               process.analyzeSUSYBjets2l_1 *
+                               process.metSelection *
+                               process.analyzeSUSYBjets2l_2
                                )
 ## 2-lepton selections
 process.Selection1b2l = cms.Path(#process.patDefaultSequence *
