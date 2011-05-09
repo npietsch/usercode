@@ -17,7 +17,8 @@ MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
-MUHTTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT100*', 'HLT_Mu5_HT200*', 'HLT_Mu8_HT200_v*'],throw = False)
+MUHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT100'],throw = False)
+MUHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
@@ -90,11 +91,17 @@ preselectionData2 = cms.Sequence(MUTriggerData2##  *
 ##                                 scrapingVeto
                                  )
 
-preselectionMuHT = cms.Sequence(MUHTTrigger ## *
+preselectionMuHTMC = cms.Sequence(MUHTTriggerMC *
+                                  primaryVertexFilter *
+                                  ##HBHENoiseFilter *
+                                  scrapingVeto
+                                  )
+
+preselectionMuHTData = cms.Sequence(MUHTTriggerData ## *
 ##                                  primaryVertexFilter *
 ##                                  HBHENoiseFilter *
 ##                                  scrapingVeto
-                                 )
+                                    )
 
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     primaryVertexFilter *
