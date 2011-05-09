@@ -1,4 +1,4 @@
-B#!/bin/bash
+#!/bin/bash
 
 #nafJobSplitter.pl 16 Bjets_LM12_cfg.py
 nafJobSplitter.pl 19 Bjets_LM9_cfg.py
