@@ -65,9 +65,14 @@ pixelMuons = selectedPatMuons.clone(src = "matchesMuons",
                                     'innerTrack.hitPattern.pixelLayersWithMeasurement >= 1'
                                     )
 
-RA4Muons = vertexSelectedMuons.clone(src = "pixelMuons"
-                                     )
+vertexSelectedMuons = vertexSelectedMuons.clone(src = "pixelMuons"
+                                                )
 
+RA4Muons = checkJetOverlapMuons.clone(muons = "vertexSelectedMuons",
+                                      jets =  "goodJets" ,
+                                      deltaR  = cms.double(0.3),
+                                      overlap = cms.bool(False)
+                                      )
 #------------------------------
 # Muon countFilter
 #------------------------------
@@ -128,6 +133,12 @@ onePixelMuon = countPatMuons.clone(src = 'pixelMuons',
 
 ## select events with at least good muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
+oneVertexSelectedMuon = countPatMuons.clone(src = 'vertexSelectedMuons',
+                                            minNumber = 1
+                                            )
+
+## select events with at least good muon
+from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 oneRA4Muon = countPatMuons.clone(src = 'RA4Muons',
                                  minNumber = 1
                                  )
@@ -181,6 +192,9 @@ analyzeMuonQualityMatches.src = 'matchesMuons'
 analyzeMuonQualityPixel = analyzeMuonQuality.clone()
 analyzeMuonQualityPixel.src = 'pixelMuons'
 
+analyzeMuonQualityVertex = analyzeMuonQuality.clone()
+analyzeMuonQualityVertex.src = 'vertexSelectedMuons'
+
 analyzeMuonQualityRA4 = analyzeMuonQuality.clone()
 analyzeMuonQualityRA4.src = 'RA4Muons'
 
@@ -217,6 +231,9 @@ analyzeMuonKinematicsMatches.src = 'matchesMuons'
 analyzeMuonKinematicsPixel = analyzeMuonKinematics.clone()
 analyzeMuonKinematicsPixel.src = 'pixelMuons'
 
+analyzeMuonKinematicsVertex = analyzeMuonKinematics.clone()
+analyzeMuonKinematicsVertex.src = 'vertexSelectedMuons'
+
 analyzeMuonKinematicsRA4 = analyzeMuonKinematics.clone()
 analyzeMuonKinematicsRA4.src = 'RA4Muons'
 
@@ -251,6 +268,8 @@ RA4MuonSelection = cms.Sequence(analyzeMuonQualityPat *
                                 analyzeMuonQualityPixel *
                                 analyzeMuonKinematicsPixel *
                                 oneRA4Muon *
+                                analyzeMuonQualityVertex *
+                                analyzeMuonKinematicsVertex *
                                 analyzeMuonQualityRA4 *
                                 analyzeMuonKinematicsRA4
                                 )

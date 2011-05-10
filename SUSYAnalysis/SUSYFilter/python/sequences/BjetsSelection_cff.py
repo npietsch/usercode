@@ -130,7 +130,7 @@ vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 #------------------------------
 
 ## create good jet collection
-from PhysicsTools.PatAlgos.selectedLayer1.jetSelector_cfi import *
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 goodJets = selectedPatJets.clone(src = 'selectedPatJets',
                                  preselection =
                                  'abs(eta) < 2.4 &'
