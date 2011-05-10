@@ -53,6 +53,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *RelIsoMu1_;
   TH1F *RelIsoMu2_;
 
+  TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;
   TH2F *HT_MET_;
 

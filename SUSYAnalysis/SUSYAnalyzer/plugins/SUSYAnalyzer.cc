@@ -25,8 +25,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
   SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
 
-  HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 30, 200., 500., 20, 0., 200. );
+  HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 100, 200., 1000., 30, 0., 300. );
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
+  HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 40, 200., 600., 30, 0., 300. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
@@ -101,6 +102,27 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   SigMET_->Fill(sigMET);
   HT_SigMET_->Fill(HT,sigMET);
   HT_MET_->Fill(HT,(*met)[0].et());
+
+  //std::cout << "===========================================" << std::endl;
+  //std::cout << "==================MET: " << (*met)[0].et() << std::endl;
+  //std::cout << "==================HT:  " << HT << std::endl;
+  //std::cout << "===========================================" << std::endl;
+
+  for(int METidx=0; METidx<200; METidx+=50 )
+    {
+      //std::cout << "-----------------" << std::endl;
+      //std::cout << "METidx: " << METidx <<std::endl;
+      //std::cout << "-----------------" << std::endl;
+
+      for(int HTidx=200; HTidx<600; HTidx+=50)
+	{
+	  //std::cout << "-----------------" << std::endl;
+	  //std::cout << "HTidx: " << HTidx <<std::endl;
+	  //std::cout << "-----------------" << std::endl;
+
+	  if( (*met)[0].et() > METidx && HT > HTidx) HTidxMETidx_->Fill(HTidx,METidx);
+	}
+    }
 
   //-------------------------------------------------
   // Lepton pt, nMuons, nElectrons, nLeptons

@@ -36,14 +36,14 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     #'abs( innerTrack().vertex().z() - PV().z()) < 1'
                                    )
 
-goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
-                                      )
+vertexMuons = vertexSelectedMuons.clone(src = "trackMuons"
+                                        )
 
-## goodMuons = checkJetOverlapMuons.clone(muons = "vertexMuons",
-##                                        jets =  "goodJets" ,
-##                                        deltaR  = cms.double(0.3),
-##                                        overlap = cms.bool(False)
-##                                        )
+goodMuons = checkJetOverlapMuons.clone(muons = "vertexMuons",
+                                       jets =  "goodJets" ,
+                                       deltaR  = cms.double(0.3),
+                                       overlap = cms.bool(False)
+                                       )
 
 ## Check good muons for overlap with jets 
 ## goodMuons.checkOverlaps = cms.PSet(
@@ -130,29 +130,32 @@ vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 #------------------------------
 
 ## create good jet collection
-from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
-goodJets = cleanPatJets.clone(src = 'selectedPatJets',
-                              preselection =
-                              'abs(eta) < 2.4 &'
-                              'pt > 30. &'
-                              'emEnergyFraction > 0.01 &'
-                              'jetID.fHPD < 0.98 &'
-                              'jetID.n90Hits > 1'
-                              )
+from PhysicsTools.PatAlgos.selectedLayer1.jetSelector_cfi import *
+goodJets = selectedPatJets.clone(src = 'selectedPatJets',
+                                 preselection =
+                                 'abs(eta) < 2.4 &'
+                                 'pt > 30. &'
+                                 'emEnergyFraction > 0.01 &'
+                                 'jetID.fHPD < 0.98 &'
+                                 'jetID.n90Hits > 1'
+                                 )
 
-goodJets.checkOverlaps.muons.src = "goodMuons"
-goodJets.checkOverlaps.muons.deltaR = 0.3
-goodJets.checkOverlaps.muons.requireNoOverlaps = True
+## goodJets.checkOverlaps.muons.src = "goodMuons"
+## goodJets.checkOverlaps.muons.deltaR = 0.3
+## goodJets.checkOverlaps.muons.requireNoOverlaps = False
 
-goodJets.checkOverlaps.electrons.src = "goodElectrons"
-goodJets.checkOverlaps.electrons.deltaR = 0.3
-goodJets.checkOverlaps.electrons.requireNoOverlaps = True
+## goodJets.checkOverlaps.electrons.src = "goodElectrons"
+## goodJets.checkOverlaps.electrons.deltaR = 0.3
+## goodJets.checkOverlaps.electrons.requireNoOverlaps = False
 
-goodJets.checkOverlaps.photons.src = "goodElectrons"
+## goodJets.checkOverlaps.photons.src = "goodElectrons"
+## goodJets.checkOverlaps.photons.requireNoOverlaps = False
 
-goodJets.checkOverlaps.taus.src = "goodElectrons"
+## goodJets.checkOverlaps.taus.src = "goodElectrons"
+## goodJets.checkOverlaps.taus.requireNoOverlaps = False
 
-goodJets.checkOverlaps.tkIsoElectrons.src = "goodElectrons"
+## goodJets.checkOverlaps.tkIsoElectrons.src = "goodElectrons"
+## goodJets.checkOverlaps.tkIsoElectrons.requireNoOverlaps = False
 
 ## goodJets.checkOverlap = cms.PSet(
 ##         muons = cms.PSet(
@@ -383,7 +386,7 @@ twoLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 threeLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
                                                  minNumber = 3
-                                                 )
+                                                 ) 
 ## select events with 4 loose bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
@@ -532,6 +535,7 @@ matchedGoodObjects = cms.Sequence(matchedBjets *
                                   )
 
 goodObjects = cms.Sequence(trackMuons *
+                           vertexMuons *
                            goodMuons *
                            goodElectrons*
                            goodMETs *
