@@ -71,16 +71,16 @@ goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                    cut =
-                                   'pt > 10. &'
-                                   'abs(eta) < 2.5'
+                                   'pt > 10.'
+                                   #'abs(eta) < 2.5'
                                    )
 
 ## create veto-electron collection
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            cut =
-                                           'pt > 10. &'
-                                           'abs(eta) < 2.5 '
+                                           'pt > 10.'
+                                           #'abs(eta) < 2.5 '
                                            )
 
 #------------------------------
@@ -276,6 +276,12 @@ oneGoodMuon = countPatMuons.clone(src = 'goodMuons',
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
 twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
                                    minNumber = 2
+                                   )
+
+## select events with at least two good muons
+from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
+oneLooseMuon = countPatMuons.clone(src = 'looseMuons',
+                                   minNumber = 1
                                    )
 
 #------------------------------
@@ -480,6 +486,10 @@ filterHT2 = filterHT.clone()
 filterHT2.jets = "goodJets"
 filterHT2.Cut = 350
 
+filterHT3 = filterHT.clone()
+filterHT3.jets = "goodJets"
+filterHT3.Cut = 220
+
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()
 ZVetoMu = filterMuonPair.clone()
@@ -556,6 +566,10 @@ looseMetSelection = cms.Sequence(oneLooseMET
 HTSelection = cms.Sequence(filterHT1)
 
 tightHTSelection = cms.Sequence(filterHT2)
+
+MuHadSelection = cms.Sequence(filterHT3 *
+                              oneLooseMuon
+                              )
 
 muonVeto = cms.Sequence(oneVetoMuon *
                         noVetoElectron

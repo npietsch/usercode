@@ -23,7 +23,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
-  HTsqrtMET_ = fs->make<TH1F>("HTsqrtMET","HTsqrtMET", 50, 0., 50);
+  SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
+
+  HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 30, 200., 500., 20, 0., 200. );
+  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
@@ -93,7 +96,11 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   HT_->Fill(HT);
   nJets_->Fill(njets);
 
-  HTsqrtMET_->Fill(HT/(sqrt((*met)[0].et())));
+  double sigMET=((*met)[0].et())/(sqrt(HT));
+  
+  SigMET_->Fill(sigMET);
+  HT_SigMET_->Fill(HT,sigMET);
+  HT_MET_->Fill(HT,(*met)[0].et());
 
   //-------------------------------------------------
   // Lepton pt, nMuons, nElectrons, nLeptons

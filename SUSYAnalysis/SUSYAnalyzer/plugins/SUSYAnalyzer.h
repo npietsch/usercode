@@ -43,7 +43,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *MET_SSDiLepReco_;
   TH1F *MET_OSDiLepReco_;
   TH1F *HT_;
-  TH1F *HTsqrtMET_;
+  TH1F *SigMET_;
   TH1F *nJets_;
   TH1F *nMuons_;
   TH1F *nElectrons_;
@@ -52,6 +52,9 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *invMuMuMass_;
   TH1F *RelIsoMu1_;
   TH1F *RelIsoMu2_;
+
+  TH2F *HT_SigMET_;
+  TH2F *HT_MET_;
 
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;

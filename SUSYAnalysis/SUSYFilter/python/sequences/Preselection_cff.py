@@ -17,7 +17,7 @@ MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
-MUHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT100'],throw = False)
+MUHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT*'],throw = False)
 MUHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 
 ## AOD2PAT trigger
