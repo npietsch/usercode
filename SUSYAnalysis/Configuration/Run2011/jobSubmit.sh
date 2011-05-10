@@ -2,13 +2,13 @@
 
 #nafJobSplitter.pl 16 Bjets_LM12_cfg.py
 #nafJobSplitter.pl 19 Bjets_LM9_cfg.py
-#nafJobSplitter.pl 25 Bjets_LM8_cfg.py
+nafJobSplitter.pl 25 Bjets_LM8_cfg.py
 #nafJobSplitter.pl 18 Bjets_LM7_cfg.py
-#nafJobSplitter.pl 23 Bjets_LM3_cfg.py
+nafJobSplitter.pl 23 Bjets_LM3_cfg.py
 #nafJobSplitter.pl 23 Bjets_LM1_cfg.py
-#nafJobSplitter.pl 130 Bjets_TTJets_cfg.py
-#nafJobSplitter.pl 130 Bjets_TTJetsSemiMuon_cfg.py
-#nafJobSplitter.pl 130 Bjets_TTJetsOther_cfg.py
+nafJobSplitter.pl 130 Bjets_TTJets_cfg.py
+nafJobSplitter.pl 130 Bjets_TTJetsSemiMuon_cfg.py
+nafJobSplitter.pl 130 Bjets_TTJetsOther_cfg.py
 
 nafJobSplitter.pl 200 Bjets_QCDMu_cfg.py
 nafJobSplitter.pl 95 Bjets_QCDMu2_cfg.py

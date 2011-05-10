@@ -31,7 +31,7 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
+process.GlobalTag.globaltag = cms.string('GR_R_311_V3::All')
 
 #-----------------------------------------------------------------
 # Load modules for preselection
@@ -61,7 +61,7 @@ process.preselection = cms.Sequence(process.primaryVertexFilter *
                                     process.scrapingVeto
                                     )
 
-process.MuTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu8*'],throw = False)
+process.MuTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 process.MuHadTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 
 
@@ -70,6 +70,8 @@ process.MuHadTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw 
 #-----------------------------------------------------------------
 
 # Object Selection
+from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
+
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 #process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
@@ -79,23 +81,97 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 
+#-----------------------------------------------------------------------------
+# ----- C o n f i g u r e   P A T   T r i g g e r ----- #
+#-----------------------------------------------------------------------------
+
+## trigger sequences
+process.load( "PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff" )
+#print triggerPathSelector
+## define HLT_Mu9 (or other trigger path) matches
+process.muonTriggerMatchHLTMuons = cms.EDProducer( "PATTriggerMatcherDRLessByR",
+    src     = cms.InputTag( "goodMuons" ),
+    matched = cms.InputTag( "patTrigger" ),
+    andOr          = cms.bool( False ),
+    filterIdsEnum  = cms.vstring( 'TriggerMuon' ),
+    filterIds      = cms.vint32 ( 0 ),
+    filterLabels   = cms.vstring( '*' ),
+    #pathNames      = cms.vstring( triggerPathSelector ),
+    matchedCuts = cms.string( 'path( "HLT_Mu8_v*"  )' ),#"HLT_Mu9""HLT_Mu5_HT200_v3"
+    #collectionTags = cms.vstring( '*' ),
+    maxDPtRel = cms.double( 0.2 ),  #originally: 0.5
+    maxDeltaR = cms.double( 0.2 ),  #originally: 0.5
+    resolveAmbiguities    = cms.bool( True ),
+    resolveByMatchQuality = cms.bool( True )
+)
+
+## take obsolete matches out of the patTriggerMatcher sequence
+## and add the match that is relevant for this analysis
+###process.triggerMatchingDefaultSequence+= process.muonTriggerMatchHLTMuons
+#process.patTriggerMatcher += process.muonTriggerMatchHLTMuons
+#process.patTriggerMatcher.remove( process.patTriggerMatcherElectron )
+
+#process.patTriggerMatcher.remove( process.patTriggerMatcherMuon )
+#process.patTriggerMatcher.remove( process.patTriggerMatcherTau )
+
+## configure patTrigger & patTriggerEvent
+#process.patTrigger.onlyStandAlone = False
+process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" ]
+
+##-----NP: Just for embedding the trigger match info 
+
+## Trigger match embedding in selectedPatMuons. In the following selectedPatMuonsTriggerMatch
+## must be used to make use of the embedded match
+## works with CMSSW_3_8_4, might need change for 3_8_7
+process.goodMuonsTriggerMatch = cms.EDProducer( "PATTriggerMatchMuonEmbedder",
+   src     = cms.InputTag( "goodMuons" ),
+   matches = cms.VInputTag( "muonTriggerMatchHLTMuons" )
+)
+###process.patTriggerMatchEmbedderDefaultSequence *= process.selectedPatMuonsTriggerMatch
+#process.patTriggerDefaultSequence *= process.muonTriggerMatchHLTMuons
+#process.patTriggerDefaultSequence *= process.selectedPatMuonsTriggerMatch
+
+process.patTriggerDefaultSequence2 = cms.Sequence(
+  process.patTrigger *
+  process.muonTriggerMatchHLTMuons *
+  process.patTriggerEvent *
+  process.goodMuonsTriggerMatch
+)
+
+## create triggerMatchedMuons
+process.triggerMatchedPatMuons = selectedPatMuons.clone(
+  src = "goodMuonsTriggerMatch",
+  cut = "triggerObjectMatches.size > 0"
+)
+
+from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
+process.oneTriggerMatch = countPatMuons.clone(src = 'triggerMatchedPatMuons',
+                                              minNumber = 1
+                                              )
+
+
 #-----------------------------------------------------------------
 # Selection paths. Configure your analysis here, if possible
 #-----------------------------------------------------------------
 
 
 process.SingleMu = cms.Path(#process.preselection *
-                            process.MuTrigger * 
-                            process.makeObjects *
-                            process.oneGoodTriggerMuon *
+                            process.goodObjects *
+                            process.patTriggerDefaultSequence2*
+                            process.triggerMatchedPatMuons *
+                            #process.oneTriggerMatch *
                             process.oneGoodJet *
+                            process.MuTrigger * 
                             process.analyzeSUSYBjets1l_1
                             )
 
-process.MuHad = cms.Path(#process.preselection *
-                         process.MuHadTrigger * 
-                         process.makeObjects *
-                         process.oneGoodTriggerMuon *
-                         process.oneGoodJet *
-                         process.analyzeSUSYBjets1l_2
-                         )
+process.SingleMuMuHad = cms.Path(#process.preselection *
+                                 process.goodObjects *
+                                 process.patTriggerDefaultSequence2*
+                                 process.triggerMatchedPatMuons *
+                                 #process.oneTriggerMatch *
+                                 process.oneGoodJet *
+                                 process.MuTrigger *
+                                 process.MuHadTrigger *
+                                 process.analyzeSUSYBjets1l_2
+                                 )
