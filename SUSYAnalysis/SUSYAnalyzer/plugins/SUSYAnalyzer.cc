@@ -108,13 +108,13 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   //std::cout << "==================HT:  " << HT << std::endl;
   //std::cout << "===========================================" << std::endl;
 
-  for(int METidx=0; METidx<200; METidx+=50 )
+  for(int METidx=0; METidx<200; METidx+=10 )
     {
       //std::cout << "-----------------" << std::endl;
       //std::cout << "METidx: " << METidx <<std::endl;
       //std::cout << "-----------------" << std::endl;
 
-      for(int HTidx=200; HTidx<600; HTidx+=50)
+      for(int HTidx=200; HTidx<600; HTidx+=10)
 	{
 	  //std::cout << "-----------------" << std::endl;
 	  //std::cout << "HTidx: " << HTidx <<std::endl;

@@ -137,3 +137,19 @@ preselectionOtherTTBar = cms.Sequence(makeGenEvt *
                                       HBHENoiseFilter *
                                       scrapingVeto
                                       )
+
+preselectionSemiMuonTTBar2 = cms.Sequence(makeGenEvt *
+                                          ttGenEventFilterSemiMuon *
+                                          MUHTTriggerMC *
+                                          primaryVertexFilter *
+                                          #HBHENoiseFilter *
+                                          scrapingVeto
+                                          )
+
+preselectionOtherTTBar2 = cms.Sequence(makeGenEvt *
+                                       ttGenEventFilterOther *
+                                       MUHTTriggerMC *
+                                       primaryVertexFilter *
+                                       #HBHENoiseFilter *
+                                       scrapingVeto
+                                       )

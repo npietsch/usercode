@@ -534,7 +534,8 @@ matchedGoodObjects = cms.Sequence(matchedBjets *
 ##                                   matchedElectrons
                                   )
 
-goodObjects = cms.Sequence(trackMuons *
+goodObjects = cms.Sequence(goodJets *
+                           trackMuons *
                            vertexMuons *
                            goodMuons *
                            goodElectrons*
@@ -542,7 +543,7 @@ goodObjects = cms.Sequence(trackMuons *
                            looseMETs *
                            vetoMuons *
                            vetoElectrons *
-                           goodJets *
+                           #goodJets *
                            mediumJets *
                            tightJets *
                            looseMuons *
