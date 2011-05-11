@@ -187,7 +187,7 @@ mediumJets = selectedPatJets.clone(src = 'goodJets',
 
 ## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
-tightJets = selectedPatJets.clone(src = 'selectedPatJets',
+tightJets = selectedPatJets.clone(src = 'goodJets',
                                   cut =
                                   'pt > 100.'
                                   )
