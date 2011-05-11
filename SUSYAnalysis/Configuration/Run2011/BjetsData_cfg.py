@@ -138,23 +138,6 @@ process.Selection3b1l = cms.Path(#process.patDefaultSequence *
                                  process.metSelection *
                                  process.analyzeSUSYBjets3b1l_2
                                  )
-
-process.Selection4b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 #process.makeSUSYGenEvt *
-                                 process.preselection *
-                                 process.MuHadSelection *
-                                 process.muonSelection*
-                                 process.fourGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.fourMediumTrackHighEffBjets *
-                                 process.analyzeSUSYBjets4b1l_1 *
-                                 process.HTSelection *
-                                 process.metSelection *
-                                 process.analyzeSUSYBjets4b1l_2
-                                 )
-
 ## 2 lepton
 process.Selection2l = cms.Path(#process.patDefaultSequence *
                                process.makeObjects *
@@ -224,20 +207,4 @@ process.Selection3b2l = cms.Path(#process.patDefaultSequence *
                                  process.HTSelection *
                                  process.metSelection *
                                  process.analyzeSUSYBjets3b2l_1
-                                 )
-
-process.Selection4b2l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 #process.makeSUSYGenEvt *
-                                 process.preselection *
-                                 process.MuHadSelection *
-                                 process.oneGoodMuon*
-                                 process.twoGoodLeptons *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.fourMediumTrackHighEffBjets *
-                                 process.oneTightJet *
-                                 process.HTSelection *
-                                 process.metSelection *
-                                 process.analyzeSUSYBjets4b2l_1
                                  )

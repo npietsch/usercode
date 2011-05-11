@@ -85,7 +85,7 @@ process.Selection1l = cms.Path(#process.patDefaultSequence *
                                process.RA4MuonCollections *
                                process.makeSUSYGenEvt *
                                process.analyzeSUSYBjets1l_noCuts *
-                               process.preselection *
+                               #process.preselectionOSET *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets1l_preselection *
                                process.RA4MuonSelection *
@@ -107,7 +107,7 @@ process.Selection1l = cms.Path(#process.patDefaultSequence *
 process.Selection1b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.muonSelection*
                                  process.fourGoodJets *
@@ -123,7 +123,7 @@ process.Selection1b1l = cms.Path(#process.patDefaultSequence *
 process.Selection2b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.muonSelection*
                                  process.fourGoodJets *
@@ -139,7 +139,7 @@ process.Selection2b1l = cms.Path(#process.patDefaultSequence *
 process.Selection3b1l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.muonSelection*
                                  process.fourGoodJets *
@@ -152,28 +152,12 @@ process.Selection3b1l = cms.Path(#process.patDefaultSequence *
                                  process.analyzeSUSYBjets3b1l_2
                                  )
 
-process.Selection4b1l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 process.preselection *
-                                 process.MuHadSelection *
-                                 process.muonSelection*
-                                 process.fourGoodJets *
-                                 process.twoMediumJets *
-                                 process.oneTightJet *
-                                 process.fourMediumTrackHighEffBjets *
-                                 process.analyzeSUSYBjets4b1l_1 *
-                                 process.HTSelection *
-                                 process.metSelection *
-                                 process.analyzeSUSYBjets4b1l_2
-                                 )
-
 ## 2 lepton
 process.Selection2l = cms.Path(#process.patDefaultSequence *
                                process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.analyzeSUSYBjets2l_noCuts *
-                               process.preselection *
+                               #process.preselectionOSET *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets2l_preselection *
                                process.oneGoodMuon*
@@ -194,7 +178,7 @@ process.Selection2l = cms.Path(#process.patDefaultSequence *
 process.Selection1b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.oneGoodMuon*
                                  process.twoGoodLeptons *
@@ -210,7 +194,7 @@ process.Selection1b2l = cms.Path(#process.patDefaultSequence *
 process.Selection2b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.oneGoodMuon*
                                  process.twoGoodLeptons *
@@ -226,7 +210,7 @@ process.Selection2b2l = cms.Path(#process.patDefaultSequence *
 process.Selection3b2l = cms.Path(#process.patDefaultSequence *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
-                                 process.preselection *
+                                 #process.preselectionOSET *
                                  process.MuHadSelection *
                                  process.oneGoodMuon*
                                  process.twoGoodLeptons *
@@ -237,20 +221,4 @@ process.Selection3b2l = cms.Path(#process.patDefaultSequence *
                                  process.HTSelection *
                                  process.metSelection *
                                  process.analyzeSUSYBjets3b2l_1
-                                 )
-
-process.Selection4b2l = cms.Path(#process.patDefaultSequence *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 process.preselection *
-                                 process.MuHadSelection *
-                                 process.oneGoodMuon*
-                                 process.twoGoodLeptons *
-                                 process.threeGoodJets *
-                                 process.twoMediumJets *
-                                 process.fourMediumTrackHighEffBjets *
-                                 process.oneTightJet *
-                                 process.HTSelection *
-                                 process.metSelection *
-                                 process.analyzeSUSYBjets4b2l_1
                                  )
