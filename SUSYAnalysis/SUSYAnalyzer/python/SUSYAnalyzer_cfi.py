@@ -7,7 +7,6 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              met = cms.InputTag("patMETs"),
                              jets = cms.InputTag("selectedPatJets"),
                              muons = cms.InputTag("selectedPatMuons"),
-                             electrons = cms.InputTag("selectedPatElectrons")
+                             electrons = cms.InputTag("selectedPatElectrons"),
+                             pvSrc = cms.InputTag("offlinePrimaryVertices")
                              )
-
-

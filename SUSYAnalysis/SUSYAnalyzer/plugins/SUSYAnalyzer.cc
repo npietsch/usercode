@@ -15,7 +15,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   met_          (cfg.getParameter<edm::InputTag>("met")),
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons"))
+  electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
+  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") )
 { 
   edm::Service<TFileService> fs;
 
@@ -24,6 +25,36 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
   SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
+
+  MET1pv_ = fs->make<TH1F>("MET1pv","MET1pv ", 40, 0., 1000.);
+  HT1pv_ = fs->make<TH1F>("HT1pv","HT 1pv", 40, 0., 2000.);
+  nJets1pv_ = fs->make<TH1F>("nJets1pv","njets 1pv",16 , -0.5, 15.5);
+  Jet0_Et1pv_=fs->make<TH1F>("Jet0_Et1pv","Jet1 Et 1pv", 90, 0., 900.);
+  Jet1_Et1pv_=fs->make<TH1F>("Jet1_Et1pv","Jet2 Et 1pv", 90, 0., 900.);
+
+  MET2pv_ = fs->make<TH1F>("MET2pv","MET2pv ", 40, 0., 1000.);
+  HT2pv_ = fs->make<TH1F>("HT2pv","HT 2pv", 40, 0., 2000.);
+  nJets2pv_ = fs->make<TH1F>("nJets2pv","njets 2pv",16 , -0.5, 15.5);
+  Jet0_Et2pv_=fs->make<TH1F>("Jet0_Et2pv","Jet2 Et 2pv", 90, 0., 900.);
+  Jet1_Et2pv_=fs->make<TH1F>("Jet1_Et2pv","Jet2 Et 2pv", 90, 0., 900.);
+
+  MET3pv_ = fs->make<TH1F>("MET3pv","MET3pv ", 40, 0., 1000.);
+  HT3pv_ = fs->make<TH1F>("HT3pv","HT 3pv", 40, 0., 2000.);
+  nJets3pv_ = fs->make<TH1F>("nJets3pv","njets 3pv",16 , -0.5, 15.5);
+  Jet0_Et3pv_=fs->make<TH1F>("Jet0_Et3pv","Jet1 Et 3pv", 90, 0., 900.);
+  Jet1_Et3pv_=fs->make<TH1F>("Jet1_Et3pv","Jet2 Et 3pv", 90, 0., 900.);
+
+  MET4pv_ = fs->make<TH1F>("MET4pv","MET4pv ", 40, 0., 1000.);
+  HT4pv_ = fs->make<TH1F>("HT4pv","HT 4pv", 40, 0., 2000.);
+  nJets4pv_ = fs->make<TH1F>("nJets4pv","njets 4pv",16 , -0.5, 15.5);
+  Jet0_Et4pv_=fs->make<TH1F>("Jet0_Et4pv","Jet1 Et 4pv", 90, 0., 900.);
+  Jet1_Et4pv_=fs->make<TH1F>("Jet1_Et4pv","Jet2 Et 4pv", 90, 0., 900.);
+ 
+  MET5pv_ = fs->make<TH1F>("MET5pv","MET5pv ", 40, 0., 1000.);
+  HT5pv_ = fs->make<TH1F>("HT5pv","HT 5pv", 40, 0., 2000.);
+  nJets5pv_ = fs->make<TH1F>("nJets5pv","njets 5pv",16 , -0.5, 15.5);
+  Jet0_Et5pv_=fs->make<TH1F>("Jet0_Et5pv","Jet1 Et 5pv", 90, 0., 900.);
+  Jet1_Et5pv_=fs->make<TH1F>("Jet1_Et5pv","Jet2 Et 5pv", 90, 0., 900.);
 
   HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 78, 220., 1000., 30, 0., 300. );
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 200., 2000., 40, 0., 20. );
@@ -78,6 +109,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
+  edm::Handle<std::vector<reco::Vertex> > pvSrc;
+  evt.getByLabel(pvSrc_, pvSrc);
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets
@@ -102,6 +135,81 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   SigMET_->Fill(sigMET);
   HT_SigMET_->Fill(HT,sigMET);
   HT_MET_->Fill(HT,(*met)[0].et());
+
+  if(pvSrc->size()==1)
+    {
+      MET1pv_->Fill((*met)[0].et());
+      HT1pv_->Fill(HT);
+      nJets1pv_->Fill(njets);
+      if(jets->size()>0)
+	{
+	  Jet0_Et1pv_->Fill((*jets)[0].et());
+	}
+      if(jets->size()>1)
+	{
+	  Jet0_Et1pv_->Fill((*jets)[1].et());
+	} 
+    }
+
+  if(pvSrc->size()==2)
+    {
+      MET2pv_->Fill((*met)[0].et());
+      HT2pv_->Fill(HT);
+      nJets2pv_->Fill(njets);
+      if(jets->size()>0)
+	{
+	  Jet0_Et2pv_->Fill((*jets)[0].et());
+	}
+      if(jets->size()>1)
+	{
+	  Jet0_Et2pv_->Fill((*jets)[1].et());
+	} 
+    }
+
+  if(pvSrc->size()==3)
+    {
+      MET3pv_->Fill((*met)[0].et());
+      HT3pv_->Fill(HT);
+      nJets3pv_->Fill(njets);
+      if(jets->size()>0)
+	{
+	  Jet0_Et3pv_->Fill((*jets)[0].et());
+	}
+      if(jets->size()>1)
+	{
+	  Jet0_Et3pv_->Fill((*jets)[1].et());
+	} 
+    }
+  
+  if(pvSrc->size()==4)
+    {
+      MET4pv_->Fill((*met)[0].et());
+      HT4pv_->Fill(HT);
+      nJets4pv_->Fill(njets);
+      if(jets->size()>0)
+	{
+	  Jet0_Et4pv_->Fill((*jets)[0].et());
+	}
+      if(jets->size()>1)
+	{
+	  Jet0_Et4pv_->Fill((*jets)[1].et());
+	} 
+    }
+
+  if(pvSrc->size()>=5)
+    {
+      MET5pv_->Fill((*met)[0].et());
+      HT5pv_->Fill(HT);
+      nJets5pv_->Fill(njets);
+      if(jets->size()>0)
+	{
+	  Jet0_Et5pv_->Fill((*jets)[0].et());
+	}
+      if(jets->size()>1)
+	{
+	  Jet0_Et5pv_->Fill((*jets)[1].et());
+	} 
+    }
 
   //std::cout << "===========================================" << std::endl;
   //std::cout << "==================MET: " << (*met)[0].et() << std::endl;

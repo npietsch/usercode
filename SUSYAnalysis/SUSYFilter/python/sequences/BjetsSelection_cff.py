@@ -491,7 +491,7 @@ filterHT2.Cut = 350
 
 filterHT3 = filterHT.clone()
 filterHT3.jets = "goodJets"
-filterHT3.Cut = 220
+filterHT3.Cut = 275
 
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
 SSignMuMuFilter = filterMuonPair.clone()

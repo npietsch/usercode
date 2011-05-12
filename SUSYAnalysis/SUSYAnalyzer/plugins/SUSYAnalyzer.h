@@ -37,6 +37,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag jets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+  edm::InputTag pvSrc_;
 
   // TH1F histograms
   TH1F *MET_;
@@ -52,6 +53,36 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *invMuMuMass_;
   TH1F *RelIsoMu1_;
   TH1F *RelIsoMu2_;
+
+  TH1F *MET1pv_;
+  TH1F *HT1pv_;
+  TH1F *nJets1pv_;
+  TH1F *Jet0_Et1pv_;
+  TH1F *Jet1_Et1pv_;
+
+  TH1F *MET2pv_;
+  TH1F *HT2pv_;
+  TH1F *nJets2pv_;
+  TH1F *Jet0_Et2pv_;
+  TH1F *Jet1_Et2pv_;
+
+  TH1F *MET3pv_;
+  TH1F *HT3pv_;
+  TH1F *nJets3pv_;
+  TH1F *Jet0_Et3pv_;
+  TH1F *Jet1_Et3pv_;
+
+  TH1F *MET4pv_;
+  TH1F *HT4pv_;
+  TH1F *nJets4pv_;
+  TH1F *Jet0_Et4pv_;
+  TH1F *Jet1_Et4pv_;
+
+  TH1F *MET5pv_;
+  TH1F *HT5pv_;
+  TH1F *nJets5pv_;
+  TH1F *Jet0_Et5pv_;
+  TH1F *Jet1_Et5pv_;
 
   TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;

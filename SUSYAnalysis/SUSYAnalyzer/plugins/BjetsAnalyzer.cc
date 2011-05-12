@@ -23,7 +23,8 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
   tightTrackHighPurBjets_(cfg.getParameter<edm::InputTag>("tightTrackHighPurBjets")),
   looseTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("looseTrackHighEffBjets")),
   mediumTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("mediumTrackHighEffBjets")),
-  tightTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("tightTrackHighEffBjets"))
+  tightTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("tightTrackHighEffBjets")),
+  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") )
 { 
   edm::Service<TFileService> fs;
   
@@ -66,11 +67,63 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
   nLooseBjetsTrackHighPur_=fs->make<TH1F>("nLooseBjetsTrackHighPur","# loose bjets TrackHighPur",10 , -0.5, 9.5);
   nMediumBjetsTrackHighPur_=fs->make<TH1F>("nMediumBjetsTrackHighPur","# medium bjets TrackHighPur",10 , -0.5, 9.5);
   nTightBjetsTrackHighPur_=fs->make<TH1F>("nTightBjetsTrackHighPur","# tight bjets TrackHighPur",10 , -0.5, 9.5);
-
   nLooseBjetsTrackHighEff_=fs->make<TH1F>("nLooseBjetsTrackHighEff","# loose bjets TrackHighEff",10 , -0.5, 9.5);
   nMediumBjetsTrackHighEff_=fs->make<TH1F>("nMediumBjetsTrackHighEff","# medium bjets TrackHighEff",10 , -0.5, 9.5);
   nTightBjetsTrackHighEff_=fs->make<TH1F>("nTightBjetsTrackHighEff","# tight bjets TrackHighEff",10 , -0.5, 9.5);
+
+  nLooseBjetsTrackHighPur1pv_=fs->make<TH1F>("nLooseBjetsTrackHighPur1pv","# loose bjets TrackHighPur 1pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighPur1pv_=fs->make<TH1F>("nMediumBjetsTrackHighPur1pv","# medium bjets TrackHighPur 1pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighPur1pv_=fs->make<TH1F>("nTightBjetsTrackHighPur1pv","# tight bjets TrackHighPur 1pv",10 , -0.5, 9.5);
+  nLooseBjetsTrackHighEff1pv_=fs->make<TH1F>("nLooseBjetsTrackHighEff1pv","# loose bjets TrackHighEff 1pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighEff1pv_=fs->make<TH1F>("nMediumBjetsTrackHighEff1pv","# medium bjets TrackHighEff 1pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighEff1pv_=fs->make<TH1F>("nTightBjetsTrackHighEff1pv","# tight bjets TrackHighEff 1pv",10 , -0.5, 9.5);
+
+  nLooseBjetsTrackHighPur2pv_=fs->make<TH1F>("nLooseBjetsTrackHighPur2pv","# loose bjets TrackHighPur 2pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighPur2pv_=fs->make<TH1F>("nMediumBjetsTrackHighPur2pv","# medium bjets TrackHighPur 2pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighPur2pv_=fs->make<TH1F>("nTightBjetsTrackHighPur2pv","# tight bjets TrackHighPur 2pv",10 , -0.5, 9.5);
+  nLooseBjetsTrackHighEff2pv_=fs->make<TH1F>("nLooseBjetsTrackHighEff2pv","# loose bjets TrackHighEff 2pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighEff2pv_=fs->make<TH1F>("nMediumBjetsTrackHighEff2pv","# medium bjets TrackHighEff 2pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighEff2pv_=fs->make<TH1F>("nTightBjetsTrackHighEff2pv","# tight bjets TrackHighEff 2pv",10 , -0.5, 9.5);
+
+  nLooseBjetsTrackHighPur3pv_=fs->make<TH1F>("nLooseBjetsTrackHighPur3pv","# loose bjets TrackHighPur 3pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighPur3pv_=fs->make<TH1F>("nMediumBjetsTrackHighPur3pv","# medium bjets TrackHighPur 3pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighPur3pv_=fs->make<TH1F>("nTightBjetsTrackHighPur3pv","# tight bjets TrackHighPur 3pv",10 , -0.5, 9.5);
+  nLooseBjetsTrackHighEff3pv_=fs->make<TH1F>("nLooseBjetsTrackHighEff3pv","# loose bjets TrackHighEff 3pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighEff3pv_=fs->make<TH1F>("nMediumBjetsTrackHighEff3pv","# medium bjets TrackHighEff 3pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighEff3pv_=fs->make<TH1F>("nTightBjetsTrackHighEff3pv","# tight bjets TrackHighEff 3pv",10 , -0.5, 9.5);
+
+  nLooseBjetsTrackHighPur4pv_=fs->make<TH1F>("nLooseBjetsTrackHighPur4pv","# loose bjets TrackHighPur 4pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighPur4pv_=fs->make<TH1F>("nMediumBjetsTrackHighPur4pv","# medium bjets TrackHighPur 4pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighPur4pv_=fs->make<TH1F>("nTightBjetsTrackHighPur4pv","# tight bjets TrackHighPur 4pv",10 , -0.5, 9.5);
+  nLooseBjetsTrackHighEff4pv_=fs->make<TH1F>("nLooseBjetsTrackHighEff4pv","# loose bjets TrackHighEff 4pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighEff4pv_=fs->make<TH1F>("nMediumBjetsTrackHighEff4pv","# medium bjets TrackHighEff 4pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighEff4pv_=fs->make<TH1F>("nTightBjetsTrackHighEff4pv","# tight bjets TrackHighEff 4pv",10 , -0.5, 9.5);
   
+  nLooseBjetsTrackHighPur5pv_=fs->make<TH1F>("nLooseBjetsTrackHighPur5pv","# loose bjets TrackHighPur 5pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighPur5pv_=fs->make<TH1F>("nMediumBjetsTrackHighPur5pv","# medium bjets TrackHighPur 5pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighPur5pv_=fs->make<TH1F>("nTightBjetsTrackHighPur5pv","# tight bjets TrackHighPur 5pv",10 , -0.5, 9.5);
+  nLooseBjetsTrackHighEff5pv_=fs->make<TH1F>("nLooseBjetsTrackHighEff5pv","# loose bjets TrackHighEff 5pv",10 , -0.5, 9.5);
+  nMediumBjetsTrackHighEff5pv_=fs->make<TH1F>("nMediumBjetsTrackHighEff5pv","# medium bjets TrackHighEff 5pv",10 , -0.5, 9.5);
+  nTightBjetsTrackHighEff5pv_=fs->make<TH1F>("nTightBjetsTrackHighEff5pv","# tight bjets TrackHighEff 1pv",10 , -0.5, 9.5);
+
+  bdiscTrackHighEff_=fs->make<TH1F>("bdiscTrackHighEff","bdiscTrackHighEff",200, -25., 25.);
+  bdiscTrackHighPur_=fs->make<TH1F>("bdiscTrackHighPur","bdiscTrackHighPur",200, -25., 25.);
+
+  bdiscTrackHighEff1pv_=fs->make<TH1F>("bdiscTrackHighEff1pv","bdiscTrackHighEff1pv",200, -25., 25.);
+  bdiscTrackHighPur1pv_=fs->make<TH1F>("bdiscTrackHighPur1pv","bdiscTrackHighPur1pv",200, -25., 25.);
+
+  bdiscTrackHighEff2pv_=fs->make<TH1F>("bdiscTrackHighEff2pv","bdiscTrackHighEff2pv",200, -25., 25.);
+  bdiscTrackHighPur2pv_=fs->make<TH1F>("bdiscTrackHighPur2pv","bdiscTrackHighPur2pv",200, -25., 25.);
+
+  bdiscTrackHighEff3pv_=fs->make<TH1F>("bdiscTrackHighEff3pv","bdiscTrackHighEff3pv",200, -25., 25.);
+  bdiscTrackHighPur3pv_=fs->make<TH1F>("bdiscTrackHighPur3pv","bdiscTrackHighPur3pv",200, -25., 25.);
+
+  bdiscTrackHighEff4pv_=fs->make<TH1F>("bdiscTrackHighEff4pv","bdiscTrackHighEff4pv",200, -25., 25.);
+  bdiscTrackHighPur4pv_=fs->make<TH1F>("bdiscTrackHighPur4pv","bdiscTrackHighPur4pv",200, -25., 25.);
+
+  bdiscTrackHighEff5pv_=fs->make<TH1F>("bdiscTrackHighEff5pv","bdiscTrackHighEff5pv",200, -25., 25.);
+  bdiscTrackHighPur5pv_=fs->make<TH1F>("bdiscTrackHighPur5pv","bdiscTrackHighPur5pv",200, -25., 25.);
+
   for(int j5=0; j5<6; ++j5)
     {
       char histnamej5_1[20];
@@ -135,6 +188,8 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(mediumTrackHighEffBjets_, mediumTrackHighEffBjets);
   edm::Handle<std::vector<pat::Jet> > tightTrackHighEffBjets;
   evt.getByLabel(tightTrackHighEffBjets_, tightTrackHighEffBjets);
+  edm::Handle<std::vector<reco::Vertex> > pvSrc;
+  evt.getByLabel(pvSrc_, pvSrc);
 
   //-------------------------------------------------
   // BJets
@@ -199,6 +254,35 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       if((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags") > 1.7) ++looseBjetsTrackHighEff;
       if((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags") > 3.3) ++mediumBjetsTrackHighEff;
       if((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags") > 10.2) ++tightBjetsTrackHighEff;
+ 
+      bdiscTrackHighEff_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+      bdiscTrackHighPur_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+
+      if(pvSrc->size()==1)
+	{
+	  bdiscTrackHighEff1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+	  bdiscTrackHighPur1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	}
+      if(pvSrc->size()==2)
+	{
+	  bdiscTrackHighEff2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+	  bdiscTrackHighPur2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	}
+      if(pvSrc->size()==3)
+	{
+	  bdiscTrackHighEff3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+	  bdiscTrackHighPur3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	}
+      if(pvSrc->size()==4)
+	{
+	  bdiscTrackHighEff4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+	  bdiscTrackHighPur4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	}
+      if(pvSrc->size()>=5)
+	{
+	  bdiscTrackHighEff5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
+	  bdiscTrackHighPur5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	}
 
       if(i<10)
 	{
@@ -223,11 +307,59 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   nLooseBjetsTrackHighPur_->Fill(looseBjetsTrackHighPur);
   nMediumBjetsTrackHighPur_->Fill(mediumBjetsTrackHighPur);
   nTightBjetsTrackHighPur_->Fill(tightBjetsTrackHighPur);
-
   nLooseBjetsTrackHighEff_->Fill(looseBjetsTrackHighEff);
   nMediumBjetsTrackHighEff_->Fill(mediumBjetsTrackHighEff);
   nTightBjetsTrackHighEff_->Fill(tightBjetsTrackHighEff);
+
+ if(pvSrc->size()==1)
+    {
+      nLooseBjetsTrackHighPur1pv_->Fill(looseBjetsTrackHighPur);
+      nMediumBjetsTrackHighPur1pv_->Fill(mediumBjetsTrackHighPur);
+      nTightBjetsTrackHighPur1pv_->Fill(tightBjetsTrackHighPur);
+      nLooseBjetsTrackHighEff1pv_->Fill(looseBjetsTrackHighEff);
+      nMediumBjetsTrackHighEff1pv_->Fill(mediumBjetsTrackHighEff);
+      nTightBjetsTrackHighEff1pv_->Fill(tightBjetsTrackHighEff);
+    }
+
+  if(pvSrc->size()==2)
+    {
+      nLooseBjetsTrackHighPur2pv_->Fill(looseBjetsTrackHighPur);
+      nMediumBjetsTrackHighPur2pv_->Fill(mediumBjetsTrackHighPur);
+      nTightBjetsTrackHighPur2pv_->Fill(tightBjetsTrackHighPur);
+      nLooseBjetsTrackHighEff2pv_->Fill(looseBjetsTrackHighEff);
+      nMediumBjetsTrackHighEff2pv_->Fill(mediumBjetsTrackHighEff);
+      nTightBjetsTrackHighEff2pv_->Fill(tightBjetsTrackHighEff);
+    }
+
+  if(pvSrc->size()==3)
+    {
+      nLooseBjetsTrackHighPur3pv_->Fill(looseBjetsTrackHighPur);
+      nMediumBjetsTrackHighPur3pv_->Fill(mediumBjetsTrackHighPur);
+      nTightBjetsTrackHighPur3pv_->Fill(tightBjetsTrackHighPur);
+      nLooseBjetsTrackHighEff3pv_->Fill(looseBjetsTrackHighEff);
+      nMediumBjetsTrackHighEff3pv_->Fill(mediumBjetsTrackHighEff);
+      nTightBjetsTrackHighEff3pv_->Fill(tightBjetsTrackHighEff);
+    }
   
+  if(pvSrc->size()==4)
+    {
+      nLooseBjetsTrackHighPur4pv_->Fill(looseBjetsTrackHighPur);
+      nMediumBjetsTrackHighPur4pv_->Fill(mediumBjetsTrackHighPur);
+      nTightBjetsTrackHighPur4pv_->Fill(tightBjetsTrackHighPur);
+      nLooseBjetsTrackHighEff4pv_->Fill(looseBjetsTrackHighEff);
+      nMediumBjetsTrackHighEff4pv_->Fill(mediumBjetsTrackHighEff);
+      nTightBjetsTrackHighEff4pv_->Fill(tightBjetsTrackHighEff);
+    }
+
+  if(pvSrc->size()>=5)
+    {
+      nLooseBjetsTrackHighPur5pv_->Fill(looseBjetsTrackHighPur);
+      nMediumBjetsTrackHighPur5pv_->Fill(mediumBjetsTrackHighPur);
+      nTightBjetsTrackHighPur5pv_->Fill(tightBjetsTrackHighPur);
+      nLooseBjetsTrackHighEff5pv_->Fill(looseBjetsTrackHighEff);
+      nMediumBjetsTrackHighEff5pv_->Fill(mediumBjetsTrackHighEff);
+      nTightBjetsTrackHighEff5pv_->Fill(tightBjetsTrackHighEff);
+    }
   //------------------------------------------------------------------------------
   //  for events containing exactly two ...
   //------------------------------------------------------------------------------
