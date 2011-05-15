@@ -32,12 +32,14 @@ int EventCounter()
   bgFiles.push_back (new TFile("Bjets_Wjets.root", "READ"));
   bgFiles.push_back (new TFile("Bjets_Zjets.root", "READ"));
   bgFiles.push_back (new TFile("Bjets_QCDMu.root", "READ"));
+
+  //bgFiles.push_back (new TFile("Bjets_Mu.root", "READ"));
+
   int bf=bgFiles.size();
 
-  //sgFiles.push_back (new TFile("Bjets_Mu.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM1.root", "READ"));
   sgFiles.push_back (new TFile("Bjets_LM3.root", "READ"));
-  sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
+  //sgFiles.push_back (new TFile("Bjets_LM8.root", "READ"));
   //sgFiles.push_back (new TFile("Bjets_LM7.root", "READ"));
   //sgFiles.push_back (new TFile("Bjets_LM9.root", "READ"));
   //sgFiles.push_back (new TFile("Bjets_LM12.root", "READ"));
@@ -45,7 +47,7 @@ int EventCounter()
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET400.root", "READ"));
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET450.root", "READ"));
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET500.root", "READ"));
-//   sgFiles.push_back (new TFile("Bjets_GluinoOSET550.root", "READ"));
+   sgFiles.push_back (new TFile("Bjets_tbGluinoOSET550.root", "READ"));
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET650.root", "READ"));
 //   sgFiles.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
@@ -70,17 +72,17 @@ int EventCounter()
   bgNames.push_back("W+Jets");
   bgNames.push_back("Z+Jets");
   bgNames.push_back("QCD Mu");
-  //sgNames.push_back("2010 Data");
-  sgNames.push_back("LM1");
+  bgNames.push_back("2011 Data");
+  //sgNames.push_back("LM1");
   sgNames.push_back("LM3");
-  sgNames.push_back("LM8");
+  //sgNames.push_back("LM8");
   //sgNames.push_back("LM7");
   //sgNames.push_back("LM9");
   //sgNames.push_back("LM12");
 
 //   sgNames.push_back("400");
 //   sgNames.push_back("450");
-//   sgNames.push_back("500");
+  sgNames.push_back("G500LSP140");
 //   sgNames.push_back("550");
 //   sgNames.push_back("600");
 //   sgNames.push_back("650");
@@ -89,8 +91,9 @@ int EventCounter()
 //   sgNames.push_back("800");
 
   // lumi in fb-1
-  double lumi=0.0359;
+  //double lumi=0.0359;
   //double lumi=0.25;
+  double lumi=0.189;
 
   // cross-sections
   double xsecQCDMu=296900000*0.00037;
@@ -114,10 +117,10 @@ int EventCounter()
   double xsecG800=0.0526242;
 
   // number of events
-  double nQCD=29504866;
-  double nZjets=2543727;
-  double nWjets=14805546;
-  double nTTJets=1156119;
+  double nQCD=29034562;
+  double nZjets=2543706;
+  double nWjets=10822996;
+  double nTTJets=1286491;
   double nLM1=219190;
   double nLM3=220000;
   double nLM8=220000;
@@ -162,17 +165,17 @@ int EventCounter()
   bgScales.push_back(sZjets);
   bgScales.push_back(sQCDMu);
 
-  //sgScales.push_back(sData);
-  sgScales.push_back(sLM1);  
+  bgScales.push_back(sData);
+  //sgScales.push_back(sLM1);  
   sgScales.push_back(sLM3);
-  sgScales.push_back(sLM8);
+  //sgScales.push_back(sLM8);
   //sgScales.push_back(sLM7);  
   //sgScales.push_back(sLM9);
   //sgScales.push_back(sLM12);
 
 //   sgScales.push_back(sG400);  
 //   sgScales.push_back(sG450);
-//   sgScales.push_back(sG500);
+   sgScales.push_back(sG500);
 //   sgScales.push_back(sG550);  
 //   sgScales.push_back(sG600);
 //   sgScales.push_back(sG650);
@@ -198,14 +201,19 @@ int EventCounter()
 
   //steps.push_back("1");
 
-//   steps.push_back("no Cuts");
-//   steps.push_back("presel.");
-//   steps.push_back("1 Muon");
-//   steps.push_back("4 Jets");
-//   steps.push_back("Jet1 Et$>$100");
-//   steps.push_back("Jet2 Et$>$60");
-  steps.push_back("HT $>$350 ");
+  steps.push_back("no Cuts");
+  steps.push_back("presel.");
+  steps.push_back("1 Muon");
+  steps.push_back("4 Jets");
+  steps.push_back("Jet1 Et$>$100");
+  steps.push_back("Jet2 Et$>$60");
+  steps.push_back("HT $>$300 ");
   steps.push_back("MET $>$100");
+
+//   steps.push_back("0b");
+//   steps.push_back("1b");
+//   steps.push_back("2b");
+//   steps.push_back("3b");
 
   int h=steps.size();
   int lastStep=h-1;
@@ -220,36 +228,39 @@ int EventCounter()
     {
       for(int j=0; j<bf; ++j)
 	{
-	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
-	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
+	  //bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
+	  //bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 
-// 	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
-// 	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
-// 	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
-// 	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
-// 	  bgHists[i][4][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
-// 	  bgHists[i][5][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
-// 	  bgHists[i][6][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
-// 	  bgHists[i][7][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
+	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+	  bgHists[i][4][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+	  bgHists[i][5][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+	  bgHists[i][6][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  bgHists[i][7][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
+// 	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY2b"+selection[i]+"_2/nLeptons");
+// 	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY3b"+selection[i]+"_2/nLeptons");
 
 	  //bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
 	  //bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 	  	  	}
       for(int k=0; k<sf; ++k)
 	{
-	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
-	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
+	  //sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
+	  //sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 
 
-// 	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
-// 	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
-// 	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
-// 	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
-// 	  sgHists[i][4][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
-// 	  sgHists[i][5][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
-// 	  sgHists[i][6][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
-// 	  sgHists[i][7][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
-
+	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+	  sgHists[i][4][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+	  sgHists[i][5][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+	  sgHists[i][6][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  sgHists[i][7][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
+// 	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY2b"+selection[i]+"_2/nLeptons");
+// 	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY3b"+selection[i]+"_2/nLeptons");
 
 	  //sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
 	  //sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
