@@ -198,12 +198,12 @@ int EventCounter()
 
   //steps.push_back("1");
 
-  steps.push_back("no Cuts");
-  steps.push_back("presel.");
-  steps.push_back("1 Muon");
-  steps.push_back("4 Jets");
-  steps.push_back("Jet1 Et$>$100");
-  steps.push_back("Jet2 Et$>$60");
+//   steps.push_back("no Cuts");
+//   steps.push_back("presel.");
+//   steps.push_back("1 Muon");
+//   steps.push_back("4 Jets");
+//   steps.push_back("Jet1 Et$>$100");
+//   steps.push_back("Jet2 Et$>$60");
   steps.push_back("HT $>$350 ");
   steps.push_back("MET $>$100");
 
@@ -220,36 +220,35 @@ int EventCounter()
     {
       for(int j=0; j<bf; ++j)
 	{
-	  //bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
-	  //bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
+	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 
-
-	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
-	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
-	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
-	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
-	  bgHists[i][4][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
-	  bgHists[i][5][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
-	  bgHists[i][6][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
-	  bgHists[i][7][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
+// 	  bgHists[i][0][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+// 	  bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+// 	  bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+// 	  bgHists[i][3][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+// 	  bgHists[i][4][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+// 	  bgHists[i][5][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+// 	  bgHists[i][6][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
+// 	  bgHists[i][7][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
 
 	  //bgHists[i][1][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
 	  //bgHists[i][2][j]=(TH1F*)bgFiles[j]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 	  	  	}
       for(int k=0; k<sf; ++k)
 	{
-	  //sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
-	  //sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_1/nLeptons");
+	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_4/nLeptons");
+	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_5/nLeptons");
 
 
-	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
-	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
-	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
-	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
-	  sgHists[i][4][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
-	  sgHists[i][5][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
-	  sgHists[i][6][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
-	  sgHists[i][7][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
+// 	  sgHists[i][0][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_noCuts/nLeptons");
+// 	  sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_preselection/nLeptons");
+// 	  sgHists[i][2][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneGoodMuon/nLeptons");
+// 	  sgHists[i][3][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_fourGoodJets/nLeptons");
+// 	  sgHists[i][4][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_oneTightJet/nLeptons");
+// 	  sgHists[i][5][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_twoMediumJets/nLeptons");
+// 	  sgHists[i][6][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_HTSelection/nLeptons");
+// 	  sgHists[i][7][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_metSelection/nLeptons");
 
 
 	  //sgHists[i][1][k]=(TH1F*)sgFiles[k]->Get("analyzeSUSY"+selection[i]+"_2/nLeptons");
@@ -461,10 +460,10 @@ int EventCounter()
 	{
 	  std::cout <<"&" << sgNames[k];
 	}
-      for(int k=0; k<sf; ++k)
-	{
-	  std::cout <<"&" << "s(" << sgNames[k] << ")";
-	}
+       for(int k=0; k<sf; ++k)
+ 	{
+ 	  std::cout <<"&" << "S/B(" << sgNames[k] << ")";
+ 	}
       std::cout << "\\" << "\\" << std::endl;
       std::cout << "\\hline \\hline" << std::endl; 
 
@@ -476,10 +475,14 @@ int EventCounter()
  	    {
  	      std::cout <<"&" << sgEvents[i][l][k];
  	    }
- 	  for(int k=0; k<sf; ++k)
- 	    {
- 	      std::cout <<"&" << significance[i][l][k];
- 	    }
+  	  for(int k=0; k<sf; ++k)
+  	    {
+  	      //std::cout <<"&" << significance[i][l][k];
+
+	      if(allSM[i][l]>0) std::cout <<"&" << 0.01 * round((float)(100*(sgEvents[i][l][k])/(allSM[i][l])));
+	      else std::cout <<"&" << sgEvents[i][l][k];
+
+  	    }
  	  std::cout << "\\" << "\\" << std::endl;
 	}
       std::cout << "\\hline" << std::endl;
