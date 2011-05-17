@@ -84,6 +84,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *Jet0_Et5pv_;
   TH1F *Jet1_Et5pv_;
 
+  TH1F *nPV_;
+
   TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;
   TH2F *HT_MET_;

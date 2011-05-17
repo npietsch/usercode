@@ -26,6 +26,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
   SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
 
+  nPV_ = fs->make<TH1F>("nPV","nPV", 20, 0., 20);
+
   MET1pv_ = fs->make<TH1F>("MET1pv","MET1pv ", 40, 0., 1000.);
   HT1pv_ = fs->make<TH1F>("HT1pv","HT 1pv", 40, 0., 2000.);
   nJets1pv_ = fs->make<TH1F>("nJets1pv","njets 1pv",16 , -0.5, 15.5);
@@ -136,6 +138,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   HT_SigMET_->Fill(HT,sigMET);
   HT_MET_->Fill(HT,(*met)[0].et());
 
+  nPV_->Fill(pvSrc->size());
+
   if(pvSrc->size()==1)
     {
       MET1pv_->Fill((*met)[0].et());
@@ -151,7 +155,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
 
-  if(pvSrc->size()==2)
+  if(pvSrc->size()==2 && pvSrc->size()==3)
     {
       MET2pv_->Fill((*met)[0].et());
       HT2pv_->Fill(HT);
@@ -166,7 +170,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
 
-  if(pvSrc->size()==3)
+  if(pvSrc->size()==4 && pvSrc->size()==5 && pvSrc->size()==6)
     {
       MET3pv_->Fill((*met)[0].et());
       HT3pv_->Fill(HT);
@@ -181,7 +185,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
   
-  if(pvSrc->size()==4)
+  if(pvSrc->size()==7 && pvSrc->size()==8 && pvSrc->size()==9)
     {
       MET4pv_->Fill((*met)[0].et());
       HT4pv_->Fill(HT);
@@ -196,7 +200,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
 
-  if(pvSrc->size()>=5)
+  if(pvSrc->size()>=10)
     {
       MET5pv_->Fill((*met)[0].et());
       HT5pv_->Fill(HT);
