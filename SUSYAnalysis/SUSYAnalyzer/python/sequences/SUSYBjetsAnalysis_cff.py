@@ -9,21 +9,38 @@ analyzeSUSY1l_2 = analyzeSUSY.clone()
 analyzeSUSY1l_3 = analyzeSUSY.clone()
 analyzeSUSY1l_4 = analyzeSUSY.clone()
 analyzeSUSY1l_5 = analyzeSUSY.clone()
+
 analyzeSUSY1l_noCuts = analyzeSUSY.clone()
 analyzeSUSY1l_preselection = analyzeSUSY.clone()
-analyzeSUSY1l_oneGoodMuon = analyzeSUSY.clone()
-analyzeSUSY1l_fourGoodJets = analyzeSUSY.clone()
+analyzeSUSY1l_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1l_jetSelection = analyzeSUSY.clone()
 analyzeSUSY1l_oneTightJet = analyzeSUSY.clone()
 analyzeSUSY1l_twoMediumJets = analyzeSUSY.clone()
 analyzeSUSY1l_metSelection = analyzeSUSY.clone()
 analyzeSUSY1l_HTSelection = analyzeSUSY.clone()
 
-analyzeSUSY1l_nminus1_oneGoodMuon = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_fourGoodJets = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_jetSelection = analyzeSUSY.clone()
 analyzeSUSY1l_nminus1_oneTightJet = analyzeSUSY.clone()
 analyzeSUSY1l_nminus1_twoMediumJets = analyzeSUSY.clone()
 analyzeSUSY1l_nminus1_metSelection = analyzeSUSY.clone()
 analyzeSUSY1l_nminus1_HTSelection = analyzeSUSY.clone()
+
+analyzeSUSY1l_noCuts_2 = analyzeSUSY.clone()
+analyzeSUSY1l_preselection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_leptonSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_jetSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_oneTightJet_2 = analyzeSUSY.clone()
+analyzeSUSY1l_twoMediumJets_2 = analyzeSUSY.clone()
+analyzeSUSY1l_metSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_HTSelection_2 = analyzeSUSY.clone()
+
+analyzeSUSY1l_nminus1_leptonSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_jetSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_oneTightJet_2 = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_twoMediumJets_2 = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_metSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1l_nminus1_HTSelection_2 = analyzeSUSY.clone()
 
 analyzeSUSY2l_1 = analyzeSUSY.clone()
 analyzeSUSY2l_2 = analyzeSUSY.clone()
@@ -127,21 +144,38 @@ analyzeBjets1l_2 = analyzeBjets.clone()
 analyzeBjets1l_3 = analyzeBjets.clone()
 analyzeBjets1l_4 = analyzeBjets.clone()
 analyzeBjets1l_5 = analyzeBjets.clone()
+
 analyzeBjets1l_noCuts = analyzeBjets.clone()
 analyzeBjets1l_preselection = analyzeBjets.clone()
-analyzeBjets1l_oneGoodMuon = analyzeBjets.clone()
-analyzeBjets1l_fourGoodJets = analyzeBjets.clone()
+analyzeBjets1l_leptonSelection = analyzeBjets.clone()
+analyzeBjets1l_jetSelection = analyzeBjets.clone()
 analyzeBjets1l_oneTightJet = analyzeBjets.clone()
 analyzeBjets1l_twoMediumJets = analyzeBjets.clone()
 analyzeBjets1l_metSelection = analyzeBjets.clone()
 analyzeBjets1l_HTSelection = analyzeBjets.clone()
 
-analyzeBjets1l_nminus1_oneGoodMuon = analyzeBjets.clone()
-analyzeBjets1l_nminus1_fourGoodJets = analyzeBjets.clone()
+analyzeBjets1l_nminus1_leptonSelection = analyzeBjets.clone()
+analyzeBjets1l_nminus1_jetSelection = analyzeBjets.clone()
 analyzeBjets1l_nminus1_oneTightJet = analyzeBjets.clone()
 analyzeBjets1l_nminus1_twoMediumJets = analyzeBjets.clone()
 analyzeBjets1l_nminus1_metSelection = analyzeBjets.clone()
 analyzeBjets1l_nminus1_HTSelection = analyzeBjets.clone()
+
+analyzeBjets1l_noCuts_2 = analyzeBjets.clone()
+analyzeBjets1l_preselection_2 = analyzeBjets.clone()
+analyzeBjets1l_leptonSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_jetSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_oneTightJet_2 = analyzeBjets.clone()
+analyzeBjets1l_twoMediumJets_2 = analyzeBjets.clone()
+analyzeBjets1l_metSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_HTSelection_2 = analyzeBjets.clone()
+
+analyzeBjets1l_nminus1_leptonSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_nminus1_jetSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_nminus1_oneTightJet_2 = analyzeBjets.clone()
+analyzeBjets1l_nminus1_twoMediumJets_2 = analyzeBjets.clone()
+analyzeBjets1l_nminus1_metSelection_2 = analyzeBjets.clone()
+analyzeBjets1l_nminus1_HTSelection_2 = analyzeBjets.clone()
 
 analyzeBjets2l_1 = analyzeBjets.clone()
 analyzeBjets2l_2 = analyzeBjets.clone()
@@ -243,21 +277,38 @@ analyzeSUSYGenEvt1l_2 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_3 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_4 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_5 = analyzeSUSYGenEvt.clone()
+
 analyzeSUSYGenEvt1l_noCuts = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_preselection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_oneGoodMuon = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_fourGoodJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_jetSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_oneTightJet = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_twoMediumJets = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_metSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_HTSelection = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1l_nminus1_oneGoodMuon = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_fourGoodJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_nminus1_oneTightJet = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_nminus1_twoMediumJets = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_nminus1_metSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1l_nminus1_HTSelection = analyzeSUSYGenEvt.clone()
+
+analyzeSUSYGenEvt1l_noCuts_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_preselection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_leptonSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_jetSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_oneTightJet_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_twoMediumJets_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_metSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_HTSelection_2 = analyzeSUSYGenEvt.clone()
+
+analyzeSUSYGenEvt1l_nminus1_leptonSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_jetSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_oneTightJet_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_twoMediumJets_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_metSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1l_nminus1_HTSelection_2 = analyzeSUSYGenEvt.clone()
 
 analyzeSUSYGenEvt2l_1 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt2l_2 = analyzeSUSYGenEvt.clone()
@@ -354,21 +405,38 @@ analyzeBTags1l_2 = analyzeBTags.clone()
 analyzeBTags1l_3 = analyzeBTags.clone()
 analyzeBTags1l_4 = analyzeBTags.clone()
 analyzeBTags1l_5 = analyzeBTags.clone()
+
 analyzeBTags1l_noCuts = analyzeBTags.clone()
 analyzeBTags1l_preselection = analyzeBTags.clone()
-analyzeBTags1l_oneGoodMuon = analyzeBTags.clone()
-analyzeBTags1l_fourGoodJets = analyzeBTags.clone()
+analyzeBTags1l_leptonSelection = analyzeBTags.clone()
+analyzeBTags1l_jetSelection = analyzeBTags.clone()
 analyzeBTags1l_oneTightJet = analyzeBTags.clone()
 analyzeBTags1l_twoMediumJets = analyzeBTags.clone()
 analyzeBTags1l_metSelection = analyzeBTags.clone()
 analyzeBTags1l_HTSelection = analyzeBTags.clone()
 
-analyzeBTags1l_nminus1_oneGoodMuon = analyzeBTags.clone()
-analyzeBTags1l_nminus1_fourGoodJets = analyzeBTags.clone()
+analyzeBTags1l_nminus1_leptonSelection = analyzeBTags.clone()
+analyzeBTags1l_nminus1_jetSelection = analyzeBTags.clone()
 analyzeBTags1l_nminus1_oneTightJet = analyzeBTags.clone()
 analyzeBTags1l_nminus1_twoMediumJets = analyzeBTags.clone()
 analyzeBTags1l_nminus1_metSelection = analyzeBTags.clone()
 analyzeBTags1l_nminus1_HTSelection = analyzeBTags.clone()
+
+analyzeBTags1l_noCuts_2 = analyzeBTags.clone()
+analyzeBTags1l_preselection_2 = analyzeBTags.clone()
+analyzeBTags1l_leptonSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_jetSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_oneTightJet_2 = analyzeBTags.clone()
+analyzeBTags1l_twoMediumJets_2 = analyzeBTags.clone()
+analyzeBTags1l_metSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_HTSelection_2 = analyzeBTags.clone()
+
+analyzeBTags1l_nminus1_leptonSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_nminus1_jetSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_nminus1_oneTightJet_2 = analyzeBTags.clone()
+analyzeBTags1l_nminus1_twoMediumJets_2 = analyzeBTags.clone()
+analyzeBTags1l_nminus1_metSelection_2 = analyzeBTags.clone()
+analyzeBTags1l_nminus1_HTSelection_2 = analyzeBTags.clone()
 
 analyzeBTags2l_1 = analyzeBTags.clone()
 analyzeBTags2l_2 = analyzeBTags.clone()
@@ -467,15 +535,15 @@ analyzeSUSYBjets1l_preselection = cms.Sequence(analyzeSUSY1l_preselection *
                                                analyzeSUSYGenEvt1l_preselection *
                                                analyzeBTags1l_preselection
                                                )
-analyzeSUSYBjets1l_oneGoodMuon = cms.Sequence(analyzeSUSY1l_oneGoodMuon *
-                                              analyzeBjets1l_oneGoodMuon *
-                                              analyzeSUSYGenEvt1l_oneGoodMuon *
-                                              analyzeBTags1l_oneGoodMuon
-                                              )
-analyzeSUSYBjets1l_fourGoodJets = cms.Sequence(analyzeSUSY1l_fourGoodJets *
-                                               analyzeBjets1l_fourGoodJets *
-                                               analyzeSUSYGenEvt1l_fourGoodJets *
-                                               analyzeBTags1l_fourGoodJets
+analyzeSUSYBjets1l_leptonSelection = cms.Sequence(analyzeSUSY1l_leptonSelection *
+                                                  analyzeBjets1l_leptonSelection *
+                                                  analyzeSUSYGenEvt1l_leptonSelection *
+                                                  analyzeBTags1l_leptonSelection
+                                                  )
+analyzeSUSYBjets1l_jetSelection = cms.Sequence(analyzeSUSY1l_jetSelection *
+                                               analyzeBjets1l_jetSelection *
+                                               analyzeSUSYGenEvt1l_jetSelection *
+                                               analyzeBTags1l_jetSelection
                                                )
 analyzeSUSYBjets1l_oneTightJet = cms.Sequence(analyzeSUSY1l_oneTightJet *
                                               analyzeBjets1l_oneTightJet *
@@ -498,15 +566,59 @@ analyzeSUSYBjets1l_HTSelection = cms.Sequence(analyzeSUSY1l_HTSelection *
                                               analyzeBTags1l_HTSelection
                                               )
 
-analyzeSUSYBjets1l_nminus1_oneGoodMuon = cms.Sequence(analyzeSUSY1l_nminus1_oneGoodMuon *
-                                                      analyzeBjets1l_nminus1_oneGoodMuon *
-                                                      analyzeSUSYGenEvt1l_nminus1_oneGoodMuon *
-                                                      analyzeBTags1l_nminus1_oneGoodMuon
-                                                      )
-analyzeSUSYBjets1l_nminus1_fourGoodJets = cms.Sequence(analyzeSUSY1l_nminus1_fourGoodJets *
-                                                       analyzeBjets1l_nminus1_fourGoodJets *
-                                                       analyzeSUSYGenEvt1l_nminus1_fourGoodJets *
-                                                       analyzeBTags1l_nminus1_fourGoodJets
+
+##
+analyzeSUSYBjets1l_noCuts_2 = cms.Sequence(analyzeSUSY1l_noCuts_2 *
+                                           analyzeBjets1l_noCuts_2 *
+                                           analyzeSUSYGenEvt1l_noCuts_2 *
+                                           analyzeBTags1l_noCuts_2
+                                           )
+analyzeSUSYBjets1l_preselection_2 = cms.Sequence(analyzeSUSY1l_preselection_2 *
+                                                 analyzeBjets1l_preselection_2 *
+                                                 analyzeSUSYGenEvt1l_preselection_2 *
+                                                 analyzeBTags1l_preselection_2
+                                                 )
+analyzeSUSYBjets1l_leptonSelection_2 = cms.Sequence(analyzeSUSY1l_leptonSelection_2 *
+                                                    analyzeBjets1l_leptonSelection_2 *
+                                                    analyzeSUSYGenEvt1l_leptonSelection_2 *
+                                                    analyzeBTags1l_leptonSelection_2
+                                                    )
+analyzeSUSYBjets1l_jetSelection_2 = cms.Sequence(analyzeSUSY1l_jetSelection_2 *
+                                                 analyzeBjets1l_jetSelection_2 *
+                                                 analyzeSUSYGenEvt1l_jetSelection_2 *
+                                                 analyzeBTags1l_jetSelection_2
+                                                 )
+analyzeSUSYBjets1l_oneTightJet_2 = cms.Sequence(analyzeSUSY1l_oneTightJet_2 *
+                                                analyzeBjets1l_oneTightJet_2 *
+                                                analyzeSUSYGenEvt1l_oneTightJet_2 *
+                                                analyzeBTags1l_oneTightJet_2
+                                                )
+analyzeSUSYBjets1l_twoMediumJets_2 = cms.Sequence(analyzeSUSY1l_twoMediumJets_2 *
+                                                  analyzeBjets1l_twoMediumJets_2 *
+                                                  analyzeSUSYGenEvt1l_twoMediumJets_2 *
+                                                  analyzeBTags1l_twoMediumJets_2
+                                                  )
+analyzeSUSYBjets1l_metSelection_2 = cms.Sequence(analyzeSUSY1l_metSelection_2 *
+                                                 analyzeBjets1l_metSelection_2 *
+                                                 analyzeSUSYGenEvt1l_metSelection_2 *
+                                                 analyzeBTags1l_metSelection_2
+                                                 )
+analyzeSUSYBjets1l_HTSelection_2 = cms.Sequence(analyzeSUSY1l_HTSelection_2 *
+                                                analyzeBjets1l_HTSelection_2 *
+                                                analyzeSUSYGenEvt1l_HTSelection_2 *
+                                                analyzeBTags1l_HTSelection_2
+                                                )
+
+##
+analyzeSUSYBjets1l_nminus1_leptonSelection = cms.Sequence(analyzeSUSY1l_nminus1_leptonSelection *
+                                                          analyzeBjets1l_nminus1_leptonSelection *
+                                                          analyzeSUSYGenEvt1l_nminus1_leptonSelection *
+                                                          analyzeBTags1l_nminus1_leptonSelection
+                                                          )
+analyzeSUSYBjets1l_nminus1_jetSelection = cms.Sequence(analyzeSUSY1l_nminus1_jetSelection *
+                                                       analyzeBjets1l_nminus1_jetSelection *
+                                                       analyzeSUSYGenEvt1l_nminus1_jetSelection *
+                                                       analyzeBTags1l_nminus1_jetSelection
                                                        )
 analyzeSUSYBjets1l_nminus1_oneTightJet = cms.Sequence(analyzeSUSY1l_nminus1_oneTightJet *
                                                       analyzeBjets1l_nminus1_oneTightJet *
@@ -529,6 +641,40 @@ analyzeSUSYBjets1l_nminus1_HTSelection = cms.Sequence(analyzeSUSY1l_nminus1_HTSe
                                                       analyzeBTags1l_nminus1_HTSelection
                                                       )
 
+##
+analyzeSUSYBjets1l_nminus1_leptonSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_leptonSelection_2 *
+                                                            analyzeBjets1l_nminus1_leptonSelection_2 *
+                                                            analyzeSUSYGenEvt1l_nminus1_leptonSelection_2 *
+                                                            analyzeBTags1l_nminus1_leptonSelection_2
+                                                            )
+analyzeSUSYBjets1l_nminus1_jetSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_jetSelection_2 *
+                                                         analyzeBjets1l_nminus1_jetSelection_2 *
+                                                         analyzeSUSYGenEvt1l_nminus1_jetSelection_2 *
+                                                         analyzeBTags1l_nminus1_jetSelection_2
+                                                         )
+analyzeSUSYBjets1l_nminus1_oneTightJet_2 = cms.Sequence(analyzeSUSY1l_nminus1_oneTightJet_2 *
+                                                        analyzeBjets1l_nminus1_oneTightJet_2 *
+                                                        analyzeSUSYGenEvt1l_nminus1_oneTightJet_2 *
+                                                        analyzeBTags1l_nminus1_oneTightJet_2
+                                                        )
+analyzeSUSYBjets1l_nminus1_twoMediumJets_2 = cms.Sequence(analyzeSUSY1l_nminus1_twoMediumJets_2 *
+                                                          analyzeBjets1l_nminus1_twoMediumJets_2 *
+                                                          analyzeSUSYGenEvt1l_nminus1_twoMediumJets_2 *
+                                                          analyzeBTags1l_nminus1_twoMediumJets_2
+                                                          )
+analyzeSUSYBjets1l_nminus1_metSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_metSelection_2 *
+                                                         analyzeBjets1l_nminus1_metSelection_2 *
+                                                         analyzeSUSYGenEvt1l_nminus1_metSelection_2 *
+                                                         analyzeBTags1l_nminus1_metSelection_2
+                                                         )
+analyzeSUSYBjets1l_nminus1_HTSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_HTSelection_2 *
+                                                        analyzeBjets1l_nminus1_HTSelection_2 *
+                                                        analyzeSUSYGenEvt1l_nminus1_HTSelection_2 *
+                                                        analyzeBTags1l_nminus1_HTSelection_2
+                                                        )
+
+
+##
 analyzeSUSYBjets1l_1 = cms.Sequence(analyzeSUSY1l_1 *
                                     analyzeBjets1l_1 *
                                     analyzeSUSYGenEvt1l_1 *
