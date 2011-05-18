@@ -8,7 +8,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -79,15 +79,19 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 #-----------------------------------------------------------------
 
 
-## muon
+#-------------------------
+# muon
+#-------------------------
+
+## no btag
 process.Selection1l = cms.Path(process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.analyzeSUSYBjets1l_noCuts *
                                process.preselection *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets1l_preselection *
-                               #process.RA4MuonCollections *
-                               #process.RA4MuonSelection *
+                               process.RA4MuonCollections *
+                               process.RA4MuonSelection *
                                process.muonSelection*
                                process.analyzeSUSYBjets1l_leptonSelection *
                                process.jetSelection*
@@ -98,6 +102,7 @@ process.Selection1l = cms.Path(process.makeObjects *
                                process.analyzeSUSYBjets1l_metSelection
                                )
 
+## 1 btag
 process.Selection1b1l = cms.Path(process.makeObjects *
                                  process.makeSUSYGenEvt *
                                  process.MuHadSelection *
@@ -110,6 +115,7 @@ process.Selection1b1l = cms.Path(process.makeObjects *
                                  process.analyzeSUSYBjets1b1l_2
                                  )
 
+## 2 btags
 process.Selection2b1l = cms.Path(process.makeObjects *
                                  process.makeSUSYGenEvt *
                                  process.MuHadSelection *
@@ -122,6 +128,7 @@ process.Selection2b1l = cms.Path(process.makeObjects *
                                  process.analyzeSUSYBjets2b1l_2
                                  )
 
+## 3 btags
 process.Selection3b1l = cms.Path(process.makeObjects *
                                  process.makeSUSYGenEvt *
                                  process.MuHadSelection *
@@ -134,6 +141,7 @@ process.Selection3b1l = cms.Path(process.makeObjects *
                                  process.analyzeSUSYBjets3b1l_2
                                  )
 
+## 4 btags
 process.Selection4b1l = cms.Path(process.makeObjects *
                                  process.makeSUSYGenEvt *
                                  process.MuHadSelection *
@@ -190,8 +198,11 @@ process.Selection1l_nminus1_HTSelection = cms.Path(process.makeObjects *
                                                    process.metSelection *
                                                    process.analyzeSUSYBjets1l_nminus1_HTSelection
                                                    )
+#-------------------------
+# electron
+#-------------------------
 
-## electron
+## no btag
 process.ElectronSelection1l = cms.Path(process.makeObjects *
                                        process.makeSUSYGenEvt *
                                        process.analyzeSUSYBjets1l_noCuts_2 *
