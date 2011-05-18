@@ -373,30 +373,53 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
                                                 minNumber = 4
                                                 )
+
 ## select events with 1 medium bjet
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                               minNumber = 1,
-                                               maxNumber = 1
+                                               minNumber = 1
                                                )
 ## select events with 2 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 twoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                minNumber = 2,
-                                                maxNumber = 2
+                                                minNumber = 2
                                                 )
 ## select events with 3 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 threeMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                  minNumber = 3,
-                                                  maxNumber = 3
+                                                  minNumber = 3
                                                   )
 ## select events with 4 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                 minNumber = 4,
-                                                 maxNumber = 4
+                                                 minNumber = 4
                                                  )
+
+## select events with 1 medium bjet
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactOneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                    minNumber = 1,
+                                                    maxNumber = 1
+                                                    )
+## select events with 2 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactTwoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                     minNumber = 2,
+                                                     maxNumber = 2
+                                                     )
+## select events with 3 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactThreeMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                       minNumber = 3,
+                                                       maxNumber = 3
+                                                       )
+## select events with 4 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactFourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                      minNumber = 4,
+                                                      maxNumber = 4
+                                                      )
+
 #------------------------------
 # trackHighPurBjet countFilter
 #------------------------------
