@@ -95,7 +95,7 @@ looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             cut =
-                                            'pt > 10. &'
+                                            'pt > 20. &'
                                             'abs(eta) < 2.5 '
                                             )
 
@@ -277,12 +277,18 @@ from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 oneGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
                                           minNumber = 1
                                           )
+
 ## select events with at least two good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
 twoGoodElectrons = countPatElectrons.clone(src = 'goodElectrons',
                                            minNumber = 2
                                            )
 
+## select events with at least one good electron
+from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
+oneLooseElectron = countPatElectrons.clone(src = 'looseElectrons',
+                                           minNumber = 1
+                                           )
 #------------------------------
 # veto-lepton countFilter
 #------------------------------
@@ -589,6 +595,10 @@ tightHTSelection = cms.Sequence(filterTightHT)
 
 MuHadSelection = cms.Sequence(filterLooseHT *
                               oneLooseMuon
+                              )
+
+ElHadSelection = cms.Sequence(filterLooseHT *
+                              oneLooseElectron
                               )
 
 muonVeto = cms.Sequence(oneVetoMuon *
