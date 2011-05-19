@@ -19,8 +19,11 @@ cvs co -d Tools UserCode/npietsch/Tools
 cvs co -d Results UserCode/npietsch/Results
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
+## Temporary
 mv SUSYAnalysis/SUSYFilter/plugins/Di* ./TopAnalysis/TopFilter/plugins
 mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/filters
+mv SUSYAnalysis/SUSYFilter/plugins/ElectronVertexDistanceSelector.* ./TopAnalysis/TopFilter/plugins
+mv SUSYAnalysis/SUSYFilter/python/filters/ElectronVertexDistanceSelector_cfi.py ./TopAnalysis/TopFilter/python/filters
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
@@ -56,13 +59,14 @@ cd SUSYAnalysis/Configuration/Run2010/
 ## files will be stored in a folder named naf_Bjets_SampleName_cfg and created by the nafJobSplitter.pl script.)
 ##
 ## Note: As the number of samples contained in one cms cfg file is restricted top 250, there exists two QCD Muon
-## enriched cfg files (Bjets_QCDMuAB1_cfg.py and Bjets_QCDB2_cfg.py) and two 2010 data cfg files (Bjets_MuAB1_cfg.py## and Bjets_MuB2_cfg.py). These have to be merged in the end either manually or by usind the copy.sh script.
+## enriched cfg files (Bjets_QCDMuAB1_cfg.py and Bjets_QCDB2_cfg.py) and two 2010 data cfg files (Bjets_MuAB1_cfg.py
+## and Bjets_MuB2_cfg.py). These have to be merged in the end either manually or by usind the copy.sh script.
 
 ## To copy (and merge output) files to one directory YouDir after all jobs are finished type:
 ./copy.sh ../../../Results
 
-## To display cutflows and create cutflow-tables that may directly be used in LaTex, you may use the EvetnCounter.C ## script:
-cp ../../../Results
+## To display cutflows and create cutflow-tables that may directly be used in LaTex you may use the EventCounter.C script:
+cd ../../../Results
 root -l
 .x EventCounter.C+
 
