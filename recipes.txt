@@ -21,9 +21,9 @@ addpkg ElectroWeakAnalysis/WENu V00-04-00
 
 ## Temporary
 mv SUSYAnalysis/SUSYFilter/plugins/Di* ./TopAnalysis/TopFilter/plugins
-mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/sequences
+mv SUSYAnalysis/SUSYFilter/python/filters/Di* ./TopAnalysis/TopFilter/python/filters
 mv SUSYAnalysis/SUSYFilter/plugins/ElectronVertexDistanceSelector.* ./TopAnalysis/TopFilter/plugins
-mv SUSYAnalysis/SUSYFilter/python/filters/ElectronVertexDistanceSelector_cfi.py ./TopAnalysis/TopFilter/python/sequences
+mv SUSYAnalysis/SUSYFilter/python/sequences/ElectronVertexDistanceSelector_cfi.py ./TopAnalysis/TopFilter/python/sequences
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
