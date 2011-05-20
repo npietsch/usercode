@@ -1,5 +1,5 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
-#include "TopAnalysis/TopFilter/plugins/DiMuonFilter.h"
+#include "SUSYAnalysis/SUSYFilter/plugins/DiMuonFilter.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 /// default constructor 

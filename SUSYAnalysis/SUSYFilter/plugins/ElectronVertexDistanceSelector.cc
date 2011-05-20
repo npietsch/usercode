@@ -1,4 +1,4 @@
-#include "TopAnalysis/TopFilter/plugins/ElectronVertexDistanceSelector.h"
+#include "SUSYAnalysis/SUSYFilter/plugins/ElectronVertexDistanceSelector.h"
 
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"

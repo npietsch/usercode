@@ -57,7 +57,7 @@ goodMuons = checkJetOverlapMuons.clone(muons = "vertexMuons",
 
 ## create good electron collection
 from PhysicsTools.PatAlgos.cleaningLayer1.electronCleaner_cfi import *
-from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
+from SUSYAnalysis.SUSYFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 isolatedElectrons = cleanPatElectrons.clone(src = 'selectedPatElectrons',
                                             preselection =

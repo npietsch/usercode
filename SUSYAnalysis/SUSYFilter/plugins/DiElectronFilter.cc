@@ -1,5 +1,5 @@
 #include "DataFormats/PatCandidates/interface/Electron.h"
-#include "TopAnalysis/TopFilter/plugins/DiElectronFilter.h"
+#include "SUSYAnalysis/SUSYFilter/plugins/DiElectronFilter.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 /// default constructor 
