@@ -18,6 +18,7 @@ MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
 MUHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT*'],throw = False)
+ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
 MUHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_*_HT200_v*'],throw = False)
 
@@ -93,6 +94,12 @@ preselectionData2 = cms.Sequence(MUTriggerData2##  *
                                  )
 
 preselectionMuHTMC = cms.Sequence(MUHTTriggerMC *
+                                  primaryVertexFilter *
+                                  ##HBHENoiseFilter *
+                                  scrapingVeto
+                                  )
+
+preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
                                   primaryVertexFilter *
                                   ##HBHENoiseFilter *
                                   scrapingVeto
