@@ -94,11 +94,11 @@ looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
                                'pt > 30. &'
-                               # PURE09 LOOSE
+                               ## PURE09 LOOSE
                                #'emEnergyFraction > 0.01 &'
                                #'jetID.fHPD < 0.98 &'
                                #'jetID.n90Hits > 1'
-                               # Loose PF Jet ID
+                               ## Loose PF Jet ID
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'

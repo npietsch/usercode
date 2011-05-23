@@ -54,7 +54,6 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('START311_V2A::All')
 
-
 #-----------------------------------------------------------------
 # Load modules for preselection
 #-----------------------------------------------------------------
@@ -75,11 +74,11 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.RA4_Selection_cff")
 
 ## process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
-#-----------------------------------------------------------------
-# Selection paths. Configure your analysis here, if possible
-#-----------------------------------------------------------------
+#------------------
+# Selection paths
+#-------------------
 
-## Muon
+## Muon selection
 process.MuonSelection = cms.Path(process.preselectionMuSynch *
                                  process.goodObjects *
                                  process.oneVertexMuon *
@@ -93,7 +92,7 @@ process.MuonSelection = cms.Path(process.preselectionMuSynch *
                                  process.oneGoodMET *
                                  process.oneTightMET
                                  )
-
+## Electron selection
 process.ElecSelection = cms.Path(process.preselectionElSynch *
                                  process.goodObjects *
                                  process.oneIsolatedElectron *
