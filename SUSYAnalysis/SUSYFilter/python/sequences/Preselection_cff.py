@@ -12,6 +12,7 @@ HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X
 
 ## Single Muon Trigger
 MUTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
+MUTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
@@ -128,6 +129,12 @@ preselectionMC2PAT = cms.Sequence(#AOD2PATTrigger *
                                   HBHENoiseFilter *
                                   scrapingVeto
                                   )
+
+preselectionMuSynch = cms.Sequence(MUTriggerSynch *
+                                   primaryVertexFilter *
+                                   #HBHENoiseFilter *
+                                   scrapingVeto
+                                   )
 
 ## Filter on member functions of TtGenEvent
 

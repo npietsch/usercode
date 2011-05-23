@@ -104,20 +104,20 @@ vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 #------------------------------
 
 ## create good jet collection
-from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
-looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
-                               preselection =
-                               'abs(eta) < 2.4 &'
-                               'pt > 30. &'
-                               'chargedHadronEnergyFraction > 0.0  &'
-                               'neutralHadronEnergyFraction < 0.99 &'
-                               'chargedEmEnergyFraction     < 0.99 &'
-                               'neutralEmEnergyFraction     < 0.99 &'
-                               'chargedMultiplicity > 0            &'
-                               'nConstituents > 1'
-                               )
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+looseJets = selectedPatJets.clone(src = 'selectedPatJetsAK5PF',
+                                  cut =
+                                  'abs(eta) < 2.4 &'
+                                  'pt > 30. &'
+                                  'chargedHadronEnergyFraction > 0.0  &'
+                                  'neutralHadronEnergyFraction < 0.99 &'
+                                  'chargedEmEnergyFraction     < 0.99 &'
+                                  'neutralEmEnergyFraction     < 0.99 &'
+                                  'chargedMultiplicity > 0            &'
+                                  'nConstituents > 1'
+                                  )
 
-cleanPatJets.checkOverlaps = cms.PSet(
+looseJets.checkOverlaps = cms.PSet(
     muons = cms.PSet(
     src       = cms.InputTag("goodMuons"),
     algorithm = cms.string("byDeltaR"),
@@ -142,7 +142,7 @@ cleanPatJets.checkOverlaps = cms.PSet(
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 goodJets = selectedPatJets.clone(src = 'looseJets',
                                  cut =
-                                 'pt > 50.'
+                                 'pt > 30.'
                                  )
 
 ## create good jet collection

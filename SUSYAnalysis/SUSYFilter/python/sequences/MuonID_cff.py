@@ -127,7 +127,7 @@ onePixelMuon = countPatMuons.clone(src = 'pixelMuons',
 
 ## select events with at least good muon
 from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
-oneRA4Muon = countPatMuons.clone(src = 'vertexSelMuons',
+oneRA4Muon = countPatMuons.clone(src = 'RA4Muons',
                                  minNumber = 1
                                  )
 
