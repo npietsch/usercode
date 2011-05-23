@@ -37,7 +37,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(22000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -67,7 +67,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.RA4_Selection_cff")
-process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
+#process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 #--------------------------------------------------------
 # Load modules for analysis on generator and reco-level
@@ -80,15 +80,30 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 #-----------------------------------------------------------------
 
 ## Muon
-process.MuonSelection = cms.Path(process.makeObjects *
-                                 process.preselectionMuSynch *
+process.MuonSelection = cms.Path(process.preselectionMuSynch *
+                                 process.goodObjects *
+                                 process.oneVertexMuon *
                                  process.oneGoodMuon *
-                                 process.oneVetoMuon *
-                                 process.noVetoElectron *
+                                 process.exactlyOneGoodMuon *
+                                 process.noGoodElectron *
                                  process.oneLooseJet*
                                  process.twoLooseJets *
                                  process.threeLooseJets *
                                  process.fourLooseJets *
-                                 process.oneGoodMET
+                                 process.oneGoodMET *
+                                 process.oneTightMET
                                  )
 
+process.ElecSelection = cms.Path(process.preselectionElSynch *
+                                 process.goodObjects *
+                                 process.oneIsolatedElectron *
+                                 process.oneGoodElectron *
+                                 process.exactlyOneGoodElectron *
+                                 process.noGoodMuon *
+                                 process.oneLooseJet*
+                                 process.twoLooseJets *
+                                 process.threeLooseJets *
+                                 process.fourLooseJets *
+                                 process.oneGoodMET *
+                                 process.oneTightMET
+                                 )

@@ -13,6 +13,15 @@ HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X
 ## Single Muon Trigger
 MUTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu9'],throw = False)
+ElTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Ele10_LW_L1R',
+                                                                                                  'HLT_Ele15_SW_L1R',
+                                                                                                  'HLT_Ele15_SW_CaloEleId_L1R',
+                                                                                                  'HLT_Ele17_SW_CaloEleId_L1R',
+                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v1',
+                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v2',
+                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v3'],
+                                                                                                  throw = False)
+
 MUTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
@@ -125,12 +134,18 @@ preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     )
 
 preselectionMC2PAT = cms.Sequence(#AOD2PATTrigger *
-                                  primaryVertexFilter *
-                                  HBHENoiseFilter *
-                                  scrapingVeto
+                                  #primaryVertexFilter *
+                                  HBHENoiseFilter #*
+                                  #scrapingVeto
                                   )
 
 preselectionMuSynch = cms.Sequence(MUTriggerSynch *
+                                   primaryVertexFilter *
+                                   #HBHENoiseFilter *
+                                   scrapingVeto
+                                   )
+
+preselectionElSynch = cms.Sequence(ElTriggerSynch *
                                    primaryVertexFilter *
                                    #HBHENoiseFilter *
                                    scrapingVeto
