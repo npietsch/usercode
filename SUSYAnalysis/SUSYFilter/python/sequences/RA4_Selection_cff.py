@@ -24,20 +24,6 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
 vertexMuons = vertexSelectedMuons.clone(src = "trackMuons"
                                         )
 
-## from PhysicsTools.PatAlgos.cleaningLayer1.muonCleaner_cfi import *
-## goodMuons = cleanPatMuons.clone(src = "vertexMuons")
-
-## goodMuons.checkOverlaps = cms.PSet(
-##     jets = cms.PSet(src       = cms.InputTag("looseJets"),
-##                     algorithm = cms.string("byDeltaR"),
-##                     preselection        = cms.string(""),
-##                     deltaR              = cms.double(0.3),
-##                     checkRecoComponents = cms.bool(False),
-##                     pairCut             = cms.string(""),
-##                     requireNoOverlaps   = cms.bool(False),
-##                     )
-##     )
-
 from TopAnalysis.TopFilter.filters.MuonJetOverlapSelector_cfi import *
 goodMuons = checkJetOverlapMuons.clone()
 goodMuons.muons = 'vertexMuons'

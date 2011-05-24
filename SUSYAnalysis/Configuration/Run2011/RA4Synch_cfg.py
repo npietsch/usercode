@@ -65,7 +65,8 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 #-----------------------------------------------------------------
 
 # Object Selection
-process.load("SUSYAnalysis.SUSYFilter.sequences.RA4_Selection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+#process.load("SUSYAnalysis.SUSYFilter.sequences.RA4_Selection_cff")
 #process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 #--------------------------------------------------------
