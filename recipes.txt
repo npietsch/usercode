@@ -17,6 +17,7 @@ cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
 addpkg ElectroWeakAnalysis/WENu V00-04-00
+cvs co -r V01-06-00 RecoBTag/SecondaryVertex
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
