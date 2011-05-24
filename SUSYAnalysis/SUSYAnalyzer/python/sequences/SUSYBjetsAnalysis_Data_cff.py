@@ -4,60 +4,51 @@ analyzeSUSY.jets = "goodJets"
 analyzeSUSY.muons = "goodMuons"
 analyzeSUSY.electrons = "goodElectrons"
 
-analyzeSUSY1l_1 = analyzeSUSY.clone()
-analyzeSUSY1l_2 = analyzeSUSY.clone()
-analyzeSUSY1l_3 = analyzeSUSY.clone()
-analyzeSUSY1l_4 = analyzeSUSY.clone()
-analyzeSUSY1l_5 = analyzeSUSY.clone()
-analyzeSUSY1l_6 = analyzeSUSY.clone()
+analyzeSUSY1m_1 = analyzeSUSY.clone()
+analyzeSUSY1m_2 = analyzeSUSY.clone()
+analyzeSUSY1m_3 = analyzeSUSY.clone()
+analyzeSUSY1m_4 = analyzeSUSY.clone()
+analyzeSUSY1m_5 = analyzeSUSY.clone()
+analyzeSUSY1m_6 = analyzeSUSY.clone()
 
-analyzeSUSY1l_noCuts = analyzeSUSY.clone()
-analyzeSUSY1l_preselection = analyzeSUSY.clone()
-analyzeSUSY1l_leptonSelection = analyzeSUSY.clone()
-analyzeSUSY1l_jetSelection = analyzeSUSY.clone()
-analyzeSUSY1l_oneTightJet = analyzeSUSY.clone()
-analyzeSUSY1l_twoMediumJets = analyzeSUSY.clone()
-analyzeSUSY1l_metSelection = analyzeSUSY.clone()
-analyzeSUSY1l_HTSelection = analyzeSUSY.clone()
+analyzeSUSY1m_noCuts = analyzeSUSY.clone()
+analyzeSUSY1m_preselection = analyzeSUSY.clone()
+analyzeSUSY1m_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1m_jetSelection = analyzeSUSY.clone()
+analyzeSUSY1m_oneTightJet = analyzeSUSY.clone()
+analyzeSUSY1m_twoMediumJets = analyzeSUSY.clone()
+analyzeSUSY1m_metSelection = analyzeSUSY.clone()
+analyzeSUSY1m_HTSelection = analyzeSUSY.clone()
 
-analyzeSUSY1l_nminus1_leptonSelection = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_jetSelection = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_oneTightJet = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_twoMediumJets = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_metSelection = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_HTSelection = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_jetSelection = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_oneTightJet = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_twoMediumJets = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_metSelection = analyzeSUSY.clone()
+analyzeSUSY1m_nminus1_HTSelection = analyzeSUSY.clone()
 
-analyzeSUSY1l_noCuts_2 = analyzeSUSY.clone()
-analyzeSUSY1l_preselection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_leptonSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_jetSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_oneTightJet_2 = analyzeSUSY.clone()
-analyzeSUSY1l_twoMediumJets_2 = analyzeSUSY.clone()
-analyzeSUSY1l_metSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_HTSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1e_noCuts = analyzeSUSY.clone()
+analyzeSUSY1e_preselection = analyzeSUSY.clone()
+analyzeSUSY1e_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1e_jetSelection = analyzeSUSY.clone()
+analyzeSUSY1e_oneTightJet = analyzeSUSY.clone()
+analyzeSUSY1e_twoMediumJets = analyzeSUSY.clone()
+analyzeSUSY1e_metSelection = analyzeSUSY.clone()
+analyzeSUSY1e_HTSelection = analyzeSUSY.clone()
 
-analyzeSUSY1l_nminus1_leptonSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_jetSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_oneTightJet_2 = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_twoMediumJets_2 = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_metSelection_2 = analyzeSUSY.clone()
-analyzeSUSY1l_nminus1_HTSelection_2 = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_jetSelection = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_oneTightJet = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_twoMediumJets = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_metSelection = analyzeSUSY.clone()
+analyzeSUSY1e_nminus1_HTSelection = analyzeSUSY.clone()
 
-analyzeSUSY2l_1 = analyzeSUSY.clone()
-analyzeSUSY2l_2 = analyzeSUSY.clone()
-analyzeSUSY2l_3 = analyzeSUSY.clone()
-analyzeSUSY2l_4 = analyzeSUSY.clone()
-analyzeSUSY2l_5 = analyzeSUSY.clone()
-analyzeSUSY2l_6 = analyzeSUSY.clone()
-
-analyzeSUSY2l_noCuts = analyzeSUSY.clone()
-analyzeSUSY2l_preselection = analyzeSUSY.clone()
-analyzeSUSY2l_twoGoodLeptons = analyzeSUSY.clone()
-analyzeSUSY2l_threeGoodJets = analyzeSUSY.clone()
-analyzeSUSY2l_oneTightJet = analyzeSUSY.clone()
-analyzeSUSY2l_twoMediumJets = analyzeSUSY.clone()
-analyzeSUSY2l_metSelection = analyzeSUSY.clone()
-analyzeSUSY2l_HTSelection = analyzeSUSY.clone()
+analyzeSUSY1e_1 = analyzeSUSY.clone()
+analyzeSUSY1e_2 = analyzeSUSY.clone()
+analyzeSUSY1e_3 = analyzeSUSY.clone()
+analyzeSUSY1e_4 = analyzeSUSY.clone()
+analyzeSUSY1e_5 = analyzeSUSY.clone()
+analyzeSUSY1e_6 = analyzeSUSY.clone()
 
 analyzeSUSY1b_1 = analyzeSUSY.clone()
 analyzeSUSY1b_2 = analyzeSUSY.clone()
@@ -73,61 +64,61 @@ analyzeSUSY2b_4 = analyzeSUSY.clone()
 analyzeSUSY2b_5 = analyzeSUSY.clone()
 analyzeSUSY2b_6 = analyzeSUSY.clone()
 
-analyzeSUSY1b1l_1 = analyzeSUSY.clone()
-analyzeSUSY1b1l_2 = analyzeSUSY.clone()
-analyzeSUSY1b1l_3 = analyzeSUSY.clone()
-analyzeSUSY1b1l_4 = analyzeSUSY.clone()
-analyzeSUSY1b1l_5 = analyzeSUSY.clone()
-analyzeSUSY1b1l_6 = analyzeSUSY.clone()
+analyzeSUSY1b1m_1 = analyzeSUSY.clone()
+analyzeSUSY1b1m_2 = analyzeSUSY.clone()
+analyzeSUSY1b1m_3 = analyzeSUSY.clone()
+analyzeSUSY1b1m_4 = analyzeSUSY.clone()
+analyzeSUSY1b1m_5 = analyzeSUSY.clone()
+analyzeSUSY1b1m_6 = analyzeSUSY.clone()
 
-analyzeSUSY2b1l_1 = analyzeSUSY.clone()
-analyzeSUSY2b1l_2 = analyzeSUSY.clone()
-analyzeSUSY2b1l_3 = analyzeSUSY.clone()
-analyzeSUSY2b1l_4 = analyzeSUSY.clone()
-analyzeSUSY2b1l_5 = analyzeSUSY.clone()
-analyzeSUSY2b1l_6 = analyzeSUSY.clone()
+analyzeSUSY2b1m_1 = analyzeSUSY.clone()
+analyzeSUSY2b1m_2 = analyzeSUSY.clone()
+analyzeSUSY2b1m_3 = analyzeSUSY.clone()
+analyzeSUSY2b1m_4 = analyzeSUSY.clone()
+analyzeSUSY2b1m_5 = analyzeSUSY.clone()
+analyzeSUSY2b1m_6 = analyzeSUSY.clone()
 
-analyzeSUSY3b1l_1 = analyzeSUSY.clone()
-analyzeSUSY3b1l_2 = analyzeSUSY.clone()
-analyzeSUSY3b1l_3 = analyzeSUSY.clone()
-analyzeSUSY3b1l_4 = analyzeSUSY.clone()
-analyzeSUSY3b1l_5 = analyzeSUSY.clone()
-analyzeSUSY3b1l_6 = analyzeSUSY.clone()
+analyzeSUSY3b1m_1 = analyzeSUSY.clone()
+analyzeSUSY3b1m_2 = analyzeSUSY.clone()
+analyzeSUSY3b1m_3 = analyzeSUSY.clone()
+analyzeSUSY3b1m_4 = analyzeSUSY.clone()
+analyzeSUSY3b1m_5 = analyzeSUSY.clone()
+analyzeSUSY3b1m_6 = analyzeSUSY.clone()
     
-analyzeSUSY4b1l_1 = analyzeSUSY.clone()
-analyzeSUSY4b1l_2 = analyzeSUSY.clone()
-analyzeSUSY4b1l_3 = analyzeSUSY.clone()
-analyzeSUSY4b1l_4 = analyzeSUSY.clone()
-analyzeSUSY4b1l_5 = analyzeSUSY.clone()
-analyzeSUSY4b1l_6 = analyzeSUSY.clone()
+analyzeSUSY4b1m_1 = analyzeSUSY.clone()
+analyzeSUSY4b1m_2 = analyzeSUSY.clone()
+analyzeSUSY4b1m_3 = analyzeSUSY.clone()
+analyzeSUSY4b1m_4 = analyzeSUSY.clone()
+analyzeSUSY4b1m_5 = analyzeSUSY.clone()
+analyzeSUSY4b1m_6 = analyzeSUSY.clone()
 
-analyzeSUSY1b2l_1 = analyzeSUSY.clone()
-analyzeSUSY1b2l_2 = analyzeSUSY.clone()
-analyzeSUSY1b2l_3 = analyzeSUSY.clone()
-analyzeSUSY1b2l_4 = analyzeSUSY.clone()
-analyzeSUSY1b2l_5 = analyzeSUSY.clone()
-analyzeSUSY1b2l_6 = analyzeSUSY.clone()
+analyzeSUSY1b1e_1 = analyzeSUSY.clone()
+analyzeSUSY1b1e_2 = analyzeSUSY.clone()
+analyzeSUSY1b1e_3 = analyzeSUSY.clone()
+analyzeSUSY1b1e_4 = analyzeSUSY.clone()
+analyzeSUSY1b1e_5 = analyzeSUSY.clone()
+analyzeSUSY1b1e_6 = analyzeSUSY.clone()
  
-analyzeSUSY2b2l_1 = analyzeSUSY.clone()
-analyzeSUSY2b2l_2 = analyzeSUSY.clone()
-analyzeSUSY2b2l_3 = analyzeSUSY.clone()
-analyzeSUSY2b2l_4 = analyzeSUSY.clone()
-analyzeSUSY2b2l_5 = analyzeSUSY.clone()
-analyzeSUSY2b2l_6 = analyzeSUSY.clone()
+analyzeSUSY2b1e_1 = analyzeSUSY.clone()
+analyzeSUSY2b1e_2 = analyzeSUSY.clone()
+analyzeSUSY2b1e_3 = analyzeSUSY.clone()
+analyzeSUSY2b1e_4 = analyzeSUSY.clone()
+analyzeSUSY2b1e_5 = analyzeSUSY.clone()
+analyzeSUSY2b1e_6 = analyzeSUSY.clone()
 
-analyzeSUSY3b2l_1 = analyzeSUSY.clone()
-analyzeSUSY3b2l_2 = analyzeSUSY.clone()
-analyzeSUSY3b2l_3 = analyzeSUSY.clone()
-analyzeSUSY3b2l_4 = analyzeSUSY.clone()
-analyzeSUSY3b2l_5 = analyzeSUSY.clone()
-analyzeSUSY3b2l_6 = analyzeSUSY.clone()
+analyzeSUSY3b1e_1 = analyzeSUSY.clone()
+analyzeSUSY3b1e_2 = analyzeSUSY.clone()
+analyzeSUSY3b1e_3 = analyzeSUSY.clone()
+analyzeSUSY3b1e_4 = analyzeSUSY.clone()
+analyzeSUSY3b1e_5 = analyzeSUSY.clone()
+analyzeSUSY3b1e_6 = analyzeSUSY.clone()
 
-analyzeSUSY4b2l_1 = analyzeSUSY.clone()
-analyzeSUSY4b2l_2 = analyzeSUSY.clone()
-analyzeSUSY4b2l_3 = analyzeSUSY.clone()
-analyzeSUSY4b2l_4 = analyzeSUSY.clone()
-analyzeSUSY4b2l_5 = analyzeSUSY.clone()
-analyzeSUSY4b2l_6 = analyzeSUSY.clone()
+analyzeSUSY4b1e_1 = analyzeSUSY.clone()
+analyzeSUSY4b1e_2 = analyzeSUSY.clone()
+analyzeSUSY4b1e_3 = analyzeSUSY.clone()
+analyzeSUSY4b1e_4 = analyzeSUSY.clone()
+analyzeSUSY4b1e_5 = analyzeSUSY.clone()
+analyzeSUSY4b1e_6 = analyzeSUSY.clone()
 
 analyzeSUSY3b_1 = analyzeSUSY.clone()
 analyzeSUSY3b_2 = analyzeSUSY.clone()
@@ -154,60 +145,51 @@ analyzeBjets.looseTrackHighPurBjets = "looseTrackHighPurBjets"
 analyzeBjets.mediumTrackHighPurBjets = "mediumTrackHighPurBjets"
 analyzeBjets.tightTrackHighPurBjets = "tightTrackHighPurBjets"
 
-analyzeBjets1l_1 = analyzeBjets.clone()
-analyzeBjets1l_2 = analyzeBjets.clone()
-analyzeBjets1l_3 = analyzeBjets.clone()
-analyzeBjets1l_4 = analyzeBjets.clone()
-analyzeBjets1l_5 = analyzeBjets.clone()
-analyzeBjets1l_6 = analyzeBjets.clone()
+analyzeBjets1m_1 = analyzeBjets.clone()
+analyzeBjets1m_2 = analyzeBjets.clone()
+analyzeBjets1m_3 = analyzeBjets.clone()
+analyzeBjets1m_4 = analyzeBjets.clone()
+analyzeBjets1m_5 = analyzeBjets.clone()
+analyzeBjets1m_6 = analyzeBjets.clone()
 
-analyzeBjets1l_noCuts = analyzeBjets.clone()
-analyzeBjets1l_preselection = analyzeBjets.clone()
-analyzeBjets1l_leptonSelection = analyzeBjets.clone()
-analyzeBjets1l_jetSelection = analyzeBjets.clone()
-analyzeBjets1l_oneTightJet = analyzeBjets.clone()
-analyzeBjets1l_twoMediumJets = analyzeBjets.clone()
-analyzeBjets1l_metSelection = analyzeBjets.clone()
-analyzeBjets1l_HTSelection = analyzeBjets.clone()
+analyzeBjets1m_noCuts = analyzeBjets.clone()
+analyzeBjets1m_preselection = analyzeBjets.clone()
+analyzeBjets1m_leptonSelection = analyzeBjets.clone()
+analyzeBjets1m_jetSelection = analyzeBjets.clone()
+analyzeBjets1m_oneTightJet = analyzeBjets.clone()
+analyzeBjets1m_twoMediumJets = analyzeBjets.clone()
+analyzeBjets1m_metSelection = analyzeBjets.clone()
+analyzeBjets1m_HTSelection = analyzeBjets.clone()
 
-analyzeBjets1l_nminus1_leptonSelection = analyzeBjets.clone()
-analyzeBjets1l_nminus1_jetSelection = analyzeBjets.clone()
-analyzeBjets1l_nminus1_oneTightJet = analyzeBjets.clone()
-analyzeBjets1l_nminus1_twoMediumJets = analyzeBjets.clone()
-analyzeBjets1l_nminus1_metSelection = analyzeBjets.clone()
-analyzeBjets1l_nminus1_HTSelection = analyzeBjets.clone()
+analyzeBjets1m_nminus1_leptonSelection = analyzeBjets.clone()
+analyzeBjets1m_nminus1_jetSelection = analyzeBjets.clone()
+analyzeBjets1m_nminus1_oneTightJet = analyzeBjets.clone()
+analyzeBjets1m_nminus1_twoMediumJets = analyzeBjets.clone()
+analyzeBjets1m_nminus1_metSelection = analyzeBjets.clone()
+analyzeBjets1m_nminus1_HTSelection = analyzeBjets.clone()
 
-analyzeBjets1l_noCuts_2 = analyzeBjets.clone()
-analyzeBjets1l_preselection_2 = analyzeBjets.clone()
-analyzeBjets1l_leptonSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_jetSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_oneTightJet_2 = analyzeBjets.clone()
-analyzeBjets1l_twoMediumJets_2 = analyzeBjets.clone()
-analyzeBjets1l_metSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_HTSelection_2 = analyzeBjets.clone()
+analyzeBjets1e_noCuts = analyzeBjets.clone()
+analyzeBjets1e_preselection = analyzeBjets.clone()
+analyzeBjets1e_leptonSelection = analyzeBjets.clone()
+analyzeBjets1e_jetSelection = analyzeBjets.clone()
+analyzeBjets1e_oneTightJet = analyzeBjets.clone()
+analyzeBjets1e_twoMediumJets = analyzeBjets.clone()
+analyzeBjets1e_metSelection = analyzeBjets.clone()
+analyzeBjets1e_HTSelection = analyzeBjets.clone()
 
-analyzeBjets1l_nminus1_leptonSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_nminus1_jetSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_nminus1_oneTightJet_2 = analyzeBjets.clone()
-analyzeBjets1l_nminus1_twoMediumJets_2 = analyzeBjets.clone()
-analyzeBjets1l_nminus1_metSelection_2 = analyzeBjets.clone()
-analyzeBjets1l_nminus1_HTSelection_2 = analyzeBjets.clone()
+analyzeBjets1e_nminus1_leptonSelection = analyzeBjets.clone()
+analyzeBjets1e_nminus1_jetSelection = analyzeBjets.clone()
+analyzeBjets1e_nminus1_oneTightJet = analyzeBjets.clone()
+analyzeBjets1e_nminus1_twoMediumJets = analyzeBjets.clone()
+analyzeBjets1e_nminus1_metSelection = analyzeBjets.clone()
+analyzeBjets1e_nminus1_HTSelection = analyzeBjets.clone()
 
-analyzeBjets2l_1 = analyzeBjets.clone()
-analyzeBjets2l_2 = analyzeBjets.clone()
-analyzeBjets2l_3 = analyzeBjets.clone()
-analyzeBjets2l_4 = analyzeBjets.clone()
-analyzeBjets2l_5 = analyzeBjets.clone()
-analyzeBjets2l_6 = analyzeBjets.clone()
-
-analyzeBjets2l_noCuts = analyzeBjets.clone()
-analyzeBjets2l_preselection = analyzeBjets.clone()
-analyzeBjets2l_twoGoodLeptons = analyzeBjets.clone()
-analyzeBjets2l_threeGoodJets = analyzeBjets.clone()
-analyzeBjets2l_oneTightJet = analyzeBjets.clone()
-analyzeBjets2l_twoMediumJets = analyzeBjets.clone()
-analyzeBjets2l_metSelection = analyzeBjets.clone()
-analyzeBjets2l_HTSelection = analyzeBjets.clone()
+analyzeBjets1e_1 = analyzeBjets.clone()
+analyzeBjets1e_2 = analyzeBjets.clone()
+analyzeBjets1e_3 = analyzeBjets.clone()
+analyzeBjets1e_4 = analyzeBjets.clone()
+analyzeBjets1e_5 = analyzeBjets.clone()
+analyzeBjets1e_6 = analyzeBjets.clone()
 
 analyzeBjets1b_1 = analyzeBjets.clone()
 analyzeBjets1b_2 = analyzeBjets.clone()
@@ -223,61 +205,61 @@ analyzeBjets2b_4 = analyzeBjets.clone()
 analyzeBjets2b_5 = analyzeBjets.clone()
 analyzeBjets2b_6 = analyzeBjets.clone()
 
-analyzeBjets1b1l_1 = analyzeBjets.clone()
-analyzeBjets1b1l_2 = analyzeBjets.clone()
-analyzeBjets1b1l_3 = analyzeBjets.clone()
-analyzeBjets1b1l_4 = analyzeBjets.clone()
-analyzeBjets1b1l_5 = analyzeBjets.clone()
-analyzeBjets1b1l_6 = analyzeBjets.clone()
+analyzeBjets1b1m_1 = analyzeBjets.clone()
+analyzeBjets1b1m_2 = analyzeBjets.clone()
+analyzeBjets1b1m_3 = analyzeBjets.clone()
+analyzeBjets1b1m_4 = analyzeBjets.clone()
+analyzeBjets1b1m_5 = analyzeBjets.clone()
+analyzeBjets1b1m_6 = analyzeBjets.clone()
 
-analyzeBjets2b1l_1 = analyzeBjets.clone()
-analyzeBjets2b1l_2 = analyzeBjets.clone()
-analyzeBjets2b1l_3 = analyzeBjets.clone()
-analyzeBjets2b1l_4 = analyzeBjets.clone()
-analyzeBjets2b1l_5 = analyzeBjets.clone()
-analyzeBjets2b1l_6 = analyzeBjets.clone()
+analyzeBjets2b1m_1 = analyzeBjets.clone()
+analyzeBjets2b1m_2 = analyzeBjets.clone()
+analyzeBjets2b1m_3 = analyzeBjets.clone()
+analyzeBjets2b1m_4 = analyzeBjets.clone()
+analyzeBjets2b1m_5 = analyzeBjets.clone()
+analyzeBjets2b1m_6 = analyzeBjets.clone()
     
-analyzeBjets3b1l_1 = analyzeBjets.clone()
-analyzeBjets3b1l_2 = analyzeBjets.clone()
-analyzeBjets3b1l_3 = analyzeBjets.clone()
-analyzeBjets3b1l_4 = analyzeBjets.clone()
-analyzeBjets3b1l_5 = analyzeBjets.clone()
-analyzeBjets3b1l_6 = analyzeBjets.clone()
+analyzeBjets3b1m_1 = analyzeBjets.clone()
+analyzeBjets3b1m_2 = analyzeBjets.clone()
+analyzeBjets3b1m_3 = analyzeBjets.clone()
+analyzeBjets3b1m_4 = analyzeBjets.clone()
+analyzeBjets3b1m_5 = analyzeBjets.clone()
+analyzeBjets3b1m_6 = analyzeBjets.clone()
 
-analyzeBjets4b1l_1 = analyzeBjets.clone()
-analyzeBjets4b1l_2 = analyzeBjets.clone()
-analyzeBjets4b1l_3 = analyzeBjets.clone()
-analyzeBjets4b1l_4 = analyzeBjets.clone()
-analyzeBjets4b1l_5 = analyzeBjets.clone()
-analyzeBjets4b1l_6 = analyzeBjets.clone()
+analyzeBjets4b1m_1 = analyzeBjets.clone()
+analyzeBjets4b1m_2 = analyzeBjets.clone()
+analyzeBjets4b1m_3 = analyzeBjets.clone()
+analyzeBjets4b1m_4 = analyzeBjets.clone()
+analyzeBjets4b1m_5 = analyzeBjets.clone()
+analyzeBjets4b1m_6 = analyzeBjets.clone()
 
-analyzeBjets1b2l_1 = analyzeBjets.clone()
-analyzeBjets1b2l_2 = analyzeBjets.clone()
-analyzeBjets1b2l_3 = analyzeBjets.clone()
-analyzeBjets1b2l_4 = analyzeBjets.clone()
-analyzeBjets1b2l_5 = analyzeBjets.clone()
-analyzeBjets1b2l_6 = analyzeBjets.clone()
+analyzeBjets1b1e_1 = analyzeBjets.clone()
+analyzeBjets1b1e_2 = analyzeBjets.clone()
+analyzeBjets1b1e_3 = analyzeBjets.clone()
+analyzeBjets1b1e_4 = analyzeBjets.clone()
+analyzeBjets1b1e_5 = analyzeBjets.clone()
+analyzeBjets1b1e_6 = analyzeBjets.clone()
 
-analyzeBjets2b2l_1 = analyzeBjets.clone()
-analyzeBjets2b2l_2 = analyzeBjets.clone()
-analyzeBjets2b2l_3 = analyzeBjets.clone()
-analyzeBjets2b2l_4 = analyzeBjets.clone()
-analyzeBjets2b2l_5 = analyzeBjets.clone()
-analyzeBjets2b2l_6 = analyzeBjets.clone()
+analyzeBjets2b1e_1 = analyzeBjets.clone()
+analyzeBjets2b1e_2 = analyzeBjets.clone()
+analyzeBjets2b1e_3 = analyzeBjets.clone()
+analyzeBjets2b1e_4 = analyzeBjets.clone()
+analyzeBjets2b1e_5 = analyzeBjets.clone()
+analyzeBjets2b1e_6 = analyzeBjets.clone()
     
-analyzeBjets3b2l_1 = analyzeBjets.clone()
-analyzeBjets3b2l_2 = analyzeBjets.clone()
-analyzeBjets3b2l_3 = analyzeBjets.clone()
-analyzeBjets3b2l_4 = analyzeBjets.clone()
-analyzeBjets3b2l_5 = analyzeBjets.clone()
-analyzeBjets3b2l_6 = analyzeBjets.clone()
+analyzeBjets3b1e_1 = analyzeBjets.clone()
+analyzeBjets3b1e_2 = analyzeBjets.clone()
+analyzeBjets3b1e_3 = analyzeBjets.clone()
+analyzeBjets3b1e_4 = analyzeBjets.clone()
+analyzeBjets3b1e_5 = analyzeBjets.clone()
+analyzeBjets3b1e_6 = analyzeBjets.clone()
 
-analyzeBjets4b2l_1 = analyzeBjets.clone()
-analyzeBjets4b2l_2 = analyzeBjets.clone()
-analyzeBjets4b2l_3 = analyzeBjets.clone()
-analyzeBjets4b2l_4 = analyzeBjets.clone()
-analyzeBjets4b2l_5 = analyzeBjets.clone()
-analyzeBjets4b2l_6 = analyzeBjets.clone()
+analyzeBjets4b1e_1 = analyzeBjets.clone()
+analyzeBjets4b1e_2 = analyzeBjets.clone()
+analyzeBjets4b1e_3 = analyzeBjets.clone()
+analyzeBjets4b1e_4 = analyzeBjets.clone()
+analyzeBjets4b1e_5 = analyzeBjets.clone()
+analyzeBjets4b1e_6 = analyzeBjets.clone()
 
 analyzeBjets3b_1 = analyzeBjets.clone()
 analyzeBjets3b_2 = analyzeBjets.clone()
@@ -302,60 +284,51 @@ analyzeSUSYGenEvt.matchedqjets = "matchedLightJets"
 analyzeSUSYGenEvt.matchedmuons = "goodMuons"
 analyzeSUSYGenEvt.matchedelectrons = "goodElectrons"
 
-analyzeSUSYGenEvt1l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1l_noCuts = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_preselection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_leptonSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_jetSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_oneTightJet = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_twoMediumJets = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_metSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_HTSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_noCuts = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_preselection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_jetSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_oneTightJet = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_twoMediumJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_metSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_HTSelection = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1l_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_oneTightJet = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_twoMediumJets = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_metSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_HTSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_oneTightJet = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_twoMediumJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_metSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_nminus1_HTSelection = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1l_noCuts_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_preselection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_leptonSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_jetSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_oneTightJet_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_twoMediumJets_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_metSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_HTSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_noCuts = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_preselection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_jetSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_oneTightJet = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_twoMediumJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_metSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_HTSelection = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1l_nminus1_leptonSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_jetSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_oneTightJet_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_twoMediumJets_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_metSelection_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1l_nminus1_HTSelection_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_oneTightJet = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_twoMediumJets = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_metSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_nminus1_HTSelection = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt2l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_6 = analyzeSUSYGenEvt.clone()
-
-analyzeSUSYGenEvt2l_noCuts = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_preselection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_twoGoodLeptons = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_threeGoodJets = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_oneTightJet = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_twoMediumJets = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_metSelection = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2l_HTSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_6 = analyzeSUSYGenEvt.clone()
 
 analyzeSUSYGenEvt1b_1 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1b_2 = analyzeSUSYGenEvt.clone()
@@ -371,61 +344,61 @@ analyzeSUSYGenEvt2b_4 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt2b_5 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt2b_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1b1l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b1l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b1l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b1l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b1l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b1l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1m_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt2b1l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b1l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b1l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b1l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b1l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b1l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1m_6 = analyzeSUSYGenEvt.clone()
     
-analyzeSUSYGenEvt3b1l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b1l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b1l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b1l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b1l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b1l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1m_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt4b1l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b1l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b1l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b1l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b1l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b1l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1m_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt1b2l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b2l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b2l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b2l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b2l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt1b2l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1b1e_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt2b2l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b2l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b2l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b2l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b2l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt2b2l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt2b1e_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt3b2l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b2l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b2l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b2l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b2l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt3b2l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt3b1e_6 = analyzeSUSYGenEvt.clone()
 
-analyzeSUSYGenEvt4b2l_1 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b2l_2 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b2l_3 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b2l_4 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b2l_5 = analyzeSUSYGenEvt.clone()
-analyzeSUSYGenEvt4b2l_6 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_1 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_2 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_3 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_4 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_5 = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt4b1e_6 = analyzeSUSYGenEvt.clone()
 
 analyzeSUSYGenEvt3b_1 = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt3b_2 = analyzeSUSYGenEvt.clone()
@@ -445,60 +418,51 @@ from TopAnalysis.TopAnalyzer.BTags_cfi import *
 
 analyzeBTags.src = "goodJets"
 
-analyzeBTags1l_1 = analyzeBTags.clone()
-analyzeBTags1l_2 = analyzeBTags.clone()
-analyzeBTags1l_3 = analyzeBTags.clone()
-analyzeBTags1l_4 = analyzeBTags.clone()
-analyzeBTags1l_5 = analyzeBTags.clone()
-analyzeBTags1l_6 = analyzeBTags.clone()
+analyzeBTags1m_1 = analyzeBTags.clone()
+analyzeBTags1m_2 = analyzeBTags.clone()
+analyzeBTags1m_3 = analyzeBTags.clone()
+analyzeBTags1m_4 = analyzeBTags.clone()
+analyzeBTags1m_5 = analyzeBTags.clone()
+analyzeBTags1m_6 = analyzeBTags.clone()
 
-analyzeBTags1l_noCuts = analyzeBTags.clone()
-analyzeBTags1l_preselection = analyzeBTags.clone()
-analyzeBTags1l_leptonSelection = analyzeBTags.clone()
-analyzeBTags1l_jetSelection = analyzeBTags.clone()
-analyzeBTags1l_oneTightJet = analyzeBTags.clone()
-analyzeBTags1l_twoMediumJets = analyzeBTags.clone()
-analyzeBTags1l_metSelection = analyzeBTags.clone()
-analyzeBTags1l_HTSelection = analyzeBTags.clone()
+analyzeBTags1m_noCuts = analyzeBTags.clone()
+analyzeBTags1m_preselection = analyzeBTags.clone()
+analyzeBTags1m_leptonSelection = analyzeBTags.clone()
+analyzeBTags1m_jetSelection = analyzeBTags.clone()
+analyzeBTags1m_oneTightJet = analyzeBTags.clone()
+analyzeBTags1m_twoMediumJets = analyzeBTags.clone()
+analyzeBTags1m_metSelection = analyzeBTags.clone()
+analyzeBTags1m_HTSelection = analyzeBTags.clone()
 
-analyzeBTags1l_nminus1_leptonSelection = analyzeBTags.clone()
-analyzeBTags1l_nminus1_jetSelection = analyzeBTags.clone()
-analyzeBTags1l_nminus1_oneTightJet = analyzeBTags.clone()
-analyzeBTags1l_nminus1_twoMediumJets = analyzeBTags.clone()
-analyzeBTags1l_nminus1_metSelection = analyzeBTags.clone()
-analyzeBTags1l_nminus1_HTSelection = analyzeBTags.clone()
+analyzeBTags1m_nminus1_leptonSelection = analyzeBTags.clone()
+analyzeBTags1m_nminus1_jetSelection = analyzeBTags.clone()
+analyzeBTags1m_nminus1_oneTightJet = analyzeBTags.clone()
+analyzeBTags1m_nminus1_twoMediumJets = analyzeBTags.clone()
+analyzeBTags1m_nminus1_metSelection = analyzeBTags.clone()
+analyzeBTags1m_nminus1_HTSelection = analyzeBTags.clone()
 
-analyzeBTags1l_noCuts_2 = analyzeBTags.clone()
-analyzeBTags1l_preselection_2 = analyzeBTags.clone()
-analyzeBTags1l_leptonSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_jetSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_oneTightJet_2 = analyzeBTags.clone()
-analyzeBTags1l_twoMediumJets_2 = analyzeBTags.clone()
-analyzeBTags1l_metSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_HTSelection_2 = analyzeBTags.clone()
+analyzeBTags1e_noCuts = analyzeBTags.clone()
+analyzeBTags1e_preselection = analyzeBTags.clone()
+analyzeBTags1e_leptonSelection = analyzeBTags.clone()
+analyzeBTags1e_jetSelection = analyzeBTags.clone()
+analyzeBTags1e_oneTightJet = analyzeBTags.clone()
+analyzeBTags1e_twoMediumJets = analyzeBTags.clone()
+analyzeBTags1e_metSelection = analyzeBTags.clone()
+analyzeBTags1e_HTSelection = analyzeBTags.clone()
 
-analyzeBTags1l_nminus1_leptonSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_nminus1_jetSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_nminus1_oneTightJet_2 = analyzeBTags.clone()
-analyzeBTags1l_nminus1_twoMediumJets_2 = analyzeBTags.clone()
-analyzeBTags1l_nminus1_metSelection_2 = analyzeBTags.clone()
-analyzeBTags1l_nminus1_HTSelection_2 = analyzeBTags.clone()
+analyzeBTags1e_nminus1_leptonSelection = analyzeBTags.clone()
+analyzeBTags1e_nminus1_jetSelection = analyzeBTags.clone()
+analyzeBTags1e_nminus1_oneTightJet = analyzeBTags.clone()
+analyzeBTags1e_nminus1_twoMediumJets = analyzeBTags.clone()
+analyzeBTags1e_nminus1_metSelection = analyzeBTags.clone()
+analyzeBTags1e_nminus1_HTSelection = analyzeBTags.clone()
 
-analyzeBTags2l_1 = analyzeBTags.clone()
-analyzeBTags2l_2 = analyzeBTags.clone()
-analyzeBTags2l_3 = analyzeBTags.clone()
-analyzeBTags2l_4 = analyzeBTags.clone()
-analyzeBTags2l_5 = analyzeBTags.clone()
-analyzeBTags2l_6 = analyzeBTags.clone()
-
-analyzeBTags2l_noCuts = analyzeBTags.clone()
-analyzeBTags2l_preselection = analyzeBTags.clone()
-analyzeBTags2l_twoGoodLeptons = analyzeBTags.clone()
-analyzeBTags2l_threeGoodJets = analyzeBTags.clone()
-analyzeBTags2l_oneTightJet = analyzeBTags.clone()
-analyzeBTags2l_twoMediumJets = analyzeBTags.clone()
-analyzeBTags2l_metSelection = analyzeBTags.clone()
-analyzeBTags2l_HTSelection = analyzeBTags.clone()
+analyzeBTags1e_1 = analyzeBTags.clone()
+analyzeBTags1e_2 = analyzeBTags.clone()
+analyzeBTags1e_3 = analyzeBTags.clone()
+analyzeBTags1e_4 = analyzeBTags.clone()
+analyzeBTags1e_5 = analyzeBTags.clone()
+analyzeBTags1e_6 = analyzeBTags.clone()
 
 analyzeBTags1b_1 = analyzeBTags.clone()
 analyzeBTags1b_2 = analyzeBTags.clone()
@@ -514,61 +478,61 @@ analyzeBTags2b_4 = analyzeBTags.clone()
 analyzeBTags2b_5 = analyzeBTags.clone()
 analyzeBTags2b_6 = analyzeBTags.clone()
 
-analyzeBTags1b1l_1 = analyzeBTags.clone()
-analyzeBTags1b1l_2 = analyzeBTags.clone()
-analyzeBTags1b1l_3 = analyzeBTags.clone()
-analyzeBTags1b1l_4 = analyzeBTags.clone()
-analyzeBTags1b1l_5 = analyzeBTags.clone()
-analyzeBTags1b1l_6 = analyzeBTags.clone()
+analyzeBTags1b1m_1 = analyzeBTags.clone()
+analyzeBTags1b1m_2 = analyzeBTags.clone()
+analyzeBTags1b1m_3 = analyzeBTags.clone()
+analyzeBTags1b1m_4 = analyzeBTags.clone()
+analyzeBTags1b1m_5 = analyzeBTags.clone()
+analyzeBTags1b1m_6 = analyzeBTags.clone()
 
-analyzeBTags2b1l_1 = analyzeBTags.clone()
-analyzeBTags2b1l_2 = analyzeBTags.clone()
-analyzeBTags2b1l_3 = analyzeBTags.clone()
-analyzeBTags2b1l_4 = analyzeBTags.clone()
-analyzeBTags2b1l_5 = analyzeBTags.clone()
-analyzeBTags2b1l_6 = analyzeBTags.clone()
+analyzeBTags2b1m_1 = analyzeBTags.clone()
+analyzeBTags2b1m_2 = analyzeBTags.clone()
+analyzeBTags2b1m_3 = analyzeBTags.clone()
+analyzeBTags2b1m_4 = analyzeBTags.clone()
+analyzeBTags2b1m_5 = analyzeBTags.clone()
+analyzeBTags2b1m_6 = analyzeBTags.clone()
 
-analyzeBTags3b1l_1 = analyzeBTags.clone()
-analyzeBTags3b1l_2 = analyzeBTags.clone()
-analyzeBTags3b1l_3 = analyzeBTags.clone()
-analyzeBTags3b1l_4 = analyzeBTags.clone()
-analyzeBTags3b1l_5 = analyzeBTags.clone()
-analyzeBTags3b1l_6 = analyzeBTags.clone()
+analyzeBTags3b1m_1 = analyzeBTags.clone()
+analyzeBTags3b1m_2 = analyzeBTags.clone()
+analyzeBTags3b1m_3 = analyzeBTags.clone()
+analyzeBTags3b1m_4 = analyzeBTags.clone()
+analyzeBTags3b1m_5 = analyzeBTags.clone()
+analyzeBTags3b1m_6 = analyzeBTags.clone()
     
-analyzeBTags4b1l_1 = analyzeBTags.clone()
-analyzeBTags4b1l_2 = analyzeBTags.clone()
-analyzeBTags4b1l_3 = analyzeBTags.clone()
-analyzeBTags4b1l_4 = analyzeBTags.clone()
-analyzeBTags4b1l_5 = analyzeBTags.clone()
-analyzeBTags4b1l_6 = analyzeBTags.clone()
+analyzeBTags4b1m_1 = analyzeBTags.clone()
+analyzeBTags4b1m_2 = analyzeBTags.clone()
+analyzeBTags4b1m_3 = analyzeBTags.clone()
+analyzeBTags4b1m_4 = analyzeBTags.clone()
+analyzeBTags4b1m_5 = analyzeBTags.clone()
+analyzeBTags4b1m_6 = analyzeBTags.clone()
 
-analyzeBTags1b2l_1 = analyzeBTags.clone()
-analyzeBTags1b2l_2 = analyzeBTags.clone()
-analyzeBTags1b2l_3 = analyzeBTags.clone()
-analyzeBTags1b2l_4 = analyzeBTags.clone()
-analyzeBTags1b2l_5 = analyzeBTags.clone()
-analyzeBTags1b2l_6 = analyzeBTags.clone()
+analyzeBTags1b1e_1 = analyzeBTags.clone()
+analyzeBTags1b1e_2 = analyzeBTags.clone()
+analyzeBTags1b1e_3 = analyzeBTags.clone()
+analyzeBTags1b1e_4 = analyzeBTags.clone()
+analyzeBTags1b1e_5 = analyzeBTags.clone()
+analyzeBTags1b1e_6 = analyzeBTags.clone()
 
-analyzeBTags2b2l_1 = analyzeBTags.clone()
-analyzeBTags2b2l_2 = analyzeBTags.clone()
-analyzeBTags2b2l_3 = analyzeBTags.clone()
-analyzeBTags2b2l_4 = analyzeBTags.clone()
-analyzeBTags2b2l_5 = analyzeBTags.clone()
-analyzeBTags2b2l_6 = analyzeBTags.clone()
+analyzeBTags2b1e_1 = analyzeBTags.clone()
+analyzeBTags2b1e_2 = analyzeBTags.clone()
+analyzeBTags2b1e_3 = analyzeBTags.clone()
+analyzeBTags2b1e_4 = analyzeBTags.clone()
+analyzeBTags2b1e_5 = analyzeBTags.clone()
+analyzeBTags2b1e_6 = analyzeBTags.clone()
 
-analyzeBTags3b2l_1 = analyzeBTags.clone()
-analyzeBTags3b2l_2 = analyzeBTags.clone()
-analyzeBTags3b2l_3 = analyzeBTags.clone()
-analyzeBTags3b2l_4 = analyzeBTags.clone()
-analyzeBTags3b2l_5 = analyzeBTags.clone()
-analyzeBTags3b2l_6 = analyzeBTags.clone()
+analyzeBTags3b1e_1 = analyzeBTags.clone()
+analyzeBTags3b1e_2 = analyzeBTags.clone()
+analyzeBTags3b1e_3 = analyzeBTags.clone()
+analyzeBTags3b1e_4 = analyzeBTags.clone()
+analyzeBTags3b1e_5 = analyzeBTags.clone()
+analyzeBTags3b1e_6 = analyzeBTags.clone()
 
-analyzeBTags4b2l_1 = analyzeBTags.clone()
-analyzeBTags4b2l_2 = analyzeBTags.clone()
-analyzeBTags4b2l_3 = analyzeBTags.clone()
-analyzeBTags4b2l_4 = analyzeBTags.clone()
-analyzeBTags4b2l_5 = analyzeBTags.clone()
-analyzeBTags4b2l_6 = analyzeBTags.clone()
+analyzeBTags4b1e_1 = analyzeBTags.clone()
+analyzeBTags4b1e_2 = analyzeBTags.clone()
+analyzeBTags4b1e_3 = analyzeBTags.clone()
+analyzeBTags4b1e_4 = analyzeBTags.clone()
+analyzeBTags4b1e_5 = analyzeBTags.clone()
+analyzeBTags4b1e_6 = analyzeBTags.clone()
 
 analyzeBTags3b_1 = analyzeBTags.clone()
 analyzeBTags3b_2 = analyzeBTags.clone()
@@ -584,258 +548,217 @@ analyzeBTags4b_4 = analyzeBTags.clone()
 analyzeBTags4b_5 = analyzeBTags.clone()
 analyzeBTags4b_6 = analyzeBTags.clone()
 
-## 1 lepton
-analyzeSUSYBjets1l_noCuts = cms.Sequence(analyzeSUSY1l_noCuts *
-                                         analyzeBjets1l_noCuts #*
-                                         #analyzeSUSYGenEvt1l_noCuts *
-                                         #analyzeBTags1l_noCuts
+## 1 muon
+analyzeSUSYBjets1m_noCuts = cms.Sequence(analyzeSUSY1m_noCuts *
+                                         analyzeBjets1m_noCuts #*
+                                         #analyzeSUSYGenEvt1m_noCuts *
+                                         #analyzeBTags1m_noCuts
                                          )
-analyzeSUSYBjets1l_preselection = cms.Sequence(analyzeSUSY1l_preselection *
-                                               analyzeBjets1l_preselection #*
-                                               #analyzeSUSYGenEvt1l_preselection *
-                                               #analyzeBTags1l_preselection
+analyzeSUSYBjets1m_preselection = cms.Sequence(analyzeSUSY1m_preselection *
+                                               analyzeBjets1m_preselection #*
+                                               #analyzeSUSYGenEvt1m_preselection #*
+                                               #analyzeBTags1m_preselection
                                                )
-analyzeSUSYBjets1l_leptonSelection = cms.Sequence(analyzeSUSY1l_leptonSelection *
-                                                  analyzeBjets1l_leptonSelection #*
-                                                  #analyzeSUSYGenEvt1l_leptonSelection *
-                                                  #analyzeBTags1l_leptonSelection
+analyzeSUSYBjets1m_leptonSelection = cms.Sequence(analyzeSUSY1m_leptonSelection *
+                                                  analyzeBjets1m_leptonSelection #*
+                                                  #analyzeSUSYGenEvt1m_leptonSelection *
+                                                  #analyzeBTags1m_leptonSelection
                                                   )
-analyzeSUSYBjets1l_jetSelection = cms.Sequence(analyzeSUSY1l_jetSelection *
-                                               analyzeBjets1l_jetSelection #*
-                                               #analyzeSUSYGenEvt1l_jetSelection *
-                                               #analyzeBTags1l_jetSelection
+analyzeSUSYBjets1m_jetSelection = cms.Sequence(analyzeSUSY1m_jetSelection *
+                                               analyzeBjets1m_jetSelection #*
+                                               #analyzeSUSYGenEvt1m_jetSelection *
+                                               #analyzeBTags1m_jetSelection
                                                )
-analyzeSUSYBjets1l_oneTightJet = cms.Sequence(analyzeSUSY1l_oneTightJet *
-                                              analyzeBjets1l_oneTightJet #*
-                                              #analyzeSUSYGenEvt1l_oneTightJet *
-                                              #analyzeBTags1l_oneTightJet
+analyzeSUSYBjets1m_oneTightJet = cms.Sequence(analyzeSUSY1m_oneTightJet *
+                                              analyzeBjets1m_oneTightJet #*
+                                              #analyzeSUSYGenEvt1m_oneTightJet *
+                                              #analyzeBTags1m_oneTightJet
                                               )
-analyzeSUSYBjets1l_twoMediumJets = cms.Sequence(analyzeSUSY1l_twoMediumJets *
-                                                analyzeBjets1l_twoMediumJets #*
-                                                #analyzeSUSYGenEvt1l_twoMediumJets *
-                                                #analyzeBTags1l_twoMediumJets
+analyzeSUSYBjets1m_twoMediumJets = cms.Sequence(analyzeSUSY1m_twoMediumJets *
+                                                analyzeBjets1m_twoMediumJets #*
+                                                #analyzeSUSYGenEvt1m_twoMediumJets *
+                                                #analyzeBTags1m_twoMediumJets
                                                 )
-analyzeSUSYBjets1l_metSelection = cms.Sequence(analyzeSUSY1l_metSelection *
-                                               analyzeBjets1l_metSelection #*
-                                               #analyzeSUSYGenEvt1l_metSelection *
-                                               #analyzeBTags1l_metSelection
+analyzeSUSYBjets1m_metSelection = cms.Sequence(analyzeSUSY1m_metSelection *
+                                               analyzeBjets1m_metSelection #*
+                                               #analyzeSUSYGenEvt1m_metSelection *
+                                               #analyzeBTags1m_metSelection
                                                )
-analyzeSUSYBjets1l_HTSelection = cms.Sequence(analyzeSUSY1l_HTSelection *
-                                              analyzeBjets1l_HTSelection #*
-                                              #analyzeSUSYGenEvt1l_HTSelection *
-                                              #analyzeBTags1l_HTSelection
+analyzeSUSYBjets1m_HTSelection = cms.Sequence(analyzeSUSY1m_HTSelection *
+                                              analyzeBjets1m_HTSelection #*
+                                              #analyzeSUSYGenEvt1m_HTSelection *
+                                              #analyzeBTags1m_HTSelection
                                               )
 
 
-##
-analyzeSUSYBjets1l_noCuts_2 = cms.Sequence(analyzeSUSY1l_noCuts_2 *
-                                           analyzeBjets1l_noCuts_2 #*
-                                           #analyzeSUSYGenEvt1l_noCuts_2 *
-                                           #analyzeBTags1l_noCuts_2
-                                           )
-analyzeSUSYBjets1l_preselection_2 = cms.Sequence(analyzeSUSY1l_preselection_2 *
-                                                 analyzeBjets1l_preselection_2 #*
-                                                 #analyzeSUSYGenEvt1l_preselection_2 *
-                                                 #analyzeBTags1l_preselection_2
-                                                 )
-analyzeSUSYBjets1l_leptonSelection_2 = cms.Sequence(analyzeSUSY1l_leptonSelection_2 *
-                                                    analyzeBjets1l_leptonSelection_2 #*
-                                                    #analyzeSUSYGenEvt1l_leptonSelection_2 *
-                                                    #analyzeBTags1l_leptonSelection_2
-                                                    )
-analyzeSUSYBjets1l_jetSelection_2 = cms.Sequence(analyzeSUSY1l_jetSelection_2 *
-                                                 analyzeBjets1l_jetSelection_2 #*
-                                                 #analyzeSUSYGenEvt1l_jetSelection_2 *
-                                                 #analyzeBTags1l_jetSelection_2
-                                                 )
-analyzeSUSYBjets1l_oneTightJet_2 = cms.Sequence(analyzeSUSY1l_oneTightJet_2 *
-                                                analyzeBjets1l_oneTightJet_2 #*
-                                                #analyzeSUSYGenEvt1l_oneTightJet_2 *
-                                                #analyzeBTags1l_oneTightJet_2
-                                                )
-analyzeSUSYBjets1l_twoMediumJets_2 = cms.Sequence(analyzeSUSY1l_twoMediumJets_2 *
-                                                  analyzeBjets1l_twoMediumJets_2 #*
-                                                  #analyzeSUSYGenEvt1l_twoMediumJets_2 *
-                                                  #analyzeBTags1l_twoMediumJets_2
-                                                  )
-analyzeSUSYBjets1l_metSelection_2 = cms.Sequence(analyzeSUSY1l_metSelection_2 *
-                                                 analyzeBjets1l_metSelection_2 #*
-                                                 #analyzeSUSYGenEvt1l_metSelection_2 *
-                                                 #analyzeBTags1l_metSelection_2
-                                                 )
-analyzeSUSYBjets1l_HTSelection_2 = cms.Sequence(analyzeSUSY1l_HTSelection_2 *
-                                                analyzeBjets1l_HTSelection_2 #*
-                                                #analyzeSUSYGenEvt1l_HTSelection_2 *
-                                                #analyzeBTags1l_HTSelection_2
-                                                )
-
-##
-analyzeSUSYBjets1l_nminus1_leptonSelection = cms.Sequence(analyzeSUSY1l_nminus1_leptonSelection *
-                                                          analyzeBjets1l_nminus1_leptonSelection #*
-                                                          #analyzeSUSYGenEvt1l_nminus1_leptonSelection *
-                                                          #analyzeBTags1l_nminus1_leptonSelection
-                                                          )
-analyzeSUSYBjets1l_nminus1_jetSelection = cms.Sequence(analyzeSUSY1l_nminus1_jetSelection *
-                                                       analyzeBjets1l_nminus1_jetSelection #*
-                                                       #analyzeSUSYGenEvt1l_nminus1_jetSelection *
-                                                       #analyzeBTags1l_nminus1_jetSelection
-                                                       )
-analyzeSUSYBjets1l_nminus1_oneTightJet = cms.Sequence(analyzeSUSY1l_nminus1_oneTightJet *
-                                                      analyzeBjets1l_nminus1_oneTightJet #*
-                                                      #analyzeSUSYGenEvt1l_nminus1_oneTightJet *
-                                                      #analyzeBTags1l_nminus1_oneTightJet
-                                                      )
-analyzeSUSYBjets1l_nminus1_twoMediumJets = cms.Sequence(analyzeSUSY1l_nminus1_twoMediumJets *
-                                                        analyzeBjets1l_nminus1_twoMediumJets #*
-                                                        #analyzeSUSYGenEvt1l_nminus1_twoMediumJets *
-                                                        #analyzeBTags1l_nminus1_twoMediumJets
-                                                        )
-analyzeSUSYBjets1l_nminus1_metSelection = cms.Sequence(analyzeSUSY1l_nminus1_metSelection *
-                                                       analyzeBjets1l_nminus1_metSelection #*
-                                                       #analyzeSUSYGenEvt1l_nminus1_metSelection *
-                                                       #analyzeBTags1l_nminus1_metSelection
-                                                       )
-analyzeSUSYBjets1l_nminus1_HTSelection = cms.Sequence(analyzeSUSY1l_nminus1_HTSelection *
-                                                      analyzeBjets1l_nminus1_HTSelection #*
-                                                      #analyzeSUSYGenEvt1l_nminus1_HTSelection *
-                                                      #analyzeBTags1l_nminus1_HTSelection
-                                                      )
-
-##
-analyzeSUSYBjets1l_nminus1_leptonSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_leptonSelection_2 *
-                                                            analyzeBjets1l_nminus1_leptonSelection_2 #*
-                                                            #analyzeSUSYGenEvt1l_nminus1_leptonSelection_2 *
-                                                            #analyzeBTags1l_nminus1_leptonSelection_2
-                                                            )
-analyzeSUSYBjets1l_nminus1_jetSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_jetSelection_2 *
-                                                         analyzeBjets1l_nminus1_jetSelection_2 #*
-                                                         #analyzeSUSYGenEvt1l_nminus1_jetSelection_2 *
-                                                         #analyzeBTags1l_nminus1_jetSelection_2
-                                                         )
-analyzeSUSYBjets1l_nminus1_oneTightJet_2 = cms.Sequence(analyzeSUSY1l_nminus1_oneTightJet_2 *
-                                                        analyzeBjets1l_nminus1_oneTightJet_2 #*
-                                                        #analyzeSUSYGenEvt1l_nminus1_oneTightJet_2 *
-                                                        #analyzeBTags1l_nminus1_oneTightJet_2
-                                                        )
-analyzeSUSYBjets1l_nminus1_twoMediumJets_2 = cms.Sequence(analyzeSUSY1l_nminus1_twoMediumJets_2 *
-                                                          analyzeBjets1l_nminus1_twoMediumJets_2 #*
-                                                          #analyzeSUSYGenEvt1l_nminus1_twoMediumJets_2 *
-                                                          #analyzeBTags1l_nminus1_twoMediumJets_2
-                                                          )
-analyzeSUSYBjets1l_nminus1_metSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_metSelection_2 *
-                                                         analyzeBjets1l_nminus1_metSelection_2 #*
-                                                         #analyzeSUSYGenEvt1l_nminus1_metSelection_2 *
-                                                         #analyzeBTags1l_nminus1_metSelection_2
-                                                         )
-analyzeSUSYBjets1l_nminus1_HTSelection_2 = cms.Sequence(analyzeSUSY1l_nminus1_HTSelection_2 *
-                                                        analyzeBjets1l_nminus1_HTSelection_2 #*
-                                                        #analyzeSUSYGenEvt1l_nminus1_HTSelection_2 *
-                                                        #analyzeBTags1l_nminus1_HTSelection_2
-                                                        )
-##
-analyzeSUSYBjets1l_1 = cms.Sequence(analyzeSUSY1l_1 *
-                                    analyzeBjets1l_1 #*
-                                    #analyzeSUSYGenEvt1l_1 *
-                                    #analyzeBTags1l_1
-                                    )
-analyzeSUSYBjets1l_2 = cms.Sequence(analyzeSUSY1l_2 *
-                                    analyzeBjets1l_2 #*
-                                    #analyzeSUSYGenEvt1l_2 *
-                                    #analyzeBTags1l_2
-                                    )
-analyzeSUSYBjets1l_3 = cms.Sequence(analyzeSUSY1l_3 *
-                                    analyzeBjets1l_3 #*
-                                    #analyzeSUSYGenEvt1l_3 *
-                                    #analyzeBTags1l_3
-                                    )
-analyzeSUSYBjets1l_4 = cms.Sequence(analyzeSUSY1l_4 *
-                                    analyzeBjets1l_4 #*
-                                    #analyzeSUSYGenEvt1l_4 *
-                                    #analyzeBTags1l_4
-                                    )
-analyzeSUSYBjets1l_5 = cms.Sequence(analyzeSUSY1l_5 *
-                                    analyzeBjets1l_5 #*
-                                    #analyzeSUSYGenEvt1l_5 *
-                                    #analyzeBTags1l_5
-                                    )
-analyzeSUSYBjets1l_6 = cms.Sequence(analyzeSUSY1l_6 *
-                                    analyzeBjets1l_6 #*
-                                    #analyzeSUSYGenEvt1l_6 *
-                                    #analyzeBTags1l_6
-                                    )
-
-## 2 leptons
-analyzeSUSYBjets2l_1 = cms.Sequence(analyzeSUSY2l_1 *
-                                    analyzeBjets2l_1 #*
-                                    #analyzeSUSYGenEvt2l_1 *
-                                    #analyzeBTags2l_1
-                                    )
-analyzeSUSYBjets2l_2 = cms.Sequence(analyzeSUSY2l_2 *
-                                    analyzeBjets2l_2 #*
-                                    #analyzeSUSYGenEvt2l_2 *
-                                    #analyzeBTags2l_2
-                                    )
-analyzeSUSYBjets2l_3 = cms.Sequence(analyzeSUSY2l_3 *
-                                    analyzeBjets2l_3 #*
-                                    #analyzeSUSYGenEvt2l_3 *
-                                    #analyzeBTags2l_3
-                                    )
-analyzeSUSYBjets2l_4 = cms.Sequence(analyzeSUSY2l_4 *
-                                    analyzeBjets2l_4 #*
-                                    #analyzeSUSYGenEvt2l_4 *
-                                    #analyzeBTags2l_4
-                                    )
-analyzeSUSYBjets2l_5 = cms.Sequence(analyzeSUSY2l_5 *
-                                    analyzeBjets2l_5 #*
-                                    #analyzeSUSYGenEvt2l_5 *
-                                    #analyzeBTags2l_5
-                                    )
-analyzeSUSYBjets2l_6 = cms.Sequence(analyzeSUSY2l_6 *
-                                    analyzeBjets2l_6 #*
-                                    #analyzeSUSYGenEvt2l_6 *
-                                    #analyzeBTags2l_6
-                                    )
-
-analyzeSUSYBjets2l_noCuts = cms.Sequence(analyzeSUSY2l_noCuts *
-                                         analyzeBjets2l_noCuts #*
-                                         #analyzeSUSYGenEvt2l_noCuts *
-                                         #analyzeBTags2l_noCuts
+## 1 electron
+analyzeSUSYBjets1e_noCuts = cms.Sequence(analyzeSUSY1e_noCuts *
+                                         analyzeBjets1e_noCuts #*
+                                         #analyzeSUSYGenEvt1e_noCuts *
+                                         #analyzeBTags1e_noCuts
                                          )
-analyzeSUSYBjets2l_preselection = cms.Sequence(analyzeSUSY2l_preselection *
-                                               analyzeBjets2l_preselection #*
-                                               #analyzeSUSYGenEvt2l_preselection #*
-                                               #analyzeBTags2l_preselection
+analyzeSUSYBjets1e_preselection = cms.Sequence(analyzeSUSY1e_preselection *
+                                               analyzeBjets1e_preselection #*
+                                               #analyzeSUSYGenEvt1e_preselection *
+                                               #analyzeBTags1e_preselection
                                                )
-analyzeSUSYBjets2l_twoGoodLeptons = cms.Sequence(analyzeSUSY2l_twoGoodLeptons *
-                                                 analyzeBjets2l_twoGoodLeptons #*
-                                                 #analyzeSUSYGenEvt2l_twoGoodLeptons #*
-                                                 #analyzeBTags2l_twoGoodLeptons
-                                                 )
-analyzeSUSYBjets2l_threeGoodJets = cms.Sequence(analyzeSUSY2l_threeGoodJets *
-                                                analyzeBjets2l_threeGoodJets #*
-                                                #analyzeSUSYGenEvt2l_threeGoodJets #*
-                                                #analyzeBTags2l_threeGoodJets
-                                                )
-analyzeSUSYBjets2l_oneTightJet = cms.Sequence(analyzeSUSY2l_oneTightJet *
-                                              analyzeBjets2l_oneTightJet #*
-                                              #analyzeSUSYGenEvt2l_oneTightJet #*
-                                              #analyzeBTags2l_oneTightJet
-                                              )
-analyzeSUSYBjets2l_twoMediumJets = cms.Sequence(analyzeSUSY2l_twoMediumJets *
-                                                analyzeBjets2l_twoMediumJets #*
-                                                #analyzeSUSYGenEvt2l_twoMediumJets #*
-                                                #analyzeBTags2l_twoMediumJets
-                                                )
-analyzeSUSYBjets2l_metSelection = cms.Sequence(analyzeSUSY2l_metSelection *
-                                               analyzeBjets2l_metSelection #*
-                                               #analyzeSUSYGenEvt2l_metSelection *
-                                               #analyzeBTags2l_metSelection
+analyzeSUSYBjets1e_leptonSelection = cms.Sequence(analyzeSUSY1e_leptonSelection *
+                                                  analyzeBjets1e_leptonSelection #*
+                                                  #analyzeSUSYGenEvt1e_leptonSelection *
+                                                  #analyzeBTags1e_leptonSelection
+                                                  )
+analyzeSUSYBjets1e_jetSelection = cms.Sequence(analyzeSUSY1e_jetSelection *
+                                               analyzeBjets1e_jetSelection #*
+                                               #analyzeSUSYGenEvt1e_jetSelection *
+                                               #analyzeBTags1e_jetSelection
                                                )
-analyzeSUSYBjets2l_HTSelection = cms.Sequence(analyzeSUSY2l_HTSelection *
-                                              analyzeBjets2l_HTSelection #*
-                                              #analyzeSUSYGenEvt2l_HTSelection *
-                                              #analyzeBTags2l_HTSelection
+analyzeSUSYBjets1e_oneTightJet = cms.Sequence(analyzeSUSY1e_oneTightJet *
+                                              analyzeBjets1e_oneTightJet #*
+                                              #analyzeSUSYGenEvt1e_oneTightJet *
+                                              #analyzeBTags1e_oneTightJet
                                               )
+analyzeSUSYBjets1e_twoMediumJets = cms.Sequence(analyzeSUSY1e_twoMediumJets *
+                                                analyzeBjets1e_twoMediumJets #*
+                                                #analyzeSUSYGenEvt1e_twoMediumJets *
+                                                #analyzeBTags1e_twoMediumJets
+                                                )
+analyzeSUSYBjets1e_metSelection = cms.Sequence(analyzeSUSY1e_metSelection *
+                                               analyzeBjets1e_metSelection #*
+                                               #analyzeSUSYGenEvt1e_metSelection *
+                                               #analyzeBTags1e_metSelection
+                                               )
+analyzeSUSYBjets1e_HTSelection = cms.Sequence(analyzeSUSY1e_HTSelection *
+                                              analyzeBjets1e_HTSelection #*
+                                              #analyzeSUSYGenEvt1e_HTSelection *
+                                              #analyzeBTags1e_HTSelection
+                                              )
+
+## 1 muon n-1
+analyzeSUSYBjets1m_nminus1_leptonSelection = cms.Sequence(analyzeSUSY1m_nminus1_leptonSelection *
+                                                          analyzeBjets1m_nminus1_leptonSelection #*
+                                                          #analyzeSUSYGenEvt1m_nminus1_leptonSelection *
+                                                          #analyzeBTags1m_nminus1_leptonSelection
+                                                          )
+analyzeSUSYBjets1m_nminus1_jetSelection = cms.Sequence(analyzeSUSY1m_nminus1_jetSelection *
+                                                       analyzeBjets1m_nminus1_jetSelection #*
+                                                       #analyzeSUSYGenEvt1m_nminus1_jetSelection *
+                                                       #analyzeBTags1m_nminus1_jetSelection
+                                                       )
+analyzeSUSYBjets1m_nminus1_oneTightJet = cms.Sequence(analyzeSUSY1m_nminus1_oneTightJet *
+                                                      analyzeBjets1m_nminus1_oneTightJet #*
+                                                      #analyzeSUSYGenEvt1m_nminus1_oneTightJet *
+                                                      #analyzeBTags1m_nminus1_oneTightJet
+                                                      )
+analyzeSUSYBjets1m_nminus1_twoMediumJets = cms.Sequence(analyzeSUSY1m_nminus1_twoMediumJets *
+                                                        analyzeBjets1m_nminus1_twoMediumJets #*
+                                                        #analyzeSUSYGenEvt1m_nminus1_twoMediumJets *
+                                                        #analyzeBTags1m_nminus1_twoMediumJets
+                                                        )
+analyzeSUSYBjets1m_nminus1_metSelection = cms.Sequence(analyzeSUSY1m_nminus1_metSelection *
+                                                       analyzeBjets1m_nminus1_metSelection #*
+                                                       #analyzeSUSYGenEvt1m_nminus1_metSelection *
+                                                       #analyzeBTags1m_nminus1_metSelection
+                                                       )
+analyzeSUSYBjets1m_nminus1_HTSelection = cms.Sequence(analyzeSUSY1m_nminus1_HTSelection *
+                                                      analyzeBjets1m_nminus1_HTSelection #*
+                                                      #analyzeSUSYGenEvt1m_nminus1_HTSelection *
+                                                      #analyzeBTags1m_nminus1_HTSelection
+                                                      )
+
+## 1 electron n-1
+analyzeSUSYBjets1e_nminus1_leptonSelection = cms.Sequence(analyzeSUSY1e_nminus1_leptonSelection *
+                                                          analyzeBjets1e_nminus1_leptonSelection #*
+                                                          #analyzeSUSYGenEvt1e_nminus1_leptonSelection *
+                                                          #analyzeBTags1e_nminus1_leptonSelection
+                                                          )
+analyzeSUSYBjets1e_nminus1_jetSelection = cms.Sequence(analyzeSUSY1e_nminus1_jetSelection *
+                                                       analyzeBjets1e_nminus1_jetSelection #*
+                                                       #analyzeSUSYGenEvt1e_nminus1_jetSelection *
+                                                       #analyzeBTags1e_nminus1_jetSelection
+                                                       )
+analyzeSUSYBjets1e_nminus1_oneTightJet = cms.Sequence(analyzeSUSY1e_nminus1_oneTightJet *
+                                                      analyzeBjets1e_nminus1_oneTightJet #*
+                                                      #analyzeSUSYGenEvt1e_nminus1_oneTightJet *
+                                                      #analyzeBTags1e_nminus1_oneTightJet
+                                                      )
+analyzeSUSYBjets1e_nminus1_twoMediumJets = cms.Sequence(analyzeSUSY1e_nminus1_twoMediumJets *
+                                                        analyzeBjets1e_nminus1_twoMediumJets #*
+                                                        #analyzeSUSYGenEvt1e_nminus1_twoMediumJets #*
+                                                        #analyzeBTags1e_nminus1_twoMediumJets
+                                                        )
+analyzeSUSYBjets1e_nminus1_metSelection = cms.Sequence(analyzeSUSY1e_nminus1_metSelection *
+                                                       analyzeBjets1e_nminus1_metSelection #*
+                                                       #analyzeSUSYGenEvt1e_nminus1_metSelection #*
+                                                       #analyzeBTags1e_nminus1_metSelection
+                                                       )
+analyzeSUSYBjets1e_nminus1_HTSelection = cms.Sequence(analyzeSUSY1e_nminus1_HTSelection *
+                                                      analyzeBjets1e_nminus1_HTSelection #*
+                                                      #analyzeSUSYGenEvt1e_nminus1_HTSelection *
+                                                      #analyzeBTags1e_nminus1_HTSelection
+                                                      )
+## 1 muon
+analyzeSUSYBjets1m_1 = cms.Sequence(analyzeSUSY1m_1 *
+                                    analyzeBjets1m_1 #*
+                                    #analyzeSUSYGenEvt1m_1 *
+                                    #analyzeBTags1m_1
+                                    )
+analyzeSUSYBjets1m_2 = cms.Sequence(analyzeSUSY1m_2 *
+                                    analyzeBjets1m_2 #*
+                                    #analyzeSUSYGenEvt1m_2 *
+                                    #analyzeBTags1m_2
+                                    )
+analyzeSUSYBjets1m_3 = cms.Sequence(analyzeSUSY1m_3 *
+                                    analyzeBjets1m_3 #*
+                                    #analyzeSUSYGenEvt1m_3 *
+                                    #analyzeBTags1m_3
+                                    )
+analyzeSUSYBjets1m_4 = cms.Sequence(analyzeSUSY1m_4 *
+                                    analyzeBjets1m_4 #*
+                                    #analyzeSUSYGenEvt1m_4 *
+                                    #analyzeBTags1m_4
+                                    )
+analyzeSUSYBjets1m_5 = cms.Sequence(analyzeSUSY1m_5 *
+                                    analyzeBjets1m_5 #*
+                                    #analyzeSUSYGenEvt1m_5 *
+                                    #analyzeBTags1m_5
+                                    )
+analyzeSUSYBjets1m_6 = cms.Sequence(analyzeSUSY1m_6 *
+                                    analyzeBjets1m_6 #*
+                                    #analyzeSUSYGenEvt1m_6 *
+                                    #analyzeBTags1m_6
+                                    )
+
+## 1 electron
+analyzeSUSYBjets1e_1 = cms.Sequence(analyzeSUSY1e_1 *
+                                    analyzeBjets1e_1 #*
+                                    #analyzeSUSYGenEvt1e_1 *
+                                    #analyzeBTags1e_1
+                                    )
+analyzeSUSYBjets1e_2 = cms.Sequence(analyzeSUSY1e_2 *
+                                    analyzeBjets1e_2 #*
+                                    #analyzeSUSYGenEvt1e_2 *
+                                    #analyzeBTags1e_2
+                                    )
+analyzeSUSYBjets1e_3 = cms.Sequence(analyzeSUSY1e_3 *
+                                    analyzeBjets1e_3 #*
+                                    #analyzeSUSYGenEvt1e_3 *
+                                    #analyzeBTags1e_3
+                                    )
+analyzeSUSYBjets1e_4 = cms.Sequence(analyzeSUSY1e_4 *
+                                    analyzeBjets1e_4 #*
+                                    #analyzeSUSYGenEvt1e_4 *
+                                    #analyzeBTags1e_4
+                                    )
+analyzeSUSYBjets1e_5 = cms.Sequence(analyzeSUSY1e_5 *
+                                    analyzeBjets1e_5 #*
+                                    #analyzeSUSYGenEvt1e_5 *
+                                    #analyzeBTags1e_5
+                                    )
+analyzeSUSYBjets1e_6 = cms.Sequence(analyzeSUSY1e_6 *
+                                    analyzeBjets1e_6 #*
+                                    #analyzeSUSYGenEvt1e_6 *
+                                    #analyzeBTags1e_6
+                                    )
 
 ## 1 bjet
 analyzeSUSYBjets1b_1 = cms.Sequence(analyzeSUSY1b_1 *
@@ -890,7 +813,7 @@ analyzeSUSYBjets2b_4 = cms.Sequence(analyzeSUSY2b_4 *
                                     #analyzeSUSYGenEvt2b_4 *
                                     #analyzeBTags2b_4
                                     )
-analyzeSUSYBjets2b_5 = cms.Sequence(analyzeSUSY2b_5 *
+analyzeSUSYBjets2b_5 = cms.Sequence(analyzeSUSY2b_5 * 
                                     analyzeBjets2b_5 #*
                                     #analyzeSUSYGenEvt2b_5 *
                                     #analyzeBTags2b_5
@@ -901,260 +824,260 @@ analyzeSUSYBjets2b_6 = cms.Sequence(analyzeSUSY2b_6 *
                                     #analyzeBTags2b_6
                                     )
 
-## 1 bjet, 1 lepton
-analyzeSUSYBjets1b1l_1 = cms.Sequence(analyzeSUSY1b1l_1 *
-                                      analyzeBjets1b1l_1 #*
-                                      #analyzeSUSYGenEvt1b1l_1 *
-                                      #analyzeBTags1b1l_1
+## 1 bjet, 1 muon
+analyzeSUSYBjets1b1m_1 = cms.Sequence(analyzeSUSY1b1m_1 *
+                                      analyzeBjets1b1m_1 #*
+                                      #analyzeSUSYGenEvt1b1m_1 *
+                                      #analyzeBTags1b1m_1
                                       )
-analyzeSUSYBjets1b1l_2 = cms.Sequence(analyzeSUSY1b1l_2 *
-                                      analyzeBjets1b1l_2 #*
-                                      #analyzeSUSYGenEvt1b1l_2 *
-                                      #analyzeBTags1b1l_2
+analyzeSUSYBjets1b1m_2 = cms.Sequence(analyzeSUSY1b1m_2 *
+                                      analyzeBjets1b1m_2 #*
+                                      #analyzeSUSYGenEvt1b1m_2 *
+                                      #analyzeBTags1b1m_2
                                       )
-analyzeSUSYBjets1b1l_3 = cms.Sequence(analyzeSUSY1b1l_3 *
-                                      analyzeBjets1b1l_3 #*
-                                      #analyzeSUSYGenEvt1b1l_3 *
-                                      #analyzeBTags1b1l_3
+analyzeSUSYBjets1b1m_3 = cms.Sequence(analyzeSUSY1b1m_3 *
+                                      analyzeBjets1b1m_3 #*
+                                      #analyzeSUSYGenEvt1b1m_3 *
+                                      #analyzeBTags1b1m_3
                                       )
-analyzeSUSYBjets1b1l_4 = cms.Sequence(analyzeSUSY1b1l_4 *
-                                      analyzeBjets1b1l_4 #*
-                                      #analyzeSUSYGenEvt1b1l_4 *
-                                      #analyzeBTags1b1l_4
+analyzeSUSYBjets1b1m_4 = cms.Sequence(analyzeSUSY1b1m_4 *
+                                      analyzeBjets1b1m_4 #*
+                                      #analyzeSUSYGenEvt1b1m_4 *
+                                      #analyzeBTags1b1m_4
                                       )
-analyzeSUSYBjets1b1l_5 = cms.Sequence(analyzeSUSY1b1l_5 *
-                                      analyzeBjets1b1l_5 #*
-                                      #analyzeSUSYGenEvt1b1l_5 *
-                                      #analyzeBTags1b1l_5
+analyzeSUSYBjets1b1m_5 = cms.Sequence(analyzeSUSY1b1m_5 *
+                                      analyzeBjets1b1m_5 #*
+                                      #analyzeSUSYGenEvt1b1m_5 *
+                                      #analyzeBTags1b1m_5
                                       )
-analyzeSUSYBjets1b1l_6 = cms.Sequence(analyzeSUSY1b1l_6 *
-                                      analyzeBjets1b1l_6 #*
-                                      #analyzeSUSYGenEvt1b1l_6 *
-                                      #analyzeBTags1b1l_6
-                                      )
-
-## 2 bjets, 1 lepton
-analyzeSUSYBjets2b1l_1 = cms.Sequence(analyzeSUSY2b1l_1 *
-                                      analyzeBjets2b1l_1 #*
-                                      #analyzeSUSYGenEvt2b1l_1 *
-                                      #analyzeBTags2b1l_1
-                                      )
-analyzeSUSYBjets2b1l_2 = cms.Sequence(analyzeSUSY2b1l_2 *
-                                      analyzeBjets2b1l_2 #*
-                                      #analyzeSUSYGenEvt2b1l_2 *
-                                      #analyzeBTags2b1l_2
-                                      )
-analyzeSUSYBjets2b1l_3 = cms.Sequence(analyzeSUSY2b1l_3 *
-                                      analyzeBjets2b1l_3 #*
-                                      #analyzeSUSYGenEvt2b1l_3 *
-                                      #analyzeBTags2b1l_3
-                                      )
-analyzeSUSYBjets2b1l_4 = cms.Sequence(analyzeSUSY2b1l_4 *
-                                      analyzeBjets2b1l_4 #*
-                                      #analyzeSUSYGenEvt2b1l_4 *
-                                      #analyzeBTags2b1l_4
-                                      )
-analyzeSUSYBjets2b1l_5 = cms.Sequence(analyzeSUSY2b1l_5 *
-                                      analyzeBjets2b1l_5 #*
-                                      #analyzeSUSYGenEvt2b1l_5 *
-                                      #analyzeBTags2b1l_5
-                                      )
-analyzeSUSYBjets2b1l_6 = cms.Sequence(analyzeSUSY2b1l_6 *
-                                      analyzeBjets2b1l_6 #*
-                                      #analyzeSUSYGenEvt2b1l_6 *
-                                      #analyzeBTags2b1l_6
+analyzeSUSYBjets1b1m_6 = cms.Sequence(analyzeSUSY1b1m_6 *
+                                      analyzeBjets1b1m_6 #*
+                                      #analyzeSUSYGenEvt1b1m_6 *
+                                      #analyzeBTags1b1m_6
                                       )
 
-## 3 bjets, 1 lepton
-analyzeSUSYBjets3b1l_1 = cms.Sequence(analyzeSUSY3b1l_1 *
-                                      analyzeBjets3b1l_1 #*
-                                      #analyzeSUSYGenEvt3b1l_1 *
-                                      #analyzeBTags3b1l_1
+## 2 bjets, 1 muon
+analyzeSUSYBjets2b1m_1 = cms.Sequence(analyzeSUSY2b1m_1 *
+                                      analyzeBjets2b1m_1 #*
+                                      #analyzeSUSYGenEvt2b1m_1 *
+                                      #analyzeBTags2b1m_1
                                       )
-analyzeSUSYBjets3b1l_2 = cms.Sequence(analyzeSUSY3b1l_2 *
-                                      analyzeBjets3b1l_2 #*
-                                      #analyzeSUSYGenEvt3b1l_2 *
-                                      #analyzeBTags3b1l_2
+analyzeSUSYBjets2b1m_2 = cms.Sequence(analyzeSUSY2b1m_2 *
+                                      analyzeBjets2b1m_2 #*
+                                      #analyzeSUSYGenEvt2b1m_2 *
+                                      #analyzeBTags2b1m_2
                                       )
-analyzeSUSYBjets3b1l_3 = cms.Sequence(analyzeSUSY3b1l_3 *
-                                      analyzeBjets3b1l_3 #*
-                                      #analyzeSUSYGenEvt3b1l_3 *
-                                      #analyzeBTags3b1l_3
+analyzeSUSYBjets2b1m_3 = cms.Sequence(analyzeSUSY2b1m_3 *
+                                      analyzeBjets2b1m_3 #*
+                                      #analyzeSUSYGenEvt2b1m_3 *
+                                      #analyzeBTags2b1m_3
                                       )
-analyzeSUSYBjets3b1l_4 = cms.Sequence(analyzeSUSY3b1l_4 *
-                                      analyzeBjets3b1l_4 #*
-                                      #analyzeSUSYGenEvt3b1l_4 *
-                                      #analyzeBTags3b1l_4
+analyzeSUSYBjets2b1m_4 = cms.Sequence(analyzeSUSY2b1m_4 *
+                                      analyzeBjets2b1m_4 #*
+                                      #analyzeSUSYGenEvt2b1m_4 *
+                                      #analyzeBTags2b1m_4
                                       )
-analyzeSUSYBjets3b1l_5 = cms.Sequence(analyzeSUSY3b1l_5 *
-                                      analyzeBjets3b1l_5 #*
-                                      #analyzeSUSYGenEvt3b1l_5 *
-                                      #analyzeBTags3b1l_5
+analyzeSUSYBjets2b1m_5 = cms.Sequence(analyzeSUSY2b1m_5 *
+                                      analyzeBjets2b1m_5 #*
+                                      #analyzeSUSYGenEvt2b1m_5 *
+                                      #analyzeBTags2b1m_5
                                       )
-analyzeSUSYBjets3b1l_6 = cms.Sequence(analyzeSUSY3b1l_6 *
-                                      analyzeBjets3b1l_6 #*
-                                      #analyzeSUSYGenEvt3b1l_6 *
-                                      #analyzeBTags3b1l_6
-                                      )
-
-## 4 bjets, 1 lepton
-analyzeSUSYBjets4b1l_1 = cms.Sequence(analyzeSUSY4b1l_1 *
-                                      analyzeBjets4b1l_1 #*
-                                      #analyzeSUSYGenEvt4b1l_1 *
-                                      #analyzeBTags4b1l_1
-                                      )
-analyzeSUSYBjets4b1l_2 = cms.Sequence(analyzeSUSY4b1l_2 *
-                                      analyzeBjets4b1l_2 #*
-                                      #analyzeSUSYGenEvt4b1l_2 *
-                                      #analyzeBTags4b1l_2
-                                      )
-analyzeSUSYBjets4b1l_3 = cms.Sequence(analyzeSUSY4b1l_3 *
-                                      analyzeBjets4b1l_3 #*
-                                      #analyzeSUSYGenEvt4b1l_3 *
-                                      #analyzeBTags4b1l_3
-                                      )
-analyzeSUSYBjets4b1l_4 = cms.Sequence(analyzeSUSY4b1l_4 *
-                                      analyzeBjets4b1l_4 #*
-                                      #analyzeSUSYGenEvt4b1l_4 *
-                                      #analyzeBTags4b1l_4
-                                      )
-analyzeSUSYBjets4b1l_5 = cms.Sequence(analyzeSUSY4b1l_5 *
-                                      analyzeBjets4b1l_5 #*
-                                      #analyzeSUSYGenEvt4b1l_5 *
-                                      #analyzeBTags4b1l_5
-                                      )
-analyzeSUSYBjets4b1l_6 = cms.Sequence(analyzeSUSY4b1l_6 *
-                                      analyzeBjets4b1l_6 #*
-                                      #analyzeSUSYGenEvt4b1l_6 *
-                                      #analyzeBTags4b1l_6
+analyzeSUSYBjets2b1m_6 = cms.Sequence(analyzeSUSY2b1m_6 *
+                                      analyzeBjets2b1m_6 #*
+                                      #analyzeSUSYGenEvt2b1m_6 *
+                                      #analyzeBTags2b1m_6
                                       )
 
-## 1 bjet, 2 leptons
-analyzeSUSYBjets1b2l_1 = cms.Sequence(analyzeSUSY1b2l_1 *
-                                      analyzeBjets1b2l_1 #*
-                                      #analyzeSUSYGenEvt1b2l_1 *
-                                      #analyzeBTags1b2l_1
+## 3 bjets, 1 muon
+analyzeSUSYBjets3b1m_1 = cms.Sequence(analyzeSUSY3b1m_1 *
+                                      analyzeBjets3b1m_1 #*
+                                      #analyzeSUSYGenEvt3b1m_1 *
+                                      #analyzeBTags3b1m_1
                                       )
-analyzeSUSYBjets1b2l_2 = cms.Sequence(analyzeSUSY1b2l_2 *
-                                      analyzeBjets1b2l_2 #*
-                                      #analyzeSUSYGenEvt1b2l_2 *
-                                      #analyzeBTags1b2l_2
+analyzeSUSYBjets3b1m_2 = cms.Sequence(analyzeSUSY3b1m_2 *
+                                      analyzeBjets3b1m_2 #*
+                                      #analyzeSUSYGenEvt3b1m_2 *
+                                      #analyzeBTags3b1m_2
                                       )
-analyzeSUSYBjets1b2l_3 = cms.Sequence(analyzeSUSY1b2l_3 *
-                                      analyzeBjets1b2l_3 #*
-                                      #analyzeSUSYGenEvt1b2l_3 *
-                                      #analyzeBTags1b2l_3
+analyzeSUSYBjets3b1m_3 = cms.Sequence(analyzeSUSY3b1m_3 *
+                                      analyzeBjets3b1m_3 #*
+                                      #analyzeSUSYGenEvt3b1m_3 *
+                                      #analyzeBTags3b1m_3
                                       )
-analyzeSUSYBjets1b2l_4 = cms.Sequence(analyzeSUSY1b2l_4 *
-                                      analyzeBjets1b2l_4 #*
-                                      #analyzeSUSYGenEvt1b2l_4 *
-                                      #analyzeBTags1b2l_4
+analyzeSUSYBjets3b1m_4 = cms.Sequence(analyzeSUSY3b1m_4 *
+                                      analyzeBjets3b1m_4 #*
+                                      #analyzeSUSYGenEvt3b1m_4 *
+                                      #analyzeBTags3b1m_4
                                       )
-analyzeSUSYBjets1b2l_5 = cms.Sequence(analyzeSUSY1b2l_5 *
-                                      analyzeBjets1b2l_5 #*
-                                      #analyzeSUSYGenEvt1b2l_5 *
-                                      #analyzeBTags1b2l_5
+analyzeSUSYBjets3b1m_5 = cms.Sequence(analyzeSUSY3b1m_5 *
+                                      analyzeBjets3b1m_5 #*
+                                      #analyzeSUSYGenEvt3b1m_5 *
+                                      #analyzeBTags3b1m_5
                                       )
-analyzeSUSYBjets1b2l_6 = cms.Sequence(analyzeSUSY1b2l_6 *
-                                      analyzeBjets1b2l_6 #*
-                                      #analyzeSUSYGenEvt1b2l_6 *
-                                      #analyzeBTags1b2l_6
-                                      )
-
-## 2 bjets, 2 leptons
-analyzeSUSYBjets2b2l_1 = cms.Sequence(analyzeSUSY2b2l_1 *
-                                      analyzeBjets2b2l_1 #*
-                                      #analyzeSUSYGenEvt2b2l_1 *
-                                      #analyzeBTags2b2l_1
-                                      )
-analyzeSUSYBjets2b2l_2 = cms.Sequence(analyzeSUSY2b2l_2 *
-                                      analyzeBjets2b2l_2 #*
-                                      #analyzeSUSYGenEvt2b2l_2 *
-                                      #analyzeBTags2b2l_2
-                                      )
-analyzeSUSYBjets2b2l_3 = cms.Sequence(analyzeSUSY2b2l_3 *
-                                      analyzeBjets2b2l_3 #*
-                                      #analyzeSUSYGenEvt2b2l_3 *
-                                      #analyzeBTags2b2l_3
-                                      )
-analyzeSUSYBjets2b2l_4 = cms.Sequence(analyzeSUSY2b2l_4 *
-                                      analyzeBjets2b2l_4 #*
-                                      #analyzeSUSYGenEvt2b2l_4 *
-                                      #analyzeBTags2b2l_4
-                                      )
-analyzeSUSYBjets2b2l_5 = cms.Sequence(analyzeSUSY2b2l_5 *
-                                      analyzeBjets2b2l_5 #*
-                                      #analyzeSUSYGenEvt2b2l_5 *
-                                      #analyzeBTags2b2l_5
-                                      )
-analyzeSUSYBjets2b2l_6 = cms.Sequence(analyzeSUSY2b2l_6 *
-                                      analyzeBjets2b2l_6 #*
-                                      #analyzeSUSYGenEvt2b2l_6 *
-                                      #analyzeBTags2b2l_6
+analyzeSUSYBjets3b1m_6 = cms.Sequence(analyzeSUSY3b1m_6 *
+                                      analyzeBjets3b1m_6 #*
+                                      #analyzeSUSYGenEvt3b1m_6 *
+                                      #analyzeBTags3b1m_6
                                       )
 
-## 3 bjets, 2 leptons
-analyzeSUSYBjets3b2l_1 = cms.Sequence(analyzeSUSY3b2l_1 *
-                                      analyzeBjets3b2l_1 #*
-                                      #analyzeSUSYGenEvt3b2l_1 *
-                                      #analyzeBTags3b2l_1
+## 4 bjets, 1 muon
+analyzeSUSYBjets4b1m_1 = cms.Sequence(analyzeSUSY4b1m_1 *
+                                      analyzeBjets4b1m_1 #*
+                                      #analyzeSUSYGenEvt4b1m_1 *
+                                      #analyzeBTags4b1m_1
                                       )
-analyzeSUSYBjets3b2l_2 = cms.Sequence(analyzeSUSY3b2l_2 *
-                                      analyzeBjets3b2l_2 #*
-                                      #analyzeSUSYGenEvt3b2l_2 *
-                                      #analyzeBTags3b2l_2
+analyzeSUSYBjets4b1m_2 = cms.Sequence(analyzeSUSY4b1m_2 *
+                                      analyzeBjets4b1m_2 #*
+                                      #analyzeSUSYGenEvt4b1m_2 *
+                                      #analyzeBTags4b1m_2
                                       )
-analyzeSUSYBjets3b2l_3 = cms.Sequence(analyzeSUSY3b2l_3 *
-                                      analyzeBjets3b2l_3 #*
-                                      #analyzeSUSYGenEvt3b2l_3 *
-                                      #analyzeBTags3b2l_3
+analyzeSUSYBjets4b1m_3 = cms.Sequence(analyzeSUSY4b1m_3 *
+                                      analyzeBjets4b1m_3 #*
+                                      #analyzeSUSYGenEvt4b1m_3 *
+                                      #analyzeBTags4b1m_3
                                       )
-analyzeSUSYBjets3b2l_4 = cms.Sequence(analyzeSUSY3b2l_4 *
-                                      analyzeBjets3b2l_4 #*
-                                      #analyzeSUSYGenEvt3b2l_4 *
-                                      #analyzeBTags3b2l_4
+analyzeSUSYBjets4b1m_4 = cms.Sequence(analyzeSUSY4b1m_4 *
+                                      analyzeBjets4b1m_4 #*
+                                      #analyzeSUSYGenEvt4b1m_4 *
+                                      #analyzeBTags4b1m_4
                                       )
-analyzeSUSYBjets3b2l_5 = cms.Sequence(analyzeSUSY3b2l_5 *
-                                      analyzeBjets3b2l_5 #*
-                                      #analyzeSUSYGenEvt3b2l_5 *
-                                      #analyzeBTags3b2l_5
+analyzeSUSYBjets4b1m_5 = cms.Sequence(analyzeSUSY4b1m_5 *
+                                      analyzeBjets4b1m_5 #*
+                                      #analyzeSUSYGenEvt4b1m_5 *
+                                      #analyzeBTags4b1m_5
                                       )
-analyzeSUSYBjets3b2l_6 = cms.Sequence(analyzeSUSY3b2l_6 *
-                                      analyzeBjets3b2l_6 #*
-                                      #analyzeSUSYGenEvt3b2l_6 *
-                                      #analyzeBTags3b2l_6
+analyzeSUSYBjets4b1m_6 = cms.Sequence(analyzeSUSY4b1m_6 *
+                                      analyzeBjets4b1m_6 #*
+                                      #analyzeSUSYGenEvt4b1m_6 *
+                                      #analyzeBTags4b1m_6
                                       )
 
-## 4 bjets, 2 leptons
-analyzeSUSYBjets4b2l_1 = cms.Sequence(analyzeSUSY4b2l_1 *
-                                      analyzeBjets4b2l_1 #*
-                                      #analyzeSUSYGenEvt4b2l_1 *
-                                      #analyzeBTags4b2l_1
+## 1 bjet, 1 electron
+analyzeSUSYBjets1b1e_1 = cms.Sequence(analyzeSUSY1b1e_1 *
+                                      analyzeBjets1b1e_1 #*
+                                      #analyzeSUSYGenEvt1b1e_1 *
+                                      #analyzeBTags1b1e_1
                                       )
-analyzeSUSYBjets4b2l_2 = cms.Sequence(analyzeSUSY4b2l_2 *
-                                      analyzeBjets4b2l_2 #*
-                                      #analyzeSUSYGenEvt4b2l_2 *
-                                      #analyzeBTags4b2l_2
+analyzeSUSYBjets1b1e_2 = cms.Sequence(analyzeSUSY1b1e_2 *
+                                      analyzeBjets1b1e_2 #*
+                                      #analyzeSUSYGenEvt1b1e_2 *
+                                      #analyzeBTags1b1e_2
                                       )
-analyzeSUSYBjets4b2l_3 = cms.Sequence(analyzeSUSY4b2l_3 *
-                                      analyzeBjets4b2l_3 #*
-                                      #analyzeSUSYGenEvt4b2l_3 *
-                                      #analyzeBTags4b2l_3
+analyzeSUSYBjets1b1e_3 = cms.Sequence(analyzeSUSY1b1e_3 *
+                                      analyzeBjets1b1e_3 #*
+                                      #analyzeSUSYGenEvt1b1e_3 *
+                                      #analyzeBTags1b1e_3
                                       )
-analyzeSUSYBjets4b2l_4 = cms.Sequence(analyzeSUSY4b2l_4 *
-                                      analyzeBjets4b2l_4 #*
-                                      #analyzeSUSYGenEvt4b2l_4 *
-                                      #analyzeBTags4b2l_4
+analyzeSUSYBjets1b1e_4 = cms.Sequence(analyzeSUSY1b1e_4 *
+                                      analyzeBjets1b1e_4 #*
+                                      #analyzeSUSYGenEvt1b1e_4 *
+                                      #analyzeBTags1b1e_4
                                       )
-analyzeSUSYBjets4b2l_5 = cms.Sequence(analyzeSUSY4b2l_5 *
-                                      analyzeBjets4b2l_5 #*
-                                      #analyzeSUSYGenEvt4b2l_5 *
-                                      #analyzeBTags4b2l_5
+analyzeSUSYBjets1b1e_5 = cms.Sequence(analyzeSUSY1b1e_5 *
+                                      analyzeBjets1b1e_5 #*
+                                      #analyzeSUSYGenEvt1b1e_5 *
+                                      #analyzeBTags1b1e_5
                                       )
-analyzeSUSYBjets4b2l_6 = cms.Sequence(analyzeSUSY4b2l_6 *
-                                      analyzeBjets4b2l_6 #*
-                                      #analyzeSUSYGenEvt4b2l_6 *
-                                      #analyzeBTags4b2l_6
+analyzeSUSYBjets1b1e_6 = cms.Sequence(analyzeSUSY1b1e_6 *
+                                      analyzeBjets1b1e_6 #*
+                                      #analyzeSUSYGenEvt1b1e_6 *
+                                      #analyzeBTags1b1e_6
+                                      )
+
+## 2 bjets, 1 electron
+analyzeSUSYBjets2b1e_1 = cms.Sequence(analyzeSUSY2b1e_1 *
+                                      analyzeBjets2b1e_1 #*
+                                      #analyzeSUSYGenEvt2b1e_1 *
+                                      #analyzeBTags2b1e_1
+                                      )
+analyzeSUSYBjets2b1e_2 = cms.Sequence(analyzeSUSY2b1e_2 *
+                                      analyzeBjets2b1e_2 #*
+                                      #analyzeSUSYGenEvt2b1e_2 *
+                                      #analyzeBTags2b1e_2
+                                      )
+analyzeSUSYBjets2b1e_3 = cms.Sequence(analyzeSUSY2b1e_3 *
+                                      analyzeBjets2b1e_3 #*
+                                      #analyzeSUSYGenEvt2b1e_3 *
+                                      #analyzeBTags2b1e_3
+                                      )
+analyzeSUSYBjets2b1e_4 = cms.Sequence(analyzeSUSY2b1e_4 *
+                                      analyzeBjets2b1e_4 #*
+                                      #analyzeSUSYGenEvt2b1e_4 *
+                                      #analyzeBTags2b1e_4
+                                      )
+analyzeSUSYBjets2b1e_5 = cms.Sequence(analyzeSUSY2b1e_5 *
+                                      analyzeBjets2b1e_5 #*
+                                      #analyzeSUSYGenEvt2b1e_5 *
+                                      #analyzeBTags2b1e_5
+                                      )
+analyzeSUSYBjets2b1e_6 = cms.Sequence(analyzeSUSY2b1e_6 *
+                                      analyzeBjets2b1e_6 #*
+                                      #analyzeSUSYGenEvt2b1e_6 *
+                                      #analyzeBTags2b1e_6
+                                      )
+
+## 3 bjets, 1 electron
+analyzeSUSYBjets3b1e_1 = cms.Sequence(analyzeSUSY3b1e_1 *
+                                      analyzeBjets3b1e_1 #*
+                                      #analyzeSUSYGenEvt3b1e_1 *
+                                      #analyzeBTags3b1e_1
+                                      )
+analyzeSUSYBjets3b1e_2 = cms.Sequence(analyzeSUSY3b1e_2 *
+                                      analyzeBjets3b1e_2 #*
+                                      #analyzeSUSYGenEvt3b1e_2 *
+                                      #analyzeBTags3b1e_2
+                                      )
+analyzeSUSYBjets3b1e_3 = cms.Sequence(analyzeSUSY3b1e_3 *
+                                      analyzeBjets3b1e_3 #*
+                                      #analyzeSUSYGenEvt3b1e_3 *
+                                      #analyzeBTags3b1e_3
+                                      )
+analyzeSUSYBjets3b1e_4 = cms.Sequence(analyzeSUSY3b1e_4 *
+                                      analyzeBjets3b1e_4 #*
+                                      #analyzeSUSYGenEvt3b1e_4 *
+                                      #analyzeBTags3b1e_4
+                                      )
+analyzeSUSYBjets3b1e_5 = cms.Sequence(analyzeSUSY3b1e_5 *
+                                      analyzeBjets3b1e_5 #*
+                                      #analyzeSUSYGenEvt3b1e_5 *
+                                      #analyzeBTags3b1e_5
+                                      )
+analyzeSUSYBjets3b1e_6 = cms.Sequence(analyzeSUSY3b1e_6 *
+                                      analyzeBjets3b1e_6 #*
+                                      #analyzeSUSYGenEvt3b1e_6 *
+                                      #analyzeBTags3b1e_6
+                                      )
+
+## 4 bjets, 1 electron
+analyzeSUSYBjets4b1e_1 = cms.Sequence(analyzeSUSY4b1e_1 *
+                                      analyzeBjets4b1e_1 #*
+                                      #analyzeSUSYGenEvt4b1e_1 *
+                                      #analyzeBTags4b1e_1
+                                      )
+analyzeSUSYBjets4b1e_2 = cms.Sequence(analyzeSUSY4b1e_2 *
+                                      analyzeBjets4b1e_2 #*
+                                      #analyzeSUSYGenEvt4b1e_2 *
+                                      #analyzeBTags4b1e_2
+                                      )
+analyzeSUSYBjets4b1e_3 = cms.Sequence(analyzeSUSY4b1e_3 *
+                                      analyzeBjets4b1e_3 #*
+                                      #analyzeSUSYGenEvt4b1e_3 *
+                                      #analyzeBTags4b1e_3
+                                      )
+analyzeSUSYBjets4b1e_4 = cms.Sequence(analyzeSUSY4b1e_4 *
+                                      analyzeBjets4b1e_4 #*
+                                      #analyzeSUSYGenEvt4b1e_4 *
+                                      #analyzeBTags4b1e_4
+                                      )
+analyzeSUSYBjets4b1e_5 = cms.Sequence(analyzeSUSY4b1e_5 *
+                                      analyzeBjets4b1e_5 #*
+                                      #analyzeSUSYGenEvt4b1e_5 *
+                                      #analyzeBTags4b1e_5
+                                      )
+analyzeSUSYBjets4b1e_6 = cms.Sequence(analyzeSUSY4b1e_6 *
+                                      analyzeBjets4b1e_6 #*
+                                      #analyzeSUSYGenEvt4b1e_6 *
+                                      #analyzeBTags4b1e_6
                                       )
 
 ## 3 bjets

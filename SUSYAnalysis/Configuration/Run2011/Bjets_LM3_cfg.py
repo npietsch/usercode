@@ -1,7 +1,8 @@
 from BjetsPAT_cfg import *
 
 from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
-process.preselection = preselectionElHTMC
+process.preselection = preselectionMuHTMC
+process.preselection2 = preselectionElHTMC
 
 # Choose input files
 process.source = cms.Source("PoolSource",

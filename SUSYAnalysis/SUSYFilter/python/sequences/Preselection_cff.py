@@ -8,29 +8,41 @@ from HLTrigger.HLTfilters.hltHighLevel_cfi import *
 
 ## HT trigger
 HTTrigger = hltHighLevel.clone(HLTPaths = ['HLT_HT100U'],throw = False)
-HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_HT100U','HLT_HT120U','HLT_HT140U'],throw = False)
+HTTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X',
+                                  HLTPaths = ['HLT_HT100U',
+                                              'HLT_HT120U',
+                                              'HLT_HT140U'],
+                                  throw = False)
 
 ## Single Muon Trigger
-MUTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
-MUTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu9'],throw = False)
-ElTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Ele10_LW_L1R',
-                                                                                                  'HLT_Ele15_SW_L1R',
-                                                                                                  'HLT_Ele15_SW_CaloEleId_L1R',
-                                                                                                  'HLT_Ele17_SW_CaloEleId_L1R',
-                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v1',
-                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v2',
-                                                                                                  'HLT_Ele17_SW_TighterEleIdIsol_L1R_v3'],
-                                                                                                  throw = False)
+MuTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
+ElTrigger = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_LW_L1R'],throw = False)
 
-MUTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_Mu9'],throw = False)
-MUTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
-MUTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
+MuTriggerSynch = hltHighLevel.clone(TriggerResultsTag='TriggerResults::REDIGI311X',HLTPaths = ['HLT_Mu9'], throw = False)
+
+ElTriggerSynch = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                    HLTPaths = ['HLT_Ele10_LW_L1R',
+                                                'HLT_Ele15_SW_L1R',
+                                                'HLT_Ele15_SW_CaloEleId_L1R',
+                                                'HLT_Ele17_SW_CaloEleId_L1R',
+                                                'HLT_Ele17_SW_TighterEleIdIsol_L1R_v1',
+                                                'HLT_Ele17_SW_TighterEleIdIsol_L1R_v2',
+                                                'HLT_Ele17_SW_TighterEleIdIsol_L1R_v3'],
+                                    throw = False)
+
+MuTriggerQCD = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI38X', HLTPaths = ['HLT_Mu9'],throw = False)
+MuTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
+MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
-MUHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Mu5_HT*'],throw = False)
-ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X', HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
-MUHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
-MUHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_*_HT200_v*'],throw = False)
+MuHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                   HLTPaths = ['HLT_Mu5_HT*'],throw = False)
+ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                   HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
+MuHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
+
+MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_*_HT200_v*'],throw = False)
+ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
@@ -67,11 +79,17 @@ from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 ## Define preselectio sequences
 ##-------------------------------
 
-preselection = cms.Sequence(MUTrigger *
+preselection = cms.Sequence(MuTrigger *
                             primaryVertexFilter *
                             #HBHENoiseFilter *
                             scrapingVeto
                             )
+
+preselection2 = cms.Sequence(ElTrigger *
+                             primaryVertexFilter *
+                             #HBHENoiseFilter *
+                             scrapingVeto
+                             )
 
 preselectionHT = cms.Sequence(HTTrigger *
                               primaryVertexFilter *
@@ -79,7 +97,7 @@ preselectionHT = cms.Sequence(HTTrigger *
                               scrapingVeto
                               )
 
-preselectionQCD = cms.Sequence(MUTriggerQCD *
+preselectionQCD = cms.Sequence(MuTriggerQCD *
                                primaryVertexFilter *
                                ##HBHENoiseFilter *
                                scrapingVeto
@@ -91,19 +109,19 @@ preselectionQCDHT = cms.Sequence(HTTriggerQCD *
                                  scrapingVeto
                                  )
 
-preselectionData = cms.Sequence(MUTriggerData##  *
+preselectionData = cms.Sequence(MuTriggerData##  *
 ##                                 primaryVertexFilter *
 ##                                 HBHENoiseFilter *
 ##                                 scrapingVeto
                                 )
 
-preselectionData2 = cms.Sequence(MUTriggerData2##  *
+preselectionData2 = cms.Sequence(MuTriggerData2##  *
 ##                                 primaryVertexFilter *
 ##                                 HBHENoiseFilter *
 ##                                 scrapingVeto
                                  )
 
-preselectionMuHTMC = cms.Sequence(MUHTTriggerMC *
+preselectionMuHTMC = cms.Sequence(MuHTTriggerMC *
                                   primaryVertexFilter *
                                   ##HBHENoiseFilter *
                                   scrapingVeto
@@ -115,13 +133,19 @@ preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
                                   scrapingVeto
                                   )
 
-preselectionOSET = cms.Sequence(MUHTTriggerOSET *
+preselectionOSET = cms.Sequence(MuHTTriggerOSET *
                                 primaryVertexFilter *
                                 ##HBHENoiseFilter *
                                 scrapingVeto
                                 )
 
-preselectionMuHTData = cms.Sequence(MUHTTriggerData ## *
+preselectionMuHTData = cms.Sequence(MuHTTriggerData ## *
+##                                  primaryVertexFilter *
+##                                  HBHENoiseFilter *
+##                                  scrapingVeto
+                                    )
+
+preselectionElHTData = cms.Sequence(ElHTTriggerData ## *
 ##                                  primaryVertexFilter *
 ##                                  HBHENoiseFilter *
 ##                                  scrapingVeto
@@ -139,7 +163,7 @@ preselectionMC2PAT = cms.Sequence(#AOD2PATTrigger *
                                   #scrapingVeto
                                   )
 
-preselectionMuSynch = cms.Sequence(MUTriggerSynch *
+preselectionMuSynch = cms.Sequence(MuTriggerSynch *
                                    primaryVertexFilter *
                                    #HBHENoiseFilter *
                                    scrapingVeto
@@ -151,7 +175,9 @@ preselectionElSynch = cms.Sequence(ElTriggerSynch *
                                    scrapingVeto
                                    )
 
+##----------------------------------------------
 ## Filter on member functions of TtGenEvent
+##----------------------------------------------
 
 from TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff import *
 from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
@@ -160,7 +186,7 @@ ttGenEventFilterOther = ttGenEventFilter.clone(cut="semiLeptonicChannel!=2")
 
 preselectionSemiMuonTTBar = cms.Sequence(makeGenEvt *
                                          ttGenEventFilterSemiMuon *
-                                         MUTrigger *
+                                         MuTrigger *
                                          primaryVertexFilter *
                                          HBHENoiseFilter *
                                          scrapingVeto
@@ -168,7 +194,7 @@ preselectionSemiMuonTTBar = cms.Sequence(makeGenEvt *
 
 preselectionOtherTTBar = cms.Sequence(makeGenEvt *
                                       ttGenEventFilterOther *
-                                      MUTrigger *
+                                      MuTrigger *
                                       primaryVertexFilter *
                                       HBHENoiseFilter *
                                       scrapingVeto
@@ -176,7 +202,7 @@ preselectionOtherTTBar = cms.Sequence(makeGenEvt *
 
 preselectionSemiMuonTTBar2 = cms.Sequence(makeGenEvt *
                                           ttGenEventFilterSemiMuon *
-                                          MUHTTriggerMC *
+                                          MuHTTriggerMC *
                                           primaryVertexFilter *
                                           #HBHENoiseFilter *
                                           scrapingVeto
@@ -184,7 +210,7 @@ preselectionSemiMuonTTBar2 = cms.Sequence(makeGenEvt *
 
 preselectionOtherTTBar2 = cms.Sequence(makeGenEvt *
                                        ttGenEventFilterOther *
-                                       MUHTTriggerMC *
+                                       MuHTTriggerMC *
                                        primaryVertexFilter *
                                        #HBHENoiseFilter *
                                        scrapingVeto

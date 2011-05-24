@@ -231,7 +231,7 @@ matchedLightJets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 looseMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 50.'
+                                 'et > 20.'
                                  )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
@@ -647,7 +647,7 @@ leptonSelection = cms.Sequence(oneGoodLepton
 
 jetSelection = cms.Sequence(fourLooseJets)
 
-metSelection = cms.Sequence(oneGoodMET
+metSelection = cms.Sequence(oneLooseMET
                             )
 
 HTSelection = cms.Sequence(filterMediumHT)
