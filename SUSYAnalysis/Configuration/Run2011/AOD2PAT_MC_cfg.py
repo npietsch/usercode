@@ -42,10 +42,12 @@ process.GlobalTag.globaltag = cms.string('START311_V2A::All')
 # PAT configuration
 #-------------------------------------------------
 
+#----------------------------------------------------------------------------
+# pat configuration
+#----------------------------------------------------------------------------
+
 ## std sequence for pat
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
-
-from PhysicsTools.PatAlgos.tools.cmsswVersionTools import run36xOn35xInput
 
 ## dummy output module
 process.out = cms.OutputModule("PoolOutputModule",
@@ -54,57 +56,104 @@ process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('Spring11.root')
 )
 
-## remove MC matching, photons, taus and cleaning from PAT default sequence
+## remove cleaning as it is not used
+#from PhysicsTools.PatAlgos.tools.coreTools import *
+#removeCleaning(process)
+
+## switch off MC matching
 from PhysicsTools.PatAlgos.tools.coreTools import *
 #removeMCMatching(process, ['All'])
 
-#removeSpecificPATObjects(process,
-#                         ['Photons'],  # 'Tau' has currently been taken out due to problems with tau discriminators
-#                         outputInProcess=False)
+## remove tau and photon collection
+#removeSpecificPATObjects(process, ['Taus', 'Photons'])
 
-#removeCleaning(process,
-#               outputInProcess=False)
+## use the correct jet energy corrections
+process.patJetCorrFactors.flavorType = "T"
 
-process.patJetCorrFactors.payload = 'AK5Calo'
-# For data:
-#process.patJetCorrFactors.levels = ['L2Relative', 'L3Absolute', 'L2L3Residual', 'L5Flavor', 'L7Parton']
-# For MC:
-process.patJetCorrFactors.levels = ['L2Relative', 'L3Absolute']
-#process.patJetCorrFactors.flavorType = "T"
-
-# embed IsoDeposits
-process.patMuons.isoDeposits = cms.PSet(
-    tracker = cms.InputTag("muIsoDepositTk"),
-    ecal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","ecal"),
-    hcal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","hcal"),
-    user    = cms.VInputTag(
-                            cms.InputTag("muIsoDepositCalByAssociatorTowers","ho"),
-                            cms.InputTag("muIsoDepositJets")
-                            ),
-    )
+## calculate d0 wrt the beam spot
 process.patMuons.usePV = False
 
-## add PF MET
-from PhysicsTools.PatAlgos.tools.metTools import addPfMET
-addPfMET(process, 'PF')
-
-## Add particle flow jets
+## Add PfMET and TcMET to the event content
+from PhysicsTools.PatAlgos.tools.metTools import *
+addPfMET(process,'PF')
+addTcMET(process,'JPT')
+		
+## add ak5JPTJets
 from PhysicsTools.PatAlgos.tools.jetTools import *
-
+addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),'AK5', 'JPT',
+                 doJTA        = True,
+                 doBTagging   = True,
+                 jetCorrLabel = ('AK5JPT', ['L1Offset', 'L2Relative','L3Absolute', 'L2L3Residual']),
+                 doType1MET   = False,
+                 doL1Cleaning = False,
+                 doL1Counters = False,                 
+                 genJetCollection = None,
+                 doJetID      = True
+                )
+		 
+## Add particle flow jets
 addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
                  doJTA        = True,
                  doBTagging   = True,
-                 jetCorrLabel = ('AK5PF', ['L2Relative', 'L3Absolute']),
+                 jetCorrLabel = ('AK5PF', ['L1Offset', 'L2Relative','L3Absolute', 'L2L3Residual']),
                  doType1MET   = False,
                  doL1Cleaning = False,
                  doL1Counters = False,
                  genJetCollection=None,
-                 doJetID      = True,
-                 ) 
+                 doJetID      = True
+                )
 
-## remove TagInfos from jets to run on AOD
-process.patJets.addTagInfos = False
+## add L1 offset corrections to Calo Jets
+process.patJetCorrFactors.levels=['L1Offset', 'L2Relative','L3Absolute', 'L2L3Residual']
 
+## remove L1 offset corrections
+#process.patJetCorrFactors.levels.remove("L1Offset")
+#process.patJetCorrFactorsAK5PF.levels.remove("L1Offset")
+#process.patJetCorrFactorsAK5JPT.levels.remove("L1Offset")
+
+## embedding of jet constituents into the jets
+process.patJets.embedCaloTowers       = False
+process.patJetsAK5JPT.embedCaloTowers = False
+process.patJetsAK5PF.embedPFCandidates= False
+
+## remove TagInfos from jets
+process.patJets.addTagInfos       = False
+process.patJetsAK5JPT.addTagInfos = False
+process.patJetsAK5PF.addTagInfos  = False
+
+## embed IsoDeposits
+process.patMuons.isoDeposits = cms.PSet(
+     tracker = cms.InputTag("muIsoDepositTk"),
+     ecal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","ecal"),
+     hcal    = cms.InputTag("muIsoDepositCalByAssociatorTowers","hcal"),
+     user    = cms.VInputTag(cms.InputTag("muIsoDepositCalByAssociatorTowers","ho"),
+                             cms.InputTag("muIsoDepositJets")
+                            ),
+    )
+    
+## embedding of resolutions into the patObjects
+process.load("TopQuarkAnalysis.TopObjectResolutions.stringResolutions_etEtaPhi_cff")
+process.patJets.addResolutions = True
+process.patJets.resolutions = cms.PSet(
+default = cms.string("udscResolution"),
+bjets = cms.string("bjetResolution"),
+)
+process.patJetsAK5PF.addResolutions = True
+process.patJetsAK5PF.resolutions = cms.PSet(
+default = cms.string("udscResolutionPF"),
+bjets = cms.string("bjetResolutionPF"),
+)
+process.patElectrons.addResolutions = True
+process.patElectrons.resolutions = cms.PSet( default = cms.string("elecResolution") )
+process.patMuons.addResolutions = True
+process.patMuons.resolutions = cms.PSet( default = cms.string("muonResolution") )
+process.patMETs.addResolutions = True
+process.patMETs.resolutions = cms.PSet( default = cms.string("metResolution") )
+process.patMETsPF.addResolutions = True
+process.patMETsPF.resolutions = cms.PSet( default = cms.string("metResolutionPF") )     
+
+## add electron identification
+## (needs cvs co -r V00-04-00 ElectroWeakAnalysis/WENu)
 process.load("ElectroWeakAnalysis.WENu.simpleEleIdSequence_cff")
 
 process.patElectrons.electronIDSources = cms.PSet(
@@ -175,6 +224,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 from PhysicsTools.PatAlgos.patEventContent_cff import *
 process.out.outputCommands += patEventContentNoCleaning
 process.out.outputCommands += patExtraAodEventContent
+process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
 #from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
 #process.out.outputCommands += SUSYEventContent
 #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
