@@ -1,14 +1,11 @@
 #!/bin/bash
 
-#nafJobSplitter.pl 71 Bjets_MuHad_v1_cfg.py
-#nafJobSplitter.pl 200 Bjets_MuHad_v2_cfg.py
-#nafJobSplitter.pl 77 Bjets_MuHad2_v2_cfg.py
-nafJobSplitter.pl 220 Bjets_MuHad_cfg.py
+nafJobSplitter.pl 25 Bjets_MuHad_v1_cfg.py
+nafJobSplitter.pl 200 Bjets_MuHad_v2_cfg.py
+nafJobSplitter.pl 95 Bjets_MuHad2_v2_cfg.py
 
-#nafJobSplitter.pl 16 Bjets_LM12_cfg.py
 nafJobSplitter.pl 19 Bjets_LM9_cfg.py
 nafJobSplitter.pl 25 Bjets_LM8_cfg.py
-#nafJobSplitter.pl 18 Bjets_LM7_cfg.py
 nafJobSplitter.pl 23 Bjets_LM3_cfg.py
 #nafJobSplitter.pl 23 Bjets_LM1_cfg.py
 nafJobSplitter.pl 130 Bjets_TTJets_cfg.py
