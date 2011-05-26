@@ -263,17 +263,17 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	  bdiscTrackHighEff1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
 	  bdiscTrackHighPur1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
 	}
-      if(pvSrc->size()==2 && pvSrc->size()==3)
+      if(pvSrc->size()==2 || pvSrc->size()==3)
 	{
 	  bdiscTrackHighEff2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
 	  bdiscTrackHighPur2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
 	}
-      if(pvSrc->size()==4 && pvSrc->size()==5 && pvSrc->size()==6)
+      if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
 	{
 	  bdiscTrackHighEff3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
 	  bdiscTrackHighPur3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
 	}
-      if(pvSrc->size()==7 && pvSrc->size()==8 && pvSrc->size()==9 )
+      if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9 )
 	{
 	  bdiscTrackHighEff4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
 	  bdiscTrackHighPur4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
@@ -321,7 +321,7 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       nTightBjetsTrackHighEff1pv_->Fill(tightBjetsTrackHighEff);
     }
 
-  if(pvSrc->size()==2 && pvSrc->size()==3)
+  if(pvSrc->size()==2 || pvSrc->size()==3)
     {
       nLooseBjetsTrackHighPur2pv_->Fill(looseBjetsTrackHighPur);
       nMediumBjetsTrackHighPur2pv_->Fill(mediumBjetsTrackHighPur);
@@ -331,7 +331,7 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       nTightBjetsTrackHighEff2pv_->Fill(tightBjetsTrackHighEff);
     }
 
-  if(pvSrc->size()==4 && pvSrc->size()==5 && pvSrc->size()==6)
+  if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
     {
       nLooseBjetsTrackHighPur3pv_->Fill(looseBjetsTrackHighPur);
       nMediumBjetsTrackHighPur3pv_->Fill(mediumBjetsTrackHighPur);
@@ -341,7 +341,7 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       nTightBjetsTrackHighEff3pv_->Fill(tightBjetsTrackHighEff);
     }
   
-  if(pvSrc->size()==7 && pvSrc->size()==8 && pvSrc->size()==9)
+  if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9)
     {
       nLooseBjetsTrackHighPur4pv_->Fill(looseBjetsTrackHighPur);
       nMediumBjetsTrackHighPur4pv_->Fill(mediumBjetsTrackHighPur);

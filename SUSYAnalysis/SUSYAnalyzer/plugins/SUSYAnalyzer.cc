@@ -127,7 +127,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       HT=HT+(*jets)[i].et();
       njets=njets+1;
     }
-
+  
   MET_->Fill((*met)[0].et());
   HT_->Fill(HT);
   nJets_->Fill(njets);
@@ -155,7 +155,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
 
-  if(pvSrc->size()==2 && pvSrc->size()==3)
+  if(pvSrc->size()==2 || pvSrc->size()==3)
     {
       MET2pv_->Fill((*met)[0].et());
       HT2pv_->Fill(HT);
@@ -170,7 +170,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
 
-  if(pvSrc->size()==4 && pvSrc->size()==5 && pvSrc->size()==6)
+  if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
     {
       MET3pv_->Fill((*met)[0].et());
       HT3pv_->Fill(HT);
@@ -185,8 +185,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	} 
     }
   
-  if(pvSrc->size()==7 && pvSrc->size()==8 && pvSrc->size()==9)
-    {
+  if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9)
+    {  
       MET4pv_->Fill((*met)[0].et());
       HT4pv_->Fill(HT);
       nJets4pv_->Fill(njets);
@@ -199,7 +199,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	  Jet0_Et4pv_->Fill((*jets)[1].et());
 	} 
     }
-
+  
   if(pvSrc->size()>=10)
     {
       MET5pv_->Fill((*met)[0].et());
