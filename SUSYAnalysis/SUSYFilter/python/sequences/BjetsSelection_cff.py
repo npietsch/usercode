@@ -643,7 +643,8 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourLooseJets)
+jetSelection = cms.Sequence(twoLooseJets*
+                            twoMediumJets)
 
 metSelection = cms.Sequence(oneLooseMET
                             )
@@ -652,15 +653,15 @@ HTSelection = cms.Sequence(filterMediumHT)
 
 tightHTSelection = cms.Sequence(filterTightHT)
 
-MuHadSelection = cms.Sequence(filterLooseHT *
+MuHadSelection = cms.Sequence(filterMediumHT *
                               oneLooseMuon
                               )
 
-ElHadSelection = cms.Sequence(filterLooseHT *
+ElHadSelection = cms.Sequence(filterMediumHT *
                               oneLooseElectron
                               )
 
-LepHadSelection = cms.Sequence(filterLooseHT *
+LepHadSelection = cms.Sequence(filterMediumHT *
                                oneLooseLepton
                                )
 

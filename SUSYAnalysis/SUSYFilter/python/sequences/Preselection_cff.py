@@ -41,7 +41,7 @@ ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI31
                                    HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
 MuHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 
-MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_*_HT200_v*'],throw = False)
+MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8*_HT200*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
 
 LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
@@ -49,6 +49,12 @@ LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI3
                                                 'HLT_Ele10*_HT100*'
                                                 ],
                                     throw = False)
+
+LepHTTriggerData = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                      HLTPaths = ['HLT_Mu8_HT200*',
+                                                  'HLT_Ele10*_HT200*'
+                                                  ],
+                                      throw = False)
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
@@ -162,6 +168,12 @@ preselectionElHTData = cms.Sequence(ElHTTriggerData ## *
 ##                                  HBHENoiseFilter *
 ##                                  scrapingVeto
                                     )
+
+preselectionLepHTData = cms.Sequence(LepHTTriggerData##  *
+##                                 primaryVertexFilter *
+##                                 HBHENoiseFilter *
+##                                 scrapingVeto
+                                     )
 
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     primaryVertexFilter *
