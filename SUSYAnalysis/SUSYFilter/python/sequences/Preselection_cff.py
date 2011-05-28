@@ -44,6 +44,12 @@ MuHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_*_HT200_v*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
 
+LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                    HLTPaths = ['HLT_Mu5_HT*',
+                                                'HLT_Ele10*_HT100*'
+                                                ],
+                                    throw = False)
+
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
     #2010 trigger ('v*' to be immune to version changes)
@@ -132,6 +138,12 @@ preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
                                   ##HBHENoiseFilter *
                                   scrapingVeto
                                   )
+
+preselectionLepHTMC = cms.Sequence(LepHTTriggerMC *
+                                   primaryVertexFilter *
+                                   ##HBHENoiseFilter *
+                                   scrapingVeto
+                                   )
 
 preselectionOSET = cms.Sequence(MuHTTriggerOSET *
                                 primaryVertexFilter *

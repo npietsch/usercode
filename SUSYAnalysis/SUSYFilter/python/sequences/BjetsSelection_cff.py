@@ -578,11 +578,10 @@ ZVetoEl.isVeto = True
 
 from PhysicsTools.PatAlgos.selectionLayer1.leptonCountFilter_cfi import *
 
-oneLepton = countPatLeptons.clone()                           
-oneLepton.minNumber = 1
-
-twoLeptons = countPatLeptons.clone()                           
-twoLeptons.minNumber = 2
+oneLooseLepton = countPatLeptons.clone()
+oneLooseLepton.electronSource = "looseElectrons"
+oneLooseLepton.muonSource = "looseMuons"  
+oneLooseLepton.minNumber = 1
 
 oneGoodLepton = countPatLeptons.clone()
 oneGoodLepton.electronSource = "goodElectrons"
@@ -660,6 +659,10 @@ MuHadSelection = cms.Sequence(filterLooseHT *
 ElHadSelection = cms.Sequence(filterLooseHT *
                               oneLooseElectron
                               )
+
+LepHadSelection = cms.Sequence(filterLooseHT *
+                               oneLooseLepton
+                               )
 
 muonVeto = cms.Sequence(oneVetoMuon *
                         noVetoElectron
