@@ -72,6 +72,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   RelIsoMu1_= fs->make<TH1F>("RelIsoMu1","RelIso Muon 1",40,0.,1.0);
   RelIsoMu2_= fs->make<TH1F>("RelIsoMu2","RelIso Muon 2",100,0.,5.0);
 
+  Electron0_eta_=fs-> make<TH1F>("Elec0_eta","Elec0 eta", 60, -3, 3);
+  Muon0_eta_=fs-> make<TH1F>("Elec0_eta","Elec0 eta", 60, -3, 3);
+
   for(int idx=0; idx<6; ++idx)
     {
       char histname[20];
@@ -239,6 +242,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   //-------------------------------------------------
   // Lepton pt, nMuons, nElectrons, nLeptons
   //-------------------------------------------------
+
+  if(muons->size()>0) Muon0_eta_->Fill((*muons)[0].eta());
+  if(electrons->size()>0) Electron0_eta_->Fill((*electrons)[0].eta());
 
   int nleptons=0;
   int nmuons=0;
