@@ -127,13 +127,13 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
   nrJets_3l_= fs->make<TH1F>("nrJets_3l",    "nr jets 3l",     16, -0.5, 15.5);
 
   // ratio of momenta of initial sparticles in dep. of production process
-  ratio_gq_=fs->make<TH1F>("ratio_gq_", "ratio gq", 60, -30., 30.);
-  ratio_gg_=fs->make<TH1F>("ratio_gg_", "ratio gg", 60, -30., 30.);
-  ratio_qq_=fs->make<TH1F>("ratio_qq_", "ratio qq", 60, -30., 30.);
-  ratio_other_=fs->make<TH1F>("ratio_other_", "ratio other", 60, -30., 30.);
-  ratio_=fs->make<TH1F>("ratio_", "ratio", 60, -30., 30.);
-  ratio_ssqq_=fs->make<TH1F>("ratio_ssqq_", "ratio ssqq", 60, -30., 30.);
-  ratio_osqq_=fs->make<TH1F>("ratio_osqq_", "ratio osqq", 60, -30., 30.);
+  ratio_gq_=fs->make<TH1F>("ratio_gq_", "ratio gq", 40, 0., 20.);
+  ratio_gg_=fs->make<TH1F>("ratio_gg_", "ratio gg", 40, 0., 20.);
+  ratio_qq_=fs->make<TH1F>("ratio_qq_", "ratio qq", 40, 0., 20.);
+  ratio_other_=fs->make<TH1F>("ratio_other_", "ratio other", 40, 0., 20.);
+  ratio_=fs->make<TH1F>("ratio_", "ratio", 40, 0., 40.);
+  ratio_ssqq_=fs->make<TH1F>("ratio_ssqq_", "ratio ssqq", 40, 0., 20.);
+  ratio_osqq_=fs->make<TH1F>("ratio_osqq_", "ratio osqq", 40, 0., 20.);
 
   // flavor of b-tagged jets leading in bdisc.
   flavor_bjet1_=fs->make<TH1F>("flavor_bjet1", "flavor bjet1", 31, -0.5, 30.5);
@@ -170,6 +170,7 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
   deltaPhi_b1MET_= fs->make<TH1F>("DeltaPhib1MET","delta Phi(b1,MET)", 31 , 0., 3.1);
   deltaPhi_b2MET_= fs->make<TH1F>("DeltaPhib2MET","delta Phi(b2,MET)", 31 , 0., 3.1);
   deltaPhi_b12MET_= fs->make<TH1F>("DeltaPhib12MET","delta(delta Phi(b,MET))", 31 , 0., 3.1);
+  deltaEt_b1b2_= fs->make<TH1F>("DeltaEtb1b2","abs(Et(b1)-Et(b2))", 60 , 0., 600);
 
   deltaPhi_MuMET_= fs->make<TH1F>("DeltaPhiMuMET","delta Phi(Mu,MET)", 31 , 0., 3.1);
   deltaPhi_ElMET_= fs->make<TH1F>("DeltaPhiElMET","delta Phi(El,MET)", 31 , 0., 3.1);
@@ -250,6 +251,8 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   // number of b-quarks, bjets, btags, ratio of mometa of initial sparticles, number of 
   // leptons and number of Jets for different processes of sparticle production
   //-----------------------------------------------------------------------------------------
+
+  //std::cout << susyGenEvent->ratio() << std::endl;
 
   // gluino-squark
   if(susyGenEvent->GluinoSquarkDecay()==true)
@@ -517,17 +520,21 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
       double dPhi=abs(deltaPhi((*matchedbjets)[0].phi(),(*matchedbjets)[1].phi()));
       double dPhi1=abs(deltaPhi((*matchedbjets)[0].phi(),(*met)[0].phi()));
       double dPhi2=abs(deltaPhi((*matchedbjets)[1].phi(),(*met)[0].phi()));
+      double deltaEt=abs(((*matchedbjets)[0].et())-((*matchedbjets)[1].et()));
 
       mbb_->Fill(mbb);
       angleb1b2_->Fill(abs(angle(bjet1,bjet2)));
       deltaPhi_b1b2_->Fill(dPhi);
       deltaPhi_b1MET_->Fill(dPhi1);
-      deltaPhi_b2MET_->Fill(dPhi1);
+      deltaPhi_b2MET_->Fill(dPhi2);
       deltaPhi_b12MET_->Fill(abs(dPhi1-dPhi2));
+      deltaEt_b1b2_->Fill(deltaEt);
 
       Bjet1_Et_->Fill((*matchedbjets)[0].et());
       Bjet2_Et_->Fill((*matchedbjets)[1].et());
       HT_2Bjets_->Fill((*matchedbjets)[0].et()+(*matchedbjets)[1].et());
+
+
 
       if(matchedqjets->size()>=1)
 	{
@@ -612,28 +619,28 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   // kinematics, topology of events with 1 matched lepton
   //--------------------------------------------------------------
 
-//   if(nMatchedLeptons==1)
-//     {
-//       if(matchedmuons->size()==1)
-// 	{
-// 	  if((*matchedmuons)[0].pdgId())
-// 	    {
-// 	      double dPhiMu=abs(deltaPhi((*matchedmuons)[0].phi(),(*met)[0].phi()));
-// 	      deltaPhi_MuMET_->Fill(dPhiMu);
-// 	      deltaPhi_LepMET_->Fill(dPhiMu);
-// 	    }
-// 	}
-//       else if(matchedelectrons->size()==1)
-// 	{
-// 	  if((*matchedelectrons)[0].pdgId())
-// 	    {
-// 	      double dPhiEl=abs(deltaPhi((*matchedelectrons)[0].phi(),(*met)[0].phi()));
-// 	      deltaPhi_ElMET_->Fill(dPhiEl);
-// 	      deltaPhi_LepMET_->Fill(dPhiEl);
-// 	    }
-// 	}
-//     }
-
+  if(nMatchedLeptons==1)
+    {
+      if(matchedmuons->size()==1)
+	{
+	  if((*matchedmuons)[0].pdgId())
+	    {
+	      double dPhiMu=abs(deltaPhi((*matchedmuons)[0].phi(),(*met)[0].phi()));
+	      deltaPhi_MuMET_->Fill(dPhiMu);
+	      deltaPhi_LepMET_->Fill(dPhiMu);
+	    }
+	}
+      else if(matchedelectrons->size()==1)
+	{
+	  if((*matchedelectrons)[0].pdgId())
+	    {
+	      double dPhiEl=abs(deltaPhi((*matchedelectrons)[0].phi(),(*met)[0].phi()));
+	      deltaPhi_ElMET_->Fill(dPhiEl);
+	      deltaPhi_LepMET_->Fill(dPhiEl);
+	    }
+	}
+    }
+  
   //--------------------------------------------------------------
   // kinematics, topology of events with 2 matched lepton
   //--------------------------------------------------------------

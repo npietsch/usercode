@@ -448,16 +448,16 @@ double SUSYGenEvent::ratio() const
   double x1=0;
   double x2=0;
   double ratio=0;
-  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+  const reco::GenParticleCollection & initPartsColl = *initPartons_;
 
-  x1=initSpartsColl[0].pz();
-  x2=initSpartsColl[1].pz();
+  x1=initPartsColl[0].pz();
+  x2=initPartsColl[1].pz();
 
   //std::cout << "x1 :" << x1 << std::endl;
   //std::cout << "x2 :" << x2 << std::endl;
 
-  if(abs(x1)>abs(x2) && (x2 != 0) ) ratio=(x1/x2);
-  else if(abs(x2)>abs(x1) && (x1 != 0) ) ratio=(x2/x1);
+  if(abs(x1)>abs(x2) && (x2 != 0) ) ratio=abs(x1/x2);
+  else if(abs(x2)>abs(x1) && (x1 != 0) ) ratio=abs(x2/x1);
 
   return ratio;
 }

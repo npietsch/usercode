@@ -177,10 +177,11 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *deltaPhi_b2MET_;
   TH1F *deltaPhi_b12MET_;
 
+
   TH1F *deltaPhi_MuMET_;
   TH1F *deltaPhi_ElMET_;
   TH1F *deltaPhi_LepMET_;
-
+  TH1F *deltaEt_b1b2_;
   TH1F *deltaPhi_Lep1Lep2_;
   TH1F *deltaPhi_Lep1MET_;
   TH1F *deltaPhi_Lep2MET_; 

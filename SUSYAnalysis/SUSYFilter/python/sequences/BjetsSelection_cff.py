@@ -646,7 +646,7 @@ leptonSelection = cms.Sequence(oneGoodLepton
 jetSelection = cms.Sequence(twoLooseJets*
                             twoMediumJets)
 
-metSelection = cms.Sequence(oneLooseMET
+metSelection = cms.Sequence(oneGoodMET
                             )
 
 HTSelection = cms.Sequence(filterMediumHT)
