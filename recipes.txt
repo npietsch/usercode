@@ -1,15 +1,10 @@
 ##------------------------
-## Set up cms release
+## CMSSW_4_2_4
 ##------------------------
 
-export SCRAM_ARCH=slc5_amd64_gcc434
-cmsrel CMSSW_4_1_4
-cd CMSSW_4_1_4/src
+cmsrel CMSSW_4_2_4
+cd CMSSW_4_2_4/src
 cmsenv
-
-##-------------------------------
-## Check out and compile code
-##-------------------------------
 
 kinit Username@CERN.CH
 
@@ -17,13 +12,40 @@ cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
 addpkg ElectroWeakAnalysis/WENu V00-04-00
-cvs co -r V01-06-00 RecoBTag/SecondaryVertex
+addpkg -q CommonTools/ParticleFlow V00-01-06-01  
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
-scram b -r -j 5
+scram b -r -j 8
+
+##------------------------
+## CMSSW_4_1_4
+##------------------------
+
+cmsrel CMSSW_4_1_4
+cd CMSSW_4_1_4/src
+cmsenv
+
+kinit Username@CERN.CH
+
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
+cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d Results UserCode/npietsch/Results
+addpkg ElectroWeakAnalysis/WENu V00-04-00
+
+## temporary fixes 
+cvs co -r V01-06-00 RecoBTag/SecondaryVertex
+cvs co -r V08-03-03 PhysicsTools/Utilities
+rm TopAnalysis/TopUtils/plugins/TopProjectors.cc
+rm TopAnalysis/TopUtils/python/particleFlowSetup_cff.py
+
+## If you want to create the TtGenEvent for non-SM samples type:
+## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
+## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
+
+scram b -r -j 8
 
 #-------------------------------
 # Run the analysis
@@ -65,7 +87,7 @@ root -l
 .x EventCounter.C+
 
 ##------------------------------------------
-## Change the configiration
+## Change the configuration
 ##------------------------------------------
 
 ## The names cfg files that you would run with interactuvely by typing "cmsRun XYZ_cfg.py" are of the type
