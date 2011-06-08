@@ -75,7 +75,7 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 	  angle_BjetLep_[i][j]=fs->make<TH1F>(histname4b,"angle(bjet,lep)", 30, 0., 3.);
 	}
 
-      for(int k=0; k<2; ++k)
+      for(int k=0; k<4; ++k)
 	{
 	  char histname1b[20];
 	  sprintf(histname1b,"dR_bjet%i_lep%i",i,k);
@@ -124,7 +124,6 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
   for(int idx=0; idx<(int)bjets->size(); ++idx)
     {
-
       if(bjets->size()<=4)
 	{
 	  reco::Particle::LorentzVector Bjet1=(*bjets)[idx].p4();
@@ -161,6 +160,8 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	    }
 	  for(int edx=0; edx<(int)electrons->size(); ++edx)
 	    {
+	      std::cout << "Hallo 13" << std::endl;
+
 	      if(electrons->size()<=2)
 		{
 		  reco::Particle::LorentzVector Electron=(*electrons)[edx].p4();
