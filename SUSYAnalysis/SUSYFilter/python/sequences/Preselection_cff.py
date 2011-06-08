@@ -50,8 +50,7 @@ LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI3
                                                 ],
                                     throw = False)
 
-LepHTTriggerData = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                      HLTPaths = ['HLT_Mu8_HT200*',
+LepHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*',
                                                   'HLT_Ele10*_HT200*'
                                                   ],
                                       throw = False)
@@ -88,7 +87,7 @@ primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 ##-------------------------------
-## Define preselectio sequences
+## Define preselection sequences
 ##-------------------------------
 
 preselection = cms.Sequence(MuTrigger *
@@ -205,36 +204,40 @@ preselectionElSynch = cms.Sequence(ElTriggerSynch *
 
 from TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff import *
 from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
-ttGenEventFilterSemiMuon = ttGenEventFilter.clone(cut="semiLeptonicChannel==2")
-ttGenEventFilterOther = ttGenEventFilter.clone(cut="semiLeptonicChannel!=2")
 
-preselectionSemiMuonTTBar = cms.Sequence(makeGenEvt *
-                                         ttGenEventFilterSemiMuon *
-                                         MuTrigger *
-                                         primaryVertexFilter *
-                                         HBHENoiseFilter *
-                                         scrapingVeto
+ttGenEventFilterSemiLep = ttGenEventFilter.clone(cut="isSemiLeptonic")
+ttGenEventFilterOther = ttGenEventFilter.clone(cut="!isSemiLeptonic")
+
+ttGenEventFilterFullLep = ttGenEventFilter.clone(cut="isFullLeptonic()")
+ttGenEventFilterOther2 = ttGenEventFilter.clone(cut="!isFullLeptonic()")
+
+preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterSemiLep *
+                                        LepHTTriggerMC *
+                                        primaryVertexFilter *
+                                        #HBHENoiseFilter *
+                                        scrapingVeto
                                          )
 
 preselectionOtherTTBar = cms.Sequence(makeGenEvt *
                                       ttGenEventFilterOther *
-                                      MuTrigger *
+                                      LepHTTriggerMC *
                                       primaryVertexFilter *
-                                      HBHENoiseFilter *
+                                      #HBHENoiseFilter *
                                       scrapingVeto
                                       )
 
-preselectionSemiMuonTTBar2 = cms.Sequence(makeGenEvt *
-                                          ttGenEventFilterSemiMuon *
-                                          MuHTTriggerMC *
-                                          primaryVertexFilter *
-                                          #HBHENoiseFilter *
-                                          scrapingVeto
-                                          )
+preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterFullLep *
+                                        LepHTTriggerMC *
+                                        primaryVertexFilter *
+                                        #HBHENoiseFilter *
+                                        scrapingVeto
+                                        )
 
 preselectionOtherTTBar2 = cms.Sequence(makeGenEvt *
-                                       ttGenEventFilterOther *
-                                       MuHTTriggerMC *
+                                       ttGenEventFilterOther2 *
+                                       LepHTTriggerMC *
                                        primaryVertexFilter *
                                        #HBHENoiseFilter *
                                        scrapingVeto

@@ -643,7 +643,7 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(twoLooseJets*
+jetSelection = cms.Sequence(fourLooseJets*
                             twoMediumJets)
 
 metSelection = cms.Sequence(oneGoodMET
