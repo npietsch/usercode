@@ -92,6 +92,22 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 	}
 
     }
+
+  for(int i=0; i<2; ++i)
+    {
+      char histname1[20];
+      sprintf(histname1,"dR_lep%i_met",i);
+      dR_LepMET_[i]=fs->make<TH1F>(histname1,"dR(lep,MET)", 30, 0., 3.);
+      char histname2[20];
+      sprintf(histname2,"dPhi_lep%i_met",i);
+      dPhi_LepMET_[i]=fs->make<TH1F>(histname2,"dPhi(lep,MET)", 30, 0., 3.);
+      char histname3[20];
+      sprintf(histname3,"dTheta_lep%i_met",i);
+      dTheta_LepMET_[i]=fs->make<TH1F>(histname3,"dTheta(lep,MET)", 30, 0., 3.);
+      char histname4[20];
+      sprintf(histname4,"angle_lep%i_met",i);
+      angle_LepMET_[i]=fs->make<TH1F>(histname4,"angle(lep,MET)", 30, 0., 3.); 
+    }
 }
 
 EventTopology::~EventTopology()
@@ -190,6 +206,50 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  dTheta_BjetBjet_[idx][bdx]->Fill(dTheta);
 		  angle_BjetBjet_[idx][bdx]->Fill(Angle);
 		}
+	    }
+	}
+    }
+
+  for(int idx=0; idx<(int)muons->size(); ++idx)
+    {
+      if(muons->size()<=2)
+	{
+	  reco::Particle::LorentzVector Muon1=(*muons)[idx].p4();
+	  
+	  if(met->size()>0)
+	    {
+	      reco::Particle::LorentzVector MET=(*met)[0].p4();
+	      double dR=abs(deltaR((*muons)[idx].eta(),(*muons)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
+	      double dPhi=abs(deltaPhi((*muons)[idx].phi(),(*met)[0].phi()));
+	      double dTheta=abs(((*muons)[idx].theta())-((*met)[0].theta()));
+	      double Angle=abs(angle(Muon1,MET));
+
+	      dR_LepMET_[idx]->Fill(dR);
+	      dPhi_LepMET_[idx]->Fill(dPhi);
+	      dTheta_LepMET_[idx]->Fill(dTheta);
+	      angle_LepMET_[idx]->Fill(Angle);
+	    }
+	}
+    }
+
+  for(int idx=0; idx<(int)electrons ->size(); ++idx)
+    {
+      if(electrons ->size()<=2)
+	{
+	  reco::Particle::LorentzVector Electron1=(*electrons )[idx].p4();
+	  
+	  if(met->size()>0)
+	    {
+	      reco::Particle::LorentzVector MET=(*met)[0].p4();
+	      double dR=abs(deltaR((*electrons )[idx].eta(),(*electrons )[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
+	      double dPhi=abs(deltaPhi((*electrons )[idx].phi(),(*met)[0].phi()));
+	      double dTheta=abs(((*electrons )[idx].theta())-((*met)[0].theta()));
+	      double Angle=abs(angle(Electron1,MET));
+
+	      dR_LepMET_[idx]->Fill(dR);
+	      dPhi_LepMET_[idx]->Fill(dPhi);
+	      dTheta_LepMET_[idx]->Fill(dTheta);
+	      angle_LepMET_[idx]->Fill(Angle);
 	    }
 	}
     }

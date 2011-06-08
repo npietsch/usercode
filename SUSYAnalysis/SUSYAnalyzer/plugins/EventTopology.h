@@ -77,6 +77,11 @@ class EventTopology : public edm::EDAnalyzer {
   TH1F *dPhi_BjetBjet_[4][4];
   TH1F *dTheta_BjetBjet_[4][4];
   TH1F *angle_BjetBjet_[4][4];
+
+  TH1F *dR_LepMET_[2];
+  TH1F *dPhi_LepMET_[2];
+  TH1F *dTheta_LepMET_[2];
+  TH1F *angle_LepMET_[2];
 };  
 
 #endif  
