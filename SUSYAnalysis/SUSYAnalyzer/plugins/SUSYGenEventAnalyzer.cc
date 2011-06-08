@@ -141,6 +141,14 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
   flavor_bjet3_=fs->make<TH1F>("flavor_bjet3", "flavor bjet3", 31, -0.5, 30.5);
   flavor_bjet4_=fs->make<TH1F>("flavor_bjet4", "flavor bjet4", 31, -0.5, 30.5);
 
+  // flavor of jets leading in et
+  for(int i=0; i<4; ++i)
+    {
+      char histname[20];
+      sprintf(histname,"Jet%i_flavor",i);
+      JetsFlavor_[i]=fs->make<TH1F>(histname,"Jet flavor",31, -0.5, 30.5);
+    }
+
   // Correlation between leading jet and number of b-quarks
   Jet1_Et_2BQuarks_gq_ = fs->make<TH1F>("Jet1_Et_2BQuarks_gq",    "Et Jet1 gq",     30, 0, 900);
   Jet1_Et_2BQuarks_gg_ = fs->make<TH1F>("Jet1_Et_2BQuarks_gg",    "Et Jet1 gg",     30, 0, 900);
@@ -440,6 +448,11 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
 
 	  flavor4=flavor;
 	}
+
+      if(jdx < 4)
+	{
+	  JetsFlavor_[jdx]->Fill(abs((*jets)[jdx].partonFlavour()));
+	}
     }
 
   flavor_bjet1_->Fill(abs(flavor1));
@@ -547,39 +560,39 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   // kinematics, topology of events with 2 or more matched bjets
   //--------------------------------------------------------------
 
-//   if(matchedbjets->size()>=2 && matchedqjets->size()>=2 && met->size()>0)
-//     {
-//       const pat::Jet& b1 = (*matchedbjets)[0];
-//       const pat::Jet& b2 = (*matchedbjets)[1];
-//       const pat::Jet& j1 = (*matchedqjets)[0];
-//       const pat::Jet& j2 = (*matchedqjets)[1];
-//       const pat::MET& met1 = (*met)[0];
+  if(matchedbjets->size()>=2 && matchedqjets->size()>=2 && met->size()>0)
+    {
+      const pat::Jet& b1 = (*matchedbjets)[0];
+      const pat::Jet& b2 = (*matchedbjets)[1];
+      const pat::Jet& j1 = (*matchedqjets)[0];
+      const pat::Jet& j2 = (*matchedqjets)[1];
+      const pat::MET& met1 = (*met)[0];
  
-//       double DeltaMT_min1=0;
-//       double DeltaMT_min2=0;
+      double DeltaMT_min1=0;
+      double DeltaMT_min2=0;
       
-//       if(matchedmuons->size()>0 || matchedelectrons->size()>0 )
-// 	{
-// 	  if(matchedmuons->size()>0)
-// 	    {
-// 	      const pat::Particle& lep1=(*matchedmuons)[0];
-// 	      std::vector<double> hypothesis1=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
-// 	      std::vector<double> hypothesis2=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
-// 	      DeltaMT_min1=hypothesis1[3];
-// 	      DeltaMT_min2=hypothesis2[3];
-// 	    }
-// 	  else if (matchedelectrons->size()>0)
-// 	    {
-// 	      const pat::Particle& lep1=(*matchedelectrons)[0];
-// 	      std::vector<double> hypothesis1=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
-// 	      std::vector<double> hypothesis2=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
-// 	      DeltaMT_min1=hypothesis1[3];
-// 	      DeltaMT_min2=hypothesis2[3];
-// 	    }
-// 	  if(DeltaMT_min1>DeltaMT_min2) DeltaMT_min_->Fill(DeltaMT_min2);
-// 	  else DeltaMT_min_->Fill(DeltaMT_min1);
-// 	}
-//     }
+      if(matchedmuons->size()>0 || matchedelectrons->size()>0 )
+	{
+	  if(matchedmuons->size()>0)
+	    {
+	      const pat::Particle& lep1=(*matchedmuons)[0];
+	      std::vector<double> hypothesis1=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
+	      std::vector<double> hypothesis2=SemiLepHypo(b2,b1,j1,j2,lep1,met1);
+	      DeltaMT_min1=hypothesis1[3];
+	      DeltaMT_min2=hypothesis2[3];
+	    }
+	  else if (matchedelectrons->size()>0)
+	    {
+	      const pat::Particle& lep1=(*matchedelectrons)[0];
+	      std::vector<double> hypothesis1=SemiLepHypo(b1,b2,j1,j2,lep1,met1);
+	      std::vector<double> hypothesis2=SemiLepHypo(b2,b1,j1,j2,lep1,met1);
+	      DeltaMT_min1=hypothesis1[3];
+	      DeltaMT_min2=hypothesis2[3];
+	    }
+	  if(DeltaMT_min1>DeltaMT_min2) DeltaMT_min_->Fill(DeltaMT_min2);
+	  else DeltaMT_min_->Fill(DeltaMT_min1);
+	}
+    }
 
   if(matchedbjets->size()==4)
     {
@@ -702,68 +715,68 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   
 }
 
-// // function to calculate invariant and transverse masses in the semileptonic dacay-channel
-// std::vector<double> SUSYGenEventAnalyzer::SemiLepHypo(const pat::Jet& bjet1,const pat::Jet& bjet2,const pat::Jet& jet3,const pat::Jet& jet4,const pat::Particle& lep0, const pat::MET& met1) 
-// {
-//   std::vector<double> solution;
+// function to calculate invariant and transverse masses in the semileptonic dacay-channel
+std::vector<double> SUSYGenEventAnalyzer::SemiLepHypo(const pat::Jet& bjet1,const pat::Jet& bjet2,const pat::Jet& jet3,const pat::Jet& jet4,const pat::Particle& lep0, const pat::MET& met1) 
+{
+  std::vector<double> solution;
 
-//   // 0,1 invariant masses
-//   reco::Particle::LorentzVector Lep4Jet_p4 = lep0.p4()+bjet1.p4()+bjet2.p4()+jet3.p4()+jet4.p4();
-//   double Lep4Jet_mass = sqrt((Lep4Jet_p4).Dot(Lep4Jet_p4));
-//   solution.push_back(Lep4Jet_mass); 
+  // 0,1 invariant masses
+  reco::Particle::LorentzVector Lep4Jet_p4 = lep0.p4()+bjet1.p4()+bjet2.p4()+jet3.p4()+jet4.p4();
+  double Lep4Jet_mass = sqrt((Lep4Jet_p4).Dot(Lep4Jet_p4));
+  solution.push_back(Lep4Jet_mass); 
 
-//   reco::Particle::LorentzVector Lep4JetMet_p4 = Lep4Jet_p4+met1.p4();
-//   double Lep4JetMet_mass = sqrt((Lep4JetMet_p4).Dot(Lep4JetMet_p4));
-//   solution.push_back(Lep4JetMet_mass); 
+  reco::Particle::LorentzVector Lep4JetMet_p4 = Lep4Jet_p4+met1.p4();
+  double Lep4JetMet_mass = sqrt((Lep4JetMet_p4).Dot(Lep4JetMet_p4));
+  solution.push_back(Lep4JetMet_mass); 
 
-//   // 2 transverse mass
-//   double LepJetMet_px = (lep0.px()+met1.px()+bjet1.px()+bjet2.px()+jet3.px()+jet4.px());
-//   double LepJetMet_py = (lep0.py()+met1.py()+bjet1.py()+bjet2.py()+jet3.py()+jet4.py());
-//   double LepJetMet_px_square = (LepJetMet_px)*(LepJetMet_px);
-//   double LepJetMet_py_square = (LepJetMet_py)*(LepJetMet_py);
+  // 2 transverse mass
+  double LepJetMet_px = (lep0.px()+met1.px()+bjet1.px()+bjet2.px()+jet3.px()+jet4.px());
+  double LepJetMet_py = (lep0.py()+met1.py()+bjet1.py()+bjet2.py()+jet3.py()+jet4.py());
+  double LepJetMet_px_square = (LepJetMet_px)*(LepJetMet_px);
+  double LepJetMet_py_square = (LepJetMet_py)*(LepJetMet_py);
   
-//   double Lep4JetMet_mt = sqrt(Lep4JetMet_mass+ LepJetMet_px_square+LepJetMet_py_square);
-//   solution.push_back(Lep4JetMet_mt);
+  double Lep4JetMet_mt = sqrt(Lep4JetMet_mass+ LepJetMet_px_square+LepJetMet_py_square);
+  solution.push_back(Lep4JetMet_mt);
 
-//   reco::Particle::LorentzVector LepBjet1Met_p4 = lep0.p4()+met1.p4()+bjet1.p4();
-//   reco::Particle::LorentzVector Jets234_p4  = bjet2.p4()+jet3.p4()+jet4.p4();
+  reco::Particle::LorentzVector LepBjet1Met_p4 = lep0.p4()+met1.p4()+bjet1.p4();
+  reco::Particle::LorentzVector Jets234_p4  = bjet2.p4()+jet3.p4()+jet4.p4();
 
-//   double LepBjet1Met_mass_square = LepBjet1Met_p4.Dot(LepBjet1Met_p4);
-//   double Jets234_mass_square  = Jets234_p4.Dot(Jets234_p4);
+  double LepBjet1Met_mass_square = LepBjet1Met_p4.Dot(LepBjet1Met_p4);
+  double Jets234_mass_square  = Jets234_p4.Dot(Jets234_p4);
 
-//   double LepBjet1Met_px = (lep0.px() + met1.px() + bjet1.px());
-//   double LepBjet1Met_py = (lep0.py()+met1.py() + bjet1.py());
+  double LepBjet1Met_px = (lep0.px() + met1.px() + bjet1.px());
+  double LepBjet1Met_py = (lep0.py()+met1.py() + bjet1.py());
 
-//   double Jets234_px = (bjet2.px() + jet3.px() + jet4.px());
-//   double Jets234_py = (bjet2.py() + jet3.py() + jet4.py());
+  double Jets234_px = (bjet2.px() + jet3.px() + jet4.px());
+  double Jets234_py = (bjet2.py() + jet3.py() + jet4.py());
 
-//   double LepBjet1Met_px_square = (LepBjet1Met_px)*(LepBjet1Met_px); 
-//   double LepBjet1Met_py_square = (LepBjet1Met_py)*(LepBjet1Met_py);
+  double LepBjet1Met_px_square = (LepBjet1Met_px)*(LepBjet1Met_px); 
+  double LepBjet1Met_py_square = (LepBjet1Met_py)*(LepBjet1Met_py);
 
-//   double Jets234_px_square = (Jets234_px)*(Jets234_px); 
-//   double Jets234_py_square = (Jets234_py)*(Jets234_py);
+  double Jets234_px_square = (Jets234_px)*(Jets234_px); 
+  double Jets234_py_square = (Jets234_py)*(Jets234_py);
 
-//   double LepBjet1Met_mt = sqrt(LepBjet1Met_mass_square + LepBjet1Met_px_square + LepBjet1Met_py_square);
-//   double Jets234_mt = sqrt(Jets234_mass_square + Jets234_px_square + Jets234_py_square);
+  double LepBjet1Met_mt = sqrt(LepBjet1Met_mass_square + LepBjet1Met_px_square + LepBjet1Met_py_square);
+  double Jets234_mt = sqrt(Jets234_mass_square + Jets234_px_square + Jets234_py_square);
   
-//   // 3 delta mt
-//   double Delta_mt = LepBjet1Met_mt - Jets234_mt;
-//   solution.push_back(Delta_mt);
+  // 3 delta mt
+  double Delta_mt = LepBjet1Met_mt - Jets234_mt;
+  solution.push_back(Delta_mt);
 
-//   // 4 delta ET
-//   double DeltaEt = LepBjet1Met_p4.Et() - Jets234_p4.Et();
-//   solution.push_back(DeltaEt);
+  // 4 delta ET
+  double DeltaEt = LepBjet1Met_p4.Et() - Jets234_p4.Et();
+  solution.push_back(DeltaEt);
 
-//   // 5 HT
-//   double Lep4JetMet_HT = lep0.et()+met1.et()+bjet1.et()+bjet2.et()+jet3.et()+jet4.et();
-//   solution.push_back(Lep4JetMet_HT);
+  // 5 HT
+  double Lep4JetMet_HT = lep0.et()+met1.et()+bjet1.et()+bjet2.et()+jet3.et()+jet4.et();
+  solution.push_back(Lep4JetMet_HT);
 
-//   // 6 delta HT
-// //   double Lep4JetMet_DeltaHT = lep0.et()+met1.et()+bjet1.et()-bjet2.et()-jet3.et()-jet4.et();
-// //   solution.push_back(Lep4JetMet_DeltaHT);
+  // 6 delta HT
+//   double Lep4JetMet_DeltaHT = lep0.et()+met1.et()+bjet1.et()-bjet2.et()-jet3.et()-jet4.et();
+//   solution.push_back(Lep4JetMet_DeltaHT);
 
-//   return solution;
-// }
+  return solution;
+}
 
 
 void SUSYGenEventAnalyzer::beginJob()

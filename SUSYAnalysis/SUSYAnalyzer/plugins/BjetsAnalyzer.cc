@@ -61,9 +61,10 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
 	{
 	  char histname4[20];
 	  sprintf(histname4,"BtagEt_%i_%i",i4, j4);
-	  BtagEt_[i4][j4]=fs->make<TH1F>(histname4,"Et Btag",30 , 0., 900.);
+	  BtagEt_[i4][j4]=fs->make<TH1F>(histname4,"Et Btag",90 , 0., 900.);
 	}
     }
+
   nLooseBjetsTrackHighPur_=fs->make<TH1F>("nLooseBjetsTrackHighPur","# loose bjets TrackHighPur",10 , -0.5, 9.5);
   nMediumBjetsTrackHighPur_=fs->make<TH1F>("nMediumBjetsTrackHighPur","# medium bjets TrackHighPur",10 , -0.5, 9.5);
   nTightBjetsTrackHighPur_=fs->make<TH1F>("nTightBjetsTrackHighPur","# tight bjets TrackHighPur",10 , -0.5, 9.5);
@@ -145,11 +146,11 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histnamej5_8,"HT_2Bjets_1LightJet_%i",j5);
       
       angleb1b2_.push_back( fs->make<TH1F>(histnamej5_1,"angle (bjet1,bjet2)", 31, 0.,  3.1));
-      mbb_.push_back( fs->make<TH1F>(histnamej5_2,"invariant bb mass", 30, 0.,  900));
+      mbb_.push_back( fs->make<TH1F>(histnamej5_2,"invariant bb mass", 90, 0.,  900));
       deltaPhi_.push_back( fs->make<TH1F>(histnamej5_3,"delta Phi(b,b)", 31 , 0., 3.1));
-      Jet1_Et_2Bjets_.push_back( fs->make<TH1F>(histnamej5_4,"Et Jet1 2Bjets", 30 , 0, 900));
-      Bjet1_Et_.push_back( fs->make<TH1F>(histnamej5_5,"Et Bjet1", 30 , 0, 900));
-      Bjet2_Et_.push_back( fs->make<TH1F>(histnamej5_6,"Et Bjet2", 30 , 0, 900));
+      Jet1_Et_2Bjets_.push_back( fs->make<TH1F>(histnamej5_4,"Et Jet1 2Bjets", 90 , 0, 900));
+      Bjet1_Et_.push_back( fs->make<TH1F>(histnamej5_5,"Et Bjet1", 90 , 0, 900));
+      Bjet2_Et_.push_back( fs->make<TH1F>(histnamej5_6,"Et Bjet2", 90 , 0, 900));
       HT_2Bjets_.push_back( fs->make<TH1F>(histnamej5_7,    "HT (2bjets)", 40, 0., 2000.));
       HT_2Bjets_1LightJet_.push_back( fs->make<TH1F>(histnamej5_8,    "HT (2bjets+1lightjet)", 40, 0., 2000.));
     }

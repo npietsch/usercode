@@ -214,5 +214,7 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *MET_SSDiLep_;
   TH1F *MET_OSDiLep_;
 
+  TH1F *JetsFlavor_[4];
+
   };  
 #endif  
