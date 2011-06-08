@@ -8,7 +8,6 @@
 #include "DataFormats/METReco/interface/CaloMET.h"
 #include "DataFormats/METReco/interface/GenMET.h"
 #include "DataFormats/METReco/interface/GenMETCollection.h"
-#include "DataFormats/Math/interface/angle.h"
 #include "PhysicsTools/CandUtils/interface/EventShapeVariables.h"
 #include "TVector3.h"
 
@@ -63,13 +62,70 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
   edm::Handle<std::vector<pat::Jet> > bjets;
-  evt.getByLabel(jets_, jets);
+  evt.getByLabel(bjets_, bjets);
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
+
+  //----------------------------------------------
+  // deltaR, deltaPhi, deltaTheta, opening angle
+  //----------------------------------------------
+
+  for(int idx=0; idx<(int)bjets->size(); ++idx)
+    {
+
+      if(bjets->size()<=4)
+	{
+	  reco::Particle::LorentzVector Bjet1=(*bjets)[idx].p4();
+	  
+	  if(met->size()>0)
+	    {
+	      reco::Particle::LorentzVector MET=(*met)[0].p4();
+	      double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
+	      double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
+	      double dTheta=abs(((*bjets)[idx].theta())-((*met)[0].theta()));
+	      double Angle=abs(angle(Bjet1,MET));
+	    }
+	  
+	  for(int mdx=0; mdx<(int)muons->size(); ++mdx)
+	    {
+	      if(muons->size()<=2)
+		{
+		  reco::Particle::LorentzVector Muon=(*muons)[mdx].p4();
+		  double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*muons)[mdx].eta(),(*muons)[mdx].phi()));
+		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*muons)[mdx].phi()));
+		  double dTheta=abs(((*bjets)[idx].theta())-((*muons)[mdx].theta()));
+		  double Angle=abs(angle(Bjet1,Muon));
+		}
+	    }
+	  for(int edx=0; edx<(int)electrons->size(); ++edx)
+	    {
+	      if(electrons->size()<=2)
+		{
+		  reco::Particle::LorentzVector Electron=(*electrons)[edx].p4();
+		  double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*electrons)[edx].eta(),(*electrons)[edx].phi()));
+		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*electrons)[edx].phi()));
+		  double dTheta=abs(((*bjets)[idx].theta())-((*electrons)[edx].theta()));
+		  double Angle=abs(angle(Bjet1,Electron));
+		}
+	    }
+
+	  for(int bdx=idx+1; bdx<(int)bjets->size(); ++bdx)
+	    {
+	      if(bjets->size()<=4)
+		{
+		  reco::Particle::LorentzVector Bjet2=(*bjets)[bdx].p4();
+		  double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*bjets)[bdx].eta(),(*bjets)[bdx].phi()));
+		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*bjets)[bdx].phi()));
+		  double dTheta=abs(((*bjets)[idx].theta())-((*bjets)[bdx].theta()));
+		  double Angle=abs(angle(Bjet1,Bjet2));
+		}
+	    }
+	}
+    }
 
   //-------------------------------------
   // 3-Vectors for event shape variables
@@ -87,8 +143,8 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       BjetP3.SetX((*bjets)[idx].px());
       BjetP3.SetY((*bjets)[idx].py());
       BjetP3.SetZ((*bjets)[idx].pz());
-      BjetsP3.push_back(BjetP3);
 
+      BjetsP3.push_back(BjetP3);
       BjetsMETP3.push_back(BjetP3);
       BjetsLepP3.push_back(BjetP3);
       BjetsMETLepP3.push_back(BjetP3);
@@ -100,7 +156,6 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       METP3.SetX((*met)[0].px());
       METP3.SetY((*met)[0].py());
       METP3.SetZ((*met)[0].pz());
-
       BjetsMETP3.push_back(METP3);
       BjetsMETLepP3.push_back(METP3);
     }
@@ -112,7 +167,6 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       MuonP3.SetX((*muons)[idx].px());
       MuonP3.SetY((*muons)[idx].py());
       MuonP3.SetZ((*muons)[idx].pz());
-
       BjetsLepP3.push_back(MuonP3);
       BjetsMETLepP3.push_back(MuonP3);
     }
@@ -124,7 +178,6 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       ElectronP3.SetX((*electrons)[idx].px());
       ElectronP3.SetY((*electrons)[idx].py());
       ElectronP3.SetZ((*electrons)[idx].pz());
-
       BjetsLepP3.push_back(ElectronP3);
       BjetsMETLepP3.push_back(ElectronP3);
     }
@@ -159,7 +212,7 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   double isotropy_BjetsMETLep    = BjetsMETLepEvtshape.isotropy();
 
   //-------------------------------------
-  // Fill histos
+  // Fill histograms
   //-------------------------------------
 
   sphericity_bjets_->Fill(sphericity_Bjets);          

@@ -68,6 +68,8 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis2_cff")
 
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.EventTopology_cff")
+
 #-------------------------------------------------
 # Temporary
 #-------------------------------------------------
@@ -85,7 +87,8 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 #-------------------------
 
 ## no btag
-process.Selection1m = cms.Path(process.makeObjects *
+process.Selection1m = cms.Path(#process.printGenParticles *
+                               process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.analyzeSUSYBjets1m_noCuts *
                                process.preselection *
@@ -394,7 +397,8 @@ process.Selection1b1l_1 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1l_2 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1l_3
+                                   process.analyzeSUSYBjets1b1l_3 *
+                                   process.analyzeEventTopology1b1l_3
                                    )
 
 ## exactly 1 btag
@@ -409,7 +413,8 @@ process.Selection1b1l_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1l_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1l_6
+                                   process.analyzeSUSYBjets1b1l_6 *
+                                   process.analyzeEventTopology1b1l_6
                                    )
 
 ## al least 2 btags
@@ -424,7 +429,8 @@ process.Selection2b1l_1 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1l_2 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1l_3
+                                   process.analyzeSUSYBjets2b1l_3 *
+                                   process.analyzeEventTopology2b1l_3
                                    )
 
 ## exactly 2 btags
@@ -439,7 +445,8 @@ process.Selection2b1l_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1l_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1l_6
+                                   process.analyzeSUSYBjets2b1l_6 *
+                                   process.analyzeEventTopology2b1l_6
                                    )
 
 ## at least 3 btags
@@ -454,5 +461,6 @@ process.Selection3b1l_1 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets3b1l_2 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets3b1l_3
+                                   process.analyzeSUSYBjets3b1l_3 *
+                                   process.analyzeEventTopology3b1l_3
                                    )
