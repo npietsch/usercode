@@ -64,23 +64,18 @@ class EventTopology : public edm::EDAnalyzer {
   TH1F *isotropy_bjetsMETLep_;
 
   TH1F *dR_BjetMET_[4];
-  TH1F *dR_BjetMuon_[4][2];
-  TH1F *dR_BjetElectron_[4][2];
-  TH1F *dR_BjetBjet_[4][4];
-
   TH1F *dPhi_BjetMET_[4];
-  TH1F *dPhi_BjetMuon_[4][2];
-  TH1F *dPhi_BjetElectron_[4][2];
-  TH1F *dPhi_BjetBjet_[4][4];
-
   TH1F *dTheta_BjetMET_[4];
-  TH1F *dTheta_BjetMuon_[4][2];
-  TH1F *dTheta_BjetElectron_[4][2];
-  TH1F *dTheta_BjetBjet_[4][4];
-
   TH1F *angle_BjetMET_[4];
-  TH1F *angle_BjetMuon_[4][2];
-  TH1F *angle_BjetElectron_[4][2];
+
+  TH1F *dR_BjetLep_[4][2];
+  TH1F *dPhi_BjetLep_[4][2];
+  TH1F *dTheta_BjetLep_[4][2];
+  TH1F *angle_BjetLep_[4][2];
+
+  TH1F *dR_BjetBjet_[4][4];
+  TH1F *dPhi_BjetBjet_[4][4];
+  TH1F *dTheta_BjetBjet_[4][4];
   TH1F *angle_BjetBjet_[4][4];
 };  
 

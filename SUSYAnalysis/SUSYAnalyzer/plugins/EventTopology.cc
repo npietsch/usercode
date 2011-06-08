@@ -44,6 +44,54 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
   circularity_bjetsMETLep_ = fs->make<TH1F>("circularity_bjetsMETLep" ,"circularity(bjetsMETLep)", 20, 0., 1.);        
   isotropy_bjetsMETLep_    = fs->make<TH1F>("isotropy_bjetsMETLep" , "isotropy(bjetsMETLep)"     , 20, 0., 1.);
 
+  for(int i=0; i<4; ++i)
+    {
+      char histname1[20];
+      sprintf(histname1,"dR_bjet%i_met",i);
+      dR_BjetMET_[i]=fs->make<TH1F>(histname1,"dR(bjet,MET)", 30, 0., 3.);
+      char histname2[20];
+      sprintf(histname2,"dPhi_bjet%i_met",i);
+      dPhi_BjetMET_[i]=fs->make<TH1F>(histname2,"dPhi(bjet,MET)", 30, 0., 3.);
+      char histname3[20];
+      sprintf(histname3,"dTheta_bjet%i_met",i);
+      dTheta_BjetMET_[i]=fs->make<TH1F>(histname3,"dTheta(bjet,MET)", 30, 0., 3.);
+      char histname4[20];
+      sprintf(histname4,"angle_bjet%i_met",i);
+      angle_BjetMET_[i]=fs->make<TH1F>(histname4,"angle(bjet,MET)", 30, 0., 3.);
+
+      for(int j=0; j<2; ++j)
+	{
+	  char histname1b[20];
+	  sprintf(histname1b,"dR_bjet%i_lep%i",i,j);
+	  dR_BjetLep_[i][j]=fs->make<TH1F>(histname1b,"dR(bjet,lep)", 30, 0., 3.);
+	  char histname2b[20];
+	  sprintf(histname2b,"dPhi_bjet%i_lep%i",i,j);
+	  dPhi_BjetLep_[i][j]=fs->make<TH1F>(histname2b,"dPhi(bjet,lep)", 30, 0., 3.);
+	  char histname3b[20];
+	  sprintf(histname3b,"dTheta_bjet%i_lep%i",i,j);
+	  dTheta_BjetLep_[i][j]=fs->make<TH1F>(histname3b,"dTheta(bjet,lep)", 30, 0., 3.);
+	  char histname4b[20];
+	  sprintf(histname4b,"angle_bjet%i_lep%i",i,j);
+	  angle_BjetLep_[i][j]=fs->make<TH1F>(histname4b,"angle(bjet,lep)", 30, 0., 3.);
+	}
+
+      for(int k=0; k<2; ++k)
+	{
+	  char histname1b[20];
+	  sprintf(histname1b,"dR_bjet%i_lep%i",i,k);
+	  dR_BjetBjet_[i][k]=fs->make<TH1F>(histname1b,"dR(bjet,bjet)", 30, 0., 3.);
+	  char histname2b[20];
+	  sprintf(histname2b,"dPhi_bjet%i_lep%i",i,k);
+	  dPhi_BjetBjet_[i][k]=fs->make<TH1F>(histname2b,"dPhi(bjet,bjet)", 30, 0., 3.);
+	  char histname3b[20];
+	  sprintf(histname3b,"dTheta_bjet%i_lep%i",i,k);
+	  dTheta_BjetBjet_[i][k]=fs->make<TH1F>(histname3b,"dTheta(bjet,bjet)", 30, 0., 3.);
+	  char histname4b[20];
+	  sprintf(histname4b,"angle_bjet%i_lep%i",i,k);
+	  angle_BjetBjet_[i][k]=fs->make<TH1F>(histname4b,"angle(bjet,bjet)", 30, 0., 3.);
+	}
+
+    }
 }
 
 EventTopology::~EventTopology()
@@ -88,6 +136,11 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	      double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
 	      double dTheta=abs(((*bjets)[idx].theta())-((*met)[0].theta()));
 	      double Angle=abs(angle(Bjet1,MET));
+
+	      dR_BjetMET_[idx]->Fill(dR);
+	      dPhi_BjetMET_[idx]->Fill(dPhi);
+	      dTheta_BjetMET_[idx]->Fill(dTheta);
+	      angle_BjetMET_[idx]->Fill(Angle);
 	    }
 	  
 	  for(int mdx=0; mdx<(int)muons->size(); ++mdx)
@@ -99,6 +152,11 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*muons)[mdx].phi()));
 		  double dTheta=abs(((*bjets)[idx].theta())-((*muons)[mdx].theta()));
 		  double Angle=abs(angle(Bjet1,Muon));
+
+		  dR_BjetLep_[idx][mdx]->Fill(dR);
+		  dPhi_BjetLep_[idx][mdx]->Fill(dPhi);
+		  dTheta_BjetLep_[idx][mdx]->Fill(dTheta);
+		  angle_BjetLep_[idx][mdx]->Fill(Angle);
 		}
 	    }
 	  for(int edx=0; edx<(int)electrons->size(); ++edx)
@@ -110,6 +168,11 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*electrons)[edx].phi()));
 		  double dTheta=abs(((*bjets)[idx].theta())-((*electrons)[edx].theta()));
 		  double Angle=abs(angle(Bjet1,Electron));
+
+		  dR_BjetLep_[idx][edx]->Fill(dR);
+		  dPhi_BjetLep_[idx][edx]->Fill(dPhi);
+		  dTheta_BjetLep_[idx][edx]->Fill(dTheta);
+		  angle_BjetLep_[idx][edx]->Fill(Angle);
 		}
 	    }
 
@@ -122,6 +185,11 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*bjets)[bdx].phi()));
 		  double dTheta=abs(((*bjets)[idx].theta())-((*bjets)[bdx].theta()));
 		  double Angle=abs(angle(Bjet1,Bjet2));
+
+		  dR_BjetBjet_[idx][bdx]->Fill(dR);
+		  dPhi_BjetBjet_[idx][bdx]->Fill(dPhi);
+		  dTheta_BjetBjet_[idx][bdx]->Fill(dTheta);
+		  angle_BjetBjet_[idx][bdx]->Fill(Angle);
 		}
 	    }
 	}
