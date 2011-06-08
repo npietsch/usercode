@@ -160,8 +160,6 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	    }
 	  for(int edx=0; edx<(int)electrons->size(); ++edx)
 	    {
-	      std::cout << "Hallo 13" << std::endl;
-
 	      if(electrons->size()<=2)
 		{
 		  reco::Particle::LorentzVector Electron=(*electrons)[edx].p4();
