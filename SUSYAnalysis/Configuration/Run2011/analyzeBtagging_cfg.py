@@ -269,9 +269,9 @@ process.Other2l = cms.Path(process.makeObjects *
                            process.LepHadSelection *
                            process.twoGoodLeptons *
                            process.twoMediumJets*
-                           process.analyzeSUSYBjets2l_1 *
+                           process.analyzeSUSYBjets2l_4 *
                            process.HTSelection *
-                           process.analyzeSUSYBjets2l_2 *
+                           process.analyzeSUSYBjets2l_5 *
                            process.metSelection *
-                           process.analyzeSUSYBjets2l_3
+                           process.analyzeSUSYBjets2l_6
                            )
