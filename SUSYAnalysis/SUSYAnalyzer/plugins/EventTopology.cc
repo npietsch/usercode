@@ -1,7 +1,6 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
-#include "SUSYAnalysis/SUSYAnalyzer/plugins/EventTopology.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtSemiLeptonicEvent.h"
 #include  <stdio.h>
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
@@ -10,7 +9,7 @@
 #include "DataFormats/METReco/interface/GenMETCollection.h"
 #include "PhysicsTools/CandUtils/interface/EventShapeVariables.h"
 #include "TVector3.h"
-
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/EventTopology.h"
 
 using namespace std;
  
@@ -23,27 +22,27 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ) 
 { 
   edm::Service<TFileService> fs;
-
+  
   sphericity_bjets_  = fs->make<TH1F>("sphericity_bjets" , "sphericity(bjets)" , 20, 0., 1.);         
   aplanarity_bjets_  = fs->make<TH1F>("aplanarity_bjets" ,"aplanarity(bjets)"  , 20, 0., 1.);   
   circularity_bjets_ = fs->make<TH1F>("circularity_bjets" ,"circularity(bjets)", 20, 0., 1.);        
   isotropy_bjets_    = fs->make<TH1F>("isotropy_bjets" , "isotropy(bjets)"     , 20, 0., 1.);
-
+  
   sphericity_bjetsMET_  = fs->make<TH1F>("sphericity_bjetsMET" , "sphericity(bjetsMET)" , 20, 0., 1.);         
   aplanarity_bjetsMET_  = fs->make<TH1F>("aplanarity_bjetsMET" ,"aplanarity(bjetsMET)"  , 20, 0., 1.);   
   circularity_bjetsMET_ = fs->make<TH1F>("circularity_bjetsMET" ,"circularity(bjetsMET)", 20, 0., 1.);        
   isotropy_bjetsMET_    = fs->make<TH1F>("isotropy_bjetsMET" , "isotropy(bjetsMET)"     , 20, 0., 1.);
-
+  
   sphericity_bjetsLep_  = fs->make<TH1F>("sphericity_bjetsLep" , "sphericity(bjetsLep)" , 20, 0., 1.);         
   aplanarity_bjetsLep_  = fs->make<TH1F>("aplanarity_bjetsLep" ,"aplanarity(bjetsLep)"  , 20, 0., 1.);   
   circularity_bjetsLep_ = fs->make<TH1F>("circularity_bjetsLep" ,"circularity(bjetsLep)", 20, 0., 1.);        
   isotropy_bjetsLep_    = fs->make<TH1F>("isotropy_bjetsLep" , "isotropy(bjetsLep)"     , 20, 0., 1.);
-
+  
   sphericity_bjetsMETLep_  = fs->make<TH1F>("sphericity_bjetsMETLep" , "sphericity(bjetsMETLep)" , 20, 0., 1.);         
   aplanarity_bjetsMETLep_  = fs->make<TH1F>("aplanarity_bjetsMETLep" ,"aplanarity(bjetsMETLep)"  , 20, 0., 1.);   
   circularity_bjetsMETLep_ = fs->make<TH1F>("circularity_bjetsMETLep" ,"circularity(bjetsMETLep)", 20, 0., 1.);        
   isotropy_bjetsMETLep_    = fs->make<TH1F>("isotropy_bjetsMETLep" , "isotropy(bjetsMETLep)"     , 20, 0., 1.);
-
+  
   for(int i=0; i<4; ++i)
     {
       char histname1[20];
@@ -58,7 +57,7 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
       char histname4[20];
       sprintf(histname4,"angle_bjet%i_met",i);
       angle_BjetMET_[i]=fs->make<TH1F>(histname4,"angle(bjet,MET)", 30, 0., 3.);
-
+      
       for(int j=0; j<2; ++j)
 	{
 	  char histname1b[20];
@@ -74,7 +73,7 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 	  sprintf(histname4b,"angle_bjet%i_lep%i",i,j);
 	  angle_BjetLep_[i][j]=fs->make<TH1F>(histname4b,"angle(bjet,lep)", 30, 0., 3.);
 	}
-
+      
       for(int k=0; k<4; ++k)
 	{
 	  char histname1b[20];
@@ -90,9 +89,8 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 	  sprintf(histname4b,"angle_bjet%i_lep%i",i,k);
 	  angle_BjetBjet_[i][k]=fs->make<TH1F>(histname4b,"angle(bjet,bjet)", 30, 0., 3.);
 	}
-
     }
-
+  
   for(int i=0; i<2; ++i)
     {
       char histname1[20];
@@ -108,6 +106,46 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
       sprintf(histname4,"angle_lep%i_met",i);
       angle_LepMET_[i]=fs->make<TH1F>(histname4,"angle(lep,MET)", 30, 0., 3.); 
     }
+  
+  dRBjetMETMin_=fs->make<TH1F>("dRBjetMETMin","dRBjetMETMin", 30, 0., 3.);
+  dPhiBjetMETMin_=fs->make<TH1F>("dPhiBjetMETMin","dPhiBjetMETMin", 30, 0., 3.);
+  dThetaBjetMETMin_=fs->make<TH1F>("dThetaBjetMETMin","dThetaBjetMETMin", 30, 0., 3.);
+  AngleBjetMETMin_=fs->make<TH1F>("AngleBjetMETMin", "AngleBjetMETMin",30, 0., 3.);
+  
+  dRBjetMETMax_=fs->make<TH1F>("dRBjetMETMax","dRBjetMETMax", 30, 0., 3.);
+  dPhiBjetMETMax_=fs->make<TH1F>("dPhiBjetMETMax","dPhiBjetMETMax", 30, 0., 3.);
+  dThetaBjetMETMax_=fs->make<TH1F>("dThetaBjetMETMax","dThetaBjetMETMax", 30, 0., 3.);
+  AngleBjetMETMax_=fs->make<TH1F>("AngleBjetMETMax","AngleBjetMETMax", 30, 0., 3.);
+  
+  dRBjetBjetMin_=fs->make<TH1F>("dRBjetBjetMin", "dRBjetBjetMin",30, 0., 3.);
+  dPhiBjetBjetMin_=fs->make<TH1F>("dPhiBjetBjetMin","dPhiBjetBjetMin", 30, 0., 3.);
+  dThetaBjetBjetMin_=fs->make<TH1F>("dThetaBjetBjetMin","dThetaBjetBjetMin", 30, 0., 3.);
+  AngleBjetBjetMin_=fs->make<TH1F>("AngleBjetBjetMin","AngleBjetBjetMin", 30, 0., 3.);
+  
+  dRBjetBjetMax_=fs->make<TH1F>("dRBjetBjetMax", "dRBjetBjetMax",30, 0., 3.);
+  dPhiBjetBjetMax_=fs->make<TH1F>("dPhiBjetBjetMax","dPhiBjetBjetMax", 30, 0., 3.);
+  dThetaBjetBjetMax_=fs->make<TH1F>("dThetaBjetBjetMax","dThetaBjetBjetMax", 30, 0., 3.);
+  AngleBjetBjetMax_=fs->make<TH1F>("AngleBjetBjetMax","AngleBjetBjetMax", 30, 0., 3.);
+  
+  dRBjetLepMin_=fs->make<TH1F>("dRBjetLepMin", "dRBjetLepMin",30, 0., 3.);
+  dPhiBjetLepMin_=fs->make<TH1F>("dPhiBjetLepMin","dPhiBjetLepMin", 30, 0., 3.);
+  dThetaBjetLepMin_=fs->make<TH1F>("dThetaBjetLepMin","dThetaBjetLepMin", 30, 0., 3.);
+  AngleBjetLepMin_=fs->make<TH1F>("AngleBjetLepMin","AngleBjetLepMin", 30, 0., 3.);
+  
+  dRBjetLepMax_=fs->make<TH1F>("dRBjetLepMax", "dRBjetLepMax",30, 0., 3.);
+  dPhiBjetLepMax_=fs->make<TH1F>("dPhiBjetLepMax","dPhiBjetLepMax", 30, 0., 3.);
+  dThetaBjetLepMax_=fs->make<TH1F>("dThetaBjetLepMax","dThetaBjetLepMax", 30, 0., 3.);
+  AngleBjetLepMax_=fs->make<TH1F>("AngleBjetLepMax","AngleBjetLepMax", 30, 0., 3.);
+  
+  dRLepMETMin_=fs->make<TH1F>("dRLepMETMin","dRLepMETMin", 30, 0., 3.);
+  dPhiLepMETMin_=fs->make<TH1F>("dPhiLepMETMin","dPhiLepMETMin", 30, 0., 3.);
+  dThetaLepMETMin_=fs->make<TH1F>("dThetaLepMETMin","dThetaLepMETMin", 30, 0., 3.);
+  AngleLepMETMin_=fs->make<TH1F>("AngleLepMETMin", "AngleLepMETMin",30, 0., 3.);
+  
+  dRLepMETMax_=fs->make<TH1F>("dRLepMETMax","dRLepMETMax", 30, 0., 3.);
+  dPhiLepMETMax_=fs->make<TH1F>("dPhiLepMETMax","dPhiLepMETMax", 30, 0., 3.);
+  dThetaLepMETMax_=fs->make<TH1F>("dThetaLepMETMax","dThetaLepMETMax" , 30, 0., 3.);
+  AngleLepMETMax_=fs->make<TH1F>("AngleLepMETMax","AngleLepMETMax", 30, 0., 3.);  
 }
 
 EventTopology::~EventTopology()
@@ -138,6 +176,46 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   // deltaR, deltaPhi, deltaTheta, opening angle
   //----------------------------------------------
 
+  double dRBjetMETMin=9;
+  double dPhiBjetMETMin=9;
+  double dThetaBjetMETMin=9;
+  double AngleBjetMETMin=9;
+
+  double dRBjetMETMax=-1;
+  double dPhiBjetMETMax=-1;
+  double dThetaBjetMETMax=-1;
+  double AngleBjetMETMax=-1;
+
+  double dRBjetBjetMin=9;
+  double dPhiBjetBjetMin=9;
+  double dThetaBjetBjetMin=9;
+  double AngleBjetBjetMin=9;
+
+  double dRBjetBjetMax=-1;
+  double dPhiBjetBjetMax=-1;
+  double dThetaBjetBjetMax=-1;
+  double AngleBjetBjetMax=-1;
+
+  double dRBjetLepMin=9;
+  double dPhiBjetLepMin=9;
+  double dThetaBjetLepMin=9;
+  double AngleBjetLepMin=9;
+
+  double dRBjetLepMax=-1;
+  double dPhiBjetLepMax=-1;
+  double dThetaBjetLepMax=-1;
+  double AngleBjetLepMax=-1;
+
+  double dRLepMETMin=9;
+  double dPhiLepMETMin=9;
+  double dThetaLepMETMin=9;
+  double AngleLepMETMin=9;
+
+  double dRLepMETMax=-1;
+  double dPhiLepMETMax=-1;
+  double dThetaLepMETMax=-1;
+  double AngleLepMETMax=-1;
+
   for(int idx=0; idx<(int)bjets->size(); ++idx)
     {
       if(bjets->size()<=4)
@@ -156,6 +234,16 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	      dPhi_BjetMET_[idx]->Fill(dPhi);
 	      dTheta_BjetMET_[idx]->Fill(dTheta);
 	      angle_BjetMET_[idx]->Fill(Angle);
+
+	      if(dR<dRBjetMETMin) dRBjetMETMin=dR;
+	      if(dPhi<dPhiBjetMETMin) dPhiBjetMETMin=dPhi;
+	      if(dTheta<dThetaBjetMETMin) dThetaBjetMETMin=dTheta;
+	      if(Angle<AngleBjetMETMin) AngleBjetMETMin=Angle;
+
+	      if(dR<dRBjetMETMax) dRBjetMETMax=dR;
+	      if(dPhi<dPhiBjetMETMax) dPhiBjetMETMax=dPhi;
+	      if(dTheta<dThetaBjetMETMax) dThetaBjetMETMax=dTheta;
+	      if(Angle<AngleBjetMETMax) AngleBjetMETMax=Angle;
 	    }
 	  
 	  for(int mdx=0; mdx<(int)muons->size(); ++mdx)
@@ -172,6 +260,16 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  dPhi_BjetLep_[idx][mdx]->Fill(dPhi);
 		  dTheta_BjetLep_[idx][mdx]->Fill(dTheta);
 		  angle_BjetLep_[idx][mdx]->Fill(Angle);
+
+		  if(dR<dRBjetLepMin) dRBjetLepMin=dR;
+		  if(dPhi<dPhiBjetLepMin) dPhiBjetLepMin=dPhi;
+		  if(dTheta<dThetaBjetLepMin) dThetaBjetLepMin=dTheta;
+		  if(Angle<AngleBjetLepMin) AngleBjetLepMin=Angle;
+		  
+		  if(dR<dRBjetLepMax) dRBjetLepMax=dR;
+		  if(dPhi<dPhiBjetLepMax) dPhiBjetLepMax=dPhi;
+		  if(dTheta<dThetaBjetLepMax) dThetaBjetLepMax=dTheta;
+		  if(Angle<AngleBjetLepMax) AngleBjetLepMax=Angle;
 		}
 	    }
 	  for(int edx=0; edx<(int)electrons->size(); ++edx)
@@ -188,6 +286,16 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  dPhi_BjetLep_[idx][edx]->Fill(dPhi);
 		  dTheta_BjetLep_[idx][edx]->Fill(dTheta);
 		  angle_BjetLep_[idx][edx]->Fill(Angle);
+
+		  if(dR<dRBjetLepMin) dRBjetLepMin=dR;
+		  if(dPhi<dPhiBjetLepMin) dPhiBjetLepMin=dPhi;
+		  if(dTheta<dThetaBjetLepMin) dThetaBjetLepMin=dTheta;
+		  if(Angle<AngleBjetLepMin) AngleBjetLepMin=Angle;
+		  
+		  if(dR<dRBjetLepMax) dRBjetLepMax=dR;
+		  if(dPhi<dPhiBjetLepMax) dPhiBjetLepMax=dPhi;
+		  if(dTheta<dThetaBjetLepMax) dThetaBjetLepMax=dTheta;
+		  if(Angle<AngleBjetLepMax) AngleBjetLepMax=Angle;
 		}
 	    }
 
@@ -205,6 +313,16 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 		  dPhi_BjetBjet_[idx][bdx]->Fill(dPhi);
 		  dTheta_BjetBjet_[idx][bdx]->Fill(dTheta);
 		  angle_BjetBjet_[idx][bdx]->Fill(Angle);
+
+		  if(dR<dRBjetBjetMin) dRBjetBjetMin=dR;
+		  if(dPhi<dPhiBjetBjetMin) dPhiBjetBjetMin=dPhi;
+		  if(dTheta<dThetaBjetBjetMin) dThetaBjetBjetMin=dTheta;
+		  if(Angle<AngleBjetBjetMin) AngleBjetBjetMin=Angle;
+		  
+		  if(dR<dRBjetBjetMax) dRBjetBjetMax=dR;
+		  if(dPhi<dPhiBjetBjetMax) dPhiBjetBjetMax=dPhi;
+		  if(dTheta<dThetaBjetBjetMax) dThetaBjetBjetMax=dTheta;
+		  if(Angle<AngleBjetBjetMax) AngleBjetBjetMax=Angle;
 		}
 	    }
 	}
@@ -228,6 +346,16 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	      dPhi_LepMET_[idx]->Fill(dPhi);
 	      dTheta_LepMET_[idx]->Fill(dTheta);
 	      angle_LepMET_[idx]->Fill(Angle);
+
+	      if(dR<dRLepMETMin) dRLepMETMin=dR;
+	      if(dPhi<dPhiLepMETMin) dPhiLepMETMin=dPhi;
+	      if(dTheta<dThetaLepMETMin) dThetaLepMETMin=dTheta;
+	      if(Angle<AngleLepMETMin) AngleLepMETMin=Angle;
+	      
+	      if(dR<dRLepMETMax) dRLepMETMax=dR;
+	      if(dPhi<dPhiLepMETMax) dPhiLepMETMax=dPhi;
+	      if(dTheta<dThetaLepMETMax) dThetaLepMETMax=dTheta;
+	      if(Angle<AngleLepMETMax) AngleLepMETMax=Angle;
 	    }
 	}
     }
@@ -250,9 +378,59 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	      dPhi_LepMET_[idx]->Fill(dPhi);
 	      dTheta_LepMET_[idx]->Fill(dTheta);
 	      angle_LepMET_[idx]->Fill(Angle);
+	      
+	      if(dR<dRLepMETMin) dRLepMETMin=dR;
+	      if(dPhi<dPhiLepMETMin) dPhiLepMETMin=dPhi;
+	      if(dTheta<dThetaLepMETMin) dThetaLepMETMin=dTheta;
+	      if(Angle<AngleLepMETMin) AngleLepMETMin=Angle;
+	      
+	      if(dR<dRLepMETMax) dRLepMETMax=dR;
+	      if(dPhi<dPhiLepMETMax) dPhiLepMETMax=dPhi;
+	      if(dTheta<dThetaLepMETMax) dThetaLepMETMax=dTheta;
+	      if(Angle<AngleLepMETMax) AngleLepMETMax=Angle;
 	    }
 	}
     }
+
+  dRBjetMETMin_->Fill(dRBjetMETMin);
+  dPhiBjetMETMin_->Fill(dPhiBjetMETMin);
+  dThetaBjetMETMin_->Fill(dThetaBjetMETMin);
+  AngleBjetMETMin_->Fill(AngleBjetMETMin);
+
+  dRBjetMETMax_->Fill(dRBjetMETMax);
+  dPhiBjetMETMax_->Fill(dPhiBjetMETMax);
+  dThetaBjetMETMax_->Fill(dThetaBjetMETMax);
+  AngleBjetMETMax_->Fill(AngleBjetMETMax);
+
+  dRBjetBjetMin_->Fill(dRBjetBjetMin);
+  dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+  dThetaBjetBjetMin_->Fill(dThetaBjetBjetMin);
+  AngleBjetBjetMin_->Fill(AngleBjetBjetMin);
+
+  dRBjetBjetMax_->Fill(dRBjetBjetMax);
+  dPhiBjetBjetMax_->Fill(dPhiBjetBjetMax);
+  dThetaBjetBjetMax_->Fill(dThetaBjetBjetMax);
+  AngleBjetBjetMax_->Fill(AngleBjetBjetMax);
+
+  dRBjetLepMin_->Fill(dRBjetLepMin);
+  dPhiBjetLepMin_->Fill(dPhiBjetLepMin);
+  dThetaBjetLepMin_->Fill(dThetaBjetLepMin);
+  AngleBjetLepMin_->Fill(AngleBjetLepMin);
+
+  dRBjetLepMax_->Fill(dRBjetLepMax);
+  dPhiBjetLepMax_->Fill(dPhiBjetLepMax);
+  dThetaBjetLepMax_->Fill(dThetaBjetLepMax);
+  AngleBjetLepMax_->Fill(AngleBjetLepMax);
+
+  dRLepMETMin_->Fill(dRLepMETMin);
+  dPhiLepMETMin_->Fill(dPhiLepMETMin);
+  dThetaLepMETMin_->Fill(dThetaLepMETMin);
+  AngleLepMETMin_->Fill(AngleLepMETMin);
+
+  dRLepMETMax_->Fill(dRLepMETMax);
+  dPhiLepMETMax_->Fill(dPhiLepMETMax);
+  dThetaLepMETMax_->Fill(dThetaLepMETMax);
+  AngleLepMETMax_->Fill(AngleLepMETMax);
 
   //-------------------------------------
   // 3-Vectors for event shape variables

@@ -82,6 +82,46 @@ class EventTopology : public edm::EDAnalyzer {
   TH1F *dPhi_LepMET_[2];
   TH1F *dTheta_LepMET_[2];
   TH1F *angle_LepMET_[2];
-};  
+  
+  TH1F *dRBjetMETMin_;
+  TH1F *dPhiBjetMETMin_;
+  TH1F *dThetaBjetMETMin_;
+  TH1F *AngleBjetMETMin_;
+
+  TH1F *dRBjetMETMax_;
+  TH1F *dPhiBjetMETMax_;
+  TH1F *dThetaBjetMETMax_;
+  TH1F *AngleBjetMETMax_;
+
+  TH1F *dRBjetBjetMin_;
+  TH1F *dPhiBjetBjetMin_;
+  TH1F *dThetaBjetBjetMin_;
+  TH1F *AngleBjetBjetMin_;
+
+  TH1F *dRBjetBjetMax_;
+  TH1F *dPhiBjetBjetMax_;
+  TH1F *dThetaBjetBjetMax_;
+  TH1F *AngleBjetBjetMax_;
+
+  TH1F *dRBjetLepMin_;
+  TH1F *dPhiBjetLepMin_;
+  TH1F *dThetaBjetLepMin_;
+  TH1F *AngleBjetLepMin_;
+
+  TH1F *dRBjetLepMax_;
+  TH1F *dPhiBjetLepMax_;
+  TH1F *dThetaBjetLepMax_;
+  TH1F *AngleBjetLepMax_;
+
+  TH1F *dRLepMETMin_;
+  TH1F *dPhiLepMETMin_;
+  TH1F *dThetaLepMETMin_;
+  TH1F *AngleLepMETMin_;
+
+  TH1F *dRLepMETMax_;
+  TH1F *dPhiLepMETMax_;
+  TH1F *dThetaLepMETMax_;
+  TH1F *AngleLepMETMax_;
+};
 
 #endif  
