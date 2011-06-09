@@ -53,10 +53,13 @@ scram b -r -j 8
 
 cd SUSYAnalysis/Configuration/Run2011/
 
+## Choose queue. 12 h queue should be sufficient. Default is 48 h queue.
+export NJS_QUEUE=12
+
 ./jobSubmit.sh
 
-## This will execute the nafJobSplitter.pl script (located at TopAnalysis/TopUtils/scripts) for different
-## background samples (QCD Muon enriched, TTJets, W+Jets, Z+Jets), 2011 Data and several signal
+## This will execute the nafJobSplitter.pl script (located at TopAnalysis/TopUtils/scripts and written by Wolf Behrenhoff) for
+## different background samples (QCD Muon enriched, TTJets, W+Jets, Z+Jets), 2011 Data and several signal
 ## samples (mSUGRA LM1, LM3, LM7, LM8, LM9, LM12, 4top OSET, 2top2bottom OSET samples). If you want to run over a
 ## subset of samples, comment out the corresponding lines in jobSubmit.sh.
 ##
