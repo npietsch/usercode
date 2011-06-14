@@ -33,7 +33,7 @@ goodMuons.overlap=False
 
 ## create good electron collection
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
-from SUSYAnalysis.SUSYFilter.sequences.ElectronVertexDistanceSelector_cfi import *
+from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
