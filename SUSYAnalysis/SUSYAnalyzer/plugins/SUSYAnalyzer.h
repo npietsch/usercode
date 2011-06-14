@@ -35,9 +35,14 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   //edm::InputTag inputGenEvent_;
   edm::InputTag met_;
   edm::InputTag jets_;
+  edm::InputTag lightJets_;
+  edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag pvSrc_;
+
+  // TH2F histograms
+  TH2F* JetEt_nrBjets_;
 
   // TH1F histograms
   TH1F *MET_;
@@ -96,6 +101,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;
   std::vector<TH1F*> Elec_pt_;
+  std::vector<TH1F*> Bjet_EtFrac_;
+  std::vector<TH1F*> LightJet_EtFrac_;
+
+  TH1F *Bjets_EtFrac_;
+  TH1F *LightJets_EtFrac_;
 };  
 
 #endif  

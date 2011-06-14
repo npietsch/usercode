@@ -200,6 +200,12 @@ mediumTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
                                                 cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
                                                 )
 
+## create mediumTrackHighEffBjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+lightJets = selectedPatJets.clone(src = 'goodJets',
+                                  cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") < 3.3'
+                                  )
+
 ## create tightTrackHighEffBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 tightTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
@@ -589,6 +595,11 @@ oneGoodLepton.muonSource = "goodMuons"
 oneGoodLepton.minNumber = 1
 oneGoodLepton.maxNumber = 1
 
+atLeastOneGoodLepton = countPatLeptons.clone()
+atLeastOneGoodLepton.electronSource = "goodElectrons"
+atLeastOneGoodLepton.muonSource = "goodMuons"                           
+atLeastOneGoodLepton.minNumber = 1
+
 twoGoodLeptons = countPatLeptons.clone()
 twoGoodLeptons.electronSource = "goodElectrons"
 twoGoodLeptons.muonSource = "goodMuons"                           
@@ -616,6 +627,7 @@ goodObjects = cms.Sequence(looseMuons *
                            goodElectrons*
                            looseJets *
                            goodJets *
+                           lightJets *
                            mediumJets *
                            tightJets *
                            goodMuons *
@@ -643,8 +655,10 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourLooseJets*
-                            twoMediumJets)
+jetSelection = cms.Sequence(fourLooseJets ##*
+##                             twoMediumJets
+##                             oneTightJet
+                            )
 
 metSelection = cms.Sequence(oneGoodMET
                             )

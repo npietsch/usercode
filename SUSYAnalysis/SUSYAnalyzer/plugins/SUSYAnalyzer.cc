@@ -7,18 +7,22 @@
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
 #include "DataFormats/METReco/interface/GenMET.h"
-#include "DataFormats/METReco/interface/GenMETCollection.h"\
+#include "DataFormats/METReco/interface/GenMETCollection.h"
 
 using namespace std;
  
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   met_          (cfg.getParameter<edm::InputTag>("met")),
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
+  lightJets_         (cfg.getParameter<edm::InputTag>("lightJets")),
+  bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") )
 { 
   edm::Service<TFileService> fs;
+
+  JetEt_nrBjets_ = fs->make<TH2F>("JetEt_nrBjets","JetEt nrBjets", 30,0.,300.,5,0.,5.);
 
   MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
@@ -81,6 +85,18 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histname,"Jet%i_Et",idx);
       Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
     }
+  for(int idx=0; idx<4; ++idx)
+    {
+      char histname[20];
+      sprintf(histname,"Bjet%i_EtFrac",idx);
+      Bjet_EtFrac_.push_back(fs->make<TH1F>(histname,histname, 50, 0., 5.));
+    }
+  for(int idx=0; idx<4; ++idx)
+    {
+      char histname[20];
+      sprintf(histname,"LightJet%i_EtFrac",idx);
+      LightJet_EtFrac_.push_back(fs->make<TH1F>(histname,histname, 50, 0., 5.));
+    }
   for(int idx=0; idx<3; ++idx)
     {
       char histname[20];
@@ -93,6 +109,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histname,"Elec%i_Et",idx);
       Elec_pt_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
     }
+  Bjets_EtFrac_=fs->make<TH1F>("Bjets_EtFrac","Bjets Et fraction", 50, 0., 5.);
+  LightJets_EtFrac_=fs->make<TH1F>("LightJets_EtFrac","LightJets Et fraction", 50, 0., 5.);
+
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -110,6 +129,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(met_, met);
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
+  edm::Handle<std::vector<pat::Jet> > lightJets;
+  evt.getByLabel(lightJets_, lightJets);
+  edm::Handle<std::vector<pat::Jet> > bjets;
+  evt.getByLabel(bjets_, bjets);
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
@@ -134,6 +157,35 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   MET_->Fill((*met)[0].et());
   HT_->Fill(HT);
   nJets_->Fill(njets);
+
+  double HTBjets=0;
+  double HTLightJets=0;
+
+  if(bjets->size()>0 && lightJets->size()>0 && jets->size()>0)
+    {
+      for(int i=0; i<(int)bjets->size(); ++i)
+	{
+	  double frac=((*bjets)[i].et())*(jets->size())/HT;
+	  if(i<4) Bjet_EtFrac_[i]->Fill(frac);
+	  HTBjets=HTBjets+(*bjets)[i].et();
+	}
+      for(int i=0; i<(int)lightJets->size(); ++i)
+	{
+	  double frac=((*lightJets)[i].et())*(lightJets->size())/HT;
+	  if(i<4) LightJet_EtFrac_[i]->Fill(frac);
+	  HTLightJets=HTLightJets+(*lightJets)[i].et();
+	}
+      double BjetsFrac=(HTBjets/(bjets->size()))/(HT/(jets->size()));
+      double LightJetsFrac=(HTLightJets/(lightJets->size()))/(HT/(jets->size()));
+
+      Bjets_EtFrac_->Fill(BjetsFrac);
+      LightJets_EtFrac_->Fill(LightJetsFrac);
+    }
+
+  if(jets->size()>0)
+    {
+      JetEt_nrBjets_->Fill(HT/(jets->size()),bjets->size());
+    }
 
   double sigMET=((*met)[0].et())/(sqrt(HT));
   

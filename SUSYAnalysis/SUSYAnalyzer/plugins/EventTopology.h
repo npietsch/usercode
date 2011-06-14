@@ -37,10 +37,17 @@ class EventTopology : public edm::EDAnalyzer {
   //edm::InputTag inputGenEvent_;
   edm::InputTag met_;
   edm::InputTag jets_;
+  edm::InputTag mediumJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag pvSrc_;
+
+  // TH2F histograms
+  TH2F *nrLep_nrBjets_;
+  TH2F *nrJets_nrBjets_;
+  TH2F *nrMJets_nrBjets_;
+  TH2F *Jet0_Et_nrBjets_;
 
   // TH1F histograms
   TH1F *sphericity_bjets_;         
@@ -122,6 +129,8 @@ class EventTopology : public edm::EDAnalyzer {
   TH1F *dPhiLepMETMax_;
   TH1F *dThetaLepMETMax_;
   TH1F *AngleLepMETMax_;
+
+  TH1F *dPhiMediumJetMETMin_;
 };
 
 #endif  

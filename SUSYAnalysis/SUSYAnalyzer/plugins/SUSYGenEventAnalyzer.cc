@@ -142,11 +142,15 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
   flavor_bjet4_=fs->make<TH1F>("flavor_bjet4", "flavor bjet4", 31, -0.5, 30.5);
 
   // flavor of jets leading in et
-  for(int i=0; i<4; ++i)
+  for(int i=0; i<6; ++i)
     {
       char histname[20];
       sprintf(histname,"Jet%i_flavor",i);
       JetsFlavor_[i]=fs->make<TH1F>(histname,"Jet flavor",31, -0.5, 30.5);
+
+      char histname2[20];
+      sprintf(histname2,"Jet%i_isBjet",i);
+      isBjet_[i]=fs->make<TH1F>(histname2,"is bjet",2, 0., 2.);
     }
 
   // Correlation between leading jet and number of b-quarks
@@ -449,9 +453,12 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
 	  flavor4=flavor;
 	}
 
-      if(jdx < 4)
+      if(jdx < 6)
 	{
 	  JetsFlavor_[jdx]->Fill(abs((*jets)[jdx].partonFlavour()));
+
+	  if(abs((*jets)[jdx].partonFlavour())==5) isBjet_[jdx]->Fill(1);
+	  else isBjet_[jdx]->Fill(0); 
 	}
     }
 

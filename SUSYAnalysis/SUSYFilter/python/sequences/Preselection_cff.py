@@ -205,11 +205,15 @@ preselectionElSynch = cms.Sequence(ElTriggerSynch *
 from TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff import *
 from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
 
-ttGenEventFilterSemiLep = ttGenEventFilter.clone(cut="isSemiLeptonic")
-ttGenEventFilterOther = ttGenEventFilter.clone(cut="!isSemiLeptonic")
+ttGenEventFilterSemiLep = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
+ttGenEventFilterSemiLepOther = ttGenEventFilter.clone(cut="!semiLeptonicChannel()=1 && !semiLeptonicChannel()=2")
 
-ttGenEventFilterFullLep = ttGenEventFilter.clone(cut="isFullLeptonic()")
-ttGenEventFilterOther2 = ttGenEventFilter.clone(cut="!isFullLeptonic()")
+ttGenEventFilterFullLep = ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
+ttGenEventFilterFullLepOther = ttGenEventFilter.clone(cut="isSemiLeptonic() || isFullHadronic() || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3 ")
+
+ttGenEventFilterFullHad = ttGenEventFilter.clone(cut="isFullHadronic()")
+
+ttGenEventFilterTau = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
 
 preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterSemiLep *
@@ -219,13 +223,13 @@ preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
                                         scrapingVeto
                                          )
 
-preselectionOtherTTBar = cms.Sequence(makeGenEvt *
-                                      ttGenEventFilterOther *
-                                      LepHTTriggerMC *
-                                      primaryVertexFilter *
-                                      #HBHENoiseFilter *
-                                      scrapingVeto
-                                      )
+preselectionSemiLepTTBarOther = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterSemiLepOther *
+                                        LepHTTriggerMC *
+                                        primaryVertexFilter *
+                                        #HBHENoiseFilter *
+                                        scrapingVeto
+                                        )
 
 preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterFullLep *
@@ -235,10 +239,26 @@ preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
                                         scrapingVeto
                                         )
 
-preselectionOtherTTBar2 = cms.Sequence(makeGenEvt *
-                                       ttGenEventFilterOther2 *
-                                       LepHTTriggerMC *
-                                       primaryVertexFilter *
-                                       #HBHENoiseFilter *
-                                       scrapingVeto
-                                       )
+preselectionFullLepTTBarOther = cms.Sequence(makeGenEvt *
+                                             ttGenEventFilterFullLepOther *
+                                             LepHTTriggerMC *
+                                             primaryVertexFilter *
+                                             #HBHENoiseFilter *
+                                             scrapingVeto
+                                             )
+
+preselectionFullHadTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterFullHad *
+                                        LepHTTriggerMC *
+                                        primaryVertexFilter *
+                                        #HBHENoiseFilter *
+                                        scrapingVeto
+                                        )
+
+preselectionTauTTBar = cms.Sequence(makeGenEvt *
+                                    ttGenEventFilterTau *
+                                    LepHTTriggerMC *
+                                    primaryVertexFilter *
+                                    #HBHENoiseFilter *
+                                    scrapingVeto
+                                    )

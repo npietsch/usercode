@@ -4,17 +4,17 @@ import FWCore.ParameterSet.Config as cms
 # module to make simple analyses of SUSY
 #
 analyzeBjets = cms.EDAnalyzer("BjetsAnalyzer",
-                              met = cms.InputTag("patMETs"),
+                              met = cms.InputTag("patMETsPF"),
                               source = cms.InputTag("genParticles"),
                               jets = cms.InputTag("goodJets"),
                               muons = cms.InputTag("goodMuons"),
                               electrons = cms.InputTag("goodElectrons"),
-                              looseTrackHighEffBjets = cms.InputTag("selectedPatJets"),
-                              mediumTrackHighEffBjets = cms.InputTag("selectedPatJets"),
-                              tightTrackHighEffBjets = cms.InputTag("selectedPatJets"),
-                              looseTrackHighPurBjets = cms.InputTag("selectedPatJets"),
-                              mediumTrackHighPurBjets = cms.InputTag("selectedPatJets"),
-                              tightTrackHighPurBjets = cms.InputTag("selectedPatJets"),
+                              looseTrackHighEffBjets = cms.InputTag("selectedPatJetsAK5PF"),
+                              mediumTrackHighEffBjets = cms.InputTag("selectedPatJetsAK5PF"),
+                              tightTrackHighEffBjets = cms.InputTag("selectedPatJetsAK5PF"),
+                              looseTrackHighPurBjets = cms.InputTag("selectedPatJetsAK5PF"),
+                              mediumTrackHighPurBjets = cms.InputTag("selectedPatJetsAK5PF"),
+                              tightTrackHighPurBjets = cms.InputTag("selectedPatJetsAK5PF"),
                               pvSrc = cms.InputTag("offlinePrimaryVertices")
                              )
 
