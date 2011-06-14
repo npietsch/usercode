@@ -8,9 +8,10 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d Results UserCode/npietsch/Results
+cvs co TopQuarkAnalysis/TopEventSelection
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 addpkg -q CommonTools/ParticleFlow V00-01-06-01  
 
@@ -30,8 +31,8 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co -d Results UserCode/npietsch/Results
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 
