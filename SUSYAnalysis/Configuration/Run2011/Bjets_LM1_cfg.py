@@ -28,6 +28,6 @@ process.source = cms.Source("PoolSource",
     '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_6_1_szm.root',
     '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_7_1_0vR.root',
     '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_8_1_uS1.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_9_1_KMj.root'
+   '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_9_1_KMj.root'
     )
 )

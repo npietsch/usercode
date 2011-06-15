@@ -481,3 +481,4 @@ process.Selection3b1l_1 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets3b1l_3 *
                                    process.analyzeEventTopology3b1l_3
                                    )
+
