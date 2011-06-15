@@ -4,15 +4,13 @@ process = cms.Process("MakePATTuple")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-#process.MessageLogger.cerr.threshold = 'INFO'
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    #'/store/mc/Fall10/LM3_SUSY_sftsht_7TeV-pythia6/AODSIM/START38_V12-v1/0001/0224B8CD-D5D3-DF11-BC57-0019BBEB54B2.root',
-    '/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0009/84209FB0-4B51-E011-8538-001D0967C035.root'
+    '/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
     )
 )
 
@@ -25,35 +23,23 @@ process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(True)
 )
 
-## process.TFileService = cms.Service("TFileService",
-##                                    fileName = cms.string('Bjets.root')
-##                                    )
-
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-#process.GlobalTag.globaltag = cms.string('START38_V7::All')
 process.GlobalTag.globaltag = cms.string('START311_V2A::All')
-
-
-
 
 #-------------------------------------------------
 # PAT configuration
 #-------------------------------------------------
 
-#----------------------------------------------------------------------------
-# pat configuration
-#----------------------------------------------------------------------------
-
-## std sequence for pat
+## load standard pat sequence
 process.load("PhysicsTools.PatAlgos.patSequences_cff")
 
 ## dummy output module
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Spring11.root')
+    fileName = cms.untracked.string('Summer11.root')
 )
 
 ## remove cleaning as it is not used
@@ -106,10 +92,11 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
 ## add L1 offset corrections to Calo Jets
 process.patJetCorrFactors.levels=['L1Offset', 'L2Relative','L3Absolute', 'L2L3Residual']
 
-## remove L1 offset corrections
-#process.patJetCorrFactors.levels.remove("L1Offset")
-#process.patJetCorrFactorsAK5PF.levels.remove("L1Offset")
-#process.patJetCorrFactorsAK5JPT.levels.remove("L1Offset")
+## fix bug in patDefaultSequence
+process.load('RecoJets.Configuration.RecoPFJets_cff')
+process.kt6PFJets.doRhoFastjet = True
+process.patDefaultSequence.replace(process.patJetCorrFactors,
+                                   process.kt6PFJets + process.patJetCorrFactors)
 
 ## embedding of jet constituents into the jets
 process.patJets.embedCaloTowers       = False
@@ -150,10 +137,16 @@ process.patMuons.resolutions = cms.PSet( default = cms.string("muonResolution") 
 process.patMETs.addResolutions = True
 process.patMETs.resolutions = cms.PSet( default = cms.string("metResolution") )
 process.patMETsPF.addResolutions = True
-process.patMETsPF.resolutions = cms.PSet( default = cms.string("metResolutionPF") )     
+process.patMETsPF.resolutions = cms.PSet( default = cms.string("metResolutionPF") )  
+
+# Turn off photon-electron cleaning (i.e., flag only)
+process.cleanPatPhotons.checkOverlaps.electrons.requireNoOverlaps = False
+
+# Embed tracks, since we drop them
+process.patElectrons.embedTrack = True
+process.patMuons.embedTrack   = True
 
 ## add electron identification
-## (needs cvs co -r V00-04-00 ElectroWeakAnalysis/WENu)
 process.load("ElectroWeakAnalysis.WENu.simpleEleIdSequence_cff")
 
 process.patElectrons.electronIDSources = cms.PSet(
@@ -174,23 +167,7 @@ process.patElectrons.electronIDSources = cms.PSet(
     simpleEleId80cIso= cms.InputTag("simpleEleId80cIso"),
     simpleEleId70cIso= cms.InputTag("simpleEleId70cIso"),
     simpleEleId60cIso= cms.InputTag("simpleEleId60cIso"))
-process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectronIsolation+process.patElectrons)
-
-## # Trigger + Noise cleaning sequence
-## process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
-
-## high level trigger filter (non existing Triggers are ignored)
-process.load("HLTrigger.HLTfilters.hltHighLevel_cfi")
-process.filterHlt = process.hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
-    #2010 trigger ('v*' to be immune to version changes)
-    'HLT_Mu15_v*',
-    #2011 1E33 trigger ('v*' to be immune to version changes)
-    'HLT_Mu17_TriCentralJet30_v*', 'HLT_Mu17_CentralJet30_v*', 'HLT_Mu17_DiCentralJet30_v*',
-    #2011 1E33-2E33 trigger ('v*' to be immune to version changes)
-    'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
-    'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*',
-    #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
-    'HLT_Mu8_HT200_v*'],throw = False)
+process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectrons)
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
@@ -198,12 +175,12 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.patDefaultSequence *
-                            process.preselectionMC2PAT
+process.PATTuple = cms.Path(process.preselectionMC2PAT *
+                            process.patDefaultSequence
                             )
 
 #-------------------------------------------------
-# Optional: write patTuple
+# Create patTuple
 #-------------------------------------------------
 
 process.EventSelection = cms.PSet(
@@ -217,7 +194,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Spring11.root')
+                               fileName = cms.untracked.string('Summer11.root')
                                )
 
 # Specify what to keep in the event content
