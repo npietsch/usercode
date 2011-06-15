@@ -56,16 +56,13 @@ LepHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*',
                                       throw = False)
 
 ## AOD2PAT trigger
-AOD2PATTrigger = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X' ,HLTPaths = [
-    #2010 trigger ('v*' to be immune to version changes)
-    'HLT_Mu15_v*',
-    #2011 1E33 trigger ('v*' to be immune to version changes)
+AOD2PATTrigger = hltHighLevel.clone(HLTPaths = [
+    'HLT_Mu15_v*', 'HLT_Ele10_v*',
+    'HLT_Mu*_HT*','HLT_Ele*_HT*',
     'HLT_Mu17_TriCentralJet30_v*', 'HLT_Mu17_CentralJet30_v*', 'HLT_Mu17_DiCentralJet30_v*',
-    #2011 1E33-2E33 trigger ('v*' to be immune to version changes)
     'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
-    'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*',
-    #2011 HT trigger requested by Niklas ('v*' to be immune to version changes)
-    'HLT_Mu5_HT*','HLT_Mu8_HT200_v*'],throw = False)
+    'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*'
+    ],throw = False)
 
 ##----------------------------
 ## event cleaning modules
