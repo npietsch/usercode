@@ -29,22 +29,22 @@ scram b -r -j 8
 ## CMSSW_4_1_4
 ##------------------------
 
+# Only for producing PAT Tuple
+
 cmsrel CMSSW_4_1_4
 cd CMSSW_4_1_4/src
 cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
-cvs co -d Results UserCode/npietsch/Results
-addpkg ElectroWeakAnalysis/WENu V00-04-00
+cvs co -d SUSYAnalysis/Configuration/Run2011 UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/AOD2PAT_Data41_cfg.py
+cvs co -d SUSYAnalysis/SUSYFilter/python/sequences  UserCode/npietsch/SUSYAnalysis/SUSYFilter/python/sequences/Preselection_cff.py
+cvs co -d SUSYAnalysis/Configuration/Run2011 UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/multicrab.cfg
+cvs co -d TopAnalysis/Configuration/analysis/fullHadronic UserCode/Bromo/TopAnalysis/Configuration/analysis/fullHadronic/crab_glite.cfg 
+cvs co -d TopAnalysis/Configuration/analysis/fullHadronic UserCode/Bromo/TopAnalysis/Configuration/analysis/fullHadronic/crab_sge.cfg
 
-## temporary fixes 
+addpkg ElectroWeakAnalysis/WENu V00-04-00
 cvs co -r V01-06-00 RecoBTag/SecondaryVertex
-cvs co -r V08-03-03 PhysicsTools/Utilities
-rm TopAnalysis/TopUtils/plugins/TopProjectors.cc
-rm TopAnalysis/TopUtils/python/particleFlowSetup_cff.py
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
