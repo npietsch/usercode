@@ -15,7 +15,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(100),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -169,6 +169,12 @@ process.patElectrons.electronIDSources = cms.PSet(
     simpleEleId60cIso= cms.InputTag("simpleEleId60cIso"))
 process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSequence+process.patElectrons)
 
+## runOnMC = True
+## from PhysicsTools.PatAlgos.tools.pfTools import *
+## postfix = "PFlow"
+## jetAlgo="AK5"
+## usePF2PAT(process,runPF2PAT=True, jetAlgo=jetAlgo, runOnMC=runOnMC, postfix=postfix) 
+
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 #-------------------------------------------------
@@ -176,7 +182,8 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 #----------------------------------------------
 
 process.PATTuple = cms.Path(process.preselectionMC2PAT *
-                            process.patDefaultSequence
+                            process.patDefaultSequence##  *
+##                             getattr(process,"patPF2PATSequence"+postfix)
                             )
 
 #-------------------------------------------------
@@ -208,4 +215,4 @@ process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
 #process.out.outputCommands += tqafEventContent
 
 process.outpath = cms.EndPath(process.out)
- 
+
