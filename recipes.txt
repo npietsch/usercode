@@ -15,6 +15,10 @@ cvs co TopQuarkAnalysis/TopEventSelection
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 addpkg -q CommonTools/ParticleFlow V00-01-06-01  
 
+# bug fixes
+cvs co -r CMSSW_4_2_3 RecoVertex/PrimaryVertexProducer
+cvs co -r CMSSW_4_2_3 TrackingTools/TrajectoryState
+
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
