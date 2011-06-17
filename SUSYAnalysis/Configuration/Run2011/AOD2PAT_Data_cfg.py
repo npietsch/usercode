@@ -10,7 +10,8 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/530/CCA90DCA-4C92-E011-A5D3-0030487CD17C.root'
+    #'/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/530/CCA90DCA-4C92-E011-A5D3-0030487CD17C.root'
+    '/store/data/Run2011A/SingleElectron/AOD/PromptReco-v4/000/166/502/8A879F0A-1C91-E011-A640-003048F11DE2.root'
     )
 )
 
@@ -26,7 +27,7 @@ process.options = cms.untracked.PSet(
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('START311_V2A::All')
+process.GlobalTag.globaltag = cms.string('GR_R_42_V14::All')
 
 #-------------------------------------------------
 # PAT configuration
@@ -175,7 +176,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.preselectionData2PAT *
+process.PATTuple = cms.Path(process.preselectionElHTData *
                             process.patDefaultSequence
                             )
 
