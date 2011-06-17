@@ -42,7 +42,7 @@ ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI31
 MuHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8*_HT200*'],throw = False)
-ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
+ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele*'],throw = False)
 
 LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                     HLTPaths = ['HLT_Mu5_HT*',
@@ -159,10 +159,10 @@ preselectionMuHTData = cms.Sequence(MuHTTriggerData ## *
 ##                                  scrapingVeto
                                     )
 
-preselectionElHTData = cms.Sequence(ElHTTriggerData ## *
-##                                  primaryVertexFilter *
-##                                  HBHENoiseFilter *
-##                                  scrapingVeto
+preselectionElHTData = cms.Sequence(ElHTTriggerData *
+                                    primaryVertexFilter *
+                                    HBHENoiseFilter *
+                                    scrapingVeto
                                     )
 
 preselectionLepHTData = cms.Sequence(LepHTTriggerData##  *
