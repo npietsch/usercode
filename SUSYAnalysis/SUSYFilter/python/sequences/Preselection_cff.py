@@ -159,10 +159,10 @@ preselectionMuHTData = cms.Sequence(MuHTTriggerData ## *
 ##                                  scrapingVeto
                                     )
 
-preselectionElHTData = cms.Sequence(ElHTTriggerData *
-                                    primaryVertexFilter *
-                                    HBHENoiseFilter *
-                                    scrapingVeto
+preselectionElHTData = cms.Sequence(ElHTTriggerData ##*
+                                    #primaryVertexFilter *
+                                    #HBHENoiseFilter *
+                                    #scrapingVeto
                                     )
 
 preselectionLepHTData = cms.Sequence(LepHTTriggerData##  *
