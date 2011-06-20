@@ -155,6 +155,8 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 
   dPhiMediumJetMETMin_=fs->make<TH1F>("dPhiMJetMETMin","dPhiMJetMETMin", 15, 0., 3.);
 
+  nJets_dRLepMETMin_=fs->make<TH2F>("nJets_dRLepMETMin","nJets vs. dRLepMETMin", 15, 0., 3., 15., 0., 15.);
+  nJets_dPhiLepMETMin_=fs->make<TH2F>("nJets_dPhiLepMETMin","nJets vs. dPhiLepMETMin", 15, 0., 3., 15., 0., 15.);
 }
 
 EventTopology::~EventTopology()
@@ -388,7 +390,7 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
   for(int idx=0; idx<(int)electrons ->size(); ++idx)
     {
-      if(electrons ->size()<=2)
+      if(electrons->size()<=2)
 	{
 	  reco::Particle::LorentzVector Electron1=(*electrons )[idx].p4();
 	  
@@ -468,6 +470,9 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
     }
 
   dPhiMediumJetMETMin_->Fill(deltaPhiMediumJetMETMin);
+
+  nJets_dRLepMETMin_->Fill(dRLepMETMin,jets->size());
+  nJets_dPhiLepMETMin_->Fill(dPhiLepMETMin,jets->size());
 
   //-------------------------------------
   // 3-Vectors for event shape variables

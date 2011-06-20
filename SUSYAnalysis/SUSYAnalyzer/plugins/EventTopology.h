@@ -131,6 +131,9 @@ class EventTopology : public edm::EDAnalyzer {
   TH1F *AngleLepMETMax_;
 
   TH1F *dPhiMediumJetMETMin_;
+
+  TH2F *nJets_dRLepMETMin_;
+  TH2F *nJets_dPhiLepMETMin_;
 };
 
 #endif  
