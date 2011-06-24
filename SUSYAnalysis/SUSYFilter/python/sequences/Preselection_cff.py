@@ -36,22 +36,22 @@ MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_v*'],throw = False)
 
 ## MuHad trigger
 MuHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                   HLTPaths = ['HLT_Mu5_HT*'],throw = False)
+                                   HLTPaths = ['HLT_Mu5_HT100*'],throw = False)
 ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                   HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
+                                   HLTPaths = ['HLT_Ele10_HT100*'],throw = False)
 MuHTTriggerOSET = hltHighLevel.clone(HLTPaths = ['HLT_Mu9'],throw = False)
 
-MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8*_HT200*'],throw = False)
-ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele*'],throw = False)
+MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*'],throw = False)
+ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_HT200*'],throw = False)
 
 LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                    HLTPaths = ['HLT_Mu5_HT*',
-                                                'HLT_Ele10*_HT100*'
+                                    HLTPaths = ['HLT_Mu5_HT100*',
+                                                'HLT_Ele10_HT100*'
                                                 ],
                                     throw = False)
 
 LepHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*',
-                                                  'HLT_Ele10*_HT200*'
+                                                  'HLT_Ele10_HT200*'
                                                   ],
                                       throw = False)
 

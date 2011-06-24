@@ -41,7 +41,7 @@ isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                'pt >= 20. &'
                                                'abs(eta) <= 2.5 &'
                                                'electronID(\"simpleEleId80relIso\")=7 &'
-                                               '(abs(eta) < 1.4442 | abs(eta) > 1.566) &'
+                                               '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
                                                'abs(dB) < 0.02 '
                                                )
 
