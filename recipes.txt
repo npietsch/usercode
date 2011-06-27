@@ -52,14 +52,10 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d SUSYAnalysis/Configuration/Run2011 UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/AOD2PAT_Data41_cfg.py
-cvs co -d SUSYAnalysis/SUSYFilter/python/sequences  UserCode/npietsch/SUSYAnalysis/SUSYFilter/python/sequences/Preselection_cff.py
-cvs co -d SUSYAnalysis/Configuration/Run2011 UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/multicrab.cfg
-cvs co -d TopAnalysis/Configuration/analysis/fullHadronic UserCode/Bromo/TopAnalysis/Configuration/analysis/fullHadronic/crab_glite.cfg 
-cvs co -d TopAnalysis/Configuration/analysis/fullHadronic UserCode/Bromo/TopAnalysis/Configuration/analysis/fullHadronic/crab_sge.cfg
-
-addpkg ElectroWeakAnalysis/WENu V00-04-00
-cvs co -r V01-06-00 RecoBTag/SecondaryVertex
+cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cp -r ~/public/4_1_4/ElectroWeakAnalysis ./
+cp -r ~/public/4_1_4/RecoBTag ./
+cp -r ~/public/4_1_4/TopAnalysis ./
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
