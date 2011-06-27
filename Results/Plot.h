@@ -469,7 +469,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   Canvases[c->first] = tmpC;
   tmpC->cd();
   float legSize = .05 + (.05*min((int)c->second.size(),4));
-  TLegend *leg = new TLegend(.58,.45,.99,.99);
+  TLegend *leg = new TLegend(.78,.75,.99,.99);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
   leg->SetLineColor(0);
@@ -563,7 +563,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetBorderSize(1);
-  TText *text=label->AddText("L=35.9 pb^{-1}");
+  TText *text=label->AddText("L=500 pb^{-1}");
   text->SetTextAlign(22);
   label->Draw("same");
 

@@ -19,14 +19,16 @@ vector<TString> selection;
 
 int EventSelection()
 {
-  Files.push_back (new TFile("Bjets_QCDMu.root", "READ"));
-  Files.push_back (new TFile("Bjets_Zjets.root", "READ"));
-  Files.push_back (new TFile("Bjets_Wjets.root", "READ"));
-  Files.push_back (new TFile("Bjets_TTJets.root", "READ"));
+  //Files.push_back (new TFile("Bjets_QCDMu.root", "READ"));
+  //Files.push_back (new TFile("Bjets_Zjets.root", "READ"));
+  //Files.push_back (new TFile("Bjets_Wjets.root", "READ"));
+  Files.push_back (new TFile("TTJets.root", "READ"));
   //Files.push_back (new TFile("Bjets_TTJetsSemiMuon.root", "READ"));
-  Files.push_back (new TFile("Bjets_Mu.root", "READ"));
+  //Files.push_back (new TFile("Bjets_Mu.root", "READ"));
   //Files.push_back (new TFile("Bjets_LM1.root", "READ"));
-  Files.push_back (new TFile("Bjets_LM3.root", "READ"));
+  Files.push_back (new TFile("LM3.root", "READ"));
+  Files.push_back (new TFile("LM3.root", "READ"));
+
   //Files.push_back (new TFile("Bjets_LM8.root", "READ"));
   //Files.push_back (new TFile("Bjets_LM7.root", "READ"));
   //Files.push_back (new TFile("Bjets_LM9.root", "READ"));
@@ -34,7 +36,7 @@ int EventSelection()
   //Files.push_back (new TFile("Bjets_Mu.root", "READ"));
   //Files.push_back (new TFile("Bjets_tbGluinoOSET400.root", "READ"));
   //Files.push_back (new TFile("Bjets_GluinoOSET450.root", "READ"));
-  Files.push_back (new TFile("Bjets_tbGluinoOSET500.root", "READ"));
+  //Files.push_back (new TFile("Bjets_tbGluinoOSET500.root", "READ"));
   //Files.push_back (new TFile("Bjets_GluinoOSET550.root", "READ"));
   //Files.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
   //Files.push_back (new TFile("Bjets_GluinoOSET650.root", "READ"));
@@ -44,12 +46,13 @@ int EventSelection()
   
   int f=Files.size();
   
-  Names.push_back("QCD #mu");
-  Names.push_back("Z+Jets");
-  Names.push_back("W+Jets");
+  //Names.push_back("QCD #mu");
+  //Names.push_back("Z+Jets");
+  //Names.push_back("W+Jets");
   Names.push_back("t#bar{t}");
+  Names.push_back("all");
   //Names.push_back("t#bar{t} semilep. #mu");
-  Names.push_back("2011 Data");
+  //Names.push_back("2011 Data");
   //Names.push_back("LM1");
   Names.push_back("LM3");
   //Names.push_back("LM8");
@@ -58,7 +61,7 @@ int EventSelection()
   //Names.push_back("LM12");
   //Names.push_back("G400LSP10");
   //Names.push_back("G450LSP40");
-  Names.push_back("G500LSP140");
+  //Names.push_back("G500LSP140");
   //Names.push_back("G550LSP10");
   //Names.push_back("G600LSP190");
   //Names.push_back("G650LSP290");
@@ -69,7 +72,8 @@ int EventSelection()
   // lumi in fb-1
   //double lumi=0.0359;
   //double lumi=0.25;
-  double lumi=0.181;
+  //double lumi=0.181;
+  double lumi=0.5;
 
   // cross-sections
   double xsecQCDMu=296900000*0.00037;
@@ -96,9 +100,9 @@ int EventSelection()
   double nQCD=29034562;
   double nZjets=2543706;
   double nWjets=10822996;
-  double nTTJets=1286491;
+  double nTTJets=1285653;
   double nLM1=219190;
-  double nLM3=220000;
+  double nLM3=209787;
   double nLM8=220000;
   double nLM7=220000;
   double nLM9=220000;
@@ -135,12 +139,13 @@ int EventSelection()
   double sG750=lumi*1000*xsecG750/(nG750);  //0.02230;
   double sG800=lumi*1000*xsecG800/(nG800);  //0.01563;
 
-  Scales.push_back(sQCDMu);
-  Scales.push_back(sZjets);
-  Scales.push_back(sWjets);
+  //Scales.push_back(sQCDMu);
+  //Scales.push_back(sZjets);
+  //Scales.push_back(sWjets);
   //Scales.push_back(sTTJets);
   Scales.push_back(sTTJets);
-  Scales.push_back(sData);
+  Scales.push_back(sLM3);
+  //Scales.push_back(sData);
   //Scales.push_back(sLM1);  
   Scales.push_back(sLM3);
   //Scales.push_back(sLM8);
@@ -150,7 +155,7 @@ int EventSelection()
   //Scales.push_back(sData);
   //Scales.push_back(sG400);  
   //Scales.push_back(sG450);
-  Scales.push_back(sG500);
+  //Scales.push_back(sG500);
   //Scales.push_back(sG550);  
   //Scales.push_back(sG600);
   //Scales.push_back(sG650);
@@ -165,14 +170,14 @@ int EventSelection()
   //Colors.push_back(42);
   //Colors.push_back(42);
   //Colors.push_back(42);
-  Colors.push_back(17);
-  Colors.push_back(7);
-  Colors.push_back(48);
-  Colors.push_back(3);
+  //Colors.push_back(17);
+  //Colors.push_back(7);
+  //Colors.push_back(48);
+  //Colors.push_back(3);
   //Colors.push_back(38);
-  Colors.push_back(1);
-  Colors.push_back(2);
+  //Colors.push_back(1);
   Colors.push_back(4);
+  Colors.push_back(2);
   Colors.push_back(1);
 
   //Styles.push_back(1101);
@@ -183,13 +188,13 @@ int EventSelection()
   //Styles.push_back(1101);
   //Styles.push_back(1101);
   //Styles.push_back(1101);
-  Styles.push_back(1101);
-  Styles.push_back(1101);
-  Styles.push_back(1101);
-  Styles.push_back(1101);
   //Styles.push_back(1101);
-  Styles.push_back(0);
-  Styles.push_back(0);
+  //Styles.push_back(1101);
+  //Styles.push_back(1101);
+  //Styles.push_back(1101);
+  //Styles.push_back(1101);
+  Styles.push_back(1101);
+  Styles.push_back(1101);
   Styles.push_back(0);
   Styles.push_back(0);
 
@@ -199,13 +204,13 @@ int EventSelection()
   //FillColors.push_back(42);
   //FillColors.push_back(42);
   //FillColors.push_back(42);
-  FillColors.push_back(17);
-  FillColors.push_back(7);
-  FillColors.push_back(48);
-  FillColors.push_back(3);
-  FillColors.push_back(38);
-  FillColors.push_back(0);
-  FillColors.push_back(0);
+  //FillColors.push_back(17);
+  //FillColors.push_back(7);
+  //FillColors.push_back(48);
+  //FillColors.push_back(3);
+  //FillColors.push_back(38);
+  FillColors.push_back(4);
+  FillColors.push_back(2);
   FillColors.push_back(0);
   FillColors.push_back(0);
 
@@ -247,6 +252,50 @@ int EventSelection()
 	  // Event Selection
 	  //------------------
 
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/Jet1_Et_2BQuarks"),Names[i],"Jet1_Et_2BQuarks",Scales[i],Colors[i],Styles[i],FillColors[i]);
+	  
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/Jet1_Et_2Bjets_1"),Names[i],"Jet1_Et_2Bjets_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+ 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_metSelection/Jet0_Et"),Names[i],"Jet0_Et",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhib1b2"),Names[i],"DeltaPhib1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_0"),Names[i],"DeltaPhi_0",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_1"),Names[i],"DeltaPhi_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_2"),Names[i],"DeltaPhi_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhib12MET"),Names[i],"DeltaPhib12MET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+	  
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaEtb1b2"),Names[i],"DeltaEtb1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/angleb1b2"),Names[i],"angleb1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhiLepMET"),Names[i],"DeltaPhiLepMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_0"),Names[i],"BtagEt_0_0",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_1"),Names[i],"BtagEt_0_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_2"),Names[i],"BtagEt_0_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_3"),Names[i],"BtagEt_0_3",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_4"),Names[i],"BtagEt_0_4",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_5"),Names[i],"BtagEt_0_5",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_HTSelection/MET"),Names[i],"MET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_HTSelection/HT"),Names[i],"HT",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
+// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/sphericity_bjetsMET"),Names[i],"sphericity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/aplanarity_bjetsMET"),Names[i],"aplanarity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/circularity_bjetsMET"),Names[i],"circularity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/isotropy_bjetsMET"),Names[i],"isotropy_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+
 	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_preselection/nMuons"),Names[i],"nMuons_1l_preselection",Scales[i],Colors[i],Styles[i],FillColors[i]);
 // 	  plots.SetAxesTitles("nMuons_1l_preselection","Number of isolated Muons", "");
 // 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_oneGoodMuon/nMuons"),Names[i],"nMuons_1l_oneGoodMuon",Scales[i],Colors[i],Styles[i],FillColors[i]);
@@ -284,8 +333,8 @@ int EventSelection()
 // 	  plots.SetAxesTitles("nLooseBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 1.7 (TrackCountingHighEff)", "");
 	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nMediumBjetsTrackHighEff"),Names[i],"nMediumBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
 // 	  plots.SetAxesTitles("nMediumBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 3.3 (TrackCountingHighEff)", "");
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nTightBjetsTrackHighEff"),Names[i],"nTightBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-	  plots.SetAxesTitles("nTightBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 10.21 (TrackCountingHighEff)", "");
+// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nTightBjetsTrackHighEff"),Names[i],"nTightBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
+// 	  plots.SetAxesTitles("nTightBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 10.21 (TrackCountingHighEff)", "");
 
 
 // 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_twoMediumJets/HT"),Names[i],"HT_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
