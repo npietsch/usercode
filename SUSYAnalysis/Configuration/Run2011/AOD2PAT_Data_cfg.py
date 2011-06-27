@@ -11,7 +11,9 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
     #'/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/530/CCA90DCA-4C92-E011-A5D3-0030487CD17C.root'
-    '/store/data/Run2011A/SingleElectron/AOD/PromptReco-v4/000/166/502/8A879F0A-1C91-E011-A640-003048F11DE2.root'
+    #'/store/data/Run2011A/SingleElectron/AOD/PromptReco-v4/000/166/502/8A879F0A-1C91-E011-A640-003048F11DE2.root'
+    '/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/010/9AFCBFEC-1F8D-E011-A81B-001D09F24600.root'
+    #'/store/data/Run2011A/SingleElectron/AOD/PromptReco-v4/000/165/098/88EB5F4F-DA7F-E011-A8DC-003048F24A04.root'
     )
 )
 
@@ -176,7 +178,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.preselectionElHTData *
+process.PATTuple = cms.Path(process.preselectionData2PAT *
                             process.patDefaultSequence
                             )
 
