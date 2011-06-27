@@ -10,9 +10,9 @@ from HLTrigger.HLTfilters.hltHighLevel_cfi import *
 MuHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                    HLTPaths = ['HLT_Mu5_HT100*'],throw = False)
 ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                   HLTPaths = ['HLT_Ele10_HT100*'],throw = False)
+                                   HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
 LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                    HLTPaths = ['HLT_Mu5_HT100*','HLT_Ele10_HT100*'], throw = False)
+                                    HLTPaths = ['HLT_Mu5_HT100*','HLT_Ele10*_HT100*'], throw = False)
 
 ## MC trigger Summer11
 MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*'],throw = False)

@@ -52,7 +52,7 @@ goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
 from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                     cut =
-                                    'pt > 10. &'
+                                    'pt > 20. &'
                                     'abs(eta) < 2.5'
                                     )
 ## create loose electron collection
@@ -152,7 +152,7 @@ looseJets.checkOverlaps = cms.PSet(
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 goodJets = selectedPatJets.clone(src = 'looseJets',
                                  cut =
-                                 'pt > 30.'
+                                 'pt > 50.'
                                  )
 ## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
@@ -242,7 +242,7 @@ looseMETs = selectedPatMET.clone(src = 'patMETsPF',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
-                                'et > 100.'
+                                'et > 50.'
                                 )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
