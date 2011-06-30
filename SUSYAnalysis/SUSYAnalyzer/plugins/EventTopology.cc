@@ -156,13 +156,13 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
   dPhiMediumJetMETMin_=fs->make<TH1F>("dPhiMJetMETMin","dPhiMJetMETMin", 15, 0., 3.);
 
   nJets_dRLepMETMin_=fs->make<TH2F>("nJets_dRLepMETMin","nJets vs. dRLepMETMin", 15, 0., 15., 15., 0., 3.);
-  nJets_dPhiLepMETMin_=fs->make<TH2F>("nJets_dPhiLepMETMin","nJets vs. dPhiLepMETMin", 15, 15., 3., 15., 0., 3.);
+  nJets_dPhiLepMETMin_=fs->make<TH2F>("nJets_dPhiLepMETMin","nJets vs. dPhiLepMETMin", 15, 0., 15., 15., 0., 3.);
 
-  MET_dRLepMETMin_=fs->make<TH2F>("MET_dRLepMETMin","MET vs. dRLepMETMin", 40, 0., 1000., 3., 0., 15.);
-  MET_dPhiLepMETMin_=fs->make<TH2F>("MET_dPhiLepMETMin","MET vs. dPhiLepMETMin", 40, 0., 1000., 3., 0., 15.);
+  MET_dRLepMETMin_=fs->make<TH2F>("MET_dRLepMETMin","MET vs. dRLepMETMin", 40, 0., 1000., 15., 0., 3.);
+  MET_dPhiLepMETMin_=fs->make<TH2F>("MET_dPhiLepMETMin","MET vs. dPhiLepMETMin", 40, 0., 1000., 15., 0., 3.);
 
-  HT_dRLepMETMin_=fs->make<TH2F>("HT_dRLepMETMin","HT vs. dRLepMETMin", 40, 0., 2000., 3., 0., 15.);
-  HT_dPhiLepMETMin_=fs->make<TH2F>("HT_dPhiLepMETMin","HT vs. dPhiLepMETMin", 40, 0., 2000., 3., 0., 15.);
+  HT_dRLepMETMin_=fs->make<TH2F>("HT_dRLepMETMin","HT vs. dRLepMETMin", 40, 0., 2000., 15., 0., 3.);
+  HT_dPhiLepMETMin_=fs->make<TH2F>("HT_dPhiLepMETMin","HT vs. dPhiLepMETMin", 40, 0., 2000., 15., 0., 3.);
 
   nJets4_dRLepMETMin_=fs->make<TH1F>("nJets4_dRLepMETMin","dRLepMETMin 4 Jets", 15., 0., 3.);
   nJets4_dPhiLepMETMin_=fs->make<TH1F>("nJets4_dPhiLepMETMin","dPhiLepMETMin 4 Jets", 15., 0., 3.);

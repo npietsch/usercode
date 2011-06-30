@@ -136,9 +136,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mW_HT700_=fs-> make<TH1F>("mW_HT700","mW HT700", 40 , 0, 200);
   mW_HT800_=fs-> make<TH1F>("mW_HT800","mW HT800", 40 , 0, 200);
 
-  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 40, 0., 1000.);
+  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 25, 0., 500.);
   mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
-  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 200., 40, 0., 2000.);
+  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 200., 25, 0., 1000.);
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -405,12 +405,12 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
     {
       mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
     }
-  if(electrons->size()==1)
+  else if(electrons->size()==1)
     {
       mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
     }
   
-  else if(mW > 0)
+  if(mW > 0)
     {
       mW_->Fill(mW);
 
@@ -433,12 +433,12 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       else if(jets->size()==8) mW_8Jets_->Fill(mW);
       else if(jets->size()>=9) mW_9Jets_->Fill(mW);
 
-      if(HT >= 300 && HT < 400) mW_HT300_->Fill(HT);
-      else if(HT >= 400 && HT < 500) mW_HT400_->Fill(HT);
-      else if(HT >= 500 && HT < 600) mW_HT500_->Fill(HT);
-      else if(HT >= 600 && HT < 700) mW_HT600_->Fill(HT);
-      else if(HT >= 700 && HT < 800) mW_HT700_->Fill(HT);
-      else if(HT >= 800) mW_HT800_->Fill(HT);
+      if(HT >= 300 && HT < 400) mW_HT300_->Fill(mW);
+      else if(HT >= 400 && HT < 500) mW_HT400_->Fill(mW);
+      else if(HT >= 500 && HT < 600) mW_HT500_->Fill(mW);
+      else if(HT >= 600 && HT < 700) mW_HT600_->Fill(mW);
+      else if(HT >= 700 && HT < 800) mW_HT700_->Fill(mW);
+      else if(HT >= 800) mW_HT800_->Fill(mW);
     }
 }
 
