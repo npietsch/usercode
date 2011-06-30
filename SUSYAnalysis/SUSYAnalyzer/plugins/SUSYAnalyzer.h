@@ -122,6 +122,17 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *mW_7Jets_;
   TH1F *mW_8Jets_;
   TH1F *mW_9Jets_;
+
+  TH1F *mW_HT300_;
+  TH1F *mW_HT400_;
+  TH1F *mW_HT500_;
+  TH1F *mW_HT600_;
+  TH1F *mW_HT700_;
+  TH1F *mW_HT800_;
+
+  TH2F *mW_MET_;
+  TH2F *mW_nJets_;
+  TH2F *mW_HT_;
 };  
 
 #endif  

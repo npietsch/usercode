@@ -127,6 +127,17 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mW_7Jets_=fs-> make<TH1F>("mW_7Jets","mW 7Jets", 40 , 0, 200);
   mW_8Jets_=fs-> make<TH1F>("mW_8Jets","mW 8Jets", 40 , 0, 200);
   mW_9Jets_=fs-> make<TH1F>("mW_9Jets","mW 9Jets", 40 , 0, 200);
+
+  mW_HT300_=fs-> make<TH1F>("mW_HT300","mW HT300", 40 , 0, 200);
+  mW_HT400_=fs-> make<TH1F>("mW_HT400","mW HT400", 40 , 0, 200);
+  mW_HT500_=fs-> make<TH1F>("mW_HT500","mW HT500", 40 , 0, 200);
+  mW_HT600_=fs-> make<TH1F>("mW_HT600","mW HT600", 40 , 0, 200);
+  mW_HT700_=fs-> make<TH1F>("mW_HT700","mW HT700", 40 , 0, 200);
+  mW_HT800_=fs-> make<TH1F>("mW_HT800","mW HT800", 40 , 0, 200);
+
+  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW", 40, 0., 1000.,16 , -0.5, 15.5 );
+  mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
+  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 2000.,16 , -0.5, 15.5 );
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -391,28 +402,42 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   double mW=0;
   if(muons->size()==1)
     {
-      mW=2*(((*met)[0].pt())*((*muons)[0].pt())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py()));
+      mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
     }
   if(electrons->size()==1)
     {
-      mW=2*(((*met)[0].pt())*((*electrons)[0].pt())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py()));
+      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
     }
-  mW_->Fill(mW);
+  
+  else if(mW > 0)
+    {
+      mW_->Fill(mW);
 
-  if((*met)[0].et()>= 50 &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
-  else if((*met)[0].et()>= 100 &&(*met)[0].et()<150) mW_MET100_->Fill(mW);
-  else if((*met)[0].et()>= 150 &&(*met)[0].et()<200) mW_MET150_->Fill(mW);
-  else if((*met)[0].et()>= 200 &&(*met)[0].et()<250) mW_MET200_->Fill(mW);
-  else if((*met)[0].et()>= 250 &&(*met)[0].et()<300) mW_MET250_->Fill(mW);
-  else if((*met)[0].et()>= 300) mW_MET300_->Fill(mW);
+      mW_MET_->Fill(mW,(*met)[0].et());
+      mW_nJets_->Fill(mW,jets->size());
+      mW_HT_->Fill(mW,HT);
 
-  if(jets->size()==4) mW_4Jets_->Fill(mW);
-  else if(jets->size()==5) mW_5Jets_->Fill(mW);
-  else if(jets->size()==6) mW_6Jets_->Fill(mW);
-  else if(jets->size()==7) mW_7Jets_->Fill(mW);
-  else if(jets->size()==8) mW_8Jets_->Fill(mW);
-  else if(jets->size()>=9) mW_9Jets_->Fill(mW);
+      if((*met)[0].et()>= 50 &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
+      else if((*met)[0].et()>= 100 &&(*met)[0].et()<150) mW_MET100_->Fill(mW);
+      else if((*met)[0].et()>= 150 &&(*met)[0].et()<200) mW_MET150_->Fill(mW);
+      else if((*met)[0].et()>= 200 &&(*met)[0].et()<250) mW_MET200_->Fill(mW);
+      else if((*met)[0].et()>= 250 &&(*met)[0].et()<300) mW_MET250_->Fill(mW);
+      else if((*met)[0].et()>= 300) mW_MET300_->Fill(mW);
+      
+      if(jets->size()==4) mW_4Jets_->Fill(mW);
+      else if(jets->size()==5) mW_5Jets_->Fill(mW);
+      else if(jets->size()==6) mW_6Jets_->Fill(mW);
+      else if(jets->size()==7) mW_7Jets_->Fill(mW);
+      else if(jets->size()==8) mW_8Jets_->Fill(mW);
+      else if(jets->size()>=9) mW_9Jets_->Fill(mW);
 
+      if(HT >= 300 && HT < 400) mW_HT300_->Fill(HT);
+      else if(HT >= 400 && HT < 500) mW_HT400_->Fill(HT);
+      else if(HT >= 500 && HT < 600) mW_HT500_->Fill(HT);
+      else if(HT >= 600 && HT < 700) mW_HT600_->Fill(HT);
+      else if(HT >= 700 && HT < 800) mW_HT700_->Fill(HT);
+      else if(HT >= 800) mW_HT800_->Fill(HT);
+    }
 }
 
 void SUSYAnalyzer::beginJob()
