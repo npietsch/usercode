@@ -134,6 +134,51 @@ class EventTopology : public edm::EDAnalyzer {
 
   TH2F *nJets_dRLepMETMin_;
   TH2F *nJets_dPhiLepMETMin_;
+
+  TH1F *nJets4_dRLepMETMin_;
+  TH1F *nJets4_dPhiLepMETMin_;
+  TH1F *nJets5_dRLepMETMin_;
+  TH1F *nJets5_dPhiLepMETMin_;
+  TH1F *nJets6_dRLepMETMin_;
+  TH1F *nJets6_dPhiLepMETMin_;
+  TH1F *nJets7_dRLepMETMin_;
+  TH1F *nJets7_dPhiLepMETMin_;
+  TH1F *nJets8_dRLepMETMin_;
+  TH1F *nJets8_dPhiLepMETMin_;
+  TH1F *nJets9_dRLepMETMin_;
+  TH1F *nJets9_dPhiLepMETMin_;
+
+  TH2F *MET_dRLepMETMin_;
+  TH2F *MET_dPhiLepMETMin_;
+
+  TH1F *MET50_dRLepMETMin_;
+  TH1F *MET50_dPhiLepMETMin_;
+  TH1F *MET100_dRLepMETMin_;
+  TH1F *MET100_dPhiLepMETMin_;
+  TH1F *MET150_dRLepMETMin_;
+  TH1F *MET150_dPhiLepMETMin_;
+  TH1F *MET200_dRLepMETMin_;
+  TH1F *MET200_dPhiLepMETMin_;
+  TH1F *MET250_dRLepMETMin_;
+  TH1F *MET250_dPhiLepMETMin_;
+  TH1F *MET300_dRLepMETMin_;
+  TH1F *MET300_dPhiLepMETMin_;
+
+  TH2F *HT_dRLepMETMin_;
+  TH2F *HT_dPhiLepMETMin_;
+
+  TH1F *MET50_dRBjetBjetMin_;
+  TH1F *MET50_dPhiBjetBjetMin_;
+  TH1F *MET100_dRBjetBjetMin_;
+  TH1F *MET100_dPhiBjetBjetMin_;
+  TH1F *MET150_dRBjetBjetMin_;
+  TH1F *MET150_dPhiBjetBjetMin_;
+  TH1F *MET200_dRBjetBjetMin_;
+  TH1F *MET200_dPhiBjetBjetMin_;
+  TH1F *MET250_dRBjetBjetMin_;
+  TH1F *MET250_dPhiBjetBjetMin_;
+  TH1F *MET300_dRBjetBjetMin_;
+  TH1F *MET300_dPhiBjetBjetMin_;
 };
 
 #endif  

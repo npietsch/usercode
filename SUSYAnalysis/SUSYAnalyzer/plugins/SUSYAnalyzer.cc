@@ -112,6 +112,21 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_EtFrac_=fs->make<TH1F>("Bjets_EtFrac","Bjets Et fraction", 50, 0., 5.);
   LightJets_EtFrac_=fs->make<TH1F>("LightJets_EtFrac","LightJets Et fraction", 50, 0., 5.);
 
+  mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 200);
+
+  mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 200);
+  mW_MET100_=fs-> make<TH1F>("mW_MET100","mW MET100", 40 , 0, 200);
+  mW_MET150_=fs-> make<TH1F>("mW_MET150","mW MET150", 40 , 0, 200);
+  mW_MET200_=fs-> make<TH1F>("mW_MET200","mW MET200", 40 , 0, 200);
+  mW_MET250_=fs-> make<TH1F>("mW_MET250","mW MET250", 40 , 0, 200);
+  mW_MET300_=fs-> make<TH1F>("mW_MET300","mW MET300", 40 , 0, 200);
+
+  mW_4Jets_=fs-> make<TH1F>("mW_4Jets","mW 4Jets", 40 , 0, 200);
+  mW_5Jets_=fs-> make<TH1F>("mW_5Jets","mW 5Jets", 40 , 0, 200);
+  mW_6Jets_=fs-> make<TH1F>("mW_6Jets","mW 6Jets", 40 , 0, 200);
+  mW_7Jets_=fs-> make<TH1F>("mW_7Jets","mW 7Jets", 40 , 0, 200);
+  mW_8Jets_=fs-> make<TH1F>("mW_8Jets","mW 8Jets", 40 , 0, 200);
+  mW_9Jets_=fs-> make<TH1F>("mW_9Jets","mW 9Jets", 40 , 0, 200);
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -350,7 +365,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   nMuons_->Fill(nmuons);
   nElectrons_->Fill(nelectrons);
   nLeptons_->Fill(nleptons);
-  
+
   double MT=lepHT+HT+(*met)[0].et();
   MT_->Fill(MT);
   
@@ -371,6 +386,32 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double MuMu_p4_square = ((*muons)[0].p4()+(*muons)[1].p4()).Dot((*muons)[0].p4()+(*muons)[1].p4());
       invMuMuMass_->Fill(sqrt(MuMu_p4_square));
     }
+
+  //transverse W-mass
+  double mW=0;
+  if(muons->size()==1)
+    {
+      mW=2*(((*met)[0].pt())*((*muons)[0].pt())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py()));
+    }
+  if(electrons->size()==1)
+    {
+      mW=2*(((*met)[0].pt())*((*electrons)[0].pt())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py()));
+    }
+  mW_->Fill(mW);
+
+  if((*met)[0].et()>= 50 &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
+  else if((*met)[0].et()>= 100 &&(*met)[0].et()<150) mW_MET100_->Fill(mW);
+  else if((*met)[0].et()>= 150 &&(*met)[0].et()<200) mW_MET150_->Fill(mW);
+  else if((*met)[0].et()>= 200 &&(*met)[0].et()<250) mW_MET200_->Fill(mW);
+  else if((*met)[0].et()>= 250 &&(*met)[0].et()<300) mW_MET250_->Fill(mW);
+  else if((*met)[0].et()>= 300) mW_MET300_->Fill(mW);
+
+  if(jets->size()==4) mW_4Jets_->Fill(mW);
+  else if(jets->size()==5) mW_5Jets_->Fill(mW);
+  else if(jets->size()==6) mW_6Jets_->Fill(mW);
+  else if(jets->size()==7) mW_7Jets_->Fill(mW);
+  else if(jets->size()==8) mW_8Jets_->Fill(mW);
+  else if(jets->size()>=9) mW_9Jets_->Fill(mW);
 
 }
 

@@ -106,6 +106,22 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
 
   TH1F *Bjets_EtFrac_;
   TH1F *LightJets_EtFrac_;
+
+  TH1F *mW_;
+
+  TH1F *mW_MET50_;
+  TH1F *mW_MET100_;
+  TH1F *mW_MET150_;
+  TH1F *mW_MET200_;
+  TH1F *mW_MET250_;
+  TH1F *mW_MET300_;
+
+  TH1F *mW_4Jets_;
+  TH1F *mW_5Jets_;
+  TH1F *mW_6Jets_;
+  TH1F *mW_7Jets_;
+  TH1F *mW_8Jets_;
+  TH1F *mW_9Jets_;
 };  
 
 #endif  

@@ -155,8 +155,68 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
 
   dPhiMediumJetMETMin_=fs->make<TH1F>("dPhiMJetMETMin","dPhiMJetMETMin", 15, 0., 3.);
 
-  nJets_dRLepMETMin_=fs->make<TH2F>("nJets_dRLepMETMin","nJets vs. dRLepMETMin", 15, 0., 3., 15., 0., 15.);
-  nJets_dPhiLepMETMin_=fs->make<TH2F>("nJets_dPhiLepMETMin","nJets vs. dPhiLepMETMin", 15, 0., 3., 15., 0., 15.);
+  nJets_dRLepMETMin_=fs->make<TH2F>("nJets_dRLepMETMin","nJets vs. dRLepMETMin", 15, 0., 15., 15., 0., 3.);
+  nJets_dPhiLepMETMin_=fs->make<TH2F>("nJets_dPhiLepMETMin","nJets vs. dPhiLepMETMin", 15, 15., 3., 15., 0., 3.);
+
+  MET_dRLepMETMin_=fs->make<TH2F>("MET_dRLepMETMin","MET vs. dRLepMETMin", 40, 0., 1000., 3., 0., 15.);
+  MET_dPhiLepMETMin_=fs->make<TH2F>("MET_dPhiLepMETMin","MET vs. dPhiLepMETMin", 40, 0., 1000., 3., 0., 15.);
+
+  HT_dRLepMETMin_=fs->make<TH2F>("HT_dRLepMETMin","HT vs. dRLepMETMin", 40, 0., 2000., 3., 0., 15.);
+  HT_dPhiLepMETMin_=fs->make<TH2F>("HT_dPhiLepMETMin","HT vs. dPhiLepMETMin", 40, 0., 2000., 3., 0., 15.);
+
+  nJets4_dRLepMETMin_=fs->make<TH1F>("nJets4_dRLepMETMin","dRLepMETMin 4 Jets", 15., 0., 3.);
+  nJets4_dPhiLepMETMin_=fs->make<TH1F>("nJets4_dPhiLepMETMin","dPhiLepMETMin 4 Jets", 15., 0., 3.);
+
+  nJets5_dRLepMETMin_=fs->make<TH1F>("nJets5_dRLepMETMin","dRLepMETMin 5 Jets", 15., 0., 3.);
+  nJets5_dPhiLepMETMin_=fs->make<TH1F>("nJets5_dPhiLepMETMin","dPhiLepMETMin 5 Jets", 15., 0., 3.);
+
+  nJets6_dRLepMETMin_=fs->make<TH1F>("nJets6_dRLepMETMin","dRLepMETMin 6 Jets", 15., 0., 3.);
+  nJets6_dPhiLepMETMin_=fs->make<TH1F>("nJets6_dPhiLepMETMin","dPhiLepMETMin 6 Jets", 15., 0., 3.);
+
+  nJets7_dRLepMETMin_=fs->make<TH1F>("nJets7_dRLepMETMin","dRLepMETMin 7 Jets", 15., 0., 3.);
+  nJets7_dPhiLepMETMin_=fs->make<TH1F>("nJets7_dPhiLepMETMin","dPhiLepMETMin 7 Jets", 15., 0., 3.);
+
+  nJets8_dRLepMETMin_=fs->make<TH1F>("nJets8_dRLepMETMin","dRLepMETMin 8 Jets", 15., 0., 3.);
+  nJets8_dPhiLepMETMin_=fs->make<TH1F>("nJets8_dPhiLepMETMin","dPhiLepMETMin 8 Jets", 15., 0., 3.);
+
+  nJets9_dRLepMETMin_=fs->make<TH1F>("nJets9_dRLepMETMin","dRLepMETMin 9 Jets", 15., 0., 3.);
+  nJets9_dPhiLepMETMin_=fs->make<TH1F>("nJets9_dPhiLepMETMin","dPhiLepMETMin 9 Jets", 15., 0., 3.);
+
+  MET50_dRLepMETMin_=fs->make<TH1F>("MET50_dRLepMETMin","dRLepMETMin MET50", 15., 0., 3.);
+  MET50_dPhiLepMETMin_=fs->make<TH1F>("MET50_dPhiLepMETMin","dPhiLepMETMin MET50", 15., 0., 3.);
+
+  MET100_dRLepMETMin_=fs->make<TH1F>("MET100_dRLepMETMin","dRLepMETMin MET100", 15., 0., 3.);
+  MET100_dPhiLepMETMin_=fs->make<TH1F>("MET100_dPhiLepMETMin","dPhiLepMETMin MET100", 15., 0., 3.);
+
+  MET150_dRLepMETMin_=fs->make<TH1F>("MET150_dRLepMETMin","dRLepMETMin MET150", 15., 0., 3.);
+  MET150_dPhiLepMETMin_=fs->make<TH1F>("MET150_dPhiLepMETMin","dPhiLepMETMin MET150", 15., 0., 3.);
+
+  MET200_dRLepMETMin_=fs->make<TH1F>("MET200_dRLepMETMin","dRLepMETMin MET200", 15., 0., 3.);
+  MET200_dPhiLepMETMin_=fs->make<TH1F>("MET200_dPhiLepMETMin","dPhiLepMETMin MET200", 15., 0., 3.);
+
+  MET250_dRLepMETMin_=fs->make<TH1F>("MET250_dRLepMETMin","dRLepMETMin MET250", 15., 0., 3.);
+  MET250_dPhiLepMETMin_=fs->make<TH1F>("MET250_dPhiLepMETMin","dPhiLepMETMin MET250", 15., 0., 3.);
+
+  MET300_dRLepMETMin_=fs->make<TH1F>("MET300_dRLepMETMin","dRLepMETMin MET300", 15., 0., 3.);
+  MET300_dPhiLepMETMin_=fs->make<TH1F>("MET300_dPhiLepMETMin","dPhiLepMETMin MET300", 15., 0., 3.);
+
+  MET50_dRBjetBjetMin_=fs->make<TH1F>("MET50_dRBjetBjetMin","dRBjetBjetMin MET50", 15., 0., 3.);
+  MET50_dPhiBjetBjetMin_=fs->make<TH1F>("MET50_dPhiBjetBjetMin","dPhiBjetBjetMin MET50", 15., 0., 3.);
+
+  MET100_dRBjetBjetMin_=fs->make<TH1F>("MET100_dRBjetBjetMin","dRBjetBjetMin MET100", 15., 0., 3.);
+  MET100_dPhiBjetBjetMin_=fs->make<TH1F>("MET100_dPhiBjetBjetMin","dPhiBjetBjetMin MET100", 15., 0., 3.);
+
+  MET150_dRBjetBjetMin_=fs->make<TH1F>("MET150_dRBjetBjetMin","dRBjetBjetMin MET150", 15., 0., 3.);
+  MET150_dPhiBjetBjetMin_=fs->make<TH1F>("MET150_dPhiBjetBjetMin","dPhiBjetBjetMin MET150", 15., 0., 3.);
+
+  MET200_dRBjetBjetMin_=fs->make<TH1F>("MET200_dRBjetBjetMin","dRBjetBjetMin MET200", 15., 0., 3.);
+  MET200_dPhiBjetBjetMin_=fs->make<TH1F>("MET200_dPhiBjetBjetMin","dPhiBjetBjetMin MET200", 15., 0., 3.);
+
+  MET250_dRBjetBjetMin_=fs->make<TH1F>("MET250_dRBjetBjetMin","dRBjetBjetMin MET250", 15., 0., 3.);
+  MET250_dPhiBjetBjetMin_=fs->make<TH1F>("MET250_dPhiBjetBjetMin","dPhiBjetBjetMin MET250", 15., 0., 3.);
+
+  MET300_dRBjetBjetMin_=fs->make<TH1F>("MET300_dRBjetBjetMin","dRBjetBjetMin MET300", 15., 0., 3.);
+  MET300_dPhiBjetBjetMin_=fs->make<TH1F>("MET300_dPhiBjetBjetMin","dPhiBjetBjetMin MET300", 15., 0., 3.);
 }
 
 EventTopology::~EventTopology()
@@ -469,11 +529,101 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       if(dPhi<deltaPhiMediumJetMETMin && jdx<3) deltaPhiMediumJetMETMin=dPhi;
     }
 
+  double HT=0;
+  for(int jjdx=0; jjdx < (int)jets->size(); ++jjdx)
+    {
+      HT=HT+(*jets)[jjdx].et();
+    }
+
   dPhiMediumJetMETMin_->Fill(deltaPhiMediumJetMETMin);
 
-  nJets_dRLepMETMin_->Fill(dRLepMETMin,jets->size());
-  nJets_dPhiLepMETMin_->Fill(dPhiLepMETMin,jets->size());
+  nJets_dRLepMETMin_->Fill(jets->size(),dRLepMETMin);
+  nJets_dPhiLepMETMin_->Fill(jets->size(),dPhiLepMETMin);
 
+  MET_dRLepMETMin_->Fill((*met)[0].et(),dRLepMETMin);
+  MET_dPhiLepMETMin_->Fill((*met)[0].et(),dPhiLepMETMin);
+
+  HT_dRLepMETMin_->Fill(HT,dRLepMETMin);
+  HT_dPhiLepMETMin_->Fill(HT,dPhiLepMETMin);
+
+  if(jets->size()==4)
+    {
+      nJets4_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets4_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+  if(jets->size()==5)
+    {
+      nJets5_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets5_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+  if(jets->size()==6)
+    {
+      nJets6_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets6_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+  if(jets->size()==7)
+    {
+      nJets7_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets7_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+  if(jets->size()==8)
+    {
+      nJets8_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets8_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+  if(jets->size()>9)
+    {
+      nJets9_dRLepMETMin_->Fill(dRLepMETMin);
+      nJets9_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+    }
+
+  if((*met)[0].et()>=50&&(*met)[0].et()<100)
+    {
+      MET50_dRLepMETMin_->Fill(dRLepMETMin);
+      MET50_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET50_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET50_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
+
+  if((*met)[0].et()>=100&&(*met)[0].et()<150)
+    {
+      MET100_dRLepMETMin_->Fill(dRLepMETMin);
+      MET100_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET100_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET100_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
+
+  if((*met)[0].et()>=150&&(*met)[0].et()<200)
+    {
+      MET150_dRLepMETMin_->Fill(dRLepMETMin);
+      MET150_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET150_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET150_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
+
+  if((*met)[0].et()>=200&&(*met)[0].et()<250)
+    {
+      MET200_dRLepMETMin_->Fill(dRLepMETMin);
+      MET200_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET200_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET200_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
+
+  if((*met)[0].et()>=250&&(*met)[0].et()<300)
+    {
+      MET250_dRLepMETMin_->Fill(dRLepMETMin);
+      MET250_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET250_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET250_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
+
+  if((*met)[0].et()>=300)
+    {
+      MET300_dRLepMETMin_->Fill(dRLepMETMin);
+      MET300_dPhiLepMETMin_->Fill(dPhiLepMETMin);
+      MET300_dRBjetBjetMin_->Fill(dRBjetBjetMin);
+      MET300_dPhiBjetBjetMin_->Fill(dPhiBjetBjetMin);
+    }
   //-------------------------------------
   // 3-Vectors for event shape variables
   //-------------------------------------
