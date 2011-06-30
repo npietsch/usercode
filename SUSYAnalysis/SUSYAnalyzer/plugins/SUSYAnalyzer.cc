@@ -114,7 +114,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 200);
 
-  mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET50", 40 , 0, 200);
+  mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET0", 40 , 0, 200);
   mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 200);
   mW_MET100_=fs-> make<TH1F>("mW_MET100","mW MET100", 40 , 0, 200);
   mW_MET150_=fs-> make<TH1F>("mW_MET150","mW MET150", 40 , 0, 200);
