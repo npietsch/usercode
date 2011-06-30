@@ -113,7 +113,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 30. &'
+                               'pt > 40. &'
                                ## PURE09 LOOSE
                                #'emEnergyFraction > 0.01 &'
                                #'jetID.fHPD < 0.98 &'
@@ -152,7 +152,7 @@ looseJets.checkOverlaps = cms.PSet(
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 goodJets = selectedPatJets.clone(src = 'looseJets',
                                  cut =
-                                 'pt > 50.'
+                                 'pt > 40.'
                                  )
 ## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
@@ -655,9 +655,7 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourLooseJets ##*
-##                             twoMediumJets
-##                             oneTightJet
+jetSelection = cms.Sequence(fourGoodJets
                             )
 
 metSelection = cms.Sequence(oneGoodMET
