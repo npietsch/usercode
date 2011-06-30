@@ -114,6 +114,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 200);
 
+  mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET50", 40 , 0, 200);
   mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 200);
   mW_MET100_=fs-> make<TH1F>("mW_MET100","mW MET100", 40 , 0, 200);
   mW_MET150_=fs-> make<TH1F>("mW_MET150","mW MET150", 40 , 0, 200);
@@ -135,9 +136,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mW_HT700_=fs-> make<TH1F>("mW_HT700","mW HT700", 40 , 0, 200);
   mW_HT800_=fs-> make<TH1F>("mW_HT800","mW HT800", 40 , 0, 200);
 
-  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW", 40, 0., 1000.,16 , -0.5, 15.5 );
+  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 40, 0., 1000.);
   mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
-  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 2000.,16 , -0.5, 15.5 );
+  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 200., 40, 0., 2000.);
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -417,7 +418,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       mW_nJets_->Fill(mW,jets->size());
       mW_HT_->Fill(mW,HT);
 
-      if((*met)[0].et()>= 50 &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
+      if((*met)[0].et()<50) mW_MET0_->Fill(mW);
+      else if((*met)[0].et()>= 50  &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
       else if((*met)[0].et()>= 100 &&(*met)[0].et()<150) mW_MET100_->Fill(mW);
       else if((*met)[0].et()>= 150 &&(*met)[0].et()<200) mW_MET150_->Fill(mW);
       else if((*met)[0].et()>= 200 &&(*met)[0].et()<250) mW_MET200_->Fill(mW);
