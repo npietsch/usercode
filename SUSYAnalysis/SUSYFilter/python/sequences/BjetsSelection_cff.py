@@ -113,7 +113,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 40. &'
+                               'pt > 30. &'
                                ## PURE09 LOOSE
                                #'emEnergyFraction > 0.01 &'
                                #'jetID.fHPD < 0.98 &'
@@ -244,6 +244,13 @@ goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
                                 'et > 50.'
                                 )
+## create MET collection
+from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
+mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
+                                  cut =
+                                  'et > 100.'
+                                  )
+
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 tightMETs = selectedPatMET.clone(src = 'patMETsPF',
@@ -548,6 +555,11 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                )
 ## select events with one good MET
 from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
+oneMediumMET = countPatMET.clone(src = 'mediumMETs',
+                                 minNumber = 1
+                                 )
+## select events with one good MET
+from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
 oneTightMET = countPatMET.clone(src = 'tightMETs',
                                 minNumber = 1
                                 )
@@ -633,6 +645,7 @@ goodObjects = cms.Sequence(looseMuons *
                            goodMuons *
                            looseMETs *
                            goodMETs *
+                           mediumMETs *
                            tightMETs *
                            looseTrackHighPurBjets *
                            mediumTrackHighPurBjets *

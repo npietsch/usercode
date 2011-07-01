@@ -14,6 +14,11 @@ ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI31
 LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                     HLTPaths = ['HLT_Mu5_HT100*','HLT_Ele10*_HT100*'], throw = False)
 
+MuTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                 HLTPaths = ['HLT_Mu9'],throw = False)
+ElTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
+                                 HLTPaths = ['HLT_Ele10_SW_L1R_v2'],throw = False)
+
 ## MC trigger Summer11
 MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*'],throw = False)
 ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
@@ -28,7 +33,6 @@ LepHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*','HLT_Ele10*_H
 MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*'],throw = False)
 ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15*_HT200*'],throw = False)
 LepHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*','HLT_Ele15*_HT200*'],throw = False)
-
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(HLTPaths = [
@@ -116,6 +120,17 @@ preselectionElHTData2 = cms.Sequence(ElHTTriggerData2
 
 preselectionLepHTData2 = cms.Sequence(LepHTTriggerData2
                                       )
+
+## For synchronization
+preselectionMuSynch = cms.Sequence(MuTriggerMC *
+                                   primaryVertexFilter *
+                                   scrapingVeto
+                                   )
+
+preselectionElSynch = cms.Sequence(ElTriggerMC *
+                                   primaryVertexFilter *
+                                   scrapingVeto
+                                   )
 
 # AOD2PAT data
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *

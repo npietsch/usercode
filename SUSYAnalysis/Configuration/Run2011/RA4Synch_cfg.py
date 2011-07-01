@@ -90,7 +90,7 @@ process.MuonSelection = cms.Path(process.preselectionMuSynch *
                                  process.twoLooseJets *
                                  process.threeLooseJets *
                                  process.fourLooseJets *
-                                 process.oneGoodMET *
+                                 process.oneMediumMET *
                                  process.oneTightMET
                                  )
 ## Electron selection
@@ -104,6 +104,6 @@ process.ElecSelection = cms.Path(process.preselectionElSynch *
                                  process.twoLooseJets *
                                  process.threeLooseJets *
                                  process.fourLooseJets *
-                                 process.oneGoodMET *
+                                 process.oneMediumMET *
                                  process.oneTightMET
                                  )
