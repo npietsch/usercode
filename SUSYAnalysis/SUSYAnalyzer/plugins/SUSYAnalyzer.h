@@ -98,6 +98,10 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *HT_SigMET_;
   TH2F *HT_MET_;
 
+  TH2F *mW_SigMET_;
+  TH2F *sigMET_nJets_;
+  TH2F *HT_nJets_;
+
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;
   std::vector<TH1F*> Elec_pt_;
@@ -116,6 +120,13 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *mW_MET200_;
   TH1F *mW_MET250_;
   TH1F *mW_MET300_;
+
+  TH1F *mW_SigMET0_;
+  TH1F *mW_SigMET2_;
+  TH1F *mW_SigMET4_;
+  TH1F *mW_SigMET6_;
+  TH1F *mW_SigMET9_;
+  TH1F *mW_SigMET12_;
 
   TH1F *mW_4Jets_;
   TH1F *mW_5Jets_;

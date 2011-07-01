@@ -122,6 +122,13 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mW_MET250_=fs-> make<TH1F>("mW_MET250","mW MET250", 40 , 0, 200);
   mW_MET300_=fs-> make<TH1F>("mW_MET300","mW MET300", 40 , 0, 200);
 
+  mW_SigMET0_=fs-> make<TH1F>("mW_SigMET0","mW_SigMET0", 40 , 0, 200);
+  mW_SigMET2_=fs-> make<TH1F>("mW_SigMET2","mW SigMET2", 40 , 0, 200);
+  mW_SigMET4_=fs-> make<TH1F>("mW_SigMET4","mW SigMET4", 40 , 0, 200);
+  mW_SigMET6_=fs-> make<TH1F>("mW_SigMET6","mW SigMET6", 40 , 0, 200);
+  mW_SigMET9_=fs-> make<TH1F>("mW_SigMET9","mW SigMET9", 40 , 0, 200);
+  mW_SigMET12_=fs-> make<TH1F>("mW_SigMET12","mW SigMET12", 40 , 0, 200);
+
   mW_4Jets_=fs-> make<TH1F>("mW_4Jets","mW 4Jets", 40 , 0, 200);
   mW_5Jets_=fs-> make<TH1F>("mW_5Jets","mW 5Jets", 40 , 0, 200);
   mW_6Jets_=fs-> make<TH1F>("mW_6Jets","mW 6Jets", 40 , 0, 200);
@@ -139,6 +146,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 25, 0., 500.);
   mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
   mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 200., 25, 0., 1000.);
+
+  mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 200., 20, 0., 20.);
+  sigMET_nJets_=fs-> make<TH2F>("sigMET_nJets","nJets vs. sigMET", 20, 0., 20.,16 , -0.5, 15.5 );
+  HT_nJets_=fs-> make<TH2F>("HT_nJets","nJets vs. HT", 25, 0., 1000.,16 , -0.5, 15.5 );
 }
 
 SUSYAnalyzer::~SUSYAnalyzer()
@@ -417,6 +428,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       mW_MET_->Fill(mW,(*met)[0].et());
       mW_nJets_->Fill(mW,jets->size());
       mW_HT_->Fill(mW,HT);
+      mW_SigMET_->Fill(mW,sigMET);
+      sigMET_nJets_->Fill(sigMET,jets->size());
+      HT_nJets_->Fill(HT,jets->size());
 
       if((*met)[0].et()<50) mW_MET0_->Fill(mW);
       else if((*met)[0].et()>= 50  &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
@@ -426,6 +440,13 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       else if((*met)[0].et()>= 250 &&(*met)[0].et()<300) mW_MET250_->Fill(mW);
       else if((*met)[0].et()>= 300) mW_MET300_->Fill(mW);
       
+      if(sigMET<2) mW_SigMET0_->Fill(mW);
+      else if(sigMET>= 2 &&sigMET<4) mW_SigMET2_->Fill(mW);
+      else if(sigMET>= 4 &&sigMET<6) mW_SigMET4_->Fill(mW);
+      else if(sigMET>= 6 &&sigMET<9) mW_SigMET6_->Fill(mW);
+      else if(sigMET>= 9 &&sigMET<12) mW_SigMET9_->Fill(mW);
+      else if(sigMET>= 12) mW_SigMET12_->Fill(mW);
+
       if(jets->size()==4) mW_4Jets_->Fill(mW);
       else if(jets->size()==5) mW_5Jets_->Fill(mW);
       else if(jets->size()==6) mW_6Jets_->Fill(mW);
