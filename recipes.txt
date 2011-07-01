@@ -13,9 +13,9 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
-cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
+cvs co -r V00-00-00 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co TopQuarkAnalysis/TopEventSelection
 addpkg ElectroWeakAnalysis/WENu V00-04-00
 addpkg -q CommonTools/ParticleFlow V00-01-06-01  
@@ -52,10 +52,11 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r V00-00-00 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -d Results UserCode/npietsch/Results
+cp -r ~/public/4_1_4/TopAnalysis ./
 cp -r ~/public/4_1_4/ElectroWeakAnalysis ./
 cp -r ~/public/4_1_4/RecoBTag ./
-cp -r ~/public/4_1_4/TopAnalysis ./
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
