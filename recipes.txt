@@ -30,6 +30,8 @@ cvs co -r CMSSW_4_2_3 TrackingTools/TrajectoryState
 
 scram b -r -j 8
 
+rehash
+
 ## To create PAT Tuple from 2011 Prompt-Reco v4, 2011 May10ReReco and Summer11 MC
 
 cd /SUSYAnalysis/Configuration/Run2011
@@ -63,6 +65,8 @@ cp -r ~/public/4_1_4/RecoBTag ./
 ## and replace in the constructor of TopQuarkAnalysis/TopEventProducers/src/TopDecaySubset.cc "kStart" by "kPythia"
 
 scram b -r -j 8
+
+rehash
 
 ## To create PAT Tuple from 2011 Prompt-Reco v1 and v2 and Spring11 MC
 
