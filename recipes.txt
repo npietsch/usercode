@@ -13,7 +13,7 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -r V00-00-00 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r V-01Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co TopQuarkAnalysis/TopEventSelection
@@ -52,7 +52,7 @@ cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -r V00-00-00 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r V-01Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
 cp -r ~/public/4_1_4/TopAnalysis ./
 cp -r ~/public/4_1_4/ElectroWeakAnalysis ./
