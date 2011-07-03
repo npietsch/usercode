@@ -56,9 +56,9 @@ kinit Username@CERN.CH
 
 cvs co -r V-01Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
-cp -r ~/public/4_1_4/TopAnalysis ./
-cp -r ~/public/4_1_4/ElectroWeakAnalysis ./
-cp -r ~/public/4_1_4/RecoBTag ./
+cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/TopAnalysis ./
+cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/ElectroWeakAnalysis ./
+cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/RecoBTag ./
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
