@@ -181,7 +181,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # cmsPath
 #----------------------------------------------
 
-process.PATTuple = cms.Path(process.preselectionMC2PAT *
+process.PATTuple = cms.Path(#process.preselectionMC2PAT *
                             process.patDefaultSequence##  *
 ##                             getattr(process,"patPF2PATSequence"+postfix)
                             )

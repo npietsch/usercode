@@ -28,7 +28,7 @@ vertexMuons = vertexSelectedMuons.clone(src = "trackMuons"
 from TopAnalysis.TopFilter.filters.MuonJetOverlapSelector_cfi import *
 goodMuons = checkJetOverlapMuons.clone()
 goodMuons.muons = 'vertexMuons'
-goodMuons.jets = 'looseJets'
+goodMuons.jets = 'goodJets'
 goodMuons.deltaR = 0.3
 goodMuons.overlap=False
 
@@ -113,7 +113,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 30. &'
+                               'pt > 40. &'
                                ## PURE09 LOOSE
                                #'emEnergyFraction > 0.01 &'
                                #'jetID.fHPD < 0.98 &'
