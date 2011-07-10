@@ -51,7 +51,6 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *HT_;
   TH1F *SigMET_;
   TH1F *nJets_;
-  TH1F *nJets_control_;
   TH1F *nMuons_;
   TH1F *nElectrons_;
   TH1F *nLeptons_;
@@ -90,8 +89,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *Jet0_Et5pv_;
   TH1F *Jet1_Et5pv_;
 
-  TH1F * Electron0_eta_;
-  TH1F * Muon0_eta_;
+  TH1F *Electron0_eta_;
+  TH1F *Muon0_eta_;
 
   TH1F *nPV_;
 
@@ -146,6 +145,54 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *mW_MET_;
   TH2F *mW_nJets_;
   TH2F *mW_HT_;
+
+  TH1F *nJets_control_;
+  TH1F *nJets_control_eta05_;
+  TH1F *nJets_control_eta10_;
+  TH1F *nJets_control_eta15_;
+  TH1F *nJets_control_eta20_;
+  TH1F *nJets_control_eta25_;
+
+  TH1F *nJets_signal_;
+  TH1F *nJets_signal_eta05_;
+  TH1F *nJets_signal_eta10_;
+  TH1F *nJets_signal_eta15_;
+  TH1F *nJets_signal_eta20_;
+  TH1F *nJets_signal_eta25_;
+
+  TH1F *HT_control_;
+  TH1F *HT_control_eta05_;
+  TH1F *HT_control_eta10_;
+  TH1F *HT_control_eta15_;
+  TH1F *HT_control_eta20_;
+  TH1F *HT_control_eta25_;
+
+  TH1F *HT_signal_;
+  TH1F *HT_signal_eta05_;
+  TH1F *HT_signal_eta10_;
+  TH1F *HT_signal_eta15_;
+  TH1F *HT_signal_eta20_;
+  TH1F *HT_signal_eta25_;
+
+  TH1F *mW_control_;
+  TH1F *mW_control_eta05_;
+  TH1F *mW_control_eta10_;
+  TH1F *mW_control_eta15_;
+  TH1F *mW_control_eta20_;
+  TH1F *mW_control_eta25_;
+
+  TH1F *mW_signal_;
+  TH1F *mW_signal_eta05_;
+  TH1F *mW_signal_eta10_;
+  TH1F *mW_signal_eta15_;
+  TH1F *mW_signal_eta20_;
+  TH1F *mW_signal_eta25_;
+
+  TH1F *mW_eta05_;
+  TH1F *mW_eta10_;
+  TH1F *mW_eta15_;
+  TH1F *mW_eta20_;
+  TH1F *mW_eta25_;
 };  
 
 #endif  

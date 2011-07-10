@@ -67,7 +67,54 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
+
   nJets_control_ = fs->make<TH1F>("nJets_control","nJets_control",16 , -0.5, 15.5);
+  nJets_control_eta05_ = fs->make<TH1F>("nJets_control_eta05","nJets_control_eta05",16 , -0.5, 15.5);
+  nJets_control_eta10_ = fs->make<TH1F>("nJets_control_eta10","nJets_control_eta10",16 , -0.5, 15.5);
+  nJets_control_eta15_ = fs->make<TH1F>("nJets_control_eta15","nJets_control_eta15",16 , -0.5, 15.5);
+  nJets_control_eta20_ = fs->make<TH1F>("nJets_control_eta20","nJets_control_eta20",16 , -0.5, 15.5);
+  nJets_control_eta25_ = fs->make<TH1F>("nJets_control_eta25","nJets_control_eta25",16 , -0.5, 15.5);
+
+  nJets_signal_ = fs->make<TH1F>("nJets_signal","nJets_signal",16 , -0.5, 15.5);
+  nJets_signal_eta05_ = fs->make<TH1F>("nJets_signal_eta05","nJets_signal_eta05",16 , -0.5, 15.5);
+  nJets_signal_eta10_ = fs->make<TH1F>("nJets_signal_eta10","nJets_signal_eta10",16 , -0.5, 15.5);
+  nJets_signal_eta15_ = fs->make<TH1F>("nJets_signal_eta15","nJets_signal_eta15",16 , -0.5, 15.5);
+  nJets_signal_eta20_ = fs->make<TH1F>("nJets_signal_eta20","nJets_signal_eta20",16 , -0.5, 15.5);
+  nJets_signal_eta25_ = fs->make<TH1F>("nJets_signal_eta25","nJets_signal_eta25",16 , -0.5, 15.5);
+
+  HT_control_ = fs->make<TH1F>("HT_control","HT_control",40, 0., 2000.);
+  HT_control_eta05_ = fs->make<TH1F>("HT_control_eta05","HT_control_eta05",40, 0., 2000.);
+  HT_control_eta10_ = fs->make<TH1F>("HT_control_eta10","HT_control_eta10",40, 0., 2000.);
+  HT_control_eta15_ = fs->make<TH1F>("HT_control_eta15","HT_control_eta15",40, 0., 2000.);
+  HT_control_eta20_ = fs->make<TH1F>("HT_control_eta20","HT_control_eta20",40, 0., 2000.);
+  HT_control_eta25_ = fs->make<TH1F>("HT_control_eta25","HT_control_eta25",40, 0., 2000.);
+
+  HT_signal_ = fs->make<TH1F>("HT_signal","HT_signal",40, 0., 2000.);
+  HT_signal_eta05_ = fs->make<TH1F>("HT_signal_eta05","HT_signal_eta05",40, 0., 2000.);
+  HT_signal_eta10_ = fs->make<TH1F>("HT_signal_eta10","HT_signal_eta10",40, 0., 2000.);
+  HT_signal_eta15_ = fs->make<TH1F>("HT_signal_eta15","HT_signal_eta15",40, 0., 2000.);
+  HT_signal_eta20_ = fs->make<TH1F>("HT_signal_eta20","HT_signal_eta20",40, 0., 2000.);
+  HT_signal_eta25_ = fs->make<TH1F>("HT_signal_eta25","HT_signal_eta25",40, 0., 2000.);
+
+  mW_eta05_ = fs->make<TH1F>("mW_eta05","mW_eta05",40, 0., 200.);
+  mW_eta10_ = fs->make<TH1F>("mW_eta10","mW_eta10",40, 0., 200.);
+  mW_eta15_ = fs->make<TH1F>("mW_eta15","mW_eta15",40, 0., 200.);
+  mW_eta20_ = fs->make<TH1F>("mW_eta20","mW_eta20",40, 0., 200.);
+  mW_eta25_ = fs->make<TH1F>("mW_eta25","mW_eta25",40, 0., 200.);
+
+  mW_control_ = fs->make<TH1F>("mW_control","mW_control",40, 0., 200.);
+  mW_control_eta05_ = fs->make<TH1F>("mW_control_eta05","mW_control_eta05",40, 0., 200.);
+  mW_control_eta10_ = fs->make<TH1F>("mW_control_eta10","mW_control_eta10",40, 0., 200.);
+  mW_control_eta15_ = fs->make<TH1F>("mW_control_eta15","mW_control_eta15",40, 0., 200.);
+  mW_control_eta20_ = fs->make<TH1F>("mW_control_eta20","mW_control_eta20",40, 0., 200.);
+  mW_control_eta25_ = fs->make<TH1F>("mW_control_eta25","mW_control_eta25",40, 0., 200.);
+
+  mW_signal_ = fs->make<TH1F>("mW_signal","mW_signal",40, 0., 200.);
+  mW_signal_eta05_ = fs->make<TH1F>("mW_signal_eta05","mW_signal_eta05",40, 0., 200.);
+  mW_signal_eta10_ = fs->make<TH1F>("mW_signal_eta10","mW_signal_eta10",40, 0., 200.);
+  mW_signal_eta15_ = fs->make<TH1F>("mW_signal_eta15","mW_signal_eta15",40, 0., 200.);
+  mW_signal_eta20_ = fs->make<TH1F>("mW_signal_eta20","mW_signal_eta20",40, 0., 200.);
+  mW_signal_eta25_ = fs->make<TH1F>("mW_signal_eta25","mW_signal_eta25",40, 0., 200.);
 
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
   nElectrons_ = fs->make<TH1F>("nElectrons","nElectrons",7 , -0.5, 6.5);
@@ -414,19 +461,74 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
   //transverse W-mass
   double mW=0;
+  double eta=3.0;
+
   if(muons->size()==1)
     {
       mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
+      eta=(*muons)[0].eta();
     }
   else if(electrons->size()==1)
     {
-      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));      eta=(*electrons)[0].eta();
     }
   
   if(mW > 0)
     {
       mW_->Fill(mW);
-      if(mW >= 60 && mW < 90) nJets_control_->Fill(jets->size());
+
+      if(abs(eta)< 0.5) mW_eta05_->Fill(mW);
+      else if(0.5 <= abs(eta)< 1.0) mW_eta10_->Fill(mW);
+      else if(1.0 <= abs(eta)< 1.5) mW_eta15_->Fill(mW);
+      else if(1.5 <= abs(eta)< 2.0) mW_eta20_->Fill(mW);
+      else if(2.0 <= abs(eta)< 2.5) mW_eta25_->Fill(mW);
+
+      if(mW >= 60 && mW < 90)
+	{
+	  nJets_control_->Fill(jets->size());
+	  if(abs(eta)< 0.5) nJets_control_eta05_->Fill(jets->size());
+	  else if(0.5 <= abs(eta)< 1.0) nJets_control_eta10_->Fill(jets->size());
+	  else if(1.0 <= abs(eta)< 1.5) nJets_control_eta15_->Fill(jets->size());
+	  else if(1.5 <= abs(eta)< 2.0) nJets_control_eta20_->Fill(jets->size());
+	  else if(2.0 <= abs(eta)< 2.5) nJets_control_eta25_->Fill(jets->size());
+
+	  HT_control_->Fill(HT);
+	  if(abs(eta)< 0.5) HT_control_eta05_->Fill(HT);
+	  else if(0.5 <= abs(eta)< 1.0) HT_control_eta10_->Fill(HT);
+	  else if(1.0 <= abs(eta)< 1.5) HT_control_eta15_->Fill(HT);
+	  else if(1.5 <= abs(eta)< 2.0) HT_control_eta20_->Fill(HT);
+	  else if(2.0 <= abs(eta)< 2.5) HT_control_eta25_->Fill(HT);
+
+	  mW_control_->Fill(mW);
+	  if(abs(eta)< 0.5) mW_control_eta05_->Fill(mW);
+	  else if(0.5 <= abs(eta)< 1.0) mW_control_eta10_->Fill(mW);
+	  else if(1.0 <= abs(eta)< 1.5) mW_control_eta15_->Fill(mW);
+	  else if(1.5 <= abs(eta)< 2.0) mW_control_eta20_->Fill(mW);
+	  else if(2.0 <= abs(eta)< 2.5) mW_control_eta25_->Fill(mW);
+	}
+      else
+	{
+	  nJets_signal_->Fill(jets->size());
+	  if(eta< 0.5) nJets_signal_eta05_->Fill(jets->size());
+	  else if(0.5 <= eta< 1.0) nJets_signal_eta10_->Fill(jets->size());
+	  else if(1.0 <= eta< 1.5) nJets_signal_eta15_->Fill(jets->size());
+	  else if(1.5 <= eta< 2.0) nJets_signal_eta20_->Fill(jets->size());
+	  else if(2.0 <= eta< 2.5) nJets_signal_eta25_->Fill(jets->size());
+
+	  HT_signal_->Fill(HT);
+	  if(eta< 0.5) HT_signal_eta05_->Fill(HT);
+	  else if(0.5 <= eta< 1.0) HT_signal_eta10_->Fill(HT);
+	  else if(1.0 <= eta< 1.5) HT_signal_eta15_->Fill(HT);
+	  else if(1.5 <= eta< 2.0) HT_signal_eta20_->Fill(HT);
+	  else if(2.0 <= eta< 2.5) HT_signal_eta25_->Fill(HT);
+
+	  mW_signal_->Fill(mW);
+	  if(eta< 0.5) mW_signal_eta05_->Fill(mW);
+	  else if(0.5 <= eta< 1.0) mW_signal_eta10_->Fill(mW);
+	  else if(1.0 <= eta< 1.5) mW_signal_eta15_->Fill(mW);
+	  else if(1.5 <= eta< 2.0) mW_signal_eta20_->Fill(mW);
+	  else if(2.0 <= eta< 2.5) mW_signal_eta25_->Fill(mW);
+	}
 
       mW_MET_->Fill(mW,(*met)[0].et());
       mW_nJets_->Fill(mW,jets->size());
