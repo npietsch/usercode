@@ -51,6 +51,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *HT_;
   TH1F *SigMET_;
   TH1F *nJets_;
+  TH1F *nJets_control_;
   TH1F *nMuons_;
   TH1F *nElectrons_;
   TH1F *nLeptons_;

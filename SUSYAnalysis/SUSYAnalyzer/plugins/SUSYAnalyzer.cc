@@ -63,10 +63,12 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Jet1_Et5pv_=fs->make<TH1F>("Jet1_Et5pv","Jet2 Et 5pv", 90, 0., 900.);
 
   HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 78, 220., 1000., 30, 0., 300. );
-  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 200., 2000., 40, 0., 20. );
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
+  nJets_control_ = fs->make<TH1F>("nJets_control","nJets_control",16 , -0.5, 15.5);
+
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
   nElectrons_ = fs->make<TH1F>("nElectrons","nElectrons",7 , -0.5, 6.5);
   nLeptons_ = fs->make<TH1F>("nLeptons","nLeptons",13 , -0.5, 12.5);
@@ -424,6 +426,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   if(mW > 0)
     {
       mW_->Fill(mW);
+      if(mW >= 60 && mW < 90) nJets_control_->Fill(jets->size());
 
       mW_MET_->Fill(mW,(*met)[0].et());
       mW_nJets_->Fill(mW,jets->size());
