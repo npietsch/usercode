@@ -619,6 +619,12 @@ twoGoodLeptons.minNumber = 2
 
 leptonVeto = countPatLeptons.clone()
 
+## Transverse mass filter
+from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *
+filterMT = filterTransverseMass.clone()
+filterMT.muons = "goodMuons"
+filterMT.electrons = "goodElectrons"
+
 #------------------------------
 # Define sequences
 #------------------------------
@@ -668,7 +674,8 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourGoodJets
+jetSelection = cms.Sequence(fourGoodJets *
+                            filterMT
                             )
 
 metSelection = cms.Sequence(oneGoodMET
