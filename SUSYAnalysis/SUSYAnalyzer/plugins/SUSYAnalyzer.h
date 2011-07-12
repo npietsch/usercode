@@ -145,6 +145,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *mW_MET_;
   TH2F *mW_nJets_;
   TH2F *mW_HT_;
+  TH2F *mW_MT_;
+  TH2F *mW_MTHad_;
 
   TH1F *nJets_control_;
   TH1F *nJets_control_eta05_;

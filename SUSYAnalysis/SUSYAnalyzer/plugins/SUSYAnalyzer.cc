@@ -14,7 +14,7 @@ using namespace std;
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   met_          (cfg.getParameter<edm::InputTag>("met")),
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
-  lightJets_         (cfg.getParameter<edm::InputTag>("lightJets")),
+  lightJets_    (cfg.getParameter<edm::InputTag>("lightJets")),
   bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
@@ -194,7 +194,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 25, 0., 500.);
   mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
-  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 40, 0., 200., 25, 0., 1000.);
+  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 20, 0., 200., 40, 0., 2000.);
+  mW_MT_=fs-> make<TH2F>("mW_MT","MT vs. mW", 20, 0., 200., 40, 0., 2000.);
+  mW_MTHad_=fs-> make<TH2F>("mW_MTHad","MTHad vs. mW", 20, 0., 200., 40, 0., 2000.);
 
   mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 200., 20, 0., 20.);
   sigMET_nJets_=fs-> make<TH2F>("sigMET_nJets","nJets vs. sigMET", 20, 0., 20.,16 , -0.5, 15.5 );
@@ -237,7 +239,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   for(int i=0; i<(int)jets->size(); ++i)
     {
       if(i<6) Jet_Et_[i]->Fill((*jets)[i].et());
-      HT=HT+(*jets)[i].et();
+      if(i<3) HT=HT+(*jets)[i].et();
       njets=njets+1;
     }
   
@@ -439,6 +441,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   nLeptons_->Fill(nleptons);
 
   double MT=lepHT+HT+(*met)[0].et();
+  double MTHad=HT+(*met)[0].et();
   MT_->Fill(MT);
   
   if(nleptons==2)
@@ -470,64 +473,65 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
     }
   else if(electrons->size()==1)
     {
-      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));      eta=(*electrons)[0].eta();
+      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+      eta=(*electrons)[0].eta();
     }
   
   if(mW > 0)
     {
       mW_->Fill(mW);
 
-      if(abs(eta)< 0.5) mW_eta05_->Fill(mW);
-      else if(0.5 <= abs(eta)< 1.0) mW_eta10_->Fill(mW);
-      else if(1.0 <= abs(eta)< 1.5) mW_eta15_->Fill(mW);
-      else if(1.5 <= abs(eta)< 2.0) mW_eta20_->Fill(mW);
-      else if(2.0 <= abs(eta)< 2.5) mW_eta25_->Fill(mW);
+      if(abs(eta)<= 0.5) mW_eta05_->Fill(mW);
+      else if(0.5 <= abs(eta) && abs(eta)< 1.0) mW_eta10_->Fill(mW);
+      else if(1.0 <= abs(eta) && abs(eta)< 1.5) mW_eta15_->Fill(mW);
+      else if(1.5 <= abs(eta) && abs(eta)< 2.0) mW_eta20_->Fill(mW);
+      else if(2.0 <= abs(eta) && abs(eta)< 2.5) mW_eta25_->Fill(mW);
 
       if(mW >= 60 && mW < 90)
 	{
 	  nJets_control_->Fill(jets->size());
-	  if(abs(eta)< 0.5) nJets_control_eta05_->Fill(jets->size());
-	  else if(0.5 <= abs(eta)< 1.0) nJets_control_eta10_->Fill(jets->size());
-	  else if(1.0 <= abs(eta)< 1.5) nJets_control_eta15_->Fill(jets->size());
-	  else if(1.5 <= abs(eta)< 2.0) nJets_control_eta20_->Fill(jets->size());
-	  else if(2.0 <= abs(eta)< 2.5) nJets_control_eta25_->Fill(jets->size());
+	  if(abs(eta)<= 0.5) nJets_control_eta05_->Fill(jets->size());
+	  else if(0.5 <= abs(eta) && abs(eta)< 1.0) nJets_control_eta10_->Fill(jets->size());
+	  else if(1.0 <= abs(eta) && abs(eta)< 1.5) nJets_control_eta15_->Fill(jets->size());
+	  else if(1.5 <= abs(eta) && abs(eta)< 2.0) nJets_control_eta20_->Fill(jets->size());
+	  else if(2.0 <= abs(eta) && abs(eta)< 2.5) nJets_control_eta25_->Fill(jets->size());
 
 	  HT_control_->Fill(HT);
-	  if(abs(eta)< 0.5) HT_control_eta05_->Fill(HT);
-	  else if(0.5 <= abs(eta)< 1.0) HT_control_eta10_->Fill(HT);
-	  else if(1.0 <= abs(eta)< 1.5) HT_control_eta15_->Fill(HT);
-	  else if(1.5 <= abs(eta)< 2.0) HT_control_eta20_->Fill(HT);
-	  else if(2.0 <= abs(eta)< 2.5) HT_control_eta25_->Fill(HT);
+	  if(abs(eta)<= 0.5) HT_control_eta05_->Fill(HT);
+	  else if(0.5 <= abs(eta) && abs(eta)< 1.0) HT_control_eta10_->Fill(HT);
+	  else if(1.0 <= abs(eta) && abs(eta)< 1.5) HT_control_eta15_->Fill(HT);
+	  else if(1.5 <= abs(eta) && abs(eta)< 2.0) HT_control_eta20_->Fill(HT);
+	  else if(2.0 <= abs(eta) && abs(eta)< 2.5) HT_control_eta25_->Fill(HT);
 
 	  mW_control_->Fill(mW);
-	  if(abs(eta)< 0.5) mW_control_eta05_->Fill(mW);
-	  else if(0.5 <= abs(eta)< 1.0) mW_control_eta10_->Fill(mW);
-	  else if(1.0 <= abs(eta)< 1.5) mW_control_eta15_->Fill(mW);
-	  else if(1.5 <= abs(eta)< 2.0) mW_control_eta20_->Fill(mW);
-	  else if(2.0 <= abs(eta)< 2.5) mW_control_eta25_->Fill(mW);
+	  if(abs(eta)<= 0.5) mW_control_eta05_->Fill(mW);
+	  else if(0.5 <= abs(eta) && abs(eta) && abs(eta)< 1.0) mW_control_eta10_->Fill(mW);
+	  else if(1.0 <= abs(eta) && abs(eta) && abs(eta)< 1.5) mW_control_eta15_->Fill(mW);
+	  else if(1.5 <= abs(eta) && abs(eta) && abs(eta)< 2.0) mW_control_eta20_->Fill(mW);
+	  else if(2.0 <= abs(eta) && abs(eta) && abs(eta)< 2.5) mW_control_eta25_->Fill(mW);
 	}
       else
 	{
 	  nJets_signal_->Fill(jets->size());
-	  if(eta< 0.5) nJets_signal_eta05_->Fill(jets->size());
-	  else if(0.5 <= eta< 1.0) nJets_signal_eta10_->Fill(jets->size());
-	  else if(1.0 <= eta< 1.5) nJets_signal_eta15_->Fill(jets->size());
-	  else if(1.5 <= eta< 2.0) nJets_signal_eta20_->Fill(jets->size());
-	  else if(2.0 <= eta< 2.5) nJets_signal_eta25_->Fill(jets->size());
+	  if(eta<= 0.5) nJets_signal_eta05_->Fill(jets->size());
+	  else if(0.5 <= abs(eta) && eta< 1.0) nJets_signal_eta10_->Fill(jets->size());
+	  else if(1.0 <= abs(eta) && eta< 1.5) nJets_signal_eta15_->Fill(jets->size());
+	  else if(1.5 <= abs(eta) && eta< 2.0) nJets_signal_eta20_->Fill(jets->size());
+	  else if(2.0 <= abs(eta) && eta< 2.5) nJets_signal_eta25_->Fill(jets->size());
 
 	  HT_signal_->Fill(HT);
-	  if(eta< 0.5) HT_signal_eta05_->Fill(HT);
-	  else if(0.5 <= eta< 1.0) HT_signal_eta10_->Fill(HT);
-	  else if(1.0 <= eta< 1.5) HT_signal_eta15_->Fill(HT);
-	  else if(1.5 <= eta< 2.0) HT_signal_eta20_->Fill(HT);
-	  else if(2.0 <= eta< 2.5) HT_signal_eta25_->Fill(HT);
+	  if(eta<= 0.5) HT_signal_eta05_->Fill(HT);
+	  else if(0.5 <= abs(eta) && eta< 1.0) HT_signal_eta10_->Fill(HT);
+	  else if(1.0 <= abs(eta) && eta< 1.5) HT_signal_eta15_->Fill(HT);
+	  else if(1.5 <= abs(eta) && eta< 2.0) HT_signal_eta20_->Fill(HT);
+	  else if(2.0 <= abs(eta) && eta< 2.5) HT_signal_eta25_->Fill(HT);
 
 	  mW_signal_->Fill(mW);
 	  if(eta< 0.5) mW_signal_eta05_->Fill(mW);
-	  else if(0.5 <= eta< 1.0) mW_signal_eta10_->Fill(mW);
-	  else if(1.0 <= eta< 1.5) mW_signal_eta15_->Fill(mW);
-	  else if(1.5 <= eta< 2.0) mW_signal_eta20_->Fill(mW);
-	  else if(2.0 <= eta< 2.5) mW_signal_eta25_->Fill(mW);
+	  else if(0.5 <= abs(eta) && eta< 1.0) mW_signal_eta10_->Fill(mW);
+	  else if(1.0 <= abs(eta) && eta< 1.5) mW_signal_eta15_->Fill(mW);
+	  else if(1.5 <= abs(eta) && eta< 2.0) mW_signal_eta20_->Fill(mW);
+	  else if(2.0 <= abs(eta) && eta< 2.5) mW_signal_eta25_->Fill(mW);
 	}
 
       mW_MET_->Fill(mW,(*met)[0].et());
@@ -536,6 +540,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       mW_SigMET_->Fill(mW,sigMET);
       sigMET_nJets_->Fill(sigMET,jets->size());
       HT_nJets_->Fill(HT,jets->size());
+      mW_MT_->Fill(mW,MT);
+      mW_MTHad_->Fill(mW,MTHad);
 
       if((*met)[0].et()<50) mW_MET0_->Fill(mW);
       else if((*met)[0].et()>= 50  &&(*met)[0].et()<100) mW_MET50_->Fill(mW);
