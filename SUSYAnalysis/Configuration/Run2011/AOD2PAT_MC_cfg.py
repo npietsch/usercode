@@ -10,7 +10,10 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
+    #'/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
+    '/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0008/9C7D9D09-4351-E011-9F8F-0015178C49A4.root'
+
+    
     )
 )
 
@@ -39,7 +42,7 @@ process.load("PhysicsTools.PatAlgos.patSequences_cff")
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Summer11.root')
+    fileName = cms.untracked.string('Spring11.root')
 )
 
 ## remove cleaning as it is not used
@@ -95,6 +98,10 @@ process.patJetCorrFactors.levels=['L1FastJet', 'L2Relative','L3Absolute', 'L2L3R
 ## fix bug in patDefaultSequence
 process.load('RecoJets.Configuration.RecoPFJets_cff')
 process.kt6PFJets.doRhoFastjet = True
+
+## only for CMSSW_4_1_4
+process.kt6PFJets.Rho_EtaMax = cms.double(3.0)
+
 process.patDefaultSequence.replace(process.patJetCorrFactors,
                                    process.kt6PFJets + process.patJetCorrFactors)
 
@@ -201,7 +208,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Summer11.root')
+                               fileName = cms.untracked.string('Spring11.root')
                                )
 
 # Specify what to keep in the event content
