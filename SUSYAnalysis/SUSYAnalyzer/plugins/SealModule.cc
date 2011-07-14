@@ -11,3 +11,6 @@ DEFINE_FWK_MODULE(BjetsAnalyzer);
 
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/EventTopology.h"
 DEFINE_FWK_MODULE(EventTopology);
+
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/TtGenEventAnalyzer.h"
+DEFINE_FWK_MODULE(TtGenEventAnalyzer);
