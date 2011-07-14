@@ -34,7 +34,7 @@ MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*'],throw = Fal
 ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15*_HT200*'],throw = False)
 LepHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*','HLT_Ele15*_HT200*'],throw = False)
 
-MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_IsoMu17_v9'],throw = False)
+MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*', 'HLT_Mu8_HT200_v*'],throw = False)
 ElTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v5'],throw = False)
 
 ## AOD2PAT trigger
@@ -67,6 +67,9 @@ primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
                                    maxd0 = cms.double(2) )
 
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
+HBHENoiseFilter.minIsolatedNoiseSumE = cms.double(999999.)
+HBHENoiseFilter.minNumIsolatedNoiseChannels = cms.int32(999999)
+HBHENoiseFilter.minIsolatedNoiseSumEt = cms.double(999999.)
 
 ##-------------------------------
 ## Define preselection sequences
