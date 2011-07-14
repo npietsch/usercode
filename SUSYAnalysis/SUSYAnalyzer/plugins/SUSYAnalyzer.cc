@@ -126,7 +126,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   RelIsoMu2_= fs->make<TH1F>("RelIsoMu2","RelIso Muon 2",100,0.,5.0);
 
   Electron0_eta_=fs-> make<TH1F>("Elec0_eta","Elec0 eta", 60, -3, 3);
-  Muon0_eta_=fs-> make<TH1F>("Elec0_eta","Elec0 eta", 60, -3, 3);
+  Muon0_eta_=fs-> make<TH1F>("Muon0_eta","Muon0 eta", 60, -3, 3);
 
   for(int idx=0; idx<6; ++idx)
     {
