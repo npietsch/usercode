@@ -40,6 +40,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag pvSrc_;
+  edm::InputTag weight_;
+  edm::InputTag PUSource_;
 
   // TH2F histograms
   TH2F* JetEt_nrBjets_;
@@ -93,6 +95,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *Muon0_eta_;
 
   TH1F *nPV_;
+  TH1F *nPU_;
 
   TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;
@@ -147,6 +150,42 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *mW_HT_;
   TH2F *mW_MT_;
   TH2F *mW_MTHad_;
+
+  TH1F *BjetsEt_LooseA_;
+  TH1F *BjetsEt_LooseB_;
+  TH1F *BjetsEt_LooseC_;
+  TH1F *BjetsEt_LooseD_;
+  TH1F *BjetsEt_TightA_;
+  TH1F *BjetsEt_TightB_;
+  TH1F *BjetsEt_TightC_;
+  TH1F *BjetsEt_TightD_;
+
+  TH1F *Bjet0Et_LooseA_;
+  TH1F *Bjet0Et_LooseB_;
+  TH1F *Bjet0Et_LooseC_;
+  TH1F *Bjet0Et_LooseD_;
+  TH1F *Bjet0Et_TightA_;
+  TH1F *Bjet0Et_TightB_;
+  TH1F *Bjet0Et_TightC_;
+  TH1F *Bjet0Et_TightD_;
+
+  TH1F *Bjet1Et_LooseA_;
+  TH1F *Bjet1Et_LooseB_;
+  TH1F *Bjet1Et_LooseC_;
+  TH1F *Bjet1Et_LooseD_;
+  TH1F *Bjet1Et_TightA_;
+  TH1F *Bjet1Et_TightB_;
+  TH1F *Bjet1Et_TightC_;
+  TH1F *Bjet1Et_TightD_;
+
+  TH1F *Bjet2Et_LooseA_;
+  TH1F *Bjet2Et_LooseB_;
+  TH1F *Bjet2Et_LooseC_;
+  TH1F *Bjet2Et_LooseD_;
+  TH1F *Bjet2Et_TightA_;
+  TH1F *Bjet2Et_TightB_;
+  TH1F *Bjet2Et_TightC_;
+  TH1F *Bjet2Et_TightD_;
 
   TH1F *nJets_control_;
   TH1F *nJets_control_eta05_;

@@ -1,13 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Bjets") 
+process = cms.Process("RA4b") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -64,16 +64,23 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 #-----------------------------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis2_cff")
+#process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis2_cff")
 
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.EventTopology_cff")
+#process.load("SUSYAnalysis.SUSYAnalyzer.sequences.EventTopology_cff")
 
 #-------------------------------------------------
 # Temporary
 #-------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+
+#-------------------------------------------------
+# Load and configure module for PU reweighting
+#-------------------------------------------------
+
+process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11.root"
 
 #--------------------------
 # muon selection paths
@@ -83,6 +90,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 process.Selection1m = cms.Path(#process.printGenParticles *
                                process.makeObjects *
                                process.makeSUSYGenEvt *
+                               process.eventWeightPU *
                                process.analyzeSUSYBjets1m_noCuts *
                                process.preselectionMuHTMC *
                                process.MuHadSelection *
@@ -98,25 +106,10 @@ process.Selection1m = cms.Path(#process.printGenParticles *
                                process.metSelection *
                                process.analyzeSUSYBjets1m_metSelection
                                )
-
-## al least 1 btag
-process.Selection1b1m_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionMuHTMC *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.oneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1m_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets1b1m_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets1b1m_3
-                                   )
-
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionMuHTMC *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -128,25 +121,10 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.metSelection *
                                    process.analyzeSUSYBjets1b1m_6
                                    )
-
-## al least 2 btags
-process.Selection2b1m_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionMuHTMC *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.twoMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets2b1m_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets2b1m_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets2b1m_3
-                                   )
-
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionMuHTMC *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -158,10 +136,10 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.metSelection *
                                    process.analyzeSUSYBjets2b1m_6
                                    )
-
 ## at least 3 btags
 process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionMuHTMC *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -174,47 +152,6 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets3b1m_3
                                    )
 
-## ## n-1 plots
-## process.Selection1m_nminus1_leptonSelection = cms.Path(process.makeObjects *
-##                                                        process.makeSUSYGenEvt *
-##                                                        process.preselectionMuHTMC *
-##                                                        process.MuHadSelection *
-##                                                        process.jetSelection *
-##                                                        process.HTSelection *
-##                                                        process.metSelection *
-##                                                        process.analyzeSUSYBjets1m_nminus1_leptonSelection
-##                                                        )
-
-## process.Selection1m_nminus1_jetSelection = cms.Path(process.makeObjects *
-##                                                     process.makeSUSYGenEvt *
-##                                                     process.preselectionMuHTMC *
-##                                                     process.MuHadSelection *
-##                                                     process.muonSelection *
-##                                                     process.HTSelection *
-##                                                     process.metSelection *
-##                                                     process.analyzeSUSYBjets1m_nminus1_jetSelection
-##                                                     )
-
-## process.Selection1m_nminus1_metSelection = cms.Path(process.makeObjects *
-##                                                     process.makeSUSYGenEvt *
-##                                                     process.preselectionMuHTMC *
-##                                                     process.MuHadSelection *
-##                                                     process.muonSelection *
-##                                                     process.jetSelection *
-##                                                     process.HTSelection *
-##                                                     process.analyzeSUSYBjets1m_nminus1_metSelection
-##                                                     )
-
-## process.Selection1m_nminus1_HTSelection = cms.Path(process.makeObjects *
-##                                                    process.makeSUSYGenEvt *
-##                                                    process.preselectionMuHTMC *
-##                                                    process.MuHadSelection *
-##                                                    process.muonSelection *
-##                                                    process.jetSelection *
-##                                                    process.metSelection *
-##                                                    process.analyzeSUSYBjets1m_nminus1_HTSelection
-##                                                    )
-
 #--------------------------
 # electron selection paths
 #--------------------------
@@ -222,12 +159,11 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
 ## no btag
 process.Selection1e = cms.Path(process.makeObjects *
                                process.makeSUSYGenEvt *
+                               process.eventWeightPU *
                                process.analyzeSUSYBjets1e_noCuts *
                                process.preselectionElHTMC *
                                process.ElHadSelection *
                                process.analyzeSUSYBjets1e_preselection *
-                               #process.RA4ElectronCollections *
-                               #process.RA4ElectronSelection *
                                process.electronSelection*
                                process.analyzeSUSYBjets1e_leptonSelection *
                                process.jetSelection*
@@ -238,24 +174,10 @@ process.Selection1e = cms.Path(process.makeObjects *
                                process.analyzeSUSYBjets1e_metSelection
                                )
 
-## al least 1 btag
-process.Selection1b1e_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionElHTMC *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.oneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1e_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets1b1e_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets1b1e_3
-                                   )
-
 ## exactly 1 btag
 process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionElHTMC *
                                    process.ElHadSelection *
                                    process.electronSelection*
@@ -268,24 +190,10 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets1b1e_6
                                    )
 
-## al least 2 btags
-process.Selection2b1e_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionElHTMC *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.twoMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets2b1e_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets2b1e_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets2b1e_3
-                                   )
-
 ## exactly 2 btags
 process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionElHTMC *
                                    process.ElHadSelection *
                                    process.electronSelection*
@@ -301,6 +209,7 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
 ## at least 3 btags
 process.Selection3b1e_1 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
                                    process.preselectionElHTMC *
                                    process.ElHadSelection *
                                    process.electronSelection *
@@ -313,165 +222,97 @@ process.Selection3b1e_1 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets3b1e_3
                                    )
 
-## ## n-1 plots
-## process.Selection1e_nminus1_leptonSelection = cms.Path(process.makeObjects *
-##                                                        process.makeSUSYGenEvt *
-##                                                        process.preselectionElHTMC *
-##                                                        process.ElHadSelection *
-##                                                        process.jetSelection *
-##                                                        process.HTSelection *
-##                                                        process.metSelection *
-##                                                        process.analyzeSUSYBjets1e_nminus1_leptonSelection
-##                                                        )
+## #--------------------------
+## # two lepton selection
+## #--------------------------
 
-## process.Selection1e_nminus1_jetSelection = cms.Path(process.makeObjects *
-##                                                     process.makeSUSYGenEvt *
-##                                                     process.preselectionElHTMC *
-##                                                     process.ElHadSelection *
-##                                                     process.electronSelection *
-##                                                     process.HTSelection *
-##                                                     process.metSelection *
-##                                                     process.analyzeSUSYBjets1e_nminus1_jetSelection
-##                                                     )
+## ## no btag
+## process.Selection2l = cms.Path(process.makeObjects *
+##                                process.makeSUSYGenEvt *
+##                                process.eventWeightPU *
+##                                process.analyzeSUSYBjets2l_noCuts *
+##                                process.preselectionLepHTMC *
+##                                process.LepHadSelection *
+##                                process.analyzeSUSYBjets2l_preselection *
+##                                process.twoGoodLeptons *
+##                                process.analyzeSUSYBjets2l_leptonSelection *
+##                                process.jetSelection*
+##                                process.analyzeSUSYBjets2l_jetSelection *
+##                                process.HTSelection *
+##                                process.analyzeSUSYBjets2l_HTSelection *
+##                                process.metSelection *
+##                                process.analyzeSUSYBjets2l_metSelection *
+##                                process.analyzeEventTopology2l_3
+##                                )
 
-## process.Selection1e_nminus1_metSelection = cms.Path(process.makeObjects *
-##                                                     process.makeSUSYGenEvt *
-##                                                     process.preselectionElHTMC *
-##                                                     process.ElHadSelection *
-##                                                     process.electronSelection *
-##                                                     process.jetSelection *
-##                                                     process.HTSelection *
-##                                                     process.analyzeSUSYBjets1e_nminus1_metSelection
-##                                                     )
+## #--------------------------
+## # combined selection paths
+## #--------------------------
 
-## process.Selection1e_nminus1_HTSelection = cms.Path(process.makeObjects *
-##                                                    process.makeSUSYGenEvt *
-##                                                    process.preselectionElHTMC *
-##                                                    process.ElHadSelection *
-##                                                    process.electronSelection *
-##                                                    process.jetSelection *
-##                                                    process.metSelection *
-##                                                    process.analyzeSUSYBjets1e_nminus1_HTSelection
-##                                                    )
-
-
-#--------------------------
-# combined selection paths
-#--------------------------
-
-## no btag
-process.Selection1l = cms.Path(process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.analyzeSUSYBjets1l_noCuts *
-                               process.preselectionLepHTMC *
-                               process.LepHadSelection *
-                               process.analyzeSUSYBjets1l_preselection *
-                               process.leptonSelection*
-                               process.analyzeSUSYBjets1l_leptonSelection *
-                               process.jetSelection*
-                               process.analyzeSUSYBjets1l_jetSelection *
-                               process.HTSelection *
-                               process.analyzeSUSYBjets1l_HTSelection *
-                               process.metSelection *
-                               process.analyzeSUSYBjets1l_metSelection *
-                               process.analyzeEventTopology1l_3
-                               )
-
-## no btag
-process.Selection2l = cms.Path(process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.analyzeSUSYBjets2l_noCuts *
-                               process.preselectionLepHTMC *
-                               process.LepHadSelection *
-                               process.analyzeSUSYBjets2l_preselection *
-                               process.twoGoodLeptons *
-                               process.analyzeSUSYBjets2l_leptonSelection *
-                               process.jetSelection*
-                               process.analyzeSUSYBjets2l_jetSelection *
-                               process.HTSelection *
-                               process.analyzeSUSYBjets2l_HTSelection *
-                               process.metSelection *
-                               process.analyzeSUSYBjets2l_metSelection *
-                               process.analyzeEventTopology2l_3
-                               )
-
-## al least 1 btag
-process.Selection1b1l_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionLepHTMC *
-                                   process.LepHadSelection *
-                                   process.leptonSelection*
-                                   process.jetSelection *
-                                   process.oneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1l_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets1b1l_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets1b1l_3 *
-                                   process.analyzeEventTopology1b1l_3
-                                   )
-
-## exactly 1 btag
-process.Selection1b1l_2 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionLepHTMC *
-                                   process.LepHadSelection *
-                                   process.leptonSelection*
-                                   process.jetSelection *
-                                   process.exactlyOneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1l_4 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets1b1l_5 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets1b1l_6 *
-                                   process.analyzeEventTopology1b1l_6
-                                   )
-
-## al least 2 btags
-process.Selection2b1l_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionLepHTMC *
-                                   process.LepHadSelection *
-                                   process.leptonSelection*
-                                   process.jetSelection *
-                                   process.twoMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets2b1l_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets2b1l_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets2b1l_3 *
-                                   process.analyzeEventTopology2b1l_3
-                                   )
-
-## exactly 2 btags
-process.Selection2b1l_2 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionLepHTMC *
-                                   process.LepHadSelection *
-                                   process.leptonSelection*
-                                   process.jetSelection *
-                                   process.exactlyTwoMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets2b1l_4 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets2b1l_5 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets2b1l_6 *
-                                   process.analyzeEventTopology2b1l_6
-                                   )
-
-## at least 3 btags
-process.Selection3b1l_1 = cms.Path(process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.preselectionLepHTMC *
-                                   process.LepHadSelection *
-                                   process.leptonSelection *
-                                   process.jetSelection *
-                                   process.threeMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets3b1l_1 *
-                                   process.HTSelection *
-                                   process.analyzeSUSYBjets3b1l_2 *
-                                   process.metSelection *
-                                   process.analyzeSUSYBjets3b1l_3 *
-                                   process.analyzeEventTopology3b1l_3
-                                   )
+## ## no btag
+## process.Selection1l = cms.Path(process.makeObjects *
+##                                process.makeSUSYGenEvt *
+##                                process.eventWeightPU *
+##                                process.analyzeSUSYBjets1l_noCuts *
+##                                process.preselectionLepHTMC *
+##                                process.LepHadSelection *
+##                                process.analyzeSUSYBjets1l_preselection *
+##                                process.leptonSelection*
+##                                process.analyzeSUSYBjets1l_leptonSelection *
+##                                process.jetSelection*
+##                                process.analyzeSUSYBjets1l_jetSelection *
+##                                process.HTSelection *
+##                                process.analyzeSUSYBjets1l_HTSelection *
+##                                process.metSelection *
+##                                process.analyzeSUSYBjets1l_metSelection *
+##                                process.analyzeEventTopology1l_3
+##                                )
+## ## exactly 1 btag
+## process.Selection1b1l_2 = cms.Path(process.makeObjects *
+##                                    process.makeSUSYGenEvt *
+##                                    process.eventWeightPU *
+##                                    process.preselectionLepHTMC *
+##                                    process.LepHadSelection *
+##                                    process.leptonSelection*
+##                                    process.jetSelection *
+##                                    process.exactlyOneMediumTrackHighEffBjet *
+##                                    process.analyzeSUSYBjets1b1l_4 *
+##                                    process.HTSelection *
+##                                    process.analyzeSUSYBjets1b1l_5 *
+##                                    process.metSelection *
+##                                    process.analyzeSUSYBjets1b1l_6 *
+##                                    process.analyzeEventTopology1b1l_6
+##                                    )
+## ## exactly 2 btags
+## process.Selection2b1l_2 = cms.Path(process.makeObjects *
+##                                    process.makeSUSYGenEvt *
+##                                    process.eventWeightPU *
+##                                    process.preselectionLepHTMC *
+##                                    process.LepHadSelection *
+##                                    process.leptonSelection*
+##                                    process.jetSelection *
+##                                    process.exactlyTwoMediumTrackHighEffBjets *
+##                                    process.analyzeSUSYBjets2b1l_4 *
+##                                    process.HTSelection *
+##                                    process.analyzeSUSYBjets2b1l_5 *
+##                                    process.metSelection *
+##                                    process.analyzeSUSYBjets2b1l_6 *
+##                                    process.analyzeEventTopology2b1l_6
+##                                    )
+## ## at least 3 btags
+## process.Selection3b1l_1 = cms.Path(process.makeObjects *
+##                                    process.makeSUSYGenEvt *
+##                                    process.eventWeightPU *
+##                                    process.preselectionLepHTMC *
+##                                    process.LepHadSelection *
+##                                    process.leptonSelection *
+##                                    process.jetSelection *
+##                                    process.threeMediumTrackHighEffBjets *
+##                                    process.analyzeSUSYBjets3b1l_1 *
+##                                    process.HTSelection *
+##                                    process.analyzeSUSYBjets3b1l_2 *
+##                                    process.metSelection *
+##                                    process.analyzeSUSYBjets3b1l_3 *
+##                                    process.analyzeEventTopology3b1l_3
+##                                    )
 

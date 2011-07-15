@@ -1,3 +1,4 @@
+#include "TopAnalysis/TopAnalyzer/interface/PUEventWeight.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
@@ -24,7 +25,8 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
   looseTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("looseTrackHighEffBjets")),
   mediumTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("mediumTrackHighEffBjets")),
   tightTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("tightTrackHighEffBjets")),
-  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") )
+  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
+  weight_       (cfg.getParameter<edm::InputTag>("weight") )
 { 
   edm::Service<TFileService> fs;
   
@@ -191,6 +193,10 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(tightTrackHighEffBjets_, tightTrackHighEffBjets);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
+  edm::Handle<double> weightHandle;
+  evt.getByLabel(weight_, weightHandle);
+
+  double weight=*weightHandle;
 
   //-------------------------------------------------
   // BJets
@@ -256,33 +262,33 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       if((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags") > 3.3) ++mediumBjetsTrackHighEff;
       if((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags") > 10.2) ++tightBjetsTrackHighEff;
  
-      bdiscTrackHighEff_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-      bdiscTrackHighPur_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+      bdiscTrackHighEff_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      bdiscTrackHighPur_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 
       if(pvSrc->size()==1)
 	{
-	  bdiscTrackHighEff1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-	  bdiscTrackHighPur1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	  bdiscTrackHighEff1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  bdiscTrackHighPur1pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 	}
       if(pvSrc->size()==2 || pvSrc->size()==3)
 	{
-	  bdiscTrackHighEff2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-	  bdiscTrackHighPur2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	  bdiscTrackHighEff2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  bdiscTrackHighPur2pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 	}
       if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
 	{
-	  bdiscTrackHighEff3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-	  bdiscTrackHighPur3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	  bdiscTrackHighEff3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  bdiscTrackHighPur3pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 	}
       if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9 )
 	{
-	  bdiscTrackHighEff4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-	  bdiscTrackHighPur4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	  bdiscTrackHighEff4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  bdiscTrackHighPur4pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 	}
       if(pvSrc->size()>=10)
 	{
-	  bdiscTrackHighEff5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"));
-	  bdiscTrackHighPur5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"));
+	  bdiscTrackHighEff5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  bdiscTrackHighPur5pv_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
 	}
 
       if(i<10)
@@ -305,61 +311,61 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       for(int o=0; o < 5; ++o) nbjets_[n][o]->Fill(nbjets[n][o]);
     }
   
-  nLooseBjetsTrackHighPur_->Fill(looseBjetsTrackHighPur);
-  nMediumBjetsTrackHighPur_->Fill(mediumBjetsTrackHighPur);
-  nTightBjetsTrackHighPur_->Fill(tightBjetsTrackHighPur);
-  nLooseBjetsTrackHighEff_->Fill(looseBjetsTrackHighEff);
-  nMediumBjetsTrackHighEff_->Fill(mediumBjetsTrackHighEff);
-  nTightBjetsTrackHighEff_->Fill(tightBjetsTrackHighEff);
+  nLooseBjetsTrackHighPur_->Fill(looseBjetsTrackHighPur, weight);
+  nMediumBjetsTrackHighPur_->Fill(mediumBjetsTrackHighPur, weight);
+  nTightBjetsTrackHighPur_->Fill(tightBjetsTrackHighPur, weight);
+  nLooseBjetsTrackHighEff_->Fill(looseBjetsTrackHighEff, weight);
+  nMediumBjetsTrackHighEff_->Fill(mediumBjetsTrackHighEff, weight);
+  nTightBjetsTrackHighEff_->Fill(tightBjetsTrackHighEff, weight);
 
  if(pvSrc->size()==1)
     {
-      nLooseBjetsTrackHighPur1pv_->Fill(looseBjetsTrackHighPur);
-      nMediumBjetsTrackHighPur1pv_->Fill(mediumBjetsTrackHighPur);
-      nTightBjetsTrackHighPur1pv_->Fill(tightBjetsTrackHighPur);
-      nLooseBjetsTrackHighEff1pv_->Fill(looseBjetsTrackHighEff);
-      nMediumBjetsTrackHighEff1pv_->Fill(mediumBjetsTrackHighEff);
-      nTightBjetsTrackHighEff1pv_->Fill(tightBjetsTrackHighEff);
+      nLooseBjetsTrackHighPur1pv_->Fill(looseBjetsTrackHighPur, weight);
+      nMediumBjetsTrackHighPur1pv_->Fill(mediumBjetsTrackHighPur, weight);
+      nTightBjetsTrackHighPur1pv_->Fill(tightBjetsTrackHighPur, weight);
+      nLooseBjetsTrackHighEff1pv_->Fill(looseBjetsTrackHighEff, weight);
+      nMediumBjetsTrackHighEff1pv_->Fill(mediumBjetsTrackHighEff, weight);
+      nTightBjetsTrackHighEff1pv_->Fill(tightBjetsTrackHighEff, weight);
     }
 
   if(pvSrc->size()==2 || pvSrc->size()==3)
     {
-      nLooseBjetsTrackHighPur2pv_->Fill(looseBjetsTrackHighPur);
-      nMediumBjetsTrackHighPur2pv_->Fill(mediumBjetsTrackHighPur);
-      nTightBjetsTrackHighPur2pv_->Fill(tightBjetsTrackHighPur);
-      nLooseBjetsTrackHighEff2pv_->Fill(looseBjetsTrackHighEff);
-      nMediumBjetsTrackHighEff2pv_->Fill(mediumBjetsTrackHighEff);
-      nTightBjetsTrackHighEff2pv_->Fill(tightBjetsTrackHighEff);
+      nLooseBjetsTrackHighPur2pv_->Fill(looseBjetsTrackHighPur, weight);
+      nMediumBjetsTrackHighPur2pv_->Fill(mediumBjetsTrackHighPur, weight);
+      nTightBjetsTrackHighPur2pv_->Fill(tightBjetsTrackHighPur, weight);
+      nLooseBjetsTrackHighEff2pv_->Fill(looseBjetsTrackHighEff, weight);
+      nMediumBjetsTrackHighEff2pv_->Fill(mediumBjetsTrackHighEff, weight);
+      nTightBjetsTrackHighEff2pv_->Fill(tightBjetsTrackHighEff, weight);
     }
 
   if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
     {
-      nLooseBjetsTrackHighPur3pv_->Fill(looseBjetsTrackHighPur);
-      nMediumBjetsTrackHighPur3pv_->Fill(mediumBjetsTrackHighPur);
-      nTightBjetsTrackHighPur3pv_->Fill(tightBjetsTrackHighPur);
-      nLooseBjetsTrackHighEff3pv_->Fill(looseBjetsTrackHighEff);
-      nMediumBjetsTrackHighEff3pv_->Fill(mediumBjetsTrackHighEff);
-      nTightBjetsTrackHighEff3pv_->Fill(tightBjetsTrackHighEff);
+      nLooseBjetsTrackHighPur3pv_->Fill(looseBjetsTrackHighPur, weight);
+      nMediumBjetsTrackHighPur3pv_->Fill(mediumBjetsTrackHighPur, weight);
+      nTightBjetsTrackHighPur3pv_->Fill(tightBjetsTrackHighPur, weight);
+      nLooseBjetsTrackHighEff3pv_->Fill(looseBjetsTrackHighEff, weight);
+      nMediumBjetsTrackHighEff3pv_->Fill(mediumBjetsTrackHighEff, weight);
+      nTightBjetsTrackHighEff3pv_->Fill(tightBjetsTrackHighEff, weight);
     }
   
   if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9)
     {
-      nLooseBjetsTrackHighPur4pv_->Fill(looseBjetsTrackHighPur);
-      nMediumBjetsTrackHighPur4pv_->Fill(mediumBjetsTrackHighPur);
-      nTightBjetsTrackHighPur4pv_->Fill(tightBjetsTrackHighPur);
-      nLooseBjetsTrackHighEff4pv_->Fill(looseBjetsTrackHighEff);
-      nMediumBjetsTrackHighEff4pv_->Fill(mediumBjetsTrackHighEff);
-      nTightBjetsTrackHighEff4pv_->Fill(tightBjetsTrackHighEff);
+      nLooseBjetsTrackHighPur4pv_->Fill(looseBjetsTrackHighPur, weight);
+      nMediumBjetsTrackHighPur4pv_->Fill(mediumBjetsTrackHighPur, weight);
+      nTightBjetsTrackHighPur4pv_->Fill(tightBjetsTrackHighPur, weight);
+      nLooseBjetsTrackHighEff4pv_->Fill(looseBjetsTrackHighEff, weight);
+      nMediumBjetsTrackHighEff4pv_->Fill(mediumBjetsTrackHighEff, weight);
+      nTightBjetsTrackHighEff4pv_->Fill(tightBjetsTrackHighEff, weight);
     }
 
   if(pvSrc->size()>=10)
     {
-      nLooseBjetsTrackHighPur5pv_->Fill(looseBjetsTrackHighPur);
-      nMediumBjetsTrackHighPur5pv_->Fill(mediumBjetsTrackHighPur);
-      nTightBjetsTrackHighPur5pv_->Fill(tightBjetsTrackHighPur);
-      nLooseBjetsTrackHighEff5pv_->Fill(looseBjetsTrackHighEff);
-      nMediumBjetsTrackHighEff5pv_->Fill(mediumBjetsTrackHighEff);
-      nTightBjetsTrackHighEff5pv_->Fill(tightBjetsTrackHighEff);
+      nLooseBjetsTrackHighPur5pv_->Fill(looseBjetsTrackHighPur, weight);
+      nMediumBjetsTrackHighPur5pv_->Fill(mediumBjetsTrackHighPur, weight);
+      nTightBjetsTrackHighPur5pv_->Fill(tightBjetsTrackHighPur, weight);
+      nLooseBjetsTrackHighEff5pv_->Fill(looseBjetsTrackHighEff, weight);
+      nMediumBjetsTrackHighEff5pv_->Fill(mediumBjetsTrackHighEff, weight);
+      nTightBjetsTrackHighEff5pv_->Fill(tightBjetsTrackHighEff, weight);
     }
   //------------------------------------------------------------------------------
   //  for events containing exactly two ...
@@ -376,17 +382,17 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double dPhi=abs(deltaPhi((*looseTrackHighEffBjets)[0].phi(),(*looseTrackHighEffBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
       mbb_[0]->Fill(mbb);
-      angleb1b2_[0]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[0]->Fill(dPhi);
-      Bjet1_Et_[0]->Fill((*looseTrackHighEffBjets)[0].et());
-      Bjet2_Et_[0]->Fill((*looseTrackHighEffBjets)[1].et());
-      HT_2Bjets_[0]->Fill((*looseTrackHighEffBjets)[0].et()+(*looseTrackHighEffBjets)[1].et());
+      angleb1b2_[0]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[0]->Fill(dPhi, weight);
+      Bjet1_Et_[0]->Fill((*looseTrackHighEffBjets)[0].et(), weight);
+      Bjet2_Et_[0]->Fill((*looseTrackHighEffBjets)[1].et(), weight);
+      HT_2Bjets_[0]->Fill((*looseTrackHighEffBjets)[0].et()+(*looseTrackHighEffBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags") <= 1.7)
 	    {
-	      Jet1_Et_2Bjets_[0]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[0]->Fill((*looseTrackHighEffBjets)[0].et()+(*looseTrackHighEffBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[0]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[0]->Fill((*looseTrackHighEffBjets)[0].et()+(*looseTrackHighEffBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}
@@ -400,18 +406,18 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double mbb=0;
       double dPhi=abs(deltaPhi((*mediumTrackHighEffBjets)[0].phi(),(*mediumTrackHighEffBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
-      mbb_[1]->Fill(mbb);
-      angleb1b2_[1]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[1]->Fill(dPhi);
-      Bjet1_Et_[1]->Fill((*mediumTrackHighEffBjets)[0].et());
-      Bjet2_Et_[1]->Fill((*mediumTrackHighEffBjets)[1].et());
-      HT_2Bjets_[1]->Fill((*mediumTrackHighEffBjets)[0].et()+(*mediumTrackHighEffBjets)[1].et());
+      mbb_[1]->Fill(mbb, weight);
+      angleb1b2_[1]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[1]->Fill(dPhi, weight);
+      Bjet1_Et_[1]->Fill((*mediumTrackHighEffBjets)[0].et(), weight);
+      Bjet2_Et_[1]->Fill((*mediumTrackHighEffBjets)[1].et(), weight);
+      HT_2Bjets_[1]->Fill((*mediumTrackHighEffBjets)[0].et()+(*mediumTrackHighEffBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags") <= 3.3)
 	    {
-	      Jet1_Et_2Bjets_[1]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[1]->Fill((*mediumTrackHighEffBjets)[0].et()+(*mediumTrackHighEffBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[1]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[1]->Fill((*mediumTrackHighEffBjets)[0].et()+(*mediumTrackHighEffBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}  
@@ -426,18 +432,18 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double mbb=0;
       double dPhi=abs(deltaPhi((*tightTrackHighEffBjets)[0].phi(),(*tightTrackHighEffBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
-      mbb_[2]->Fill(mbb);
-      angleb1b2_[2]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[2]->Fill(dPhi);
-      Bjet1_Et_[2]->Fill((*tightTrackHighEffBjets)[0].et());
-      Bjet2_Et_[2]->Fill((*tightTrackHighEffBjets)[1].et());
-      HT_2Bjets_[2]->Fill((*tightTrackHighEffBjets)[0].et()+(*tightTrackHighEffBjets)[1].et());
+      mbb_[2]->Fill(mbb, weight);
+      angleb1b2_[2]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[2]->Fill(dPhi, weight);
+      Bjet1_Et_[2]->Fill((*tightTrackHighEffBjets)[0].et(), weight);
+      Bjet2_Et_[2]->Fill((*tightTrackHighEffBjets)[1].et(), weight);
+      HT_2Bjets_[2]->Fill((*tightTrackHighEffBjets)[0].et()+(*tightTrackHighEffBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighEffBJetTags") <= 10.2)
 	    {
-	      Jet1_Et_2Bjets_[2]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[2]->Fill((*tightTrackHighEffBjets)[0].et()+(*tightTrackHighEffBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[2]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[2]->Fill((*tightTrackHighEffBjets)[0].et()+(*tightTrackHighEffBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}  
@@ -451,18 +457,18 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double mbb=0;
       double dPhi=abs(deltaPhi((*looseTrackHighPurBjets)[0].phi(),(*looseTrackHighPurBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
-      mbb_[3]->Fill(mbb);
-      angleb1b2_[3]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[3]->Fill(dPhi);
-      Bjet1_Et_[3]->Fill((*looseTrackHighPurBjets)[0].et());
-      Bjet2_Et_[3]->Fill((*looseTrackHighPurBjets)[1].et());
-      HT_2Bjets_[3]->Fill((*looseTrackHighPurBjets)[0].et()+(*looseTrackHighPurBjets)[1].et());
+      mbb_[3]->Fill(mbb, weight);
+      angleb1b2_[3]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[3]->Fill(dPhi, weight);
+      Bjet1_Et_[3]->Fill((*looseTrackHighPurBjets)[0].et(), weight);
+      Bjet2_Et_[3]->Fill((*looseTrackHighPurBjets)[1].et(), weight);
+      HT_2Bjets_[3]->Fill((*looseTrackHighPurBjets)[0].et()+(*looseTrackHighPurBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighPurBJetTags") <= 1.19)
 	    {
-	      Jet1_Et_2Bjets_[3]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[3]->Fill((*looseTrackHighPurBjets)[0].et()+(*looseTrackHighPurBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[3]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[3]->Fill((*looseTrackHighPurBjets)[0].et()+(*looseTrackHighPurBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}  
@@ -476,18 +482,18 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double mbb=0;
       double dPhi=abs(deltaPhi((*mediumTrackHighPurBjets)[0].phi(),(*mediumTrackHighPurBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
-      mbb_[4]->Fill(mbb);
-      angleb1b2_[4]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[4]->Fill(dPhi);
-      Bjet1_Et_[4]->Fill((*mediumTrackHighPurBjets)[0].et());
-      Bjet2_Et_[4]->Fill((*mediumTrackHighPurBjets)[1].et());
-      HT_2Bjets_[4]->Fill((*mediumTrackHighPurBjets)[0].et()+(*mediumTrackHighPurBjets)[1].et());
+      mbb_[4]->Fill(mbb, weight);
+      angleb1b2_[4]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[4]->Fill(dPhi, weight);
+      Bjet1_Et_[4]->Fill((*mediumTrackHighPurBjets)[0].et(), weight);
+      Bjet2_Et_[4]->Fill((*mediumTrackHighPurBjets)[1].et(), weight);
+      HT_2Bjets_[4]->Fill((*mediumTrackHighPurBjets)[0].et()+(*mediumTrackHighPurBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighPurBJetTags") <= 1.93)
 	    {
-	      Jet1_Et_2Bjets_[4]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[4]->Fill((*mediumTrackHighPurBjets)[0].et()+(*mediumTrackHighPurBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[4]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[4]->Fill((*mediumTrackHighPurBjets)[0].et()+(*mediumTrackHighPurBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}  
@@ -501,18 +507,18 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       double mbb=0;
       double dPhi=abs(deltaPhi((*tightTrackHighPurBjets)[0].phi(),(*tightTrackHighPurBjets)[1].phi()));
       mbb=sqrt(bjet1.Dot(bjet2));
-      mbb_[5]->Fill(mbb);
-      angleb1b2_[5]->Fill(abs(angle(bjet1,bjet2)));
-      deltaPhi_[5]->Fill(dPhi);
-      Bjet1_Et_[5]->Fill((*tightTrackHighPurBjets)[0].et());
-      Bjet2_Et_[5]->Fill((*tightTrackHighPurBjets)[1].et());
-      HT_2Bjets_[5]->Fill((*tightTrackHighPurBjets)[0].et()+(*tightTrackHighPurBjets)[1].et());
+      mbb_[5]->Fill(mbb, weight);
+      angleb1b2_[5]->Fill(abs(angle(bjet1,bjet2)), weight);
+      deltaPhi_[5]->Fill(dPhi, weight);
+      Bjet1_Et_[5]->Fill((*tightTrackHighPurBjets)[0].et(), weight);
+      Bjet2_Et_[5]->Fill((*tightTrackHighPurBjets)[1].et(), weight);
+      HT_2Bjets_[5]->Fill((*tightTrackHighPurBjets)[0].et()+(*tightTrackHighPurBjets)[1].et(), weight);
       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	{  
 	  if((*jets)[jdx].bDiscriminator("trackCountingHighPurBJetTags") <= 3.41)
 	    {
-	      Jet1_Et_2Bjets_[5]->Fill((*jets)[jdx].et());
-	      HT_2Bjets_1LightJet_[5]->Fill((*tightTrackHighPurBjets)[0].et()+(*tightTrackHighPurBjets)[1].et()+(*jets)[jdx].et());
+	      Jet1_Et_2Bjets_[5]->Fill((*jets)[jdx].et(), weight);
+	      HT_2Bjets_1LightJet_[5]->Fill((*tightTrackHighPurBjets)[0].et()+(*tightTrackHighPurBjets)[1].et()+(*jets)[jdx].et(), weight);
 	      break;
 	    }
 	}  
@@ -612,8 +618,8 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	  if(sortedValues[r][s][0] > -100.)
 	    {
 	      //if(r==0) std::cout << "sortedValues[r][s][0]" << sortedValues[r][s][0] << std::endl;
-	      Bdisc_[r][s]->Fill(sortedValues[r][s][0]);
-	      BtagEt_[r][s]->Fill(sortedValues[r][s][1]);
+	      Bdisc_[r][s]->Fill(sortedValues[r][s][0], weight);
+	      BtagEt_[r][s]->Fill(sortedValues[r][s][1], weight);
 	    }
 	}
     }

@@ -708,12 +708,16 @@ goodObjects = cms.Sequence(looseMuons *
 
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
-                             noGoodElectron
+                             noGoodElectron *
+                             oneVetoMuon *
+                             noVetoElectron
                              )
 
 electronSelection = cms.Sequence(oneGoodElectron *
                                  exactlyOneGoodElectron *
-                                 noGoodMuon
+                                 noGoodMuon *
+                                 oneVetoElectron *
+                                 noVetoMuon
                                  )
 
 leptonSelection = cms.Sequence(oneGoodLepton

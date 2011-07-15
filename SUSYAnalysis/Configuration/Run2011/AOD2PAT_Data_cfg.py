@@ -4,7 +4,7 @@ process = cms.Process("MakePATTuple")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files

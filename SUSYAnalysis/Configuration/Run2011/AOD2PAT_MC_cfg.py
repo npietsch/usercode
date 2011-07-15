@@ -4,21 +4,21 @@ process = cms.Process("MakePATTuple")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    #'/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
-    '/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0008/9C7D9D09-4351-E011-9F8F-0015178C49A4.root'
+    '/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
+    #'/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0008/9C7D9D09-4351-E011-9F8F-0015178C49A4.root'
 
     
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -182,18 +182,16 @@ process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSeque
 ## jetAlgo="AK5"
 ## usePF2PAT(process,runPF2PAT=True, jetAlgo=jetAlgo, runOnMC=runOnMC, postfix=postfix) 
 
-process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
-
 #-------------------------------------------------
 # cmsPath
 #----------------------------------------------
 
 process.PATTuple = cms.Path(#process.preselectionMC2PAT *
-                            process.patDefaultSequence##  *
+                            process.patDefaultSequence## *
 ##                             getattr(process,"patPF2PATSequence"+postfix)
                             )
 
-#-------------------------------------------------
+#------------------------------------------------
 # Create patTuple
 #-------------------------------------------------
 

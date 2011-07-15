@@ -42,6 +42,7 @@ class EventTopology : public edm::EDAnalyzer {
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag pvSrc_;
+  edm::InputTag weight_;
 
   // TH2F histograms
   TH2F *nrLep_nrBjets_;

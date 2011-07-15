@@ -1,3 +1,4 @@
+#include "TopAnalysis/TopAnalyzer/interface/PUEventWeight.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
@@ -20,7 +21,9 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
   bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ) 
+  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
+  weight_     (cfg.getParameter<edm::InputTag>("weight") )
+ 
 { 
   edm::Service<TFileService> fs;
   
@@ -244,6 +247,10 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
+  edm::Handle<double> weightHandle;
+  evt.getByLabel(weight_, weightHandle);
+
+  double weight=*weightHandle;
 
   //----------------------------------------------
   // Correlations

@@ -45,6 +45,7 @@ class BjetsAnalyzer : public edm::EDAnalyzer {
   edm::InputTag mediumTrackHighEffBjets_;
   edm::InputTag tightTrackHighEffBjets_;
   edm::InputTag pvSrc_;
+  edm::InputTag weight_;
 
   // TH1F
   TH1F *nbjets_[4][5];

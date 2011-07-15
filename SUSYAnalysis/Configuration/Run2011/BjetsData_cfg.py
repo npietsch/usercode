@@ -3,11 +3,11 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("Bjets")
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 

@@ -10,5 +10,7 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              bjets = cms.InputTag("mediumTrackHighEffBjets"),
                              muons = cms.InputTag("selectedPatMuons"),
                              electrons = cms.InputTag("selectedPatElectrons"),
-                             pvSrc = cms.InputTag("offlinePrimaryVertices")
+                             pvSrc = cms.InputTag("offlinePrimaryVertices"),
+                             weight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                             PUInfo = cms.InputTag("addPileupInfo")
                              )
