@@ -4,7 +4,7 @@ analyzeEventTopology.met = "goodMETs"
 analyzeEventTopology.jets = "goodJets"
 analyzeEventTopology.muons = "goodMuons"
 analyzeEventTopology.electrons = "goodElectrons"
-
+analyzeEventTopology.useEventWeight = True
 
 ## 1 lepton
 

@@ -3,7 +3,7 @@ from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import *
 analyzeSUSY.jets = "goodJets"
 analyzeSUSY.muons = "goodMuons"
 analyzeSUSY.electrons = "goodElectrons"
-
+analyzeSUSY.useEventWeight = True
 
 analyzeSUSY1l_1 = analyzeSUSY.clone()
 analyzeSUSY1l_2 = analyzeSUSY.clone()
@@ -145,6 +145,7 @@ analyzeBjets.tightTrackHighEffBjets = "tightTrackHighEffBjets"
 analyzeBjets.looseTrackHighPurBjets = "looseTrackHighPurBjets"
 analyzeBjets.mediumTrackHighPurBjets = "mediumTrackHighPurBjets"
 analyzeBjets.tightTrackHighPurBjets = "tightTrackHighPurBjets"
+analyzeBjets.useEventWeight = True
 
 analyzeBjets1l_1 = analyzeBjets.clone()
 analyzeBjets1l_2 = analyzeBjets.clone()
