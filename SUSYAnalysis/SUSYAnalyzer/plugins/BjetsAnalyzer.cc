@@ -26,7 +26,8 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
   mediumTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("mediumTrackHighEffBjets")),
   tightTrackHighEffBjets_(cfg.getParameter<edm::InputTag>("tightTrackHighEffBjets")),
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
-  weight_       (cfg.getParameter<edm::InputTag>("weight") )
+  weight_       (cfg.getParameter<edm::InputTag>("weight") ),
+  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") )
 { 
   edm::Service<TFileService> fs;
   
@@ -193,10 +194,15 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(tightTrackHighEffBjets_, tightTrackHighEffBjets);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
-  edm::Handle<double> weightHandle;
-  evt.getByLabel(weight_, weightHandle);
 
-  double weight=*weightHandle;
+  double weight=1;
+  if(useEvtWgt_)
+    {
+      //std::cout << "use event weight" << std::endl;
+      edm::Handle<double> weightHandle;
+      evt.getByLabel(weight_, weightHandle);
+      weight=*weightHandle;
+    }
 
   //-------------------------------------------------
   // BJets

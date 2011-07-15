@@ -22,8 +22,8 @@ EventTopology::EventTopology(const edm::ParameterSet& cfg):
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
-  weight_     (cfg.getParameter<edm::InputTag>("weight") )
- 
+  weight_       (cfg.getParameter<edm::InputTag>("weight") ),
+  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") ) 
 { 
   edm::Service<TFileService> fs;
   
@@ -247,10 +247,15 @@ EventTopology::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
-  edm::Handle<double> weightHandle;
-  evt.getByLabel(weight_, weightHandle);
 
-  double weight=*weightHandle;
+  double weight=1;
+  if(useEvtWgt_)
+    {
+      //std::cout << "use event weight" << std::endl;
+      edm::Handle<double> weightHandle;
+      evt.getByLabel(weight_, weightHandle);
+      weight=*weightHandle;
+    }
 
   //----------------------------------------------
   // Correlations

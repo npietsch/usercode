@@ -24,7 +24,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
   weight_       (cfg.getParameter<edm::InputTag>("weight") ),
-  PUSource_     (cfg.getParameter<edm::InputTag>("PUInfo") )
+  PUSource_     (cfg.getParameter<edm::InputTag>("PUInfo") ),
+  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") )
+
 { 
   edm::Service<TFileService> fs;
 
@@ -271,31 +273,32 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > pvSrc;
   evt.getByLabel(pvSrc_, pvSrc);
-  edm::Handle<double> weightHandle;
-  evt.getByLabel(weight_, weightHandle);
-  edm::Handle<edm::View<PileupSummaryInfo> > PUInfo;
-  evt.getByLabel(PUSource_, PUInfo);
 
-  double weight=*weightHandle;
+  double weight=1;
+  if(useEvtWgt_)
+    {
+      //std::cout << "use event weight" << std::endl;
+      edm::Handle<double> weightHandle;
+      evt.getByLabel(weight_, weightHandle);
+      weight=*weightHandle;
 
+      edm::Handle<edm::View<PileupSummaryInfo> > PUInfo;
+      evt.getByLabel(PUSource_, PUInfo);
 
-  //-------------------------------------------------
-  // Number of PU interactions
-  //-------------------------------------------------
-
-  edm::View<PileupSummaryInfo>::const_iterator iterPU;
-
-  double nvtx=-1;
-
-  for(iterPU = PUInfo->begin(); iterPU != PUInfo->end(); ++iterPU)  // vector size is 3
-    { 
-      if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
-	{
-	  nvtx = iterPU->getPU_NumInteractions();
+      edm::View<PileupSummaryInfo>::const_iterator iterPU;
+      
+      double nvtx=-1;
+      
+      for(iterPU = PUInfo->begin(); iterPU != PUInfo->end(); ++iterPU)  // vector size is 3
+	{ 
+	  if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
+	    {
+	      nvtx = iterPU->getPU_NumInteractions();
+	    }
 	}
+      
+      nPU_->Fill(nvtx,weight);
     }
-
-  nPU_->Fill(nvtx,weight);
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets
