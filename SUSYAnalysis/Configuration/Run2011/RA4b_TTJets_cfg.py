@@ -5,6 +5,8 @@ process.preselectionMuHTMC = preselectionMuHTMC2
 process.preselectionElHTMC = preselectionElHTMC2
 process.preselectionLepHTMC = preselectionLepHTMC2
 
+process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
