@@ -60,16 +60,33 @@ scrapingVeto = cms.EDFilter("FilterOutScraping",
                             thresh = cms.untracked.double(0.25)
                             )
 
-primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
-                                   vertexCollection = cms.InputTag("offlinePrimaryVertices"),
-                                   minimumNDOF = cms.uint32(4) ,
-                                   maxAbsZ = cms.double(24),
-                                   maxd0 = cms.double(2) )
+## primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
+##                                    vertexCollection = cms.InputTag("offlinePrimaryVertices"),
+##                                    minimumNDOF = cms.uint32(4) ,
+##                                    maxAbsZ = cms.double(24),
+##                                    maxd0 = cms.double(2) )
+
+goodVertices = cms.EDFilter(
+ "VertexSelector",
+ filter = cms.bool(False),
+ src = cms.InputTag("offlinePrimaryVertices"),
+ cut = cms.string("!isFake && ndof > 4 && abs(z) <= 24 && position.rho < 2")
+)
+
+oneGoodVertex = cms.EDFilter(
+  "VertexCountFilter",
+  src = cms.InputTag("goodVertices"),
+  minNumber = cms.uint32(1),
+  maxNumber = cms.uint32(999)
+)
 
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
-HBHENoiseFilter.minIsolatedNoiseSumE = cms.double(999999.)
-HBHENoiseFilter.minNumIsolatedNoiseChannels = cms.int32(999999)
-HBHENoiseFilter.minIsolatedNoiseSumEt = cms.double(999999.)
+
+from SUSYAnalysis.SUSYFilter.filters.TrackingFailureFilter_cfi import *
+
+from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
+
+from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
 ##-------------------------------
 ## Define preselection sequences
@@ -77,34 +94,60 @@ HBHENoiseFilter.minIsolatedNoiseSumEt = cms.double(999999.)
 
 ## MC Spring11
 preselectionMuHTMC = cms.Sequence(MuHTTriggerMC *
-                                  primaryVertexFilter *
-                                  scrapingVeto
+                                  goodVertices *
+                                  oneGoodVertex *
+                                  scrapingVeto *
+                                  trackingFailureFilter *
+                                  #CSCTightHaloFilter *
+                                  ecalDeadCellTPfilter
                                   )
 
 preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
-                                  primaryVertexFilter *
-                                  scrapingVeto
+                                  goodVertices *
+                                  oneGoodVertex *
+                                  scrapingVeto *
+                                  trackingFailureFilter *
+                                  #CSCTightHaloFilter *
+                                  ecalDeadCellTPfilter
                                   )
 
 preselectionLepHTMC = cms.Sequence(LepHTTriggerMC *
-                                   primaryVertexFilter *
-                                   scrapingVeto
+                                   goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   trackingFailureFilter *
+                                   #CSCTightHaloFilter *
+                                   ecalDeadCellTPfilter
                                    )
 
 ## MC Summer11
 preselectionMuHTMC2 = cms.Sequence(MuHTTriggerMC2 *
-                                   primaryVertexFilter *
-                                   scrapingVeto
+                                   goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   goodVertices *
+                                   trackingFailureFilter *
+                                   #CSCTightHaloFilter *
+                                   ecalDeadCellTPfilter
                                    )
 
 preselectionElHTMC2 = cms.Sequence(ElHTTriggerMC2 *
-                                   primaryVertexFilter *
-                                   scrapingVeto
+                                   goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   goodVertices *
+                                   trackingFailureFilter *
+                                   #CSCTightHaloFilter *
+                                   ecalDeadCellTPfilter
                                    )
 
 preselectionLepHTMC2 = cms.Sequence(LepHTTriggerMC2 *
-                                    primaryVertexFilter *
-                                    scrapingVeto
+                                    goodVertices *
+                                    oneGoodVertex *
+                                    scrapingVeto *
+                                    trackingFailureFilter *
+                                    #CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
                                     )
 
 ## Data
@@ -129,44 +172,72 @@ preselectionLepHTData2 = cms.Sequence(LepHTTriggerData2
 
 ## For synchronization
 preselectionMuSynch = cms.Sequence(MuTriggerMC *
-                                   primaryVertexFilter *
-                                   scrapingVeto
+                                   goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   trackingFailureFilter *
+                                   #CSCTightHaloFilter *
+                                   ecalDeadCellTPfilter
                                    )
 
 preselectionElSynch = cms.Sequence(ElTriggerMC *
-                                   primaryVertexFilter *
-                                   scrapingVeto
+                                   goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   trackingFailureFilter *
+                                   #CSCTightHaloFilter *
+                                   ecalDeadCellTPfilter
                                    )
 
 preselectionMuSynchData2 = cms.Sequence(MuTriggerData2 *
-                                        primaryVertexFilter *
+                                        goodVertices *
+                                        oneGoodVertex *
                                         HBHENoiseFilter *
-                                        scrapingVeto
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 preselectionElSynchData2 = cms.Sequence(ElTriggerData2 *
-                                        primaryVertexFilter *
+                                        goodVertices *
+                                        oneGoodVertex *
                                         HBHENoiseFilter *
-                                        scrapingVeto
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 # AOD2PAT data
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
-                                    primaryVertexFilter *
+                                    goodVertices *
+                                    oneGoodVertex *
                                     HBHENoiseFilter *
-                                    scrapingVeto
+                                    scrapingVeto *
+                                    trackingFailureFilter *
+                                    #CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
                                     )
 
 preselectionSingleMu2PAT = cms.Sequence(MuTriggerData *
-                                        primaryVertexFilter *
+                                        goodVertices *
+                                        oneGoodVertex *
                                         HBHENoiseFilter *
-                                        scrapingVeto
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 preselectionSingleElectron2PAT = cms.Sequence(ElTriggerData *
-                                              primaryVertexFilter *
+                                              goodVertices *
+                                              oneGoodVertex *
                                               HBHENoiseFilter *
-                                              scrapingVeto
+                                              scrapingVeto *
+                                              trackingFailureFilter *
+                                              #CSCTightHaloFilter *
+                                              ecalDeadCellTPfilter
                                               )
 
 ##----------------------------------------------
@@ -189,41 +260,64 @@ ttGenEventFilterTau = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || ful
 preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterSemiLep *
                                         LepHTTriggerMC *
-                                        primaryVertexFilter *
-                                        scrapingVeto
+                                        goodVertices *
+                                        oneGoodVertex *
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 preselectionSemiLepTTBarOther = cms.Sequence(makeGenEvt *
                                              ttGenEventFilterSemiLepOther *
                                              LepHTTriggerMC *
-                                             primaryVertexFilter *
-                                             scrapingVeto
+                                             
+                                             scrapingVeto *
+                                             trackingFailureFilter *
+                                             #CSCTightHaloFilter *
+                                             ecalDeadCellTPfilter
                                              )
 
 preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterFullLep *
                                         LepHTTriggerMC *
-                                        primaryVertexFilter *
-                                        scrapingVeto
+                                        goodVertices *
+                                        oneGoodVertex *
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 preselectionFullLepTTBarOther = cms.Sequence(makeGenEvt *
                                              ttGenEventFilterFullLepOther *
                                              LepHTTriggerMC *
-                                             primaryVertexFilter *
-                                             scrapingVeto
+                                             goodVertices *
+                                             oneGoodVertex *
+                                             scrapingVeto *
+                                             trackingFailureFilter *
+                                             #CSCTightHaloFilter *
+                                             ecalDeadCellTPfilter
                                              )
 
 preselectionFullHadTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterFullHad *
                                         LepHTTriggerMC *
-                                        primaryVertexFilter *
-                                        scrapingVeto
+                                        goodVertices *
+                                        oneGoodVertex *
+                                        scrapingVeto *
+                                        trackingFailureFilter *
+                                        #CSCTightHaloFilter *
+                                        ecalDeadCellTPfilter
                                         )
 
 preselectionTauTTBar = cms.Sequence(makeGenEvt *
                                     ttGenEventFilterTau *
                                     LepHTTriggerMC *
-                                    primaryVertexFilter *
-                                    scrapingVeto
+                                    goodVertices *
+                                    oneGoodVertex *
+                                    scrapingVeto *
+                                    trackingFailureFilter *
+                                    #CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
                                     )
