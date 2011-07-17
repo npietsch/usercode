@@ -86,24 +86,30 @@ matchedElectrons = selectedPatMuons.clone(src = 'goodMuons',
 # veto-lepton collections
 #------------------------------
 
-## create veto-muon collection
-from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
-vetoMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
-                                   cut =
-                                   'isGlobalMuon &'
-                                   'pt >= 10. &'
-                                   'abs(eta) <= 2.5 &'
-                                   '(trackIso+hcalIso+ecalIso)/pt <  0.2'
-                                   )
+looseVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+                                        cut =
+                                        'isGood("GlobalMuonPromptTight") &'
+                                        'pt >= 15. &'
+                                        'abs(eta) <= 2.5 &'
+                                        '(trackIso+hcalIso+ecalIso)/pt <  0.15 &'
+                                        'abs(dB) < 0.1'
+                                        )
 
-## create veto-electron collection
-from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
-vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
-                                           cut =
-                                           'pt >= 15. &'
-                                           'abs(eta) <= 2.5 &'
-                                           'electronID(\"simpleEleId95relIso\")=7 '
-                                           )
+vetoMuons = vertexSelectedMuons.clone(src = "looseVetoMuons"
+                                      )
+
+looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                                cut =
+                                                'pt >= 15. &'
+                                                'abs(eta) <= 2.5 &'
+                                                'electronID(\"simpleEleId95relIso\")=7 &'
+                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                                'abs(dB) < 0.1'
+                                                )
+
+vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
+                                              )
+
 #------------------------------
 # jet collections
 #------------------------------
@@ -113,7 +119,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 40. &'
+                               'pt > 20. &'
                                ## PURE09 LOOSE
                                #'emEnergyFraction > 0.01 &'
                                #'jetID.fHPD < 0.98 &'
@@ -126,7 +132,7 @@ looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                'chargedMultiplicity > 0            &'
                                'nConstituents > 1'                              
                                )
-
+                               
 looseJets.checkOverlaps = cms.PSet(
     muons = cms.PSet(
     src       = cms.InputTag("vertexMuons"),
@@ -147,13 +153,47 @@ looseJets.checkOverlaps = cms.PSet(
     requireNoOverlaps   = cms.bool(True),
     )
 )
-    
+
 ## create good jet collection
-from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
-goodJets = selectedPatJets.clone(src = 'looseJets',
-                                 cut =
-                                 'pt > 40.'
-                                 )
+from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
+goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+                               preselection =
+                               'abs(eta) < 2.4 &'
+                               'pt > 40. &'
+                               ## PURE09 LOOSE
+                               #'emEnergyFraction > 0.01 &'
+                               #'jetID.fHPD < 0.98 &'
+                               #'jetID.n90Hits > 1'
+                               ## Loose PF Jet ID
+                               'chargedHadronEnergyFraction > 0.0  &'
+                               'neutralHadronEnergyFraction < 0.99 &'
+                               'chargedEmEnergyFraction     < 0.99 &'
+                               'neutralEmEnergyFraction     < 0.99 &'
+                               'chargedMultiplicity > 0            &'
+                               'nConstituents > 1'                              
+                               )
+                               
+goodJets.checkOverlaps = cms.PSet(
+    muons = cms.PSet(
+    src       = cms.InputTag("vertexMuons"),
+    algorithm = cms.string("byDeltaR"),
+    preselection        = cms.string(""),
+    deltaR              = cms.double(0.1),
+    checkRecoComponents = cms.bool(False),
+    pairCut             = cms.string(""),
+    requireNoOverlaps   = cms.bool(True),
+    ),
+    electrons = cms.PSet(
+    src       = cms.InputTag("goodElectrons"),
+    algorithm = cms.string("byDeltaR"),
+    preselection        = cms.string(""),
+    deltaR              = cms.double(0.3),
+    checkRecoComponents = cms.bool(False),
+    pairCut             = cms.string(""),
+    requireNoOverlaps   = cms.bool(True),
+    )
+)
+
 ## create good jet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumJets = selectedPatJets.clone(src = 'goodJets',
@@ -255,7 +295,7 @@ mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 tightMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 700.'
+                                 'et > 150.'
                                  )
 
 #------------------------------
@@ -570,6 +610,10 @@ oneTightMET = countPatMET.clone(src = 'tightMETs',
 ## HT filter
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
+filterViennaHT = filterHT.clone()
+filterViennaHT.jets = "looseJets"
+filterViennaHT.Cut = 300
+
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
 filterLooseHT.Cut = 250
@@ -639,7 +683,9 @@ goodObjects = cms.Sequence(looseMuons *
                            looseElectrons *
                            trackMuons *
                            vertexMuons *
+                           looseVetoMuons *
                            vetoMuons *
+                           looseVetoElectrons *
                            vetoElectrons *
                            isolatedElectrons *
                            goodElectrons*
@@ -663,25 +709,31 @@ goodObjects = cms.Sequence(looseMuons *
 
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
-                             noGoodElectron
+                             noGoodElectron *
+                             oneVetoMuon *
+                             noVetoElectron
                              )
 
 electronSelection = cms.Sequence(oneGoodElectron *
                                  exactlyOneGoodElectron *
-                                 noGoodMuon
+                                 noGoodMuon *
+                                 oneVetoElectron *
+                                 noVetoMuon
                                  )
 
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourGoodJets *
-                            filterMT
+jetSelection = cms.Sequence(fourGoodJets##  *
+##                             filterMT
                             )
 
 metSelection = cms.Sequence(oneGoodMET
                             )
 
 HTSelection = cms.Sequence(filterMediumHT)
+
+ViennaHTSelection = cms.Sequence(filterViennaHT)
 
 tightHTSelection = cms.Sequence(filterTightHT)
 
