@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -105,7 +105,7 @@ process.Selection1m = cms.Path(#process.printGenParticles *
                                process.analyzeSUSYBjets1m_HTSelection *
                                process.metSelection *
                                process.analyzeSUSYBjets1m_metSelection
-                               )
+                                )
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
