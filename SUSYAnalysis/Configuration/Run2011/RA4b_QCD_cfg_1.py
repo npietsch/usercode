@@ -1,5 +1,10 @@
 from BjetsPAT_cfg import *
 
+process.weightProducer.Method = "PtHat"
+process.weightProducer.XS = 2.213E+10
+process.weightProducer.NumberEvts = 100000
+process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
+
 from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
 process.preselectionMuHTMC = preselectionMuHTMC2
 process.preselectionElHTMC = preselectionElHTMC2

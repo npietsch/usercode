@@ -13,5 +13,7 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              pvSrc = cms.InputTag("offlinePrimaryVertices"),
                              weight = cms.InputTag("eventWeightPU:eventWeightPU"),
                              PUInfo = cms.InputTag("addPileupInfo"),
-                             useEventWeight = cms.bool(False)
+                             useEventWeight = cms.bool(False),
+                             RA2weight = cms.InputTag("weightProducer:weight")
                              )
+                

@@ -181,17 +181,13 @@ process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSeque
 ## jetAlgo="AK5"
 ## usePF2PAT(process,runPF2PAT=True, jetAlgo=jetAlgo, runOnMC=runOnMC, postfix=postfix) 
 
-#-------------------------------------------------
+#----------------------------------------------
 # cmsPath
 #----------------------------------------------
 
-process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
-process.weightProducer.Method = "PtHat"
-
 process.PATTuple = cms.Path(#process.preselectionMC2PAT *
-                            process.patDefaultSequence *
-                            process.weightProducer
-##                             getattr(process,"patPF2PATSequence"+postfix)
+                            process.patDefaultSequence
+                            #getattr(process,"patPF2PATSequence"+postfix)
                             )
 
 #------------------------------------------------
@@ -207,20 +203,20 @@ process.EventSelection = cms.PSet(
 
 process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
-                               #outputCommands = cms.untracked.vstring('drop *'),
-                               #dropMetaData = cms.untracked.string('DROPPED'),
+                               outputCommands = cms.untracked.vstring('drop *'),
+                               dropMetaData = cms.untracked.string('DROPPED'),
                                fileName = cms.untracked.string('Summer11.root')
                                )
 
-## # Specify what to keep in the event content
-## from PhysicsTools.PatAlgos.patEventContent_cff import *
-## process.out.outputCommands += patEventContentNoCleaning
-## process.out.outputCommands += patExtraAodEventContent
-## process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
-## #from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-## #process.out.outputCommands += SUSYEventContent
-## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-## #process.out.outputCommands += tqafEventContent
+# Specify what to keep in the event content
+from PhysicsTools.PatAlgos.patEventContent_cff import *
+process.out.outputCommands += patEventContentNoCleaning
+process.out.outputCommands += patExtraAodEventContent
+process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+#from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+#process.out.outputCommands += SUSYEventContent
+#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+#process.out.outputCommands += tqafEventContent
 
 process.outpath = cms.EndPath(process.out)
 
