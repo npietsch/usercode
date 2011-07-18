@@ -4,21 +4,20 @@ process = cms.Process("MakePATTuple")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1000
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
+    #'/store/mc/Summer11/QCD_Pt-20_MuEnrichedPt-10_TuneZ2_7TeV-pythia6/AODSIM/PU_S3_START42_V11-v2/0000/769EC1F5-1B81-E011-988E-002481E14F38.root'
     #'/store/mc/Spring11/DYJetsToLL_TuneD6T_M-50_7TeV-madgraph-tauola/AODSIM/PU_S1_START311_V1G1-v1/0008/9C7D9D09-4351-E011-9F8F-0015178C49A4.root'
-
-    
+    '/store/mc/Summer11/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/AODSIM/PU_S3_START42_V11-v2/0004/8C149DD9-8C7E-E011-B3C0-001A92811706.root'
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(100),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -42,7 +41,7 @@ process.load("PhysicsTools.PatAlgos.patSequences_cff")
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Spring11.root')
+    fileName = cms.untracked.string('Summer11.root')
 )
 
 ## remove cleaning as it is not used
@@ -186,8 +185,12 @@ process.patDefaultSequence.replace(process.patElectrons,process.simpleEleIdSeque
 # cmsPath
 #----------------------------------------------
 
+process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
+process.weightProducer.Method = "PtHat"
+
 process.PATTuple = cms.Path(#process.preselectionMC2PAT *
-                            process.patDefaultSequence## *
+                            process.patDefaultSequence *
+                            process.weightProducer
 ##                             getattr(process,"patPF2PATSequence"+postfix)
                             )
 
@@ -204,20 +207,20 @@ process.EventSelection = cms.PSet(
 
 process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
-                               outputCommands = cms.untracked.vstring('drop *'),
-                               dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Spring11.root')
+                               #outputCommands = cms.untracked.vstring('drop *'),
+                               #dropMetaData = cms.untracked.string('DROPPED'),
+                               fileName = cms.untracked.string('Summer11.root')
                                )
 
-# Specify what to keep in the event content
-from PhysicsTools.PatAlgos.patEventContent_cff import *
-process.out.outputCommands += patEventContentNoCleaning
-process.out.outputCommands += patExtraAodEventContent
-process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
-#from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-#process.out.outputCommands += SUSYEventContent
-#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-#process.out.outputCommands += tqafEventContent
+## # Specify what to keep in the event content
+## from PhysicsTools.PatAlgos.patEventContent_cff import *
+## process.out.outputCommands += patEventContentNoCleaning
+## process.out.outputCommands += patExtraAodEventContent
+## process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+## #from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+## #process.out.outputCommands += SUSYEventContent
+## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+## #process.out.outputCommands += tqafEventContent
 
 process.outpath = cms.EndPath(process.out)
 
