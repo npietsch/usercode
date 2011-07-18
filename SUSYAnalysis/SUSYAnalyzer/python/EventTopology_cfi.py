@@ -12,5 +12,6 @@ analyzeEventTopology = cms.EDAnalyzer("EventTopology",
                                       electrons = cms.InputTag("selectedPatElectrons"),
                                       pvSrc = cms.InputTag("offlinePrimaryVertices"),
                                       weight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                                      RA2weight = cms.InputTag("weightProducer:weight"),
                                       useEventWeight = cms.bool(False)
                                       )

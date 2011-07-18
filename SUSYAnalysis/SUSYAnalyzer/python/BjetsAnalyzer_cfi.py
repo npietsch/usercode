@@ -17,6 +17,7 @@ analyzeBjets = cms.EDAnalyzer("BjetsAnalyzer",
                               tightTrackHighPurBjets = cms.InputTag("selectedPatJetsAK5PF"),
                               pvSrc = cms.InputTag("offlinePrimaryVertices"),
                               weight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                              RA2weight = cms.InputTag("weightProducer:weight"),
                               useEventWeight = cms.bool(False)
                              )
 

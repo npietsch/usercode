@@ -46,6 +46,7 @@ class BjetsAnalyzer : public edm::EDAnalyzer {
   edm::InputTag tightTrackHighEffBjets_;
   edm::InputTag pvSrc_;
   edm::InputTag weight_;
+  edm::InputTag RA2weight_;
   bool useEvtWgt_;
 
   // TH1F
