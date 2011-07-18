@@ -200,7 +200,42 @@ process.MuonSelection = cms.Path(process.patDefaultSequence *
                                  process.oneTightMET
                                  )
 
+process.ViennaMuonSelection = cms.Path(process.patDefaultSequence *
+                                       process.preselectionMuSynchData2 *
+                                       process.goodObjects *
+                                       process.fourGoodJets *
+                                       process.oneGoodMuon *
+                                       process.exactlyOneGoodMuon *
+                                       process.noGoodElectron *
+                                       process.oneVetoMuon *
+                                       process.noVetoElectron *
+                                       process.ViennaHTSelection *
+                                       process.oneTightMET
+                                       )
+## Electron selection
+process.ElectronSelection = cms.Path(process.patDefaultSequence *
+                                     process.preselectionElSynchData2 *
+                                     process.goodObjects *
+                                     process.fourGoodJets *
+                                     process.oneGoodElectron *
+                                     process.exactlyOneGoodElectron *
+                                     process.noGoodMuon *
+                                     process.oneVetoElectron *
+                                     process.noVetoMuon *
+                                     process.HTSelection *
+                                     process.oneTightMET
+                                     )
 
-
-
+process.ViennaElectronSelection = cms.Path(process.patDefaultSequence *
+                                           process.preselectionElSynchData2 *
+                                           process.goodObjects *
+                                           process.fourGoodJets *
+                                           process.oneGoodElectron *
+                                           process.exactlyOneGoodElectron *
+                                           process.noGoodMuon *
+                                           process.oneVetoElectron *
+                                           process.noVetoMuon *
+                                           process.ViennaHTSelection *
+                                           process.oneTightMET
+                                           )
  
