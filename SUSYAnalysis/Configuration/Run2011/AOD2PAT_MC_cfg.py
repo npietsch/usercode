@@ -71,7 +71,7 @@ from PhysicsTools.PatAlgos.tools.jetTools import *
 addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),'AK5', 'JPT',
                  doJTA        = True,
                  doBTagging   = True,
-                 jetCorrLabel = ('AK5JPT', ['L1FastJet', 'L2Relative','L3Absolute', 'L2L3Residual']),
+                 jetCorrLabel = ('AK5JPT', ['L1FastJet', 'L2Relative','L3Absolute']),
                  doType1MET   = False,
                  doL1Cleaning = False,
                  doL1Counters = False,                 
@@ -83,7 +83,7 @@ addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),'AK5', 'JP
 addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
                  doJTA        = True,
                  doBTagging   = True,
-                 jetCorrLabel = ('AK5PF', ['L1FastJet', 'L2Relative','L3Absolute', 'L2L3Residual']),
+                 jetCorrLabel = ('AK5PF', ['L1FastJet', 'L2Relative','L3Absolute']),
                  doType1MET   = False,
                  doL1Cleaning = False,
                  doL1Counters = False,
@@ -92,7 +92,7 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),'AK5','PF',
                 )
 
 ## add L1 offset corrections to Calo Jets
-process.patJetCorrFactors.levels=['L1FastJet', 'L2Relative','L3Absolute', 'L2L3Residual']
+process.patJetCorrFactors.levels=['L1FastJet', 'L2Relative','L3Absolute'']
 
 ## fix bug in patDefaultSequence
 process.load('RecoJets.Configuration.RecoPFJets_cff')
