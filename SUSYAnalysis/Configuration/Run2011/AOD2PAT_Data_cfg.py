@@ -18,7 +18,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -29,7 +29,7 @@ process.options = cms.untracked.PSet(
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('GR_R_43_V0::All')
+process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
 #-------------------------------------------------
 # PAT configuration

@@ -103,7 +103,7 @@ looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 'pt >= 15. &'
                                                 'abs(eta) <= 2.5 &'
                                                 'electronID(\"simpleEleId95relIso\")=7 &'
-                                                #'(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
                                                 'abs(dB) < 0.1'
                                                 )
 
