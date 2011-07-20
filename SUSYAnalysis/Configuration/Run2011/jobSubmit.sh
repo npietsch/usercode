@@ -25,5 +25,5 @@ nafJobSplitter.pl 50 RA4b_ZJets_cfg_1.py
 nafJobSplitter.pl 50 RA4b_ZJets_cfg_2.py
 nafJobSplitter.pl 50 RA4b_ZJets_cfg_3.py
 
-nafJobSplitter.pl 50 RA4b_QCDMu_cfg_1.py
-nafJobSplitter.pl 50 RA4b_QCDMu_cfg_2.py
+nafJobSplitter.pl 50 RA4b_QCD_cfg_1.py
+nafJobSplitter.pl 50 RA4b_QCD_cfg_2.py
