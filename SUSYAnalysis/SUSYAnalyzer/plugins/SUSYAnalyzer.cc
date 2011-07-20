@@ -207,6 +207,42 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjet2Et_TightC_=fs->make<TH1F>("Bjet2Et_TightC","Bjet2Et TightC", 90, 0., 900.);
   Bjet2Et_TightD_=fs->make<TH1F>("Bjet2Et_TightD","Bjet2Et TightD", 90, 0., 900.);
 
+  JetsEt_LooseA_=fs->make<TH1F>("JetsEt_LooseA","JetsEt LooseA", 90, 0., 900.);
+  JetsEt_LooseB_=fs->make<TH1F>("JetsEt_LooseB","JetsEt LooseB", 90, 0., 900.);
+  JetsEt_LooseC_=fs->make<TH1F>("JetsEt_LooseC","JetsEt LooseC", 90, 0., 900.);
+  JetsEt_LooseD_=fs->make<TH1F>("JetsEt_LooseD","JetsEt LooseD", 90, 0., 900.);
+  JetsEt_TightA_=fs->make<TH1F>("JetsEt_TightA","JetsEt TightA", 90, 0., 900.);
+  JetsEt_TightB_=fs->make<TH1F>("JetsEt_TightB","JetsEt TightB", 90, 0., 900.);
+  JetsEt_TightC_=fs->make<TH1F>("JetsEt_TightC","JetsEt TightC", 90, 0., 900.);
+  JetsEt_TightD_=fs->make<TH1F>("JetsEt_TightD","JetsEt TightD", 90, 0., 900.);
+
+  Jet0Et_LooseA_=fs->make<TH1F>("Jet0Et_LooseA","Jet0Et LooseA", 90, 0., 900.);
+  Jet0Et_LooseB_=fs->make<TH1F>("Jet0Et_LooseB","Jet0Et LooseB", 90, 0., 900.);
+  Jet0Et_LooseC_=fs->make<TH1F>("Jet0Et_LooseC","Jet0Et LooseC", 90, 0., 900.);
+  Jet0Et_LooseD_=fs->make<TH1F>("Jet0Et_LooseD","Jet0Et LooseD", 90, 0., 900.);
+  Jet0Et_TightA_=fs->make<TH1F>("Jet0Et_TightA","Jet0Et TightA", 90, 0., 900.);
+  Jet0Et_TightB_=fs->make<TH1F>("Jet0Et_TightB","Jet0Et TightB", 90, 0., 900.);
+  Jet0Et_TightC_=fs->make<TH1F>("Jet0Et_TightC","Jet0Et TightC", 90, 0., 900.);
+  Jet0Et_TightD_=fs->make<TH1F>("Jet0Et_TightD","Jet0Et TightD", 90, 0., 900.);
+
+  Jet1Et_LooseA_=fs->make<TH1F>("Jet1Et_LooseA","Jet1Et LooseA", 90, 0., 900.);
+  Jet1Et_LooseB_=fs->make<TH1F>("Jet1Et_LooseB","Jet1Et LooseB", 90, 0., 900.);
+  Jet1Et_LooseC_=fs->make<TH1F>("Jet1Et_LooseC","Jet1Et LooseC", 90, 0., 900.);
+  Jet1Et_LooseD_=fs->make<TH1F>("Jet1Et_LooseD","Jet1Et LooseD", 90, 0., 900.);
+  Jet1Et_TightA_=fs->make<TH1F>("Jet1Et_TightA","Jet1Et TightA", 90, 0., 900.);
+  Jet1Et_TightB_=fs->make<TH1F>("Jet1Et_TightB","Jet1Et TightB", 90, 0., 900.);
+  Jet1Et_TightC_=fs->make<TH1F>("Jet1Et_TightC","Jet1Et TightC", 90, 0., 900.);
+  Jet1Et_TightD_=fs->make<TH1F>("Jet1Et_TightD","Jet1Et TightD", 90, 0., 900.);
+
+  Jet2Et_LooseA_=fs->make<TH1F>("Jet2Et_LooseA","Jet2Et LooseA", 90, 0., 900.);
+  Jet2Et_LooseB_=fs->make<TH1F>("Jet2Et_LooseB","Jet2Et LooseB", 90, 0., 900.);
+  Jet2Et_LooseC_=fs->make<TH1F>("Jet2Et_LooseC","Jet2Et LooseC", 90, 0., 900.);
+  Jet2Et_LooseD_=fs->make<TH1F>("Jet2Et_LooseD","Jet2Et LooseD", 90, 0., 900.);
+  Jet2Et_TightA_=fs->make<TH1F>("Jet2Et_TightA","Jet2Et TightA", 90, 0., 900.);
+  Jet2Et_TightB_=fs->make<TH1F>("Jet2Et_TightB","Jet2Et TightB", 90, 0., 900.);
+  Jet2Et_TightC_=fs->make<TH1F>("Jet2Et_TightC","Jet2Et TightC", 90, 0., 900.);
+  Jet2Et_TightD_=fs->make<TH1F>("Jet2Et_TightD","Jet2Et TightD", 90, 0., 900.);
+
   mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 200);
 
   mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET0", 40 , 0, 200);
@@ -420,6 +456,55 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
     }
 
+  for(int jjdx=0; jjdx<(int) jets->size(); ++jjdx)
+    {
+      if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) JetsEt_LooseA_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) JetsEt_LooseB_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) JetsEt_LooseC_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 400 && sigMET >= 4.5 )  JetsEt_LooseD_->Fill((*jets)[jjdx].et(),weight);
+
+      if(HT >= 300 && HT < 650 && sigMET >= 2.5 && sigMET < 5.5) JetsEt_TightA_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 650 && sigMET >= 2.5 && sigMET < 5.5) JetsEt_TightB_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 300 && HT < 650 && sigMET >= 5.5 ) JetsEt_TightC_->Fill((*jets)[jjdx].et(),weight);
+      else if(HT >= 650 && sigMET >= 5.5 ) JetsEt_TightD_->Fill((*jets)[jjdx].et(),weight);
+
+      if(jjdx==0)
+	{
+	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet0Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet0Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet0Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 4.5 )  Jet0Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
+	  
+	  if(HT >= 300 && HT < 650 && sigMET >= 2.5 && sigMET < 5.5) Jet0Et_TightA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 2.5 && sigMET < 5.5) Jet0Et_TightB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 650 && sigMET >= 5.5 ) Jet0Et_TightC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 5.5 ) Jet0Et_TightD_->Fill((*jets)[jjdx].et(),weight);
+	}
+      if(jjdx==1)
+	{
+	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet1Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet1Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet1Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 4.5 )  Jet1Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
+	  
+	  if(HT >= 300 && HT < 650 && sigMET >= 2.5 && sigMET < 5.5) Jet1Et_TightA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 2.5 && sigMET < 5.5) Jet1Et_TightB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 650 && sigMET >= 5.5 ) Jet1Et_TightC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 5.5 ) Jet1Et_TightD_->Fill((*jets)[jjdx].et(),weight);
+	}
+      if(jjdx==2)
+	{
+	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet2Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet2Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet2Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 400 && sigMET >= 4.5 )  Jet2Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
+	  
+	  if(HT >= 300 && HT < 650 && sigMET >= 2.5 && sigMET < 5.5) Jet2Et_TightA_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 2.5 && sigMET < 5.5) Jet2Et_TightB_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 300 && HT < 650 && sigMET >= 5.5 ) Jet2Et_TightC_->Fill((*jets)[jjdx].et(),weight);
+	  else if(HT >= 650 && sigMET >= 5.5 ) Jet2Et_TightD_->Fill((*jets)[jjdx].et(),weight);
+	}
+    }
 
   nPV_->Fill(pvSrc->size(), weight);
 

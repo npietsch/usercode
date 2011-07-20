@@ -189,6 +189,42 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *Bjet2Et_TightC_;
   TH1F *Bjet2Et_TightD_;
 
+  TH1F *JetsEt_LooseA_;
+  TH1F *JetsEt_LooseB_;
+  TH1F *JetsEt_LooseC_;
+  TH1F *JetsEt_LooseD_;
+  TH1F *JetsEt_TightA_;
+  TH1F *JetsEt_TightB_;
+  TH1F *JetsEt_TightC_;
+  TH1F *JetsEt_TightD_;
+
+  TH1F *Jet0Et_LooseA_;
+  TH1F *Jet0Et_LooseB_;
+  TH1F *Jet0Et_LooseC_;
+  TH1F *Jet0Et_LooseD_;
+  TH1F *Jet0Et_TightA_;
+  TH1F *Jet0Et_TightB_;
+  TH1F *Jet0Et_TightC_;
+  TH1F *Jet0Et_TightD_;
+
+  TH1F *Jet1Et_LooseA_;
+  TH1F *Jet1Et_LooseB_;
+  TH1F *Jet1Et_LooseC_;
+  TH1F *Jet1Et_LooseD_;
+  TH1F *Jet1Et_TightA_;
+  TH1F *Jet1Et_TightB_;
+  TH1F *Jet1Et_TightC_;
+  TH1F *Jet1Et_TightD_;
+
+  TH1F *Jet2Et_LooseA_;
+  TH1F *Jet2Et_LooseB_;
+  TH1F *Jet2Et_LooseC_;
+  TH1F *Jet2Et_LooseD_;
+  TH1F *Jet2Et_TightA_;
+  TH1F *Jet2Et_TightB_;
+  TH1F *Jet2Et_TightC_;
+  TH1F *Jet2Et_TightD_;
+
   TH1F *nJets_control_;
   TH1F *nJets_control_eta05_;
   TH1F *nJets_control_eta10_;
