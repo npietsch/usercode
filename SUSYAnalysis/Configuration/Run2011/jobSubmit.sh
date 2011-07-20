@@ -29,7 +29,7 @@ nafJobSplitter.pl 50 RA4b_QCD_cfg_1.py
 nafJobSplitter.pl 50 RA4b_QCD_cfg_2.py
 
 nafJobSplitter.pl 42 RA4b_Top_tW_cfg.py
-nafJobSplitter.pl 40 RA4b_Top_t-Channel_cfg.py
+nafJobSplitter.pl 40 RA4b_Top_tChannel_cfg.py
 nafJobSplitter.pl 17 RA4b_Tbar_tW_cfg.py
-nafJobSplitter.pl 49 RA4b_Tbar_t-Channel_cfg.py
-nafJobSplitter.pl 8 RA4b_Tbar_s-Channel_cfg.py
+nafJobSplitter.pl 49 RA4b_Tbar_tChannel_cfg.py
+nafJobSplitter.pl 8 RA4b_Tbar_sChannel_cfg.py
