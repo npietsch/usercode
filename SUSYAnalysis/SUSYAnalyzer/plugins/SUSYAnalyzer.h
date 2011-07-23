@@ -101,6 +101,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
 
   TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;
+  TH2F *HT_SigMET2_;
   TH2F *HT_MET_;
 
   TH2F *mW_SigMET_;

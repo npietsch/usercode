@@ -73,7 +73,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Jet1_Et5pv_=fs->make<TH1F>("Jet1_Et5pv","Jet2 Et 5pv", 90, 0., 900.);
 
   HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 78, 220., 1000., 30, 0., 300. );
-  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 200., 2000., 40, 0., 20. );
+  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET2_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
+
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
@@ -106,25 +108,25 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_signal_eta20_ = fs->make<TH1F>("HT_signal_eta20","HT_signal_eta20",40, 0., 2000.);
   HT_signal_eta25_ = fs->make<TH1F>("HT_signal_eta25","HT_signal_eta25",40, 0., 2000.);
 
-  mW_eta05_ = fs->make<TH1F>("mW_eta05","mW_eta05",40, 0., 200.);
-  mW_eta10_ = fs->make<TH1F>("mW_eta10","mW_eta10",40, 0., 200.);
-  mW_eta15_ = fs->make<TH1F>("mW_eta15","mW_eta15",40, 0., 200.);
-  mW_eta20_ = fs->make<TH1F>("mW_eta20","mW_eta20",40, 0., 200.);
-  mW_eta25_ = fs->make<TH1F>("mW_eta25","mW_eta25",40, 0., 200.);
+  mW_eta05_ = fs->make<TH1F>("mW_eta05","mW_eta05",40, 0., 400.);
+  mW_eta10_ = fs->make<TH1F>("mW_eta10","mW_eta10",40, 0., 400.);
+  mW_eta15_ = fs->make<TH1F>("mW_eta15","mW_eta15",40, 0., 400.);
+  mW_eta20_ = fs->make<TH1F>("mW_eta20","mW_eta20",40, 0., 400.);
+  mW_eta25_ = fs->make<TH1F>("mW_eta25","mW_eta25",40, 0., 400.);
 
-  mW_control_ = fs->make<TH1F>("mW_control","mW_control",40, 0., 200.);
-  mW_control_eta05_ = fs->make<TH1F>("mW_control_eta05","mW_control_eta05",40, 0., 200.);
-  mW_control_eta10_ = fs->make<TH1F>("mW_control_eta10","mW_control_eta10",40, 0., 200.);
-  mW_control_eta15_ = fs->make<TH1F>("mW_control_eta15","mW_control_eta15",40, 0., 200.);
-  mW_control_eta20_ = fs->make<TH1F>("mW_control_eta20","mW_control_eta20",40, 0., 200.);
-  mW_control_eta25_ = fs->make<TH1F>("mW_control_eta25","mW_control_eta25",40, 0., 200.);
+  mW_control_ = fs->make<TH1F>("mW_control","mW_control",40, 0., 400.);
+  mW_control_eta05_ = fs->make<TH1F>("mW_control_eta05","mW_control_eta05",40, 0., 400.);
+  mW_control_eta10_ = fs->make<TH1F>("mW_control_eta10","mW_control_eta10",40, 0., 400.);
+  mW_control_eta15_ = fs->make<TH1F>("mW_control_eta15","mW_control_eta15",40, 0., 400.);
+  mW_control_eta20_ = fs->make<TH1F>("mW_control_eta20","mW_control_eta20",40, 0., 400.);
+  mW_control_eta25_ = fs->make<TH1F>("mW_control_eta25","mW_control_eta25",40, 0., 400.);
 
-  mW_signal_ = fs->make<TH1F>("mW_signal","mW_signal",40, 0., 200.);
-  mW_signal_eta05_ = fs->make<TH1F>("mW_signal_eta05","mW_signal_eta05",40, 0., 200.);
-  mW_signal_eta10_ = fs->make<TH1F>("mW_signal_eta10","mW_signal_eta10",40, 0., 200.);
-  mW_signal_eta15_ = fs->make<TH1F>("mW_signal_eta15","mW_signal_eta15",40, 0., 200.);
-  mW_signal_eta20_ = fs->make<TH1F>("mW_signal_eta20","mW_signal_eta20",40, 0., 200.);
-  mW_signal_eta25_ = fs->make<TH1F>("mW_signal_eta25","mW_signal_eta25",40, 0., 200.);
+  mW_signal_ = fs->make<TH1F>("mW_signal","mW_signal",40, 0., 400.);
+  mW_signal_eta05_ = fs->make<TH1F>("mW_signal_eta05","mW_signal_eta05",40, 0., 400.);
+  mW_signal_eta10_ = fs->make<TH1F>("mW_signal_eta10","mW_signal_eta10",40, 0., 400.);
+  mW_signal_eta15_ = fs->make<TH1F>("mW_signal_eta15","mW_signal_eta15",40, 0., 400.);
+  mW_signal_eta20_ = fs->make<TH1F>("mW_signal_eta20","mW_signal_eta20",40, 0., 400.);
+  mW_signal_eta25_ = fs->make<TH1F>("mW_signal_eta25","mW_signal_eta25",40, 0., 400.);
 
   nMuons_ = fs->make<TH1F>("nMuons","nMuons",7 , -0.5, 6.5);
   nElectrons_ = fs->make<TH1F>("nElectrons","nElectrons",7 , -0.5, 6.5);
@@ -243,44 +245,44 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Jet2Et_TightC_=fs->make<TH1F>("Jet2Et_TightC","Jet2Et TightC", 90, 0., 900.);
   Jet2Et_TightD_=fs->make<TH1F>("Jet2Et_TightD","Jet2Et TightD", 90, 0., 900.);
 
-  mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 200);
+  mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 400);
 
-  mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET0", 40 , 0, 200);
-  mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 200);
-  mW_MET100_=fs-> make<TH1F>("mW_MET100","mW MET100", 40 , 0, 200);
-  mW_MET150_=fs-> make<TH1F>("mW_MET150","mW MET150", 40 , 0, 200);
-  mW_MET200_=fs-> make<TH1F>("mW_MET200","mW MET200", 40 , 0, 200);
-  mW_MET250_=fs-> make<TH1F>("mW_MET250","mW MET250", 40 , 0, 200);
-  mW_MET300_=fs-> make<TH1F>("mW_MET300","mW MET300", 40 , 0, 200);
+  mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET0", 40 , 0, 400);
+  mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 400);
+  mW_MET100_=fs-> make<TH1F>("mW_MET100","mW MET100", 40 , 0, 400);
+  mW_MET150_=fs-> make<TH1F>("mW_MET150","mW MET150", 40 , 0, 400);
+  mW_MET200_=fs-> make<TH1F>("mW_MET200","mW MET200", 40 , 0, 400);
+  mW_MET250_=fs-> make<TH1F>("mW_MET250","mW MET250", 40 , 0, 400);
+  mW_MET300_=fs-> make<TH1F>("mW_MET300","mW MET300", 40 , 0, 400);
 
-  mW_SigMET0_=fs-> make<TH1F>("mW_SigMET0","mW_SigMET0", 40 , 0, 200);
-  mW_SigMET2_=fs-> make<TH1F>("mW_SigMET2","mW SigMET2", 40 , 0, 200);
-  mW_SigMET4_=fs-> make<TH1F>("mW_SigMET4","mW SigMET4", 40 , 0, 200);
-  mW_SigMET6_=fs-> make<TH1F>("mW_SigMET6","mW SigMET6", 40 , 0, 200);
-  mW_SigMET9_=fs-> make<TH1F>("mW_SigMET9","mW SigMET9", 40 , 0, 200);
-  mW_SigMET12_=fs-> make<TH1F>("mW_SigMET12","mW SigMET12", 40 , 0, 200);
+  mW_SigMET0_=fs-> make<TH1F>("mW_SigMET0","mW_SigMET0", 40 , 0, 400);
+  mW_SigMET2_=fs-> make<TH1F>("mW_SigMET2","mW SigMET2", 40 , 0, 400);
+  mW_SigMET4_=fs-> make<TH1F>("mW_SigMET4","mW SigMET4", 40 , 0, 400);
+  mW_SigMET6_=fs-> make<TH1F>("mW_SigMET6","mW SigMET6", 40 , 0, 400);
+  mW_SigMET9_=fs-> make<TH1F>("mW_SigMET9","mW SigMET9", 40 , 0, 400);
+  mW_SigMET12_=fs-> make<TH1F>("mW_SigMET12","mW SigMET12", 40 , 0, 400);
 
-  mW_4Jets_=fs-> make<TH1F>("mW_4Jets","mW 4Jets", 40 , 0, 200);
-  mW_5Jets_=fs-> make<TH1F>("mW_5Jets","mW 5Jets", 40 , 0, 200);
-  mW_6Jets_=fs-> make<TH1F>("mW_6Jets","mW 6Jets", 40 , 0, 200);
-  mW_7Jets_=fs-> make<TH1F>("mW_7Jets","mW 7Jets", 40 , 0, 200);
-  mW_8Jets_=fs-> make<TH1F>("mW_8Jets","mW 8Jets", 40 , 0, 200);
-  mW_9Jets_=fs-> make<TH1F>("mW_9Jets","mW 9Jets", 40 , 0, 200);
+  mW_4Jets_=fs-> make<TH1F>("mW_4Jets","mW 4Jets", 40 , 0, 400);
+  mW_5Jets_=fs-> make<TH1F>("mW_5Jets","mW 5Jets", 40 , 0, 400);
+  mW_6Jets_=fs-> make<TH1F>("mW_6Jets","mW 6Jets", 40 , 0, 400);
+  mW_7Jets_=fs-> make<TH1F>("mW_7Jets","mW 7Jets", 40 , 0, 400);
+  mW_8Jets_=fs-> make<TH1F>("mW_8Jets","mW 8Jets", 40 , 0, 400);
+  mW_9Jets_=fs-> make<TH1F>("mW_9Jets","mW 9Jets", 40 , 0, 400);
 
-  mW_HT300_=fs-> make<TH1F>("mW_HT300","mW HT300", 40 , 0, 200);
-  mW_HT400_=fs-> make<TH1F>("mW_HT400","mW HT400", 40 , 0, 200);
-  mW_HT500_=fs-> make<TH1F>("mW_HT500","mW HT500", 40 , 0, 200);
-  mW_HT600_=fs-> make<TH1F>("mW_HT600","mW HT600", 40 , 0, 200);
-  mW_HT700_=fs-> make<TH1F>("mW_HT700","mW HT700", 40 , 0, 200);
-  mW_HT800_=fs-> make<TH1F>("mW_HT800","mW HT800", 40 , 0, 200);
+  mW_HT300_=fs-> make<TH1F>("mW_HT300","mW HT300", 40 , 0, 400);
+  mW_HT400_=fs-> make<TH1F>("mW_HT400","mW HT400", 40 , 0, 400);
+  mW_HT500_=fs-> make<TH1F>("mW_HT500","mW HT500", 40 , 0, 400);
+  mW_HT600_=fs-> make<TH1F>("mW_HT600","mW HT600", 40 , 0, 400);
+  mW_HT700_=fs-> make<TH1F>("mW_HT700","mW HT700", 40 , 0, 400);
+  mW_HT800_=fs-> make<TH1F>("mW_HT800","mW HT800", 40 , 0, 400);
 
-  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 200., 25, 0., 500.);
-  mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 200.,16 , -0.5, 15.5 );
-  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 20, 0., 200., 40, 0., 2000.);
-  mW_MT_=fs-> make<TH2F>("mW_MT","MT vs. mW", 20, 0., 200., 40, 0., 2000.);
-  mW_MTHad_=fs-> make<TH2F>("mW_MTHad","MTHad vs. mW", 20, 0., 200., 40, 0., 2000.);
+  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW",  40, 0., 400., 25, 0., 500.);
+  mW_nJets_=fs-> make<TH2F>("mW_nJets","nJets vs. mW", 40, 0., 400.,16 , -0.5, 15.5 );
+  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 20, 0., 400., 40, 0., 2000.);
+  mW_MT_=fs-> make<TH2F>("mW_MT","MT vs. mW", 20, 0., 400., 40, 0., 2000.);
+  mW_MTHad_=fs-> make<TH2F>("mW_MTHad","MTHad vs. mW", 20, 0., 400., 40, 0., 2000.);
 
-  mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 200., 20, 0., 20.);
+  mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 400., 20, 0., 20.);
   sigMET_nJets_=fs-> make<TH2F>("sigMET_nJets","nJets vs. sigMET", 20, 0., 20.,16 , -0.5, 15.5 );
   HT_nJets_=fs-> make<TH2F>("HT_nJets","nJets vs. HT", 25, 0., 1000.,16 , -0.5, 15.5 );
 }
@@ -404,6 +406,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   SigMET_->Fill(sigMET, weight);
   HT_SigMET_->Fill(HT,sigMET, weight);
+  HT_SigMET2_->Fill(HT,sigMET, weight);
   HT_MET_->Fill(HT,(*met)[0].et(), weight);
 
   for(int bdx=0; bdx<(int) bjets->size(); ++bdx)
