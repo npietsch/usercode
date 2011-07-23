@@ -19,7 +19,8 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     'abs(dB) < 0.02 &'
                                     'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
                                     'numberOfMatches() > 1 &'
-                                    'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1'
+                                    'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
+                                    '(globalTrack.ptError)/pt < 0.001'
                                     )
 
 vertexMuons = vertexSelectedMuons.clone(src = "trackMuons"
