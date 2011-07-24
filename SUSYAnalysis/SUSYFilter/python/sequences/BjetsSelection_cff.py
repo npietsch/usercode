@@ -20,7 +20,7 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
                                     'numberOfMatches() > 1 &'
                                     'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
-                                    '(globalTrack.ptError)/pt < 0.001'
+                                    '(globalTrack.ptError)/(pt*pt) < 0.001'
                                     )
 
 vertexMuons = vertexSelectedMuons.clone(src = "trackMuons"
@@ -725,9 +725,9 @@ electronSelection = cms.Sequence(oneGoodElectron *
 leptonSelection = cms.Sequence(oneGoodLepton
                                )
 
-jetSelection = cms.Sequence(fourGoodJets##  *
-##                             filterMT
-                            )
+jetSelection = cms.Sequence(fourGoodJets)
+
+mTSelection = cms.Sequence(filterMT)
 
 metSelection = cms.Sequence(oneGoodMET
                             )

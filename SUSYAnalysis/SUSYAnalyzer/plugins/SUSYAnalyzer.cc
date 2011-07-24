@@ -246,6 +246,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Jet2Et_TightD_=fs->make<TH1F>("Jet2Et_TightD","Jet2Et TightD", 90, 0., 900.);
 
   mW_=fs-> make<TH1F>("mW","mW", 40 , 0, 400);
+  mW_posCharge_=fs-> make<TH1F>("mW_posCharge","mW_posCharge", 40 , 0, 400);
+  mW_negCharge_=fs-> make<TH1F>("mW_negCharge","mW_negCharge", 40 , 0, 400);
+  mW2_=fs-> make<TH1F>("mW2","mW2", 40 , 0, 600);
+  mTop_=fs-> make<TH1F>("mTop","mTop", 50 , 0, 500);
 
   mW_MET0_=fs-> make<TH1F>("mW_MET0","mW_MET0", 40 , 0, 400);
   mW_MET50_=fs-> make<TH1F>("mW_MET50","mW_MET50", 40 , 0, 400);
@@ -691,22 +695,68 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //transverse W-mass
   double mW=0;
+  double mTop=0;
   double eta=3.0;
-
+  double lepCharge=0;
+  double mW2=0;
+  double dRLepBjetMin=10;
+  reco::Particle::LorentzVector METP4=(*met)[0].p4();
+	 
   if(muons->size()==1)
     {
       mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
       eta=(*muons)[0].eta();
+      mW2=sqrt(2*(((*met)[0].et())*((*muons)[0].energy())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
+      eta=(*muons)[0].eta();
+      lepCharge=(*muons)[0].charge();
+
+      reco::Particle::LorentzVector LepP4=(*muons)[0].p4();
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*muons)[0].eta(),(*muons)[0].phi()));
+	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+	 if(dRLepBjet < dRLepBjetMin)
+	   {
+	     dRLepBjetMin=dRLepBjet;
+	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+	   }
+	}
     }
   else if(electrons->size()==1)
     {
       mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+      mW2=sqrt(2*(((*met)[0].et())*((*electrons)[0].energy())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
       eta=(*electrons)[0].eta();
+      lepCharge=(*electrons)[0].charge();
+
+      reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
+	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+	 if(dRLepBjet < dRLepBjetMin)
+	   {
+	     dRLepBjetMin=dRLepBjet;
+	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+	   }
+	}
     }
-  
+
+  if(mW2 > 0)
+    {
+      mW2_->Fill(mW2, weight);
+    }
+
+  if(70 < mW2 && 90 < mW2  && mTop > 0)
+    {
+      mTop_->Fill(mTop, weight);
+    }
+
   if(mW > 0)
     {
       mW_->Fill(mW, weight);
+      if(lepCharge > 0) mW_posCharge_->Fill(mW, weight);
+      if(lepCharge < 0) mW_negCharge_->Fill(mW, weight);
 
       if(abs(eta)<= 0.5) mW_eta05_->Fill(mW, weight);
       else if(0.5 <= abs(eta) && abs(eta)< 1.0) mW_eta10_->Fill(mW, weight);

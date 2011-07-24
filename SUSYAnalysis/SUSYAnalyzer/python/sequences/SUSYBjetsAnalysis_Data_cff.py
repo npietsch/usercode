@@ -1,3 +1,4 @@
+
 from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import *
 
 analyzeSUSY.jets = "goodJets"
@@ -19,6 +20,7 @@ analyzeSUSY1m_oneTightJet = analyzeSUSY.clone()
 analyzeSUSY1m_twoMediumJets = analyzeSUSY.clone()
 analyzeSUSY1m_metSelection = analyzeSUSY.clone()
 analyzeSUSY1m_HTSelection = analyzeSUSY.clone()
+analyzeSUSY1m_mTSelection = analyzeSUSY.clone()
 
 analyzeSUSY1m_nminus1_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1m_nminus1_jetSelection = analyzeSUSY.clone()
@@ -35,6 +37,7 @@ analyzeSUSY1e_oneTightJet = analyzeSUSY.clone()
 analyzeSUSY1e_twoMediumJets = analyzeSUSY.clone()
 analyzeSUSY1e_metSelection = analyzeSUSY.clone()
 analyzeSUSY1e_HTSelection = analyzeSUSY.clone()
+analyzeSUSY1e_mTSelection = analyzeSUSY.clone()
 
 analyzeSUSY1e_nminus1_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1e_nminus1_jetSelection = analyzeSUSY.clone()
@@ -160,6 +163,7 @@ analyzeBjets1m_oneTightJet = analyzeBjets.clone()
 analyzeBjets1m_twoMediumJets = analyzeBjets.clone()
 analyzeBjets1m_metSelection = analyzeBjets.clone()
 analyzeBjets1m_HTSelection = analyzeBjets.clone()
+analyzeBjets1m_mTSelection = analyzeBjets.clone()
 
 analyzeBjets1m_nminus1_leptonSelection = analyzeBjets.clone()
 analyzeBjets1m_nminus1_jetSelection = analyzeBjets.clone()
@@ -176,6 +180,7 @@ analyzeBjets1e_oneTightJet = analyzeBjets.clone()
 analyzeBjets1e_twoMediumJets = analyzeBjets.clone()
 analyzeBjets1e_metSelection = analyzeBjets.clone()
 analyzeBjets1e_HTSelection = analyzeBjets.clone()
+analyzeBjets1e_mTSelection = analyzeBjets.clone()
 
 analyzeBjets1e_nminus1_leptonSelection = analyzeBjets.clone()
 analyzeBjets1e_nminus1_jetSelection = analyzeBjets.clone()
@@ -299,6 +304,7 @@ analyzeSUSYGenEvt1m_oneTightJet = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1m_twoMediumJets = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1m_metSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1m_HTSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1m_mTSelection = analyzeSUSYGenEvt.clone()
 
 analyzeSUSYGenEvt1m_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1m_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
@@ -315,6 +321,7 @@ analyzeSUSYGenEvt1e_oneTightJet = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1e_twoMediumJets = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1e_metSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1e_HTSelection = analyzeSUSYGenEvt.clone()
+analyzeSUSYGenEvt1e_mTSelection = analyzeSUSYGenEvt.clone()
 
 analyzeSUSYGenEvt1e_nminus1_leptonSelection = analyzeSUSYGenEvt.clone()
 analyzeSUSYGenEvt1e_nminus1_jetSelection = analyzeSUSYGenEvt.clone()
@@ -433,6 +440,7 @@ analyzeBTags1m_oneTightJet = analyzeBTags.clone()
 analyzeBTags1m_twoMediumJets = analyzeBTags.clone()
 analyzeBTags1m_metSelection = analyzeBTags.clone()
 analyzeBTags1m_HTSelection = analyzeBTags.clone()
+analyzeBTags1m_mTSelection = analyzeBTags.clone()
 
 analyzeBTags1m_nminus1_leptonSelection = analyzeBTags.clone()
 analyzeBTags1m_nminus1_jetSelection = analyzeBTags.clone()
@@ -449,6 +457,7 @@ analyzeBTags1e_oneTightJet = analyzeBTags.clone()
 analyzeBTags1e_twoMediumJets = analyzeBTags.clone()
 analyzeBTags1e_metSelection = analyzeBTags.clone()
 analyzeBTags1e_HTSelection = analyzeBTags.clone()
+analyzeBTags1e_mTSelection = analyzeBTags.clone()
 
 analyzeBTags1e_nminus1_leptonSelection = analyzeBTags.clone()
 analyzeBTags1e_nminus1_jetSelection = analyzeBTags.clone()
@@ -589,6 +598,11 @@ analyzeSUSYBjets1m_HTSelection = cms.Sequence(analyzeSUSY1m_HTSelection *
                                               #analyzeSUSYGenEvt1m_HTSelection *
                                               #analyzeBTags1m_HTSelection
                                               )
+analyzeSUSYBjets1m_mTSelection = cms.Sequence(analyzeSUSY1m_mTSelection *
+                                              analyzeBjets1m_mTSelection #*
+                                              #analyzeSUSYGenEvt1m_mTSelection *
+                                              #analyzeBTags1m_mTSelection
+                                              )
 
 
 ## 1 electron
@@ -631,6 +645,11 @@ analyzeSUSYBjets1e_HTSelection = cms.Sequence(analyzeSUSY1e_HTSelection *
                                               analyzeBjets1e_HTSelection #*
                                               #analyzeSUSYGenEvt1e_HTSelection *
                                               #analyzeBTags1e_HTSelection
+                                              )
+analyzeSUSYBjets1e_mTSelection = cms.Sequence(analyzeSUSY1e_mTSelection *
+                                              analyzeBjets1e_mTSelection #*
+                                              #analyzeSUSYGenEvt1e_mTSelection *
+                                              #analyzeBTags1e_mTSelection
                                               )
 
 ## 1 muon n-1

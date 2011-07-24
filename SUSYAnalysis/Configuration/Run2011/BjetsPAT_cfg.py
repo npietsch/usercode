@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -107,8 +107,10 @@ process.Selection1m = cms.Path(#process.printGenParticles *
                                process.HTSelection *
                                process.analyzeSUSYBjets1m_HTSelection *
                                process.metSelection *
-                               process.analyzeSUSYBjets1m_metSelection
-                                )
+                               process.analyzeSUSYBjets1m_metSelection *
+                               process.mTSelection *
+                               process.analyzeSUSYBjets1m_mTSelection
+                               )
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
@@ -123,7 +125,10 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1m_6
+                                   process.analyzeSUSYBjets1b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets1b1m_1
+                                   
                                    )
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(process.makeObjects *
@@ -139,7 +144,9 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1m_6
+                                   process.analyzeSUSYBjets2b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets2b1m_1
                                    )
 ## at least 3 btags
 process.Selection3b1m_1 = cms.Path(process.makeObjects *
@@ -151,11 +158,13 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.muonSelection*
                                    process.jetSelection *
                                    process.threeMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets3b1m_1 *
+                                   process.analyzeSUSYBjets3b1m_4 *
                                    process.HTSelection *
-                                   process.analyzeSUSYBjets3b1m_2 *
+                                   process.analyzeSUSYBjets3b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets3b1m_3
+                                   process.analyzeSUSYBjets3b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets3b1m_1
                                    )
 
 #--------------------------
@@ -178,7 +187,9 @@ process.Selection1e = cms.Path(process.makeObjects *
                                process.HTSelection *
                                process.analyzeSUSYBjets1e_HTSelection *
                                process.metSelection *
-                               process.analyzeSUSYBjets1e_metSelection
+                               process.analyzeSUSYBjets1e_metSelection *
+                               process.mTSelection *
+                               process.analyzeSUSYBjets1e_mTSelection
                                )
 
 ## exactly 1 btag
@@ -195,7 +206,9 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1e_6
+                                   process.analyzeSUSYBjets1b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets1b1e_1
                                    )
 
 ## exactly 2 btags
@@ -212,7 +225,9 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1e_6
+                                   process.analyzeSUSYBjets2b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets2b1e_1
                                    )
 
 ## at least 3 btags
@@ -225,11 +240,13 @@ process.Selection3b1e_1 = cms.Path(process.makeObjects *
                                    process.electronSelection *
                                    process.jetSelection *
                                    process.threeMediumTrackHighEffBjets *
-                                   process.analyzeSUSYBjets3b1e_1 *
+                                   process.analyzeSUSYBjets3b1e_4 *
                                    process.HTSelection *
-                                   process.analyzeSUSYBjets3b1e_2 *
+                                   process.analyzeSUSYBjets3b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets3b1e_3
+                                   process.analyzeSUSYBjets3b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets3b1e_1
                                    )
 
 ## #--------------------------
