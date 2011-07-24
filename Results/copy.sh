@@ -27,7 +27,7 @@ cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Tbar_tChannel_cfg/Bjets.
 cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Tbar_tW_cfg/Bjets.root ./Top3.root
 cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Top_tChannel_cfg/Bjets.root ./Top4.root
 cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Top_tW_cfg/Bjets.root ./Top5.root
-hadd Top*.root SingleTop.root
+hadd SingleTop.root Top*.root 
 rm Top*.root
 
 rm WJets*.root
