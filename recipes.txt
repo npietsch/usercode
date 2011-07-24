@@ -2,23 +2,25 @@
 ## CMSSW_4_2_4
 ##------------------------
 
-## Log on to the NAF
-ini glite32
-ini crab
-ini cmssw
-
 cmsrel CMSSW_4_2_4
 cd CMSSW_4_2_4/src
 cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -r V-01Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r V-25Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
 cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
 cvs co TopQuarkAnalysis/TopEventSelection
+cvs co -r V08-03-09 PhysicsTools/Utilities
 addpkg ElectroWeakAnalysis/WENu V00-04-00
-addpkg -q CommonTools/ParticleFlow V00-01-06-01  
+addpkg -q CommonTools/ParticleFlow V00-01-06-01
+cvs co RecoMET/METAnalyzers
+cvs co -r V19MAY2011_v3 JetMETAnalysis/ecalDeadCellTools
+cvs co -r V00-04-11 RecoBTag/PerformanceDB
+
+See https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookJetEnergyCorrections
+for additional tags required for correct jet energy corrections.
 
 ## bug fixes
 cvs co -r CMSSW_4_2_3 RecoVertex/PrimaryVertexProducer
@@ -32,6 +34,18 @@ scram b -r -j 8
 
 rehash
 
+# To run the analysis on the NAF
+cd SUSYAnalysis/Configuration/Run2011
+export NJS_QUEUE=12
+./jobSubmit.sh
+
+# To produce plots
+cd ../../../Results
+./copy.sh
+
+./HisToMaker_MuHad.sh
+./HisToMaker_Electron.sh
+
 ## To create PAT Tuple from 2011 Prompt-Reco v4, 2011 May10ReReco and Summer11 MC
 
 cd /SUSYAnalysis/Configuration/Run2011
@@ -43,22 +57,28 @@ multicrab -submit
 ## CMSSW_4_1_4
 ##------------------------
 
-## Log on to the NAF
-ini glite32
-ini crab
-ini cmssw
-
 cmsrel CMSSW_4_1_4
 cd CMSSW_4_1_4/src
 cmsenv
 
 kinit Username@CERN.CH
 
-cvs co -r V-01Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
+cvs co -r V-25Juli2011 -d SUSYAnalysis UserCode/npietsch/SUSYAnalysis
 cvs co -d Results UserCode/npietsch/Results
-cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/TopAnalysis ./
-cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/ElectroWeakAnalysis ./
-cp -r /afs/naf.desy.de/user/n/npietsch/public/4_1_4/RecoBTag ./
+cvs co -d TopAnalysis UserCode/Bromo/TopAnalysis
+cvs co TopQuarkAnalysis/TopEventSelection
+cvs co -r branch_for_4_1_X_01 PhysicsTools/Utilities
+addpkg ElectroWeakAnalysis/WENu V00-04-00
+cvs co RecoMET/METAnalyzers
+cvs co -r V19MAY2011_v3 JetMETAnalysis/ecalDeadCellTools
+cvs co -r V01-06-00 RecoBTag/SecondaryVertex
+
+See [[https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookJetEnergyCorrections][WorkBookJetEnergyCorrections]]
+for additional tags required for correct jet energy corrections.
+
+# delete non-backward compatible modules
+rm TopAnalysis/TopUtils/plugins/TopProjectors.cc
+rm TopAnalysis/TopUtils/python/particleFlowSetup_cff.py
 
 ## If you want to create the TtGenEvent for non-SM samples type:
 ## cvs co -r V06-07-11 TopQuarkAnalysis/TopEventProducers
