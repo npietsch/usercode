@@ -14,11 +14,21 @@ cd $datasetdir
 mkdir DataFiles
 cd DataFiles
 
-cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_LM3_cfg/Bjets.root ./LM3.root
-cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_LM8_cfg/Bjets.root ./LM8.root
-cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_LM9_cfg/Bjets.root ./LM9.root
+## Summer 11 samples not available yet
+cp ../../../../../CMSSW_4_1_4/src/SUSYAnalysis/Configuration/Run2011/naf_Bjets_LM3_cfg/Bjets.root ./LM3.root
+cp ../../../../../CMSSW_4_1_4/src/SUSYAnalysis/Configuration/Run2011/naf_Bjets_LM8_cfg/Bjets.root ./LM8.root
+cp ../../../../../CMSSW_4_1_4/src/SUSYAnalysis/Configuration/Run2011/naf_Bjets_LM9_cfg/Bjets.root ./LM9.root
 
 cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_TTJets_cfg/Bjets.root ./TTJets.root
+
+rm SingleTop.root
+cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Tbar_sChannel_cfg/Bjets.root ./Top1.root
+cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Tbar_tChannel_cfg/Bjets.root ./Top2.root
+cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Tbar_tW_cfg/Bjets.root ./Top3.root
+cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Top_tChannel_cfg/Bjets.root ./Top4.root
+cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_Top_tW_cfg/Bjets.root ./Top5.root
+hadd Top*.root SingleTop.root
+rm Top*.root
 
 rm WJets*.root
 cp ../../../SUSYAnalysis/Configuration/Run2011/naf_RA4b_WJets_cfg_1/Bjets.root ./WJets_1.root
