@@ -73,8 +73,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Jet1_Et5pv_=fs->make<TH1F>("Jet1_Et5pv","Jet2 Et 5pv", 90, 0., 900.);
 
   HT_MET_ = fs->make<TH2F>("HT_MET","HT vs. MET", 78, 220., 1000., 30, 0., 300. );
-  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 40, 0., 2000., 40, 0., 20. );
-  HT_SigMET2_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
+  HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
+  HT_SigMET2_ = fs->make<TH2F>("HT_SigMET2","HT vs. SigMET2", 40, 0., 2000., 40, 0., 20. );
 
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 

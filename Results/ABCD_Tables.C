@@ -36,7 +36,7 @@ int ABCD_Tables()
   //--------------------------------------------------------------------------------------------------------
 
   double xmin=3;
-  double xmid=11;
+  double xmid=10;
 
   double ymin=6;
   double ymid=12;
@@ -136,11 +136,11 @@ int ABCD_Tables()
   Selections.push_back("analyzeSUSY1m_metSelection");
   Selections.push_back("analyzeSUSY1b1m_6");
   Selections.push_back("analyzeSUSY2b1m_6");
-  Selections.push_back("analyzeSUSY3b1m_3");
+  Selections.push_back("analyzeSUSY3b1m_6");
   Selections.push_back("analyzeSUSY1e_metSelection");
   Selections.push_back("analyzeSUSY1b1e_6");
   Selections.push_back("analyzeSUSY2b1e_6");
-  Selections.push_back("analyzeSUSY3b1e_3");
+  Selections.push_back("analyzeSUSY3b1e_6");
 
   // size of vector<TString> Selections divided by 2
   int Selhalf=0.5*Selections.size();
