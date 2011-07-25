@@ -179,8 +179,18 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Load modules to create objects and filter events on reco level
 #-----------------------------------------------------------------
 
-# Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+
+#-----------------------------------------------------------------
+# Load modules to monitor selection steps
+#-----------------------------------------------------------------
+
+from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
+
+process.analyzeRA4 = analyzeRA4.clone()
+
+
+
 
 #------------------
 # Selection paths

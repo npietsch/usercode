@@ -88,6 +88,13 @@ from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 
 from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
+## multiEventFilter = cms.EDFilter(
+##   "MultiEventFilter",
+##   EventList = cms.vstring(
+##     "0:0:0"
+##   )
+## )
+
 ##-------------------------------
 ## Define preselection sequences
 ##-------------------------------

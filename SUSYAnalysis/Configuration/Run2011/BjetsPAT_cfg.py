@@ -160,8 +160,10 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.threeMediumTrackHighEffBjets *
                                    process.analyzeSUSYBjets3b1m_4 *
                                    process.HTSelection *
+                                   process.analyzeSUSYBjets3b1m_2 *
                                    process.analyzeSUSYBjets3b1m_5 *
                                    process.metSelection *
+                                   process.analyzeSUSYBjets3b1m_3 *
                                    process.analyzeSUSYBjets3b1m_6 *
                                    process.mTSelection *
                                    process.analyzeSUSYBjets3b1m_1
@@ -243,7 +245,9 @@ process.Selection3b1e_1 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets3b1e_4 *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets3b1e_5 *
+                                   process.analyzeSUSYBjets3b1e_2 *
                                    process.metSelection *
+                                   process.analyzeSUSYBjets3b1e_3 *
                                    process.analyzeSUSYBjets3b1e_6 *
                                    process.mTSelection *
                                    process.analyzeSUSYBjets3b1e_1

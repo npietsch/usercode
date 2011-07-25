@@ -206,6 +206,5 @@ process.source = cms.Source("PoolSource",
 '/store/user/fcostanz/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/ZJets_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_564_0_LZY.root',
 '/store/user/fcostanz/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/ZJets_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_255_0_xS6.root',
 '/store/user/fcostanz/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/ZJets_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_84_0_FIi.root'
-
 )
 )

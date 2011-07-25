@@ -6,7 +6,7 @@ filterTransverseMass = cms.EDFilter("TransverseMassFilter",
                                     muons = cms.InputTag("selectedPatMuons"),
                                     electrons = cms.InputTag("selectedPatElectrons"),                   
                                     ## cut on HT
-                                    Cut   = cms.vdouble(60.,90.)
+                                    Cut   = cms.vdouble(50.,100.)
                                     )
 
 
