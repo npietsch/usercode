@@ -1,5 +1,5 @@
-#ifndef RA4Analyzer_h  
-#define RA4Analyzer_h
+#ifndef Out_h  
+#define Out_h
 
 #include "TH1.h"
 #include "TH2.h"
@@ -19,12 +19,12 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
-class RA4Analyzer : public edm::EDAnalyzer {
+class Out : public edm::EDAnalyzer {
 
  public:
   
-  explicit RA4Analyzer(const edm::ParameterSet&);
-  ~RA4Analyzer();
+  explicit Out(const edm::ParameterSet&);
+  ~Out();
 
  private:
 

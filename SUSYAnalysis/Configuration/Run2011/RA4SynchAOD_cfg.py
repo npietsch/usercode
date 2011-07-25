@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("MakePATTuple")
+process = cms.Process("RA4Synch")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files
@@ -15,13 +15,17 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(-1),
     skipEvents = cms.untracked.uint32(1)
 )
 
 process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(True)
 )
+
+process.TFileService = cms.Service("TFileService",
+                                   fileName = cms.string('Synch.root')
+                                   )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
@@ -186,66 +190,84 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 #-----------------------------------------------------------------
 
 from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
+analyzeRA4.jets = "goodJets"
+analyzeRA4.muons = "vertexMuons"
+analyzeRA4.electrons ="goodElectrons"
 
-process.analyzeRA4 = analyzeRA4.clone()
+process.RA4Preselection = analyzeRA4.clone()
+process.RA4OneGoodJet = analyzeRA4.clone()
+process.RA4TwoGoodJets = analyzeRA4.clone()
+process.RA4ThreeGoodJets = analyzeRA4.clone()
+process.RA4FourGoodJets = analyzeRA4.clone()
 
-
-
+process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
+process.Out.jets = "goodJets"
+process.Out.muons = "vertexMuons"
+process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
 #-------------------
 
-## Muon selection
-process.MuonSelection = cms.Path(process.patDefaultSequence *
-                                 process.preselectionMuSynchData2 *
-                                 process.goodObjects *
-                                 process.fourGoodJets *
-                                 process.oneGoodMuon *
-                                 process.exactlyOneGoodMuon *
-                                 process.noGoodElectron *
-                                 process.oneVetoMuon *
-                                 process.noVetoElectron *
-                                 process.HTSelection *
-                                 process.oneTightMET
-                                 )
+## ## Muon selection
+## process.MuonSelection = cms.Path(process.patDefaultSequence *
+##                                  process.preselectionMuSynchData2 *
+##                                  process.goodObjects *
+##                                  process.fourGoodJets *
+##                                  process.oneGoodMuon *
+##                                  process.exactlyOneGoodMuon *
+##                                  process.noGoodElectron *
+##                                  process.oneVetoMuon *
+##                                  process.noVetoElectron *
+##                                  process.HTSelection *
+##                                  process.oneTightMET
+##                                  )
 
 process.ViennaMuonSelection = cms.Path(process.patDefaultSequence *
                                        process.preselectionMuSynchData2 *
                                        process.goodObjects *
+                                       process.RA4Preselection *
+                                       process.oneGoodJet *
+                                       process.RA4OneGoodJet *
+                                       process.twoGoodJets *
+                                       process.RA4TwoGoodJets *
+                                       process.threeGoodJets *
+                                       process.RA4ThreeGoodJets *
                                        process.fourGoodJets *
+                                       process.RA4FourGoodJets *
                                        process.oneGoodMuon *
                                        process.exactlyOneGoodMuon *
                                        process.noGoodElectron *
                                        process.oneVetoMuon *
                                        process.noVetoElectron *
                                        process.ViennaHTSelection *
-                                       process.oneTightMET
+                                       process.oneTightMET *
+                                       process.Out
                                        )
-## Electron selection
-process.ElectronSelection = cms.Path(process.patDefaultSequence *
-                                     process.preselectionElSynchData2 *
-                                     process.goodObjects *
-                                     process.fourGoodJets *
-                                     process.oneGoodElectron *
-                                     process.exactlyOneGoodElectron *
-                                     process.noGoodMuon *
-                                     process.oneVetoElectron *
-                                     process.noVetoMuon *
-                                     process.HTSelection *
-                                     process.oneTightMET
-                                     )
+## ## Electron selection
+## process.ElectronSelection = cms.Path(process.patDefaultSequence *
+##                                      process.preselectionElSynchData2 *
+##                                      process.goodObjects *
+##                                      process.fourGoodJets *
+##                                      process.oneGoodElectron *
+##                                      process.exactlyOneGoodElectron *
+##                                      process.noGoodMuon *
+##                                      process.oneVetoElectron *
+##                                      process.noVetoMuon *
+##                                      process.HTSelection *
+##                                      process.oneTightMET
+##                                      )
 
-process.ViennaElectronSelection = cms.Path(process.patDefaultSequence *
-                                           process.preselectionElSynchData2 *
-                                           process.goodObjects *
-                                           process.fourGoodJets *
-                                           process.oneGoodElectron *
-                                           process.exactlyOneGoodElectron *
-                                           process.noGoodMuon *
-                                           process.oneVetoElectron *
-                                           process.noVetoMuon *
-                                           process.ViennaHTSelection *
-                                           process.oneTightMET
-                                           )
+## process.ViennaElectronSelection = cms.Path(process.patDefaultSequence *
+##                                            process.preselectionElSynchData2 *
+##                                            process.goodObjects *
+##                                            process.fourGoodJets *
+##                                            process.oneGoodElectron *
+##                                            process.exactlyOneGoodElectron *
+##                                            process.noGoodMuon *
+##                                            process.oneVetoElectron *
+##                                            process.noVetoMuon *
+##                                            process.ViennaHTSelection *
+##                                            process.oneTightMET
+##                                            )
  
