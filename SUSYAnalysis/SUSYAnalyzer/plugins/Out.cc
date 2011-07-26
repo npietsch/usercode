@@ -65,19 +65,19 @@ Out::Out(const edm::ParameterSet& cfg):
     {
       char histname[20];
       sprintf(histname,"Jet%i_Eta",idx);
-      Jet_eta_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+      Jet_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
   for(int idx=0; idx<2; ++idx)
     {
       char histname[20];
       sprintf(histname,"Muon%i_eta",idx);
-      Muon_eta_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
+      Muon_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
   for(int idx=0; idx<2; ++idx)
     {
       char histname[20];
       sprintf(histname,"Elecelectron%i_eta",idx);
-      Electron_eta_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
+      Electron_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
 }
 
@@ -174,7 +174,7 @@ Out::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
   std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-  std::cout << (*jets)[0].et() << (*jets)[1].et() << (*jets)[2].et() << (*jets)[3].et() << (*muons)[0].pt() << (*met)[0].et() << std::endl;
+  std::cout << "Et Jets, Muon, MET: " << (*jets)[0].et() << (*jets)[1].et() << (*jets)[2].et() << (*jets)[3].et() << (*muons)[0].pt() << (*met)[0].et() << std::endl;
   std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
 }
 

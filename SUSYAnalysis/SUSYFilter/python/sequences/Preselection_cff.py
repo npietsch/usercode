@@ -88,12 +88,35 @@ from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 
 from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
-## multiEventFilter = cms.EDFilter(
-##   "MultiEventFilter",
-##   EventList = cms.vstring(
-##     "0:0:0"
-##   )
-## )
+
+## Load EcalDeadCellBEFilter modules; see UserCode/crohringer/DeadCellFilterLists/python for update
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.MuHad_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.MuHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.SingleMu_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE_cfi import *
+
+Mu_BEfilterSequence=cms.Sequence(
+    veto_SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE*
+    veto_MuHad_Run2011A_May10ReReco_v1_filteredEventsBE*
+    veto_Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE*
+    veto_MuHad_Run2011A_PromptReco_v4_filteredEventsBE*
+    veto_SingleMu_Run2011A_PromptReco_v4_filteredEventsBE*
+    veto_Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE
+    )
+
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.DeadCellFilterLists.ElectronHad_Run2011A_May10ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
+
+Electron_BEfilterSequence=cms.Sequence(
+    veto_ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE*
+    veto_Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE*
+    veto_EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE*
+    veto_ElectronHad_Run2011A_May10ReReco_v1_missed4Jobs_filteredEventsBE
+    )
 
 ##-------------------------------
 ## Define preselection sequences
@@ -158,10 +181,12 @@ preselectionLepHTMC2 = cms.Sequence(LepHTTriggerMC2 *
                                     )
 
 ## Data
-preselectionMuHTData = cms.Sequence(MuHTTriggerData
+preselectionMuHTData = cms.Sequence(Mu_BEfilterSequence *
+                                    MuHTTriggerData
                                     )
 
-preselectionElHTData = cms.Sequence(ElHTTriggerData
+preselectionElHTData = cms.Sequence(Electron_BEfilterSequence *
+                                    ElHTTriggerData
                                     )
 
 preselectionLepHTData = cms.Sequence(LepHTTriggerData

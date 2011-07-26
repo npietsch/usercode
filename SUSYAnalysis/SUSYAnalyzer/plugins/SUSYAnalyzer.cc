@@ -31,6 +31,12 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 { 
   edm::Service<TFileService> fs;
 
+  Dummy_=fs->make<TH1F>();
+  Dummy_->SetDefaultSumw2(true);
+
+  Dummy2_=fs->make<TH2F>();
+  Dummy2_->SetDefaultSumw2(true);
+
   JetEt_nrBjets_ = fs->make<TH2F>("JetEt_nrBjets","JetEt nrBjets", 30,0.,300.,5,0.,5.);
 
   MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
@@ -356,8 +362,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       //std::cout << "-------------------------------------" << std::endl;
 
       nPU_->Fill(nvtx,weight);
-
     }
+
+  weight=1;
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets

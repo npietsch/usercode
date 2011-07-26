@@ -131,7 +131,7 @@ looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                'chargedEmEnergyFraction     < 0.99 &'
                                'neutralEmEnergyFraction     < 0.99 &'
                                'chargedMultiplicity > 0            &'
-                               'nConstituents > 1'                              
+                               'nConstituents > 1'      
                                )
                                
 looseJets.checkOverlaps = cms.PSet(
@@ -171,7 +171,8 @@ goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                'chargedEmEnergyFraction     < 0.99 &'
                                'neutralEmEnergyFraction     < 0.99 &'
                                'chargedMultiplicity > 0            &'
-                               'nConstituents > 1'                              
+                               'nConstituents > 1'
+                              
                                )
                                
 goodJets.checkOverlaps = cms.PSet(

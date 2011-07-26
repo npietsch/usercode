@@ -65,19 +65,19 @@ RA4Analyzer::RA4Analyzer(const edm::ParameterSet& cfg):
     {
       char histname[20];
       sprintf(histname,"Jet%i_Eta",idx);
-      Jet_eta_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+      Jet_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
   for(int idx=0; idx<2; ++idx)
     {
       char histname[20];
       sprintf(histname,"Muon%i_eta",idx);
-      Muon_eta_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
+      Muon_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
   for(int idx=0; idx<2; ++idx)
     {
       char histname[20];
       sprintf(histname,"Elecelectron%i_eta",idx);
-      Electron_eta_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
+      Electron_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
 }
 
