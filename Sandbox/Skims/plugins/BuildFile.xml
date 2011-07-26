@@ -1,4 +1,4 @@
-<library   name="SandBoxSkims_plugins" file="*.cc">
+<library   name="SandboxSkims_plugins" file="*.cc">
   <use   name="FWCore/Framework"/>
   <use   name="FWCore/PluginManager"/>
   <use   name="FWCore/ParameterSet"/>
