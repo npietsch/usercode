@@ -202,7 +202,7 @@ process.RA4FourGoodJets = analyzeRA4.clone()
 
 process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
 process.Out.jets = "goodJets"
-process.Out.muons = "vertexMuons"
+process.Out.muons = "goodMuons"
 process.Out.electrons ="goodElectrons"
 
 #------------------
