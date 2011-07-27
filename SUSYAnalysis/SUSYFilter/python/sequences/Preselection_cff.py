@@ -1,3 +1,4 @@
+
 import FWCore.ParameterSet.Config as cms
 
 from HLTrigger.HLTfilters.hltHighLevel_cfi import *
@@ -90,12 +91,12 @@ from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
 
 ## Load EcalDeadCellBEFilter modules; see UserCode/crohringer/DeadCellFilterLists/python for update
-from UserCode.crohringer.DeadCellFilterLists.SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.MuHad_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.MuHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.SingleMu_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.SingleMu_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE_cfi import *
 
 Mu_BEfilterSequence=cms.Sequence(
     veto_SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE*
@@ -106,10 +107,10 @@ Mu_BEfilterSequence=cms.Sequence(
     veto_Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE
     )
 
-from UserCode.crohringer.DeadCellFilterLists.ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
-from UserCode.crohringer.DeadCellFilterLists.ElectronHad_Run2011A_May10ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_May10ReReco_v1_missed4Jobs_filteredEventsBE_cfi import *
 
 Electron_BEfilterSequence=cms.Sequence(
     veto_ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE*
@@ -182,21 +183,39 @@ preselectionLepHTMC2 = cms.Sequence(LepHTTriggerMC2 *
 
 ## Data
 preselectionMuHTData = cms.Sequence(Mu_BEfilterSequence *
-                                    MuHTTriggerData
+                                    MuHTTriggerData *
+                                    goodVertices *
+                                    trackingFailureFilter *
+                                    #CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
                                     )
 
 preselectionElHTData = cms.Sequence(Electron_BEfilterSequence *
-                                    ElHTTriggerData
+                                    ElHTTriggerData *
+                                    goodVertices *
+                                    trackingFailureFilter *
+                                    #CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
                                     )
 
 preselectionLepHTData = cms.Sequence(LepHTTriggerData
                                      )
 
 ## Data2
-preselectionMuHTData2 = cms.Sequence(MuHTTriggerData2
+preselectionMuHTData2 = cms.Sequence(Mu_BEfilterSequence *
+                                     MuHTTriggerData2 *
+                                     goodVertices *
+                                     trackingFailureFilter *
+                                     #CSCTightHaloFilter *
+                                     ecalDeadCellTPfilter
                                      )
 
-preselectionElHTData2 = cms.Sequence(ElHTTriggerData2
+preselectionElHTData2 = cms.Sequence(Electron_BEfilterSequence *
+                                     ElHTTriggerData2 *
+                                     goodVertices *
+                                     trackingFailureFilter *
+                                     #CSCTightHaloFilter *
+                                     ecalDeadCellTPfilter
                                      )
 
 preselectionLepHTData2 = cms.Sequence(LepHTTriggerData2
