@@ -174,7 +174,7 @@ Out::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
   std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-  std::cout << "Et Jets, Muon, MET: " << (*jets)[0].et() << (*jets)[1].et() << (*jets)[2].et() << (*jets)[3].et() << (*muons)[0].pt() << (*met)[0].et() << std::endl;
+  std::cout << "OUT MODULE. Et Jets, Muon, MET: " << (*jets)[0].et() << " " << (*jets)[1].et() << " " << (*jets)[2].et() << " " << (*jets)[3].et() << " " << (*muons)[0].pt() << " " << (*met)[0].et() << std::endl;
   std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
 }
 

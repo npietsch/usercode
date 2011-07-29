@@ -128,6 +128,8 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
       nJets=nJets+1;
 
+      //std::cout << (*jets)[idx].jetArea() << std::endl;
+
       for(int mdx=0; mdx<(int)muons->size(); ++mdx)
 	{
 	  dR=abs(deltaR((*jets)[idx].eta(),(*jets)[idx].phi(),(*muons)[mdx].eta(),(*muons)[mdx].phi()));
@@ -173,6 +175,12 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
+  if(jets->size()>=2)
+    {
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+      std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " Et Jet2: " << (*jets)[0].pt()  << std::endl;
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+    }
 }
 
 void RA4Analyzer::beginJob()
