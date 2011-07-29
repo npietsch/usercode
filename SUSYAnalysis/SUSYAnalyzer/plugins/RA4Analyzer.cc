@@ -175,12 +175,12 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
-  if(jets->size()>=2)
-    {
-      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-      std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " Et Jet2: " << (*jets)[0].pt()  << std::endl;
-      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-    }
+//   if(jets->size()>=2)
+//     {
+//       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+//       std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " Et Jet2: " << (*jets)[0].pt()  << std::endl;
+//       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+//     }
 }
 
 void RA4Analyzer::beginJob()
