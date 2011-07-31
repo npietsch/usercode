@@ -178,7 +178,7 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 //   if(jets->size()>=2)
 //     {
 //       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-//       std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " Et Jet2: " << (*jets)[0].pt()  << std::endl;
+//       std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " MET: " << (*met)[0].et()  << std::endl;
 //       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
 //     }
 }

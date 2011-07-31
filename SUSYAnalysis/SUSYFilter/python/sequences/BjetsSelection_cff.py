@@ -276,26 +276,25 @@ matchedLightJets = selectedPatJets.clone(src = 'goodJets',
 
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
-looseMETs = selectedPatMET.clone(src = 'patMETsPF',
+looseMETs = selectedPatMET.clone(src = 'patMETsTypeIPF',
                                  cut =
                                  'et > 20.'
                                  )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
-goodMETs = selectedPatMET.clone(src = 'patMETsPF',
+goodMETs = selectedPatMET.clone(src = 'patMETsTypeIPF',
                                 cut =
                                 'et > 50.'
                                 )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
-mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
+mediumMETs = selectedPatMET.clone(src = 'patMETsTypeIPF',
                                   cut =
                                   'et > 100.'
                                   )
-
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
-tightMETs = selectedPatMET.clone(src = 'patMETsPF',
+tightMETs = selectedPatMET.clone(src = 'patMETsTypeIPF',
                                  cut =
                                  'et > 150.'
                                  )

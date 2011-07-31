@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 # module to make simple event topology analyses
 #
 analyzeEventTopology = cms.EDAnalyzer("EventTopology",
-                                      met = cms.InputTag("patMETsPF"),
+                                      met = cms.InputTag("patMETsTypeIPF"),
                                       jets = cms.InputTag("selectedPatJetsAK5PF"),
                                       mediumJets = cms.InputTag("mediumJets"),
                                       bjets = cms.InputTag("selectedPatJetsAK5PF"),

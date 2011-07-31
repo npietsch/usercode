@@ -12,6 +12,6 @@ analyzeSUSYGenEvt = cms.EDAnalyzer("SUSYGenEventAnalyzer",
                                    matchedqjets = cms.InputTag("selectedPatJetsAK5PF"),
                                    matchedmuons = cms.InputTag("selectedPatMuons"),
                                    matchedelectrons = cms.InputTag("selectedPatElectrons"),
-                                   met = cms.InputTag("patMETsPF")
+                                   met = cms.InputTag("patMETsTypeIPF")
                                    )
 
