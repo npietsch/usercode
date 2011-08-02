@@ -698,8 +698,11 @@ goodObjects = cms.Sequence(looseMuons *
                            tightTrackHighEffBjets
                            )
 
+from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
+
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
+                             pfMuonConsistency *
                              noGoodElectron *
                              oneVetoMuon *
                              noVetoElectron

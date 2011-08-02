@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("PATTuple")
+process = cms.Process("RA4Synch")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -30,6 +30,7 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
+#process.GlobalTag.globaltag = cms.string('GR_R_42_V14::All')
 
 #-----------------------------------------------------------------
 # Load modules for preselection
@@ -63,12 +64,12 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 options.maxEvents = 100
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "GR_R_42_V19::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('GlobalTag', "GR_R_42_V14::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
-options.jetCorrections.append('L2L3Residual')
+#options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
 options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
@@ -117,51 +118,49 @@ process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3')
 
 process.p = cms.Path( process.susyPatDefaultSequence )
 
-#------------------
-# For test
-#------------------
+#-----------------------------------------------------------------
+# Load modules to monitor selection steps
+#-----------------------------------------------------------------
 
-#process.load("SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi")
+from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
+analyzeRA4.jets = "goodJets"
+analyzeRA4.muons = "vertexMuons"
+analyzeRA4.electrons ="goodElectrons"
+
+process.RA4Preselection = analyzeRA4.clone()
+process.RA4OneGoodJet = analyzeRA4.clone()
+process.RA4TwoGoodJets = analyzeRA4.clone()
+process.RA4ThreeGoodJets = analyzeRA4.clone()
+process.RA4FourGoodJets = analyzeRA4.clone()
+
+process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
+process.Out.jets = "goodJets"
+process.Out.muons = "goodMuons"
+process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
 #------------------
 
-process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.preselectionMuSynchData2
-                            )
+process.ViennaMuonSelection = cms.Path(process.susyPatDefaultSequence *
+                                       process.preselectionMuSynchData2 *
+                                       process.goodObjects *
+                                       process.RA4Preselection *
+                                       process.oneGoodJet *
+                                       process.RA4OneGoodJet *
+                                       process.twoGoodJets *
+                                       process.RA4TwoGoodJets *
+                                       process.threeGoodJets *
+                                       process.RA4ThreeGoodJets *
+                                       process.fourGoodJets *
+                                       process.RA4FourGoodJets *
+                                       process.oneGoodMuon *
+                                       process.exactlyOneGoodMuon *
+                                       process.noGoodElectron *
+                                       process.oneVetoMuon *
+                                       process.noVetoElectron *
+                                       process.ViennaHTSelection *
+                                       process.oneTightMET *
+                                       process.Out
+                                       )
 
-#-------------------------------------------------
-# Create patTuple
-#-------------------------------------------------
-
-process.EventSelection = cms.PSet(
-    SelectEvents = cms.untracked.PSet(
-    SelectEvents = cms.vstring('PATTuple'
-                               )
-    )
-    )
-
-process.out = cms.OutputModule("PoolOutputModule",
-                               process.EventSelection,
-                               outputCommands = cms.untracked.vstring('drop *'),
-                               dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Summer11.root')
-                               )
-
-# Specify what to keep in the event content
-from PhysicsTools.PatAlgos.patEventContent_cff import *
-process.out.outputCommands += patEventContentNoCleaning
-process.out.outputCommands += patExtraAodEventContent
-process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
-process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
-process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
-process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
-
-#from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-#process.out.outputCommands += SUSYEventContent
-#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-#process.out.outputCommands += tqafEventContent
-
-process.outpath = cms.EndPath(process.out)
- 
