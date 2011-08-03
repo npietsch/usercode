@@ -10,7 +10,7 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/010/9AFCBFEC-1F8D-E011-A81B-001D09F24600.root'
+    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/5400D535-B39C-E011-9BC8-E0CB4EA0A934.root'
     )
 )
 
@@ -60,15 +60,15 @@ options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 #options.output = "SUSYPAT.root"
-options.maxEvents = 50000
+options.maxEvents = 5000
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "GR_R_42_V19::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
-options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
+options.register('GlobalTag', "START42_V11::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('mcInfo', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
-options.jetCorrections.append('L2L3Residual')
+#options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
 options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
@@ -114,7 +114,7 @@ if options.hltSelection:
     process.susyPatDefaultSequence.replace(process.eventCountProducer, process.eventCountProducer * process.hltFilter)
 
 ## Note: L1FastJet propagation is working only with reco jets and can therefore not be applied here 
-process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3Residual')
+process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3')
 
 process.p = cms.Path( process.susyPatDefaultSequence )
 
@@ -123,7 +123,7 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 #------------------
 
 process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.preselectionData2PAT
+                            process.eventCleaningMC2PAT
                             )
 
 #-------------------------------------------------
