@@ -98,7 +98,7 @@ SUSY_pattuple_outputCommands = getSUSY_pattuple_outputCommands( process )
 
 
 #-- TFileService --------------------------------------------------------------
-process.load ( "PhysicsTools.UtilAlgos.TFileService_cfi")
+process.load ("PhysicsTools.UtilAlgos.TFileService_cfi")
 process.TFileService = cms.Service("TFileService",
   fileName = cms.string('histo.root')
 )
@@ -113,7 +113,7 @@ if options.hltSelection:
     )
     process.susyPatDefaultSequence.replace(process.eventCountProducer, process.eventCountProducer * process.hltFilter)
 
-process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3')
+process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL1FastL2L3Residual')
 
 process.p = cms.Path( process.susyPatDefaultSequence )
 
