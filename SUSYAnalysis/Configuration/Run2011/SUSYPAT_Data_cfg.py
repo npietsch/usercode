@@ -4,7 +4,7 @@ process = cms.Process("PATTuple")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 # Choose input files
@@ -60,7 +60,7 @@ options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 #options.output = "SUSYPAT.root"
-options.maxEvents = 100
+options.maxEvents = 50000
 
 #  for SusyPAT configuration
 options.register('GlobalTag', "GR_R_42_V19::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
@@ -113,22 +113,17 @@ if options.hltSelection:
     )
     process.susyPatDefaultSequence.replace(process.eventCountProducer, process.eventCountProducer * process.hltFilter)
 
-process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL1FastL2L3Residual')
+## Note: L1FastJet propagation is working only with reco jets and can therefore not be applied here 
+process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3Residual')
 
 process.p = cms.Path( process.susyPatDefaultSequence )
-
-#------------------
-# For test
-#------------------
-
-#process.load("SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi")
 
 #------------------
 # Selection paths
 #------------------
 
 process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.preselectionMuSynchData2
+                            process.preselectionData2PAT
                             )
 
 #-------------------------------------------------
