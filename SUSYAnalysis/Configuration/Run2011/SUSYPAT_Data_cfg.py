@@ -97,11 +97,11 @@ SUSY_pattuple_outputCommands = getSUSY_pattuple_outputCommands( process )
 ############################## END SUSYPAT specifics ####################################
 
 
-#-- TFileService --------------------------------------------------------------
-process.load ("PhysicsTools.UtilAlgos.TFileService_cfi")
-process.TFileService = cms.Service("TFileService",
-  fileName = cms.string('histo.root')
-)
+## #-- TFileService --------------------------------------------------------------
+## process.load ("PhysicsTools.UtilAlgos.TFileService_cfi")
+## process.TFileService = cms.Service("TFileService",
+##   fileName = cms.string('histo.root')
+## )
 
 #-- HLT selection ------------------------------------------------------------
 import HLTrigger.HLTfilters.hltHighLevel_cfi as hlt
