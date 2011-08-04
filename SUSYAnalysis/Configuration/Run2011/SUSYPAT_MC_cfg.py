@@ -1,11 +1,69 @@
-import FWCore.ParameterSet.Config as cms
+## import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("PATTuple")
+## process = cms.Process("PATTuple")
 
-## configure message logger
-process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
-process.MessageLogger.categories.append('ParticleListDrawer')
+## ## configure message logger
+## process.load("FWCore.MessageLogger.MessageLogger_cfi")
+## process.MessageLogger.cerr.FwkReport.reportEvery = 1
+## process.MessageLogger.categories.append('ParticleListDrawer')
+
+## # Choose input files
+## process.source = cms.Source("PoolSource",
+##     fileNames = cms.untracked.vstring(
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/002FE237-B09C-E011-B7B1-0022199305B1.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/006518E6-A99C-E011-8535-E0CB4E29C51A.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0234044D-B89C-E011-93FD-E0CB4E5536BB.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
+## '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
+## '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
+##     )
+## )
+
+## process.maxEvents = cms.untracked.PSet(
+##     input = cms.untracked.int32(-1),
+##     skipEvents = cms.untracked.uint32(1)
+## )
+
+## process.options = cms.untracked.PSet(
+##     wantSummary = cms.untracked.bool(True)
+## )
+
+## process.TFileService = cms.Service("TFileService",
+##                                    fileName = cms.string('Synch.root')
+##                                    )
+
+## process.load("Configuration.StandardSequences.Geometry_cff")
+## process.load("Configuration.StandardSequences.MagneticField_cff")
+## process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
+
+
+#
+#  SUSY-PAT configuration file
+#
+#  PAT configuration for the SUSY group - 42X series
+#  More information here:
+#  https://twiki.cern.ch/twiki/bin/view/CMS/SusyPatLayer1DefV10
+#
+
+# Starting with a skeleton process which gets imported with the following line
+from PhysicsTools.PatAlgos.patTemplate_cfg import *
+
+#-- Meta data to be logged in DBS ---------------------------------------------
+process.configurationMetadata = cms.untracked.PSet(
+    version = cms.untracked.string('$Revision: 1.38 $'),
+    name = cms.untracked.string('$Source: /cvs/CMSSW/CMSSW/PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py,v $'),
+    annotation = cms.untracked.string('SUSY pattuple definition')
+)
+
+#-- Message Logger ------------------------------------------------------------
+process.MessageLogger.categories.append('PATSummaryTables')
+process.MessageLogger.cerr.PATSummaryTables = cms.untracked.PSet(
+    limit = cms.untracked.int32(-1),
+    reportEvery = cms.untracked.int32(1)
+    )
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 # Choose input files
 process.source = cms.Source("PoolSource",
@@ -20,23 +78,6 @@ process.source = cms.Source("PoolSource",
 '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
     )
 )
-
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
-    skipEvents = cms.untracked.uint32(1)
-)
-
-process.options = cms.untracked.PSet(
-    wantSummary = cms.untracked.bool(True)
-)
-
-process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Synch.root')
-                                   )
-
-process.load("Configuration.StandardSequences.Geometry_cff")
-process.load("Configuration.StandardSequences.MagneticField_cff")
-process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 
 #-----------------------------------------------------------------
 # Load modules for preselection
@@ -70,14 +111,14 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 options.maxEvents = 5000
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "START42_V11::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('GlobalTag', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
-options.register('jetTypes', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
+options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
 options.register('hltSelection', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.register('doValidation', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Include the validation histograms from SusyDQM (needs extra tags)")
 options.register('doExtensiveMatching', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Matching to simtracks (needs extra tags)")
@@ -127,8 +168,8 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 # Selection paths
 #------------------
 
-process.PATTuple = cms.Path(process.susyPatDefaultSequence##  *
-##                             process.eventCleaningMC2PAT
+process.PATTuple = cms.Path(process.susyPatDefaultSequence *
+                            process.eventCleaningMC2PAT
                             )
 
 #-------------------------------------------------
