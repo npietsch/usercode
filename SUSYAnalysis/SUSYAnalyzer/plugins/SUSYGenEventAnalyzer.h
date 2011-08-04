@@ -45,6 +45,8 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
   edm::InputTag matchedelectrons_;
   edm::InputTag met_;
 
+  TH1F* productionProcess_;
+
   TH1F *nrBQuarks_gq_ssDiLep_;
   TH1F *nrBQuarks_gg_ssDiLep_;
   TH1F *nrBQuarks_qq_ssDiLep_;

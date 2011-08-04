@@ -30,6 +30,8 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
 {
   edm::Service<TFileService> fs;
 
+  productionProcess_= fs->make<TH1F>("productionProcess","production process", 4, 1., 4.);
+
   // No. of b-quarks in dep. of production process
   nrBQuarks_gq_    = fs->make<TH1F>("nrBQuarks_gq",    "nr BQuarks gq",     9, -0.5, 8.5);
   nrBQuarks_gg_    = fs->make<TH1F>("nrBQuarks_gg",    "nr BQuarks gg",     9, -0.5, 8.5);
@@ -265,6 +267,11 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   //-----------------------------------------------------------------------------------------
 
   //std::cout << susyGenEvent->ratio() << std::endl;
+
+  if(susyGenEvent->GluinoGluinoDecay()==true) productionProcess_->Fill(0);
+  else if(susyGenEvent->GluinoSquarkDecay()==true) productionProcess_->Fill(1);
+  else if(susyGenEvent->SquarkSquarkDecay()==true) productionProcess_->Fill(2);
+  else productionProcess_->Fill(3);
 
   // gluino-squark
   if(susyGenEvent->GluinoSquarkDecay()==true)
