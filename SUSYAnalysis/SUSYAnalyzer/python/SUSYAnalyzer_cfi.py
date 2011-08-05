@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 # module to make simple analyses of SUSY
 #
 analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
-                             met = cms.InputTag("patMETsTypeIPF"),
+                             met = cms.InputTag("patMETsPF"),
                              jets = cms.InputTag("selectedPatJetsAK5PF"),
                              lightJets = cms.InputTag("lightJets"),
                              bjets = cms.InputTag("mediumTrackHighEffBjets"),

@@ -10,7 +10,9 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/010/9AFCBFEC-1F8D-E011-A81B-001D09F24600.root'
+    #'/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/166/010/9AFCBFEC-1F8D-E011-A81B-001D09F24600.root'
+    #'/store/data/Run2011A/MuHad/AOD/PromptReco-v5/000/171/050/60E4BB2E-74B6-E011-A535-003048F117B6.root'
+    '/store/data/Run2011A/ElectronHad/AOD/PromptReco-v5/000/172/286/04957DA0-62BD-E011-AD25-BCAEC5329702.root'
     )
 )
 

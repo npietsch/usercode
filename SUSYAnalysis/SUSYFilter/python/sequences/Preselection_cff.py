@@ -1,18 +1,16 @@
 import FWCore.ParameterSet.Config as cms
 
-from HLTrigger.HLTfilters.hltHighLevel_cfi import *
-
 ##----------------------------------------
 ## Define high level trigger filter
 ##----------------------------------------
+
+from HLTrigger.HLTfilters.hltHighLevel_cfi import *
 
 ## MC trigger Spring11
 MuHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                    HLTPaths = ['HLT_Mu5_HT100*'],throw = False)
 ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                    HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
-LepHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                    HLTPaths = ['HLT_Mu5_HT100*','HLT_Ele10*_HT100*'], throw = False)
 
 MuTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
                                  HLTPaths = ['HLT_Mu9'],throw = False)
@@ -20,34 +18,34 @@ ElTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X
                                  HLTPaths = ['HLT_Ele10_SW_L1R_v2'],throw = False)
 
 ## MC trigger Summer11
-MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*'],throw = False)
-ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
-LepHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*','HLT_Ele10*_HT200*'], throw = False)
+MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
+ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200_v*'],throw = False)
+LepHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*','HLT_Ele10*_HT200_v*'], throw = False)
 
 ## Data trigger v1, v2
-MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*'],throw = False)
-ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200*'],throw = False)
-LepHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200*','HLT_Ele10*_HT200*'],throw = False)
+MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
+ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
 
 ## Data trigger v4
-MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*'],throw = False)
-ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15*_HT200*'],throw = False)
-LepHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200*','HLT_Ele15*_HT200*'],throw = False)
+MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*'],throw = False)
+ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*'],throw = False)
 
-MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*', 'HLT_Mu8_HT200_v*'],throw = False)
-ElTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v5'],throw = False)
+## Data trigger v5 ?
+MuHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
+ElHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],throw = False)
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(HLTPaths = [
+    'HT* Mu* PFMHT*', 
     'HLT_Mu*_HT*','HLT_Ele*_HT*',
     'HLT_Mu17_TriCentralJet30_v*', 'HLT_Mu17_CentralJet30_v*', 'HLT_Mu17_DiCentralJet30_v*',
     'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
     'HLT_Mu17_CentralJet40_BTagIP_v*', 'HLT_IsoMu17_CentralJet40_BTagIP_v*'
     ],throw = False)
 
-MuTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu*'],throw = False)
-
-ElTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele*'],throw = False)
+# For synchronization
+MuTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*', 'HLT_Mu8_HT200_v*'],throw = False)
+ElTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v5'],throw = False)
 
 ##----------------------------
 ## Event cleaning modules
@@ -59,12 +57,6 @@ scrapingVeto = cms.EDFilter("FilterOutScraping",
                             numtrack = cms.untracked.uint32(10),
                             thresh = cms.untracked.double(0.25)
                             )
-
-## primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
-##                                    vertexCollection = cms.InputTag("offlinePrimaryVertices"),
-##                                    minimumNDOF = cms.uint32(4) ,
-##                                    maxAbsZ = cms.double(24),
-##                                    maxd0 = cms.double(2) )
 
 goodVertices = cms.EDFilter(
  "VertexSelector",
@@ -125,19 +117,13 @@ Electron_BEfilterSequence=cms.Sequence(
 preselectionMuHTMC = cms.Sequence(MuHTTriggerMC *
                                   goodVertices *
                                   oneGoodVertex *
-                                  scrapingVeto *
-                                  trackingFailureFilter *
-                                  #CSCTightHaloFilter *
-                                  ecalDeadCellTPfilter
+                                  scrapingVeto
                                   )
 
 preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
                                   goodVertices *
                                   oneGoodVertex *
-                                  scrapingVeto *
-                                  trackingFailureFilter *
-                                  #CSCTightHaloFilter *
-                                  ecalDeadCellTPfilter
+                                  scrapingVeto
                                   )
 
 ## MC Summer11
@@ -171,6 +157,15 @@ preselectionElHTData2 = cms.Sequence(Electron_BEfilterSequence *
                                      ElHTTriggerData2
                                      )
 
+## Data3
+preselectionMuHTData3 = cms.Sequence(Mu_BEfilterSequence *
+                                     MuHTTriggerData3
+                                     )
+
+preselectionElHTData3 = cms.Sequence(Electron_BEfilterSequence *
+                                     ElHTTriggerData3
+                                     )
+
 # AOD2PAT data
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     goodVertices *
@@ -181,16 +176,6 @@ preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     CSCTightHaloFilter *
                                     ecalDeadCellTPfilter
                                     )
-
-preselectionSingleMu2PAT = cms.Sequence(MuTriggerData *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        HBHENoiseFilter *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
-                                        )
 
 # AOD2PAT MC
 eventCleaningMC2PAT = cms.Sequence(goodVertices *                                   
@@ -266,66 +251,48 @@ ttGenEventFilterTau = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || ful
 
 preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterSemiLep *
-                                        LepHTTriggerMC *
+                                        LepHTTriggerMC2 *
                                         goodVertices *
                                         oneGoodVertex *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        #CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
+                                        scrapingVeto
                                         )
 
 preselectionSemiLepTTBarOther = cms.Sequence(makeGenEvt *
                                              ttGenEventFilterSemiLepOther *
-                                             LepHTTriggerMC *
+                                             LepHTTriggerMC2 *
                                              goodVertices *
                                              oneGoodVertex *
-                                             scrapingVeto *
-                                             trackingFailureFilter *
-                                             #CSCTightHaloFilter *
-                                             ecalDeadCellTPfilter
+                                             scrapingVeto
                                              )
 
 preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterFullLep *
-                                        LepHTTriggerMC *
+                                        LepHTTriggerMC2 *
                                         goodVertices *
                                         oneGoodVertex *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        #CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
+                                        scrapingVeto
                                         )
 
 preselectionFullLepTTBarOther = cms.Sequence(makeGenEvt *
                                              ttGenEventFilterFullLepOther *
-                                             LepHTTriggerMC *
+                                             LepHTTriggerMC2 *
                                              goodVertices *
                                              oneGoodVertex *
-                                             scrapingVeto *
-                                             trackingFailureFilter *
-                                             #CSCTightHaloFilter *
-                                             ecalDeadCellTPfilter
+                                             scrapingVeto
                                              )
 
 preselectionFullHadTTBar = cms.Sequence(makeGenEvt *
                                         ttGenEventFilterFullHad *
-                                        LepHTTriggerMC *
+                                        LepHTTriggerMC2 *
                                         goodVertices *
                                         oneGoodVertex *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        #CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
+                                        scrapingVeto
                                         )
 
 preselectionTauTTBar = cms.Sequence(makeGenEvt *
                                     ttGenEventFilterTau *
-                                    LepHTTriggerMC *
+                                    LepHTTriggerMC2 *
                                     goodVertices *
                                     oneGoodVertex *
-                                    scrapingVeto *
-                                    trackingFailureFilter *
-                                    #CSCTightHaloFilter *
-                                    ecalDeadCellTPfilter
+                                    scrapingVeto
                                     )
