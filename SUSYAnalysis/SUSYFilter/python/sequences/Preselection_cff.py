@@ -27,8 +27,8 @@ MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = Fal
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
 
 ## Data trigger v4
-MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*'],throw = False)
-ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*'],throw = False)
+MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*','HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
+ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*','HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],throw = False)
 
 ## Data trigger v5 ?
 MuHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
