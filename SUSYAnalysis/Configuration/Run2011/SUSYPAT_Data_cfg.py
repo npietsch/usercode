@@ -23,9 +23,9 @@ process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(True)
 )
 
-process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Synch.root')
-                                   )
+## process.TFileService = cms.Service("TFileService",
+##                                    fileName = cms.string('Synch.root')
+##                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")

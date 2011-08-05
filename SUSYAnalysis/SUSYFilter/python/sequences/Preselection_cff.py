@@ -255,11 +255,9 @@ eventCleaningMC2PAT = cms.Sequence(goodVertices *
                                    ecalDeadCellTPfilter
                                    )
 
-preselectionMC2PAT = cms.Sequence(ElTriggerData *
-                                  goodVertices *
-                                  oneGoodVertex *
+preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
+                                  goodVertices *  
                                   HBHENoiseFilter *
-                                  scrapingVeto *
                                   trackingFailureFilter *
                                   CSCTightHaloFilter *
                                   ecalDeadCellTPfilter
