@@ -52,7 +52,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.3 $'),
+    version = cms.untracked.string('$Revision: 1.4 $'),
     name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -169,7 +169,7 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 #------------------
 
 process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.eventCleaningMC2PAT
+                            process.preselectionMC2PAT
                             )
 
 #-------------------------------------------------
