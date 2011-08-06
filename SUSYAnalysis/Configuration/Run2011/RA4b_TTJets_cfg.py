@@ -1,3 +1,10 @@
+#-------------------------------------------
+# To run on the NAF, type:
+#
+# xport NJS_QUEUE=1 
+# nafJobSplitter.pl 235 RA4b_TTJets_cfg.py
+#-------------------------------------------
+
 from BjetsPAT_cfg import *
 
 from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
