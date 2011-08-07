@@ -361,7 +361,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       //std::cout << "weight: " << weight << std::endl;
       //std::cout << "-------------------------------------" << std::endl;
 
-      nPU_->Fill(nvtx,weight);
+      nPU_->Fill(nvtx);
     }
 
   weight=1;
