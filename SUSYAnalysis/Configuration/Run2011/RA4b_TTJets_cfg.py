@@ -1,15 +1,11 @@
 #-------------------------------------------
 # To run on the NAF, type:
 #
-# xport NJS_QUEUE=1 
+# xport NJS_QUEUE=12 
 # nafJobSplitter.pl 235 RA4b_TTJets_cfg.py
 #-------------------------------------------
 
 from BjetsPAT_cfg import *
-
-from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
-process.preselectionMuHTMC = preselectionMuHTMC2
-process.preselectionElHTMC = preselectionElHTMC2
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 

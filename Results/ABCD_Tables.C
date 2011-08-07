@@ -28,13 +28,14 @@ int ABCD_Tables()
   //--------------------------------------------------------------------------------------------------------
   // Define ABCD regions
   //
-  // NOTE: Numbers of events in region A will calculated by hist->Intagral(xmin, xmid-1, ymin, ymin-1)
-  //       numbers of events in region B will calculated by hist->Intagral(xmid,    ..., ymin, ymin-1)
-  //       numbers of events in region C will calculated by hist->Intagral(xmin, xmid-1, ymid,    ...)
-  //       numbers of events in region D will calculated by hist->Intagral(xmid,    ..., ymid,    ...)
+  // NOTE: Numbers of events in region A will calculated by hist->Intagral(xmin, xmid-1,         ymin, ymin-1)
+  //       numbers of events in region B will calculated by hist->Intagral(xmid, x overflow-bin, ymin, ymin-1)
+  //       numbers of events in region C will calculated by hist->Intagral(xmin, xmid-1,         ymid, y overflow-bin)
+  //       numbers of events in region D will calculated by hist->Intagral(xmid, x overflow-bin, ymid, y overflow-bin)
   //
   //--------------------------------------------------------------------------------------------------------
 
+  // Set xmin and xmid
   double xmin=3;
   double xmid=10;
 
@@ -48,7 +49,7 @@ int ABCD_Tables()
   BackgroundFiles.push_back (new TFile("WJets.root","READ"));
   BackgroundFiles.push_back (new TFile("ZJets.root","READ"));
   BackgroundFiles.push_back (new TFile("SingleTop.root","READ"));
-  //Files.push_back (new TFile("QCD.root", "READ"));
+  BackgroundFiles.push_back (new TFile("QCD.root", "READ"));
 
   std::cout << "Read signal files" << std::endl;
 
@@ -56,6 +57,7 @@ int ABCD_Tables()
   SignalFiles.push_back (new TFile("LM3.root","READ"));
   SignalFiles.push_back (new TFile("LM8.root","READ"));
   SignalFiles.push_back (new TFile("LM9.root","READ"));
+  SignalFiles.push_back (new TFile("LM13.root","READ"));
 
   std::cout << "Read data files" << std::endl;
 
@@ -68,12 +70,13 @@ int ABCD_Tables()
   BackgroundNames.push_back("W+Jets");
   BackgroundNames.push_back("Z+Jets");
   BackgroundNames.push_back("Single top");
-  //Names.push_back("QCD");
+  BackgroundNames.push_back("QCD");
 
   /// push back names to vector<string> SignalNames
   SignalNames.push_back("LM3");
   SignalNames.push_back("LM8");
   SignalNames.push_back("LM9");
+  SignalNames.push_back("LM13");
 
   /// push back names to vector<string> DataNames
   DataNames.push_back("MuHad");
@@ -98,14 +101,17 @@ int ABCD_Tables()
   Int_t NGSingleTop=1; 
   Double_t XSSingleTop=1;
   
-  Int_t NGLM3=220000;
+  Int_t NGLM3=36475;
   Double_t XSLM3=3.438;
   
-  Int_t NGLM8=220000;
+  Int_t NGLM8=10595;
   Double_t XSLM8=0.73;
   
-  Int_t NGLM9=210000;
+  Int_t NGLM9=79665;
   Double_t XSLM9=7.134;
+
+  Int_t NGLM13=77000;
+  Double_t XSLM13=6.899;
   
   Double_t WeightQCD=0.001*(Luminosity*(XSQCD))/NGQCD;
   Double_t WeightTTJets=(Luminosity*(XSTTJets))/NGTTJets;
@@ -115,18 +121,21 @@ int ABCD_Tables()
   Double_t WeightLM3=(Luminosity*(XSLM3))/NGLM3;
   Double_t WeightLM8=(Luminosity*(XSLM8))/NGLM8;
   Double_t WeightLM9=(Luminosity*(XSLM9))/NGLM9;
+  Double_t WeightLM13=(Luminosity*(XSLM13))/NGLM13;
+
 
   /// push back event weights to vector<double> BackgroundWeights;
   BackgroundWeights.push_back(WeightTTJets);
   BackgroundWeights.push_back(WeightWJets);
   BackgroundWeights.push_back(WeightZJets);
   BackgroundWeights.push_back(WeightSingleTop);
-  //Weights.push_back(WeightQCD);
+  BackgroundWeights.push_back(WeightQCD);
 
   /// push back event weights to vector<double> SignalWeights;
   SignalWeights.push_back(WeightLM3);
   SignalWeights.push_back(WeightLM8);
   SignalWeights.push_back(WeightLM9);
+  SignalWeights.push_back(WeightLM13);
 
   /// push back event weights to vector<double> DataWeights;
   DataWeights.push_back(1);
@@ -153,7 +162,7 @@ int ABCD_Tables()
       std::cout << Selections[sdx] << std::endl;
       std::cout << "=================================" << std::endl << std::endl;
 
-      // name if output tex file
+      // name of output tex file
       char dateiname[100];
       if(sdx < (Selections.size())/2) sprintf(dateiname,"ABCD_%ib1m.tex",sdx);
       else sprintf(dateiname,"ABCD_%ib1e.tex",sdx-Selhalf);
@@ -341,4 +350,9 @@ int ABCD_Tables()
       std::cout << "--- Close " << dateiname << " ---" << std::endl << std::endl;
       g.close();
     }
+
+  std::cout << "" << std::endl;
+  std::cout << "" << std::endl;
+  std::cout << "Note: Statistical errors for MC are wrong as the refer to the number of weighted, but not to the number of unweighted events. This still has to corrected." << std::endl;
+
 }

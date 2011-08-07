@@ -95,7 +95,7 @@ process.Selection1m = cms.Path(#process.printGenParticles *
                                process.eventWeightPU *
                                process.weightProducer *
                                process.analyzeSUSYBjets1m_noCuts *
-                               process.preselectionMuHTMC *
+                               process.preselectionMuHTMC2 *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets1m_preselection *
                                process.RA4MuonCollections *
@@ -116,7 +116,7 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC *
+                                   process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -135,7 +135,7 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC *
+                                   process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -153,7 +153,7 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC *
+                                   process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -177,7 +177,7 @@ process.Selection1e = cms.Path(process.makeObjects *
                                process.eventWeightPU *
                                process.weightProducer *
                                process.analyzeSUSYBjets1e_noCuts *
-                               process.preselectionElHTMC *
+                               process.preselectionElHTMC2 *
                                process.ElHadSelection *
                                process.analyzeSUSYBjets1e_preselection *
                                process.electronSelection*
@@ -197,7 +197,7 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC *
+                                   process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -216,7 +216,7 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC *
+                                   process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -235,7 +235,7 @@ process.Selection3b1e_1 = cms.Path(process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC *
+                                   process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection *
                                    process.jetSelection *
