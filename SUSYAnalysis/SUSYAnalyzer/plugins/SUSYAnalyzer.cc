@@ -82,6 +82,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 36, 200., 2000., 40, 0., 20. );
   HT_SigMET2_ = fs->make<TH2F>("HT_SigMET2","HT vs. SigMET2", 40, 0., 2000., 40, 0., 20. );
 
+  HT_SigPtl_ = fs->make<TH2F>("HT_SigPtl","HT vs. SigPtl", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 40, 0., 2000., 40, 0., 20. );
+
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 
   nJets_ = fs->make<TH1F>("nJets","njets",16 , -0.5, 15.5);
@@ -418,6 +421,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   SigMET_->Fill(sigMET, weight);
   HT_SigMET_->Fill(HT,sigMET, weight);
   HT_SigMET2_->Fill(HT,sigMET, weight);
+  HT_SigMET_unweighted_->Fill(HT,sigMET, 1.);
+
+  
+
   HT_MET_->Fill(HT,(*met)[0].et(), weight);
 
   for(int bdx=0; bdx<(int) bjets->size(); ++bdx)
@@ -708,9 +715,13 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double mW2=0;
   double dRLepBjetMin=10;
   reco::Particle::LorentzVector METP4=(*met)[0].p4();
-	 
+
+  const reco::LeafCandidate * singleLepton = 0; //Used to obtain the single lepton in the event. Used for SigPtl.
+ 
   if(muons->size()==1)
     {
+      singleLepton = &(*muons)[0];
+      
       mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
       eta=(*muons)[0].eta();
       mW2=sqrt(2*(((*met)[0].et())*((*muons)[0].energy())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
@@ -731,6 +742,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     }
   else if(electrons->size()==1)
     {
+      singleLepton = &(*electrons)[0];
+
       mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
       mW2=sqrt(2*(((*met)[0].et())*((*electrons)[0].energy())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
       eta=(*electrons)[0].eta();
@@ -748,6 +761,12 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	   }
 	}
     }
+
+  //Fill HT_SigPtl_ histogram
+  if (singleLepton != 0 && HT > 0.) {
+    double SigPtl = singleLepton->et() / sqrt(HT); 
+    HT_SigPtl_->Fill(HT,SigPtl,weight);
+  }
 
   if(mW2 > 0)
     {
