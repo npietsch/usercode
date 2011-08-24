@@ -97,6 +97,23 @@ class SUSYGenEvent {
   bool OSignSquarkSquarkDecay() const;
   /// is gluino-squark decay?
   bool GluinoSquarkDecay() const;
+  
+  //3rd generation production
+  bool StopStopDecay() const;
+  bool SbottomSbottomDecay() const;
+
+  //Production of EWino and slepton 
+  //EWino refers to neutralino or chargino
+  bool SleptonSleptonDecay() const;
+  bool EWinoEWinoDecay() const;
+  bool EWinoGluinoDecay() const; 
+  bool EWinoSquarkDecay() const;
+
+  //Consider a mixed squark-3rd gen squark
+  //Naively, should be suppressed by Yukawa mixing
+  bool SquarkSbottomDecay() const;
+  bool SquarkStopDecay() const;
+  bool StopSbottomDecay() const;
 
   /// return pdgId of initial sparticle A
   int decayChainA() const;
