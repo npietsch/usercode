@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -284,7 +284,36 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 # Load modules for analysis on generator level, level of matched objects and reco-level
 #-----------------------------------------------------------------------------------------
 
-process.load("Btagging.BtagAnalyzer.BtagAnalyzer_cfi")
+from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
+
+analyzeBtags.jets = "goodJets"
+analyzeBtags.muons = "goodMuons"
+analyzeBtags.electrons = "goodElectrons"
+analyzeBtags.useEventWeight = True
+
+process.SemiLepTTBar1m_1 = analyzeBtags.clone()
+process.SemiLepTTBar1m_2 = analyzeBtags.clone()
+
+process.FullLepTTBar1m_1 = analyzeBtags.clone()
+process.FullLepTTBar1m_2 = analyzeBtags.clone()
+
+process.FullHadTTBar1m_1 = analyzeBtags.clone()
+process.FullHadTTBar1m_2 = analyzeBtags.clone()
+
+process.TauTTBar1m_1 = analyzeBtags.clone()
+process.TauTTBar1m_2 = analyzeBtags.clone()
+
+process.SemiLepTTBar1e_1 = analyzeBtags.clone()
+process.SemiLepTTBar1e_2 = analyzeBtags.clone()
+
+process.FullLepTTBar1e_1 = analyzeBtags.clone()
+process.FullLepTTBar1e_2 = analyzeBtags.clone()
+
+process.FullHadTTBar1e_1 = analyzeBtags.clone()
+process.FullHadTTBar1e_2 = analyzeBtags.clone()
+
+process.TauTTBar1e_1 = analyzeBtags.clone()
+process.TauTTBar1e_2 = analyzeBtags.clone()
 
 #-------------------------------------------------
 # Temporary
@@ -306,21 +335,111 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 # muon selection path
 #--------------------------
 
-process.Selection1m = cms.Path(#process.printGenParticles *
-                               process.preselectionSemiLepTTBar *
-                               process.preselectionMuHTMC2 *
-                               process.makeObjects *
-                               process.eventWeightPU *
-                               process.weightProducer *
-                               process.MuHadSelection *
-                               process.muonSelection*
-                               process.jetSelection*
-                               process.HTSelection *
-                               process.metSelection *
-                               process.analyzeBtags
-                               )
+process.SemiLepTTBar1m = cms.Path(#process.printGenParticles *
+                                  process.preselectionSemiLepTTBar *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.MuHadSelection *
+                                  process.muonSelection*
+                                  process.jetSelection*
+                                  process.SemiLepTTBar1m_1 *
+                                  process.metSelection *
+                                  process.SemiLepTTBar1m_2
+                                  )
 
+process.FullLepTTBar1m = cms.Path(process.preselectionFullLepTTBar *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.MuHadSelection *
+                                  process.muonSelection*
+                                  process.jetSelection*
+                                  process.FullLepTTBar1m_1 *
+                                  process.metSelection *
+                                  process.FullLepTTBar1m_2
+                                  )
+
+process.FullHadTTBar1m = cms.Path(process.preselectionFullHadTTBar *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.MuHadSelection *
+                                  process.muonSelection*
+                                  process.jetSelection*
+                                  process.FullHadTTBar1m_1 *
+                                  process.metSelection *
+                                  process.FullHadTTBar1m_2
+                                  )
+
+process.TauTTBar1m = cms.Path(process.preselectionTauTTBar *
+                              process.preselectionMuHTMC2 *
+                              process.makeObjects *
+                              process.eventWeightPU *
+                              process.weightProducer *
+                              process.MuHadSelection *
+                              process.muonSelection*
+                              process.jetSelection*
+                              process.TauTTBar1m_1 *
+                              process.metSelection *
+                              process.TauTTBar1m_2
+                              )
 #--------------------------
 # electron selection path
 #--------------------------
 
+process.SemiLepTTBar1e = cms.Path(#process.printGenParticles *
+                                  process.preselectionSemiLepTTBar *
+                                  process.preselectionElHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.ElHadSelection *
+                                  process.electronSelection*
+                                  process.jetSelection*
+                                  process.SemiLepTTBar1e_1 *
+                                  process.metSelection *
+                                  process.SemiLepTTBar1e_2
+                                  )
+
+process.FullLepTTBar1e = cms.Path(process.preselectionFullLepTTBar *
+                                  process.preselectionElHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.ElHadSelection *
+                                  process.electronSelection*
+                                  process.jetSelection*
+                                  process.FullLepTTBar1e_1 *
+                                  process.metSelection *
+                                  process.FullLepTTBar1e_2
+                                  )
+
+process.FullHadTTBar1e = cms.Path(process.preselectionFullHadTTBar *
+                                  process.preselectionElHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.ElHadSelection *
+                                  process.electronSelection*
+                                  process.jetSelection*
+                                  process.FullHadTTBar1e_1 *
+                                  process.metSelection *
+                                  process.FullHadTTBar1e_2
+                                  )
+
+process.TauTTBar1e = cms.Path(process.preselectionTauTTBar *
+                              process.preselectionElHTMC2 *
+                              process.makeObjects *
+                              process.eventWeightPU *
+                              process.weightProducer *
+                              process.ElHadSelection *
+                              process.electronSelection*
+                              process.jetSelection*
+                              process.TauTTBar1e_1 *
+                              process.metSelection *
+                              process.TauTTBar1e_2
+                              )
