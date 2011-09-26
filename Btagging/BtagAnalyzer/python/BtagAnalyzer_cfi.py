@@ -8,7 +8,7 @@ analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
                               jets = cms.InputTag("selectedPatJetsAK5PF"),
                               bjets = cms.InputTag("mediumTrackHighEffBjets"),
                               matchedLightJets = cms.InputTag("matchedLightJets"),
-                              matchedBJets = cms.InputTag("matchedBJets"),
+                              matchedBjets = cms.InputTag("matchedBjets"),
                               muons = cms.InputTag("selectedPatMuons"),
                               electrons = cms.InputTag("selectedPatElectrons"),
                               pvSrc = cms.InputTag("offlinePrimaryVertices"),
@@ -17,4 +17,3 @@ analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
                               RA2weight = cms.InputTag("weightProducer:weight"),
                               useEventWeight = cms.bool(False)
                               )
-                

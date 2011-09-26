@@ -249,50 +249,68 @@ ttGenEventFilterFullHad = ttGenEventFilter.clone(cut="isFullHadronic()")
 
 ttGenEventFilterTau = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
 
-preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
-                                        ttGenEventFilterSemiLep *
-                                        LepHTTriggerMC2 *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        scrapingVeto
-                                        )
+## MC Summer11 TTJets MuHT preselection
+preselectionMuHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterSemiLep *
+                                              MuHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
 
-preselectionSemiLepTTBarOther = cms.Sequence(makeGenEvt *
-                                             ttGenEventFilterSemiLepOther *
-                                             LepHTTriggerMC2 *
-                                             goodVertices *
-                                             oneGoodVertex *
-                                             scrapingVeto
-                                             )
+preselectionMuHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterFullLep *
+                                              MuHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
 
-preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
-                                        ttGenEventFilterFullLep *
-                                        LepHTTriggerMC2 *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        scrapingVeto
-                                        )
+preselectionMuHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterFullHad *
+                                              MuHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
 
-preselectionFullLepTTBarOther = cms.Sequence(makeGenEvt *
-                                             ttGenEventFilterFullLepOther *
-                                             LepHTTriggerMC2 *
-                                             goodVertices *
-                                             oneGoodVertex *
-                                             scrapingVeto
-                                             )
+preselectionMuHTMCTauTTBar = cms.Sequence(makeGenEvt *
+                                          ttGenEventFilterTau *
+                                          MuHTTriggerMC2 *
+                                          goodVertices *
+                                          oneGoodVertex *
+                                          scrapingVeto
+                                          )
 
-preselectionFullHadTTBar = cms.Sequence(makeGenEvt *
-                                        ttGenEventFilterFullHad *
-                                        LepHTTriggerMC2 *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        scrapingVeto
-                                        )
+## MC Summer11 TTJets ElHT preselection
+preselectionElHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterSemiLep *
+                                              ElHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
 
-preselectionTauTTBar = cms.Sequence(makeGenEvt *
-                                    ttGenEventFilterTau *
-                                    LepHTTriggerMC2 *
-                                    goodVertices *
-                                    oneGoodVertex *
-                                    scrapingVeto
-                                    )
+preselectionElHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterFullLep *
+                                              ElHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
+
+preselectionElHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
+                                              ttGenEventFilterFullHad *
+                                              ElHTTriggerMC2 *
+                                              goodVertices *
+                                              oneGoodVertex *
+                                              scrapingVeto
+                                              )
+
+preselectionElHTMCTauTTBar = cms.Sequence(makeGenEvt *
+                                          ttGenEventFilterTau *
+                                          ElHTTriggerMC2 *
+                                          goodVertices *
+                                          oneGoodVertex *
+                                          scrapingVeto
+                                          )

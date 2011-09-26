@@ -36,7 +36,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   edm::InputTag jets_;
   edm::InputTag bjets_;
   edm::InputTag matchedLightJets_;
-  edm::InputTag matchedBJets_;
+  edm::InputTag matchedBjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag pvSrc_;
@@ -48,6 +48,29 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   // dummy histogram
   TH1F* Dummy_;
   TH2F* Dummy2_;
+
+  TH1F* BjetsPt_;
+  TH1F* LightJetsPt_;
+  TH1F* BtagsPt_;
+  TH1F* JetsPt_;
+
+  TH1F* BjetsBdisc_;
+  TH1F* LightJetsBdisc_;
+  TH1F* JetsBdisc_;
+
+  TH1F* BjetsBdiscLowPt_;
+  TH1F* LightJetsBdiscLowPt_;
+  TH1F* JetsBdiscLowPt_;
+
+  TH1F* BjetsBdiscHighPt_;
+  TH1F* LightJetsBdiscHighPt_;
+  TH1F* JetsBdiscHighPt_;
+
+  TH1F* NrHighPtBtags_;
+  TH1F* NrLowPtBtags_;
+
+  TH1F* NrHighPtJets_;
+  TH1F* NrLowPtJets_;
 
 };  
 
