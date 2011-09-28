@@ -314,3 +314,21 @@ preselectionElHTMCTauTTBar = cms.Sequence(makeGenEvt *
                                           oneGoodVertex *
                                           scrapingVeto
                                           )
+
+
+## MC Summer11 TTJets  preselection
+preselectionSemiLepTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterSemiLep
+                                        )
+
+preselectionFullLepTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterFullLep
+                                        )
+
+preselectionFullHadTTBar = cms.Sequence(makeGenEvt *
+                                        ttGenEventFilterFullHad
+                                        )
+
+preselectionTauTTBar = cms.Sequence(makeGenEvt *
+                                    ttGenEventFilterTau
+                                    )

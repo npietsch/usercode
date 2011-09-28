@@ -33,10 +33,10 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   edm::Service<TFileService> fs;
 
   Dummy_=fs->make<TH1F>();
-  Dummy_->SetDefaultSumw2(true);
+  //Dummy_->SetDefaultSumw2(true);
 
   Dummy2_=fs->make<TH2F>();
-  Dummy2_->SetDefaultSumw2(true);
+  //Dummy2_->SetDefaultSumw2(true);
   
   BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 50, 0., 500.);
   LightJetsPt_ = fs->make<TH1F>("LightJetsPt","LightJetsPt", 50, 0., 500.);
