@@ -41,7 +41,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 50, 0., 500.);
   LightJetsPt_ = fs->make<TH1F>("LightJetsPt","LightJetsPt", 50, 0., 500.);
   BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 50, 0., 500.);
-  JetsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 50, 0., 500.);
+  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 50, 0., 500.);
 
   BjetsBdisc_ = fs->make<TH1F>("BjetsBdisc","BjetsBdisc", 160, -20, 20.);
   LightJetsBdisc_ = fs->make<TH1F>("LightJetsBdisc","LightJetsBdisc", 160., -20, 20.);
@@ -60,6 +60,9 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
 
   NrHighPtJets_ = fs->make<TH1F>("NrHighPtJets","NrHighPtJets", 12, 0.5, 12.5);
   NrLowPtJets_ = fs->make<TH1F>("NrLowPtJets","NrLowPtJets", 12, 0.5, 12.5);
+
+  dR_=fs->make<TH1F>("dR","dR(bjet,MET)", 16, 0., 3.2);
+
 }
 
 BtagAnalyzer::~BtagAnalyzer()
@@ -146,6 +149,10 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       //std::cout << "-------------------------------------" << std::endl;
     }
 
+  //-------------------------------------------
+  // Kinematics and bdiscriminators
+  //-------------------------------------------
+
   // matched bjets
   for(int i=0; i < (int)matchedBjets->size(); ++i)
     {
@@ -217,6 +224,19 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   NrHighPtJets_->Fill(HighPtJets,weight);
   NrLowPtJets_->Fill(LowPtJets,weight);
 
+  //-------------------------------------------
+  // Topology
+  //-------------------------------------------
+
+  double dRMin=10;
+  reco::Particle::LorentzVector MET=(*met)[0].p4();
+
+  for(int idx=0; idx<(int)bjets->size(); ++idx)
+    {
+      double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
+      if(dR<dRMin) dRMin=dR;
+    }
+  dR_->Fill(dRMin,weight);
 }
 
 void BtagAnalyzer::endJob()

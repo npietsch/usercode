@@ -34,6 +34,17 @@ ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_T
 MuHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
 ElHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],throw = False)
 
+## Data trigger all
+MuHTTriggerAllData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*',
+                                                    'HLT_Mu15_HT200_v*',
+                                                    'HLT_HT250_Mu15_PFMHT20_v*',],
+                                        throw = False)
+
+ElHTTriggerAllData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*',
+                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*',
+                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],
+                                        throw = False)
+
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(HLTPaths = [
     'HT*_Mu*_PFMHT*', 
@@ -165,6 +176,15 @@ preselectionMuHTData3 = cms.Sequence(Mu_BEfilterSequence *
 preselectionElHTData3 = cms.Sequence(Electron_BEfilterSequence *
                                      ElHTTriggerData3
                                      )
+
+## All Data
+preselectionMuHTAllData = cms.Sequence(Mu_BEfilterSequence *
+                                       MuHTTriggerAllData
+                                       )
+
+preselectionElHTAllData = cms.Sequence(Electron_BEfilterSequence *
+                                       ElHTTriggerAllData
+                                       )
 
 # AOD2PAT data
 preselectionData2PAT = cms.Sequence(AOD2PATTrigger *

@@ -72,6 +72,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* NrHighPtJets_;
   TH1F* NrLowPtJets_;
 
+  TH1F* dR_;
 };  
 
 #endif  
