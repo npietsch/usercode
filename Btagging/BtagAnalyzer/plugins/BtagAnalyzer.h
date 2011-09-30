@@ -45,34 +45,75 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   edm::InputTag RA2weight_;
   bool useEvtWgt_;
 
-  // dummy histogram
+  // dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
-  TH1F* BjetsPt_;
-  TH1F* LightJetsPt_;
-  TH1F* BtagsPt_;
+  // Jets
   TH1F* JetsPt_;
-
-  TH1F* BjetsBdisc_;
-  TH1F* LightJetsBdisc_;
+  TH1F* JetsEta_;
   TH1F* JetsBdisc_;
+  TH1F* NrJets_;
 
-  TH1F* BjetsBdiscLowPt_;
-  TH1F* LightJetsBdiscLowPt_;
-  TH1F* JetsBdiscLowPt_;
-
-  TH1F* BjetsBdiscHighPt_;
-  TH1F* LightJetsBdiscHighPt_;
-  TH1F* JetsBdiscHighPt_;
-
-  TH1F* NrHighPtBtags_;
-  TH1F* NrLowPtBtags_;
-
+  TH1F* HighPtJetsEta_;
+  TH1F* HighPtJetsBdisc_;
   TH1F* NrHighPtJets_;
+  
+  TH1F* LowPtJetsEta_;
+  TH1F* LowPtJetsBdisc_;
   TH1F* NrLowPtJets_;
+  
+  TH1F* dRJetMET_;
 
-  TH1F* dR_;
+  // Bjets
+  TH1F* BjetsPt_;
+  TH1F* BjetsEta_;
+  TH1F* BjetsBdisc_;
+  TH1F* NrBjets_;
+
+  TH1F* HighPtBjetsEta_;
+  TH1F* HighPtBjetsBdisc_;
+  TH1F* NrHighPtBjets_;
+  
+  TH1F* LowPtBjetsEta_;
+  TH1F* LowPtBjetsBdisc_;
+  TH1F* NrLowPtBjets_;
+  
+  TH1F* dRBjetMET_;
+
+  // Btags
+  TH1F* BtagsPt_;
+  TH1F* BtagsEta_;
+  TH1F* NrBtags_;
+
+  TH1F* HighPtBtagsEta_;
+  TH1F* NrHighPtBtags_;
+  
+  TH1F* LowPtBtagsEta_;
+  TH1F* NrLowPtBtags_;
+  
+  TH1F* dRBtagMET_;
+
+  // Btags for >= 1 btag
+  TH1F* BtagsPt_1b_;
+  TH1F* BtagsEta_1b_;
+  
+  TH1F* HighPtBtagsEta_1b_;
+    
+  TH1F* LowPtBtagsEta_1b_;
+ 
+  TH1F* dRBtagMET_1b_;
+
+  // Btags for >= 2 btags
+  TH1F* BtagsPt_2b_;
+  TH1F* BtagsEta_2b_;
+    
+  TH1F* HighPtBtagsEta_2b_;
+    
+  TH1F* LowPtBtagsEta_2b_;
+    
+  TH1F* dRBtagMET_2b_;
+
 };  
 
 #endif  
