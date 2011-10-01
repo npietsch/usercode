@@ -278,6 +278,14 @@ preselectionMuHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
                                               scrapingVeto
                                               )
 
+preselectionMuHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
+                                                   ttGenEventFilterSemiLepOther *
+                                                   MuHTTriggerMC2 *
+                                                   goodVertices *
+                                                   oneGoodVertex *
+                                                   scrapingVeto
+                                                   )
+
 preselectionMuHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullLep *
                                               MuHTTriggerMC2 *
@@ -310,6 +318,15 @@ preselectionElHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
                                               oneGoodVertex *
                                               scrapingVeto
                                               )
+
+
+preselectionElHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
+                                                   ttGenEventFilterSemiLepOther *
+                                                   ElHTTriggerMC2 *
+                                                   goodVertices *
+                                                   oneGoodVertex *
+                                                   scrapingVeto
+                                                   )
 
 preselectionElHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullLep *
