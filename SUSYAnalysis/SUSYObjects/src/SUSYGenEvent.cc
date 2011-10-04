@@ -220,19 +220,19 @@ SUSYGenEvent::radiatedGluons(int pdgId) const{
 // is gluino
 bool SUSYGenEvent::isGluino(const reco::GenParticle & genParticle) const
 {
-  bool isGluino=false;
+  bool chk=false;
   if(genParticle.pdgId()==1000021)
     {
-      isGluino=true;
+      chk=true;
     }
   
-  return isGluino;
+  return chk;
 }
 
 // is squark of first or second generation
 bool SUSYGenEvent::isSquark(const reco::GenParticle & genParticle) const
 {
-  bool isSquark=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==1000001 ||
      abs(genParticle.pdgId())==1000002 ||
      abs(genParticle.pdgId())==1000003 ||
@@ -242,84 +242,103 @@ bool SUSYGenEvent::isSquark(const reco::GenParticle & genParticle) const
      abs(genParticle.pdgId())==2000003 ||
      abs(genParticle.pdgId())==2000004)
     {
-      isSquark=true;
+      chk=true;
     }
   
-  return isSquark;
+  return chk;
+}
+
+// is squark of first or second generation
+bool SUSYGenEvent::isAntiSquark(const reco::GenParticle & genParticle) const
+{
+  bool chk=false;
+  if(abs(genParticle.pdgId())==1000001 ||
+     abs(genParticle.pdgId())==1000002 ||
+     abs(genParticle.pdgId())==1000003 ||
+     abs(genParticle.pdgId())==1000004 ||
+     abs(genParticle.pdgId())==2000001 ||
+     abs(genParticle.pdgId())==2000002 ||
+     abs(genParticle.pdgId())==2000003 ||
+     abs(genParticle.pdgId())==2000004)
+    {
+      chk=true;
+    }
+  
+  return chk;
 }
 
 // is stop
 bool SUSYGenEvent::isStop(const reco::GenParticle & genParticle) const
 {
-  bool isStop=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==1000006 ||
      abs(genParticle.pdgId())==2000006)
     {
-      isStop=true;
+      chk=true;
     }
   
-  return isStop;
+  return chk;
 }
 
 // is stop
 bool SUSYGenEvent::isSbottom(const reco::GenParticle & genParticle) const
 {
-  bool isSbottom=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==1000005 ||
      abs(genParticle.pdgId())==2000005)
     {
-      isSbottom=true;
+      chk=true;
     }
   
-  return isSbottom;
+  return chk;
 }
 
 // is chargino
 bool SUSYGenEvent::isChargino(const reco::GenParticle & genParticle) const
 {
-  bool isChargino=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==1000024 ||
      abs(genParticle.pdgId())==1000037)
     {
-      isChargino=true;
+      chk=true;
     }
   
-  return isChargino;
+  return chk;
 }
 
 // is neutralino
 bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
 {
-  bool isNeutralino=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==1000022 ||
      abs(genParticle.pdgId())==1000023 ||
      abs(genParticle.pdgId())==1000025 ||
      abs(genParticle.pdgId())==1000035)
     {
-      isNeutralino=true;
+      chk=true;
     }
   
-  return isNeutralino;
+  return chk;
 }
 
 // is neutralino
 bool SUSYGenEvent::isNeutralHiggs(const reco::GenParticle & genParticle) const
 {
-  bool isNeutralHiggs=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==25 ||
      abs(genParticle.pdgId())==35 ||
      abs(genParticle.pdgId())==36)
     {
-      isNeutralHiggs=true;
+      chk=true;
     }
 
-  return isNeutralHiggs;
+  return chk;
  }
 
 // is slepton
 bool SUSYGenEvent::isSlepton(const reco::GenParticle & genParticle) const
 {
-  bool isSlepton=false;
+  bool chk=false;
   if(abs(genParticle.pdgId())==100011 ||
      abs(genParticle.pdgId())==100012 ||
      abs(genParticle.pdgId())==100013 ||
@@ -333,27 +352,32 @@ bool SUSYGenEvent::isSlepton(const reco::GenParticle & genParticle) const
      abs(genParticle.pdgId())==200015 ||
      abs(genParticle.pdgId())==200016)
     {
-      isSlepton=true;
+      chk=true;
     }
 
-  return isSlepton;
+  return chk;
 }
 
 // is gluino decay
 bool SUSYGenEvent::GluinoDecay() const
 {
-  bool gluinoDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) return false;
+
+  bool gluinoDecay=false;
   if (isGluino(initSpartsColl[0])==true  || isGluino(initSpartsColl[1])==true) gluinoDecay=true;
-  
   return gluinoDecay;
 }
 
 // is squark decay
 bool SUSYGenEvent::SquarkDecay() const
 {
-  bool squarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) return false;
+  
+  bool squarkDecay=false;
   if (isSquark(initSpartsColl[0])==true || isSquark(initSpartsColl[1])==true ) squarkDecay=true;
   
   return squarkDecay;
@@ -362,18 +386,23 @@ bool SUSYGenEvent::SquarkDecay() const
 // is gluino-gluino decay
 bool SUSYGenEvent::GluinoGluinoDecay() const
 {
-  bool gluinoGluinoDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  if (isGluino(initSpartsColl[0])==true  && isGluino(initSpartsColl[1])==true) gluinoGluinoDecay=true;
+
+  if (initSpartsColl.size() < 2) return false;
   
+  bool gluinoGluinoDecay=false;
+  if (isGluino(initSpartsColl[0])==true  && isGluino(initSpartsColl[1])==true) gluinoGluinoDecay=true;
   return gluinoGluinoDecay;
 }
 
 // is squark-squark decay
 bool SUSYGenEvent::SquarkSquarkDecay() const
 {
-  bool squarkSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+  
+  if (initSpartsColl.size() < 2) return false;
+
+  bool squarkSquarkDecay=false;
   if (isSquark(initSpartsColl[0])==true  && isSquark(initSpartsColl[1])==true) squarkSquarkDecay=true;
   
 //   std::cout << "------------------------------------" << std::endl;
@@ -389,8 +418,11 @@ bool SUSYGenEvent::SquarkSquarkDecay() const
 // is same sign squark-squark decay
 bool SUSYGenEvent::SSignSquarkSquarkDecay() const
 {
-  bool sSignSquarkSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) return false;
+  
+  bool sSignSquarkSquarkDecay=false;
   if (SquarkSquarkDecay()==true && ((initSpartsColl[0].threeCharge())*(initSpartsColl[1].threeCharge())>0)) sSignSquarkSquarkDecay=true;
   return sSignSquarkSquarkDecay;
 }
@@ -398,10 +430,12 @@ bool SUSYGenEvent::SSignSquarkSquarkDecay() const
 // is opposite sign squark-squark decay
 bool SUSYGenEvent::OSignSquarkSquarkDecay() const
 {
-  bool oSignSquarkSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  if (SquarkSquarkDecay()==true &&((initSpartsColl[0].threeCharge())*(initSpartsColl[1].threeCharge())<0)) oSignSquarkSquarkDecay=true;
+
+  if (initSpartsColl.size() < 2) return false;
   
+  bool oSignSquarkSquarkDecay=false;
+  if (SquarkSquarkDecay()==true &&((initSpartsColl[0].threeCharge())*(initSpartsColl[1].threeCharge())<0)) oSignSquarkSquarkDecay=true;
   return oSignSquarkSquarkDecay;
 }
 
@@ -410,6 +444,9 @@ bool SUSYGenEvent::GluinoSquarkDecay() const
 {
   bool gluinoSquarkDecay=false;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) return false;
+
   if ( (isGluino(initSpartsColl[0])==true  && isSquark(initSpartsColl[1])==true) ||
        (isSquark(initSpartsColl[0])==true  && isGluino(initSpartsColl[1])==true) )
     {
@@ -419,37 +456,61 @@ bool SUSYGenEvent::GluinoSquarkDecay() const
   return gluinoSquarkDecay;
 }
 
+bool SUSYGenEvent::ParticleAntiParticleDecay() const
+{
+  bool decayTrue=false;
+  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) return false;
+
+  long pdgProduct = (long) initSpartsColl[0].pdgId() * initSpartsColl[1].pdgId();
+
+  if ( pdgProduct < 0  ) {
+    decayTrue=true;
+  }
+  
+  return decayTrue;
+}
+
 
 bool SUSYGenEvent::StopStopDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
+  if (initSpartsColl.size() < 2) return false;
+
   bool decayTrue=false;
-  if (isStop(initSpartsColl[0])==true  && isStop(initSpartsColl[1])==true) decayTrue=true;
+  if (isStop(initSpartsColl[0]) && isStop(initSpartsColl[1])) decayTrue=true;
   return decayTrue;
 }
 bool SUSYGenEvent::SbottomSbottomDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
+  if (initSpartsColl.size() < 2) return false;
+
   bool decayTrue=false;
-  if (isSbottom(initSpartsColl[0])==true  && isSbottom(initSpartsColl[1])==true) decayTrue=true;
+  if (isSbottom(initSpartsColl[0]) && isSbottom(initSpartsColl[1]) ) decayTrue=true;
   return decayTrue;
 }
 bool SUSYGenEvent::SleptonSleptonDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
+  if (initSpartsColl.size() < 2) return false;
+
   bool decayTrue=false;
-  if (isSlepton(initSpartsColl[0])==true  && isSlepton(initSpartsColl[1])==true) decayTrue=true;
+  if (isSlepton(initSpartsColl[0])  && isSlepton(initSpartsColl[1]) ) decayTrue=true;
   return decayTrue;
 }
 bool SUSYGenEvent::EWinoEWinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
+  if (initSpartsColl.size() < 2) return false;
+
   bool decayTrue=false;
-  if ( (isChargino(initSpartsColl[0])==true || isNeutralino(initSpartsColl[0]) == true)  && (isChargino(initSpartsColl[1])==true || isNeutralino(initSpartsColl[1]) == true) ) decayTrue=true;
+  if ( (isChargino(initSpartsColl[0]) || isNeutralino(initSpartsColl[0]))  && (isChargino(initSpartsColl[1]) || isNeutralino(initSpartsColl[1])) ) decayTrue=true;
   return decayTrue;
 }
 
@@ -457,11 +518,11 @@ bool SUSYGenEvent::EWinoGluinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
+  if (initSpartsColl.size() < 2) return false;
+
   bool decayTrue=false;
-  for (unsigned int i = 0 ; i < 2 ; i++ ) {
-    unsigned int j = (i + 1)%2;
-    if ( (isChargino(initSpartsColl[i])==true || isNeutralino(initSpartsColl[i]) == true)  && isGluino(initSpartsColl[j])==true ) decayTrue=true;
-  }
+  if ( (isChargino(initSpartsColl[0]) || isNeutralino(initSpartsColl[0]))  && isGluino(initSpartsColl[1]) ) decayTrue=true;
+  if ( (isChargino(initSpartsColl[1]) || isNeutralino(initSpartsColl[1]))  && isGluino(initSpartsColl[0]) ) decayTrue=true;
   return decayTrue;
 }
 
@@ -469,65 +530,24 @@ bool SUSYGenEvent::EWinoSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
 
-  bool decayTrue=false;
-  for (unsigned int i = 0 ; i < 2 ; i++ ) {
-    unsigned int j = (i + 1)%2;
-    if ( (isChargino(initSpartsColl[i])==true || isNeutralino(initSpartsColl[i]) == true)  && isSquark(initSpartsColl[j])==true ) decayTrue=true;
-  }
-  return decayTrue;
-}
-
-bool SUSYGenEvent::SquarkSbottomDecay() const
-{
-  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+  if (initSpartsColl.size() < 2) return false;
 
   bool decayTrue=false;
-  for (unsigned int i = 0 ; i < 2 ; i++ ) {
-    unsigned int j = (i + 1)%2;
-    if ( isSbottom(initSpartsColl[i])==true   && isSquark(initSpartsColl[j])==true ) decayTrue=true;
-  }
+  if ( (isChargino(initSpartsColl[0]) || isNeutralino(initSpartsColl[0]))  && isSquark(initSpartsColl[1]) ) decayTrue=true;
+  if ( (isChargino(initSpartsColl[1]) || isNeutralino(initSpartsColl[1]))  && isSquark(initSpartsColl[0]) ) decayTrue=true;
   return decayTrue;
 }
-bool SUSYGenEvent::SquarkStopDecay() const
-{
-  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-
-  bool decayTrue=false;
-  for (unsigned int i = 0 ; i < 2 ; i++ ) {
-    unsigned int j = (i + 1)%2;
-    if ( isStop(initSpartsColl[i])==true   && isSquark(initSpartsColl[j])==true ) decayTrue=true;
-  }
-  return decayTrue;
-}
-bool SUSYGenEvent::StopSbottomDecay() const
-{
-  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-
-  bool decayTrue=false;
-  for (unsigned int i = 0 ; i < 2 ; i++ ) {
-    unsigned int j = (i + 1)%2;
-    if ( isSbottom(initSpartsColl[i])==true  && isStop(initSpartsColl[j])==true ) decayTrue=true;
-  }
-  return decayTrue;
-}
-
-
-
-
-
-
-
 
 
 // decay chain A
 int SUSYGenEvent::decayChainA() const
 {
-  int initialSparticle=0;
-
   //std::cout << "(*initSpartsColl_)[0].pdgId(): " <<  (*initSparticles_)[0].pdgId() << std::endl;
 
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  initialSparticle=initSpartsColl[0].pdgId();
+  if (initSpartsColl.size() < 1) return false;
+
+  int initialSparticle=initSpartsColl[0].pdgId();
     
   return initialSparticle;
 }
@@ -535,9 +555,11 @@ int SUSYGenEvent::decayChainA() const
 // decay chain B
 int SUSYGenEvent::decayChainB() const
 {
-  int initialSparticle=0;
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
-  initialSparticle=initSpartsColl[1].pdgId();
+
+  if (initSpartsColl.size() < 2) return false;
+
+  int initialSparticle = initSpartsColl[1].pdgId();
 
   return initialSparticle;
 }
@@ -547,7 +569,7 @@ double SUSYGenEvent::ratio() const
 {
   double x1=0;
   double x2=0;
-  double ratio=0;
+  double r=0;
   const reco::GenParticleCollection & initPartsColl = *initPartons_;
 
   x1=initPartsColl[0].pz();
@@ -556,10 +578,10 @@ double SUSYGenEvent::ratio() const
   //std::cout << "x1 :" << x1 << std::endl;
   //std::cout << "x2 :" << x2 << std::endl;
 
-  if(abs(x1)>abs(x2) && (x2 != 0) ) ratio=abs(x1/x2);
-  else if(abs(x2)>abs(x1) && (x1 != 0) ) ratio=abs(x2/x1);
+  if(abs(x1)>abs(x2) && (x2 != 0) ) r=abs(x1/x2);
+  else if(abs(x2)>abs(x1) && (x1 != 0) ) r=abs(x2/x1);
 
-  return ratio;
+  return r;
 }
 
 
