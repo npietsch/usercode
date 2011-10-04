@@ -32,6 +32,19 @@ SUSYGenEventAnalyzer::SUSYGenEventAnalyzer(const edm::ParameterSet& cfg):
 
   productionProcess_= fs->make<TH1F>("productionProcess","production process", 4, 1., 4.);
 
+  //Declare HT-SigMET hist for each SUSY sub processes
+  HT_SigMET_gg_ = fs->make<TH2F>("HT_SigMET_gg","HT vs. SigMET (gg)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_gs_ = fs->make<TH2F>("HT_SigMET_gs","HT vs. SigMET (gs)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_ss_ = fs->make<TH2F>("HT_SigMET_ss","HT vs. SigMET (ss)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_sb_ = fs->make<TH2F>("HT_SigMET_sb","HT vs. SigMET (sb)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_tb_ = fs->make<TH2F>("HT_SigMET_tb","HT vs. SigMET (tb)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_bb_ = fs->make<TH2F>("HT_SigMET_bb","HT vs. SigMET (bb)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_ll_ = fs->make<TH2F>("HT_SigMET_ll","HT vs. SigMET (ll)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_nn_ = fs->make<TH2F>("HT_SigMET_nn","HT vs. SigMET (nn)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_ng_ = fs->make<TH2F>("HT_SigMET_ng","HT vs. SigMET (ng)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_ns_ = fs->make<TH2F>("HT_SigMET_ns","HT vs. SigMET (ns)", 40, 0., 2000., 40, 0., 20. );
+  HT_SigMET_unknown_ = fs->make<TH2F>("HT_SigMET_unknown","HT vs. SigMET (unknown)", 40, 0., 2000., 40, 0., 20. );
+
   // No. of b-quarks in dep. of production process
   nrBQuarks_gq_    = fs->make<TH1F>("nrBQuarks_gq",    "nr BQuarks gq",     9, -0.5, 8.5);
   nrBQuarks_gg_    = fs->make<TH1F>("nrBQuarks_gg",    "nr BQuarks gg",     9, -0.5, 8.5);
@@ -260,6 +273,89 @@ SUSYGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setu
   for(int jdx=0; jdx<(int)bjets->size(); ++jdx) ++nbtags;
 
   int nMatchedLeptons=matchedmuons->size()+matchedelectrons->size();
+
+
+  //Calculate HT and SigMET and then fill histogram approrpriate for subprocess
+  double HT = 0.;
+  for (unsigned iJet = 0; iJet < (unsigned) jets->size() ; iJet++ ) HT += (*jets)[iJet].et() ;
+
+  double SigMET = (*met)[0].et() ;
+  if ( HT > 0. ) SigMET /= sqrt(HT);
+  
+  TH2F* HT_SigMET_hist2Fill = 0;
+  unsigned numMatchedProcs = 0;
+
+  //std::cout << "Doing gg!" << std::endl;
+  if (susyGenEvent->GluinoGluinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_gg_ ;
+    numMatchedProcs++;
+  }
+
+  //std::cout << "Doing gs!" << std::endl;
+  if (susyGenEvent->GluinoSquarkDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_gs_ ;
+    numMatchedProcs++;
+  }
+
+  //std::cout << "Doing ss/sb!" << std::endl;
+  if (susyGenEvent->SquarkSquarkDecay() == true) {
+    //Check if squark-antisquark 
+    if (susyGenEvent->ParticleAntiParticleDecay() == true) HT_SigMET_hist2Fill = HT_SigMET_sb_ ;
+    else HT_SigMET_hist2Fill = HT_SigMET_ss_ ;
+    numMatchedProcs++;
+  }
+
+  //std::cout << "Doing tt!" << std::endl;
+  if (susyGenEvent->StopStopDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_tb_ ;
+    numMatchedProcs++;
+  }
+
+  //std::cout << "Doing bb!" << std::endl;
+  if (susyGenEvent->SbottomSbottomDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_bb_ ;
+    numMatchedProcs++;
+  }
+  
+  //std::cout << "Doing ll!" << std::endl;
+  if (susyGenEvent->SleptonSleptonDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ll_ ;
+    numMatchedProcs++;
+  }
+  
+  //std::cout << "Doing EWinoEWino!" << std::endl;
+  if (susyGenEvent->EWinoEWinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_nn_ ;
+    numMatchedProcs++;
+  }
+  
+  //std::cout << "Doing EWinoGluino!" << std::endl;
+  if (susyGenEvent->EWinoGluinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ng_ ;
+    numMatchedProcs++;
+  }
+  
+  //std::cout << "Doing EWinoSquark!" << std::endl;
+  if (susyGenEvent->EWinoSquarkDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ns_ ;
+    numMatchedProcs++;
+  }
+  
+  //Check that numMatchedProcs is 1. If not, give an error.
+  if (numMatchedProcs == 1 && HT_SigMET_hist2Fill != 0 ) {
+    //Note that the hist is filled with weight one.
+    HT_SigMET_hist2Fill->Fill(HT, SigMET);
+  }
+  else if (numMatchedProcs == 0) {
+    //std::cout << "SUSYGenEventAnalyzer::analyze >> ERROR: Could not find subprocess in event" << std::endl;
+    HT_SigMET_unknown_->Fill(HT,SigMET);
+  }
+  else {
+    std::cout << "SUSYGenEventAnalyzer::analyze >> ERROR: More than one subprocess matched in event"  << std::endl;
+  }
+
+
+  //Look at number of jets that were associated with b, c and (q||g)
 
   //-----------------------------------------------------------------------------------------
   // number of b-quarks, bjets, btags, ratio of mometa of initial sparticles, number of 

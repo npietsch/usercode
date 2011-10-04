@@ -47,6 +47,21 @@ class SUSYGenEventAnalyzer : public edm::EDAnalyzer {
 
   TH1F* productionProcess_;
 
+  //Histograms for SUSY sub-processes
+  //------------------
+  TH2F *HT_SigMET_gg_;
+  TH2F *HT_SigMET_gs_;
+  TH2F *HT_SigMET_ss_;
+  TH2F *HT_SigMET_sb_;
+  TH2F *HT_SigMET_tb_;
+  TH2F *HT_SigMET_bb_;
+  TH2F *HT_SigMET_ll_;
+  TH2F *HT_SigMET_nn_;
+  TH2F *HT_SigMET_ng_;
+  TH2F *HT_SigMET_ns_;
+  TH2F *HT_SigMET_unknown_;
+  //--------//---------
+
   TH1F *nrBQuarks_gq_ssDiLep_;
   TH1F *nrBQuarks_gg_ssDiLep_;
   TH1F *nrBQuarks_qq_ssDiLep_;
