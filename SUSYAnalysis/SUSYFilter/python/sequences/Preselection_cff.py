@@ -92,32 +92,32 @@ from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
 ## Load EcalDeadCellBEFilter modules; see UserCode/crohringer/DeadCellFilterLists/python for update
-from SUSYAnalysis.SUSYFilter.SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_May10ReReco_v1_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.SingleMu_Run2011A_PromptReco_v4_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE_cfi import *
-
-Mu_BEfilterSequence=cms.Sequence(
-    veto_SingleMu_Run2011A_May10ReReco_v1_filteredEventsBE*
-    veto_MuHad_Run2011A_May10ReReco_v1_filteredEventsBE*
-    veto_Mu_Run2010A_Apr21ReReco_v1_filteredEventsBE*
-    veto_MuHad_Run2011A_PromptReco_v4_filteredEventsBE*
-    veto_SingleMu_Run2011A_PromptReco_v4_filteredEventsBE*
-    veto_Mu_Run2010B_Apr21ReReco_v1_missed1Job__filteredEventsBE
-    )
-
-from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE_cfi  import *
-from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_May10ReReco_v1_filteredEventsBE_cfi  import *
-from SUSYAnalysis.SUSYFilter.Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE_cfi  import *
-from SUSYAnalysis.SUSYFilter.EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE_cfi  import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Aug5ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_May10ReReco_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Prompt_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Prompt_v6_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011B_Prompt_v1_filteredEventsBE_cfi import *
 
 Electron_BEfilterSequence=cms.Sequence(
-    veto_ElectronHad_Run2011A_PromptReco_v4_filteredEventsBE*
-    veto_ElectronHad_Run2011A_May10ReReco_v1_filteredEventsBE*
-    veto_Electron_Run2010B_Apr21ReReco_v1_filteredEventsBE*
-    veto_EG_Run2010A_Apr21ReReco_v1_missed4Jobs_filteredEventsBE
+    veto_ElectronHad_Run2011A_Aug5ReReco_v1_filteredEventsBE*
+    veto_ElectronHad_Run2011A_May10ReReco_filteredEventsBE*
+    veto_ElectronHad_Run2011A_Prompt_v4_filteredEventsBE*
+    veto_ElectronHad_Run2011A_Prompt_v6_filteredEventsBE*
+    veto_ElectronHad_Run2011B_Prompt_v1_filteredEventsBE
+    )
+
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_May10ReReco_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Aug5ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Prompt_v4_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Prompt_v6_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011B_Prompt_v1_filteredEventsBE_cfi import *
+
+Mu_BEfilterSequence=cms.Sequence(
+    veto_MuHad_Run2011A_May10ReReco_filteredEventsBE*
+    veto_MuHad_Run2011A_Aug5ReReco_v1_filteredEventsBE*
+    veto_MuHad_Run2011A_Prompt_v4_filteredEventsBE*
+    veto_MuHad_Run2011A_Prompt_v6_filteredEventsBE*
+    veto_MuHad_Run2011B_Prompt_v1_filteredEventsBE
     )
 
 ##-------------------------------
