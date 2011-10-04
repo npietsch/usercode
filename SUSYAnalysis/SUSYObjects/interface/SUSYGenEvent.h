@@ -70,6 +70,8 @@ class SUSYGenEvent {
   bool isGluino(const reco::GenParticle & genParticle) const;
   /// is squark of first or second generation?
   bool isSquark(const reco::GenParticle & genParticle) const;
+  /// is anti-squark of first or second generation?
+  bool isAntiSquark(const reco::GenParticle & genParticle) const;
   /// is stop quark?
   bool isStop(const reco::GenParticle & genParticle) const;
   /// is sbottom quark?
@@ -97,6 +99,10 @@ class SUSYGenEvent {
   bool OSignSquarkSquarkDecay() const;
   /// is gluino-squark decay?
   bool GluinoSquarkDecay() const;
+
+  ///Returns true if sign of product of PDG numbers is positive.
+  ///Useful to identify SquarkAntiSquark, versus SquarkSquark
+  bool ParticleAntiParticleDecay() const;
   
   //3rd generation production
   bool StopStopDecay() const;
@@ -108,12 +114,6 @@ class SUSYGenEvent {
   bool EWinoEWinoDecay() const;
   bool EWinoGluinoDecay() const; 
   bool EWinoSquarkDecay() const;
-
-  //Consider a mixed squark-3rd gen squark
-  //Naively, should be suppressed by Yukawa mixing
-  bool SquarkSbottomDecay() const;
-  bool SquarkStopDecay() const;
-  bool StopSbottomDecay() const;
 
   /// return pdgId of initial sparticle A
   int decayChainA() const;
