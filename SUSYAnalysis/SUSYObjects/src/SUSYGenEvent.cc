@@ -339,18 +339,18 @@ bool SUSYGenEvent::isNeutralHiggs(const reco::GenParticle & genParticle) const
 bool SUSYGenEvent::isSlepton(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
-  if(abs(genParticle.pdgId())==100011 ||
-     abs(genParticle.pdgId())==100012 ||
-     abs(genParticle.pdgId())==100013 ||
-     abs(genParticle.pdgId())==100014 ||
-     abs(genParticle.pdgId())==100015 ||
-     abs(genParticle.pdgId())==100016 ||
-     abs(genParticle.pdgId())==200011 ||
-     abs(genParticle.pdgId())==200012 ||
-     abs(genParticle.pdgId())==200013 ||
-     abs(genParticle.pdgId())==200014 ||
-     abs(genParticle.pdgId())==200015 ||
-     abs(genParticle.pdgId())==200016)
+  if(abs(genParticle.pdgId())==1000011 ||
+     abs(genParticle.pdgId())==1000012 ||
+     abs(genParticle.pdgId())==1000013 ||
+     abs(genParticle.pdgId())==1000014 ||
+     abs(genParticle.pdgId())==1000015 ||
+     abs(genParticle.pdgId())==1000016 ||
+     abs(genParticle.pdgId())==2000011 ||
+     abs(genParticle.pdgId())==2000012 ||
+     abs(genParticle.pdgId())==2000013 ||
+     abs(genParticle.pdgId())==2000014 ||
+     abs(genParticle.pdgId())==2000015 ||
+     abs(genParticle.pdgId())==2000016)
     {
       chk=true;
     }
@@ -470,6 +470,19 @@ bool SUSYGenEvent::ParticleAntiParticleDecay() const
   }
   
   return decayTrue;
+}
+
+void SUSYGenEvent::GetParentPDGNos() const
+{
+  const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
+
+  if (initSpartsColl.size() < 2) {
+    std::cout << "Two parents not found!" << std::endl;
+    return;
+  }
+
+  std::cout << "Parent PDG IDs are: " << initSpartsColl[0].pdgId() << " " <<  initSpartsColl[1].pdgId()<< std::endl;
+  return;
 }
 
 
