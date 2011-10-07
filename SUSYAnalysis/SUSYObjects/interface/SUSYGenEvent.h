@@ -103,6 +103,8 @@ class SUSYGenEvent {
   ///Returns true if sign of product of PDG numbers is positive.
   ///Useful to identify SquarkAntiSquark, versus SquarkSquark
   bool ParticleAntiParticleDecay() const;
+
+  void GetParentPDGNos() const;
   
   //3rd generation production
   bool StopStopDecay() const;
