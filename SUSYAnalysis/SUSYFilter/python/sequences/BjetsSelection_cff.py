@@ -63,6 +63,42 @@ looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             'pt > 20. &'
                                             'abs(eta) < 2.5 '
                                             )
+
+#------------------------------
+# veto-lepton collections
+#------------------------------
+
+trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+                                        cut =
+                                        'isGood("GlobalMuonPromptTight") &'
+                                        'pt >= 15. &'
+                                        'abs(eta) <= 2.5 &'
+                                        '(trackIso+hcalIso+ecalIso)/pt <  0.15 &'
+                                        'abs(dB) < 0.1'
+                                        )
+
+vertexVetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
+                                            )
+
+from TopAnalysis.TopFilter.filters.MuonJetOverlapSelector_cfi import *
+vetoMuons = checkJetOverlapMuons.clone()
+vetoMuons.muons = 'vertexVetoMuons'
+vetoMuons.jets = 'goodJets'
+vetoMuons.deltaR = 0.3
+vetoMuons.overlap=False
+
+looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                                cut =
+                                                'pt >= 15. &'
+                                                'abs(eta) <= 2.5 &'
+                                                'electronID(\"simpleEleId95relIso\")=7 &'
+                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                                'abs(dB) < 0.1'
+                                                )
+
+vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
+                                              )
+
 #------------------------------
 # matched-lepton collections 
 #------------------------------
@@ -83,33 +119,6 @@ matchedElectrons = selectedPatMuons.clone(src = 'goodMuons',
                                           'abs(genLepton.pdgId) = 11'
                                           )
 
-#------------------------------
-# veto-lepton collections
-#------------------------------
-
-looseVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
-                                        cut =
-                                        'isGood("GlobalMuonPromptTight") &'
-                                        'pt >= 15. &'
-                                        'abs(eta) <= 2.5 &'
-                                        '(trackIso+hcalIso+ecalIso)/pt <  0.15 &'
-                                        'abs(dB) < 0.1'
-                                        )
-
-vetoMuons = vertexSelectedMuons.clone(src = "looseVetoMuons"
-                                      )
-
-looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
-                                                cut =
-                                                'pt >= 15. &'
-                                                'abs(eta) <= 2.5 &'
-                                                'electronID(\"simpleEleId95relIso\")=7 &'
-                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
-                                                'abs(dB) < 0.1'
-                                                )
-
-vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
-                                              )
 
 #------------------------------
 # jet collections
@@ -670,26 +679,34 @@ matchedGoodObjects = cms.Sequence(matchedBjets *
 ##                                   matchedElectrons
                                   )
 
-goodObjects = cms.Sequence(looseMuons *
+goodObjects = cms.Sequence(## loose leptons
+                           looseMuons *
                            looseElectrons *
+                           ## muons
                            trackMuons *
                            vertexMuons *
-                           looseVetoMuons *
-                           vetoMuons *
+                           trackVetoMuons *
+                           vertexVetoMuons *
+                           ## electrons
                            looseVetoElectrons *
                            vetoElectrons *
                            isolatedElectrons *
                            goodElectrons*
+                           ## jets
                            looseJets *
                            goodJets *
                            lightJets *
                            mediumJets *
                            tightJets *
+                           ## goodMuons and vetoMuons
                            goodMuons *
+                           vetoMuons *
+                           ## METs
                            looseMETs *
                            goodMETs *
                            mediumMETs *
                            tightMETs *
+                           ## bjets
                            looseTrackHighPurBjets *
                            mediumTrackHighPurBjets *
                            tightTrackHighPurBjets *

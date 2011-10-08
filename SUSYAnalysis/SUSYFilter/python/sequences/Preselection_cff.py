@@ -214,43 +214,43 @@ preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
                                   )
 
 ## For synchronization - PARTLY OUTDATED
-preselectionMuSynch = cms.Sequence(MuTriggerMC *
-                                   goodVertices *
-                                   oneGoodVertex *
-                                   scrapingVeto *
-                                   trackingFailureFilter *
-                                   CSCTightHaloFilter *
-                                   ecalDeadCellTPfilter
-                                   )
+preselectionMuSynchMC = cms.Sequence(MuTriggerMC *
+                                     goodVertices *
+                                     oneGoodVertex *
+                                     scrapingVeto *
+                                     trackingFailureFilter *
+                                     CSCTightHaloFilter *
+                                     ecalDeadCellTPfilter
+                                     )
 
-preselectionElSynch = cms.Sequence(ElTriggerMC *
-                                   goodVertices *
-                                   oneGoodVertex *
-                                   scrapingVeto *
-                                   trackingFailureFilter *
-                                   CSCTightHaloFilter *
-                                   ecalDeadCellTPfilter
-                                   )
+preselectionElSynchMC = cms.Sequence(ElTriggerMC *
+                                     goodVertices *
+                                     oneGoodVertex *
+                                     scrapingVeto *
+                                     trackingFailureFilter *
+                                     CSCTightHaloFilter *
+                                     ecalDeadCellTPfilter
+                                     )
 
-preselectionMuSynchData2 = cms.Sequence(MuTriggerData2 *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        HBHENoiseFilter *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
-                                        )
+preselectionMuSynchData = cms.Sequence(#MuHTTriggerData2 *
+                                       goodVertices *
+                                       scrapingVeto *
+                                       oneGoodVertex *
+                                       HBHENoiseFilter *
+                                       CSCTightHaloFilter *
+                                       trackingFailureFilter *
+                                       ecalDeadCellTPfilter
+                                       )
 
-preselectionElSynchData2 = cms.Sequence(ElTriggerData2 *
-                                        goodVertices *
-                                        oneGoodVertex *
-                                        HBHENoiseFilter *
-                                        scrapingVeto *
-                                        trackingFailureFilter *
-                                        CSCTightHaloFilter *
-                                        ecalDeadCellTPfilter
-                                        )
+preselectionElSynchData = cms.Sequence(#ElHTTriggerData2 *
+                                       goodVertices *
+                                       scrapingVeto *
+                                       oneGoodVertex *
+                                       HBHENoiseFilter *
+                                       CSCTightHaloFilter *
+                                       trackingFailureFilter *
+                                       ecalDeadCellTPfilter
+                                       )
 
 ##----------------------------------------------
 ## Filter on member functions of TtGenEvent

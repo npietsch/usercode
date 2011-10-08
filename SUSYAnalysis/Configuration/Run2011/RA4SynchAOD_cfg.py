@@ -61,21 +61,24 @@ options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 #options.output = "SUSYPAT.root"
-options.maxEvents = 100
+options.maxEvents = -1
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "GR_R_42_V14::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('GlobalTag', "GR_R_42_V19::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
-#options.jetCorrections.append('L2L3Residual')
+options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
 options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
 #options.register('hltSelection', '*', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.register('hltSelection', 'HLT_Mu8_HT200_v*', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.hltSelection.append('HLT_Mu15_HT200_v*')
+options.hltSelection.append('HLT_HT250_Mu15_PFMHT20_v*')
+options.hltSelection.append('HLT_HT250_Mu15_PFMHT40_v*')
+options.hltSelection.append('HLT_HT300_Mu15_PFMHT40_v*')
 options.register('doValidation', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Include the validation histograms from SusyDQM (needs extra tags)")
 options.register('doExtensiveMatching', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Matching to simtracks (needs extra tags)")
 options.register('doSusyTopProjection', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Apply Susy selection in PF2PAT to obtain lepton cleaned jets (needs validation)")
@@ -143,7 +146,7 @@ process.Out.electrons ="goodElectrons"
 #------------------
 
 process.ViennaMuonSelection = cms.Path(process.susyPatDefaultSequence *
-                                       process.preselectionMuSynchData2 *
+                                       process.preselectionMuSynchData *
                                        process.goodObjects *
                                        process.RA4Preselection *
                                        process.oneGoodJet *
@@ -154,13 +157,9 @@ process.ViennaMuonSelection = cms.Path(process.susyPatDefaultSequence *
                                        process.RA4ThreeGoodJets *
                                        process.fourGoodJets *
                                        process.RA4FourGoodJets *
-                                       process.oneGoodMuon *
-                                       process.exactlyOneGoodMuon *
-                                       process.noGoodElectron *
-                                       process.oneVetoMuon *
-                                       process.noVetoElectron *
-                                       process.ViennaHTSelection *
-                                       process.oneTightMET *
+                                       process.muonSelection *
+                                       process.HTSelection *
+                                       process.oneMediumMET *
                                        process.Out
                                        )
 
