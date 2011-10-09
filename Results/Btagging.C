@@ -28,15 +28,15 @@ int Btagging()
 
   std::cout << "Read files" << std::endl;
 
-  //Files.push_back (new TFile("QCD.root", "READ"));
-  //Files.push_back (new TFile("ZJets.root","READ"));
-  //Files.push_back (new TFile("WJets.root","READ"));
-  //Files.push_back (new TFile("SingleTop.root","READ"));
-  Files.push_back (new TFile("FullHadTTBar.root","READ"));
-  Files.push_back (new TFile("TauTTBar.root","READ"));
-  Files.push_back (new TFile("FullLepTTBar.root","READ"));
-  Files.push_back (new TFile("SemiLepTTBar.root","READ"));
-  //Files.push_back (new TFile("TTJets.root","READ"));
+  Files.push_back (new TFile("QCD.root", "READ"));
+  Files.push_back (new TFile("DY.root","READ"));
+  Files.push_back (new TFile("WJets.root","READ"));
+  Files.push_back (new TFile("SingleTop.root","READ"));
+  //Files.push_back (new TFile("FullHadTTBar.root","READ"));
+  //Files.push_back (new TFile("TauTTBar.root","READ"));
+  //Files.push_back (new TFile("FullLepTTBar.root","READ"));
+  //Files.push_back (new TFile("SemiLepTTBar.root","READ"));
+  Files.push_back (new TFile("TTJets.root","READ"));
 
   //Files.push_back (new TFile("LM3.root","READ"));
   //Files.push_back (new TFile("LM8.root","READ"));
@@ -44,7 +44,7 @@ int Btagging()
   //Files.push_back (new TFile("LM13.root","READ"));
 
   //Files.push_back (new TFile("MuHad.root","READ"));
-  //Files.push_back (new TFile("ElHad.root","READ"));
+  Files.push_back (new TFile("ElHad.root","READ"));
 
   int f=Files.size();
 
@@ -52,40 +52,44 @@ int Btagging()
   // push back names to vector<string> Names
   //--------------------------------------------------------------
 
-  //Names.push_back("QCD");
-  //Names.push_back("Z+Jets");
-  //Names.push_back("W+Jets");
-  //Names.push_back("Single top");
-  Names.push_back("Fullhad t#bar{t}");
-  Names.push_back("Tau t#bar{t}");
-  Names.push_back("Di-lep t#bar{t}");
-  Names.push_back("Semilep t#bar{t}");
-  //Names.push_back("TT+Jets");
+  Names.push_back("QCD");
+  Names.push_back("Z+Jets");
+  Names.push_back("W+Jets");
+  Names.push_back("Single top");
+  //Names.push_back("Fullhad t#bar{t}");
+  //Names.push_back("Tau t#bar{t}");
+  //Names.push_back("Di-lep t#bar{t}");
+  //Names.push_back("Semilep t#bar{t}");
+  Names.push_back("TT+Jets");
 
-  Names.push_back("LM3");
-  Names.push_back("LM8");
-  Names.push_back("LM9");
-  Names.push_back("LM13");
+  //Names.push_back("LM3");
+  //Names.push_back("LM8");
+  //Names.push_back("LM9");
+  //Names.push_back("LM13");
 
-  Names.push_back("MuHad");
+  //Names.push_back("MuHad");
   Names.push_back("ElHad");
 
   //--------------------------------------------------------------
   // Specify integrated luminosity (in pb^-1) and event weights
   //--------------------------------------------------------------
   
-  Int_t Luminosity=2104;
+  //Int_t Luminosity=2104;
+  Int_t Luminosity=1965;
 
   Int_t NGQCD=1;
   Double_t XSQCD=1;
 	
-  Int_t NGTTJets=3091251;
-  Double_t XSTTJets=158;
+  //Int_t NGTTJets=3091251;
+  Int_t NGTTJets=3701947;
+  Double_t XSTTJets=157.5;
 
-  Int_t NGZJets=34608520;
-  Double_t XSZJets=3048;
+  //Int_t NGDY=36277961;
+  Int_t NGDY=36277961;
+  Double_t XSDY=3048;
   
-  Int_t NGWJets=54362661;
+  //Int_t NGWJets=81352581;
+  Int_t NGWJets=81352581;
   Double_t XSWJets=31314; 
   
   Int_t NGSingleTop=1; 
@@ -105,7 +109,7 @@ int Btagging()
   
   Double_t WeightQCD=0.001*(Luminosity*(XSQCD))/NGQCD;
   Double_t WeightTTJets=(Luminosity*(XSTTJets))/NGTTJets;
-  Double_t WeightZJets=(Luminosity*(XSZJets))/NGZJets;
+  Double_t WeightDY=(Luminosity*(XSDY))/NGDY;
   Double_t WeightWJets=(Luminosity*(XSWJets))/NGWJets;
   Double_t WeightSingleTop=0.001*Luminosity*XSSingleTop/NGSingleTop;
   Double_t WeightLM3=(Luminosity*(XSLM3))/NGLM3;
@@ -117,40 +121,44 @@ int Btagging()
   // push back event weights to vector<double> Weights;
   //--------------------------------------------------------------
 
-  //Weights.push_back(WeightQCD);
-  //Weights.push_back(WeightZJets);
-  //Weights.push_back(WeightWJets);
-  //Weights.push_back(WeightSingleTop);
-  Weights.push_back(WeightTTJets);
-  Weights.push_back(WeightTTJets);
-  Weights.push_back(WeightTTJets);
-  Weights.push_back(WeightTTJets);
+  Weights.push_back(WeightQCD);
+  Weights.push_back(WeightDY);
+  Weights.push_back(WeightWJets);
+  Weights.push_back(WeightSingleTop);
   //Weights.push_back(WeightTTJets);
+  //Weights.push_back(WeightTTJets);
+  //Weights.push_back(WeightTTJets);
+  //Weights.push_back(WeightTTJets);
+  Weights.push_back(WeightTTJets);
 
-  Weights.push_back(WeightLM3);
-  Weights.push_back(WeightLM8);
-  Weights.push_back(WeightLM9);
-  Weights.push_back(WeightLM13);
+  //Weights.push_back(WeightLM3);
+  //Weights.push_back(WeightLM8);
+  //Weights.push_back(WeightLM9);
+  //Weights.push_back(WeightLM13);
 
   Weights.push_back(1);
-  Weights.push_back(1);
+ //Weights.push_back(1);
 
   //--------------------------------------------------------------
   // push back line colors to vector<int> LineColors;
   //--------------------------------------------------------------
+  LineColors.push_back(kBlue-7);
+  LineColors.push_back(kGreen+2);
+  LineColors.push_back(kYellow);
+  LineColors.push_back(kRed-2);
+  LineColors.push_back(kRed);
   LineColors.push_back(1);
-  LineColors.push_back(3);
-  LineColors.push_back(2);
-  LineColors.push_back(4);
 
   //--------------------------------------------------------------
   // push back fill colors to vector<int> FillColors;
   //--------------------------------------------------------------
 
-  FillColors.push_back(1);
-  FillColors.push_back(3);
-  FillColors.push_back(2);
-  FillColors.push_back(4);
+  FillColors.push_back(kBlue-7);
+  FillColors.push_back(kGreen+2);
+  FillColors.push_back(kYellow);
+  FillColors.push_back(kRed-2);
+  FillColors.push_back(kRed);
+  FillColors.push_back(0);
 
   //--------------------------------------------------------------
   // push back fill style to vector<int> FillStyles;
@@ -160,21 +168,28 @@ int Btagging()
   FillStyles.push_back(1101);
   FillStyles.push_back(1101);
   FillStyles.push_back(1101);
+  FillStyles.push_back(1101);
+  FillStyles.push_back(0);
 
   //--------------------------------------------------------------
   // push back selection step to vector<int> Selections;
   //--------------------------------------------------------------
 
-  Selections.push_back("1m_1");
+  Selections.push_back("1e_2");
 
   //--------------------------------------------------------------
   // push back histogram to vector<int> Selections;
   //--------------------------------------------------------------
 
-  Histograms.push_back("JetsBdiscLowPt");
-  Histograms.push_back("JetsBdiscHighPt");
-  Histograms.push_back("NrBtagsHighPt");
-
+  Histograms.push_back("LowPtJetsBdisc");
+  Histograms.push_back("HighPtJetsBdisc");
+  Histograms.push_back("NrBtags");
+  Histograms.push_back("LowPtBtagsEta");
+  Histograms.push_back("HighPtBtagsEta");
+  Histograms.push_back("dPhiBtagMET");
+  Histograms.push_back("BtagsPt");
+  Histograms.push_back("BtagsPt_1b");
+  Histograms.push_back("BtagsPt_2b");
 
   //--------
   // Plot
