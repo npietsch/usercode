@@ -10,7 +10,7 @@ from BjetsPAT_cfg import *
 process.weightProducer.Method = "PtHat"
 process.weightProducer.XS = 2.213E+10
 process.weightProducer.NumberEvts = 10715600
-process.weightProducer.Lumi = 1414 ## Lumi in 1/pb
+process.weightProducer.Lumi = 1000 ## Lumi in 1/pb
 
 # Choose input files
 process.source = cms.Source("PoolSource",
