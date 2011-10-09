@@ -32,7 +32,7 @@ HTFilter::filter(edm::Event& event, const edm::EventSetup& setup)
   // loop over all jets
   for(int i=0; i< (int)jets->size(); ++i)
     {
-      HT=HT+(*jets)[i].et();
+      HT=HT+(*jets)[i].pt();
     }
   
   if (HT > Cut_) return true;
