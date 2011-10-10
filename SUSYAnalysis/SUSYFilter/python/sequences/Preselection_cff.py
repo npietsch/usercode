@@ -49,7 +49,9 @@ ElHTTriggerAllData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL
 
 ## AOD2PAT trigger
 AOD2PATTrigger = hltHighLevel.clone(HLTPaths = [
-    'HT*_Mu*_PFMHT*', 
+    'HLT_Mu*','HLT_Ele*',
+    'HT*_Mu*_PFMHT*', 'HT*_EL*_PFMHT*',
+    'HT*_Mu*_PFMET*', 'HT*_EL*_PFMET*',
     'HLT_Mu*_HT*','HLT_Ele*_HT*',
     'HLT_Mu17_TriCentralJet30_v*', 'HLT_Mu17_CentralJet30_v*', 'HLT_Mu17_DiCentralJet30_v*',
     'HLT_IsoMu17_DiCentralJet30_v*', 'HLT_IsoMu17_CentralJet30_v*',
