@@ -22,6 +22,8 @@ MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = Fals
 ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200_v*'],throw = False)
 LepHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*','HLT_Ele10*_HT200_v*'], throw = False)
 
+MuTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_v1'],throw = False)
+
 ## Data trigger v1, v2
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
@@ -206,31 +208,44 @@ eventCleaningMC2PAT = cms.Sequence(goodVertices *
                                    )
 
 preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
-                                  goodVertices *  
+                                  goodVertices *
                                   HBHENoiseFilter *
                                   trackingFailureFilter *
                                   CSCTightHaloFilter *
                                   ecalDeadCellTPfilter
                                   )
 
-## For synchronization - PARTLY OUTDATED
-preselectionMuSynchMC = cms.Sequence(MuTriggerMC *
+## For synchronization
+preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
                                      goodVertices *
-                                     oneGoodVertex *
                                      scrapingVeto *
-                                     trackingFailureFilter *
+                                     oneGoodVertex *
+                                     HBHENoiseFilter *
                                      CSCTightHaloFilter *
+                                     trackingFailureFilter *
                                      ecalDeadCellTPfilter
                                      )
 
-preselectionElSynchMC = cms.Sequence(ElTriggerMC *
+preselectionMuSynchMC2 = cms.Sequence(MuTriggerMC2 *
                                      goodVertices *
-                                     oneGoodVertex *
                                      scrapingVeto *
-                                     trackingFailureFilter *
+                                     oneGoodVertex
+                                     #HBHENoiseFilter *
+                                     #CSCTightHaloFilter *
+                                     #trackingFailureFilter *
+                                     #ecalDeadCellTPfilter
+                                     )
+
+preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
+                                     goodVertices *
+                                     scrapingVeto *
+                                     oneGoodVertex *
+                                     HBHENoiseFilter *
                                      CSCTightHaloFilter *
+                                     trackingFailureFilter *
                                      ecalDeadCellTPfilter
                                      )
+
 
 preselectionMuSynchData = cms.Sequence(#MuHTTriggerData2 *
                                        goodVertices *
