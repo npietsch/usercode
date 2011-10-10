@@ -54,6 +54,7 @@ class RA4Analyzer : public edm::EDAnalyzer {
   edm::InputTag jets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+/*   edm::InputTag pfMuons_; */
 
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Muon_pt_;
@@ -62,6 +63,9 @@ class RA4Analyzer : public edm::EDAnalyzer {
   std::vector<TH1F*> Jet_eta_;
   std::vector<TH1F*> Muon_eta_;
   std::vector<TH1F*> Electron_eta_;
+
+/*   std::vector<TH1F*> dRBadMuonJet_; */
+/*   std::vector<TH1F*> BadMuonNrJets_; */
 };  
 
 #endif  

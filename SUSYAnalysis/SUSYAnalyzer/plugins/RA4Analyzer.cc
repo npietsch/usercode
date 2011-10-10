@@ -19,7 +19,9 @@ RA4Analyzer::RA4Analyzer(const edm::ParameterSet& cfg):
   met_          (cfg.getParameter<edm::InputTag>("met")),
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons"))
+  electrons_    (cfg.getParameter<edm::InputTag>("electrons"))// ,
+//   pfMuons_  (cfg.getParameter<edm::InputTag>("pfMuons"))
+
   
 { 
   edm::Service<TFileService> fs;
@@ -79,6 +81,19 @@ RA4Analyzer::RA4Analyzer(const edm::ParameterSet& cfg):
       sprintf(histname,"Elecelectron%i_eta",idx);
       Electron_eta_.push_back(fs->make<TH1F>(histname,histname, 60, -3, 3));
     }
+//   for(int idx=0; idx<4; ++idx)
+//     (
+//       char histname[20];
+//       sprintf(histname,"dR_BadMuon_%iJet",idx);
+//       dRBadMuonJet_.push_back(fs->make<TH1F>(histname,histname, 60, 0, 3));
+//     }
+//   for(int idx=0; idx<4; ++idx)
+//     (
+//       char histname[20];
+//       sprintf(histname,"dR_BadMuon_%iJet",idx);
+//       BadMuonNrJets_.push_back(fs->make<TH1F>(histname,histname, 11, -0.5, 10.5));
+//     }
+
 }
 
 RA4Analyzer::~RA4Analyzer()
@@ -103,6 +118,9 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
+
+//   edm::Handle<std::vector<pat::Muon> > pfMuons;
+//   evt.getByLabel(pfMuons_, pfMuons);
 
   //-------------------------------------------------
   // event weight
@@ -175,11 +193,46 @@ RA4Analyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
-//   if(jets->size()>=2)
+//   // loop over all good muons
+//   for(int m=0; m<(int)muons->size(); ++m)
 //     {
-//       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-//       std::cout << "RA4 ANALYZER. Et Jet1: " << (*jets)[0].et() << " MET: " << (*met)[0].et()  << std::endl;
-//       std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+//       double dRmin=10;
+//       double pf_pt=0;
+
+//       int rmJets=0;
+//       double reco_pt=(*muons)[m].pt();
+//       // loop over all pf muons
+//       for(int pfm=0; pfm<(int)pfMuons->size(); ++pfm)
+// 	{
+// 	  // calculate deltaR between good muon and nearest pf muon
+// 	  double dR=abs(deltaR((*muons)[m].eta(),(*muons)[m].phi(),(*pfMuons)[pfm].eta(),(*pfMuons)[pfm].phi()));
+// 	  if(dR < dRmin)
+// 	    {
+// 	      dR=dRmin;
+// 	      pf_pt=(*pfMuons)[pfm].pt();
+// 	    }
+// 	}
+//       if(reco_pt>0 && pf_pt>0)
+// 	{
+// 	  // if pt of muon pt is not consitent with pt of pf muon
+// 	  if((reco_pt-pf_pt)/reco_pt >= 0.2)
+// 	    {
+// 	      for(int jdx=0; jdx<(int)notCleanedJets->size(); ++jdx)
+// 		{
+// 		  double dR2=abs(deltaR((*notCleanedJets)[jdx].eta(),(*notCleanedJets)[jdx].phi(),(*muons)[m].eta(),(*muons)[m].phi()));
+// 		  if(m<4) dRBadMuonJet_[m]->Fill(dR2,weight);
+// 		  // if jet would be removed, but should not be removed as muon is only veto muon 
+// 		  if(dR2<0.1)
+// 		    {
+// 		      rmJets=rmJets+1;
+// 		    }
+// 		}
+// 	      if(jets->size()+rmJets >=4)
+// 		{
+// 		  if(m<4) BadMuonNrJets_[m]->(rmJets,weight);
+// 		}
+// 	    }
+// 	}
 //     }
 }
 

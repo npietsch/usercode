@@ -160,7 +160,6 @@ looseJets.checkOverlaps = cms.PSet(
 )
 
 ## create good jet collection
-from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
