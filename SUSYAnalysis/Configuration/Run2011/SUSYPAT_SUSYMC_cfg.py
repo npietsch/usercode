@@ -10,6 +10,18 @@
 ####################################
 M0 = 360
 M12 = 700
+
+#Use command line
+import sys
+for iArg in sys.argv:
+    if (len(iArg) > 3):
+        if (iArg[0:3]=='M0='):
+            M0 = int(iArg[3:])
+        elif (iArg[:4]=='M12='):
+            M12 = int(iArg[4:])
+
+print "Using SUSY M0: " + str(M0)
+print "Using SUSY M12: " + str(M12)
 ####################################
 
 # Starting with a skeleton process which gets imported with the following line
@@ -17,8 +29,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.5 $'),
-    name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
+    name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_SUSYMC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
