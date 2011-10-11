@@ -80,15 +80,12 @@ int Btagging()
   Int_t NGQCD=1;
   Double_t XSQCD=1;
 	
-  //Int_t NGTTJets=3091251;
   Int_t NGTTJets=3701947;
   Double_t XSTTJets=157.5;
 
-  //Int_t NGDY=36277961;
   Int_t NGDY=36277961;
   Double_t XSDY=3048;
-  
-  //Int_t NGWJets=81352581;
+ 
   Int_t NGWJets=81352581;
   Double_t XSWJets=31314; 
   
