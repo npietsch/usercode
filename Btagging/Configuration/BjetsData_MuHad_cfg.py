@@ -53,8 +53,8 @@ analyzeBtags.useEventWeight = False
 process.analyzeBtags1m_1 = analyzeBtags.clone()
 process.analyzeBtags1m_2 = analyzeBtags.clone()
 
-process.analyzeBtags1e_1 = analyzeBtags.clone()
-process.analyzeBtags1e_2 = analyzeBtags.clone()
+process.analyzeBtags1l_1 = analyzeBtags.clone()
+process.analyzeBtags1l_2 = analyzeBtags.clone()
 
 #--------------------------
 # muon selection path
@@ -71,18 +71,15 @@ process.analyzeBtags1m = cms.Path(#process.printGenParticles *
                                   process.analyzeBtags1m_2
                                   )
 
-#--------------------------
-# electron selection path
-#--------------------------
 
-process.analyzeBtags1e = cms.Path(#process.printGenParticles *
-                                  process.preselectionElHTAllData *
+process.analyzeBtags1l = cms.Path(#process.printGenParticles *
+                                  process.preselectionMuHTAllData *
                                   process.makeObjects *
-                                  process.ElHadSelection *
-                                  process.electronSelection*
+                                  process.MuHadSelection *
+                                  process.muonSelection*
                                   process.jetSelection*
-                                  process.analyzeBtags1e_1 *
+                                  process.analyzeBtags1l_1 *
                                   process.metSelection *
-                                  process.analyzeBtags1e_2
+                                  process.analyzeBtags1l_2
                                   )
 
