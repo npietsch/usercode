@@ -39,69 +39,79 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   //Dummy2_->SetDefaultSumw2(true);
   
   // Jets
-  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 50, 0.,500.);
-  JetsEta_ = fs->make<TH1F>("JetsEta","JetsEta", 70, -3.5 , 3.5);
-  JetsBdisc_ = fs->make<TH1F>("JetsBdisc","JetsBdisc", 160, -20., 20.);
+  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 60, 0.,600.);
+  JetsEta_ = fs->make<TH1F>("JetsEta","JetsEta", 30, -3. , 3.);
+  JetsBdisc_ = fs->make<TH1F>("JetsBdisc","JetsBdisc", 80, -10., 30.);
   NrJets_ = fs->make<TH1F>("NrJets","NrJets", 13, -0.5, 12.5);
 
-  HighPtJetsEta_ = fs->make<TH1F>("HighPtJetsEta","HighPtJetsEta", 70, -3.5 , 3.5);
-  HighPtJetsBdisc_ = fs->make<TH1F>("HighPtJetsBdisc","HighPtJetsBdisc", 160, -20., 20.);
+  HighPtJetsEta_ = fs->make<TH1F>("HighPtJetsEta","HighPtJetsEta", 30, -3. , 3.);
+  HighPtJetsBdisc_ = fs->make<TH1F>("HighPtJetsBdisc","HighPtJetsBdisc", 80, -10., 30.);
   NrHighPtJets_ = fs->make<TH1F>("NrHighPtJets","NrHighPtJets", 7, -0.5, 6.5);
 
-  LowPtJetsEta_ = fs->make<TH1F>("LowPtJetsEta","LowPtJetsEta", 70, -3.5 , 3.5);
-  LowPtJetsBdisc_ = fs->make<TH1F>("LowPtJetsBdisc","LowPtJetsBdisc", 160, -20., 20.);
+  LowPtJetsEta_ = fs->make<TH1F>("LowPtJetsEta","LowPtJetsEta", 30, -3. , 3.);
+  LowPtJetsBdisc_ = fs->make<TH1F>("LowPtJetsBdisc","LowPtJetsBdisc", 80, -10., 30.);
   NrLowPtJets_ = fs->make<TH1F>("NrLowPtJets","NrLowPtJets", 7, -0.5, 6.5);
 
-  dPhiJetMET_=fs->make<TH1F>("dPhiJetMET","dPhi(Jet,MET)", 16, 0., 3.2);
+  dPhiJetMET_=fs->make<TH1F>("dPhiJetMET","dPhi(Jet,MET)", 31, 0., 3.1);
 
   // Bjets
-  BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 50, 0.,500.);
-  BjetsEta_ = fs->make<TH1F>("BjetsEta","BjetsEta", 70, -3.5 , 3.5);
-  BjetsBdisc_ = fs->make<TH1F>("BjetsBdisc","BjetsBdisc", 160, -20., 20.);
+  BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 60, 0.,600.);
+  BjetsEta_ = fs->make<TH1F>("BjetsEta","BjetsEta", 30, -3. , 3.);
+  BjetsBdisc_ = fs->make<TH1F>("BjetsBdisc","BjetsBdisc", 80, -10., 30.);
   NrBjets_ = fs->make<TH1F>("NrBjets","NrBjets", 7, -0.5, 6.5);
 
-  HighPtBjetsEta_ = fs->make<TH1F>("HighPtBjetsEta","HighPtBjetsEta", 70, -3.5 , 3.5);
-  HighPtBjetsBdisc_ = fs->make<TH1F>("HighPtBjetsBdisc","HighPtBjetsBdisc", 160, -20., 20.);
+  HighPtBjetsEta_ = fs->make<TH1F>("HighPtBjetsEta","HighPtBjetsEta", 30, -3. , 3.);
+  HighPtBjetsBdisc_ = fs->make<TH1F>("HighPtBjetsBdisc","HighPtBjetsBdisc", 80, -10., 30.);
   NrHighPtBjets_ = fs->make<TH1F>("NrHighPtBjets","NrHighPtBjets", 7, -0.5, 6.5);
 
-  LowPtBjetsEta_ = fs->make<TH1F>("LowPtBjetsEta","LowPtBjetsEta", 70, -3.5 , 3.5);
-  LowPtBjetsBdisc_ = fs->make<TH1F>("LowPtBjetsBdisc","LowPtBjetsBdisc", 160, -20., 20.);
+  LowPtBjetsEta_ = fs->make<TH1F>("LowPtBjetsEta","LowPtBjetsEta", 30, -3. , 3.);
+  LowPtBjetsBdisc_ = fs->make<TH1F>("LowPtBjetsBdisc","LowPtBjetsBdisc", 80, -10., 30.);
   NrLowPtBjets_ = fs->make<TH1F>("NrLowPtBjets","NrLowPtBjets", 7, -0.5, 6.5);
 
-  dPhiBjetMET_=fs->make<TH1F>("dPhiBjetMET","dPhi(Bjet,MET)", 16, 0., 3.2);
+  dPhiBjetMET_=fs->make<TH1F>("dPhiBjetMET","dPhi(Bjet,MET)", 31, 0., 3.1);
 
   // Btags
-  BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 50, 0.,500.);
-  BtagsEta_ = fs->make<TH1F>("BtagsEta","BtagsEta", 70, -3.5 , 3.5);
+  BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 60, 0.,600.);
+  BtagsEta_ = fs->make<TH1F>("BtagsEta","BtagsEta", 30, -3. , 3.);
   NrBtags_ = fs->make<TH1F>("NrBtags","NrBtags", 7, -0.5, 6.5);
 
-  HighPtBtagsEta_ = fs->make<TH1F>("HighPtBtagsEta","HighPtBtagsEta", 70, -3.5 , 3.5);
+  HighPtBtagsEta_ = fs->make<TH1F>("HighPtBtagsEta","HighPtBtagsEta", 30, -3. , 3.);
   NrHighPtBtags_ = fs->make<TH1F>("NrHighPtBtags","NrHighPtBtags", 7, -0.5, 6.5);
 
-  LowPtBtagsEta_ = fs->make<TH1F>("LowPtBtagsEta","LowPtBtagsEta", 70, -3.5 , 3.5);
+  LowPtBtagsEta_ = fs->make<TH1F>("LowPtBtagsEta","LowPtBtagsEta", 30, -3. , 3.);
   NrLowPtBtags_ = fs->make<TH1F>("NrLowPtBtags","NrLowPtBtags", 7, -0.5, 6.5);
 
-  dPhiBtagMET_=fs->make<TH1F>("dPhiBtagMET","dPhi(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_=fs->make<TH1F>("dPhiBtagMET","dPhi(Btag,MET)", 31, 0., 3.1);
 
   // Btags for >= 1 btag
-  BtagsPt_1b_ = fs->make<TH1F>("BtagsPt_1b","BtagsPt_1b", 50, 0.,500.);
-  BtagsEta_1b_ = fs->make<TH1F>("BtagsEta_1b","BtagsEta_1b", 70, -3.5 , 3.5);
+  BtagsPt_1b_ = fs->make<TH1F>("BtagsPt_1b","BtagsPt_1b", 60, 0.,600.);
+  BtagsEta_1b_ = fs->make<TH1F>("BtagsEta_1b","BtagsEta_1b", 30, -3. , 3.);
   
-  HighPtBtagsEta_1b_ = fs->make<TH1F>("HighPtBtagsEta_1b","HighPtBtagsEta_1b", 70, -3.5 , 3.5);
+  HighPtBtagsEta_1b_ = fs->make<TH1F>("HighPtBtagsEta_1b","HighPtBtagsEta_1b", 30, -3. , 3.);
   
-  LowPtBtagsEta_1b_ = fs->make<TH1F>("LowPtBtagsEta_1b","LowPtBtagsEta_1b", 70, -3.5 , 3.5);
+  LowPtBtagsEta_1b_ = fs->make<TH1F>("LowPtBtagsEta_1b","LowPtBtagsEta_1b", 30, -3. , 3.);
   
-  dPhiBtagMET_1b_ =fs->make<TH1F>("dPhiBtagMET_1b","dPhi(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_1b_ =fs->make<TH1F>("dPhiBtagMET_1b","dPhi(Btag,MET)", 31, 0., 3.1);
 
   // Btags for >= 2 btags
-  BtagsPt_2b_ = fs->make<TH1F>("BtagsPt_2b","BtagsPt_2b", 50, 0.,500.);
-  BtagsEta_2b_ = fs->make<TH1F>("BtagsEta_2b","BtagsEta_2b", 70, -3.5 , 3.5);
+  BtagsPt_2b_ = fs->make<TH1F>("BtagsPt_2b","BtagsPt_2b", 60, 0.,600.);
+  BtagsEta_2b_ = fs->make<TH1F>("BtagsEta_2b","BtagsEta_2b", 30, -3. , 3.);
   
-  HighPtBtagsEta_2b_ = fs->make<TH1F>("HighPtBtagsEta_2b","HighPtBtagsEta_2b", 70, -3.5 , 3.5);
+  HighPtBtagsEta_2b_ = fs->make<TH1F>("HighPtBtagsEta_2b","HighPtBtagsEta_2b", 30, -3. , 3.);
   
-  LowPtBtagsEta_2b_ = fs->make<TH1F>("LowPtBtagsEta_2b","LowPtBtagsEta_2b", 70, -3.5 , 3.5);
+  LowPtBtagsEta_2b_ = fs->make<TH1F>("LowPtBtagsEta_2b","LowPtBtagsEta_2b", 30, -3. , 3.);
   
-  dPhiBtagMET_2b_=fs->make<TH1F>("dPhiBtagMET_2b","dPhi(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_2b_=fs->make<TH1F>("dPhiBtagMET_2b","dPhi(Btag,MET)", 31, 0., 3.1);
+
+  // Btags for >= 3 btags
+  BtagsPt_3b_ = fs->make<TH1F>("BtagsPt_3b","BtagsPt_3b", 60, 0.,600.);
+  BtagsEta_3b_ = fs->make<TH1F>("BtagsEta_3b","BtagsEta_3b", 30, -3. , 3.);
+  
+  HighPtBtagsEta_3b_ = fs->make<TH1F>("HighPtBtagsEta_3b","HighPtBtagsEta_3b", 30, -3. , 3.);
+  
+  LowPtBtagsEta_3b_ = fs->make<TH1F>("LowPtBtagsEta_3b","LowPtBtagsEta_3b", 30, -3. , 3.);
+  
+  dPhiBtagMET_3b_=fs->make<TH1F>("dPhiBtagMET_3b","dPhi(Btag,MET)", 31, 0., 3.1);
 
 }
 
@@ -353,6 +363,36 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
       
       dPhiBtagMET_2b_->Fill(dPhiMinBtag_2b,weight);
+    }
+
+  //------------------------------------------------------
+  // Kinematics of B-tagged jets - events with >= 3 btags
+  //------------------------------------------------------
+  
+  if(bjets->size()>2)
+    {
+      double dPhiMinBtag_3b=10;
+      
+      // Loop over b-tagged jets ("btags")
+      for(int idx=0; idx < (int)bjets->size(); ++idx)
+	{
+	  BtagsPt_3b_->Fill((*bjets)[idx].pt(),weight);
+	  BtagsEta_3b_->Fill((*bjets)[idx].eta(),weight);
+	  
+	  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
+	  if(dPhi<dPhiMinBtag_3b) dPhiMinBtag_3b=dPhi;
+	  
+	  if((*bjets)[idx].pt()>240)
+	    {
+	      HighPtBtagsEta_3b_->Fill((*bjets)[idx].eta(),weight);
+	    }
+	  else
+	    {
+	      LowPtBtagsEta_3b_->Fill((*bjets)[idx].eta(),weight);
+	    }      
+	}
+      
+      dPhiBtagMET_3b_->Fill(dPhiMinBtag_3b,weight);
     }
 }
 

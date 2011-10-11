@@ -114,6 +114,16 @@ class BtagAnalyzer : public edm::EDAnalyzer {
     
   TH1F* dPhiBtagMET_2b_;
 
+  // Btags for >= 3 btags
+  TH1F* BtagsPt_3b_;
+  TH1F* BtagsEta_3b_;
+    
+  TH1F* HighPtBtagsEta_3b_;
+    
+  TH1F* LowPtBtagsEta_3b_;
+    
+  TH1F* dPhiBtagMET_3b_;
+
 };  
 
 #endif  
