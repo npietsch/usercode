@@ -63,7 +63,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* LowPtJetsBdisc_;
   TH1F* NrLowPtJets_;
   
-  TH1F* dRJetMET_;
+  TH1F* dPhiJetMET_;
 
   // Bjets
   TH1F* BjetsPt_;
@@ -79,7 +79,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* LowPtBjetsBdisc_;
   TH1F* NrLowPtBjets_;
   
-  TH1F* dRBjetMET_;
+  TH1F* dPhiBjetMET_;
 
   // Btags
   TH1F* BtagsPt_;
@@ -92,7 +92,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* LowPtBtagsEta_;
   TH1F* NrLowPtBtags_;
   
-  TH1F* dRBtagMET_;
+  TH1F* dPhiBtagMET_;
 
   // Btags for >= 1 btag
   TH1F* BtagsPt_1b_;
@@ -102,7 +102,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
     
   TH1F* LowPtBtagsEta_1b_;
  
-  TH1F* dRBtagMET_1b_;
+  TH1F* dPhiBtagMET_1b_;
 
   // Btags for >= 2 btags
   TH1F* BtagsPt_2b_;
@@ -112,7 +112,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
     
   TH1F* LowPtBtagsEta_2b_;
     
-  TH1F* dRBtagMET_2b_;
+  TH1F* dPhiBtagMET_2b_;
 
 };  
 

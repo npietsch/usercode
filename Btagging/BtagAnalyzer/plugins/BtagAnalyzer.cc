@@ -52,7 +52,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   LowPtJetsBdisc_ = fs->make<TH1F>("LowPtJetsBdisc","LowPtJetsBdisc", 160, -20., 20.);
   NrLowPtJets_ = fs->make<TH1F>("NrLowPtJets","NrLowPtJets", 7, -0.5, 6.5);
 
-  dRJetMET_=fs->make<TH1F>("dRJetMET","dR(Jet,MET)", 16, 0., 3.2);
+  dPhiJetMET_=fs->make<TH1F>("dPhiJetMET","dPhi(Jet,MET)", 16, 0., 3.2);
 
   // Bjets
   BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 50, 0.,500.);
@@ -68,7 +68,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   LowPtBjetsBdisc_ = fs->make<TH1F>("LowPtBjetsBdisc","LowPtBjetsBdisc", 160, -20., 20.);
   NrLowPtBjets_ = fs->make<TH1F>("NrLowPtBjets","NrLowPtBjets", 7, -0.5, 6.5);
 
-  dRBjetMET_=fs->make<TH1F>("dRBjetMET","dR(Bjet,MET)", 16, 0., 3.2);
+  dPhiBjetMET_=fs->make<TH1F>("dPhiBjetMET","dPhi(Bjet,MET)", 16, 0., 3.2);
 
   // Btags
   BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 50, 0.,500.);
@@ -81,7 +81,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   LowPtBtagsEta_ = fs->make<TH1F>("LowPtBtagsEta","LowPtBtagsEta", 70, -3.5 , 3.5);
   NrLowPtBtags_ = fs->make<TH1F>("NrLowPtBtags","NrLowPtBtags", 7, -0.5, 6.5);
 
-  dRBtagMET_=fs->make<TH1F>("dRBtagMET","dR(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_=fs->make<TH1F>("dPhiBtagMET","dPhi(Btag,MET)", 16, 0., 3.2);
 
   // Btags for >= 1 btag
   BtagsPt_1b_ = fs->make<TH1F>("BtagsPt_1b","BtagsPt_1b", 50, 0.,500.);
@@ -91,7 +91,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   
   LowPtBtagsEta_1b_ = fs->make<TH1F>("LowPtBtagsEta_1b","LowPtBtagsEta_1b", 70, -3.5 , 3.5);
   
-  dRBtagMET_1b_ =fs->make<TH1F>("dRBtagMET_1b","dR(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_1b_ =fs->make<TH1F>("dPhiBtagMET_1b","dPhi(Btag,MET)", 16, 0., 3.2);
 
   // Btags for >= 2 btags
   BtagsPt_2b_ = fs->make<TH1F>("BtagsPt_2b","BtagsPt_2b", 50, 0.,500.);
@@ -101,7 +101,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   
   LowPtBtagsEta_2b_ = fs->make<TH1F>("LowPtBtagsEta_2b","LowPtBtagsEta_2b", 70, -3.5 , 3.5);
   
-  dRBtagMET_2b_=fs->make<TH1F>("dRBtagMET_2b","dR(Btag,MET)", 16, 0., 3.2);
+  dPhiBtagMET_2b_=fs->make<TH1F>("dPhiBtagMET_2b","dPhi(Btag,MET)", 16, 0., 3.2);
 
 }
 
@@ -190,7 +190,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   int HighPtJets=0;
   int LowPtJets=0;
-  double dRMin=10;
+  double dPhiMin=10;
   
   //Loop over jets
   for(int idx=0; idx < (int)jets->size(); ++idx)
@@ -199,8 +199,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       JetsEta_->Fill((*jets)[idx].eta(),weight);
       JetsBdisc_->Fill((*jets)[idx].bDiscriminator("trackCountingHighEffBJetTags"),weight);
       
-      double dR=abs(deltaR((*jets)[idx].eta(),(*jets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
-      if(dR<dRMin) dRMin=dR;
+      double dPhi=abs(deltaPhi((*jets)[idx].phi(),(*met)[0].phi()));
+      if(dPhi<dPhiMin) dPhiMin=dPhi;
       
       if((*jets)[idx].pt()>240)
 	{
@@ -220,7 +220,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   NrHighPtJets_->Fill(HighPtJets,weight);
   NrLowPtJets_->Fill(LowPtJets,weight);
 
-  dRJetMET_->Fill(dRMin,weight);
+  dPhiJetMET_->Fill(dPhiMin,weight);
 
   //------------------------------------------------------
   // Kinematics of jets that can be matched to b-quarks
@@ -228,7 +228,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   int HighPtBjets=0;
   int LowPtBjets=0;
-  double dRMinBjet=10;
+  double dPhiMinBjet=10;
   
   //Loop over jets that can be natched to b-quarks
   for(int idx=0; idx < (int)matchedBjets->size(); ++idx)
@@ -237,8 +237,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       BjetsEta_->Fill((*matchedBjets)[idx].eta(),weight);
       BjetsBdisc_->Fill((*matchedBjets)[idx].bDiscriminator("trackCountingHighEffBJetTags"),weight);
       
-      double dR=abs(deltaR((*matchedBjets)[idx].eta(),(*matchedBjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
-      if(dR<dRMinBjet) dRMinBjet=dR;
+      double dPhi=abs(deltaPhi((*matchedBjets)[idx].phi(),(*met)[0].phi()));
+      if(dPhi<dPhiMinBjet) dPhiMinBjet=dPhi;
       
       if((*matchedBjets)[idx].pt()>240)
 	{
@@ -258,7 +258,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   NrHighPtBjets_->Fill(HighPtBjets,weight);
   NrLowPtBjets_->Fill(LowPtBjets,weight);
 
-  dRBjetMET_->Fill(dRMinBjet,weight);
+  dPhiBjetMET_->Fill(dPhiMinBjet,weight);
 
   //------------------------------------------------------
   // Kinematics of B-tagged jets ("btags")
@@ -266,7 +266,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   int HighPtBtags=0;
   int LowPtBtags=0;
-  double dRMinBtag=10;
+  double dPhiMinBtag=10;
   
   //Loop over b-tagged jets ("btags")
   for(int idx=0; idx < (int)bjets->size(); ++idx)
@@ -274,8 +274,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       BtagsPt_->Fill((*bjets)[idx].pt(),weight);
       BtagsEta_->Fill((*bjets)[idx].eta(),weight);
             
-      double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
-      if(dR<dRMinBtag) dRMinBtag=dR;
+      double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
+      if(dPhi<dPhiMinBtag) dPhiMinBtag=dPhi;
       
       if((*bjets)[idx].pt()>240)
 	{
@@ -293,7 +293,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   NrHighPtBtags_->Fill(HighPtBtags,weight);
   NrLowPtBtags_->Fill(LowPtBtags,weight);
 
-  dRBtagMET_->Fill(dRMinBtag,weight);
+  dPhiBtagMET_->Fill(dPhiMinBtag,weight);
 
   //------------------------------------------------------
   // Kinematics of B-tagged jets - events with >= 1 btags
@@ -301,7 +301,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(bjets->size()>0)
     {
-      double dRMinBtag_1b=10;
+      double dPhiMinBtag_1b=10;
       
       // Loop over b-tagged jets ("btags")
       for(int idx=0; idx < (int)bjets->size(); ++idx)
@@ -309,8 +309,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  BtagsPt_1b_->Fill((*bjets)[idx].pt(),weight);
 	  BtagsEta_1b_->Fill((*bjets)[idx].eta(),weight);
 	  	  
-	  double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
-	  if(dR<dRMinBtag_1b) dRMinBtag_1b=dR;
+	  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
+	  if(dPhi<dPhiMinBtag_1b) dPhiMinBtag_1b=dPhi;
 	  
 	  if((*bjets)[idx].pt()>240)
 	    {
@@ -322,7 +322,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	    }      
 	}
       
-      dRBtagMET_1b_->Fill(dRMinBtag_1b,weight);
+      dPhiBtagMET_1b_->Fill(dPhiMinBtag_1b,weight);
     }
   
   //------------------------------------------------------
@@ -331,7 +331,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   if(bjets->size()>1)
     {
-      double dRMinBtag_2b=10;
+      double dPhiMinBtag_2b=10;
       
       // Loop over b-tagged jets ("btags")
       for(int idx=0; idx < (int)bjets->size(); ++idx)
@@ -339,8 +339,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  BtagsPt_2b_->Fill((*bjets)[idx].pt(),weight);
 	  BtagsEta_2b_->Fill((*bjets)[idx].eta(),weight);
 	  
-	  double dR=abs(deltaR((*bjets)[idx].eta(),(*bjets)[idx].phi(),(*met)[0].eta(),(*met)[0].phi()));
-	  if(dR<dRMinBtag_2b) dRMinBtag_2b=dR;
+	  double dPhi=abs(deltaPhi((*bjets)[idx].phi(),(*met)[0].phi()));
+	  if(dPhi<dPhiMinBtag_2b) dPhiMinBtag_2b=dPhi;
 	  
 	  if((*bjets)[idx].pt()>240)
 	    {
@@ -352,7 +352,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	    }      
 	}
       
-      dRBtagMET_2b_->Fill(dRMinBtag_2b,weight);
+      dPhiBtagMET_2b_->Fill(dPhiMinBtag_2b,weight);
     }
 }
 
