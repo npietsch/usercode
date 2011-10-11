@@ -469,7 +469,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   Canvases[c->first] = tmpC;
   tmpC->cd();
   float legSize = .05 + (.05*min((int)c->second.size(),4));
-  TLegend *leg = new TLegend(.7,.7,.99,.99);
+  TLegend *leg = new TLegend(.65,.6,.99,.99);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
   leg->SetLineColor(0);
