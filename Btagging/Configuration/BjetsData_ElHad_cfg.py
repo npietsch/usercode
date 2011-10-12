@@ -56,21 +56,26 @@ process.analyzeBtags1l_2 = analyzeBtags.clone()
 process.analyzeBtags1e_1 = analyzeBtags.clone()
 process.analyzeBtags1e_2 = analyzeBtags.clone()
 
+process.analyzeTightBtags1l_1 = analyzeBtags.clone()
+process.analyzeTightBtags1l_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1l_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1l_2.bjets = "tightTrackHighEffBjets"
 
 #--------------------------
 # electron selection path
 #--------------------------
 
-process.analyzeBtags1e = cms.Path(#process.printGenParticles *
-                                  process.preselectionElHTAllData *
-                                  process.makeObjects *
-                                  process.ElHadSelection *
-                                  process.electronSelection*
-                                  process.jetSelection*
-                                  process.analyzeBtags1e_1 *
-                                  process.metSelection *
-                                  process.analyzeBtags1e_2
-                                  )
+## process.analyzeBtags1e = cms.Path(#process.printGenParticles *
+##                                   process.preselectionElHTAllData *
+##                                   process.makeObjects *
+##                                   process.ElHadSelection *
+##                                   process.electronSelection*
+##                                   process.jetSelection*
+##                                   process.analyzeBtags1e_1 *
+##                                   process.metSelection *
+##                                   process.analyzeBtags1e_2
+##                                   )
 
 
 process.analyzeBtags1l = cms.Path(#process.printGenParticles *
@@ -83,3 +88,14 @@ process.analyzeBtags1l = cms.Path(#process.printGenParticles *
                                   process.metSelection *
                                   process.analyzeBtags1l_2
                                   )
+
+process.analyzeTightBtags1l = cms.Path(#process.printGenParticles *
+                                       process.preselectionElHTAllData *
+                                       process.makeObjects *
+                                       process.ElHadSelection *
+                                       process.electronSelection*
+                                       process.jetSelection*
+                                       process.analyzeTightBtags1l_1 *
+                                       process.metSelection *
+                                       process.analyzeTightBtags1l_2
+                                       )

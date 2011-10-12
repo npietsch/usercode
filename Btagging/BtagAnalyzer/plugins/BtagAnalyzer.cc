@@ -39,7 +39,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   //Dummy2_->SetDefaultSumw2(true);
   
   // Jets
-  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 60, 0.,600.);
+  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 70, 0.,700.);
   JetsEta_ = fs->make<TH1F>("JetsEta","JetsEta", 30, -3. , 3.);
   JetsBdisc_ = fs->make<TH1F>("JetsBdisc","JetsBdisc", 80, -10., 30.);
   NrJets_ = fs->make<TH1F>("NrJets","NrJets", 13, -0.5, 12.5);
@@ -55,7 +55,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   dPhiJetMET_=fs->make<TH1F>("dPhiJetMET","dPhi(Jet,MET)", 31, 0., 3.1);
 
   // Bjets
-  BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 60, 0.,600.);
+  BjetsPt_ = fs->make<TH1F>("BjetsPt","BjetsPt", 70, 0.,700.);
   BjetsEta_ = fs->make<TH1F>("BjetsEta","BjetsEta", 30, -3. , 3.);
   BjetsBdisc_ = fs->make<TH1F>("BjetsBdisc","BjetsBdisc", 80, -10., 30.);
   NrBjets_ = fs->make<TH1F>("NrBjets","NrBjets", 7, -0.5, 6.5);
@@ -71,7 +71,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   dPhiBjetMET_=fs->make<TH1F>("dPhiBjetMET","dPhi(Bjet,MET)", 31, 0., 3.1);
 
   // Btags
-  BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 60, 0.,600.);
+  BtagsPt_ = fs->make<TH1F>("BtagsPt","BtagsPt", 70, 0.,700.);
   BtagsEta_ = fs->make<TH1F>("BtagsEta","BtagsEta", 30, -3. , 3.);
   NrBtags_ = fs->make<TH1F>("NrBtags","NrBtags", 7, -0.5, 6.5);
 
@@ -84,7 +84,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   dPhiBtagMET_=fs->make<TH1F>("dPhiBtagMET","dPhi(Btag,MET)", 31, 0., 3.1);
 
   // Btags for >= 1 btag
-  BtagsPt_1b_ = fs->make<TH1F>("BtagsPt_1b","BtagsPt_1b", 60, 0.,600.);
+  BtagsPt_1b_ = fs->make<TH1F>("BtagsPt_1b","BtagsPt_1b", 70, 0.,700.);
   BtagsEta_1b_ = fs->make<TH1F>("BtagsEta_1b","BtagsEta_1b", 30, -3. , 3.);
   
   HighPtBtagsEta_1b_ = fs->make<TH1F>("HighPtBtagsEta_1b","HighPtBtagsEta_1b", 30, -3. , 3.);
@@ -94,7 +94,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   dPhiBtagMET_1b_ =fs->make<TH1F>("dPhiBtagMET_1b","dPhi(Btag,MET)", 31, 0., 3.1);
 
   // Btags for >= 2 btags
-  BtagsPt_2b_ = fs->make<TH1F>("BtagsPt_2b","BtagsPt_2b", 60, 0.,600.);
+  BtagsPt_2b_ = fs->make<TH1F>("BtagsPt_2b","BtagsPt_2b", 70, 0.,700.);
   BtagsEta_2b_ = fs->make<TH1F>("BtagsEta_2b","BtagsEta_2b", 30, -3. , 3.);
   
   HighPtBtagsEta_2b_ = fs->make<TH1F>("HighPtBtagsEta_2b","HighPtBtagsEta_2b", 30, -3. , 3.);
@@ -104,7 +104,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   dPhiBtagMET_2b_=fs->make<TH1F>("dPhiBtagMET_2b","dPhi(Btag,MET)", 31, 0., 3.1);
 
   // Btags for >= 3 btags
-  BtagsPt_3b_ = fs->make<TH1F>("BtagsPt_3b","BtagsPt_3b", 60, 0.,600.);
+  BtagsPt_3b_ = fs->make<TH1F>("BtagsPt_3b","BtagsPt_3b", 70, 0.,700.);
   BtagsEta_3b_ = fs->make<TH1F>("BtagsEta_3b","BtagsEta_3b", 30, -3. , 3.);
   
   HighPtBtagsEta_3b_ = fs->make<TH1F>("HighPtBtagsEta_3b","HighPtBtagsEta_3b", 30, -3. , 3.);

@@ -59,6 +59,24 @@ process.analyzeBtags1e_2 = analyzeBtags.clone()
 process.analyzeBtags1l_1 = analyzeBtags.clone()
 process.analyzeBtags1l_2 = analyzeBtags.clone()
 
+process.analyzeTightBtags1m_1 = analyzeBtags.clone()
+process.analyzeTightBtags1m_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1e_1 = analyzeBtags.clone()
+process.analyzeTightBtags1e_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1l_1 = analyzeBtags.clone()
+process.analyzeTightBtags1l_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1m_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1m_2.bjets = "tightTrackHighEffBjets"
+
+process.analyzeTightBtags1e_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1e_2.bjets = "tightTrackHighEffBjets"
+
+process.analyzeTightBtags1l_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1l_2.bjets = "tightTrackHighEffBjets"
+
 #-------------------------------------------------
 # Temporary
 #-------------------------------------------------
@@ -124,4 +142,56 @@ process.analyzeBtags1l = cms.Path(#process.printGenParticles *
                                   process.analyzeBtags1l_1 *
                                   process.metSelection *
                                   process.analyzeBtags1l_2
+                                  )
+
+
+#--------------------------
+# muon selection path
+#--------------------------
+
+process.analyzeTightBtags1m = cms.Path(#process.printGenParticles *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.MuHadSelection *
+                                  process.muonSelection*
+                                  process.jetSelection*
+                                  process.analyzeTightBtags1m_1 *
+                                  process.metSelection *
+                                  process.analyzeTightBtags1m_2
+                                  )
+
+#--------------------------
+# electron selection path
+#--------------------------
+
+process.analyzeTightBtags1e = cms.Path(#process.printGenParticles *
+                                  process.preselectionElHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.ElHadSelection *
+                                  process.electronSelection*
+                                  process.jetSelection*
+                                  process.analyzeTightBtags1e_1 *
+                                  process.metSelection *
+                                  process.analyzeTightBtags1e_2
+                                  )
+
+#--------------------------
+# combined selection path
+#--------------------------
+
+process.analyzeTightBtags1l = cms.Path(#process.printGenParticles *
+                                  process.preselectionLepHTMC2 *
+                                  process.makeObjects *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.LepHadSelection *
+                                  process.leptonSelection*
+                                  process.jetSelection*
+                                  process.analyzeTightBtags1l_1 *
+                                  process.metSelection *
+                                  process.analyzeTightBtags1l_2
                                   )
