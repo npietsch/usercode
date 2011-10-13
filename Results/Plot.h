@@ -563,7 +563,8 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetBorderSize(1);
-  TText *text=label->AddText("L=2104 pb^{-1}");
+  TText *text=label->AddText("L=2.131 pb^{-1}");
+  //TText *text=label->AddText("L=2.166 pb^{-1}");
   text->SetTextAlign(22);
   label->Draw("same");
 
@@ -584,7 +585,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   //tmpC->Modified();
   //tmpC->Update();
   
-  tmpC->SaveAs(c->first+".pdf");
+  tmpC->SaveAs(c->first+"_tight.pdf");
 
   return 1;
 }
@@ -774,7 +775,7 @@ void plotSet::setBounds(std::vector<TH1*>& hist, bool log, bool twoD) {
 
   // In the case of empty histograms, set an arbitrary range.
   // Otherwise this can cause a TPad::Range exception when drawing.
-  double Max = hist_maximum(hist[i_max])*(log? 2.5 : 1.5);
+  double Max = hist_maximum(hist[i_max])*(log? 2.5 : 1.05);
   double min = log ? 0.5 * (max(hist_minimum(hist[i_min]), 0.4)) : 0;
   //double min = log ? 0.1 : 0;
   if (Max <= min)   Max = min + 1;

@@ -21,6 +21,7 @@ vector<unsigned int> FillColors;
 vector<unsigned int> FillStyles;
 
 vector<TString> Selections;
+vector<TString> DataSelections;
 vector<TString> Histograms;
 
 int Btagging()
@@ -83,8 +84,8 @@ int Btagging()
   // Specify integrated luminosity (in pb^-1) and event weights
   //--------------------------------------------------------------
   
-  Int_t Luminosity=2104;
-  //Int_t Luminosity=1965;
+  Int_t Luminosity=2131; // Muon
+  //Int_t Luminosity=2166; // Electron
 
   Int_t NGQCD=1;
   Double_t XSQCD=1;
@@ -112,7 +113,13 @@ int Btagging()
 
   Int_t NGLM13=77000;
   Double_t XSLM13=6.899;
-  
+
+  //--------------------------------------------
+  //--------------------------------------------
+  // ATTENTION: IS QCD SCALED BY A FACTOR 2?
+  //--------------------------------------------
+  //--------------------------------------------
+
   Double_t WeightQCD=0.001*(Luminosity*(XSQCD))/NGQCD;
   Double_t WeightTTJets=(Luminosity*(XSTTJets))/NGTTJets;
   Double_t WeightDY=(Luminosity*(XSDY))/NGDY;
@@ -181,21 +188,22 @@ int Btagging()
   // push back selection step to vector<int> Selections;
   //--------------------------------------------------------------
 
-  Selections.push_back("1m_2");
+  Selections.push_back("analyzeBtags1m_2");
+  
+  DataSelections.push_back("analyzeBtags1l_2");
 
   //--------------------------------------------------------------
   // push back histogram to vector<int> Selections;
   //--------------------------------------------------------------
 
-  Histograms.push_back("JetsPt");
-
-//   Histograms.push_back("LowPtJetsBdisc");
-//   Histograms.push_back("HighPtJetsBdisc");
+  Histograms.push_back("LowPtJetsBdisc");
+  Histograms.push_back("HighPtJetsBdisc");
 //   Histograms.push_back("NrBtags");
 //   Histograms.push_back("LowPtBtagsEta");
 //   Histograms.push_back("HighPtBtagsEta");
-//   //Histograms.push_back("dPhiBtagMET");
-  Histograms.push_back("BtagsPt");
+//   Histograms.push_back("dPhiBtagMET");
+//   Histograms.push_back("BtagsPt");
+//   Histograms.push_back("JetsPt");
 //   Histograms.push_back("BtagsPt_1b");
 //   Histograms.push_back("BtagsPt_2b");
 
@@ -208,6 +216,8 @@ int Btagging()
   Xmin.push_back(1);
   Xmin.push_back(1);
   Xmin.push_back(1);
+  Xmin.push_back(1);
+  Xmin.push_back(4);
   Xmin.push_back(4);
   Xmin.push_back(1);
   Xmin.push_back(1);
@@ -217,71 +227,156 @@ int Btagging()
   Xmax.push_back(1);
   Xmax.push_back(1);
   Xmax.push_back(1);
+  Xmax.push_back(1);
+  Xmax.push_back(24);
   Xmax.push_back(24);
   Xmax.push_back(1);
   Xmax.push_back(1);
   
-  //--------------------------------------------------------------
-  // Calculate Integrals und push back scale factors
-  //--------------------------------------------------------------
+//   //--------------------------------------------------------------
+//   // Calculate scale factors and ratios
+//   //--------------------------------------------------------------
 
-  for(int h=0; h<(int)Histograms.size(); ++h)
-    {
-      double xmin=Xmin[h];
-      double xmax=Xmax[h];
+//   double xmin2=25;
+//   double xmax2=5;
+
+//   for(int h=0; h<(int)Histograms.size(); ++h)
+//     {
+//       double DataSum=0;
+//       double AllMC=0;
+//       double DataSumErr=0;
+//       double AllMCErr=0;
       
-      // if no histogram should be normalized
-      if(Normalize==-1)
-	{
-	  xmin=0;
-	  xmax=0;
-	}
-      // if all histograms should be normalized
-      if(Normalize==1)
-	{
-	  if(xmin==0 && xmax==0)
-	    {
-	      xmin=1;
-	      xmax=1;
-	    }
-	}
+//       double CombinedRatio=1;
+//       double CombinedRatioErr=0;
+      
+//       for(int sel=0; sel<(int)Selections.size(); ++sel)
+// 	{ 
+// 	  std::cout << "----------------------------------" << std::endl;
+// 	  std::cout << Histograms[h] << std::endl;
+// 	  std::cout << "----------------------------------" << std::endl;
+	  
+// 	  double xmin=Xmin[h];
+// 	  double xmax=Xmax[h];
+	  
+// 	  // if no histogram should be normalized
+// 	  if(Normalize==-1)
+// 	    {
+// 	      xmin=0;
+// 	      xmax=0;
+// 	    }
+// 	  // if all histograms should be normalized
+// 	  if(Normalize==1)
+// 	    {
+// 	      if(xmin==0 && xmax==0)
+// 		{
+// 	      xmin=1;
+// 	      xmax=1;
+// 		}
+// 	    }
+	  
+// 	  // if MC background should not be normalized to data
+// 	  if(xmin==0 && xmax==0)
+// 	    {
+// 	      Scales.push_back(1);
+// 	      std::cout << "Scale factor: 1"  << std::endl;
+// 	    }
+// 	  else
+// 	    {
+// 	      // if MC background should be normalized to data in whol region
+// 	      if(xmin==1 && xmax==1)
+// 		{
+// 		  xmin=0;
+// 		  TH1F* Hist=(TH1F*)Files[0]->Get(Selections[sel]+"/"+Histograms[h]);
+// 		  xmax=Hist->GetNbinsX()+1;
+// 		}
+	      
+// 	      double MCSum=0;
+// 	      double MCSumErr=0;
+// 	      double Data=0;
+// 	      double DataErr=0;
+// 	      double SF=1;
+// 	      double SFErr=0;
+	      
+// 	      double MCSum2=0;
+// 	      double MCSum2Err=0;
+// 	      double Data2=0;
+// 	      double Data2Err=0;
+// 	      double Ratio=1;
+// 	      double RatioErr=0;
+	      
+// 	      for(int mcx=0; mcx<(f-s); ++mcx)
+// 		{
+// 		  TH1F* hist=(TH1F*)Files[mcx]->Get(Selections[sel]+"/"+Histograms[h]);
+// 		  double Int=(Weights[mcx])*(hist->Integral(xmin,xmax));
+// 		  double Err=(Weights[mcx])*(sqrt(hist->Integral(xmin,xmax)));
+// 		  MCSum=MCSum+Int;
+// 		  MCSumErr=MCSumErr+Err;
+		  
+// 		  double Int2=(Weights[mcx])*(hist->Integral(xmin2,xmax2));
+// 		  double Err2=(Weights[mcx])*(sqrt(hist->Integral(xmin2,xmax2)));
+// 		  MCSum2=MCSum2+Int2;
+// 		  MCSum2Err=MCSum2Err+Err2;
+// 		}   
+ 
+// 	      int ddx=0;
 
-      // if MC background should not be normalized to data
-      if(xmin==0 && xmax==0)
-	{
-	  Scales.push_back(1);
-	  std::cout << "Scale factor: 1"  << std::endl;
-	}
-      else
-	{
-	  // if MC background should be normalized to data in whol region
-	  if(xmin==1 && xmax==1)
-	    {
-	      xmin=0;
-	      TH1F* Hist=(TH1F*)Files[0]->Get("analyzeBtags"+Selections[0]+"/"+Histograms[h]);
-	      xmax=Hist->GetNbinsX();
-	    }
-	  
-	  double BackgroundSum=0;
-	  double Signal=0;
-	  double SF=1;
-	  
-	  for(int mcx=0; mcx<(f-s); ++mcx)
-	    {
-	      TH1F* hist=(TH1F*)Files[mcx]->Get("analyzeBtags"+Selections[0]+"/"+Histograms[h]);
-	      double Int=(Weights[mcx])*(hist->Integral(xmin,xmax));
-	      BackgroundSum=BackgroundSum+Int;
-	    }    
-	  
-	  TH1F* hist=(TH1F*)Files[f-s]->Get("analyzeBtags"+Selections[0]+"/"+Histograms[h]);
-	  
-	  Signal=hist->Integral(xmin,xmax);
-	  SF=Signal/BackgroundSum;
-	  
-	  Scales.push_back(SF);
-	  std::cout << "Scale factor:" << SF << std::endl;
-	}
-    }
+// 	      if(sel==0) ddx=f-s;
+// 	      if(sel==1) ddx=f-s+1;
+
+// 	      TH1F* hist=(TH1F*)Files[ddx]->Get(DataSelections[0]+"/"+Histograms[h]);	  
+// 	      Data=hist->Integral(xmin,xmax);
+// 	      Data2=hist->Integral(xmin2,xmax2);
+	      
+// 	      DataErr=sqrt(Data);
+// 	      Data2Err=sqrt(Data2);
+	      
+// 	      SF=Data/MCSum;
+// 	      Scales.push_back(SF);
+// 	      SFErr=sqrt(pow((DataErr/MCSum),2)+pow((Data*MCSumErr/(MCSum*MCSum)),2));	  
+// 	      std::cout << "Scale factor for " << Names[ddx] << ": " << SF << " +- " << SFErr<< std::endl;
+	      
+// 	      Ratio=Data2/(SF*MCSum2);
+	      
+// 	      RatioErr=sqrt(pow((Data2Err/(SF*MCSum2)),2)+pow((Data2*SFErr/(SF*SF*MCSum2)),2)+pow((Data2*MCSum2Err/(SF*MCSum2*MCSum2)),2));
+	      
+// 	      std::cout << "Ratio for " << Names[ddx] << ": " << Ratio << " +- " << RatioErr << std::endl;
+	      
+// 	      //Backgrounds.push_back(SF*MCSum2);
+// 	      //BackgroundsErr.push_back(sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2)));
+	      
+// 	      DataSum=DataSum+Data2;
+// 	      AllMC=AllMC+SF*MCSum2;
+// 	      AllMCErr=AllMCErr+sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2));
+
+// 	      std::cout << "Data2: " << Data2 << std::endl;
+// 	      std::cout << "DataSum: " << DataSum << std::endl;
+
+// 	      std::cout << "MCSum2: " << MCSum2 << std::endl;
+// 	      std::cout << "AllMC: " << AllMC << std::endl;
+
+// 	      std::cout << "MCErr: " << sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2)) << std::endl;
+// 	      std::cout << "AllMCErr: " << AllMCErr << std::endl;
+
+// 	    }		     
+// 	}
+
+//       CombinedRatio=DataSum/AllMC;
+//       DataSumErr=sqrt(DataSum);
+//       CombinedRatioErr=sqrt(pow((DataSumErr/AllMC),2)+pow((DataSum*AllMCErr/(AllMC*AllMC)),2));
+      
+//       std::cout << "DataSum: " << DataSum << std::endl;
+//       std::cout << "DataSumErr: " << DataSumErr << std::endl;
+
+//       std::cout << "AllMC: " << AllMC << std::endl;
+//       std::cout << "AllMCErr: " << AllMCErr << std::endl;
+
+//       std::cout << pow((DataSumErr*AllMC),2) << std::endl;
+
+//       std::cout << pow((DataSum*AllMCErr),2) << std::endl;
+
+//       std::cout << "Combined ratio:" << CombinedRatio << " +- " << CombinedRatioErr << std::endl;  
+//     }
 
   //--------
   // Plot
@@ -291,9 +386,13 @@ int Btagging()
 
   for(int h=0; h<Histograms.size(); ++h)
     { 
+      std::cout << Histograms[h] << std::endl;
+      
       for(int i=0; i<f-s; ++i)
 	{
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBtags"+Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i]*Scales[h],LineColors[i],FillStyles[i],FillColors[i]);
+	  plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+
+	  //plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i]*Scales[h],LineColors[i],FillStyles[i],FillColors[i]);
 	}       
     }
   
@@ -303,10 +402,11 @@ int Btagging()
 	{
 	  for(int i=f-s; i<f; ++i)
 	    {
-	      plots.addPlot((TH1F*)Files[i]->Get("analyzeBtags"+Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	      plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	    }       
 	}
     }
   
   plots.printAll("ylog");
+  //plots.printAll();
 }
