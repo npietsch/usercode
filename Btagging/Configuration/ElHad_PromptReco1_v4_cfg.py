@@ -1,5 +1,4 @@
-from BjetsData_ElHad_cfg import *
-
+from BjetsData_cfg import *
 
 # Choose input files
 process.source = cms.Source("PoolSource",

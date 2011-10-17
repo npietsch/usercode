@@ -56,6 +56,18 @@ process.analyzeBtags1m_2 = analyzeBtags.clone()
 process.analyzeBtags1e_1 = analyzeBtags.clone()
 process.analyzeBtags1e_2 = analyzeBtags.clone()
 
+process.analyzeTightBtags1m_1 = analyzeBtags.clone()
+process.analyzeTightBtags1m_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1e_1 = analyzeBtags.clone()
+process.analyzeTightBtags1e_2 = analyzeBtags.clone()
+
+process.analyzeTightBtags1m_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1m_2.bjets = "tightTrackHighEffBjets"
+
+process.analyzeTightBtags1e_1.bjets = "tightTrackHighEffBjets"
+process.analyzeTightBtags1e_2.bjets = "tightTrackHighEffBjets"
+
 #--------------------------
 # muon selection path
 #--------------------------
@@ -67,8 +79,10 @@ process.analyzeBtags1m = cms.Path(#process.printGenParticles *
                                   process.muonSelection*
                                   process.jetSelection*
                                   process.analyzeBtags1m_1 *
+                                  process.analyzeTightBtags1m_1 *
                                   process.metSelection *
-                                  process.analyzeBtags1m_2
+                                  process.analyzeBtags1m_2 *
+                                  process.analyzeTightBtags1m_2
                                   )
 
 #--------------------------
@@ -82,7 +96,9 @@ process.analyzeBtags1e = cms.Path(#process.printGenParticles *
                                   process.electronSelection*
                                   process.jetSelection*
                                   process.analyzeBtags1e_1 *
+                                  process.analyzeTightBtags1e_1 *
                                   process.metSelection *
-                                  process.analyzeBtags1e_2
+                                  process.analyzeBtags1e_2 *
+                                  process.analyzeTightBtags1e_2
                                   )
 
