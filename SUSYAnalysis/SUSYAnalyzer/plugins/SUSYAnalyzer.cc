@@ -332,7 +332,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(useEvtWgt_)
     {
-      std::cout << "use event weight" << std::endl;
+      //std::cout << "use event weight" << std::endl;
       edm::Handle<double> weightHandle;
       evt.getByLabel(weight_, weightHandle);
       weightPU=*weightHandle;
