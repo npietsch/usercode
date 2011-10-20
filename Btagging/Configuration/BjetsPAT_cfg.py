@@ -84,6 +84,14 @@ process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-1
 
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
+process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
+process.bTagSFEventWeight.jets=cms.InputTag("goodJets")
+process.bTagSFEventWeight.bTagAlgo=cms.string("SSVHEM")
+process.bTagSFEventWeight.sysVar   = cms.string("") # bTagSFUp,
+#bTagSFDown, misTagSFUp, misTagSFDown possible;
+#process.bTagSFEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
+process.bTagSFEventWeight.verbose=cms.int32(0)
+
 #--------------------------
 # muon selection path
 #--------------------------
@@ -91,6 +99,7 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 process.analyzeBtags1m = cms.Path(#process.printGenParticles *
                                   process.preselectionMuHTMC2 *
                                   process.makeObjects *
+                                  process.bTagSFEventWeight *
                                   process.eventWeightPU *
                                   process.weightProducer *
                                   process.MuHadSelection *
