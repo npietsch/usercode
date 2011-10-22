@@ -14,8 +14,13 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   filename_( cfg.getParameter<std::string>      ("filename"  ) )
 {
   produces<double>();
+  produces< std::vector<double> > ("effBTagEventGrid");
 
-  produces< std::vector<double>  > ("effBTagEventGrid");  
+  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+  produces< std::vector<double> > ("RA4bWeights");
+  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+
+
   // set the edges of the last histo bin
   maxPt_ = 250.;
   maxEta_= 3.;
@@ -113,7 +118,10 @@ BtagEventWeight::~BtagEventWeight()
 void
 BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 {
-    //Setup measurement from database
+
+  //std::cout << "Test Btagging" << std::endl;
+  
+  //Setup measurement from database
   setup.get<BTagPerformanceRecord>().get( "BTAG"+bTagAlgo_, perfHBTag);
   setup.get<BTagPerformanceRecord>().get( "MISTAG"+bTagAlgo_, perfHMisTag);
   
@@ -128,6 +136,12 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
       pt  = jet->pt();
       eta = std::abs(jet->eta());
       if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5){
+
+	// -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+	std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
+	std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
+	// -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+
 	oneMinusBEffies               .push_back(1.- effBTag(pt, eta));
 	oneMinusBEffies_scaled        .push_back(1.- (effBTag(pt, eta) * effBTagSF(pt, eta)));
       }
@@ -138,6 +152,12 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
       }
   
       else{
+
+	// -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+	std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
+	std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
+	// -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+	
 	oneMinusBMistags               .push_back(1.- effMisTag(pt, eta));
 	oneMinusBMistags_scaled        .push_back(1.-(effMisTag(pt, eta) * effMisTagSF(pt, eta)));
       }
@@ -155,7 +175,20 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 
   std::auto_ptr<double> bTagSFEventWeight(new double);
   *bTagSFEventWeight = effBTagEventSF;    
-  evt.put(bTagSFEventWeight);  
+  evt.put(bTagSFEventWeight);
+
+  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+//   for(int i=0; i<(int)oneMinusBEffies.size(); ++i)
+//     {
+//       std::cout << "oneMinusBEffies " << i << " :" << oneMinusBEffies[i] << std::endl;
+//     }
+
+  std::vector<double> test = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1);
+
+  std::auto_ptr<std::vector<double> > RA4bWeights( new std::vector<double> );
+  *RA4bWeights = test; 
+  evt.put(RA4bWeights,"RA4bWeights");
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
 
 //dk
 //  std::vector<double> blah = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1.,1.);
@@ -338,8 +371,8 @@ oneMinusBMistags.begin(); mis2 != oneMinusBMistags.end(); ++mis2){
 //dk
 // we produce a vector of weights 
 std::vector<double> BtagEventWeight::effBTagEvent0123(std::vector<double> oneMinusBEffies, 
-                                                        std::vector<double> oneMinusBMistags,
-                                                        double scl_eff, double scl_mis){
+						      std::vector<double> oneMinusBMistags,
+						      double scl_eff, double scl_mis){
  
  	// include scaling for grid - oneMinusBEffies and oneMinusBMistags are local copies
 	for(unsigned i=0;i<oneMinusBEffies.size();i++)  oneMinusBEffies[i] =1-(1-oneMinusBEffies[i]) *scl_eff;
@@ -392,6 +425,6 @@ void
 }
 
 
-//#include "FWCore/Framework/interface/MakerMacros.h"
-//DEFINE_FWK_MODULE(BtagEventWeight);
+#include "FWCore/Framework/interface/MakerMacros.h"
+DEFINE_FWK_MODULE( BtagEventWeight );
 

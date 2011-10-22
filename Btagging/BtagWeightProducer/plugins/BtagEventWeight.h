@@ -68,7 +68,6 @@ class BtagEventWeight : public edm::EDProducer {
   
   /// file with histos
   TFile * file_;
-
   
   double effBTag    (double, double);
   double effBTagSF  (double, double);

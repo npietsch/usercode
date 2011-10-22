@@ -43,6 +43,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   edm::InputTag weight_;
   edm::InputTag PUSource_;
   edm::InputTag RA2weight_;
+  edm::InputTag btagWeight_;
   bool useEvtWgt_;
 
   // dummy histograms

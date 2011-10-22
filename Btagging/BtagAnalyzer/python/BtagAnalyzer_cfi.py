@@ -15,5 +15,6 @@ analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
                               weight = cms.InputTag("eventWeightPU:eventWeightPU"),
                               PUInfo = cms.InputTag("addPileupInfo"),
                               RA2weight = cms.InputTag("weightProducer:weight"),
+                              btagWeight = cms.InputTag("btagEventWeight:RA4bWeights"),
                               useEventWeight = cms.bool(False)
                               )

@@ -1,0 +1,14 @@
+<use name="root"/>
+<use name="rootgpad"/>
+<use name="FWCore/MessageLogger"/>
+<use name="PhysicsTools/CandUtils"/>
+<use name="DataFormats/PatCandidates"/>
+<use name="CondFormats/JetMETObjects"/>
+<use name="RecoBTag/PerformanceDB"/>
+<use name="RecoBTag/Records"/>
+
+<export>
+   <lib name="BtaggingBtagWeightProducer"/>
+   <use name="FWCore/MessageLogger"/>
+   <use name="root"/>
+</export>

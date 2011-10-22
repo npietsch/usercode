@@ -27,6 +27,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   weight_           (cfg.getParameter<edm::InputTag>("weight") ),
   PUSource_         (cfg.getParameter<edm::InputTag>("PUInfo") ),
   RA2weight_        (cfg.getParameter<edm::InputTag>("RA2weight") ),
+  btagWeight_       (cfg.getParameter<edm::InputTag>("btagWeight") ),
   useEvtWgt_        (cfg.getParameter<bool>("useEventWeight") )
 
 { 
@@ -163,12 +164,23 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double weight=1;
   double weightPU=1;
   double weightRA2=1;
+  double weightBtag=1;
 
   if(useEvtWgt_)
     {
       edm::Handle<double> weightHandle;
       evt.getByLabel(weight_, weightHandle);
       weightPU=*weightHandle;
+
+      edm::Handle<vector<double> > btagWeightHandle;
+      evt.getByLabel(btagWeight_, btagWeightHandle);
+      //weightBtag=(*btagWeightHandle)[bin_];
+
+      std::cout << "BtagAnalyzer: " << (*btagWeightHandle).size() << std::endl;
+      std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[0] << std::endl;
+      std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[1] << std::endl;
+      std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[2] << std::endl;
+      std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[3] << std::endl;
 
       edm::Handle<edm::View<PileupSummaryInfo> > PUInfo;
       evt.getByLabel(PUSource_, PUInfo);
@@ -189,7 +201,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       evt.getByLabel(RA2weight_, RA2weightHandle);
       weightRA2=*RA2weightHandle;
 
-      weight=weightPU*weightRA2;
+      weight=weightPU*weightRA2*weightBtag;
     }
 
   //------------------------------------------------------

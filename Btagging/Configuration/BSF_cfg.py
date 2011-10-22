@@ -265,6 +265,14 @@ process.source = cms.Source("PoolSource",
     '/store/user/npietsch/TTJets_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_100_1_Lza.root'
     )
 )
+#-----------------------------------------------------------------
+# Dummy output module
+#-----------------------------------------------------------------
+process.out = cms.OutputModule("PoolOutputModule",
+    outputCommands = cms.untracked.vstring('drop *'),
+    dropMetaData = cms.untracked.string("DROPPED"),                                     
+    fileName = cms.untracked.string('Summer11.root')
+)
 
 #-----------------------------------------------------------------
 # Load modules for preselection. Can be configured later
@@ -332,10 +340,9 @@ process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 #process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
 process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
-process.btagEventWeight.bTagAlgo=cms.string("THCEM")
-process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
-#bTagSFDown, misTagSFUp, misTagSFDown possible;
-#process.btagEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
+process.btagEventWeight.bTagAlgo=cms.string("TCHEM")
+#process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
+#bTagSFDown, misTagSFUp, misTagSFDown possible
 process.btagEventWeight.verbose=cms.int32(0)
 
 #--------------------------
@@ -358,21 +365,34 @@ process.analyzeBtags1m = cms.Path(#process.printGenParticles *
                                   process.analyzeTightBtags1m_2
                                   )
 
-#--------------------------
-# electron selection path
-#--------------------------
 
-process.analyzeBtags1e = cms.Path(#process.printGenParticles *
-                                  process.preselectionElHTMC2 *
-                                  process.makeObjects *
-                                  process.eventWeightPU *
-                                  process.weightProducer *
-                                  process.ElHadSelection *
-                                  process.electronSelection*
-                                  process.jetSelection*
-                                  process.analyzeBtags1e_1 *
-                                  process.analyzeTightBtags1e_1 *
-                                  process.metSelection *
-                                  process.analyzeBtags1e_2 *
-                                  process.analyzeTightBtags1e_2
-                                  )
+## process.EventSelection = cms.PSet(
+##     SelectEvents = cms.untracked.PSet(
+##     SelectEvents = cms.vstring('analyzeBtags1m'
+##                                )
+##     )
+##     )
+
+## process.out = cms.OutputModule("PoolOutputModule",
+##                                process.EventSelection,
+##                                #outputCommands = cms.untracked.vstring('drop *'),
+##                                #dropMetaData = cms.untracked.string('DROPPED'),
+##                                fileName = cms.untracked.string('Summer11.root')
+##                                )
+
+## ## # Specify what to keep in the event content
+## ## from PhysicsTools.PatAlgos.patEventContent_cff import *
+## ## process.out.outputCommands += patEventContentNoCleaning
+## ## process.out.outputCommands += patExtraAodEventContent
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
+
+## ## #from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+## ## #process.out.outputCommands += SUSYEventContent
+## ## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+## ## #process.out.outputCommands += tqafEventContent
+
+## process.outpath = cms.EndPath(process.out)
+
