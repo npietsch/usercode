@@ -316,7 +316,7 @@ process.analyzeTightBtags1e_2.bjets = "tightTrackHighEffBjets"
 #process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
 #-------------------------------------------------
-# Load and configure module for event weighting
+# Load and configure modules for event weighting
 #-------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
@@ -329,13 +329,14 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
 process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 
-process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
-process.bTagSFEventWeight.jets=cms.InputTag("goodJets")
-process.bTagSFEventWeight.bTagAlgo=cms.string("SSVHEM")
-process.bTagSFEventWeight.sysVar   = cms.string("") # bTagSFUp,
+#process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
+process.btagEventWeight.jets=cms.InputTag("goodJets")
+process.btagEventWeight.bTagAlgo=cms.string("THCEM")
+process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
 #bTagSFDown, misTagSFUp, misTagSFDown possible;
-#process.bTagSFEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
-process.bTagSFEventWeight.verbose=cms.int32(0)
+#process.btagEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
+process.btagEventWeight.verbose=cms.int32(0)
 
 #--------------------------
 # muon selection path
@@ -344,7 +345,7 @@ process.bTagSFEventWeight.verbose=cms.int32(0)
 process.analyzeBtags1m = cms.Path(#process.printGenParticles *
                                   process.preselectionMuHTMC2 *
                                   process.makeObjects *
-                                  process.bTagSFEventWeight *
+                                  process.btagEventWeight *
                                   process.eventWeightPU *
                                   process.weightProducer *
                                   process.MuHadSelection *

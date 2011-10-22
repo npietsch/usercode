@@ -392,6 +392,6 @@ void
 }
 
 
-#include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE( BtagEventWeight );
+//#include "FWCore/Framework/interface/MakerMacros.h"
+//DEFINE_FWK_MODULE(BtagEventWeight);
 
