@@ -53,7 +53,11 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
 
   // bool
   bool useEvtWgt_;
-           	
+  bool useBtagEffEvtWgt_;
+
+  // int
+  int btagBin_;
+   	
   //--------------------------------
   // histograms      	
   //--------------------------------

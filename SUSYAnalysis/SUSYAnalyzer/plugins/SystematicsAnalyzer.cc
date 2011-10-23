@@ -30,7 +30,10 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   BtagEffWeights_ (cfg.getParameter<edm::InputTag>("BtagEffWeights") ),
   BtagEffGrid_    (cfg.getParameter<edm::InputTag>("BtagEffGrid") ),
   // bool
-  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") )
+  useEvtWgt_        (cfg.getParameter<bool>("useEventWeight") ),
+  useBtagEffEvtWgt_ (cfg.getParameter<bool>("useBtagEffEventWeight") ),
+  // int
+  btagBin_          (cfg.getParameter<int>("btagBin") )
 
 { 
   edm::Service<TFileService> fs;
@@ -101,14 +104,29 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       
       weightRA2=*RA2WeightHandle;
 
-      // Btag weight
-      // ...
+      if(useBtagEffEvtWgt_)
+	{
+	  // Btag weight
+	  edm::Handle<std::vector<double> > BtagEffWeightsHandle;
+	  evt.getByLabel(BtagEffWeights_, BtagEffWeightsHandle); 
 
-      //std::cout << "--------------------------------" << std::endl;
-      //std::cout << "weightPU: "      << weightPU      << std::endl;
-      //std::cout << "weightRA2: "     << weightRA2     << std::endl;
-      //std::cout << "weightBtagEff: " << weightBtagEff << std::endl;
-      //std::cout << "------------------------ -------" << std::endl;
+	  weightBtagEff=(*BtagEffWeightsHandle)[btagBin_];
+	
+	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle).size() << std::endl;
+	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[0] << std::endl;
+	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[1] << std::endl;
+	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[2] << std::endl;
+	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[3] << std::endl;
+	  
+	  double summBtagWgt=(*BtagEffWeightsHandle)[0]+(*BtagEffWeightsHandle)[1]+(*BtagEffWeightsHandle)[2]+(*BtagEffWeightsHandle)[3];
+	  std::cout << "SystematicsAnalyzer: " << summBtagWgt << std::endl;
+	}
+
+      std::cout << "--------------------------------" << std::endl;
+      std::cout << "weightPU: "      << weightPU      << std::endl;
+      std::cout << "weightRA2: "     << weightRA2     << std::endl;
+      std::cout << "weightBtagEff: " << weightBtagEff << std::endl;
+      std::cout << "------------------------ -------" << std::endl;
       
       // calculate overall weight
       weight=weightPU*weightRA2*weightBtagEff;

@@ -207,9 +207,9 @@ tightJets = selectedPatJets.clone(src = 'goodJets',
                                   'pt > 100.'
                                   )
 
-#------------------------------------
-# bjet collections, input: goodJets
-#------------------------------------
+#----------------------------------------------------
+# track counting bjet collections, input: goodJets
+#-----------------------------------------------------
 
 ## create looseTrackHighPurBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
@@ -250,6 +250,23 @@ lightJets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 tightTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
                                                cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 10.2'
+                                               )
+
+
+#--------------------------------------------------------------
+# simple secondary vertex bjet collections, input: goodJets
+#--------------------------------------------------------------
+
+## create mediumSSVHighPurBjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+mediumSSVHighPurBjets = selectedPatJets.clone(src = 'goodJets',
+                                                cut = 'bDiscriminator(\"simpleSecondaryVertexHighPurBJetTags\") > 1.74 '
+                                                )
+
+## create tightSSVHighEffBjet collection
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+tightSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
+                                               cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 2.0'
                                                )
 
 #------------------------------
@@ -578,6 +595,35 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourMediumTrackHighPurBjets = countPatJets.clone(src = 'mediumTrackHighPurBjets',
                                                  minNumber = 4
                                                  )
+
+#------------------------------
+# SSV countFilter
+#------------------------------
+
+## select events with exactly 0 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactlyOneMediumSSVHighEffBjet = countPatJets.clone(src = 'mediumSSVHighEffBjets',
+                                                    minNumber = 0,
+                                                    maxNumber = 0
+                                                    )
+## select events with exactly 1 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactlyOneMediumSSVHighEffBjet = countPatJets.clone(src = 'mediumSSVHighEffBjets',
+                                                    minNumber = 1,
+                                                    maxNumber = 1
+                                                    )
+## select events with exactly 2 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactlyTwoMediumSSVHighEffBjets = countPatJets.clone(src = 'mediumSSVHighEffBjets',
+                                                     minNumber = 2,
+                                                     maxNumber = 2
+                                                     )
+## select events with exactly 3 medium bjets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+exactlyThreeMediumSSVHighEffBjets = countPatJets.clone(src = 'mediumSSVHighEffBjets',
+                                                       minNumber = 3,
+                                                       maxNumber = 3
+                                                       )
 #------------------------------
 # MET countFilter
 #------------------------------
@@ -624,6 +670,14 @@ filterMediumHT.Cut = 300
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
 filterTightHT.Cut = 350
+
+
+## HT filter
+from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
+
+filterMediumMHT = filterHT.clone()
+filterMediumMHT.jets = "goodJets"
+filterMediumMHT.Cut = 40
 
 ## DiLepton Filter
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
@@ -748,14 +802,17 @@ ViennaHTSelection = cms.Sequence(filterViennaHT)
 tightHTSelection = cms.Sequence(filterTightHT)
 
 MuHadSelection = cms.Sequence(filterMediumHT *
+                              filterMediumMHT *
                               oneLooseMuon
                               )
 
 ElHadSelection = cms.Sequence(filterMediumHT *
+                              filterMediumMHT *
                               oneLooseElectron
                               )
 
 LepHadSelection = cms.Sequence(filterMediumHT *
+                               filterMediumMHT *
                                oneLooseLepton
                                )
 
