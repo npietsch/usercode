@@ -3,6 +3,9 @@
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/SUSYAnalyzer.h"
 DEFINE_FWK_MODULE(SUSYAnalyzer);
 
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/SystematicsAnalyzer.h"
+DEFINE_FWK_MODULE(SystematicsAnalyzer);
+
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/SUSYGenEventAnalyzer.h"
 DEFINE_FWK_MODULE(SUSYGenEventAnalyzer);
 
