@@ -176,11 +176,14 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       evt.getByLabel(btagWeight_, btagWeightHandle);
       //weightBtag=(*btagWeightHandle)[bin_];
 
-      std::cout << "BtagAnalyzer: " << (*btagWeightHandle).size() << std::endl;
+//       std::cout << "BtagAnalyzer: " << (*btagWeightHandle).size() << std::endl;
       std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[0] << std::endl;
       std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[1] << std::endl;
       std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[2] << std::endl;
       std::cout << "BtagAnalyzer: " << (*btagWeightHandle)[3] << std::endl;
+
+      double summedBtagWeights=(*btagWeightHandle)[0]+(*btagWeightHandle)[1]+(*btagWeightHandle)[2]+(*btagWeightHandle)[3];
+      std::cout << "BtagAnalyzer: " << summedBtagWeights << std::endl;
 
       edm::Handle<edm::View<PileupSummaryInfo> > PUInfo;
       evt.getByLabel(PUSource_, PUInfo);

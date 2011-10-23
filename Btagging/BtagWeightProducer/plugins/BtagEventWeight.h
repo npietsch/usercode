@@ -58,7 +58,11 @@ class BtagEventWeight : public edm::EDProducer {
   std::map<std::string,PerformanceResult::ResultType> measureMap_;
   edm::ESHandle<BtagPerformance> perfHBTag;
   edm::ESHandle<BtagPerformance> perfHMisTag;
-  
+
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
+  edm::ESHandle<BtagPerformance> perfHTestTag;
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
+
   /// histogram container
   /// for output
   std::map<std::string, TH1F*> hists_;
