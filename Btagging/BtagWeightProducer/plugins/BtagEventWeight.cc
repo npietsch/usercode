@@ -158,7 +158,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5){
       
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-//       std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
+      std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
 //       //std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
 //       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
@@ -168,6 +168,13 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     }
     
     else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4){
+
+//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      std::cout << "effBTagCjet(pt, eta): " << (effBTagCjet (pt, eta)) << std::endl;
+//       //std::cout << "1.- effBTagCjet(pt, eta): " << (1.- effBTagCjet (pt, eta)) << std::endl;
+//       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
+//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+
       oneMinusBMistags               .push_back(1.- effBTagCjet(pt, eta));
       oneMinusBMistags_scaled        .push_back(1.-(effBTagCjet(pt, eta) * effBTagSF(pt, eta)));
     }
@@ -175,7 +182,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     else{
       
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-//       std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
+      std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
 //       //std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
 //       std::cout << "effMisTagSF(pt, eta): " << (effMisTagSF (pt, eta)) << std::endl;
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --

@@ -259,15 +259,15 @@ tightTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
 
 ## create mediumSSVHighPurBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
-mediumSSVHighPurBjets = selectedPatJets.clone(src = 'goodJets',
-                                                cut = 'bDiscriminator(\"simpleSecondaryVertexHighPurBJetTags\") > 1.74 '
-                                                )
+mediumSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
+                                              cut = 'bDiscriminator(\"simpleSecondaryVertexHighPurBJetTags\") > 1.74 '
+                                              )
 
 ## create tightSSVHighEffBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
-tightSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
-                                               cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 2.0'
-                                               )
+tightSSVHighPurBjets = selectedPatJets.clone(src = 'goodJets',
+                                             cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 2.0'
+                                             )
 
 #------------------------------
 # matched-jet collections
@@ -602,7 +602,7 @@ fourMediumTrackHighPurBjets = countPatJets.clone(src = 'mediumTrackHighPurBjets'
 
 ## select events with exactly 0 medium bjets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
-exactlyOneMediumSSVHighEffBjet = countPatJets.clone(src = 'mediumSSVHighEffBjets',
+exactlyZeroMediumSSVHighEffBjet = countPatJets.clone(src = 'mediumSSVHighEffBjets',
                                                     minNumber = 0,
                                                     maxNumber = 0
                                                     )
@@ -765,7 +765,9 @@ goodObjects = cms.Sequence(## loose leptons
                            tightTrackHighPurBjets *
                            looseTrackHighEffBjets *
                            mediumTrackHighEffBjets *
-                           tightTrackHighEffBjets
+                           tightTrackHighEffBjets *
+                           mediumSSVHighEffBjets *
+                           tightSSVHighPurBjets
                            )
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *

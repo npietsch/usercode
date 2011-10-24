@@ -298,12 +298,9 @@ process.analyzeSystematics_test1.useEventWeight = True
 process.analyzeSystematics_test1.useBtagEffEventWeight = True
 process.analyzeSystematics_test1.btagBin = 2
 
-#-------------------------------------------------
-# Temporary
-#-------------------------------------------------
-
-## produce printout of particle listings (for debugging)
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+process.analyzeSystematics_test2 = analyzeSystematics.clone() 
+process.analyzeSystematics_test2.useEventWeight = True
+process.analyzeSystematics_test2.useBtagEffEventWeight = False
 
 #-------------------------------------------------
 # Load and configure modules for event weighting
@@ -323,7 +320,7 @@ process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
 process.btagEventWeight.bTagAlgo=cms.string("SSVHEM")
-process.btagEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
+process.btagEventWeight.filename=cms.string("../../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
 #process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
 #bTagSFDown, misTagSFUp, misTagSFDown possible
 process.btagEventWeight.verbose=cms.int32(0)
@@ -333,39 +330,32 @@ process.btagEventWeight.verbose=cms.int32(0)
 # Test paths
 #--------------------------
 
-process.analyzeBtags_tes1 = cms.Path(#process.printGenParticles *
-                                     process.preselectionMuHTMC2 *
-                                     process.makeObjects *
-                                     process.btagEventWeight *
-                                     process.eventWeightPU *
-                                     process.weightProducer *
-                                     process.MuHadSelection *
-                                     process.muonSelection*
-                                     process.jetSelection*
-                                     process.analyzeSystematics_test1 *
-                                     process.metSelection
-                                     )
+process.analyzeBtags_test1 = cms.Path(process.preselectionMuHTMC2 *
+                                      process.makeObjects *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.MuHadSelection *
+                                      process.muonSelection*
+                                      process.jetSelection*
+                                      process.btagEventWeight *
+                                      #process.exactlyTwoMediumSSVHighEffBjets *
+                                      process.analyzeSystematics_test1 *
+                                      process.metSelection
+                                      )
 
 
-#--------------------------
-# muon selection path
-#--------------------------
-
-## process.analyzeBtags1m = cms.Path(#process.printGenParticles *
-##                                   process.preselectionMuHTMC2 *
-##                                   process.makeObjects *
-##                                   process.btagEventWeight *
-##                                   process.eventWeightPU *
-##                                   process.weightProducer *
-##                                   process.MuHadSelection *
-##                                   process.muonSelection*
-##                                   process.jetSelection*
-##                                   process.analyzeBtags1m_1 *
-##                                   process.analyzeTightBtags1m_1 *
-##                                   process.metSelection *
-##                                   process.analyzeBtags1m_2 #*
-##                                   process.analyzeTightBtags1m_2
-##                                   )
+process.analyzeBtags_test2 = cms.Path(process.preselectionMuHTMC2 *
+                                      process.makeObjects *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.MuHadSelection *
+                                      process.muonSelection*
+                                      process.jetSelection*
+                                      #process.btagEventWeight *
+                                      process.exactlyTwoMediumSSVHighEffBjets *
+                                      process.analyzeSystematics_test2 *
+                                      process.metSelection
+                                      )
 
 
 ## process.EventSelection = cms.PSet(
