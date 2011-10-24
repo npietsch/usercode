@@ -44,15 +44,16 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   Dummy2_=fs->make<TH2F>();
   Dummy2_->SetDefaultSumw2(true);
 
-  nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0., 50);
-  nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
-
   // Declare histograms for ABCD mehtod
   // ...
 
   // Declare histograms for control quantities
-  // ...
+  nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0.,  50  );
+  nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
 
+  MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
+  HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
+  MHT_ = fs->make<TH1F>("MHT","MhT", 40, 0.,  1000.);
 }
 
 SystematicsAnalyzer::~SystematicsAnalyzer()
@@ -62,7 +63,7 @@ SystematicsAnalyzer::~SystematicsAnalyzer()
 void
 SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
-  //--------------------------------------------------
+  //-------------------------------------------------
   // Fetch input collection from the event content
   //-------------------------------------------------
 
@@ -81,6 +82,11 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   // collection of PV vertices
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
+
+
+  //-------------------------------------------------
+  // Event weighting
+  //-------------------------------------------------
 
   double weight=1;
 
@@ -160,12 +166,41 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   // (*HANDELNAME)[INDEX].XY()
   // e.g. (*jets)[0].eta(), (*met)[0].et()
 
+
+  //...
+
+
   //-------------------------------------------------
   // control plots
   //-------------------------------------------------
 
   // number of primary vertices
   nPV_->Fill(PVSrc->size(), weight);
+
+
+  // MET, HT, MHT
+  double MET=(*met)[0].et();
+  double HT=0;
+  double MHT=0;
+
+  if(jets->size()>0)
+    {
+      reco::Particle::LorentzVector P4=(*jets)[0].p4();
+      for(int i=1; i< (int)jets->size(); ++i)
+	{
+	  P4=P4+(*jets)[i].p4();
+  	}   
+      MHT=P4.Et();
+    }
+  // keep HT calculation saparate from MHT calculation
+  for(int i=0; i<(int)jets->size();++i)
+    {
+      HT=HT+(*jets)[i].et();
+    }
+
+  MET_->Fill(MET,weight);
+  HT_->Fill(HT,weight);
+  MHT_->Fill(MHT,weight);
 }
 
 
