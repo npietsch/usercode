@@ -73,6 +73,9 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   TH1F* nPV_;
   TH1F* nPU_;
 
+  TH1F* MET_;
+  TH1F* HT_;
+  TH1F* MHT_;
 };  
 
 #endif  

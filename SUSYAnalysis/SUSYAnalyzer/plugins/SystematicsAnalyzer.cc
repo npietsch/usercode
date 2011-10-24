@@ -192,7 +192,7 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   	}   
       MHT=P4.Et();
     }
-  // keep HT calculation saparate from MHT calculation
+  // keep HT saparate from MHT calculation
   for(int i=0; i<(int)jets->size();++i)
     {
       HT=HT+(*jets)[i].et();
