@@ -671,11 +671,10 @@ filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
 filterTightHT.Cut = 400
 
-
 ## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
 
-filterMediumMHT = filterHT.clone()
+filterMediumMHT = filterMHT.clone()
 filterMediumMHT.jets = "goodJets"
 filterMediumMHT.Cut = 60
 

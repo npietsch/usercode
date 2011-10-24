@@ -53,7 +53,12 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
 
   MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
-  MHT_ = fs->make<TH1F>("MHT","MhT", 40, 0.,  1000.);
+  MHT_ = fs->make<TH1F>("MHT","MhT", 50, 0.,  1000.);
+
+  TCHE_= fs->make<TH1F>("TCHE","TCHE", 80, -20., 20.);
+  TCHP_= fs->make<TH1F>("TCHP","TCHP", 80, -20., 20.);
+  SSVHE_= fs->make<TH1F>("SSVHE","SSVHE", 48, -2, 10.);
+  SSVHP_= fs->make<TH1F>("SSVHP","SSVHP", 48, -2, 10.);
 }
 
 SystematicsAnalyzer::~SystematicsAnalyzer()
@@ -201,6 +206,15 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   MET_->Fill(MET,weight);
   HT_->Fill(HT,weight);
   MHT_->Fill(MHT,weight);
+
+  // bdisc
+  for(int i=0; i<(int)bjets->size();++i)
+    {
+      TCHE_->Fill((*bjets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      TCHP_->Fill((*bjets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+      SSVHE_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+      SSVHP_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
+    }
 }
 
 

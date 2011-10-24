@@ -39,12 +39,18 @@ ElHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_T
 ## Data trigger all
 MuHTTriggerAllData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*',
                                                     'HLT_Mu15_HT200_v*',
-                                                    'HLT_HT250_Mu15_PFMHT20_v*',],
+                                                    'HLT_HT250_Mu15_PFMHT20_v*',
+                                                    'HLT_HT250_Mu15_PFMHT40_v*',
+                                                    'HLT_HT300_Mu15_PFMHT40_v*'
+                                                    ],
                                         throw = False)
 
 ElHTTriggerAllData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*',
                                                     'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*',
-                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],
+                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*',
+                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_PFMHT25_v*',
+                                                    'HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_PFMHT40_v*'
+                                                    ],
                                         throw = False)
 
 ## AOD2PAT trigger

@@ -23,7 +23,7 @@ class MHTFilter : public edm::EDFilter {
  private:
   /// jet collection label
   edm::InputTag jets_;
-  /// cut on MHT, default values is 300 GeV
+  /// cut on MHT, default values is 60 GeV
   double Cut_;
 };  
 
