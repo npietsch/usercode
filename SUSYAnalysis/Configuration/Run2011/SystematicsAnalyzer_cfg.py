@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("RA4b") 
+process = cms.Process("RA4bSystematics") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
@@ -269,6 +269,7 @@ process.source = cms.Source("PoolSource",
 #-----------------------------------------------------------------
 # Dummy output module
 #-----------------------------------------------------------------
+
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
@@ -276,7 +277,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 )
 
 #-----------------------------------------------------------------
-# Load modules for preselection. Can be configured later
+# Load modules for preselection
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
@@ -288,9 +289,9 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-#----------------------------------------------------------------------------------------
-# Load modules for analysis on generator level, level of matched objects and reco-level
-#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------
+# Load modules for systematics study
+#-----------------------------------------------------------------
 
 from SUSYAnalysis.SUSYAnalyzer.SystematicsAnalyzer_cfi import *
 
@@ -308,10 +309,10 @@ process.analyzeSystematics_test2.useBtagEffEventWeight = False
 #-------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+## DataFile needs to be updated
 process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
@@ -322,10 +323,8 @@ process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
 process.btagEventWeight.bTagAlgo=cms.string("SSVHEM")
 process.btagEventWeight.filename=cms.string("../../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
-#process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
-#bTagSFDown, misTagSFUp, misTagSFDown possible
+#process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp, bTagSFDown, misTagSFUp, misTagSFDown possible
 process.btagEventWeight.verbose=cms.int32(0)
-
 
 #--------------------------
 # Test paths

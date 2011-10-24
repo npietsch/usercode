@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -23,7 +23,8 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
+#process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
+process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
@@ -298,12 +299,9 @@ process.analyzeSystematics_test1.useEventWeight = True
 process.analyzeSystematics_test1.useBtagEffEventWeight = True
 process.analyzeSystematics_test1.btagBin = 2
 
-#-------------------------------------------------
-# Temporary
-#-------------------------------------------------
-
-## produce printout of particle listings (for debugging)
-#process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+process.analyzeSystematics_test2 = analyzeSystematics.clone() 
+process.analyzeSystematics_test2.useEventWeight = True
+process.analyzeSystematics_test2.useBtagEffEventWeight = False
 
 #-------------------------------------------------
 # Load and configure modules for event weighting
@@ -323,49 +321,54 @@ process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
 process.btagEventWeight.bTagAlgo=cms.string("SSVHEM")
-process.btagEventWeight.filename=cms.string("../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
+process.btagEventWeight.filename=cms.string("../../SUSYAnalysis/SUSYUtils/data/Bjets.root")
 #process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
 #bTagSFDown, misTagSFUp, misTagSFDown possible
 process.btagEventWeight.verbose=cms.int32(0)
 
+#------------------------------------------------------------------------------------------------------------
+# Load module to estimate b-tag efficiency and mis-tag rate for c and light quark jets in simulated events
+#------------------------------------------------------------------------------------------------------------
+
+process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
+process.bTagEff = process.analyzeBTagEfficiency.clone()
+process.bTagEff.jets = "goodJets"
+process.bTagEff.binsPtB     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,350.,500.,
+process.bTagEff.binsEtaB    =  0.,0.45,0.9,1.2,1.65,2.1,2.4,3.
+process.bTagEff.binsPtL     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,300.,500.,
+process.bTagEff.binsEtaL    =  0.,0.8,1.6,2.4,3.
 
 #--------------------------
 # Test paths
 #--------------------------
 
-process.analyzeBtags_tes1 = cms.Path(#process.printGenParticles *
-                                     process.preselectionMuHTMC2 *
-                                     process.makeObjects *
-                                     process.btagEventWeight *
-                                     process.eventWeightPU *
-                                     process.weightProducer *
-                                     process.MuHadSelection *
-                                     process.muonSelection*
-                                     process.jetSelection*
-                                     process.analyzeSystematics_test1 *
-                                     process.metSelection
-                                     )
+process.analyzeBtags_test1 = cms.Path(process.preselectionMuHTMC2 *
+                                      process.makeObjects *
+                                      process.bTagEff *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.MuHadSelection *
+                                      process.muonSelection*
+                                      process.jetSelection*
+                                      process.btagEventWeight *
+                                      #process.exactlyTwoMediumSSVHighEffBjets *
+                                      process.analyzeSystematics_test1 *
+                                      process.metSelection
+                                      )
 
 
-#--------------------------
-# muon selection path
-#--------------------------
-
-## process.analyzeBtags1m = cms.Path(#process.printGenParticles *
-##                                   process.preselectionMuHTMC2 *
-##                                   process.makeObjects *
-##                                   process.btagEventWeight *
-##                                   process.eventWeightPU *
-##                                   process.weightProducer *
-##                                   process.MuHadSelection *
-##                                   process.muonSelection*
-##                                   process.jetSelection*
-##                                   process.analyzeBtags1m_1 *
-##                                   process.analyzeTightBtags1m_1 *
-##                                   process.metSelection *
-##                                   process.analyzeBtags1m_2 #*
-##                                   process.analyzeTightBtags1m_2
-##                                   )
+process.analyzeBtags_test2 = cms.Path(process.preselectionMuHTMC2 *
+                                      process.makeObjects *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.MuHadSelection *
+                                      process.muonSelection*
+                                      process.jetSelection*
+                                      #process.btagEventWeight *
+                                      process.exactlyTwoMediumSSVHighEffBjets *
+                                      process.analyzeSystematics_test2 *
+                                      process.metSelection
+                                      )
 
 
 ## process.EventSelection = cms.PSet(

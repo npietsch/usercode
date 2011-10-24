@@ -76,6 +76,8 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 	effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumLJetsTaggedPtEta")->Clone();
 	effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffLJetsTaggedPtEta")->Clone();
 	
+	if(verbose_>=1) std::cout <<" AHA1"<<std::endl;
+
 	/// re-calculation of b tag efficiencies as input might be corrupted due to hadd
 	if(effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta") &&
 	  effHists_.count("NumCJetsPtEta") && effHists_.count("NumCJetsTaggedPtEta") && effHists_.count("EffCJetsTaggedPtEta") &&
@@ -96,6 +98,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 	   std::cout<<"Eff.Histos not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
 	   filename_ = "";
 	 }
+	if(verbose_>=1) std::cout <<" AHA2"<<std::endl;
     }
     else{
       std::cout<<filename_<<" not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
@@ -192,7 +195,6 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     }
   }
   
-  
   //std::cout << "---------------------------" << std::endl;
   
   double effBTagEvent_unscaled = effBTagEvent( oneMinusBEffies, oneMinusBMistags );
@@ -270,8 +272,7 @@ double BtagEventWeight::effBTag(double jetPt, double jetEta)
   }
   else if(bTagAlgo_ == "SSVHEM") { result = 0.564/0.854;}
   if(verbose_>=2) std::cout<< "effBTag= "<<result<<std::endl;
-
-//   // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
 //   else
 //     {
 //       const BtagPerformance & perf = *(perfHTestTag.product());
@@ -287,8 +288,8 @@ double BtagEventWeight::effBTag(double jetPt, double jetEta)
 //       else result = 1.;
 //       if(verbose_>=2) std::cout<< "effBTag= "<< std::endl;
 //     }
-//   // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
-
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
+  
   return result;
 }
 
