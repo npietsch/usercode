@@ -661,23 +661,23 @@ filterViennaHT.Cut = 300
 
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
-filterLooseHT.Cut = 250
+filterLooseHT.Cut = 300
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 300
+filterMediumHT.Cut = 350
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
-filterTightHT.Cut = 350
+filterTightHT.Cut = 400
 
 
-## HT filter
+## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
 
 filterMediumMHT = filterHT.clone()
 filterMediumMHT.jets = "goodJets"
-filterMediumMHT.Cut = 40
+filterMediumMHT.Cut = 60
 
 ## DiLepton Filter
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *
