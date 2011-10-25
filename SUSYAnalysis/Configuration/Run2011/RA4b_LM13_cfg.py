@@ -1,6 +1,6 @@
 #-------------------------------------------
 # To run on the NAF, type:
-#
+# altan 
 # xport NJS_QUEUE=1 
 # nafJobSplitter.pl 16 RA4b_LM13_cfg.py
 #-------------------------------------------
