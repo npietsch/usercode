@@ -6,7 +6,7 @@ import FWCore.ParameterSet.Config as cms
 analyzeSystematics = cms.EDAnalyzer("SystematicsAnalyzer",
                                     ## collections of RA4b objects
                                     jets = cms.InputTag("goodJets"),
-                                    bjets = cms.InputTag("mediumSSVHighEffBjets"),  ## not needed anynore (?)
+                                    bjets = cms.InputTag("mediumTrackHighEffBjets"),
                                     muons = cms.InputTag("goodMuons"),
                                     electrons = cms.InputTag("goodElectrons"),
                                     met = cms.InputTag("patMETsPF"),

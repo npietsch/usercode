@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5000),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -294,12 +294,14 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 from SUSYAnalysis.SUSYAnalyzer.SystematicsAnalyzer_cfi import *
 
-process.analyzeSystematics_test1 = analyzeSystematics.clone() 
+process.analyzeSystematics_test1 = analyzeSystematics.clone()
+process.analyzeSystematics_test1.bjets = "mediumTrackHighEffBjets"
 process.analyzeSystematics_test1.useEventWeight = True
 process.analyzeSystematics_test1.useBtagEffEventWeight = True
 process.analyzeSystematics_test1.btagBin = 2
 
-process.analyzeSystematics_test2 = analyzeSystematics.clone() 
+process.analyzeSystematics_test2 = analyzeSystematics.clone()
+process.analyzeSystematics_test2.bjets = "mediumTrackHighEffBjets"
 process.analyzeSystematics_test2.useEventWeight = True
 process.analyzeSystematics_test2.useBtagEffEventWeight = False
 
@@ -320,7 +322,7 @@ process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 #process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
 process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
-process.btagEventWeight.bTagAlgo=cms.string("SSVHEM")
+process.btagEventWeight.bTagAlgo=cms.string("TCHEM")
 process.btagEventWeight.filename=cms.string("../../SUSYAnalysis/SUSYUtils/data/Bjets.root")
 #process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp,
 #bTagSFDown, misTagSFUp, misTagSFDown possible
@@ -333,6 +335,9 @@ process.btagEventWeight.verbose=cms.int32(0)
 process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
 process.bTagEff = process.analyzeBTagEfficiency.clone()
 process.bTagEff.jets = "goodJets"
+process.bTagEff.bTagAlgo = "trackCountingHighEffBJetTags"
+process.bTagEff.bTagDiscrCut = 3.3
+
 process.bTagEff.binsPtB     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,350.,500.,
 process.bTagEff.binsEtaB    =  0.,0.45,0.9,1.2,1.65,2.1,2.4,3.
 process.bTagEff.binsPtL     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,300.,500.,
@@ -344,16 +349,16 @@ process.bTagEff.binsEtaL    =  0.,0.8,1.6,2.4,3.
 
 process.analyzeBtags_test1 = cms.Path(process.preselectionMuHTMC2 *
                                       process.makeObjects *
-                                      process.bTagEff *
                                       process.eventWeightPU *
                                       process.weightProducer *
                                       process.MuHadSelection *
                                       process.muonSelection*
                                       process.jetSelection*
+                                      process.bTagEff *
                                       process.btagEventWeight *
                                       #process.exactlyTwoMediumSSVHighEffBjets *
-                                      process.analyzeSystematics_test1 *
-                                      process.metSelection
+                                      process.analyzeSystematics_test1 #*
+                                      #process.metSelection
                                       )
 
 
@@ -365,9 +370,9 @@ process.analyzeBtags_test2 = cms.Path(process.preselectionMuHTMC2 *
                                       process.muonSelection*
                                       process.jetSelection*
                                       #process.btagEventWeight *
-                                      process.exactlyTwoMediumSSVHighEffBjets *
-                                      process.analyzeSystematics_test2 *
-                                      process.metSelection
+                                      process.exactlyTwoMediumTrackHighEffBjets *
+                                      process.analyzeSystematics_test2 #*
+                                      #process.metSelection
                                       )
 
 

@@ -257,16 +257,16 @@ tightTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
 # simple secondary vertex bjet collections, input: goodJets
 #--------------------------------------------------------------
 
-## create mediumSSVHighPurBjet collection
+## create mediumSSVHighEffBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
-                                              cut = 'bDiscriminator(\"simpleSecondaryVertexHighPurBJetTags\") > 1.74 '
+                                              cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
                                               )
 
-## create tightSSVHighEffBjet collection
+## create tightSSVHighPurBjet collection
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 tightSSVHighPurBjets = selectedPatJets.clone(src = 'goodJets',
-                                             cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 2.0'
+                                             cut = 'bDiscriminator(\"simpleSecondaryVertexHighPurBJetTags\") > 2.0'
                                              )
 
 #------------------------------

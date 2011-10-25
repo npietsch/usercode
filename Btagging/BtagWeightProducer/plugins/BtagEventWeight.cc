@@ -22,7 +22,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 
 
   // set the edges of the last histo bin
-  maxPt_ = 250.;
+  maxPt_ = 500.;
   maxEta_= 3.;
   
   // laod TFile Service
@@ -40,65 +40,40 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
     file_ = new TFile((TString)filename_);
     if(!(file_->IsZombie())){
       if(verbose_>=1) std::cout<<filename_<<" opened"<<std::endl;
-//       effHists_["NumBJetsPt"]       = (TH1F*) file_->Get("bTagEff/NumBJetsPt")->Clone();
-//       effHists_["NumBJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/NumBJetsTaggedPt")->Clone();
-//       effHists_["EffBJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/EffBJetsTaggedPt")->Clone();
-//       effHists_["NumCJetsPt"]       = (TH1F*) file_->Get("bTagEff/NumCJetsPt")->Clone();
-//       effHists_["NumCJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/NumCJetsTaggedPt")->Clone();
-//       effHists_["EffCJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/EffCJetsTaggedPt")->Clone();
-//       effHists_["NumLJetsPt"]       = (TH1F*) file_->Get("bTagEff/NumLJetsPt")->Clone();
-//       effHists_["NumLJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/NumLJetsTaggedPt")->Clone();
-//       effHists_["EffLJetsTaggedPt"] = (TH1F*) file_->Get("bTagEff/EffLJetsTaggedPt")->Clone();
-//       
-//       /// re-calculation of b tag efficiencies as input might be corrupted due to hadd
-//       if(effHists_.count("NumBJetsPt") && effHists_.count("NumBJetsTaggedPt") && effHists_.count("EffBJetsTaggedPt") &&
-// 	 effHists_.count("NumCJetsPt") && effHists_.count("NumCJetsTaggedPt") && effHists_.count("EffCJetsTaggedPt") &&
-// 	 effHists_.count("NumBJetsPt") && effHists_.count("NumBJetsTaggedPt") && effHists_.count("EffBJetsTaggedPt")) {
-// 	
-// 	effHists_.find("EffBJetsTaggedPt")->second->Reset();
-//         effHists_.find("EffCJetsTaggedPt")->second->Reset();
-//         effHists_.find("EffLJetsTaggedPt")->second->Reset();
-//       
-//         effHists_.find("EffBJetsTaggedPt")->second->Divide(effHists_.find("NumBJetsTaggedPt")->second, 
-//             effHists_.find("NumBJetsPt")->second,1,1,"B");
-//         effHists_.find("EffCJetsTaggedPt")->second->Divide(effHists_.find("NumCJetsTaggedPt")->second, 
-//             effHists_.find("NumCJetsPt")->second,1,1,"B");
-//         effHists_.find("EffLJetsTaggedPt")->second->Divide(effHists_.find("NumLJetsTaggedPt")->second, 
-//             effHists_.find("NumLJetsPt")->second,1,1,"B");
+      effHists_["NumBJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumBJetsPtEta")->Clone();
+      effHists_["NumBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumBJetsTaggedPtEta")->Clone();
+      effHists_["EffBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffBJetsTaggedPtEta")->Clone();
+      effHists_["NumCJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumCJetsPtEta")->Clone();
+      effHists_["NumCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumCJetsTaggedPtEta")->Clone();
+      effHists_["EffCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffCJetsTaggedPtEta")->Clone();
+      effHists_["NumLJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumLJetsPtEta")->Clone();
+      effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumLJetsTaggedPtEta")->Clone();
+      effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffLJetsTaggedPtEta")->Clone();
       
-	effHists_["NumBJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumBJetsPtEta")->Clone();
-	effHists_["NumBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumBJetsTaggedPtEta")->Clone();
-	effHists_["EffBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffBJetsTaggedPtEta")->Clone();
-	effHists_["NumCJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumCJetsPtEta")->Clone();
-	effHists_["NumCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumCJetsTaggedPtEta")->Clone();
-	effHists_["EffCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffCJetsTaggedPtEta")->Clone();
-	effHists_["NumLJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumLJetsPtEta")->Clone();
-	effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumLJetsTaggedPtEta")->Clone();
-	effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffLJetsTaggedPtEta")->Clone();
+      if(verbose_>=1) std::cout <<" AHA1"<<std::endl;
+      
+      /// re-calculation of b tag efficiencies as input might be corrupted due to hadd
+      if(effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta") &&
+	 effHists_.count("NumCJetsPtEta") && effHists_.count("NumCJetsTaggedPtEta") && effHists_.count("EffCJetsTaggedPtEta") &&
+	 effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta"))
+	{
 	
-	if(verbose_>=1) std::cout <<" AHA1"<<std::endl;
-
-	/// re-calculation of b tag efficiencies as input might be corrupted due to hadd
-	if(effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta") &&
-	  effHists_.count("NumCJetsPtEta") && effHists_.count("NumCJetsTaggedPtEta") && effHists_.count("EffCJetsTaggedPtEta") &&
-	  effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta")) {
-	  
 	  effHists_.find("EffBJetsTaggedPtEta")->second->Reset();
 	  effHists_.find("EffCJetsTaggedPtEta")->second->Reset();
 	  effHists_.find("EffLJetsTaggedPtEta")->second->Reset();
-	
+	  
 	  effHists_.find("EffBJetsTaggedPtEta")->second->Divide(effHists_.find("NumBJetsTaggedPtEta")->second, 
-	  effHists_.find("NumBJetsPtEta")->second,1,1,"B");
+								effHists_.find("NumBJetsPtEta")->second,1,1,"B");
 	  effHists_.find("EffCJetsTaggedPtEta")->second->Divide(effHists_.find("NumCJetsTaggedPtEta")->second, 
-	  effHists_.find("NumCJetsPtEta")->second,1,1,"B");
+								effHists_.find("NumCJetsPtEta")->second,1,1,"B");
 	  effHists_.find("EffLJetsTaggedPtEta")->second->Divide(effHists_.find("NumLJetsTaggedPtEta")->second, 
-	  effHists_.find("NumLJetsPtEta")->second,1,1,"B");
-	 }
-	 else{
-	   std::cout<<"Eff.Histos not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
-	   filename_ = "";
-	 }
-	if(verbose_>=1) std::cout <<" AHA2"<<std::endl;
+								effHists_.find("NumLJetsPtEta")->second,1,1,"B");
+	}
+      else{
+	std::cout<<"Eff.Histos not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
+	filename_ = "";
+      }
+      if(verbose_>=1) std::cout <<" AHA2"<<std::endl;
     }
     else{
       std::cout<<filename_<<" not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
@@ -126,8 +101,6 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   
   measureMap_["BTAGNBEFFCORR"]=PerformanceResult::BTAGNBEFFCORR;
   measureMap_["BTAGNBERRCORR"]=PerformanceResult::BTAGNBERRCORR;
-
-
 }
 
 BtagEventWeight::~BtagEventWeight()
@@ -161,8 +134,8 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5){
       
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-      std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
-//       //std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
+       std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
+//       std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
 //       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       
@@ -173,8 +146,8 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4){
 
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-      std::cout << "effBTagCjet(pt, eta): " << (effBTagCjet (pt, eta)) << std::endl;
-//       //std::cout << "1.- effBTagCjet(pt, eta): " << (1.- effBTagCjet (pt, eta)) << std::endl;
+       std::cout << "effBTagCjet(pt, eta): " << (effBTagCjet (pt, eta)) << std::endl;
+//       std::cout << "1.- effBTagCjet(pt, eta): " << (1.- effBTagCjet (pt, eta)) << std::endl;
 //       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
 
@@ -185,8 +158,8 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     else{
       
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-      std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
-//       //std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
+       std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
+//       std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
 //       std::cout << "effMisTagSF(pt, eta): " << (effMisTagSF (pt, eta)) << std::endl;
 //       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       
