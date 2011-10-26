@@ -11,15 +11,12 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   bTagAlgo_( cfg.getParameter<std::string>      ("bTagAlgo") ),
   sysVar_  ( cfg.getParameter<std::string>      ("sysVar"  ) ),
   verbose_ ( cfg.getParameter<int>              ("verbose" ) ),
-  filename_( cfg.getParameter<std::string>      ("filename"  ) )
+  filename_( cfg.getParameter<std::string>      ("filename") ),
+  rootDir_ ( cfg.getParameter<std::string>      ("rootDir") )
 {
   produces<double>();
   produces< std::vector<double> > ("effBTagEventGrid");
-
-  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
   produces< std::vector<double> > ("RA4bWeights");
-  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-
 
   // set the edges of the last histo bin
   maxPt_ = 500.;
@@ -35,22 +32,26 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   hists_["effBTagEventSF"]     = fs->make<TH1F>( "effBTagEventSF", "effBTagEventSF", 100, 0, 1 );
   hists_["effBTagEventSFMean"] = fs->make<TH1F>( "effBTagEventSFMean", "effBTagEventSFMean", 1, 0, 1 );
   
+  std::cout << "Btag efficiencies read from"  << filename_ << std::endl;
+
   /// getting efficiency histos from input files
   if(filename_!=""){
     file_ = new TFile((TString)filename_);
+    dir_ = (TString)rootDir_;
+
+    //std::cout << dir_ << std::endl;
+
     if(!(file_->IsZombie())){
       if(verbose_>=1) std::cout<<filename_<<" opened"<<std::endl;
-      effHists_["NumBJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumBJetsPtEta")->Clone();
-      effHists_["NumBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumBJetsTaggedPtEta")->Clone();
-      effHists_["EffBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffBJetsTaggedPtEta")->Clone();
-      effHists_["NumCJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumCJetsPtEta")->Clone();
-      effHists_["NumCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumCJetsTaggedPtEta")->Clone();
-      effHists_["EffCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffCJetsTaggedPtEta")->Clone();
-      effHists_["NumLJetsPtEta"]       = (TH2F*) file_->Get("bTagEff/NumLJetsPtEta")->Clone();
-      effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/NumLJetsTaggedPtEta")->Clone();
-      effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff/EffLJetsTaggedPtEta")->Clone();
-      
-      if(verbose_>=1) std::cout <<" AHA1"<<std::endl;
+      effHists_["NumBJetsPtEta"]       = (TH2F*) file_->Get("bTagEff"+dir_+"/NumBJetsPtEta")->Clone();
+      effHists_["NumBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/NumBJetsTaggedPtEta")->Clone();
+      effHists_["EffBJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/EffBJetsTaggedPtEta")->Clone();
+      effHists_["NumCJetsPtEta"]       = (TH2F*) file_->Get("bTagEff"+dir_+"/NumCJetsPtEta")->Clone();
+      effHists_["NumCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/NumCJetsTaggedPtEta")->Clone();
+      effHists_["EffCJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/EffCJetsTaggedPtEta")->Clone();
+      effHists_["NumLJetsPtEta"]       = (TH2F*) file_->Get("bTagEff"+dir_+"/NumLJetsPtEta")->Clone();
+      effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/NumLJetsTaggedPtEta")->Clone();
+      effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/EffLJetsTaggedPtEta")->Clone();
       
       /// re-calculation of b tag efficiencies as input might be corrupted due to hadd
       if(effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta") &&
@@ -73,7 +74,6 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 	std::cout<<"Eff.Histos not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
 	filename_ = "";
       }
-      if(verbose_>=1) std::cout <<" AHA2"<<std::endl;
     }
     else{
       std::cout<<filename_<<" not found!!!!! Efficiencies cannot be taken from this file!!! Default taken!"<<std::endl;
@@ -117,9 +117,8 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   setup.get<BTagPerformanceRecord>().get( "BTAG"+bTagAlgo_, perfHBTag);
   setup.get<BTagPerformanceRecord>().get( "MISTAG"+bTagAlgo_, perfHMisTag);
 
-  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
   setup.get<BTagPerformanceRecord>().get( "BTAG"+bTagAlgo_, perfHTestTag);
-  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
+  
 
   edm::Handle<edm::View< pat::Jet > > jets;
   evt.getByLabel(jets_, jets);
@@ -183,13 +182,8 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   std::auto_ptr<double> bTagSFEventWeight(new double);
   *bTagSFEventWeight = effBTagEventSF;    
   evt.put(bTagSFEventWeight);
-  
-  // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
-  //   for(int i=0; i<(int)oneMinusBEffies.size(); ++i)
-  //     {
-  //       std::cout << "oneMinusBEffies " << i << " :" << oneMinusBEffies[i] << std::endl;
-  //     }
-  
+
+  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
   std::vector<double> test = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1);
   
   std::auto_ptr<std::vector<double> > RA4bWeights( new std::vector<double> );

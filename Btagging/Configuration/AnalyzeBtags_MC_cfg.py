@@ -1,4 +1,4 @@
-jimport FWCore.ParameterSet.Config as cms
+import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("RA4b") 
 
@@ -17,7 +17,7 @@ process.options = cms.untracked.PSet(
 
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('BSF.root')
+                                   fileName = cms.string('AnalyzeBtags.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -310,10 +310,29 @@ process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 process.btagEventWeight.jets=cms.InputTag("goodJets")
 process.btagEventWeight.verbose=cms.int32(0)
 
+## TCHEM
 process.btagEventWeightTCHEM1 = process.btagEventWeight.clone()
-process.btagEventWeight.bTagAlgo=cms.string("TCHEM")
-process.btagEventWeight.rootDir = "TCHEM1"
-process.btagEventWeight.filename=cms.string("../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root")
+process.btagEventWeightTCHEM1.bTagAlgo= "TCHEM"
+process.btagEventWeightTCHEM1.rootDir = "TCHEM1"
+process.btagEventWeightTCHEM1.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+
+process.btagEventWeightTCHEM2 = process.btagEventWeightTCHEM1.clone()
+process.btagEventWeightTCHEM2.rootDir = "TCHEM2"
+
+process.btagEventWeightTCHEM3 = process.btagEventWeightTCHEM1.clone()
+process.btagEventWeightTCHEM3.rootDir = "TCHEM3"
+
+## SSVHEM
+process.btagEventWeightSSVHEM1 = process.btagEventWeight.clone()
+process.btagEventWeightSSVHEM1.bTagAlgo= "SSVHEM"
+process.btagEventWeightSSVHEM1.rootDir = "SSVHEM1"
+process.btagEventWeightSSVHEM1.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+
+process.btagEventWeightSSVHEM2 = process.btagEventWeightSSVHEM1.clone()
+process.btagEventWeightSSVHEM2.rootDir = "SSVHEM2"
+
+process.btagEventWeightSSVHEM3 = process.btagEventWeightSSVHEM1.clone()
+process.btagEventWeightSSVHEM3.rootDir = "SSVHEM3"
 
 #----------------------------------------------------------------------------------------
 #
@@ -337,20 +356,46 @@ process.analyzeBtagsTCHEM2.BtagEffWeights = "btagEventWeightTCHEM2:RA4bWeights"
 process.analyzeBtagsTCHEM3 = process.analyzeBtagsTCHEM1.clone()
 process.analyzeBtagsTCHEM3.BtagEffWeights = "btagEventWeightTCHEM3:RA4bWeights"
 
+# SSVHEM
+process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
+process.analyzeBtagsSSVHEM1.bjets = "mediumTrackHighEffBjets"
+process.analyzeBtagsSSVHEM1.BtagEffWeights = "btagEventWeightSSVHEM1:RA4bWeights"
+
+process.analyzeBtagsSSVHEM2 = process.analyzeBtagsSSVHEM1.clone()
+process.analyzeBtagsSSVHEM2.BtagEffWeights = "btagEventWeightSSVHEM2:RA4bWeights"
+
+process.analyzeBtagsSSVHEM3 = process.analyzeBtagsSSVHEM1.clone()
+process.analyzeBtagsSSVHEM3.BtagEffWeights = "btagEventWeightSSVHEM3:RA4bWeights"
+
 #--------------------------
-# Test paths
+# Test path
 #--------------------------
 
 process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      process.makeObjects *
                                      process.eventWeightPU *
                                      process.weightProducer *
+                                     # btag weights
                                      process.btagEventWeightTCHEM1 *
+                                     process.btagEventWeightTCHEM2 *
+                                     process.btagEventWeightTCHEM3 *
+                                     process.btagEventWeightSSVHEM1 *
+                                     process.btagEventWeightSSVHEM2 *
+                                     process.btagEventWeightSSVHEM3 *
+                                     # MuHad selection
                                      process.MuHadSelection *
-                                     process.analyzeBtagsTCHEM1 *
+                                     # muon selection
                                      process.muonSelection*
+                                     process.analyzeBtagsTCHEM1 *
+                                     process.analyzeBtagsSSVHEM1 *
+                                     # jet selection
                                      process.jetSelection*
-                                     process.metSelection
+                                     process.analyzeBtagsTCHEM2 *
+                                     process.analyzeBtagsSSVHEM2 *
+                                     # met selection
+                                     process.metSelection *
+                                     process.analyzeBtagsTCHEM3 *
+                                     process.analyzeBtagsSSVHEM3
                                      )
 
 

@@ -288,23 +288,6 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-#----------------------------------------------------------------------------------------
-# Load modules for analysis on generator level, level of matched objects and reco-level
-#-----------------------------------------------------------------------------------------
-
-## from SUSYAnalysis.SUSYAnalyzer.SystematicsAnalyzer_cfi import *
-
-## process.analyzeSystematics_test1 = analyzeSystematics.clone()
-## process.analyzeSystematics_test1.bjets = "mediumTrackHighEffBjets"
-## process.analyzeSystematics_test1.useEventWeight = True
-## process.analyzeSystematics_test1.useBtagEffEventWeight = True
-## process.analyzeSystematics_test1.btagBin = 2
-
-## process.analyzeSystematics_test2 = analyzeSystematics.clone()
-## process.analyzeSystematics_test2.bjets = "mediumTrackHighEffBjets"
-## process.analyzeSystematics_test2.useEventWeight = True
-## process.analyzeSystematics_test2.useBtagEffEventWeight = False
-
 #------------------------------------------------------------------------------------------------------------
 # Load module to estimate b-tag efficiency and mis-tag rate for c and light quark jets in simulated events
 #------------------------------------------------------------------------------------------------------------
@@ -340,14 +323,14 @@ process.bTagEffTCHPT3 = process.bTagEffTCHPT1.clone()
 
 ## SSVHEM
 process.bTagEffSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffSSVHEM1.bTagAlgo = "SimpleSecondaryVertexHighEff"
+process.bTagEffSSVHEM1.bTagAlgo = "SimpleSecondaryVertexHighEffBJetTags"
 process.bTagEffSSVHEM1.bTagDiscrCut = 1.74
 process.bTagEffSSVHEM2 = process.bTagEffSSVHEM1.clone()
 process.bTagEffSSVHEM3 = process.bTagEffSSVHEM1.clone()
 
 ## SSVHPT
 process.bTagEffSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffSSVHPT1.bTagAlgo = "SimpleSecondaryVertexHighPur"
+process.bTagEffSSVHPT1.bTagAlgo = "SimpleSecondaryVertexHighPurBJetTags"
 process.bTagEffSSVHPT1.bTagDiscrCut = 2.0
 process.bTagEffSSVHPT2 = process.bTagEffSSVHPT1.clone()
 process.bTagEffSSVHPT3 = process.bTagEffSSVHPT1.clone()

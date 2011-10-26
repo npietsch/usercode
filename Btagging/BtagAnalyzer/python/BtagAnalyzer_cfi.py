@@ -1,20 +1,31 @@
 import FWCore.ParameterSet.Config as cms
 
 #
-# module to make simple analyses of SUSY
+# module for b-tag study
 #
+
+
 analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
-                              met = cms.InputTag("patMETsPF"),
-                              jets = cms.InputTag("selectedPatJetsAK5PF"),
+                              ## collections of RA4b objects
+                              jets = cms.InputTag("goodJets"),
                               bjets = cms.InputTag("mediumTrackHighEffBjets"),
+                              muons = cms.InputTag("goodMuons"),
+                              electrons = cms.InputTag("goodElectrons"),
+                              met = cms.InputTag("patMETsPF"),
+                              ## collections of matched objects
                               matchedLightJets = cms.InputTag("matchedLightJets"),
                               matchedBjets = cms.InputTag("matchedBjets"),
-                              muons = cms.InputTag("selectedPatMuons"),
-                              electrons = cms.InputTag("selectedPatElectrons"),
-                              pvSrc = cms.InputTag("offlinePrimaryVertices"),
-                              weight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                              ## for event weighting
+                              PVSrc = cms.InputTag("offlinePrimaryVertices"),
                               PUInfo = cms.InputTag("addPileupInfo"),
-                              RA2weight = cms.InputTag("weightProducer:weight"),
-                              btagWeight = cms.InputTag("btagEventWeight:RA4bWeights"),
-                              useEventWeight = cms.bool(False)
+                              PUWeight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                              RA2Weight = cms.InputTag("weightProducer:weight"),
+                              BtagEffWeights = cms.InputTag("btagEventWeight:RA4bWeights"),
+                              BtagEffGrid = cms.InputTag("BtagEventWeight:effBTagEventGrid"),
+                              ## ...
+                              ## bool                             
+                              useEventWeight = cms.bool(False),
+                              useBtagEffEventWeight = cms.bool(False),
+                              ## 0: 0 btags, 1: 1 btag; 2: 2 btags, 3: 3 or more btags 
+                              btagBin = cms.int32(0)
                               )

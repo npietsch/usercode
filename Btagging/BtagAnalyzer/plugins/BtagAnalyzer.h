@@ -31,24 +31,64 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-           	
-  edm::InputTag met_;
+
+  //--------------------------------
+  // input collections          	
+  //--------------------------------
+
+  // collections of RA4b objects
   edm::InputTag jets_;
   edm::InputTag bjets_;
-  edm::InputTag matchedLightJets_;
-  edm::InputTag matchedBjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
-  edm::InputTag pvSrc_;
-  edm::InputTag weight_;
-  edm::InputTag PUSource_;
-  edm::InputTag RA2weight_;
-  edm::InputTag btagWeight_;
+  edm::InputTag met_;
+
+  // collections matched objects
+  edm::InputTag matchedLightJets_;
+  edm::InputTag matchedBjets_;
+
+  // for event weighting
+  edm::InputTag PVSrc_;
+  edm::InputTag PUInfo_;
+  edm::InputTag PUWeight_;
+  edm::InputTag RA2Weight_;
+  edm::InputTag BtagEffWeights_;
+  edm::InputTag BtagEffGrid_;
+
+  // bool
   bool useEvtWgt_;
+  bool useBtagEffEvtWgt_;
+
+  // int
+  int btagBin_;
+	
+  //--------------------------------
+  // histograms      	
+  //--------------------------------
 
   // dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
+
+    // histogram for control quantities
+  TH1F* nPV_;
+  TH1F* nPV_noWgt_;
+  TH1F* nPU_;
+  TH1F* nPU_noWgt_;
+
+  TH1F* btagWeights_noWgt_;
+  TH1F* btagWeights_PUWgt_;
+  TH1F* nBtags_noWgt_;
+  TH1F* nBtags_PUWgt_;
+  TH1F* nBtags_;
+  TH1F* TCHE_;
+  TH1F* TCHP_;
+  TH1F* SSVHE_;
+  TH1F* SSVHP_;
+
+  TH1F* MET_;
+  TH1F* HT_;
+  TH1F* MHT_;
 
   // Jets
   TH1F* JetsPt_;

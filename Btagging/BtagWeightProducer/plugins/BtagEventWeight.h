@@ -51,6 +51,7 @@ class BtagEventWeight : public edm::EDProducer {
   std::string sysVar_;
   int verbose_;
   std::string filename_;
+  std::string rootDir_;
   double maxPt_;
   double maxEta_;
   
@@ -59,10 +60,8 @@ class BtagEventWeight : public edm::EDProducer {
   edm::ESHandle<BtagPerformance> perfHBTag;
   edm::ESHandle<BtagPerformance> perfHMisTag;
 
-  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
   edm::ESHandle<BtagPerformance> perfHTestTag;
-  // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
-
+  
   /// histogram container
   /// for output
   std::map<std::string, TH1F*> hists_;
@@ -72,7 +71,8 @@ class BtagEventWeight : public edm::EDProducer {
   
   /// file with histos
   TFile * file_;
-  
+  TString dir_;
+
   double effBTag    (double, double);
   double effBTagSF  (double, double);
   double effBTagCjet(double, double);
