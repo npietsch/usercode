@@ -1,4 +1,4 @@
-import FWCore.ParameterSet.Config as cms
+jimport FWCore.ParameterSet.Config as cms
 
 process = cms.Process("RA4b") 
 
@@ -330,8 +330,12 @@ process.analyzeBtags.btagBin = 2
 process.analyzeBtagsTCHEM1 = process.analyzeBtags.clone()
 process.analyzeBtagsTCHEM1.bjets = "mediumTrackHighEffBjets"
 process.analyzeBtagsTCHEM1.BtagEffWeights = "btagEventWeightTCHEM1:RA4bWeights"
-process.analyzeBtagsTCHEM1.
 
+process.analyzeBtagsTCHEM2 = process.analyzeBtagsTCHEM1.clone()
+process.analyzeBtagsTCHEM2.BtagEffWeights = "btagEventWeightTCHEM2:RA4bWeights"
+
+process.analyzeBtagsTCHEM3 = process.analyzeBtagsTCHEM1.clone()
+process.analyzeBtagsTCHEM3.BtagEffWeights = "btagEventWeightTCHEM3:RA4bWeights"
 
 #--------------------------
 # Test paths

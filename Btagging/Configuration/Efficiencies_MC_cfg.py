@@ -17,7 +17,7 @@ process.options = cms.untracked.PSet(
 
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('BSF.root')
+                                   fileName = cms.string('Btag.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -276,7 +276,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 )
 
 #-----------------------------------------------------------------
-# Load modules for preselection
+# Load modules for preselection. Can be configured later
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
@@ -288,66 +288,102 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-#-----------------------------------------------------------------
-# Load and configure modules for event weighting
-#-----------------------------------------------------------------
-
-process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-
-process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
-
-process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
-process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
-
-process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
-
-#-----------------------------------------------------------------
-# Configure module for b-tag event weighting
-#-----------------------------------------------------------------
-
-process.btagEventWeight.jets=cms.InputTag("goodJets")
-process.btagEventWeight.verbose=cms.int32(0)
-
-process.btagEventWeightTCHEM1 = process.btagEventWeight.clone()
-process.btagEventWeight.bTagAlgo=cms.string("TCHEM")
-process.btagEventWeight.rootDir = "TCHEM1"
-process.btagEventWeight.filename=cms.string("../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root")
-
 #----------------------------------------------------------------------------------------
-#
+# Load modules for analysis on generator level, level of matched objects and reco-level
 #-----------------------------------------------------------------------------------------
 
-from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
+## from SUSYAnalysis.SUSYAnalyzer.SystematicsAnalyzer_cfi import *
 
-process.analyzeBtags = analyzeBtags.clone()
-process.analyzeBtags.useEventWeight = True
-process.analyzeBtags.useBtagEffEventWeight = True
-process.analyzeBtags.btagBin = 2
+## process.analyzeSystematics_test1 = analyzeSystematics.clone()
+## process.analyzeSystematics_test1.bjets = "mediumTrackHighEffBjets"
+## process.analyzeSystematics_test1.useEventWeight = True
+## process.analyzeSystematics_test1.useBtagEffEventWeight = True
+## process.analyzeSystematics_test1.btagBin = 2
 
-# TCHEM
-process.analyzeBtagsTCHEM1 = process.analyzeBtags.clone()
-process.analyzeBtagsTCHEM1.bjets = "mediumTrackHighEffBjets"
-process.analyzeBtagsTCHEM1.BtagEffWeights = "btagEventWeightTCHEM1:RA4bWeights"
-process.analyzeBtagsTCHEM1.
+## process.analyzeSystematics_test2 = analyzeSystematics.clone()
+## process.analyzeSystematics_test2.bjets = "mediumTrackHighEffBjets"
+## process.analyzeSystematics_test2.useEventWeight = True
+## process.analyzeSystematics_test2.useBtagEffEventWeight = False
 
+#------------------------------------------------------------------------------------------------------------
+# Load module to estimate b-tag efficiency and mis-tag rate for c and light quark jets in simulated events
+#------------------------------------------------------------------------------------------------------------
+
+process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
+
+process.analyzeBTagEfficiency.jets = "goodJets"
+process.analyzeBTagEfficiency.binsPtB     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,500.
+process.analyzeBTagEfficiency.binsEtaB    =  0.,0.45,0.9,1.2,1.65,2.1,2.4,3.
+process.analyzeBTagEfficiency.binsPtL     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,500.
+process.analyzeBTagEfficiency.binsEtaL    =  0.,0.8,1.6,2.4,3.
+
+## TCHEM
+process.bTagEffTCHEM1 = process.analyzeBTagEfficiency.clone()
+process.bTagEffTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
+process.bTagEffTCHEM1.bTagDiscrCut = 3.3
+process.bTagEffTCHEM2 = process.bTagEffTCHEM1.clone()
+process.bTagEffTCHEM3 = process.bTagEffTCHEM1.clone()
+
+## TCHPM
+process.bTagEffTCHPM1 = process.analyzeBTagEfficiency.clone()
+process.bTagEffTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
+process.bTagEffTCHPM1.bTagDiscrCut = 1.93
+process.bTagEffTCHPM2 = process.bTagEffTCHPM1.clone()
+process.bTagEffTCHPM3 = process.bTagEffTCHPM1.clone()
+
+## TCHPT
+process.bTagEffTCHPT1 = process.analyzeBTagEfficiency.clone()
+process.bTagEffTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
+process.bTagEffTCHPT1.bTagDiscrCut = 3.41
+process.bTagEffTCHPT2 = process.bTagEffTCHPT1.clone()
+process.bTagEffTCHPT3 = process.bTagEffTCHPT1.clone()
+
+## SSVHEM
+process.bTagEffSSVHEM1 = process.analyzeBTagEfficiency.clone()
+process.bTagEffSSVHEM1.bTagAlgo = "SimpleSecondaryVertexHighEff"
+process.bTagEffSSVHEM1.bTagDiscrCut = 1.74
+process.bTagEffSSVHEM2 = process.bTagEffSSVHEM1.clone()
+process.bTagEffSSVHEM3 = process.bTagEffSSVHEM1.clone()
+
+## SSVHPT
+process.bTagEffSSVHPT1 = process.analyzeBTagEfficiency.clone()
+process.bTagEffSSVHPT1.bTagAlgo = "SimpleSecondaryVertexHighPur"
+process.bTagEffSSVHPT1.bTagDiscrCut = 2.0
+process.bTagEffSSVHPT2 = process.bTagEffSSVHPT1.clone()
+process.bTagEffSSVHPT3 = process.bTagEffSSVHPT1.clone()
 
 #--------------------------
 # Test paths
 #--------------------------
 
-process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
-                                     process.makeObjects *
-                                     process.eventWeightPU *
-                                     process.weightProducer *
-                                     process.btagEventWeightTCHEM1 *
-                                     process.MuHadSelection *
-                                     process.analyzeBtagsTCHEM1 *
-                                     process.muonSelection*
-                                     process.jetSelection*
-                                     process.metSelection
-                                     )
+process.BtagEfficiencies_Muon = cms.Path(process.preselectionMuHTMC2 *
+                                         process.makeObjects *
+                                         process.MuHadSelection *
+                                         # muon Selection
+                                         process.muonSelection*
+                                         #
+                                         process.bTagEffTCHEM1 *
+                                         process.bTagEffTCHPM1 *
+                                         process.bTagEffTCHPT1 *
+                                         process.bTagEffSSVHEM1 *
+                                         process.bTagEffSSVHPT1 *
+                                         # jet selection
+                                         process.jetSelection*
+                                         #
+                                         process.bTagEffTCHEM2 *
+                                         process.bTagEffTCHPM2 *
+                                         process.bTagEffTCHPT2 *
+                                         process.bTagEffSSVHEM2 *
+                                         process.bTagEffSSVHPT2 *
+                                         # met Selection
+                                         process.metSelection *
+                                         #
+                                         process.bTagEffTCHEM3 *
+                                         process.bTagEffTCHPM3 *
+                                         process.bTagEffTCHPT3 *
+                                         process.bTagEffSSVHEM3 *
+                                         process.bTagEffSSVHPT3
+                                         )
 
 
 
