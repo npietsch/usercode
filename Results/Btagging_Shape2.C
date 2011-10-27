@@ -61,7 +61,7 @@ int Btagging_Shape2()
   // addSelectionStep(TString name)
   addSelectionStep("1", 1, "after muon cut");
   addSelectionStep("2", 4, "after jet cut");
-  addSelectionStep("3", 2, "after met cut");
+  //addSelectionStep("3", 2, "after met cut");
 
   // Flavors
   Flavors.push_back("B");
@@ -112,7 +112,8 @@ int Btagging_Shape2()
 		  TaggedPt_->GetXaxis()->CenterTitle();
 		  TaggedPt_->GetYaxis()->SetTitle("b-tag efficiency");
 		  TaggedPt_->GetYaxis()->CenterTitle();
-		  
+		  TaggedPt_->SetDefaultSumw2(true);
+
 		  if(s==0) TaggedPt_->Draw("");
 		  else TaggedPt_->Draw("same");
 		  
