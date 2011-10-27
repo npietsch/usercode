@@ -22,23 +22,19 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('GR_R_42_V14::All')
+process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
 ## Load module for preselection. Can be configured later
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-
 ## ## Load module to vary jet energy scale
-process.load("TopAnalysis.TopUtils.JetEnergyScale_cfi")
-process.scaledJetEnergy.inputJets = "selectedPatJets"
-process.scaledJetEnergy.inputMETs = "patMETs"
-process.scaledJetEnergy.scaleType   = "jes:up"
-# #process.scaledJetEnergy.scaleFactor = 0.985#flat offset when using scaleType = "top:*"
-#process.scaledJetEnergy.payload = "AKPF5"
-#process.goodJets.src="scaledJetEnergy:selectedPatJets"
-process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
-process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1) # JER standard
-
+## process.load("TopAnalysis.TopUtils.JetEnergyScale_cfi")
+## process.scaledJetEnergy.inputJets = "selectedPatJets"
+## process.scaledJetEnergy.inputMETs = "patMETs"
+## process.scaledJetEnergy.scaleType   = "jes:up"
+## #process.scaledJetEnergy.scaleFactor = 0.985#flat offset when using scaleType = "top:*"
+## process.scaledJetEnergy.payload = "AK5Calo"
+## process.goodJets.src="scaledJetEnergy:selectedPatJets"
 
 ## Load modules to create objects and filter events on reco level
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
@@ -55,7 +51,7 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 ## no btag
 process.Selection1m = cms.Path(process.makeObjects *
                                process.analyzeSUSYBjets1m_noCuts *
-                               process.preselectionMuHTData *
+                               process.preselectionMuHTAllData *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets1m_preselection *
                                process.RA4MuonCollections *
@@ -73,7 +69,7 @@ process.Selection1m = cms.Path(process.makeObjects *
                                )
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
-                                   process.preselectionMuHTData *
+                                   process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -88,7 +84,7 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    )
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(process.makeObjects *
-                                   process.preselectionMuHTData *
+                                   process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -99,11 +95,11 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.metSelection *
                                    process.analyzeSUSYBjets2b1m_6 *
                                    process.mTSelection *
-                                   process.analyzeSUSYBjets2b1m_1
+                                   process.analyzeSUSYBjets3b1m_1
                                    )
 ## at least 3 btags
 process.Selection3b1m_1 = cms.Path(process.makeObjects *
-                                   process.preselectionMuHTData *
+                                   process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -114,7 +110,7 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
                                    process.metSelection *
                                    process.analyzeSUSYBjets3b1m_6 *
                                    process.mTSelection *
-                                   process.analyzeSUSYBjets3b1m_1
+                                   process.analyzeSUSYBjets1b1m_1
                                    )
 #--------------------------
 # electron selection paths
@@ -123,7 +119,7 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
 ## no btag
 process.Selection1e = cms.Path(process.makeObjects *
                                process.analyzeSUSYBjets1e_noCuts *
-                               process.preselectionElHTData *
+                               process.preselectionElHTAllData *
                                process.ElHadSelection *
                                process.analyzeSUSYBjets1e_preselection *
                                process.electronSelection*
@@ -139,7 +135,7 @@ process.Selection1e = cms.Path(process.makeObjects *
                                )
 ## exactly 1 btag
 process.Selection1b1e_2 = cms.Path(process.makeObjects *
-                                   process.preselectionElHTData *
+                                   process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -154,7 +150,7 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    )
 ## exactly 2 btags
 process.Selection2b1e_2 = cms.Path(process.makeObjects *
-                                   process.preselectionElHTData *
+                                   process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -169,7 +165,7 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    )
 ## at least 3 btags
 process.Selection3b1e_1 = cms.Path(process.makeObjects *
-                                   process.preselectionElHTData *
+                                   process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection *
                                    process.jetSelection *

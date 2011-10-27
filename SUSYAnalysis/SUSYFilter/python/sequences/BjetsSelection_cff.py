@@ -665,7 +665,7 @@ filterLooseHT.Cut = 300
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 350
+filterMediumHT.Cut = 300
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
@@ -803,17 +803,17 @@ ViennaHTSelection = cms.Sequence(filterViennaHT)
 tightHTSelection = cms.Sequence(filterTightHT)
 
 MuHadSelection = cms.Sequence(filterMediumHT *
-                              filterMediumMHT *
+                              #filterMediumMHT *
                               oneLooseMuon
                               )
 
 ElHadSelection = cms.Sequence(filterMediumHT *
-                              filterMediumMHT *
+                              #filterMediumMHT *
                               oneLooseElectron
                               )
 
 LepHadSelection = cms.Sequence(filterMediumHT *
-                               filterMediumMHT *
+                               #filterMediumMHT *
                                oneLooseLepton
                                )
 
