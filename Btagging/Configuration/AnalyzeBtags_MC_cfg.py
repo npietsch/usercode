@@ -266,6 +266,7 @@ process.source = cms.Source("PoolSource",
     '/store/user/npietsch/TTJets_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_100_1_Lza.root'
     )
 )
+
 #-----------------------------------------------------------------
 # Dummy output module
 #-----------------------------------------------------------------

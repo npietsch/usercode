@@ -66,7 +66,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
 
   MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
-  MHT_ = fs->make<TH1F>("MHT","MhT", 50, 0.,  1000.);
+  MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
 
   // Jets
   JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 70, 0.,700.);
@@ -215,7 +215,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // number of b-tagged jets
       unsigned int nBtags = bjets->size();
       if(bjets->size() > 2) nBtags=3;
-      nBtags_PUWgt_->Fill(nBtags);
+      nBtags_PUWgt_->Fill(nBtags, weight);
       
       if(useBtagEffEvtWgt_)
 	{
