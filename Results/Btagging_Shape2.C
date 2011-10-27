@@ -69,7 +69,7 @@ int Btagging_Shape2()
   Flavors.push_back("L");
 
   gStyle->SetCanvasColor(10);
-  gStyle->SetOptStat(0);
+  //gStyle->SetOptStat(0);
   gStyle->SetPalette(1);
 
   // loop over files
