@@ -378,10 +378,10 @@ process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      # btag weights
                                      process.btagEventWeightTCHEM1 *
                                      process.btagEventWeightTCHEM2 *
-                                     process.btagEventWeightTCHEM3 *
+                                     #process.btagEventWeightTCHEM3 *
                                      process.btagEventWeightSSVHEM1 *
                                      process.btagEventWeightSSVHEM2 *
-                                     process.btagEventWeightSSVHEM3 *
+                                     #process.btagEventWeightSSVHEM3 *
                                      # MuHad selection
                                      process.MuHadSelection *
                                      # muon selection
@@ -391,11 +391,11 @@ process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      # jet selection
                                      process.jetSelection*
                                      process.analyzeBtagsTCHEM2 *
-                                     process.analyzeBtagsSSVHEM2 *
-                                     # met selection
-                                     process.metSelection *
-                                     process.analyzeBtagsTCHEM3 *
-                                     process.analyzeBtagsSSVHEM3
+                                     process.analyzeBtagsSSVHEM2##  *
+##                                      # met selection
+##                                      process.metSelection *
+##                                      process.analyzeBtagsTCHEM3 *
+##                                      process.analyzeBtagsSSVHEM3
                                      )
 
 

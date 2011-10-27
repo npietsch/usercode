@@ -276,7 +276,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 )
 
 #-----------------------------------------------------------------
-# Load modules for preselection. Can be configured later
+# Load modules for preselection
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
@@ -323,14 +323,14 @@ process.bTagEffTCHPT3 = process.bTagEffTCHPT1.clone()
 
 ## SSVHEM
 process.bTagEffSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffSSVHEM1.bTagAlgo = "SimpleSecondaryVertexHighEffBJetTags"
+process.bTagEffSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
 process.bTagEffSSVHEM1.bTagDiscrCut = 1.74
 process.bTagEffSSVHEM2 = process.bTagEffSSVHEM1.clone()
 process.bTagEffSSVHEM3 = process.bTagEffSSVHEM1.clone()
 
 ## SSVHPT
 process.bTagEffSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffSSVHPT1.bTagAlgo = "SimpleSecondaryVertexHighPurBJetTags"
+process.bTagEffSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
 process.bTagEffSSVHPT1.bTagDiscrCut = 2.0
 process.bTagEffSSVHPT2 = process.bTagEffSSVHPT1.clone()
 process.bTagEffSSVHPT3 = process.bTagEffSSVHPT1.clone()
@@ -357,15 +357,15 @@ process.BtagEfficiencies_Muon = cms.Path(process.preselectionMuHTMC2 *
                                          process.bTagEffTCHPM2 *
                                          process.bTagEffTCHPT2 *
                                          process.bTagEffSSVHEM2 *
-                                         process.bTagEffSSVHPT2 *
-                                         # met Selection
-                                         process.metSelection *
-                                         #
-                                         process.bTagEffTCHEM3 *
-                                         process.bTagEffTCHPM3 *
-                                         process.bTagEffTCHPT3 *
-                                         process.bTagEffSSVHEM3 *
-                                         process.bTagEffSSVHPT3
+                                         process.bTagEffSSVHPT2## *
+##                                          # met Selection
+##                                          process.metSelection *
+##                                          #
+##                                          process.bTagEffTCHEM3 *
+##                                          process.bTagEffTCHPM3 *
+##                                          process.bTagEffTCHPT3 *
+##                                          process.bTagEffSSVHEM3 *
+##                                          process.bTagEffSSVHPT3
                                          )
 
 
