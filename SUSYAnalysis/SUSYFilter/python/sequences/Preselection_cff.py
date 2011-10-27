@@ -93,6 +93,14 @@ oneGoodVertex = cms.EDFilter(
   maxNumber = cms.uint32(999)
 )
 
+from GeneratorInterface.GenFilters.TotalKinematicsFilter_cfi import *
+
+totalKinematicsFilter = cms.EDFilter('TotalKinematicsFilter',
+  src             = cms.InputTag("genParticles"),
+  tolerance       = cms.double(0.5),
+  verbose         = cms.untracked.bool(False)                                   
+)
+
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 
 from SUSYAnalysis.SUSYFilter.filters.TrackingFailureFilter_cfi import *
@@ -149,12 +157,14 @@ preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
 
 ## MC Summer11
 preselectionMuHTMC2 = cms.Sequence(MuHTTriggerMC2 *
+                                   totalKinematicsFilter *
                                    goodVertices *
                                    oneGoodVertex *
                                    scrapingVeto
                                    )
 
 preselectionElHTMC2 = cms.Sequence(ElHTTriggerMC2 *
+                                   totalKinematicsFilter *
                                    goodVertices *
                                    oneGoodVertex *
                                    scrapingVeto
@@ -189,10 +199,12 @@ preselectionElHTData3 = cms.Sequence(Electron_BEfilterSequence *
 
 ## All Data
 preselectionMuHTAllData = cms.Sequence(Mu_BEfilterSequence *
+                                       Electron_BEfilterSequence *
                                        MuHTTriggerAllData
                                        )
 
 preselectionElHTAllData = cms.Sequence(Electron_BEfilterSequence *
+                                       Mu_BEfilterSequence *
                                        ElHTTriggerAllData
                                        )
 
@@ -225,6 +237,7 @@ preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
 
 ## For synchronization
 preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
+                                     totalKinematicsFilter *
                                      goodVertices *
                                      scrapingVeto *
                                      oneGoodVertex *
@@ -235,16 +248,18 @@ preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
                                      )
 
 preselectionMuSynchMC2 = cms.Sequence(MuTriggerMC2 *
-                                     goodVertices *
-                                     scrapingVeto *
-                                     oneGoodVertex
-                                     #HBHENoiseFilter *
-                                     #CSCTightHaloFilter *
-                                     #trackingFailureFilter *
-                                     #ecalDeadCellTPfilter
-                                     )
+                                      totalKinematicsFilter *
+                                      goodVertices *
+                                      scrapingVeto *
+                                      oneGoodVertex
+                                      #HBHENoiseFilter *
+                                      #CSCTightHaloFilter *
+                                      #trackingFailureFilter *
+                                      #ecalDeadCellTPfilter
+                                      )
 
 preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
+                                     totalKinematicsFilter *
                                      goodVertices *
                                      scrapingVeto *
                                      oneGoodVertex *
@@ -296,6 +311,7 @@ ttGenEventFilterTau = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || ful
 preselectionMuHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterSemiLep *
                                               MuHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -304,6 +320,7 @@ preselectionMuHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
 preselectionMuHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
                                                    ttGenEventFilterSemiLepOther *
                                                    MuHTTriggerMC2 *
+                                                   totalKinematicsFilter *
                                                    goodVertices *
                                                    oneGoodVertex *
                                                    scrapingVeto
@@ -312,6 +329,7 @@ preselectionMuHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
 preselectionMuHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullLep *
                                               MuHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -320,6 +338,7 @@ preselectionMuHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
 preselectionMuHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullHad *
                                               MuHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -328,6 +347,7 @@ preselectionMuHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
 preselectionMuHTMCTauTTBar = cms.Sequence(makeGenEvt *
                                           ttGenEventFilterTau *
                                           MuHTTriggerMC2 *
+                                          totalKinematicsFilter *
                                           goodVertices *
                                           oneGoodVertex *
                                           scrapingVeto
@@ -337,6 +357,7 @@ preselectionMuHTMCTauTTBar = cms.Sequence(makeGenEvt *
 preselectionElHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterSemiLep *
                                               ElHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -346,6 +367,7 @@ preselectionElHTMCSemiLepTTBar = cms.Sequence(makeGenEvt *
 preselectionElHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
                                                    ttGenEventFilterSemiLepOther *
                                                    ElHTTriggerMC2 *
+                                                   totalKinematicsFilter *
                                                    goodVertices *
                                                    oneGoodVertex *
                                                    scrapingVeto
@@ -354,6 +376,7 @@ preselectionElHTMCSemiLepTTBarOther = cms.Sequence(makeGenEvt *
 preselectionElHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullLep *
                                               ElHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -362,6 +385,7 @@ preselectionElHTMCFullLepTTBar = cms.Sequence(makeGenEvt *
 preselectionElHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
                                               ttGenEventFilterFullHad *
                                               ElHTTriggerMC2 *
+                                              totalKinematicsFilter *
                                               goodVertices *
                                               oneGoodVertex *
                                               scrapingVeto
@@ -370,6 +394,7 @@ preselectionElHTMCFullHadTTBar = cms.Sequence(makeGenEvt *
 preselectionElHTMCTauTTBar = cms.Sequence(makeGenEvt *
                                           ttGenEventFilterTau *
                                           ElHTTriggerMC2 *
+                                          totalKinematicsFilter *
                                           goodVertices *
                                           oneGoodVertex *
                                           scrapingVeto
