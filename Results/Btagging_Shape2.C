@@ -57,7 +57,7 @@ int Btagging_Shape2()
 
   // addAlgorithm(TString name)
   addAlgorithm("TCHEM");
-  addAlgorithm("SSVHEM");
+  //addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name)
   addSelectionStep("1", 2, "after muon cut");

@@ -58,17 +58,17 @@ int Btagging_Shape()
   addSample(TTJets, "TTJets", 2);
 
   // addAlgorithm(TString name)
-  addAlgorithm("SSVHEM");
+  //addAlgorithm("SSVHEM");
   addAlgorithm("TCHEM");
 
   // addSelectionStep(TString name)
   addSelectionStep("1", 2, "after muon cut");
-  addSelectionStep("2", 4, "after jet cut");
+  //addSelectionStep("2", 4, "after jet cut");
   //addSelectionStep("3", 1, "after met cut");
 
   // Flavors
   Flavors.push_back("B");
-  Flavors.push_back("C");
+  //Flavors.push_back("C");
   //Flavors.push_back("L");
 
   gStyle->SetCanvasColor(10);
