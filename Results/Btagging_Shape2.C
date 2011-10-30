@@ -50,24 +50,31 @@ int Btagging_Shape2()
   // Define sample
   TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
   TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
+  TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
+  TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
+  TFile* NonTTJets =new TFile("BtagEff_NonTTJets.root", "READ");
 
   // addSample(TFile* sample, TString name)
-  addSample(TTJets, "TTJets");
+  //addSample(TTJets, "TTJets");
   //addSample(WJets, "WJets");
+  //addSample(SingleTop, "SingleTop");
+  //addSample(DYJets, "DYJets");
+  addSample(NonTTJets, "NonTTJets");
 
   // addAlgorithm(TString name)
   addAlgorithm("TCHEM");
   //addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name)
-  addSelectionStep("1", 2, "after muon cut");
-  addSelectionStep("2", 4, "after jet cut");
-  //addSelectionStep("3", 1, "after met cut");
+  addSelectionStep("1", 1, "Preselection");
+  addSelectionStep("2", 2, "Muon selection");
+  addSelectionStep("3", 4, "Jet selection");
+  addSelectionStep("4", 8, "MET>70, HT>350");
 
   // Flavors
   Flavors.push_back("B");
-  //Flavors.push_back("C");
-  //Flavors.push_back("L");
+  Flavors.push_back("C");
+  Flavors.push_back("L");
 
   gStyle->SetCanvasColor(10);
   gStyle->SetOptStat(0);
@@ -90,12 +97,12 @@ int Btagging_Shape2()
 	    {
 	      // Define canvas., legend etc.
 	      TCanvas *canvas =new TCanvas(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
-	      TLegend *leg = new TLegend(.6,.18,.9,.4);
+	      TLegend *leg = new TLegend(.5,.15,.88,.42);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(0);
 	      
-	      TLegend *leg2 = new TLegend(.6,.18,.9,.4);
+	      TLegend *leg2 = new TLegend(.5,.15,.88,.42);
 	      leg2->SetTextFont(42);
 	      leg2->SetFillColor(0);
 	      leg2->SetLineColor(0);
@@ -280,7 +287,7 @@ int Btagging_Shape2()
 		  leg2->AddEntry(TaggedEta_,SelectionNames[s],"l");
 		  
 		}
-	      leg2->Draw("box");
+	      //leg2->Draw("box");
 	      canvas2->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_Eta.pdf");
 
 

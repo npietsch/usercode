@@ -7,12 +7,13 @@
 
 
 BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
-  jets_    ( cfg.getParameter<edm::InputTag>    ( "jets"   ) ),
-  bTagAlgo_( cfg.getParameter<std::string>      ("bTagAlgo") ),
-  sysVar_  ( cfg.getParameter<std::string>      ("sysVar"  ) ),
-  verbose_ ( cfg.getParameter<int>              ("verbose" ) ),
-  filename_( cfg.getParameter<std::string>      ("filename") ),
-  rootDir_ ( cfg.getParameter<std::string>      ("rootDir") )
+  jets_     ( cfg.getParameter<edm::InputTag> ( "jets"   ) ),
+  bTagAlgo_ ( cfg.getParameter<std::string>   ("bTagAlgo") ),
+  sysVar_   ( cfg.getParameter<std::string>   ("sysVar"  ) ),
+  verbose_  ( cfg.getParameter<int>           ("verbose" ) ),
+  filename_ ( cfg.getParameter<std::string>   ("filename") ),
+  rootDir_  ( cfg.getParameter<std::string>   ("rootDir" ) ),
+  applySF_  ( cfg.getParameter<bool>          ("applySF" ) )
 {
   produces<double>();
   produces< std::vector<double> > ("effBTagEventGrid");
@@ -132,11 +133,15 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     eta = std::abs(jet->eta());
     if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5){
       
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       //std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
-//       std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
-//       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      //std::cout << "1.- effBTag(pt, eta): " << (1.- effBTag (pt, eta)) << std::endl;
+      //if(pt>=240)
+      //{
+      //  std::cout << "pt, eta: " << pt << ", "<< eta << std::endl;
+      //  std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
+      //}
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       
       oneMinusBEffies               .push_back(1.- effBTag(pt, eta));
       oneMinusBEffies_scaled        .push_back(1.- (effBTag(pt, eta) * effBTagSF(pt, eta)));
@@ -144,11 +149,11 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     
     else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4){
 
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       //std::cout << "effBTagCjet(pt, eta): " << (effBTagCjet (pt, eta)) << std::endl;
-//       std::cout << "1.- effBTagCjet(pt, eta): " << (1.- effBTagCjet (pt, eta)) << std::endl;
-//       std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      //std::cout << "1.- effBTagCjet(pt, eta): " << (1.- effBTagCjet (pt, eta)) << std::endl;
+      //std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
 
       oneMinusBMistags               .push_back(1.- effBTagCjet(pt, eta));
       oneMinusBMistags_scaled        .push_back(1.-(effBTagCjet(pt, eta) * effBTagSF(pt, eta)));
@@ -156,11 +161,15 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     
     else{
       
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       //std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
-//       std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
-//       std::cout << "effMisTagSF(pt, eta): " << (effMisTagSF (pt, eta)) << std::endl;
-//       // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
+      //std::cout << "1.- effMisTag(pt, eta): " << (1.- effMisTag (pt, eta)) << std::endl;
+      //if(pt>=300)
+      //{
+      //  std::cout << "pt, eta: " << pt << ", "<< eta << std::endl;
+      //  std::cout << "effMisTagSF(pt, eta): " << (effMisTagSF (pt, eta)) << std::endl;
+      //}
+      // -- np -- np -- np -- np  -- np -- np -- np -- np -- np -- np  -- np -- np --
       
       oneMinusBMistags               .push_back(1.- effMisTag(pt, eta));
       oneMinusBMistags_scaled        .push_back(1.-(effMisTag(pt, eta) * effMisTagSF(pt, eta)));
@@ -183,8 +192,18 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   *bTagSFEventWeight = effBTagEventSF;    
   evt.put(bTagSFEventWeight);
 
+
   // -- np -- np -- np -- np  -- np -- np  -- np -- np -- np -- np  -- np -- np --
-  std::vector<double> test = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1);
+  std::vector<double> oneMinusBEffies_ = oneMinusBEffies;
+  std::vector<double> oneMinusBMistags_= oneMinusBMistags;
+
+  if(applySF_==true)
+    {
+      oneMinusBEffies_ = oneMinusBEffies_scaled;
+      oneMinusBMistags_= oneMinusBMistags_scaled;
+    }
+
+  std::vector<double> test = effBTagEvent0123(oneMinusBEffies_, oneMinusBMistags_, 1, 1);
   
   std::auto_ptr<std::vector<double> > RA4bWeights( new std::vector<double> );
   *RA4bWeights = test; 
@@ -266,6 +285,7 @@ double BtagEventWeight::effBTagSF(double jetPt, double jetEta)
   double result = -1111., error = -1111.;
   const BtagPerformance & perf = *(perfHBTag.product());
     BinningPointByMap measurePoint;
+    if(jetPt>=240) jetPt=200;
     measurePoint.insert(BinningVariables::JetEt, jetPt);
     measurePoint.insert(BinningVariables::JetAbsEta, jetEta);
     if(perf.isResultOk( measureMap_[ "BTAGBEFFCORR" ], measurePoint))
@@ -290,12 +310,11 @@ double BtagEventWeight::effBTagCjet(double jetPt, double jetEta)
     TH2F* his = effHists_.find("EffCJetsTaggedPtEta")->second;
     if(jetPt >= maxPt_)       result = his->GetBinContent(his->FindBin(maxPt_-0.1, jetEta));
     else if(jetEta >= maxEta_)result = his->GetBinContent(his->FindBin(jetPt, maxEta_-0.01));
-    else                      result = his->GetBinContent( his->FindBin(jetPt, jetEta) );
+    else                      result = his->GetBinContent(his->FindBin(jetPt, jetEta));
   }
   else if(bTagAlgo_ == "SSVHEM") { result = (0.564/0.854 + 0.0195)/2;}
   if(verbose_>=2) std::cout<< "effBTagCjet= "<<result<<std::endl;
   return result;
-
 }
 
 // mistag eff. from MC as a function of jet pt, eta

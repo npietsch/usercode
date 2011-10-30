@@ -38,7 +38,7 @@ void addAlgorithm(TString name)
 }
 
 
-void addSelectionStep(TString name);
+void addSelectionStep(TString name, int lc, TString sn);
 
 void addSelectionStep(TString name, int lc, TString sn)
 {
@@ -51,25 +51,30 @@ int Btagging_Shape()
 {
   // Define sample
   TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
+  TFile* SinlgeTop =new TFile("BtagEff_SingleTop.root", "READ");
   TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
+  TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
 
   // addSample(TFile* sample, TString name)
-  addSample(WJets,  "WJets",  4);
-  addSample(TTJets, "TTJets", 2);
+  addSample(WJets,    "WJets",     1);
+  addSample(DYJets,   "DYJets",    8);
+  addSample(SinlgeTop,"SinlgeTop", 4);
+  addSample(TTJets,   "TTJets",    2);
 
   // addAlgorithm(TString name)
   //addAlgorithm("SSVHEM");
   addAlgorithm("TCHEM");
 
-  // addSelectionStep(TString name)
-  addSelectionStep("1", 2, "after muon cut");
-  //addSelectionStep("2", 4, "after jet cut");
-  //addSelectionStep("3", 1, "after met cut");
+  // addSelectionStep(TString name, int lc, TString sn);
+  addSelectionStep("1", 1, "Preselection");
+  addSelectionStep("2", 2, "Muon selection");
+  addSelectionStep("3", 4, "Jet selection");
+  addSelectionStep("4", 8, "MET>70, HT>350");
 
   // Flavors
   Flavors.push_back("B");
-  //Flavors.push_back("C");
-  //Flavors.push_back("L");
+  Flavors.push_back("C");
+  Flavors.push_back("L");
 
   gStyle->SetCanvasColor(10);
   gStyle->SetOptStat(0);
@@ -91,10 +96,17 @@ int Btagging_Shape()
 	       
 	      // Define canvas., legend etc.
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
-	      TLegend *leg = new TLegend(.6,.18,.9,.4);
+
+	      TLegend *leg = new TLegend(.5,.15,.88,.42);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
-	  
+	      leg->SetLineColor(0);
+	      
+	      TLegend *leg2 = new TLegend(.5,.15,.88,.42);
+	      leg2->SetTextFont(42);
+	      leg2->SetFillColor(0);
+	      leg2->SetLineColor(0);
+
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
@@ -157,7 +169,7 @@ int Btagging_Shape()
 		    }
 		  
 		  // draw histogram Tmp_
-		  Tmp_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]);
+		  Tmp_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]+Steps[s]);
 		  Tmp_->GetXaxis()->SetTitle("p_{T} [GeV]");
 		  Tmp_->GetXaxis()->CenterTitle();
 		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
@@ -197,11 +209,6 @@ int Btagging_Shape()
 	      TCanvas *canvas2 =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Eta",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Eta",1);
 
 	      leg->SetLineColor(0);
-	      
-	      TLegend *leg2 = new TLegend(.6,.18,.9,.4);
-	      leg2->SetTextFont(42);
-	      leg2->SetFillColor(0);
-	      leg2->SetLineColor(0);
 		  
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
@@ -257,7 +264,7 @@ int Btagging_Shape()
 		    }
 		  
 		  // draw histogram TmpEta_
-		  TmpEta_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]);
+		  TmpEta_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]+Steps[s]);
 		  TmpEta_->GetXaxis()->SetTitle("Eta");
 		  TmpEta_->GetXaxis()->CenterTitle();
 		  TmpEta_->GetYaxis()->SetTitle("b-tag efficiency");
@@ -282,7 +289,7 @@ int Btagging_Shape()
 		  leg2->AddEntry(TaggedEta_,Names[f],"l");
 		  
 		}
-	      leg2->Draw("box");
+	      //leg2->Draw("box");
 	      canvas2->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_Eta.pdf");
 	    }
 	}

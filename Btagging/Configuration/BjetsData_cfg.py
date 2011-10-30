@@ -1,13 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("RA4b")
+process = cms.Process("AnalyzeBtags")
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Bjets.root')
+                                   fileName = cms.string('AnalyzeBtags.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -38,67 +38,58 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 #----------------------------------------------------------------------------------------
-# Load modules for analysis on generator level, level of matched objects and reco-level
-#-----------------------------------------------------------------------------------------
+# Load and configure modules for analysis of b-tagging
+#----------------------------------------------------------------------------------------
 
 from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
 
-analyzeBtags.jets = "goodJets"
-analyzeBtags.muons = "goodMuons"
-analyzeBtags.electrons = "goodElectrons"
-#analyzeBtags.matchedLightJets = "goodJets"
-#analyzeBtags.matchedBjets = "mediumTrackHighEffBjets"
-analyzeBtags.useEventWeight = False
+process.analyzeBtags = analyzeBtags.clone()
 
-process.analyzeBtags1m_1 = analyzeBtags.clone()
-process.analyzeBtags1m_2 = analyzeBtags.clone()
+# TCHEM
+process.analyzeBtagsTCHEM1 = process.analyzeBtags.clone()
+process.analyzeBtagsTCHEM1.bjets = "mediumTrackHighEffBjets"
 
-process.analyzeBtags1e_1 = analyzeBtags.clone()
-process.analyzeBtags1e_2 = analyzeBtags.clone()
+process.analyzeBtagsTCHEM2 = process.analyzeBtagsTCHEM1.clone()
 
-process.analyzeTightBtags1m_1 = analyzeBtags.clone()
-process.analyzeTightBtags1m_2 = analyzeBtags.clone()
+process.analyzeBtagsTCHEM3 = process.analyzeBtagsTCHEM1.clone()
 
-process.analyzeTightBtags1e_1 = analyzeBtags.clone()
-process.analyzeTightBtags1e_2 = analyzeBtags.clone()
+process.analyzeBtagsTCHEM4 = process.analyzeBtagsTCHEM1.clone()
 
-process.analyzeTightBtags1m_1.bjets = "tightTrackHighEffBjets"
-process.analyzeTightBtags1m_2.bjets = "tightTrackHighEffBjets"
+# TCHEM with scale factors
+process.analyzeBtagsTCHEM3sf = process.analyzeBtagsTCHEM1.clone()
 
-process.analyzeTightBtags1e_1.bjets = "tightTrackHighEffBjets"
-process.analyzeTightBtags1e_2.bjets = "tightTrackHighEffBjets"
+# SSVHEM
+process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
+process.analyzeBtagsSSVHEM1.bjets = "mediumTrackHighEffBjets"
 
-#--------------------------
-# muon selection path
-#--------------------------
+process.analyzeBtagsSSVHEM2 = process.analyzeBtagsSSVHEM1.clone()
 
-process.analyzeBtags1m = cms.Path(#process.printGenParticles *
-                                  process.preselectionMuHTAllData *
-                                  process.makeObjects *
-                                  process.MuHadSelection *
-                                  process.muonSelection*
-                                  process.jetSelection*
-                                  process.analyzeBtags1m_1 *
-                                  process.analyzeTightBtags1m_1 *
-                                  process.metSelection *
-                                  process.analyzeBtags1m_2 *
-                                  process.analyzeTightBtags1m_2
-                                  )
+process.analyzeBtagsSSVHEM3 = process.analyzeBtagsSSVHEM1.clone()
+
+process.analyzeBtagsSSVHEM4 = process.analyzeBtagsSSVHEM1.clone()
+
+# TCHEM  with scale factors
+process.analyzeBtagsSSVHEM3sf = process.analyzeBtagsSSVHEM1.clone()
 
 #--------------------------
-# electron selection path
+# Test path
 #--------------------------
 
-process.analyzeBtags1e = cms.Path(#process.printGenParticles *
-                                  process.preselectionElHTAllData *
-                                  process.makeObjects *
-                                  process.ElHadSelection *
-                                  process.electronSelection*
-                                  process.jetSelection*
-                                  process.analyzeBtags1e_1 *
-                                  process.analyzeTightBtags1e_1 *
-                                  process.metSelection *
-                                  process.analyzeBtags1e_2 *
-                                  process.analyzeTightBtags1e_2
-                                  )
-
+process.analyzeBtags_test = cms.Path(process.preselectionMuHTAllData *
+                                     process.makeObjects *
+                                     # MuHad selection
+                                     process.MuHadSelection *
+                                     # muon selection
+                                     process.muonSelection*
+                                     # jet selection
+                                     process.jetSelection*
+                                     process.analyzeBtagsTCHEM3 *
+                                     process.analyzeBtagsSSVHEM3*
+                                     process.analyzeBtagsTCHEM3sf *
+                                     process.analyzeBtagsSSVHEM3sf #*
+                                     # tight selection
+                                     #process.filterMediumHT *
+                                     #process.oneMediumMET *
+                                     #process.analyzeBtagsTCHEM4 *
+                                     #process.analyzeBtagsSSVHEM4
+                                     )

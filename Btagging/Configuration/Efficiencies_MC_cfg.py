@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("RA4b") 
+process = cms.Process("BtagEff") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
@@ -15,15 +15,13 @@ process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(True)
 )
 
-
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Btag.root')
+                                   fileName = cms.string('BtagEff.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-#process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
 # Choose input files
@@ -295,7 +293,6 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 #------------------------------------------------------------------------------------------------------------
@@ -316,6 +313,7 @@ process.bTagEffTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
 process.bTagEffTCHEM1.bTagDiscrCut = 3.3
 process.bTagEffTCHEM2 = process.bTagEffTCHEM1.clone()
 process.bTagEffTCHEM3 = process.bTagEffTCHEM1.clone()
+process.bTagEffTCHEM4 = process.bTagEffTCHEM1.clone()
 
 ## TCHPM
 process.bTagEffTCHPM1 = process.analyzeBTagEfficiency.clone()
@@ -323,6 +321,7 @@ process.bTagEffTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
 process.bTagEffTCHPM1.bTagDiscrCut = 1.93
 process.bTagEffTCHPM2 = process.bTagEffTCHPM1.clone()
 process.bTagEffTCHPM3 = process.bTagEffTCHPM1.clone()
+process.bTagEffTCHPM4 = process.bTagEffTCHPM1.clone()
 
 ## TCHPT
 process.bTagEffTCHPT1 = process.analyzeBTagEfficiency.clone()
@@ -330,6 +329,7 @@ process.bTagEffTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
 process.bTagEffTCHPT1.bTagDiscrCut = 3.41
 process.bTagEffTCHPT2 = process.bTagEffTCHPT1.clone()
 process.bTagEffTCHPT3 = process.bTagEffTCHPT1.clone()
+process.bTagEffTCHPT4 = process.bTagEffTCHPT1.clone()
 
 ## SSVHEM
 process.bTagEffSSVHEM1 = process.analyzeBTagEfficiency.clone()
@@ -337,6 +337,7 @@ process.bTagEffSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
 process.bTagEffSSVHEM1.bTagDiscrCut = 1.74
 process.bTagEffSSVHEM2 = process.bTagEffSSVHEM1.clone()
 process.bTagEffSSVHEM3 = process.bTagEffSSVHEM1.clone()
+process.bTagEffSSVHEM4 = process.bTagEffSSVHEM1.clone()
 
 ## SSVHPT
 process.bTagEffSSVHPT1 = process.analyzeBTagEfficiency.clone()
@@ -344,40 +345,49 @@ process.bTagEffSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
 process.bTagEffSSVHPT1.bTagDiscrCut = 2.0
 process.bTagEffSSVHPT2 = process.bTagEffSSVHPT1.clone()
 process.bTagEffSSVHPT3 = process.bTagEffSSVHPT1.clone()
+process.bTagEffSSVHPT4 = process.bTagEffSSVHPT1.clone()
 
 #--------------------------
 # Test paths
 #--------------------------
 
-process.BtagEfficiencies_Muon = cms.Path(process.preselectionMuHTMC2 *
+process.BtagEfficiencies_Muon = cms.Path(# preselection
+                                         process.preselectionMuHTMC2 *
                                          process.makeObjects *
                                          process.eventWeightPU *
                                          process.weightProducer *
                                          process.MuHadSelection *
-                                         # muon Selection
-                                         process.muonSelection*
-                                         #
+                                         # estimate btag eff
                                          process.bTagEffTCHEM1 *
                                          process.bTagEffTCHPM1 *
                                          process.bTagEffTCHPT1 *
                                          process.bTagEffSSVHEM1 *
                                          process.bTagEffSSVHPT1 *
-                                         # jet selection
-                                         process.jetSelection*
-                                         #
+                                         # muon Selection
+                                         process.muonSelection*
+                                         # etsimate btag eff
                                          process.bTagEffTCHEM2 *
                                          process.bTagEffTCHPM2 *
                                          process.bTagEffTCHPT2 *
                                          process.bTagEffSSVHEM2 *
-                                         process.bTagEffSSVHPT2## *
-##                                          # met Selection
-##                                          process.metSelection *
-##                                          #
-##                                          process.bTagEffTCHEM3 *
-##                                          process.bTagEffTCHPM3 *
-##                                          process.bTagEffTCHPT3 *
-##                                          process.bTagEffSSVHEM3 *
-##                                          process.bTagEffSSVHPT3
+                                         process.bTagEffSSVHPT2 *
+                                         # jet selection
+                                         process.jetSelection*
+                                         # estimate btagg eff 
+                                         process.bTagEffTCHEM3 *
+                                         process.bTagEffTCHPM3 *
+                                         process.bTagEffTCHPT3 *
+                                         process.bTagEffSSVHEM3 *
+                                         process.bTagEffSSVHPT3 *
+                                         # tight selection
+                                         process.filterMediumHT *
+                                         process.oneMediumMET *
+                                         # estimate btagg eff 
+                                         process.bTagEffTCHEM4 *
+                                         process.bTagEffTCHPM4 *
+                                         process.bTagEffTCHPT4 *
+                                         process.bTagEffSSVHEM4 *
+                                         process.bTagEffSSVHPT4
                                          )
 
 
