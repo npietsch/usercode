@@ -60,7 +60,7 @@ process.analyzeBtagsTCHEM3sf = process.analyzeBtagsTCHEM1.clone()
 
 # SSVHEM
 process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
-process.analyzeBtagsSSVHEM1.bjets = "mediumTrackHighEffBjets"
+process.analyzeBtagsSSVHEM1.bjets = "mediumSSVHighEffBjets"
 
 process.analyzeBtagsSSVHEM2 = process.analyzeBtagsSSVHEM1.clone()
 

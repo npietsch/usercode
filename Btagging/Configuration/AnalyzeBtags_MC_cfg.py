@@ -393,7 +393,7 @@ process.analyzeBtagsTCHEM3sf.BtagEffWeights = "btagEventWeightTCHEM3sf:RA4bWeigh
 
 # SSVHEM
 process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
-process.analyzeBtagsSSVHEM1.bjets = "mediumTrackHighEffBjets"
+process.analyzeBtagsSSVHEM1.bjets = "mediumSSVHighEffBjets"
 process.analyzeBtagsSSVHEM1.BtagEffWeights = "btagEventWeightSSVHEM1:RA4bWeights"
 
 process.analyzeBtagsSSVHEM2 = process.analyzeBtagsSSVHEM1.clone()
