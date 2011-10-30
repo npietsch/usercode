@@ -71,12 +71,15 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
 
   // histogram for control quantities
   TH1F* nPV_;
+  TH1F* nPV_noWgt_;
   TH1F* nPU_;
+  TH1F* nPU_noWgt_;
 
-  TH1F* btagWeights_;
-  TH1F* btagWeights_weighted_;
+  TH1F* btagWeights_noWgt_;
+  TH1F* btagWeights_PUWgt_;
+  TH1F* nBtags_noWgt_;
+  TH1F* nBtags_PUWgt_;
   TH1F* nBtags_;
-  TH1F* nBtags_weighted_;
   TH1F* TCHE_;
   TH1F* TCHP_;
   TH1F* SSVHE_;

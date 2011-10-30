@@ -13,40 +13,57 @@
 vector<TFile*> Files;
 vector<TString> Names;
 vector<double> Weights;
-vector<double> Scales;
-vector<double> Xmin;
-vector<double> Xmax;
 vector<unsigned int> LineColors;
 vector<unsigned int> FillColors;
 vector<unsigned int> FillStyles;
 
+vector<TString> Histograms;
+vector<double> XminN;
+vector<double> XmaxN;
+vector<double> XminR;
+vector<double> XmaxR;
+
+vector<double> Scales;
+
 vector<TString> Selections;
 vector<TString> DataSelections;
-vector<TString> Histograms;
 
-void addSample(TFile* sample, TString name, double weight, double scale, int xmin, int xmax, int lc, int fc, int fs);
 
-void addSample(TFile* sample, TString name, double weight, double scale, int xmin, int xmax, int lc, int fc, int fs)
+void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+
+void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
 {
   Files.push_back(sample);
   Names.push_back(name);
   Weights.push_back(weight);
-  Scales.push_back(scale);
-  Xmin.push_back(xmin);
-  Xmax.push_back(xmax);
   LineColors.push_back(lc);
   FillColors.push_back(fc);
   FillStyles.push_back(fs);
 }
 
+addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+
+addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+{
+  Histograms.push_back(name);
+  XminN.push_back(xminN);
+  XmaxR.push_back(xmaxN);
+  XminN.push_back(xminR);
+  XmaxR.push_back(xmaxR);
+}
 
 int Btagging()
 {
+
   // Normalize background to data?
   int Normalize=0;
   
   // Number of signal samples
-  int s=0;
+  int s=1;
+
+  //--------------------------------------------------------------
+  // Samples and event weights
+  //--------------------------------------------------------------
 
   TFile* TTJets=new TFile("TTJets.root","READ");
   TFile* SingleTop=new TFile("SingleTop.root","READ");
@@ -92,37 +109,44 @@ int Btagging()
   Double_t WeightLM3=(Luminosity*(XSLM3))/NGLM3;
   Double_t WeightLM8=(Luminosity*(XSLM8))/NGLM8;
   Double_t WeightLM9=(Luminosity*(XSLM9))/NGLM9;
-  //Double_t WeightLM13=(Luminosity*(XSLM13))/NGLM13;
-
+  
   //-------------------------------------------------------------------------------------------------------------------
-  // addSample (TFile* sample, TString name, double weight, double scale, int xmin, int xmax, int lc, int fc, int fs)
+  // addSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(QCD,       "QCD",           WeightQCD,       1, 1, 1, kBlue-7,  kBlue-7,  1101);
-  addSample(DY,        "DY+Jets",       WeightDY,        1, 1, 1, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,     "W+Jets",        WeightWJets,     1, 1, 1, kYellow,  kYellow,  1101);
-  addSample(SingleTop, "Single Top",    WeightSingleTop, 1, 1, 1, kRed+2,   kRed+2,   1101);
-  addSample(TTJets,    "T#bar{T}+Jets", WeightTTJets,    1, 1, 1, kRed,     kRed,     1101);
+  addSample(QCD,       "QCD",           WeightQCD,       kBlue-7,  kBlue-7,  1101);
+  addSample(DY,        "DY+Jets",       WeightDY,        kGreen+2, kGreen+2, 1101);
+  addSample(WJets,     "W+Jets",        WeightWJets,     kYellow,  kYellow,  1101);
+  addSample(SingleTop, "Single Top",    WeightSingleTop, kRed+2,   kRed+2,   1101);
+  addSample(TTJets,    "T#bar{T}+Jets", WeightTTJets,    kRed,     kRed,     1101);
+
+  addSample(MuHad,      "MuHad",        1,               1,        0,        0);
 
   int f=Files.size();
 
   //--------------------------------------------------------------
-  // push back selection step to vector<int> Selections;
+  // push back selection step to vector<TString> Selections;
   //--------------------------------------------------------------
 
-  Selections.push_back("analyzeBtags1m_2");
+  Selections.push_back("analyzeBtags");
+
+  //--------------------------------------------------------------
+  // push back selection step to vector<TString> DataSelections;
+  //--------------------------------------------------------------
+
+  DataSelections.push_back("");
 
   //--------------------------------------------------------------
   // push back histogram to vector<int> Histograms;
   //--------------------------------------------------------------
 
-  Histograms.push_back("LowPtJetsBdisc");
-  Histograms.push_back("HighPtJetsBdisc");
+//   Histograms.push_back("LowPtJetsBdisc",  1, 1, 1, 1);
+//   Histograms.push_back("HighPtJetsBdisc", 1, 1, 1, 1);
 //   Histograms.push_back("NrBtags");
 //   Histograms.push_back("LowPtBtagsEta");
 //   Histograms.push_back("HighPtBtagsEta");
 //   Histograms.push_back("dPhiBtagMET");
-//   Histograms.push_back("BtagsPt");
+  Histograms.push_back("BtagsPt", 1, 1, 1, 1);
 //   Histograms.push_back("JetsPt");
 //   Histograms.push_back("BtagsPt_1b");
 //   Histograms.push_back("BtagsPt_2b");
@@ -282,25 +306,18 @@ int Btagging()
     { 
       std::cout << Histograms[h] << std::endl;
       
+      // loop over f-s MC background files
       for(int i=0; i<f-s; ++i)
 	{
 	  plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
-
-	  //plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i]*Scales[h],LineColors[i],FillStyles[i],FillColors[i]);
+	}      
+      
+      // loop over s MC and data signal files
+      for(int i=f-s; i<f; ++i)
+	{
+	  plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	}       
     }
   
-  for(int h=0; h<Histograms.size(); ++h)
-    {
-      for(int step=0; step<Selections.size(); ++step)
-	{
-	  for(int i=f-s; i<f; ++i)
-	    {
-	      plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
-	    }       
-	}
-    }
-  
   plots.printAll("ylog");
-  //plots.printAll();
 }

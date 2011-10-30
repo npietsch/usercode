@@ -48,13 +48,16 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   // ...
 
   // Declare histograms for control quantities
+  nPV_noWgt_ = fs->make<TH1F>("nPV_noWgt","nPV_noWgt", 50, 0.,  50  );
   nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0.,  50  );
+  nPU_noWgt_ = fs->make<TH1F>("nPU_noWgt","nPU_noWgt", 50, 0.5, 50.5);
   nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
 
-  btagWeights_ = fs->make<TH1F>("btagWeights","btagWeights", 4, 0., 4.);
-  btagWeights_weighted_ = fs->make<TH1F>("btagWeights_weighted","btagWeights_weighted", 4, 0., 4.);
-  nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.); 
-  nBtags_weighted_ = fs->make<TH1F>("nBtags_weighted","nBtags_weighted", 4, 0., 4.);
+  btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt","btagWeights_noWgt", 4, 0., 4.);
+  btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
+  nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
+  nBtags_PUWgt_ = fs->make<TH1F>("nBtags_PUWgt","nBtags_PUWgt", 4, 0., 4.);
+  nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
 
   TCHE_= fs->make<TH1F>("TCHE","TCHE", 80, -20., 20.);
   TCHP_= fs->make<TH1F>("TCHP","TCHP", 80, -20., 20.);
@@ -119,10 +122,15 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       // PU weight
       edm::Handle<double> PUWeightHandle;
       evt.getByLabel(PUWeight_, PUWeightHandle);
-      weightPU=1;//(*PUWeightHandle);
+      weightPU=(*PUWeightHandle);
 
       weight=weightRA2*weightPU;
 
+      // number of b-tagged jets
+      unsigned int nBtags = bjets->size();
+      if(bjets->size() > 2) nBtags=3;
+      nBtags_PUWgt_->Fill(nBtags);
+      
       if(useBtagEffEvtWgt_)
 	{
 	  // Btag weight
@@ -130,21 +138,21 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	  evt.getByLabel(BtagEffWeights_, BtagEffWeightsHandle);
 	  weightBtagEff=(*BtagEffWeightsHandle)[btagBin_];
 	
-	  btagWeights_->Fill(0.,(*BtagEffWeightsHandle)[0]);
-	  btagWeights_->Fill(1, (*BtagEffWeightsHandle)[1]);
-	  btagWeights_->Fill(2, (*BtagEffWeightsHandle)[2]);
-	  btagWeights_->Fill(3, (*BtagEffWeightsHandle)[3]);
+	  btagWeights_noWgt_->Fill(0.,(*BtagEffWeightsHandle)[0]);
+	  btagWeights_noWgt_->Fill(1, (*BtagEffWeightsHandle)[1]);
+	  btagWeights_noWgt_->Fill(2, (*BtagEffWeightsHandle)[2]);
+	  btagWeights_noWgt_->Fill(3, (*BtagEffWeightsHandle)[3]);
 
-	  btagWeights_weighted_->Fill(0.,(*BtagEffWeightsHandle)[0]*weight);
-	  btagWeights_weighted_->Fill(1, (*BtagEffWeightsHandle)[1]*weight);
-	  btagWeights_weighted_->Fill(2, (*BtagEffWeightsHandle)[2]*weight);
-	  btagWeights_weighted_->Fill(3, (*BtagEffWeightsHandle)[3]*weight);
+	  btagWeights_PUWgt_->Fill(0.,(*BtagEffWeightsHandle)[0]*weight);
+	  btagWeights_PUWgt_->Fill(1, (*BtagEffWeightsHandle)[1]*weight);
+	  btagWeights_PUWgt_->Fill(2, (*BtagEffWeightsHandle)[2]*weight);
+	  btagWeights_PUWgt_->Fill(3, (*BtagEffWeightsHandle)[3]*weight);
 
-	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle).size() << std::endl;
-	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[0] << std::endl;
-	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[1] << std::endl;
-	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[2] << std::endl;
-	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[3] << std::endl;
+// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle).size() << std::endl;
+// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[0] << std::endl;
+// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[1] << std::endl;
+// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[2] << std::endl;
+// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[3] << std::endl;
 	  
 	  double summBtagWgt=(*BtagEffWeightsHandle)[0]+(*BtagEffWeightsHandle)[1]+(*BtagEffWeightsHandle)[2]+(*BtagEffWeightsHandle)[3];
 	  //std::cout << "SystematicsAnalyzer: " << summBtagWgt << std::endl;
@@ -152,12 +160,12 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       
       weight=weightRA2*weightPU*weightBtagEff;
 
-      std::cout << "--------------------------------" << std::endl;
-      std::cout << "weightPU: "      << weightPU      << std::endl;
-      std::cout << "weightRA2: "     << weightRA2     << std::endl;
-      std::cout << "weightBtagEff: " << weightBtagEff << std::endl << std::endl;
-      std::cout << "weight: " << weight << std::endl;
-      std::cout << "--------------------------------" << std::endl;
+//       std::cout << "--------------------------------" << std::endl;
+//       std::cout << "weightPU: "      << weightPU      << std::endl;
+//       std::cout << "weightRA2: "     << weightRA2     << std::endl;
+//       std::cout << "weightBtagEff: " << weightBtagEff << std::endl << std::endl;
+//       std::cout << "weight: " << weight << std::endl;
+//       std::cout << "--------------------------------" << std::endl;
   
       
       // -----------------------------------------------------------------------
@@ -177,7 +185,8 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	    }
 	}
 
-      nPU_->Fill(nvtx);
+      nPU_noWgt_->Fill(nvtx);
+      nPU_->Fill(nvtx,weight);
     }
 
   //-------------------------------------------------
@@ -197,13 +206,14 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   //-------------------------------------------------
 
   // number of primary vertices
+  nPV_noWgt_->Fill(PVSrc->size());
   nPV_->Fill(PVSrc->size(), weight);
-  
+
   // number of b-tagged jets
   unsigned int nBtags = bjets->size();
   if(bjets->size() > 2) nBtags=3;
-  nBtags_->Fill(nBtags);
-  nBtags_weighted_->Fill(nBtags, weight);
+  nBtags_->Fill(nBtags,weight);
+  nBtags_noWgt_->Fill(nBtags);
 
   // bdisc
   for(int i=0; i<(int)bjets->size();++i)
