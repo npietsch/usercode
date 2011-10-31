@@ -223,9 +223,13 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      
 	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 		{
-		  std::cout << "effBTagSF(pt, eta): " << effBTagSF(pt, eta) << std::endl;
-		  std::cout << "(effBTagSF(pt, eta)+SFShift): " << (effBTagSF(pt, eta)+SFShift) << std::endl;
-		  std::cout << "effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift): " << effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) << std::endl;
+		  //std::cout << "effBTag(pt, eta): " << effBTag(pt, eta) << std::endl;
+		  //std::cout << "effBTagSF(pt, eta): " << effBTagSF(pt, eta) << std::endl;
+		  //std::cout << "effBTagSF(pt, eta)+SFShift: " << (effBTagSF(pt, eta)+SFShift) << std::endl;
+		  //std::cout << "-------------------------------------------" << std::endl;
+		  //std::cout << "effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift): " << effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) << std::endl;
+		  //std::cout << "-------------------------------------------" << std::endl;
+
 		  BtagEffSFShiftVec.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) );
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
@@ -241,8 +245,9 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	}
       
       // grid of jet weights with scale factors applied
+      std::vector<std::vector<double> > testSF = BtagEffSFShiftGrid;
       std::auto_ptr<std::vector<std::vector<double> > >  RA4bJetWeightsGrid( new std::vector<std::vector<double> >);
-      *RA4bJetWeightsGrid =  BtagEffSFShiftGrid; 
+      *RA4bJetWeightsGrid =  testSF; 
       evt.put(RA4bJetWeightsGrid,"RA4bJetWeightsGrid");
     }
 

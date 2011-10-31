@@ -54,7 +54,9 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   edm::InputTag RA2Weight_;
   edm::InputTag BtagEventWeights_;
   edm::InputTag BtagJetWeights_;
+  edm::InputTag BtagJetWeightsGrid_;
   edm::InputTag BtagEffGrid_;
+
 
   // bool
   bool useEventWgt_;
@@ -157,6 +159,8 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* BtagsPt_3b_btagWeight_;
   TH1F* BtagsEta_3b_btagWeight_;
 
+  TH1F *BtagsPt_1b_btagWeightGrid_[21];
+  TH1F *BtagsPt_2b_btagWeightGrid_[21];
 };  
 
 #endif  

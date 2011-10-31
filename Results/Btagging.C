@@ -18,6 +18,7 @@ vector<unsigned int> FillColors;
 vector<unsigned int> FillStyles;
 
 vector<TString> Histograms;
+vector<TString> DataHistograms;
 vector<double> XminN;
 vector<double> XmaxN;
 vector<double> XminR;
@@ -41,14 +42,25 @@ void addSample(TFile* sample, TString name, double weight, int lc, int fc, int f
   FillStyles.push_back(fs);
 }
 
-addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+void addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
 
-addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+void addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
 {
   Histograms.push_back(name);
   XminN.push_back(xminN);
-  XmaxR.push_back(xmaxN);
-  XminN.push_back(xminR);
+  XmaxN.push_back(xmaxN);
+  XminR.push_back(xminR);
+  XmaxR.push_back(xmaxR);
+}
+
+void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+
+void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+{
+  DataHistograms.push_back(name);
+  XminN.push_back(xminN);
+  XmaxN.push_back(xmaxN);
+  XminR.push_back(xminR);
   XmaxR.push_back(xmaxR);
 }
 
@@ -70,9 +82,10 @@ int Btagging()
   TFile* WJets=new TFile("WJets.root","READ");
   TFile* DY=new TFile("DY.root","READ");
   TFile* QCD=new TFile("QCD.root","READ");
+  TFile* MuHad=new TFile("MuHad.root","READ");
 
   // Luminosity for MuHad
-  Int_t Luminosity=2131;
+  Int_t Luminosity=2960;
   
   // Luminosity for ElHad
   //Int_t Luminosity=2166;
@@ -128,13 +141,13 @@ int Btagging()
   // push back selection step to vector<TString> Selections;
   //--------------------------------------------------------------
 
-  Selections.push_back("analyzeBtags");
+  Selections.push_back("analyzeBtagsSSVHEM3sf");
 
   //--------------------------------------------------------------
   // push back selection step to vector<TString> DataSelections;
   //--------------------------------------------------------------
 
-  DataSelections.push_back("");
+  DataSelections.push_back("analyzeBtagsSSVHEM3sf");
 
   //--------------------------------------------------------------
   // push back histogram to vector<int> Histograms;
@@ -146,10 +159,16 @@ int Btagging()
 //   Histograms.push_back("LowPtBtagsEta");
 //   Histograms.push_back("HighPtBtagsEta");
 //   Histograms.push_back("dPhiBtagMET");
-  Histograms.push_back("BtagsPt", 1, 1, 1, 1);
+  addHistogram("BtagsPt_btagWeight" , 1, 1, 1, 1);
+  addHistogram("BtagsPt" , 1, 1, 1, 1);
+  addHistogram("btagWeights", 1, 1, 1, 1);
 //   Histograms.push_back("JetsPt");
 //   Histograms.push_back("BtagsPt_1b");
 //   Histograms.push_back("BtagsPt_2b");
+
+  addDataHistogram("BtagsPt" , 1, 1, 1, 1);
+  addDataHistogram("BtagsPt" , 1, 1, 1, 1);
+  addDataHistogram("nBtags", 1, 1, 1, 1);
 
 //   //--------------------------------------------------------------
 //   // Calculate scale factors and ratios
@@ -315,7 +334,7 @@ int Btagging()
       // loop over s MC and data signal files
       for(int i=f-s; i<f; ++i)
 	{
-	  plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	  plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+DataHistograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	}       
     }
   

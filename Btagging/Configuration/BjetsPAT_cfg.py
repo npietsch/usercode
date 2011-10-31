@@ -319,6 +319,7 @@ process.btagEventWeightTCHEM2.rootDir = "TCHEM2"
 
 process.btagEventWeightTCHEM3 = process.btagEventWeightTCHEM1.clone()
 process.btagEventWeightTCHEM3.rootDir = "TCHEM3"
+process.btagEventWeightTCHEM3.scaleJetEffSF = True
 
 process.btagEventWeightTCHEM4 = process.btagEventWeightTCHEM1.clone()
 process.btagEventWeightTCHEM4.rootDir = "TCHEM4"
@@ -336,6 +337,7 @@ process.btagEventWeightSSVHEM2.rootDir = "SSVHEM2"
 
 process.btagEventWeightSSVHEM3 = process.btagEventWeightSSVHEM1.clone()
 process.btagEventWeightSSVHEM3.rootDir = "SSVHEM3"
+process.btagEventWeightSSVHEM3.scaleJetEffSF = True
 
 process.btagEventWeightSSVHEM4 = process.btagEventWeightSSVHEM1.clone()
 process.btagEventWeightSSVHEM4.rootDir = "SSVHEM4"
@@ -365,6 +367,7 @@ process.analyzeBtagsTCHEM2.BtagJetWeights = "btagEventWeightTCHEM2:RA4bJetWeight
 process.analyzeBtagsTCHEM3 = process.analyzeBtagsTCHEM1.clone()
 process.analyzeBtagsTCHEM3.BtagEventWeights = "btagEventWeightTCHEM3:RA4bEventWeights"
 process.analyzeBtagsTCHEM3.BtagJetWeights = "btagEventWeightTCHEM3:RA4bJetWeights"
+process.analyzeBtagsTCHEM3.BtagJetWeightsGrid = "btagEventWeightTCHEM3:RA4bJetWeightsGrid"
 
 process.analyzeBtagsTCHEM4 = process.analyzeBtagsTCHEM1.clone()
 process.analyzeBtagsTCHEM4.BtagEventWeights = "btagEventWeightTCHEM4:RA4bEventWeights"
@@ -374,6 +377,7 @@ process.analyzeBtagsTCHEM4.BtagJetWeights = "btagEventWeightTCHEM4:RA4bJetWeight
 process.analyzeBtagsTCHEM3sf = process.analyzeBtagsTCHEM1.clone()
 process.analyzeBtagsTCHEM3sf.BtagEventWeights = "btagEventWeightTCHEM3:RA4bSFEventWeights"
 process.analyzeBtagsTCHEM3sf.BtagJetWeights = "btagEventWeightTCHEM3:RA4bSFJetWeights"
+process.analyzeBtagsTCHEM3sf.BtagJetWeightsGrid = "btagEventWeightTCHEM3:RA4bJetWeightsGrid"
 
 # SSVHEM
 process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
@@ -388,6 +392,7 @@ process.analyzeBtagsSSVHEM2.BtagJetWeights = "btagEventWeightSSVHEM2:RA4bJetWeig
 process.analyzeBtagsSSVHEM3 = process.analyzeBtagsSSVHEM1.clone()
 process.analyzeBtagsSSVHEM3.BtagEventWeights = "btagEventWeightSSVHEM3:RA4bEventWeights"
 process.analyzeBtagsSSVHEM3.BtagJetWeights = "btagEventWeightSSVHEM3:RA4bJetWeights"
+process.analyzeBtagsSSVHEM3.BtagJetWeightsGrid = "btagEventWeightSSVHEM3:RA4bJetWeightsGrid"
 
 process.analyzeBtagsSSVHEM4 = process.analyzeBtagsSSVHEM1.clone()
 process.analyzeBtagsSSVHEM4.BtagEventWeights = "btagEventWeightSSVHEM4:RA4bEventWeights"
@@ -397,6 +402,7 @@ process.analyzeBtagsSSVHEM4.BtagJetWeights = "btagEventWeightSSVHEM4:RA4bJetWeig
 process.analyzeBtagsSSVHEM3sf = process.analyzeBtagsSSVHEM1.clone()
 process.analyzeBtagsSSVHEM3sf.BtagEventWeights = "btagEventWeightSSVHEM3:RA4bSFEventWeights"
 process.analyzeBtagsSSVHEM3sf.BtagJetWeights = "btagEventWeightSSVHEM3:RA4bSFJetWeights"
+process.analyzeBtagsSSVHEM3sf.BtagJetWeightsGrid = "btagEventWeightSSVHEM3:RA4bJetWeightsGrid"
 
 #--------------------------
 # Test path
@@ -407,14 +413,15 @@ process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      process.eventWeightPU *
                                      process.weightProducer *
                                      # produce btag event weights
+                                     process.btagEventWeightSSVHEM3 *
                                      process.btagEventWeightTCHEM3 *
-                                     process.btagEventWeightSSVHEM3 * 
                                      # MuHad selection
                                      process.MuHadSelection *
                                      # muon selection
                                      process.muonSelection*
                                      # jet selection
                                      process.jetSelection*
+                                     # analyze btags
                                      process.analyzeBtagsTCHEM3 *
                                      process.analyzeBtagsSSVHEM3*
                                      process.analyzeBtagsTCHEM3sf *
@@ -425,3 +432,37 @@ process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      #process.analyzeBtagsTCHEM4 *
                                      #process.analyzeBtagsSSVHEM4
                                      )
+
+## #-------------------------------------------------
+## # Create patTuple
+## #-------------------------------------------------
+
+## process.EventSelection = cms.PSet(
+##     SelectEvents = cms.untracked.PSet(
+##     SelectEvents = cms.vstring('analyzeBtags_test'
+##                                )
+##     )
+## )
+
+## process.out = cms.OutputModule("PoolOutputModule",
+##                                process.EventSelection,
+##                                #outputCommands = cms.untracked.vstring('drop *'),
+##                                #dropMetaData = cms.untracked.string('DROPPED'),
+##                                fileName = cms.untracked.string('Summer11.root')
+##                                )
+
+## # Specify what to keep in the event content
+## ## from PhysicsTools.PatAlgos.patEventContent_cff import *
+## ## process.out.outputCommands += patEventContentNoCleaning
+## ## process.out.outputCommands += patExtraAodEventContent
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
+## ## process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
+
+## #from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+## #process.out.outputCommands += SUSYEventContent
+## #from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+## #process.out.outputCommands += tqafEventContent
+
+## process.outpath = cms.EndPath(process.out)
