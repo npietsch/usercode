@@ -6,6 +6,6 @@ btagEventWeight = cms.EDProducer("BtagEventWeight",
                                  sysVar   = cms.string(""),      ## bTagSFUp, bTagSFDown, misTagSFUp, misTagSFDown
                                  verbose  = cms.int32(0),        ## set to 1 if terminal text output is desired
                                  filename = cms.string(""),      ## if filename != "", efficiencies are read from file
-                                 rootDir = cms.string(""),       ## root dir where histos are located
-                                 applySF = cms.bool(False)
+                                 rootDir  = cms.string(""),      ## root dir where histos are located
+                                 shift    = cms.double(0.)       ## shift b-tag scale factor up or down
                                  )

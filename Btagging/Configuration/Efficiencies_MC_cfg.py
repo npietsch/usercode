@@ -371,9 +371,9 @@ process.BtagEfficiencies_Muon = cms.Path(# preselection
                                          process.bTagEffTCHPT2 *
                                          process.bTagEffSSVHEM2 *
                                          process.bTagEffSSVHPT2 *
-                                         # jet selection
+                                         #jet selection
                                          process.jetSelection*
-                                         # estimate btagg eff 
+                                         #estimate btagg eff 
                                          process.bTagEffTCHEM3 *
                                          process.bTagEffTCHPM3 *
                                          process.bTagEffTCHPT3 *
@@ -389,6 +389,7 @@ process.BtagEfficiencies_Muon = cms.Path(# preselection
                                          process.bTagEffSSVHEM4 *
                                          process.bTagEffSSVHPT4
                                          )
+
 
 
 

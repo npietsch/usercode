@@ -32,7 +32,7 @@ nafJobSplitter.pl 231 QCD2_cfg.py
 nafJobSplitter.pl 221 MuHad_May10_cfg.py
 nafJobSplitter.pl 209 MuHad_PromptReco1_v4_cfg.py
 nafJobSplitter.pl 201 MuHad_PromptReco2_v4_cfg.py
-nafJobSplitter.pl 104 MuHad_Aug5_cfg.py
+nafJobSplitter.pl 111 MuHad_Aug5_cfg.py
 nafJobSplitter.pl 172 MuHad_PromptReco_v6_cfg.py
 nafJobSplitter.pl 166 MuHad_B_PromptReco_v1_cfg.py
 

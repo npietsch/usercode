@@ -54,20 +54,13 @@ class BtagEventWeight : public edm::EDProducer {
   std::string rootDir_;
   double maxPt_;
   double maxEta_;
-  bool applySF_;
+  double shift_;
   
   /// to load database
   std::map<std::string,PerformanceResult::ResultType> measureMap_;
   edm::ESHandle<BtagPerformance> perfHBTag;
   edm::ESHandle<BtagPerformance> perfHMisTag;
 
-  edm::ESHandle<BtagPerformance> perfHTestTag;
-  
-  /// histogram container
-  /// for output
-  std::map<std::string, TH1F*> hists_;
-  /// efficiency histos as input
-  //std::map<std::string, TH1F*> effHists_;
   std::map<std::string, TH2F*> effHists_;
   
   /// file with histos
@@ -79,8 +72,6 @@ class BtagEventWeight : public edm::EDProducer {
   double effBTagCjet(double, double);
   double effMisTag  (double, double);
   double effMisTagSF(double, double);
-  double effBTagEvent(std::vector<double> &, std::vector<double> &);
-//dk
   std::vector<double> effBTagEvent0123(std::vector<double> , std::vector<double> , double scl_eff,double scl_mis);
 
   

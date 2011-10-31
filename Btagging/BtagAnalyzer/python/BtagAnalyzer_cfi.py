@@ -15,17 +15,18 @@ analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
                               ## collections of matched objects
                               matchedLightJets = cms.InputTag("matchedLightJets"),
                               matchedBjets = cms.InputTag("matchedBjets"),
-                              ## for event weighting
+                              ## for event and jet weighting
                               PVSrc = cms.InputTag("offlinePrimaryVertices"),
                               PUInfo = cms.InputTag("addPileupInfo"),
                               PUWeight = cms.InputTag("eventWeightPU:eventWeightPU"),
                               RA2Weight = cms.InputTag("weightProducer:weight"),
-                              BtagEffWeights = cms.InputTag("btagEventWeight:RA4bWeights"),
+                              BtagEventWeights = cms.InputTag("btagEventWeight:RA4bEventWeights"),
+                              BtagJetWeights = cms.InputTag("btagEventWeight:RA4bJetWeights"),
                               BtagEffGrid = cms.InputTag("BtagEventWeight:effBTagEventGrid"),
                               ## ...
                               ## bool                             
                               useEventWeight = cms.bool(False),
-                              useBtagEffEventWeight = cms.bool(False),
+                              useBtagEventWeight = cms.bool(False),
                               ## 0: 0 btags, 1: 1 btag; 2: 2 btags, 3: 3 or more btags 
                               btagBin = cms.int32(0)
                               )

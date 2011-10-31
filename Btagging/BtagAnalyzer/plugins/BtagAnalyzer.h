@@ -52,12 +52,13 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   edm::InputTag PUInfo_;
   edm::InputTag PUWeight_;
   edm::InputTag RA2Weight_;
-  edm::InputTag BtagEffWeights_;
+  edm::InputTag BtagEventWeights_;
+  edm::InputTag BtagJetWeights_;
   edm::InputTag BtagEffGrid_;
 
   // bool
-  bool useEvtWgt_;
-  bool useBtagEffEvtWgt_;
+  bool useEventWgt_;
+  bool useBtagEventWgt_;
 
   // int
   int btagBin_;
@@ -77,9 +78,8 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* nPU_noWgt_;
 
   TH1F* btagWeights_noWgt_;
-  TH1F* btagWeights_PUWgt_;
+  TH1F* btagWeights_;
   TH1F* nBtags_noWgt_;
-  TH1F* nBtags_PUWgt_;
   TH1F* nBtags_;
   TH1F* TCHE_;
   TH1F* TCHP_;
@@ -95,15 +95,12 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* JetsEta_;
   TH1F* JetsBdisc_;
   TH1F* NrJets_;
-
   TH1F* HighPtJetsEta_;
   TH1F* HighPtJetsBdisc_;
   TH1F* NrHighPtJets_;
-  
   TH1F* LowPtJetsEta_;
   TH1F* LowPtJetsBdisc_;
   TH1F* NrLowPtJets_;
-  
   TH1F* dPhiJetMET_;
 
   // Bjets
@@ -111,59 +108,54 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* BjetsEta_;
   TH1F* BjetsBdisc_;
   TH1F* NrBjets_;
-
   TH1F* HighPtBjetsEta_;
   TH1F* HighPtBjetsBdisc_;
   TH1F* NrHighPtBjets_;
-  
   TH1F* LowPtBjetsEta_;
   TH1F* LowPtBjetsBdisc_;
   TH1F* NrLowPtBjets_;
-  
   TH1F* dPhiBjetMET_;
 
   // Btags
   TH1F* BtagsPt_;
   TH1F* BtagsEta_;
   TH1F* NrBtags_;
-
   TH1F* HighPtBtagsEta_;
   TH1F* NrHighPtBtags_;
-  
   TH1F* LowPtBtagsEta_;
   TH1F* NrLowPtBtags_;
-  
   TH1F* dPhiBtagMET_;
 
   // Btags for >= 1 btag
   TH1F* BtagsPt_1b_;
   TH1F* BtagsEta_1b_;
-  
-  TH1F* HighPtBtagsEta_1b_;
-    
+  TH1F* HighPtBtagsEta_1b_; 
   TH1F* LowPtBtagsEta_1b_;
- 
   TH1F* dPhiBtagMET_1b_;
 
   // Btags for >= 2 btags
   TH1F* BtagsPt_2b_;
-  TH1F* BtagsEta_2b_;
-    
+  TH1F* BtagsEta_2b_;  
   TH1F* HighPtBtagsEta_2b_;
-    
-  TH1F* LowPtBtagsEta_2b_;
-    
+  TH1F* LowPtBtagsEta_2b_;  
   TH1F* dPhiBtagMET_2b_;
 
   // Btags for >= 3 btags
   TH1F* BtagsPt_3b_;
-  TH1F* BtagsEta_3b_;
-    
-  TH1F* HighPtBtagsEta_3b_;
-    
-  TH1F* LowPtBtagsEta_3b_;
-    
+  TH1F* BtagsEta_3b_;  
+  TH1F* HighPtBtagsEta_3b_; 
+  TH1F* LowPtBtagsEta_3b_; 
   TH1F* dPhiBtagMET_3b_;
+
+  // combined jet and event weighting applied
+  TH1F* BtagsPt_btagWeight_;
+  TH1F* BtagsEta_btagWeight_;
+  TH1F* BtagsPt_1b_btagWeight_;
+  TH1F* BtagsEta_1b_btagWeight_;
+  TH1F* BtagsPt_2b_btagWeight_;
+  TH1F* BtagsEta_2b_btagWeight_;
+  TH1F* BtagsPt_3b_btagWeight_;
+  TH1F* BtagsEta_3b_btagWeight_;
 
 };  
 
