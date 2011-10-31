@@ -10,8 +10,9 @@ from BjetsPAT_cfg import *
 process.weightProducer.Method = "PtHat"
 process.weightProducer.XS = 2.213E+10
 process.weightProducer.NumberEvts = 10715600
-process.weightProducer.Lumi = 3000 ## Lumi in 1/pb
+process.weightProducer.Lumi = 2000 ## Lumi in 1/pb
 
+process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(

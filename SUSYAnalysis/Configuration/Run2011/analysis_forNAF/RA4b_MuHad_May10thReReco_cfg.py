@@ -1,6 +1,5 @@
 from BjetsData_cfg import *
 
-
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
