@@ -15,5 +15,5 @@
 <use name="root"/>
 
 <library file="*.cc" name="BtaggingBtagWeightProducerPlugins">
-  <flags EDM_PLUGIN="1"/>
+ <flags EDM_PLUGIN="0"/>
 </library>

@@ -319,6 +319,7 @@ process.btagEventWeightTCHEM2.rootDir = "TCHEM2"
 
 process.btagEventWeightTCHEM3 = process.btagEventWeightTCHEM1.clone()
 process.btagEventWeightTCHEM3.rootDir = "TCHEM3"
+process.btagEventWeightTCHEM3.scaleJetEffSF = True
 
 process.btagEventWeightTCHEM4 = process.btagEventWeightTCHEM1.clone()
 process.btagEventWeightTCHEM4.rootDir = "TCHEM4"
@@ -426,3 +427,37 @@ process.analyzeBtags_test = cms.Path(process.preselectionMuHTMC2 *
                                      #process.analyzeBtagsTCHEM4 *
                                      #process.analyzeBtagsSSVHEM4
                                      )
+
+#-------------------------------------------------
+# Create patTuple
+#-------------------------------------------------
+
+process.EventSelection = cms.PSet(
+    SelectEvents = cms.untracked.PSet(
+    SelectEvents = cms.vstring('analyzeBtags_test'
+                               )
+    )
+)
+
+process.out = cms.OutputModule("PoolOutputModule",
+                               process.EventSelection,
+                               #outputCommands = cms.untracked.vstring('drop *'),
+                               #dropMetaData = cms.untracked.string('DROPPED'),
+                               fileName = cms.untracked.string('Summer11.root')
+                               )
+
+# Specify what to keep in the event content
+## from PhysicsTools.PatAlgos.patEventContent_cff import *
+## process.out.outputCommands += patEventContentNoCleaning
+## process.out.outputCommands += patExtraAodEventContent
+## process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+## process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
+## process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
+## process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
+
+#from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
+#process.out.outputCommands += SUSYEventContent
+#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
+#process.out.outputCommands += tqafEventContent
+
+process.outpath = cms.EndPath(process.out)
