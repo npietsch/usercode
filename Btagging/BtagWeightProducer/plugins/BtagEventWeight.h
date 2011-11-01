@@ -56,7 +56,8 @@ class BtagEventWeight : public edm::EDProducer {
   double maxEta_;
   double shift_;
   bool scaleJetEffSF_;
-  
+  bool scaleEventEffSF_;
+
   /// to load database
   std::map<std::string,PerformanceResult::ResultType> measureMap_;
   edm::ESHandle<BtagPerformance> perfHBTag;

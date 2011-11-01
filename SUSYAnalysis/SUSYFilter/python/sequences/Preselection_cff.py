@@ -24,6 +24,8 @@ LepHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*','HLT_Ele10*_
 
 MuTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_v1'],throw = False)
 
+DiLeptonTriggerMC = hltHighLevel.clone(HLTPaths = ['HLT_Mu*_Ele*'],throw = False)
+
 ## Data trigger v1, v2
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
@@ -169,6 +171,14 @@ preselectionElHTMC2 = cms.Sequence(ElHTTriggerMC2 *
                                    oneGoodVertex *
                                    scrapingVeto
                                    )
+
+
+preselectionDiLeptonMC = cms.Sequence(DiLeptonTriggerMC *
+                                      totalKinematicsFilter *
+                                      goodVertices *
+                                      oneGoodVertex *
+                                      scrapingVeto
+                                      )
 
 ## Data
 preselectionMuHTData = cms.Sequence(Mu_BEfilterSequence *

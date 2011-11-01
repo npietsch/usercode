@@ -14,7 +14,8 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   filename_       ( cfg.getParameter<std::string>   ("filename") ),
   rootDir_        ( cfg.getParameter<std::string>   ("rootDir" ) ),
   shift_          ( cfg.getParameter<double>        ("shift"   ) ),
-  scaleJetEffSF_  ( cfg.getParameter<bool>          ("scaleJetEffSF") )
+  scaleJetEffSF_  ( cfg.getParameter<bool>          ("scaleJetEffSF") ),
+  scaleEventEffSF_( cfg.getParameter<bool>          ("scaleEventEffSF") )
 {
 
   produces< std::vector<double> > ("RA4bJetWeights");
@@ -24,6 +25,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   produces< std::vector<double> > ("effBTagEventGrid");
 
   produces< std::vector<std::vector<double> > > ("RA4bJetWeightsGrid");
+  produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGrid");
 
   // set the edges of the last histo bin
   maxPt_ = 500.;
@@ -202,11 +204,6 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   *RA4bSFEventWeights = eventWeightsSF; 
   evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
 
-
-  //=======================================================================================
-  //=================================== BAUSTELLE =========================================
-  //=======================================================================================
-
   if(scaleJetEffSF_==true)
     {
       std::vector<std::vector<double> > BtagEffSFShiftGrid(0);
@@ -255,6 +252,49 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   //=================================== BAUSTELLE =========================================
   //=======================================================================================
 
+
+  if(scaleEventEffSF_==true)
+    {
+      std::vector<std::vector<double> > BtagEffSFShiftGrid(0);
+      
+      for(int sdx=-10; sdx <= 10 ; ++sdx)
+	{
+	  double SFShift=sdx*0.05;;
+	  
+	  double JetPt, JetEta;
+	  std::vector<double> oneMinusBEff_scaled(0);
+	  std::vector<double> oneMinusBMis_scaled(0);
+
+	  for(edm::View<pat::Jet>::const_iterator jet = jets->begin();jet != jets->end(); ++jet)
+	    {
+	      JetPt  = jet->pt();
+	      JetEta = std::abs(jet->eta());
+	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
+		{	
+		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift));
+		}
+	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
+		{
+		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift));
+		}
+	      else
+		{
+		  oneMinusBMis_scaled.push_back(1.-(effMisTag(JetPt, JetEta)*effMisTagSF(JetPt, JetEta)));
+		}
+	    }
+	  BtagEffSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
+	}
+       
+      // grid of jet weights with scale factors applied
+      std::vector<std::vector<double> > testSF = BtagEffSFShiftGrid;
+      std::auto_ptr<std::vector<std::vector<double> > >  RA4bEventWeightsGrid( new std::vector<std::vector<double> >);
+      *RA4bEventWeightsGrid =  testSF; 
+      evt.put(RA4bEventWeightsGrid,"RA4bEventWeightsGrid");
+    }
+  
+  //=======================================================================================
+  //=================================== BAUSTELLE =========================================
+  //=======================================================================================
 
   // systematic study on the influence of different eff and mis 
   double points[]={0.8, 0.9, 0.95, 1, 1.05, 1.1, 1.2};

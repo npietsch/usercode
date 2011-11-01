@@ -1,7 +1,10 @@
 from BjetsPAT_cfg import *
 
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 3048 
+process.weightProducer.NumberEvts = 36058014
+process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
-
 
 # Choose input files
 process.source = cms.Source("PoolSource",

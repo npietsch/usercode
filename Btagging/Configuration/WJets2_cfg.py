@@ -1,5 +1,10 @@
 from BjetsPAT_cfg import *
 
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 31314 
+process.weightProducer.NumberEvts = 81060362
+process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
+
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 
 # Choose input files

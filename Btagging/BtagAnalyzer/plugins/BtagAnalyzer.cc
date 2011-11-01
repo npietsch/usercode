@@ -26,19 +26,20 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   matchedLightJets_ (cfg.getParameter<edm::InputTag>("matchedLightJets") ),
   matchedBjets_     (cfg.getParameter<edm::InputTag>("matchedBjets" ) ),
   // for event weighting
-  PVSrc_              (cfg.getParameter<edm::InputTag>("PVSrc") ),
-  PUInfo_             (cfg.getParameter<edm::InputTag>("PUInfo") ),
-  PUWeight_           (cfg.getParameter<edm::InputTag>("PUWeight") ),
-  RA2Weight_          (cfg.getParameter<edm::InputTag>("RA2Weight") ),
-  BtagEventWeights_   (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
-  BtagJetWeights_     (cfg.getParameter<edm::InputTag>("BtagJetWeights") ),
-  BtagJetWeightsGrid_ (cfg.getParameter<edm::InputTag>("BtagJetWeightsGrid") ),
-  BtagEffGrid_        (cfg.getParameter<edm::InputTag>("BtagEffGrid") ),
+  PVSrc_                (cfg.getParameter<edm::InputTag>("PVSrc") ),
+  PUInfo_               (cfg.getParameter<edm::InputTag>("PUInfo") ),
+  PUWeight_             (cfg.getParameter<edm::InputTag>("PUWeight") ),
+  RA2Weight_            (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  BtagEventWeights_     (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
+  BtagJetWeights_       (cfg.getParameter<edm::InputTag>("BtagJetWeights") ),
+  BtagJetWeightsGrid_   (cfg.getParameter<edm::InputTag>("BtagJetWeightsGrid") ),
+  BtagEventWeightsGrid_ (cfg.getParameter<edm::InputTag>("BtagEventWeightsGrid") ),
+  BtagEffGrid_          (cfg.getParameter<edm::InputTag>("BtagEffGrid") ),
   // bool
-  useEventWgt_        (cfg.getParameter<bool>("useEventWeight") ),
-  useBtagEventWgt_    (cfg.getParameter<bool>("useBtagEventWeight") ),
+  useEventWgt_          (cfg.getParameter<bool>("useEventWeight") ),
+  useBtagEventWgt_      (cfg.getParameter<bool>("useBtagEventWeight") ),
   // int
-  btagBin_            (cfg.getParameter<int>("btagBin") )
+  btagBin_              (cfg.getParameter<int>("btagBin") )
 
 { 
   edm::Service<TFileService> fs;
@@ -147,6 +148,12 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histname2,"BtagsPt_2b_btagWeightGrid_%i",i1);
       BtagsPt_2b_btagWeightGrid_[i1]=fs->make<TH1F>(histname2,"btags pt", 70, 0., 700.);
     }
+  for(int i2=0; i2<4; ++i2)
+    {
+      char histname3[40];
+      sprintf(histname3,"BtagsWeight_%ibtags",i2);
+      BtagWeightsGrid_[i2]=fs->make<TH1F>(histname3,histname3, 21, 0., 21.);
+    }
 }
 
 BtagAnalyzer::~BtagAnalyzer()
@@ -243,12 +250,12 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  btagWeights_->Fill(2, weight*weight2b);
 	  btagWeights_->Fill(3, weight*weight3b);
 
-	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle).size() << std::endl;
-	  //std::cout << "SystematicsAnalyzer: " << weight0b << std::endl;
-	  //std::cout << "SystematicsAnalyzer: " << weight1b << std::endl;
-	  //std::cout << "SystematicsAnalyzer: " << weight2b << std::endl;
-	  //std::cout << "SystematicsAnalyzer: " << weight3b << std::endl;
-
+	  //std::cout << "BtagAnalyzer: " << (*BtagEventWeightsHandle).size() << std::endl;
+	  //std::cout << "BtagAnalyzer: " << weight0b << std::endl;
+	  //std::cout << "BtagAnalyzer: " << weight1b << std::endl;
+	  //std::cout << "BtagAnalyzer: " << weight2b << std::endl;
+	  //std::cout << "BtagAnalyzer: " << weight3b << std::endl;
+	  //std::cout << "BtagAnalyzer: " << weight0b+weight1b+weight2b+weight3b << std::endl;
 	  // obsolete
 	  //weightBtagEvent=(*BtagEventWeightsHandle)[btagBin_];
 	}
@@ -433,7 +440,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       else
 	{
 	  LowPtBtagsEta_->Fill((*bjets)[idx].eta(),weight);
-	  LowPtBtags_0b=LowPtBtags_0b+1;
+	  LowPtBtags_0b = LowPtBtags_0b+1;
 	}      
     }
   
@@ -534,13 +541,42 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     }
 
 
+  //=======================================================================================
+  //=================================== BAUSTELLE =========================================
+  //=======================================================================================
+
+  if(useBtagEventWgt_)
+    {
+      // btag event weights grid 
+      edm::Handle<std::vector<std::vector<double> > > BtagEventWeightsGridHandle;
+      evt.getByLabel(BtagEventWeightsGrid_, BtagEventWeightsGridHandle);
+
+      // loop over shifted scale factors
+      for(int sdx=0; sdx<=20; ++sdx)
+	{
+	  for(int idx=0; idx<4; ++idx)
+	   {
+	     for(int jdx=idx; jdx<4; ++jdx)
+	     {
+	       BtagWeightsGrid_[idx]->Fill(sdx,weight*(*BtagEventWeightsGridHandle)[sdx][jdx]);
+	     }
+	   }
+	} 
+    }
+  
+  //=======================================================================================
+  //=================================== BAUSTELLE =========================================
+  //=======================================================================================
+
+
+
   //================================================================================================================
   //================================================================================================================ 
   // Histograms with btag jet and event weights applied
   //================================================================================================================
   //================================================================================================================ 
 
-  if(useBtagEventWgt_)
+  if(useBtagEventWgt_ && jets->size()>0)
     {
       // btag jet weights
       edm::Handle<std::vector<double> > BtagJetWeightsHandle;
@@ -550,16 +586,10 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // Kinematics of b-tagged jets ("btags")
       //------------------------------------------------------
 
-      //std::cout << "" << std::endl;
-      //std::cout << "BtagAnalyzer" << std::endl;
-      //std::cout << "----------------" << std::endl;
-
       //Loop over b-tagged jets ("btags")
       for(int idx=0; idx < (int)jets->size(); ++idx)
 	{
 	  double combinedWeight=weight*(*BtagJetWeightsHandle)[idx];
-
-	  //std::cout << (*BtagJetWeightsHandle)[idx] << std::endl;
 
 	  BtagsPt_btagWeight_->Fill((*jets)[idx].pt(),combinedWeight);
 	  BtagsEta_btagWeight_->Fill((*jets)[idx].eta(),combinedWeight);    
@@ -625,16 +655,12 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // loop over different scale factors applied
       for(int sdx=0; sdx <= 20 ; ++sdx)
 	{
-	  //std::cout << "sdx: " << sdx <<std::endl;
-	  //std::cout << "(*BtagJetWeightsGridHandle)[sdx][idx]: " << (*BtagJetWeightsGridHandle)[sdx][0] << std::endl;
 	  // at least one "b-tagged jet"
 	  if(jets->size()>0)
 	    { 
 	      // Loop over b-tagged jets ("btags")
 	      for(int idx=0; idx < (int)jets->size(); ++idx)
 		{
-		  //std::cout << "sdx, idx1: " << sdx << ", " << idx << std::endl;
-
 		  double combinedWeight=weight*(weight1b+weight2b+weight3b)*((*BtagJetWeightsGridHandle)[sdx][idx]);
 		  
 		  BtagsPt_1b_btagWeightGrid_[sdx]->Fill((*jets)[idx].pt(),combinedWeight);
@@ -646,8 +672,6 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	      // Loop over b-tagged jets ("btags")
 	      for(int idx=0; idx < (int)jets->size(); ++idx)
 		{
-		  //std::cout << "sdx, idx12: " << sdx << idx <<std::endl;
-
 		  double combinedWeight=weight*(weight2b+weight3b)*((*BtagJetWeightsGridHandle)[sdx][idx]);
 		  
 		  BtagsPt_2b_btagWeightGrid_[sdx]->Fill((*jets)[idx].pt(),combinedWeight);
