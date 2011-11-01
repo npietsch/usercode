@@ -393,6 +393,8 @@ process.analyzeBtagsTCHEM3sf.BtagJetWeights = "btagEventWeightTCHEM3:RA4bSFJetWe
 process.analyzeBtagsTCHEM3sf.BtagJetWeightsGrid = "btagEventWeightTCHEM3:RA4bJetWeightsGrid"
 process.analyzeBtagsTCHEM3sf.BtagEventWeightsGrid = "btagEventWeightTCHEM3:RA4bEventWeightsGrid"
 
+process.analyzeBtagsTCHEM3sf2 = process.analyzeBtagsTCHEM3sf.clone()
+
 # SSVHEM
 process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
 process.analyzeBtagsSSVHEM1.bjets = "mediumSSVHighEffBjets"
@@ -417,6 +419,8 @@ process.analyzeBtagsSSVHEM3sf.BtagEventWeights = "btagEventWeightSSVHEM3:RA4bSFE
 process.analyzeBtagsSSVHEM3sf.BtagJetWeights = "btagEventWeightSSVHEM3:RA4bSFJetWeights"
 process.analyzeBtagsSSVHEM3sf.BtagJetWeightsGrid = "btagEventWeightSSVHEM3:RA4bJetWeightsGrid"
 process.analyzeBtagsSSVHEM3sf.BtagEventWeightsGrid = "btagEventWeightSSVHEM3:RA4bEventWeightsGrid"
+
+process.analyzeBtagsSSVHEM3sf2 = process.analyzeBtagsSSVHEM3sf.clone()
 
 #--------------------------
 # Test path
@@ -462,8 +466,8 @@ process.analyzeBtags_DiLep = cms.Path(process.preselectionDiLeptonMC *
                                       # jet selection
                                       process.twoGoodJets *
                                       # analyze btags
-                                      process.analyzeBtagsTCHEM3sf *
-                                      process.analyzeBtagsSSVHEM3sf
+                                      process.analyzeBtagsTCHEM3sf2 *
+                                      process.analyzeBtagsSSVHEM3sf2
                                       )
 
 ## #-------------------------------------------------
