@@ -37,59 +37,94 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
+
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+
+process.highPtJets = selectedPatJets.clone(src = 'goodJets',
+                                           cut =
+                                           'pt > 240'
+                                           )
+
+process.lowPtJets = selectedPatJets.clone(src = 'goodJets',
+                                          cut =
+                                          'pt < 240'
+                                          )
+
+
 #----------------------------------------------------------------------------------------
 # Load and configure modules for analysis of b-tagging
 #----------------------------------------------------------------------------------------
 
 from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
 
-process.analyzeBtags = analyzeBtags.clone()
-
 # TCHEM
-process.analyzeBtagsTCHEM1 = process.analyzeBtags.clone()
-process.analyzeBtagsTCHEM1.bjets = "mediumTrackHighEffBjets"
+process.analyzeBtagsTCHEM3 = analyzeBtags.clone()
+process.analyzeBtagsTCHEM3.bjets = "mediumTrackHighEffBjets"
 
-process.analyzeBtagsTCHEM2 = process.analyzeBtagsTCHEM1.clone()
+process.analyzeBtagsTCHEM3highPt = process.analyzeBtagsTCHEM3.clone()
+process.analyzeBtagsTCHEM3highPt.jets = "highPtJets"
 
-process.analyzeBtagsTCHEM3 = process.analyzeBtagsTCHEM1.clone()
+process.analyzeBtagsTCHEM3lowPt = process.analyzeBtagsTCHEM3.clone()
+process.analyzeBtagsTCHEM3lowPt.jets = "lowPtJets"
 
-process.analyzeBtagsTCHEM4 = process.analyzeBtagsTCHEM1.clone()
-
-# TCHEM with scale factors
-process.analyzeBtagsTCHEM3sf = process.analyzeBtagsTCHEM1.clone()
+process.analyzeBtagsTCHEM3dilep = process.analyzeBtagsTCHEM3.clone()
+process.analyzeBtagsTCHEM3highPtdilep = process.analyzeBtagsTCHEM3highPt.clone()
+process.analyzeBtagsTCHEM3lowPtdilep  = process.analyzeBtagsTCHEM3lowPt.clone()
 
 # SSVHEM
-process.analyzeBtagsSSVHEM1 = process.analyzeBtags.clone()
-process.analyzeBtagsSSVHEM1.bjets = "mediumSSVHighEffBjets"
+process.analyzeBtagsSSVHEM3 = analyzeBtags.clone()
+process.analyzeBtagsSSVHEM3.bjets = "mediumSSVHighEffBjets"
 
-process.analyzeBtagsSSVHEM2 = process.analyzeBtagsSSVHEM1.clone()
+process.analyzeBtagsSSVHEM3highPt = process.analyzeBtagsSSVHEM3.clone()
+process.analyzeBtagsSSVHEM3highPt.jets = "highPtJets"
 
-process.analyzeBtagsSSVHEM3 = process.analyzeBtagsSSVHEM1.clone()
+process.analyzeBtagsSSVHEM3lowPt = process.analyzeBtagsSSVHEM3.clone()
+process.analyzeBtagsSSVHEM3lowPt.jets = "lowPtJets"
 
-process.analyzeBtagsSSVHEM4 = process.analyzeBtagsSSVHEM1.clone()
-
-# TCHEM  with scale factors
-process.analyzeBtagsSSVHEM3sf = process.analyzeBtagsSSVHEM1.clone()
+process.analyzeBtagsSSVHEM3dilep = process.analyzeBtagsSSVHEM3.clone()
+process.analyzeBtagsSSVHEM3highPtdilep = process.analyzeBtagsSSVHEM3highPt.clone()
+process.analyzeBtagsSSVHEM3lowPtdilep  = process.analyzeBtagsSSVHEM3lowPt.clone()
 
 #--------------------------
 # Test path
 #--------------------------
 
-process.analyzeBtags_test = cms.Path(process.preselectionMuHTAllData *
+process.analyzeBtags_test = cms.Path(# Standard RA4b preselection
+                                     process.preselectionMuHTAllData *
                                      process.makeObjects *
-                                     # MuHad selection
                                      process.MuHadSelection *
+                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                     process.highPtJets *
+                                     process.lowPtJets *
                                      # muon selection
-                                     process.muonSelection*
+                                     process.muonSelection *
                                      # jet selection
-                                     process.jetSelection*
+                                     process.jetSelection *
+                                     # analyze btags
                                      process.analyzeBtagsTCHEM3 *
-                                     process.analyzeBtagsSSVHEM3*
-                                     process.analyzeBtagsTCHEM3sf *
-                                     process.analyzeBtagsSSVHEM3sf #*
-                                     # tight selection
-                                     #process.filterMediumHT *
-                                     #process.oneMediumMET *
-                                     #process.analyzeBtagsTCHEM4 *
-                                     #process.analyzeBtagsSSVHEM4
+                                     process.analyzeBtagsSSVHEM3 *
+                                     process.analyzeBtagsTCHEM3lowPt *
+                                     process.analyzeBtagsSSVHEM3lowPt *
+                                     process.analyzeBtagsTCHEM3highPt *
+                                     process.analyzeBtagsSSVHEM3highPt
                                      )
+
+process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
+                                      process.preselectionMuHTAllData *
+                                      process.makeObjects *
+                                      process.MuHadSelection *
+                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                      process.highPtJets *
+                                      process.lowPtJets *
+                                      # muon selection
+                                      process.oneGoodMuon *
+                                      # jet selection
+                                      process.twoGoodJets*
+                                      # analyze btags
+                                      process.analyzeBtagsTCHEM3dilep *
+                                      process.analyzeBtagsSSVHEM3dilep*
+                                      process.analyzeBtagsTCHEM3lowPtdilep *
+                                      process.analyzeBtagsSSVHEM3lowPtdilep *
+                                      process.analyzeBtagsTCHEM3highPtdilep *
+                                      process.analyzeBtagsSSVHEM3highPtdilep
+                                      )

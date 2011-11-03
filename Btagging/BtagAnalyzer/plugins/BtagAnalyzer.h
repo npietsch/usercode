@@ -113,6 +113,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* HighPtBjetsEta_;
   TH1F* HighPtBjetsBdisc_;
   TH1F* NrHighPtBjets_;
+  TH1F* NrHighPtBjets_2;
   TH1F* LowPtBjetsEta_;
   TH1F* LowPtBjetsBdisc_;
   TH1F* NrLowPtBjets_;
@@ -163,6 +164,7 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F *BtagsPt_2b_btagWeightGrid_[21];
 
   TH1F *BtagWeightsGrid_[4];
+  TH1F *BtagWeightsGrid_excl_[4];
 };  
 
 #endif  

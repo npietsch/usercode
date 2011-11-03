@@ -44,11 +44,11 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
 { 
   edm::Service<TFileService> fs;
 
-  //Dummy_=fs->make<TH1F>();
-  //Dummy_->SetDefaultSumw2(true);
+  Dummy_=fs->make<TH1F>();
+  Dummy_->SetDefaultSumw2(true);
 
-  //Dummy2_=fs->make<TH2F>();
-  //Dummy2_->SetDefaultSumw2(true);
+  Dummy2_=fs->make<TH2F>();
+  Dummy2_->SetDefaultSumw2(true);
 
   // control plots
   nPV_noWgt_ = fs->make<TH1F>("nPV_noWgt","nPV_noWgt", 50, 0.,  50  );
@@ -91,6 +91,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   HighPtBjetsEta_ = fs->make<TH1F>("HighPtBjetsEta","HighPtBjetsEta", 30, -3. , 3.);
   HighPtBjetsBdisc_ = fs->make<TH1F>("HighPtBjetsBdisc","HighPtBjetsBdisc", 80, -10., 30.);
   NrHighPtBjets_ = fs->make<TH1F>("NrHighPtBjets","NrHighPtBjets", 7, -0.5, 6.5);
+  NrHighPtBjets_2_ = fs->make<TH1F>("NrHighPtBjets_2","NrHighPtBjets_2", 7, -0.5, 6.5);
   LowPtBjetsEta_ = fs->make<TH1F>("LowPtBjetsEta","LowPtBjetsEta", 30, -3. , 3.);
   LowPtBjetsBdisc_ = fs->make<TH1F>("LowPtBjetsBdisc","LowPtBjetsBdisc", 80, -10., 30.);
   NrLowPtBjets_ = fs->make<TH1F>("NrLowPtBjets","NrLowPtBjets", 7, -0.5, 6.5);
@@ -148,11 +149,18 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histname2,"BtagsPt_2b_btagWeightGrid_%i",i1);
       BtagsPt_2b_btagWeightGrid_[i1]=fs->make<TH1F>(histname2,"btags pt", 70, 0., 700.);
     }
-  for(int i2=0; i2<4; ++i2)
+  for(int i3=0; i3<4; ++i3)
     {
       char histname3[40];
-      sprintf(histname3,"BtagsWeight_%ibtags",i2);
-      BtagWeightsGrid_[i2]=fs->make<TH1F>(histname3,histname3, 21, 0., 21.);
+      sprintf(histname3,"BtagsWeight_%ibtags",i3);
+      BtagWeightsGrid_[i3]=fs->make<TH1F>(histname3,histname3, 21, 0., 21.);
+    }
+
+  for(int i4=0; i4<4; ++i4)
+    {
+      char histname4[40];
+      sprintf(histname4,"BtagsWeight_excl_%ibtags",i4);
+      BtagWeightsGrid_excl_[i4]=fs->make<TH1F>(histname4,histname4, 21, 0., 21.);
     }
 }
 
@@ -446,6 +454,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   NrBtags_->Fill(bjets->size(),weight);
   NrHighPtBtags_->Fill(HighPtBtags_0b,weight);
+  if(jets->size()>0) NrHighPtBtags_2_->Fill(HighPtBtags_0b,weight);
+
   NrLowPtBtags_->Fill(LowPtBtags_0b,weight);
 
   dPhiBtagMET_->Fill(dPhiMinBtag_0b,weight);
@@ -554,12 +564,18 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // loop over shifted scale factors
       for(int sdx=0; sdx<=20; ++sdx)
 	{
+	  // fill inclusive bins
 	  for(int idx=0; idx<4; ++idx)
 	   {
 	     for(int jdx=idx; jdx<4; ++jdx)
 	     {
 	       BtagWeightsGrid_[idx]->Fill(sdx,weight*(*BtagEventWeightsGridHandle)[sdx][jdx]);
 	     }
+	   }
+	  //fill exclusivw bins
+	  for(int idx=0; idx<4; ++idx)
+	   {
+	     BtagWeightsGrid_excl_[idx]->Fill(sdx,weight*(*BtagEventWeightsGridHandle)[sdx][idx]);
 	   }
 	} 
     }
