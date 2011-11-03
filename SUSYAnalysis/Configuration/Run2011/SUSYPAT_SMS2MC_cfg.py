@@ -69,7 +69,7 @@ for line in fileCat :
 
     #Check that point has 10000 events
     if ( len(lineList) < 5 ) :
-        continue
+        break #break since point is found, but there are no files
     #if ( lineList[2] == '10000' ) :
 
     for fileName in lineList[4:] :
