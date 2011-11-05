@@ -22,7 +22,7 @@ rm WJets_*.root
 rm BtagEff_DY*.root
 cp ../Btagging/Configuration/naf_DY1_cfg/BtagEff.root ./DY_1.root
 cp ../Btagging/Configuration/naf_DY2_cfg/BtagEff.root ./DY_2.root
-hadd DY.root DY_?.root
+hadd BtagEff_DY.root DY_?.root
 rm DY_*.root
 
 rm BtagEff_QCD*.root
