@@ -52,24 +52,24 @@ int Btagging_Shape2()
   TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
   TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
   TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
-  TFile* NonTTJets =new TFile("BtagEff_NonTTJets.root", "READ");
+  TFile* QCD =new TFile("BtagEff_QCD.root", "READ");
 
   // addSample(TFile* sample, TString name)
-  //addSample(TTJets, "TTJets");
-  //addSample(WJets, "WJets");
-  //addSample(SingleTop, "SingleTop");
-  //addSample(DYJets, "DYJets");
-  addSample(NonTTJets, "NonTTJets");
+  addSample(TTJets, "TTJets");
+  addSample(WJets, "WJets");
+  addSample(SingleTop, "SingleTop");
+  addSample(DYJets, "DYJets");
+  addSample(QCD, "QCD");
 
   // addAlgorithm(TString name)
-  addAlgorithm("TCHEM");
-  //addAlgorithm("SSVHEM");
+  //addAlgorithm("TCHEM");
+  addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name)
   addSelectionStep("1", 1, "Preselection");
-  addSelectionStep("2", 2, "Muon selection");
+  addSelectionStep("2", 2, "Electron selection");
   addSelectionStep("3", 4, "Jet selection");
-  addSelectionStep("4", 8, "MET>70, HT>350");
+  addSelectionStep("4", 8, "MET < 300 GeV");
 
   // Flavors
   Flavors.push_back("B");
@@ -112,13 +112,13 @@ int Btagging_Shape2()
 		{
 		  std::cout << "Selection step " << Steps[s] <<  std::endl;
 
-		  std::cout << "bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
+		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
 
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
+		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
 
 		  TaggedPt_->Divide(Pt_);
 
@@ -193,7 +193,7 @@ int Btagging_Shape2()
 		  
 		}
 	      leg->Draw("box");
-	      canvas->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_Pt.pdf");
+	      canvas->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElPt.pdf");
 
 
 	      //----------------------------------------------------------------------------------------------
@@ -213,13 +213,13 @@ int Btagging_Shape2()
 		{
 		  std::cout << "Selection step " << Steps[s] <<  std::endl;
 
-		  std::cout << "bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
+		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
 
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
+		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
 		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEff"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
+		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
 
 		  TaggedEta_->Divide(Eta_);
 
@@ -288,7 +288,7 @@ int Btagging_Shape2()
 		  
 		}
 	      //leg2->Draw("box");
-	      canvas2->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_Eta.pdf");
+	      canvas2->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElEta.pdf");
 
 
 	    }
