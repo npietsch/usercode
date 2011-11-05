@@ -42,3 +42,5 @@ nafJobSplitter.pl 230 ElHad_PromptReco1_v4_cfg.py
 nafJobSplitter.pl 243 ElHad_PromptReco2_v4_cfg.py
 nafJobSplitter.pl 101 ElHad_Aug5_cfg.py
 nafJobSplitter.pl 167 ElHad_PromptReco_v6_cfg.py
+nafJobSplitter.pl 200 ElHad_B_PromptReco1_v1_cfg.py
+nafJobSplitter.pl 81 ElHad_B_PromptReco2_v1_cfg.py
