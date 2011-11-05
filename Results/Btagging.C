@@ -17,18 +17,29 @@ vector<unsigned int> LineColors;
 vector<unsigned int> FillColors;
 vector<unsigned int> FillStyles;
 
+vector<TFile*> DataFiles;
+vector<TString> DataNames;
+vector<double> DataWeights;
+vector<unsigned int> DataLineColors;
+vector<unsigned int> DataFillColors;
+vector<unsigned int> DataFillStyles;
+
 vector<TString> Histograms;
-vector<TString> DataHistograms;
 vector<double> XminN;
 vector<double> XmaxN;
 vector<double> XminR;
 vector<double> XmaxR;
 
-vector<double> Scales;
+vector<TString> DataHistograms;
+vector<double> DataXminN;
+vector<double> DataXmaxN;
+vector<double> DataXminR;
+vector<double> DataXmaxR;
 
 vector<TString> Selections;
 vector<TString> DataSelections;
 
+vector<double> Scales;
 
 void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
 
@@ -40,6 +51,18 @@ void addSample(TFile* sample, TString name, double weight, int lc, int fc, int f
   LineColors.push_back(lc);
   FillColors.push_back(fc);
   FillStyles.push_back(fs);
+}
+
+void addDataSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+
+void addDataSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+{
+  DataFiles.push_back(sample);
+  DataNames.push_back(name);
+  DataWeights.push_back(weight);
+  DataLineColors.push_back(lc);
+  DataFillColors.push_back(fc);
+  DataFillStyles.push_back(fs);
 }
 
 void addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
@@ -58,21 +81,18 @@ void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
 void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
 {
   DataHistograms.push_back(name);
-  XminN.push_back(xminN);
-  XmaxN.push_back(xmaxN);
-  XminR.push_back(xminR);
-  XmaxR.push_back(xmaxR);
+  DataXminN.push_back(xminN);
+  DataXmaxN.push_back(xmaxN);
+  DataXminR.push_back(xminR);
+  DataXmaxR.push_back(xmaxR);
 }
 
 int Btagging()
 {
 
-  // Normalize background to data?
+  // Normalize background to data? -1: No histogram normalized, 0: only specified normalized, +1: all normalized
   int Normalize=0;
   
-  // Number of signal samples
-  int s=1;
-
   //--------------------------------------------------------------
   // Samples and event weights
   //--------------------------------------------------------------
@@ -84,12 +104,16 @@ int Btagging()
   TFile* QCD=new TFile("QCD.root","READ");
   TFile* MuHad=new TFile("MuHad.root","READ");
 
+  TFile* SM=new TFile("SM.root","READ");
+
   // Luminosity for MuHad
   Int_t Luminosity=2960;
-  
+  //Int_t Luminosity=3652.723;
+
   // Luminosity for ElHad
   //Int_t Luminosity=2166;
-  
+  //Int_t Luminosity=3610.583;
+
   Int_t NGQCD=1;
   Double_t XSQCD=0.001;
   
@@ -127,48 +151,107 @@ int Btagging()
   // addSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(QCD,       "QCD",           WeightQCD,       kBlue-7,  kBlue-7,  1101);
-  addSample(DY,        "DY+Jets",       WeightDY,        kGreen+2, kGreen+2, 1101);
-  addSample(WJets,     "W+Jets",        WeightWJets,     kYellow,  kYellow,  1101);
-  addSample(SingleTop, "Single Top",    WeightSingleTop, kRed+2,   kRed+2,   1101);
-  addSample(TTJets,    "T#bar{T}+Jets", WeightTTJets,    kRed,     kRed,     1101);
+  addSample(QCD,       "QCD",           1, kBlue-7,  kBlue-7,  1101);
+  addSample(DY,        "DY+Jets",       1, kGreen+2, kGreen+2, 1101);
+  addSample(WJets,     "W+Jets",        1, kYellow,  kYellow,  1101);
+  addSample(SingleTop, "Single Top",    1, kRed+2,   kRed+2,   1101);
+  addSample(TTJets,    "T#bar{T}+Jets", 1, kRed,     kRed,     1101);
 
-  addSample(MuHad,      "MuHad",        1,               1,        0,        0);
+  addDataSample(MuHad,      "MuHad",    1, 1,        0,        0);
 
-  int f=Files.size();
+  //-------------------------------------------------------------------------------------------------
+  // push back selection step to vector<TString> Selections and DataSelection;
+  //-------------------------------------------------------------------------------------------------
 
-  //--------------------------------------------------------------
-  // push back selection step to vector<TString> Selections;
-  //--------------------------------------------------------------
+  Selections.push_back("analyzeBtagsSSVHEM3");
 
-  Selections.push_back("analyzeBtagsSSVHEM3sf");
+  DataSelections.push_back("analyzeBtagsSSVHEM3");
 
-  //--------------------------------------------------------------
-  // push back selection step to vector<TString> DataSelections;
-  //--------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+  // push back histogram to vector<int> Histograms and DataHistograms;
+  //-------------------------------------------------------------------------------------------------
 
-  DataSelections.push_back("analyzeBtagsSSVHEM3sf");
-
-  //--------------------------------------------------------------
-  // push back histogram to vector<int> Histograms;
-  //--------------------------------------------------------------
-
-//   Histograms.push_back("LowPtJetsBdisc",  1, 1, 1, 1);
-//   Histograms.push_back("HighPtJetsBdisc", 1, 1, 1, 1);
-//   Histograms.push_back("NrBtags");
-//   Histograms.push_back("LowPtBtagsEta");
-//   Histograms.push_back("HighPtBtagsEta");
-//   Histograms.push_back("dPhiBtagMET");
-  addHistogram("BtagsPt_btagWeight" , 1, 1, 1, 1);
-  addHistogram("BtagsPt" , 1, 1, 1, 1);
+  addHistogram("btagWeights_noWgt", 1, 1, 1, 1);
   addHistogram("btagWeights", 1, 1, 1, 1);
-//   Histograms.push_back("JetsPt");
-//   Histograms.push_back("BtagsPt_1b");
-//   Histograms.push_back("BtagsPt_2b");
-
-  addDataHistogram("BtagsPt" , 1, 1, 1, 1);
-  addDataHistogram("BtagsPt" , 1, 1, 1, 1);
+  
+  addDataHistogram("nBtags_noWgt", 1, 1, 1, 1);
   addDataHistogram("nBtags", 1, 1, 1, 1);
+
+  //===========================================================================
+  //================================ BAUSTELLE ================================
+  //===========================================================================
+
+
+  //--------------------------------------------------------------
+  // Calculate scale factors and ratios
+  //--------------------------------------------------------------
+
+  for(int h=0; h<(int)Histograms.size(); ++h)
+    {
+      double AllData=0;
+      double AllMC=0;
+      double AllDataErr=0;
+      double AllMCErr=0;
+      
+      double CombinedRatio=1;
+      double CombinedRatioErr=0;
+      
+      for(int sel=0; sel<(int)Selections.size(); ++sel)
+	{
+	  std::cout << "----------------------------------" << std::endl;
+	  std::cout << Histograms[h] << std::endl;
+	  std::cout << "----------------------------------" << std::endl;
+
+	  double xmin=XminN[h];
+	  double xmax=XmaxN[h];
+	  
+	  // if no histogram should be normalized
+	  if(Normalize==-1)
+	    {
+	      xmin=0;
+	      xmax=0;
+	    }
+	  // if all histograms should be normalized
+	  if(Normalize==1)
+	    {
+	      if(xmin==0 && xmax==0)
+		{
+	      xmin=1;
+	      xmax=1;
+		}
+	    }
+	  
+	  // if MC background should not be normalized to data
+	  if(xmin==0 && xmax==0)
+	    {
+	      Scales.push_back(1);
+	      std::cout << "Scale factor: 1"  << std::endl;
+	    }
+	  else
+	    {
+	      // if MC background should be normalized to data in whole region
+	      if(xmin==1 && xmax==1)
+		{
+		  xmin=0;
+		  TH1F* Hist=(TH1F*)SM->Get(Selections[sel]+"/"+Histograms[h]);
+		  xmax=Hist->GetNbinsX()+1;
+		}
+
+	      double MC=Luminosity*(hist->Integral(xmin,xmax));
+	      double MCErr=sqrt(hist->GetEntries());
+
+
+	    }
+
+	}
+
+    }
+
+  //===========================================================================
+  //================================ BAUSTELLE ================================
+  //===========================================================================
+
+
 
 //   //--------------------------------------------------------------
 //   // Calculate scale factors and ratios
@@ -326,13 +409,13 @@ int Btagging()
       std::cout << Histograms[h] << std::endl;
       
       // loop over f-s MC background files
-      for(int i=0; i<f-s; ++i)
+      for(int i=0; i<Files.size(); ++i)
 	{
 	  plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	}      
       
       // loop over s MC and data signal files
-      for(int i=f-s; i<f; ++i)
+      for(int i=0; i<DataFiles.size(); ++i)
 	{
 	  plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+DataHistograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	}       
