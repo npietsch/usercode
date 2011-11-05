@@ -30,11 +30,12 @@ nafJobSplitter.pl 218 QCD1_cfg.py
 nafJobSplitter.pl 231 QCD2_cfg.py
 
 nafJobSplitter.pl 221 MuHad_May10_cfg.py
-nafJobSplitter.pl 209 MuHad_PromptReco1_v4_cfg.py
-nafJobSplitter.pl 201 MuHad_PromptReco2_v4_cfg.py
+nafJobSplitter.pl 200 MuHad_PromptReco1_v4_cfg.py
+nafJobSplitter.pl 210 MuHad_PromptReco2_v4_cfg.py
 nafJobSplitter.pl 111 MuHad_Aug5_cfg.py
-nafJobSplitter.pl 172 MuHad_PromptReco_v6_cfg.py
-nafJobSplitter.pl 166 MuHad_B_PromptReco_v1_cfg.py
+nafJobSplitter.pl 176 MuHad_PromptReco_v6_cfg.py
+nafJobSplitter.pl 200 MuHad_B_PromptReco1_v1_cfg.py
+nafJobSplitter.pl 177 MuHad_B_PromptReco2_v1_cfg.py
 
 #nafJobSplitter.pl 203 ElHad_May10_cfg.py
 #nafJobSplitter.pl 230 ElHad_PromptReco1_v4_cfg.py
