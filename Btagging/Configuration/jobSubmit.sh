@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nafJobSplitter.pl 50 TTJets_cfg.py
+nafJobSplitter.pl 235 TTJets_cfg.py
 #nafJobSplitter.pl 50 SemiLepTTBar_cfg.py
 #nafJobSplitter.pl 50 OtherTTBar_cfg.py
 #nafJobSplitter.pl 50 FullLepTTBar_cfg.py

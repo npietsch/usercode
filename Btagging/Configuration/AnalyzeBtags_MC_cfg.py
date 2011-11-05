@@ -300,6 +300,13 @@ process.lowPtJets = selectedPatJets.clone(src = 'goodJets',
                                           'pt < 240'
                                           )
 
+## select events with at least 2 high pt jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
+                                           minNumber = 2
+                                           )
+
+
 #-----------------------------------------------------------------
 # Load and configure modules for event weighting
 #-----------------------------------------------------------------
@@ -423,10 +430,12 @@ process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
                                      process.eventWeightPU *
                                      process.weightProducer *
                                      process.makeObjects *
-                                     process.MuHadSelection *
                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                      process.highPtJets *
                                      process.lowPtJets *
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.MuHadSelection *
                                      # produce btag event weights
                                      process.btagEventWeightSSVHEM3 *
                                      process.btagEventWeightTCHEM3 *
@@ -452,10 +461,12 @@ process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.eventWeightPU *
                                       process.weightProducer *
                                       process.makeObjects *
-                                      process.MuHadSelection *
                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                       process.highPtJets *
                                       process.lowPtJets *
+                                      process.twoHighPtJets *
+                                      # match different triggers
+                                      process.MuHadSelection *
                                       # produce btag event weights
                                       process.btagEventWeightSSVHEM3 *
                                       process.btagEventWeightTCHEM3 *

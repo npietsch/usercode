@@ -50,6 +50,11 @@ process.lowPtJets = selectedPatJets.clone(src = 'goodJets',
                                           'pt < 240'
                                           )
 
+## select events with at least 2 high pt jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
+                                           minNumber = 2
+                                           )
 
 #----------------------------------------------------------------------------------------
 # Load and configure modules for analysis of b-tagging
@@ -92,10 +97,12 @@ process.analyzeBtagsSSVHEM3lowPtdilep  = process.analyzeBtagsSSVHEM3lowPt.clone(
 process.analyzeBtags_test = cms.Path(# Standard RA4b preselection
                                      process.preselectionMuHTAllData *
                                      process.makeObjects *
-                                     process.MuHadSelection *
                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                      process.highPtJets *
                                      process.lowPtJets *
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.MuHadSelection *
                                      # muon selection
                                      process.muonSelection *
                                      # jet selection
@@ -112,10 +119,12 @@ process.analyzeBtags_test = cms.Path(# Standard RA4b preselection
 process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.preselectionMuHTAllData *
                                       process.makeObjects *
-                                      process.MuHadSelection *
                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                       process.highPtJets *
                                       process.lowPtJets *
+                                      process.twoHighPtJets *
+                                      # match different triggers
+                                      process.MuHadSelection *
                                       # muon selection
                                       process.oneGoodMuon *
                                       # jet selection
