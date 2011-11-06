@@ -1,5 +1,6 @@
 #!/bin/bash
 
+nafJobSplitter.pl 8 LM3_cfg.py
 nafJobSplitter.pl 235 TTJets_cfg.py
 #nafJobSplitter.pl 50 SemiLepTTBar_cfg.py
 #nafJobSplitter.pl 50 OtherTTBar_cfg.py
@@ -9,13 +10,14 @@ nafJobSplitter.pl 235 TTJets_cfg.py
 
 #nafJobSplitter.pl 235 TTJets_cfg.py
 #nafJobSplitter.pl 235 OtherTTBar_cfg.py
-#nafJobSplitter.pl 235 SemiLepTTBar_cfg.py
+#nafJobSplitter.pl 235 SxemiLepTTBar_cfg.py
 #nafJobSplitter.pl 235 FullLepTTBar_cfg.py
 #nafJobSplitter.pl 235 FullHadTTBar_cfg.py
 #nafJobSplitter.pl 235 TauTTBar_cfg.py
 
 nafJobSplitter.pl 225 WJets1_cfg.py
 nafJobSplitter.pl 213 WJets2_cfg.py
+
 nafJobSplitter.pl 232 DY1_cfg.py
 nafJobSplitter.pl 227 DY2_cfg.py
 

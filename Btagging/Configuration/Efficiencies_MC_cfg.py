@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -493,6 +493,7 @@ process.BtagEfficiencies_Muon = cms.Path(# preselection
                                          process.makeObjects *
                                          process.eventWeightPU *
                                          process.weightProducer *
+                                         # match different triggers
                                          process.MuHadSelection *
                                          # estimate btag eff
                                          process.bTagEffRA4bMuTCHEM1 *
@@ -516,9 +517,8 @@ process.BtagEfficiencies_Muon = cms.Path(# preselection
                                          process.bTagEffRA4bMuTCHPT3 *
                                          process.bTagEffRA4bMuSSVHEM3 *
                                          process.bTagEffRA4bMuSSVHPT3 *
-                                         # tight selection
-                                         process.filterMediumHT *
-                                         process.oneMediumMET *
+                                         # additinal cut
+                                         process.oneNoSignalMET *
                                          # estimate btagg eff 
                                          process.bTagEffRA4bMuTCHEM4 *
                                          process.bTagEffRA4bMuTCHPM4 *
@@ -555,9 +555,8 @@ process.BtagEfficiencies_Electron = cms.Path(# preselection
                                              process.bTagEffRA4bElTCHPT3 *
                                              process.bTagEffRA4bElSSVHEM3 *
                                              process.bTagEffRA4bElSSVHPT3 *
-                                             # tight selection
-                                             process.filterMediumHT *
-                                             process.oneMediumMET *
+                                             # additinal cut
+                                             process.oneNoSignalMET *
                                              # estimate btagg eff 
                                              process.bTagEffRA4bElTCHEM4 *
                                              process.bTagEffRA4bElTCHPM4 *
@@ -597,9 +596,8 @@ process.BtagEfficiencies_Muon2 = cms.Path(# preselection
                                           process.bTagEffDilepMuTCHPT3 *
                                           process.bTagEffDilepMuSSVHEM3 *
                                           process.bTagEffDilepMuSSVHPT3 *
-                                          # tight selection
-                                          process.filterMediumHT *
-                                          process.oneMediumMET *
+                                          # additinal cut
+                                          process.oneNoSignalMET *
                                           # estimate btagg eff 
                                           process.bTagEffDilepMuTCHEM4 *
                                           process.bTagEffDilepMuTCHPM4 *
@@ -636,9 +634,8 @@ process.BtagEfficiencies_Electron2 = cms.Path(# preselection
                                               process.bTagEffDilepElTCHPT3 *
                                               process.bTagEffDilepElSSVHEM3 *
                                               process.bTagEffDilepElSSVHPT3 *
-                                              # tight selection
-                                              process.filterMediumHT *
-                                              process.oneMediumMET *
+                                              # additinal cut
+                                              process.oneNoSignalMET *
                                               # estimate btagg eff 
                                               process.bTagEffDilepElTCHEM4 *
                                               process.bTagEffDilepElTCHPM4 *

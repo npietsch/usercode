@@ -1,13 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("BtagEff") 
+process = cms.Process("AnalyzeBtags") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('BtagEff.root')
+                                   fileName = cms.string('AnalyzeBtags.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -264,6 +264,7 @@ process.source = cms.Source("PoolSource",
     '/store/user/npietsch/TTJets_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_100_1_Lza.root'
     )
 )
+
 #-----------------------------------------------------------------
 # Dummy output module
 #-----------------------------------------------------------------
@@ -286,363 +287,642 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
+
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
+
+process.highPtJets = selectedPatJets.clone(src = 'goodJets',
+                                           cut =
+                                           'pt > 240'
+                                           )
+
+process.lowPtJets = selectedPatJets.clone(src = 'goodJets',
+                                          cut =
+                                          'pt < 240'
+                                          )
+
+## select events with at least 2 high pt jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
+                                           minNumber = 2
+                                           )
+
+
 #-----------------------------------------------------------------
 # Load and configure modules for event weighting
 #-----------------------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
+#process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
+process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
+
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
-#------------------------------------------------------------------------------------------------------------
-# Load module to estimate b-tag efficiency and mis-tag rate for c and light quark jets in simulated events
-#------------------------------------------------------------------------------------------------------------
+process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 
-process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
-
-process.analyzeBTagEfficiency.jets = "goodJets"
-process.analyzeBTagEfficiency.binsPtB     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,500.
-process.analyzeBTagEfficiency.binsEtaB    =  0.,0.45,0.9,1.2,1.65,2.1,2.4,3.
-process.analyzeBTagEfficiency.binsPtL     =  0.,10.,20.,30.,40.,50.,60.,80.,140.,250.,500.
-process.analyzeBTagEfficiency.binsEtaL    =  0.,0.8,1.6,2.4,3.
-
-## Muon RA4b weights
-##--------------------------
-
-## TCHEM
-process.bTagEffRA4bMuTCHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bMuTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
-process.bTagEffRA4bMuTCHEM1.bTagDiscrCut = 3.3
-process.bTagEffRA4bMuTCHEM2 = process.bTagEffRA4bMuTCHEM1.clone()
-process.bTagEffRA4bMuTCHEM3 = process.bTagEffRA4bMuTCHEM1.clone()
-process.bTagEffRA4bMuTCHEM4 = process.bTagEffRA4bMuTCHEM1.clone()
-
-## TCHPM
-process.bTagEffRA4bMuTCHPM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bMuTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffRA4bMuTCHPM1.bTagDiscrCut = 1.93
-process.bTagEffRA4bMuTCHPM2 = process.bTagEffRA4bMuTCHPM1.clone()
-process.bTagEffRA4bMuTCHPM3 = process.bTagEffRA4bMuTCHPM1.clone()
-process.bTagEffRA4bMuTCHPM4 = process.bTagEffRA4bMuTCHPM1.clone()
-
-## TCHPT
-process.bTagEffRA4bMuTCHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bMuTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffRA4bMuTCHPT1.bTagDiscrCut = 3.41
-process.bTagEffRA4bMuTCHPT2 = process.bTagEffRA4bMuTCHPT1.clone()
-process.bTagEffRA4bMuTCHPT3 = process.bTagEffRA4bMuTCHPT1.clone()
-process.bTagEffRA4bMuTCHPT4 = process.bTagEffRA4bMuTCHPT1.clone()
-
-## SSVHEM
-process.bTagEffRA4bMuSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bMuSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
-process.bTagEffRA4bMuSSVHEM1.bTagDiscrCut = 1.74
-process.bTagEffRA4bMuSSVHEM2 = process.bTagEffRA4bMuSSVHEM1.clone()
-process.bTagEffRA4bMuSSVHEM3 = process.bTagEffRA4bMuSSVHEM1.clone()
-process.bTagEffRA4bMuSSVHEM4 = process.bTagEffRA4bMuSSVHEM1.clone()
-
-## SSVHPT
-process.bTagEffRA4bMuSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bMuSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
-process.bTagEffRA4bMuSSVHPT1.bTagDiscrCut = 2.0
-process.bTagEffRA4bMuSSVHPT2 = process.bTagEffRA4bMuSSVHPT1.clone()
-process.bTagEffRA4bMuSSVHPT3 = process.bTagEffRA4bMuSSVHPT1.clone()
-process.bTagEffRA4bMuSSVHPT4 = process.bTagEffRA4bMuSSVHPT1.clone()
-
-## Electron RA4b weights
-##--------------------------
-
-## TCHEM
-process.bTagEffRA4bElTCHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bElTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
-process.bTagEffRA4bElTCHEM1.bTagDiscrCut = 3.3
-process.bTagEffRA4bElTCHEM2 = process.bTagEffRA4bElTCHEM1.clone()
-process.bTagEffRA4bElTCHEM3 = process.bTagEffRA4bElTCHEM1.clone()
-process.bTagEffRA4bElTCHEM4 = process.bTagEffRA4bElTCHEM1.clone()
-
-## TCHPM
-process.bTagEffRA4bElTCHPM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bElTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffRA4bElTCHPM1.bTagDiscrCut = 1.93
-process.bTagEffRA4bElTCHPM2 = process.bTagEffRA4bElTCHPM1.clone()
-process.bTagEffRA4bElTCHPM3 = process.bTagEffRA4bElTCHPM1.clone()
-process.bTagEffRA4bElTCHPM4 = process.bTagEffRA4bElTCHPM1.clone()
-
-## TCHPT
-process.bTagEffRA4bElTCHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bElTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffRA4bElTCHPT1.bTagDiscrCut = 3.41
-process.bTagEffRA4bElTCHPT2 = process.bTagEffRA4bElTCHPT1.clone()
-process.bTagEffRA4bElTCHPT3 = process.bTagEffRA4bElTCHPT1.clone()
-process.bTagEffRA4bElTCHPT4 = process.bTagEffRA4bElTCHPT1.clone()
-
-## SSVHEM
-process.bTagEffRA4bElSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bElSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
-process.bTagEffRA4bElSSVHEM1.bTagDiscrCut = 1.74
-process.bTagEffRA4bElSSVHEM2 = process.bTagEffRA4bElSSVHEM1.clone()
-process.bTagEffRA4bElSSVHEM3 = process.bTagEffRA4bElSSVHEM1.clone()
-process.bTagEffRA4bElSSVHEM4 = process.bTagEffRA4bElSSVHEM1.clone()
-
-## SSVHPT
-process.bTagEffRA4bElSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffRA4bElSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
-process.bTagEffRA4bElSSVHPT1.bTagDiscrCut = 2.0
-process.bTagEffRA4bElSSVHPT2 = process.bTagEffRA4bElSSVHPT1.clone()
-process.bTagEffRA4bElSSVHPT3 = process.bTagEffRA4bElSSVHPT1.clone()
-process.bTagEffRA4bElSSVHPT4 = process.bTagEffRA4bElSSVHPT1.clone()
-
-## Muon Dilep weights
-##--------------------------
-
-## TCHEM
-process.bTagEffDilepMuTCHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepMuTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
-process.bTagEffDilepMuTCHEM1.bTagDiscrCut = 3.3
-process.bTagEffDilepMuTCHEM2 = process.bTagEffDilepMuTCHEM1.clone()
-process.bTagEffDilepMuTCHEM3 = process.bTagEffDilepMuTCHEM1.clone()
-process.bTagEffDilepMuTCHEM4 = process.bTagEffDilepMuTCHEM1.clone()
-
-## TCHPM
-process.bTagEffDilepMuTCHPM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepMuTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffDilepMuTCHPM1.bTagDiscrCut = 1.93
-process.bTagEffDilepMuTCHPM2 = process.bTagEffDilepMuTCHPM1.clone()
-process.bTagEffDilepMuTCHPM3 = process.bTagEffDilepMuTCHPM1.clone()
-process.bTagEffDilepMuTCHPM4 = process.bTagEffDilepMuTCHPM1.clone()
-
-## TCHPT
-process.bTagEffDilepMuTCHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepMuTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffDilepMuTCHPT1.bTagDiscrCut = 3.41
-process.bTagEffDilepMuTCHPT2 = process.bTagEffDilepMuTCHPT1.clone()
-process.bTagEffDilepMuTCHPT3 = process.bTagEffDilepMuTCHPT1.clone()
-process.bTagEffDilepMuTCHPT4 = process.bTagEffDilepMuTCHPT1.clone()
-
-## SSVHEM
-process.bTagEffDilepMuSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepMuSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
-process.bTagEffDilepMuSSVHEM1.bTagDiscrCut = 1.74
-process.bTagEffDilepMuSSVHEM2 = process.bTagEffDilepMuSSVHEM1.clone()
-process.bTagEffDilepMuSSVHEM3 = process.bTagEffDilepMuSSVHEM1.clone()
-process.bTagEffDilepMuSSVHEM4 = process.bTagEffDilepMuSSVHEM1.clone()
-
-## SSVHPT
-process.bTagEffDilepMuSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepMuSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
-process.bTagEffDilepMuSSVHPT1.bTagDiscrCut = 2.0
-process.bTagEffDilepMuSSVHPT2 = process.bTagEffDilepMuSSVHPT1.clone()
-process.bTagEffDilepMuSSVHPT3 = process.bTagEffDilepMuSSVHPT1.clone()
-process.bTagEffDilepMuSSVHPT4 = process.bTagEffDilepMuSSVHPT1.clone()
-
-## Electron Dilep weights
-##----------------------------
-
-## TCHEM
-process.bTagEffDilepElTCHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepElTCHEM1.bTagAlgo = "trackCountingHighEffBJetTags"
-process.bTagEffDilepElTCHEM1.bTagDiscrCut = 3.3
-process.bTagEffDilepElTCHEM2 = process.bTagEffDilepElTCHEM1.clone()
-process.bTagEffDilepElTCHEM3 = process.bTagEffDilepElTCHEM1.clone()
-process.bTagEffDilepElTCHEM4 = process.bTagEffDilepElTCHEM1.clone()
-
-## TCHPM
-process.bTagEffDilepElTCHPM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepElTCHPM1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffDilepElTCHPM1.bTagDiscrCut = 1.93
-process.bTagEffDilepElTCHPM2 = process.bTagEffDilepElTCHPM1.clone()
-process.bTagEffDilepElTCHPM3 = process.bTagEffDilepElTCHPM1.clone()
-process.bTagEffDilepElTCHPM4 = process.bTagEffDilepElTCHPM1.clone()
-
-## TCHPT
-process.bTagEffDilepElTCHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepElTCHPT1.bTagAlgo = "trackCountingHighPurBJetTags"
-process.bTagEffDilepElTCHPT1.bTagDiscrCut = 3.41
-process.bTagEffDilepElTCHPT2 = process.bTagEffDilepElTCHPT1.clone()
-process.bTagEffDilepElTCHPT3 = process.bTagEffDilepElTCHPT1.clone()
-process.bTagEffDilepElTCHPT4 = process.bTagEffDilepElTCHPT1.clone()
-
-## SSVHEM
-process.bTagEffDilepElSSVHEM1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepElSSVHEM1.bTagAlgo = "simpleSecondaryVertexHighEffBJetTags"
-process.bTagEffDilepElSSVHEM1.bTagDiscrCut = 1.74
-process.bTagEffDilepElSSVHEM2 = process.bTagEffDilepElSSVHEM1.clone()
-process.bTagEffDilepElSSVHEM3 = process.bTagEffDilepElSSVHEM1.clone()
-process.bTagEffDilepElSSVHEM4 = process.bTagEffDilepElSSVHEM1.clone()
-
-## SSVHPT
-process.bTagEffDilepElSSVHPT1 = process.analyzeBTagEfficiency.clone()
-process.bTagEffDilepElSSVHPT1.bTagAlgo = "simpleSecondaryVertexHighPurBJetTags"
-process.bTagEffDilepElSSVHPT1.bTagDiscrCut = 2.0
-process.bTagEffDilepElSSVHPT2 = process.bTagEffDilepElSSVHPT1.clone()
-process.bTagEffDilepElSSVHPT3 = process.bTagEffDilepElSSVHPT1.clone()
-process.bTagEffDilepElSSVHPT4 = process.bTagEffDilepElSSVHPT1.clone()
-
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 
 #-----------------------------------------------------------------
-# selection paths
+# Configure modules for muon channel b-tag event weighting
 #-----------------------------------------------------------------
 
+## TCHEM
+process.btagEventWeightMuTCHEM3 = process.btagEventWeight.clone()
+process.btagEventWeightMuTCHEM3.bTagAlgo= "TCHEM"
+process.btagEventWeightMuTCHEM3.rootDir = "RA4bMuTCHEM3"
+process.btagEventWeightMuTCHEM3.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightMuTCHEM3.scaleJetEffSF = True
+process.btagEventWeightMuTCHEM3.scaleEventEffSF = True
 
-## calculate weights for RA4b selection
-##------------------------------------------
+process.btagEventWeightMuTCHEM3highPt = process.btagEventWeightMuTCHEM3.clone()
+process.btagEventWeightMuTCHEM3highPt.jets = "highPtJets"
 
-process.BtagEfficiencies_Muon = cms.Path(# preselection
-                                         process.preselectionMuHTMC2 *
-                                         process.makeObjects *
-                                         process.eventWeightPU *
-                                         process.weightProducer *
-                                         process.MuHadSelection *
-                                         # estimate btag eff
-                                         process.bTagEffRA4bMuTCHEM1 *
-                                         process.bTagEffRA4bMuTCHPM1 *
-                                         process.bTagEffRA4bMuTCHPT1 *
-                                         process.bTagEffRA4bMuSSVHEM1 *
-                                         process.bTagEffRA4bMuSSVHPT1 *
-                                         # muon selection
-                                         process.muonSelection *
-                                         # etsimate btag eff
-                                         process.bTagEffRA4bMuTCHEM2 *
-                                         process.bTagEffRA4bMuTCHPM2 *
-                                         process.bTagEffRA4bMuTCHPT2 *
-                                         process.bTagEffRA4bMuSSVHEM2 *
-                                         process.bTagEffRA4bMuSSVHPT2 *
-                                         # jet selection
-                                         process.jetSelection*
-                                         #estimate btagg eff 
-                                         process.bTagEffRA4bMuTCHEM3 *
-                                         process.bTagEffRA4bMuTCHPM3 *
-                                         process.bTagEffRA4bMuTCHPT3 *
-                                         process.bTagEffRA4bMuSSVHEM3 *
-                                         process.bTagEffRA4bMuSSVHPT3 *
-                                         # tight selection
-                                         process.filterMediumHT *
-                                         process.oneMediumMET *
-                                         # estimate btagg eff 
-                                         process.bTagEffRA4bMuTCHEM4 *
-                                         process.bTagEffRA4bMuTCHPM4 *
-                                         process.bTagEffRA4bMuTCHPT4 *
-                                         process.bTagEffRA4bMuSSVHEM4 *
-                                         process.bTagEffRA4bMuSSVHPT4
-                                         )
+process.btagEventWeightMuTCHEM3lowPt = process.btagEventWeightMuTCHEM3.clone()
+process.btagEventWeightMuTCHEM3lowPt.jets = "lowPtJets"
 
-process.BtagEfficiencies_Electron = cms.Path(# preselection
-                                             process.preselectionMuHTMC2 *
-                                             process.makeObjects *
-                                             process.eventWeightPU *
-                                             process.weightProducer *
-                                             process.MuHadSelection *
-                                             # estimate btag eff
-                                             process.bTagEffRA4bElTCHEM1 *
-                                             process.bTagEffRA4bElTCHPM1 *
-                                             process.bTagEffRA4bElTCHPT1 *
-                                             process.bTagEffRA4bElSSVHEM1 *
-                                             process.bTagEffRA4bElSSVHPT1 *
-                                             # electron selection
-                                             process.electronSelection *
-                                             # etsimate btag eff
-                                             process.bTagEffRA4bElTCHEM2 *
-                                             process.bTagEffRA4bElTCHPM2 *
-                                             process.bTagEffRA4bElTCHPT2 *
-                                             process.bTagEffRA4bElSSVHEM2 *
-                                             process.bTagEffRA4bElSSVHPT2 *
-                                             #jet selection
-                                             process.jetSelection*
-                                             #estimate btagg eff 
-                                             process.bTagEffRA4bElTCHEM3 *
-                                             process.bTagEffRA4bElTCHPM3 *
-                                             process.bTagEffRA4bElTCHPT3 *
-                                             process.bTagEffRA4bElSSVHEM3 *
-                                             process.bTagEffRA4bElSSVHPT3 *
-                                             # tight selection
-                                             process.filterMediumHT *
-                                             process.oneMediumMET *
-                                             # estimate btagg eff 
-                                             process.bTagEffRA4bElTCHEM4 *
-                                             process.bTagEffRA4bElTCHPM4 *
-                                             process.bTagEffRA4bElTCHPT4 *
-                                             process.bTagEffRA4bElSSVHEM4 *
-                                             process.bTagEffRA4bElSSVHPT4
-                                             )
+## SSVHEM
+process.btagEventWeightMuSSVHEM3 = process.btagEventWeight.clone()
+process.btagEventWeightMuSSVHEM3.bTagAlgo= "SSVHEM"
+process.btagEventWeightMuSSVHEM3.rootDir = "RA4bMuSSVHEM3"
+process.btagEventWeightMuSSVHEM3.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightMuSSVHEM3.scaleJetEffSF = True
+process.btagEventWeightMuSSVHEM3.scaleEventEffSF = True
 
-## calculate weights for dilep selection
-##------------------------------------------
+process.btagEventWeightMuSSVHEM3highPt = process.btagEventWeightMuSSVHEM3.clone()
+process.btagEventWeightMuSSVHEM3highPt.jets = "highPtJets"
 
-process.BtagEfficiencies_Muon2 = cms.Path(# preselection
-                                          process.preselectionMuHTMC2 *
-                                          process.makeObjects *
-                                          process.eventWeightPU *
-                                          process.weightProducer *
-                                          process.MuHadSelection *
-                                          # estimate btag eff
-                                          process.bTagEffDilepMuTCHEM1 *
-                                          process.bTagEffDilepMuTCHPM1 *
-                                          process.bTagEffDilepMuTCHPT1 *
-                                          process.bTagEffDilepMuSSVHEM1 *
-                                          process.bTagEffDilepMuSSVHPT1 *
-                                          # muon selection
-                                          process.oneGoodMuon*
-                                          # etsimate btag eff
-                                          process.bTagEffDilepMuTCHEM2 *
-                                          process.bTagEffDilepMuTCHPM2 *
-                                          process.bTagEffDilepMuTCHPT2 *
-                                          process.bTagEffDilepMuSSVHEM2 *
-                                          process.bTagEffDilepMuSSVHPT2 *
-                                          #jet selection
-                                          process.twoGoodJets *
-                                          #estimate btagg eff 
-                                          process.bTagEffDilepMuTCHEM3 *
-                                          process.bTagEffDilepMuTCHPM3 *
-                                          process.bTagEffDilepMuTCHPT3 *
-                                          process.bTagEffDilepMuSSVHEM3 *
-                                          process.bTagEffDilepMuSSVHPT3 *
-                                          # tight selection
-                                          process.filterMediumHT *
-                                          process.oneMediumMET *
-                                          # estimate btagg eff 
-                                          process.bTagEffDilepMuTCHEM4 *
-                                          process.bTagEffDilepMuTCHPM4 *
-                                          process.bTagEffDilepMuTCHPT4 *
-                                          process.bTagEffDilepMuSSVHEM4 *
-                                          process.bTagEffDilepMuSSVHPT4
-                                          )
+process.btagEventWeightMuSSVHEM3lowPt = process.btagEventWeightMuSSVHEM3.clone()
+process.btagEventWeightMuSSVHEM3lowPt.jets = "lowPtJets"
 
-process.BtagEfficiencies_Electron2 = cms.Path(# preselection
-                                              process.preselectionMuHTMC2 *
-                                              process.makeObjects *
-                                              process.eventWeightPU *
-                                              process.weightProducer *
-                                              process.MuHadSelection *
-                                              # estimate btag eff
-                                              process.bTagEffDilepElTCHEM1 *
-                                              process.bTagEffDilepElTCHPM1 *
-                                              process.bTagEffDilepElTCHPT1 *
-                                              process.bTagEffDilepElSSVHEM1 *
-                                              process.bTagEffDilepElSSVHPT1 *
-                                              # muon selection
-                                              process.oneGoodElectron *
-                                              # etsimate btag eff
-                                              process.bTagEffDilepElTCHEM2 *
-                                              process.bTagEffDilepElTCHPM2 *
-                                              process.bTagEffDilepElTCHPT2 *
-                                              process.bTagEffDilepElSSVHEM2 *
-                                              process.bTagEffDilepElSSVHPT2 *
-                                              #jet selection
-                                              process.twoGoodJets *
-                                              #estimate btagg eff 
-                                              process.bTagEffDilepElTCHEM3 *
-                                              process.bTagEffDilepElTCHPM3 *
-                                              process.bTagEffDilepElTCHPT3 *
-                                              process.bTagEffDilepElSSVHEM3 *
-                                              process.bTagEffDilepElSSVHPT3 *
-                                              # tight selection
-                                              process.filterMediumHT *
-                                              process.oneMediumMET *
-                                              # estimate btagg eff 
-                                              process.bTagEffDilepElTCHEM4 *
-                                              process.bTagEffDilepElTCHPM4 *
-                                              process.bTagEffDilepElTCHPT4 *
-                                              process.bTagEffDilepElSSVHEM4 *
-                                              process.bTagEffDilepElSSVHPT4
-                                              )
+#----------------------------------------------------------------------------------------
+# Load and configure modules for analysis of b-tagging in muon channel
+#----------------------------------------------------------------------------------------
+
+from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
+
+process.analyzeBtags = analyzeBtags.clone()
+process.analyzeBtags.useEventWeight = True
+process.analyzeBtags.useBtagEventWeight = True
+
+# TCHEM
+process.analyzeBtagsMuTCHEM3 = process.analyzeBtags.clone()
+process.analyzeBtagsMuTCHEM3.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsMuTCHEM3.BtagJetWeights       = "btagEventWeightMuTCHEM3:RA4bSFJetWeights"
+process.analyzeBtagsMuTCHEM3.BtagEventWeights     = "btagEventWeightMuTCHEM3:RA4bSFEventWeights"
+process.analyzeBtagsMuTCHEM3.BtagJetWeightsGrid   = "btagEventWeightMuTCHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsMuTCHEM3.BtagEventWeightsGrid = "btagEventWeightMuTCHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsMuTCHEM3.jets                 = "goodJets"
+
+process.analyzeBtagsMuTCHEM3highPt = process.analyzeBtags.clone()
+process.analyzeBtagsMuTCHEM3highPt.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsMuTCHEM3highPt.BtagJetWeights       = "btagEventWeightMuTCHEM3highPt:RA4bSFJetWeights"
+process.analyzeBtagsMuTCHEM3highPt.BtagEventWeights     = "btagEventWeightMuTCHEM3highPt:RA4bSFEventWeights"
+process.analyzeBtagsMuTCHEM3highPt.BtagJetWeightsGrid   = "btagEventWeightMuTCHEM3highPt:RA4bJetWeightsGrid"
+process.analyzeBtagsMuTCHEM3highPt.BtagEventWeightsGrid = "btagEventWeightMuTCHEM3highPt:RA4bEventWeightsGrid"
+process.analyzeBtagsMuTCHEM3highPt.jets                 = "highPtJets"
+
+process.analyzeBtagsMuTCHEM3lowPt = process.analyzeBtags.clone()
+process.analyzeBtagsMuTCHEM3lowPt.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsMuTCHEM3lowPt.BtagJetWeights       = "btagEventWeightMuTCHEM3lowPt:RA4bSFJetWeights"
+process.analyzeBtagsMuTCHEM3lowPt.BtagEventWeights     = "btagEventWeightMuTCHEM3lowPt:RA4bSFEventWeights"
+process.analyzeBtagsMuTCHEM3lowPt.BtagJetWeightsGrid   = "btagEventWeightMuTCHEM3lowPt:RA4bJetWeightsGrid"
+process.analyzeBtagsMuTCHEM3lowPt.BtagEventWeightsGrid = "btagEventWeightMuTCHEM3lowPt:RA4bEventWeightsGrid"
+process.analyzeBtagsMuTCHEM3lowPt.jets                 = "lowPtJets"
+
+process.analyzeBtagsMuTCHEM4       = process.analyzeBtagsMuTCHEM3.clone()
+process.analyzeBtagsMuTCHEM4highPt = process.analyzeBtagsMuTCHEM3highPt.clone()
+process.analyzeBtagsMuTCHEM4lowPt  = process.analyzeBtagsMuTCHEM3lowPt.clone()
+
+# clones
+process.analyzeBtagsRA4bMuTCHEM3       = process.analyzeBtagsMuTCHEM3.clone()
+process.analyzeBtagsRA4bMuTCHEM3highPt = process.analyzeBtagsMuTCHEM3highPt.clone()
+process.analyzeBtagsRA4bMuTCHEM3lowPt  = process.analyzeBtagsMuTCHEM3lowPt.clone()
+
+process.analyzeBtagsRA4bMuTCHEM4       = process.analyzeBtagsMuTCHEM4.clone()
+process.analyzeBtagsRA4bMuTCHEM4highPt = process.analyzeBtagsMuTCHEM4highPt.clone()
+process.analyzeBtagsRA4bMuTCHEM4lowPt  = process.analyzeBtagsMuTCHEM4lowPt.clone()
+
+process.analyzeBtagsMuTCHEM3dilep       = process.analyzeBtagsMuTCHEM3.clone()
+process.analyzeBtagsMuTCHEM3highPtdilep = process.analyzeBtagsMuTCHEM3highPt.clone()
+process.analyzeBtagsMuTCHEM3lowPtdilep  = process.analyzeBtagsMuTCHEM3lowPt.clone()
+
+process.analyzeBtagsMuTCHEM4dilep       = process.analyzeBtagsMuTCHEM4.clone()
+process.analyzeBtagsMuTCHEM4highPtdilep = process.analyzeBtagsMuTCHEM4highPt.clone()
+process.analyzeBtagsMuTCHEM4lowPtdilep  = process.analyzeBtagsMuTCHEM4lowPt.clone()
+
+# for cross-check
+process.analyzeBtagsRA4bMuTCHEM3noSF = process.analyzeBtags.clone()
+process.analyzeBtagsRA4bMuTCHEM3noSF.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsRA4bMuTCHEM3noSF.BtagJetWeights       = "btagEventWeightMuTCHEM3:RA4bJetWeights"
+process.analyzeBtagsRA4bMuTCHEM3noSF.BtagEventWeights     = "btagEventWeightMuTCHEM3:RA4bEventWeights"
+process.analyzeBtagsRA4bMuTCHEM3noSF.BtagJetWeightsGrid   = "btagEventWeightMuTCHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsRA4bMuTCHEM3noSF.BtagEventWeightsGrid = "btagEventWeightMuTCHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsRA4bMuTCHEM3noSF.jets                 = "goodJets"
+
+# SSVHEM
+process.analyzeBtagsMuSSVHEM3 = process.analyzeBtags.clone()
+process.analyzeBtagsMuSSVHEM3.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsMuSSVHEM3.BtagJetWeights       = "btagEventWeightMuSSVHEM3:RA4bSFJetWeights"
+process.analyzeBtagsMuSSVHEM3.BtagEventWeights     = "btagEventWeightMuSSVHEM3:RA4bSFEventWeights"
+process.analyzeBtagsMuSSVHEM3.BtagJetWeightsGrid   = "btagEventWeightMuSSVHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsMuSSVHEM3.BtagEventWeightsGrid = "btagEventWeightMuSSVHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsMuSSVHEM3.jets                 = "goodJets"
+
+process.analyzeBtagsMuSSVHEM3highPt = process.analyzeBtags.clone()
+process.analyzeBtagsMuSSVHEM3highPt.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsMuSSVHEM3highPt.BtagJetWeights       = "btagEventWeightMuSSVHEM3highPt:RA4bSFJetWeights"
+process.analyzeBtagsMuSSVHEM3highPt.BtagEventWeights     = "btagEventWeightMuSSVHEM3highPt:RA4bSFEventWeights"
+process.analyzeBtagsMuSSVHEM3highPt.BtagJetWeightsGrid   = "btagEventWeightMuSSVHEM3highPt:RA4bJetWeightsGrid"
+process.analyzeBtagsMuSSVHEM3highPt.BtagEventWeightsGrid = "btagEventWeightMuSSVHEM3highPt:RA4bEventWeightsGrid"
+process.analyzeBtagsMuSSVHEM3highPt.jets                 = "highPtJets"
+
+process.analyzeBtagsMuSSVHEM3lowPt = process.analyzeBtags.clone()
+process.analyzeBtagsMuSSVHEM3lowPt.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsMuSSVHEM3lowPt.BtagJetWeights       = "btagEventWeightMuSSVHEM3lowPt:RA4bSFJetWeights"
+process.analyzeBtagsMuSSVHEM3lowPt.BtagEventWeights     = "btagEventWeightMuSSVHEM3lowPt:RA4bSFEventWeights"
+process.analyzeBtagsMuSSVHEM3lowPt.BtagJetWeightsGrid   = "btagEventWeightMuSSVHEM3lowPt:RA4bJetWeightsGrid"
+process.analyzeBtagsMuSSVHEM3lowPt.BtagEventWeightsGrid = "btagEventWeightMuSSVHEM3lowPt:RA4bEventWeightsGrid"
+process.analyzeBtagsMuSSVHEM3lowPt.jets                 = "lowPtJets"
+
+process.analyzeBtagsMuSSVHEM4       = process.analyzeBtagsMuSSVHEM3.clone()
+process.analyzeBtagsMuSSVHEM4highPt = process.analyzeBtagsMuSSVHEM3highPt.clone()
+process.analyzeBtagsMuSSVHEM4lowPt  = process.analyzeBtagsMuSSVHEM3lowPt.clone()
+
+# clones
+process.analyzeBtagsRA4bMuSSVHEM3       = process.analyzeBtagsMuSSVHEM3.clone()
+process.analyzeBtagsRA4bMuSSVHEM3highPt = process.analyzeBtagsMuSSVHEM3highPt.clone()
+process.analyzeBtagsRA4bMuSSVHEM3lowPt  = process.analyzeBtagsMuSSVHEM3lowPt.clone()
+
+process.analyzeBtagsRA4bMuSSVHEM4       = process.analyzeBtagsMuSSVHEM4.clone()
+process.analyzeBtagsRA4bMuSSVHEM4highPt = process.analyzeBtagsMuSSVHEM4highPt.clone()
+process.analyzeBtagsRA4bMuSSVHEM4lowPt  = process.analyzeBtagsMuSSVHEM4lowPt.clone()
+
+process.analyzeBtagsMuSSVHEM3dilep       = process.analyzeBtagsMuSSVHEM3.clone()
+process.analyzeBtagsMuSSVHEM3highPtdilep = process.analyzeBtagsMuSSVHEM3highPt.clone()
+process.analyzeBtagsMuSSVHEM3lowPtdilep  = process.analyzeBtagsMuSSVHEM3lowPt.clone()
+
+process.analyzeBtagsMuSSVHEM4dilep       = process.analyzeBtagsMuSSVHEM4.clone()
+process.analyzeBtagsMuSSVHEM4highPtdilep = process.analyzeBtagsMuSSVHEM4highPt.clone()
+process.analyzeBtagsMuSSVHEM4lowPtdilep  = process.analyzeBtagsMuSSVHEM4lowPt.clone()
+
+# for cross-check
+process.analyzeBtagsRA4bMuSSVHEM3noSF = process.analyzeBtags.clone()
+process.analyzeBtagsRA4bMuSSVHEM3noSF.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsRA4bMuSSVHEM3noSF.BtagJetWeights       = "btagEventWeightMuSSVHEM3:RA4bJetWeights"
+process.analyzeBtagsRA4bMuSSVHEM3noSF.BtagEventWeights     = "btagEventWeightMuSSVHEM3:RA4bEventWeights"
+process.analyzeBtagsRA4bMuSSVHEM3noSF.BtagJetWeightsGrid   = "btagEventWeightMuSSVHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsRA4bMuSSVHEM3noSF.BtagEventWeightsGrid = "btagEventWeightMuSSVHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsRA4bMuSSVHEM3noSF.jets                 = "goodJets"
+
+#--------------------------
+# Muon selection paths
+#--------------------------
+
+
+## Standard RA4b selection
+##-------------------------
+process.analyzeBtags_RA4bMu = cms.Path(# Standard RA4b preselection
+                                       process.preselectionMuHTMC2 *
+                                       process.eventWeightPU *
+                                       process.weightProducer *
+                                       process.makeObjects *
+                                       # match different triggers
+                                       process.MuHadSelection *
+                                       # produce btag event weights
+                                       process.btagEventWeightMuSSVHEM3 *
+                                       process.btagEventWeightMuTCHEM3 *
+                                       # muon selection
+                                       process.muonSelection*
+                                       # jet selection
+                                       process.jetSelection*
+                                       # analyze btags
+                                       process.analyzeBtagsRA4bMuTCHEM3 *
+                                       process.analyzeBtagsRA4bMuSSVHEM3 *
+                                       process.analyzeBtagsRA4bMuTCHEM3noSF *
+                                       process.analyzeBtagsRA4bMuSSVHEM3noSF *
+                                       # additinal cut
+                                       process.oneNoSignalMET *
+                                       # analyze btags
+                                       process.analyzeBtagsRA4bMuTCHEM4 *
+                                       process.analyzeBtagsRA4bMuSSVHEM4
+                                       )
+
+
+## RA4b selection with cut on two high pt jets in and MET < 300 in addition
+##---------------------------------------------------------------------------------
+process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
+                                     process.preselectionMuHTMC2 *
+                                     process.eventWeightPU *
+                                     process.weightProducer *
+                                     process.makeObjects *
+                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                     process.highPtJets *
+                                     process.lowPtJets *
+                                     # additinal cut
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.MuHadSelection *
+                                     # produce btag event weights
+                                     process.btagEventWeightMuSSVHEM3 *
+                                     process.btagEventWeightMuTCHEM3 *
+                                     process.btagEventWeightMuSSVHEM3lowPt *
+                                     process.btagEventWeightMuTCHEM3lowPt *
+                                     process.btagEventWeightMuSSVHEM3highPt *
+                                     process.btagEventWeightMuTCHEM3highPt *
+                                     # muon selection
+                                     process.muonSelection*
+                                     # jet selection
+                                     process.jetSelection*
+                                     # analyze btags
+                                     process.analyzeBtagsMuTCHEM3 *
+                                     process.analyzeBtagsMuSSVHEM3*
+                                     process.analyzeBtagsMuTCHEM3lowPt *
+                                     process.analyzeBtagsMuSSVHEM3lowPt *
+                                     process.analyzeBtagsMuTCHEM3highPt *
+                                     process.analyzeBtagsMuSSVHEM3highPt *
+                                     # additinal cut
+                                     process.oneNoSignalMET *
+                                     # analyze btags
+                                     process.analyzeBtagsMuTCHEM4 *
+                                     process.analyzeBtagsMuSSVHEM4*
+                                     process.analyzeBtagsMuTCHEM4lowPt *
+                                     process.analyzeBtagsMuSSVHEM4lowPt *
+                                     process.analyzeBtagsMuTCHEM4highPt *
+                                     process.analyzeBtagsMuSSVHEM4highPt
+                                     )
+
+## Incl. RA4b selection with cut on two high pt jets and MET < 300 in addition
+##---------------------------------------------------------------------------------
+process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
+                                      process.preselectionMuHTMC2 *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.makeObjects *
+                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                      process.highPtJets *
+                                      process.lowPtJets *
+                                      ## additional cut
+                                      process.twoHighPtJets *
+                                      # match different triggers
+                                      process.MuHadSelection *
+                                      # produce btag event weights
+                                      process.btagEventWeightMuSSVHEM3 *
+                                      process.btagEventWeightMuTCHEM3 *
+                                      process.btagEventWeightMuSSVHEM3lowPt *
+                                      process.btagEventWeightMuTCHEM3lowPt *
+                                      process.btagEventWeightMuSSVHEM3highPt *
+                                      process.btagEventWeightMuTCHEM3highPt *
+                                      # muon selection
+                                      process.oneGoodMuon *
+                                      # jet selection
+                                      process.twoGoodJets*
+                                      # analyze btags
+                                      process.analyzeBtagsMuTCHEM3dilep *
+                                      process.analyzeBtagsMuSSVHEM3dilep*
+                                      process.analyzeBtagsMuTCHEM3lowPtdilep *
+                                      process.analyzeBtagsMuSSVHEM3lowPtdilep *
+                                      process.analyzeBtagsMuTCHEM3highPtdilep *
+                                      process.analyzeBtagsMuSSVHEM3highPtdilep *
+                                      # additinal cut
+                                      process.oneNoSignalMET*
+                                      # analyze btags
+                                      process.analyzeBtagsMuTCHEM4dilep *
+                                      process.analyzeBtagsMuSSVHEM4dilep*
+                                      process.analyzeBtagsMuTCHEM4lowPtdilep *
+                                      process.analyzeBtagsMuSSVHEM4lowPtdilep *
+                                      process.analyzeBtagsMuTCHEM4highPtdilep *
+                                      process.analyzeBtagsMuSSVHEM4highPtdilep
+                                      )
+
+#-----------------------------------------------------------------
+# Configure modules for electron channel b-tag event weighting
+#-----------------------------------------------------------------
+
+## TCHEM
+process.btagEventWeightElTCHEM3 = process.btagEventWeight.clone()
+process.btagEventWeightElTCHEM3.bTagAlgo= "TCHEM"
+process.btagEventWeightElTCHEM3.rootDir = "RA4bElTCHEM3"
+process.btagEventWeightElTCHEM3.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightElTCHEM3.scaleJetEffSF = True
+process.btagEventWeightElTCHEM3.scaleEventEffSF = True
+
+process.btagEventWeightElTCHEM3highPt = process.btagEventWeightElTCHEM3.clone()
+process.btagEventWeightElTCHEM3highPt.jets = "highPtJets"
+
+process.btagEventWeightElTCHEM3lowPt = process.btagEventWeightElTCHEM3.clone()
+process.btagEventWeightElTCHEM3lowPt.jets = "lowPtJets"
+
+## SSVHEM
+process.btagEventWeightElSSVHEM3 = process.btagEventWeight.clone()
+process.btagEventWeightElSSVHEM3.bTagAlgo= "SSVHEM"
+process.btagEventWeightElSSVHEM3.rootDir = "RA4bElSSVHEM3"
+process.btagEventWeightElSSVHEM3.filename= "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightElSSVHEM3.scaleJetEffSF = True
+process.btagEventWeightElSSVHEM3.scaleEventEffSF = True
+
+process.btagEventWeightElSSVHEM3highPt = process.btagEventWeightElSSVHEM3.clone()
+process.btagEventWeightElSSVHEM3highPt.jets = "highPtJets"
+
+process.btagEventWeightElSSVHEM3lowPt = process.btagEventWeightElSSVHEM3.clone()
+process.btagEventWeightElSSVHEM3lowPt.jets = "lowPtJets"
+
+#----------------------------------------------------------------------------------------
+# Load and configure modules for analysis of b-tagging in electron channel
+#----------------------------------------------------------------------------------------
+
+from Btagging.BtagAnalyzer.BtagAnalyzer_cfi import *
+
+process.analyzeBtags = analyzeBtags.clone()
+process.analyzeBtags.useEventWeight = True
+process.analyzeBtags.useBtagEventWeight = True
+
+# TCHEM
+process.analyzeBtagsElTCHEM3 = process.analyzeBtags.clone()
+process.analyzeBtagsElTCHEM3.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsElTCHEM3.BtagJetWeights       = "btagEventWeightElTCHEM3:RA4bSFJetWeights"
+process.analyzeBtagsElTCHEM3.BtagEventWeights     = "btagEventWeightElTCHEM3:RA4bSFEventWeights"
+process.analyzeBtagsElTCHEM3.BtagJetWeightsGrid   = "btagEventWeightElTCHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsElTCHEM3.BtagEventWeightsGrid = "btagEventWeightElTCHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsElTCHEM3.jets                 = "goodJets"
+
+process.analyzeBtagsElTCHEM3highPt = process.analyzeBtags.clone()
+process.analyzeBtagsElTCHEM3highPt.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsElTCHEM3highPt.BtagJetWeights       = "btagEventWeightElTCHEM3highPt:RA4bSFJetWeights"
+process.analyzeBtagsElTCHEM3highPt.BtagEventWeights     = "btagEventWeightElTCHEM3highPt:RA4bSFEventWeights"
+process.analyzeBtagsElTCHEM3highPt.BtagJetWeightsGrid   = "btagEventWeightElTCHEM3highPt:RA4bJetWeightsGrid"
+process.analyzeBtagsElTCHEM3highPt.BtagEventWeightsGrid = "btagEventWeightElTCHEM3highPt:RA4bEventWeightsGrid"
+process.analyzeBtagsElTCHEM3highPt.jets                 = "highPtJets"
+
+process.analyzeBtagsElTCHEM3lowPt = process.analyzeBtags.clone()
+process.analyzeBtagsElTCHEM3lowPt.bjets                = "mediumTrackHighEffBjets"
+process.analyzeBtagsElTCHEM3lowPt.BtagJetWeights       = "btagEventWeightElTCHEM3lowPt:RA4bSFJetWeights"
+process.analyzeBtagsElTCHEM3lowPt.BtagEventWeights     = "btagEventWeightElTCHEM3lowPt:RA4bSFEventWeights"
+process.analyzeBtagsElTCHEM3lowPt.BtagJetWeightsGrid   = "btagEventWeightElTCHEM3lowPt:RA4bJetWeightsGrid"
+process.analyzeBtagsElTCHEM3lowPt.BtagEventWeightsGrid = "btagEventWeightElTCHEM3lowPt:RA4bEventWeightsGrid"
+process.analyzeBtagsElTCHEM3lowPt.jets                 = "lowPtJets"
+
+process.analyzeBtagsElTCHEM4       = process.analyzeBtagsElTCHEM3.clone()
+process.analyzeBtagsElTCHEM4highPt = process.analyzeBtagsElTCHEM3highPt.clone()
+process.analyzeBtagsElTCHEM4lowPt  = process.analyzeBtagsElTCHEM3lowPt.clone()
+
+# clones
+process.analyzeBtagsRA4bElTCHEM3       = process.analyzeBtagsElTCHEM3.clone()
+process.analyzeBtagsRA4bElTCHEM3highPt = process.analyzeBtagsElTCHEM3highPt.clone()
+process.analyzeBtagsRA4bElTCHEM3lowPt  = process.analyzeBtagsElTCHEM3lowPt.clone()
+
+process.analyzeBtagsRA4bElTCHEM4       = process.analyzeBtagsElTCHEM4.clone()
+process.analyzeBtagsRA4bElTCHEM4highPt = process.analyzeBtagsElTCHEM4highPt.clone()
+process.analyzeBtagsRA4bElTCHEM4lowPt  = process.analyzeBtagsElTCHEM4lowPt.clone()
+
+process.analyzeBtagsElTCHEM3dilep       = process.analyzeBtagsElTCHEM3.clone()
+process.analyzeBtagsElTCHEM3highPtdilep = process.analyzeBtagsElTCHEM3highPt.clone()
+process.analyzeBtagsElTCHEM3lowPtdilep  = process.analyzeBtagsElTCHEM3lowPt.clone()
+
+process.analyzeBtagsElTCHEM4dilep       = process.analyzeBtagsElTCHEM4.clone()
+process.analyzeBtagsElTCHEM4highPtdilep = process.analyzeBtagsElTCHEM4highPt.clone()
+process.analyzeBtagsElTCHEM4lowPtdilep  = process.analyzeBtagsElTCHEM4lowPt.clone()
+
+process.analyzeBtagsElElTCHEM3dilep       = process.analyzeBtagsElTCHEM3.clone()
+process.analyzeBtagsElElTCHEM3highPtdilep = process.analyzeBtagsElTCHEM3highPt.clone()
+process.analyzeBtagsElElTCHEM3lowPtdilep  = process.analyzeBtagsElTCHEM3lowPt.clone()
+
+process.analyzeBtagsElElTCHEM4dilep       = process.analyzeBtagsElTCHEM4.clone()
+process.analyzeBtagsElElTCHEM4highPtdilep = process.analyzeBtagsElTCHEM4highPt.clone()
+process.analyzeBtagsElElTCHEM4lowPtdilep  = process.analyzeBtagsElTCHEM4lowPt.clone()
+
+# for cross-check
+process.analyzeBtagsRA4bElTCHEM3noSF = process.analyzeBtags.clone()
+process.analyzeBtagsRA4bElTCHEM3noSF.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsRA4bElTCHEM3noSF.BtagJetWeights       = "btagEventWeightElTCHEM3:RA4bJetWeights"
+process.analyzeBtagsRA4bElTCHEM3noSF.BtagEventWeights     = "btagEventWeightElTCHEM3:RA4bEventWeights"
+process.analyzeBtagsRA4bElTCHEM3noSF.BtagJetWeightsGrid   = "btagEventWeightElTCHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsRA4bElTCHEM3noSF.BtagEventWeightsGrid = "btagEventWeightElTCHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsRA4bElTCHEM3noSF.jets                 = "goodJets"
+
+# SSVHEM
+process.analyzeBtagsElSSVHEM3 = process.analyzeBtags.clone()
+process.analyzeBtagsElSSVHEM3.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsElSSVHEM3.BtagJetWeights       = "btagEventWeightElSSVHEM3:RA4bSFJetWeights"
+process.analyzeBtagsElSSVHEM3.BtagEventWeights     = "btagEventWeightElSSVHEM3:RA4bSFEventWeights"
+process.analyzeBtagsElSSVHEM3.BtagJetWeightsGrid   = "btagEventWeightElSSVHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsElSSVHEM3.BtagEventWeightsGrid = "btagEventWeightElSSVHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsElSSVHEM3.jets                 = "goodJets"
+
+process.analyzeBtagsElSSVHEM3highPt = process.analyzeBtags.clone()
+process.analyzeBtagsElSSVHEM3highPt.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsElSSVHEM3highPt.BtagJetWeights       = "btagEventWeightElSSVHEM3highPt:RA4bSFJetWeights"
+process.analyzeBtagsElSSVHEM3highPt.BtagEventWeights     = "btagEventWeightElSSVHEM3highPt:RA4bSFEventWeights"
+process.analyzeBtagsElSSVHEM3highPt.BtagJetWeightsGrid   = "btagEventWeightElSSVHEM3highPt:RA4bJetWeightsGrid"
+process.analyzeBtagsElSSVHEM3highPt.BtagEventWeightsGrid = "btagEventWeightElSSVHEM3highPt:RA4bEventWeightsGrid"
+process.analyzeBtagsElSSVHEM3highPt.jets                 = "highPtJets"
+
+process.analyzeBtagsElSSVHEM3lowPt = process.analyzeBtags.clone()
+process.analyzeBtagsElSSVHEM3lowPt.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsElSSVHEM3lowPt.BtagJetWeights       = "btagEventWeightElSSVHEM3lowPt:RA4bSFJetWeights"
+process.analyzeBtagsElSSVHEM3lowPt.BtagEventWeights     = "btagEventWeightElSSVHEM3lowPt:RA4bSFEventWeights"
+process.analyzeBtagsElSSVHEM3lowPt.BtagJetWeightsGrid   = "btagEventWeightElSSVHEM3lowPt:RA4bJetWeightsGrid"
+process.analyzeBtagsElSSVHEM3lowPt.BtagEventWeightsGrid = "btagEventWeightElSSVHEM3lowPt:RA4bEventWeightsGrid"
+process.analyzeBtagsElSSVHEM3lowPt.jets                 = "lowPtJets"
+
+process.analyzeBtagsElSSVHEM4       = process.analyzeBtagsElSSVHEM3.clone()
+process.analyzeBtagsElSSVHEM4highPt = process.analyzeBtagsElSSVHEM3highPt.clone()
+process.analyzeBtagsElSSVHEM4lowPt  = process.analyzeBtagsElSSVHEM3lowPt.clone()
+
+# clones
+process.analyzeBtagsRA4bElSSVHEM3       = process.analyzeBtagsElSSVHEM3.clone()
+process.analyzeBtagsRA4bElSSVHEM3highPt = process.analyzeBtagsElSSVHEM3highPt.clone()
+process.analyzeBtagsRA4bElSSVHEM3lowPt  = process.analyzeBtagsElSSVHEM3lowPt.clone()
+
+process.analyzeBtagsRA4bElSSVHEM4       = process.analyzeBtagsElSSVHEM4.clone()
+process.analyzeBtagsRA4bElSSVHEM4highPt = process.analyzeBtagsElSSVHEM4highPt.clone()
+process.analyzeBtagsRA4bElSSVHEM4lowPt  = process.analyzeBtagsElSSVHEM4lowPt.clone()
+
+process.analyzeBtagsElSSVHEM3dilep       = process.analyzeBtagsElSSVHEM3.clone()
+process.analyzeBtagsElSSVHEM3highPtdilep = process.analyzeBtagsElSSVHEM3highPt.clone()
+process.analyzeBtagsElSSVHEM3lowPtdilep  = process.analyzeBtagsElSSVHEM3lowPt.clone()
+
+process.analyzeBtagsElSSVHEM4dilep       = process.analyzeBtagsElSSVHEM4.clone()
+process.analyzeBtagsElSSVHEM4highPtdilep = process.analyzeBtagsElSSVHEM4highPt.clone()
+process.analyzeBtagsElSSVHEM4lowPtdilep  = process.analyzeBtagsElSSVHEM4lowPt.clone()
+
+process.analyzeBtagsElElSSVHEM3dilep       = process.analyzeBtagsElSSVHEM3.clone()
+process.analyzeBtagsElElSSVHEM3highPtdilep = process.analyzeBtagsElSSVHEM3highPt.clone()
+process.analyzeBtagsElElSSVHEM3lowPtdilep  = process.analyzeBtagsElSSVHEM3lowPt.clone()
+
+process.analyzeBtagsElElSSVHEM4dilep       = process.analyzeBtagsElSSVHEM4.clone()
+process.analyzeBtagsElElSSVHEM4highPtdilep = process.analyzeBtagsElSSVHEM4highPt.clone()
+process.analyzeBtagsElElSSVHEM4lowPtdilep  = process.analyzeBtagsElSSVHEM4lowPt.clone()
+
+# for cross-check
+process.analyzeBtagsRA4bElSSVHEM3noSF = process.analyzeBtags.clone()
+process.analyzeBtagsRA4bElSSVHEM3noSF.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsRA4bElSSVHEM3noSF.BtagJetWeights       = "btagEventWeightElSSVHEM3:RA4bJetWeights"
+process.analyzeBtagsRA4bElSSVHEM3noSF.BtagEventWeights     = "btagEventWeightElSSVHEM3:RA4bEventWeights"
+process.analyzeBtagsRA4bElSSVHEM3noSF.BtagJetWeightsGrid   = "btagEventWeightElSSVHEM3:RA4bJetWeightsGrid"
+process.analyzeBtagsRA4bElSSVHEM3noSF.BtagEventWeightsGrid = "btagEventWeightElSSVHEM3:RA4bEventWeightsGrid"
+process.analyzeBtagsRA4bElSSVHEM3noSF.jets                 = "goodJets"
+
+#--------------------------
+# Electron selection paths
+#--------------------------
+
+
+## Standard RA4b selection
+##-------------------------
+process.analyzeBtags_RA4bEl = cms.Path(# Standard RA4b preselection
+                                       process.preselectionElHTMC2 *
+                                       process.eventWeightPU *
+                                       process.weightProducer *
+                                       process.makeObjects *
+                                       # match different triggers
+                                       process.ElHadSelection *
+                                       # produce btag event weights
+                                       process.btagEventWeightElSSVHEM3 *
+                                       process.btagEventWeightElTCHEM3 *
+                                       # muon selection
+                                       process.electronSelection*
+                                       # jet selection
+                                       process.jetSelection*
+                                       # analyze btags
+                                       process.analyzeBtagsRA4bElTCHEM3 *
+                                       process.analyzeBtagsRA4bElSSVHEM3*
+                                       process.analyzeBtagsRA4bElTCHEM3noSF *
+                                       process.analyzeBtagsRA4bElSSVHEM3noSF *
+                                       # additinal cut
+                                       process.oneNoSignalMET *
+                                       # analyze btags
+                                       process.analyzeBtagsRA4bElTCHEM4 *
+                                       process.analyzeBtagsRA4bElSSVHEM4
+                                       )
+
+
+## RA4b selection with cut on two high pt jets in and MET < 300 in addition
+##---------------------------------------------------------------------------------
+process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
+                                      process.preselectionElHTMC2 *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      process.makeObjects *
+                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                      process.highPtJets *
+                                      process.lowPtJets *
+                                      # additinal cut
+                                      process.twoHighPtJets *
+                                      # match different triggers
+                                      process.ElHadSelection *
+                                      # produce btag event weights
+                                      process.btagEventWeightElSSVHEM3 *
+                                      process.btagEventWeightElTCHEM3 *
+                                      process.btagEventWeightElSSVHEM3lowPt *
+                                      process.btagEventWeightElTCHEM3lowPt *
+                                      process.btagEventWeightElSSVHEM3highPt *
+                                      process.btagEventWeightElTCHEM3highPt *
+                                      # electron selection
+                                      process.electronSelection *
+                                      # jet selection
+                                      process.jetSelection *
+                                      # analyze btags
+                                      process.analyzeBtagsElTCHEM3 *
+                                      process.analyzeBtagsElSSVHEM3*
+                                      process.analyzeBtagsElTCHEM3lowPt *
+                                      process.analyzeBtagsElSSVHEM3lowPt *
+                                      process.analyzeBtagsElTCHEM3highPt *
+                                      process.analyzeBtagsElSSVHEM3highPt *
+                                      # additinal cut
+                                      process.oneNoSignalMET *
+                                      # analyze btags
+                                      process.analyzeBtagsElTCHEM4 *
+                                      process.analyzeBtagsElSSVHEM4*
+                                      process.analyzeBtagsElTCHEM4lowPt *
+                                      process.analyzeBtagsElSSVHEM4lowPt *
+                                      process.analyzeBtagsElTCHEM4highPt *
+                                      process.analyzeBtagsElSSVHEM4highPt
+                                      )
+
+## Incl. RA4b selection with cut on two high pt jets and MET < 300 in addition
+##---------------------------------------------------------------------------------
+process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
+                                       process.preselectionElHTMC2 *
+                                       process.eventWeightPU *
+                                       process.weightProducer *
+                                       process.makeObjects *
+                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                       process.highPtJets *
+                                       process.lowPtJets *
+                                       ## additional cut
+                                       process.twoHighPtJets *
+                                       # match different triggers
+                                       process.ElHadSelection *
+                                       # produce btag event weights
+                                       process.btagEventWeightElSSVHEM3 *
+                                       process.btagEventWeightElTCHEM3 *
+                                       process.btagEventWeightElSSVHEM3lowPt *
+                                       process.btagEventWeightElTCHEM3lowPt *
+                                       process.btagEventWeightElSSVHEM3highPt *
+                                       process.btagEventWeightElTCHEM3highPt *
+                                       # electron selection
+                                       process.oneGoodElectron *
+                                       # jet selection
+                                       process.twoGoodJets*
+                                       # analyze btags
+                                       process.analyzeBtagsElTCHEM3dilep *
+                                       process.analyzeBtagsElSSVHEM3dilep*
+                                       process.analyzeBtagsElTCHEM3lowPtdilep *
+                                       process.analyzeBtagsElSSVHEM3lowPtdilep *
+                                       process.analyzeBtagsElTCHEM3highPtdilep *
+                                       process.analyzeBtagsElSSVHEM3highPtdilep *
+                                       # additinal cut
+                                       process.oneNoSignalMET*
+                                       # analyze btags
+                                       process.analyzeBtagsElTCHEM4dilep *
+                                       process.analyzeBtagsElSSVHEM4dilep*
+                                       process.analyzeBtagsElTCHEM4lowPtdilep *
+                                       process.analyzeBtagsElSSVHEM4lowPtdilep *
+                                       process.analyzeBtagsElTCHEM4highPtdilep *
+                                       process.analyzeBtagsElSSVHEM4highPtdilep
+                                       )
+
+## Incl. RA4b electron selection with cut on two high pt jets and MET < 300 in addition
+##-------------------------------------------------------------------------------------------
+process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
+                                     process.preselectionElHTMC2 *
+                                     process.eventWeightPU *
+                                     process.weightProducer *
+                                     process.makeObjects *
+                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                     process.highPtJets *
+                                     process.lowPtJets *
+                                     ## additional cut
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.ElHadSelection *
+                                     # produce btag event weights
+                                     process.btagEventWeightElSSVHEM3 *
+                                     process.btagEventWeightElTCHEM3 *
+                                     process.btagEventWeightElSSVHEM3lowPt *
+                                     process.btagEventWeightElTCHEM3lowPt *
+                                     process.btagEventWeightElSSVHEM3highPt *
+                                     process.btagEventWeightElTCHEM3highPt *
+                                     # electron selection
+                                     process.oneGoodElectron *
+                                     process.noGoodMuon *
+                                     # jet selection
+                                     process.twoGoodJets*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM3dilep *
+                                     process.analyzeBtagsElElSSVHEM3dilep*
+                                     process.analyzeBtagsElElTCHEM3lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM3highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3highPtdilep *
+                                     # additinal cut
+                                     process.oneNoSignalMET*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM4dilep *
+                                     process.analyzeBtagsElElSSVHEM4dilep*
+                                     process.analyzeBtagsElElTCHEM4lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM4highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4highPtdilep
+                                     )
