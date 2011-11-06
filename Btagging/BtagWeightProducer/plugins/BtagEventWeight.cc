@@ -156,10 +156,10 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	  //std::cout << effBTagCjet(pt, eta)*effBTagSF(pt, eta) << std::endl;
 	  
 	  BEffies.push_back(effBTagCjet(pt, eta));
-	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)+shift_) );
+	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
 	  
 	  oneMinusBMistags.push_back(1.- effBTagCjet(pt, eta));
-	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta)+shift_) );
+	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
 	}
       
       else
@@ -231,7 +231,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  BtagEffSFShiftVec.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)+SFShift) );
+		  BtagEffSFShiftVec.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
 		}
 	      else
 		{
@@ -275,7 +275,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift));
+		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)));
 		}
 	      else
 		{

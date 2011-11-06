@@ -305,6 +305,13 @@ goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
+noSignalMETs = selectedPatMET.clone(src = 'patMETsPF',
+                                    cut =
+                                    'et > 50. &'
+                                    'et < 300.'
+                                    )
+## create MET collection
+from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
                                   cut =
                                   'et > 70.'
@@ -641,6 +648,11 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                )
 ## select events with one good MET
 from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
+oneNoSignalMET = countPatMET.clone(src = 'noSignalMETs',
+                                   minNumber = 1
+                                   )
+## select events with one good MET
+from PhysicsTools.PatAlgos.selectionLayer1.metCountFilter_cfi import *
 oneMediumMET = countPatMET.clone(src = 'mediumMETs',
                                  minNumber = 1
                                  )
@@ -754,6 +766,7 @@ goodObjects = cms.Sequence(## loose leptons
                            ## METs
                            looseMETs *
                            goodMETs *
+                           noSignalMETs *
                            mediumMETs *
                            tightMETs *
                            ## bjets

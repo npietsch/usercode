@@ -91,7 +91,6 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   HighPtBjetsEta_ = fs->make<TH1F>("HighPtBjetsEta","HighPtBjetsEta", 30, -3. , 3.);
   HighPtBjetsBdisc_ = fs->make<TH1F>("HighPtBjetsBdisc","HighPtBjetsBdisc", 80, -10., 30.);
   NrHighPtBjets_ = fs->make<TH1F>("NrHighPtBjets","NrHighPtBjets", 7, -0.5, 6.5);
-  NrHighPtBjets_2_ = fs->make<TH1F>("NrHighPtBjets_2","NrHighPtBjets_2", 7, -0.5, 6.5);
   LowPtBjetsEta_ = fs->make<TH1F>("LowPtBjetsEta","LowPtBjetsEta", 30, -3. , 3.);
   LowPtBjetsBdisc_ = fs->make<TH1F>("LowPtBjetsBdisc","LowPtBjetsBdisc", 80, -10., 30.);
   NrLowPtBjets_ = fs->make<TH1F>("NrLowPtBjets","NrLowPtBjets", 7, -0.5, 6.5);
@@ -103,6 +102,7 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   NrBtags_ = fs->make<TH1F>("NrBtags","NrBtags", 7, -0.5, 6.5);
   HighPtBtagsEta_ = fs->make<TH1F>("HighPtBtagsEta","HighPtBtagsEta", 30, -3. , 3.);
   NrHighPtBtags_ = fs->make<TH1F>("NrHighPtBtags","NrHighPtBtags", 7, -0.5, 6.5);
+  NrHighPtBtags_2_ = fs->make<TH1F>("NrHighPtBtags_2","NrHighPtBtags_2", 7, -0.5, 6.5);
   LowPtBtagsEta_ = fs->make<TH1F>("LowPtBtagsEta","LowPtBtagsEta", 30, -3. , 3.);
   NrLowPtBtags_ = fs->make<TH1F>("NrLowPtBtags","NrLowPtBtags", 7, -0.5, 6.5);
   dPhiBtagMET_=fs->make<TH1F>("dPhiBtagMET","dPhi(Btag,MET)", 31, 0., 3.1);
@@ -264,8 +264,8 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  //std::cout << "BtagAnalyzer: " << weight2b << std::endl;
 	  //std::cout << "BtagAnalyzer: " << weight3b << std::endl;
 	  //std::cout << "BtagAnalyzer: " << weight0b+weight1b+weight2b+weight3b << std::endl;
-	  // obsolete
-	  //weightBtagEvent=(*BtagEventWeightsHandle)[btagBin_];
+	  //// obsolete
+	  // weightBtagEvent=(*BtagEventWeightsHandle)[btagBin_];
 	}
 
       //std::cout << "--------------------------------" << std::endl;

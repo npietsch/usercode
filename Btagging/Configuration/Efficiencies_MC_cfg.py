@@ -643,3 +643,38 @@ process.BtagEfficiencies_Electron2 = cms.Path(# preselection
                                               process.bTagEffDilepElSSVHEM4 *
                                               process.bTagEffDilepElSSVHPT4
                                               )
+
+## Incl. RA4b electron selection with cut on two high pt jets and MET < 300 in addition
+##-------------------------------------------------------------------------------------------
+process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
+                                     process.preselectionElHTAllData *
+                                     process.makeObjects *
+                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                     process.highPtJets *
+                                     process.lowPtJets *
+                                     ## additional cut
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.ElHadSelection *
+                                     # electron selection
+                                     process.oneGoodElectron *
+                                     process.noGoodMuon *
+                                     # jet selection
+                                     process.twoGoodJets*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM3dilep *
+                                     process.analyzeBtagsElElSSVHEM3dilep*
+                                     process.analyzeBtagsElElTCHEM3lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM3highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3highPtdilep *
+                                     # additinal cut
+                                     process.oneNoSignalMET*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM4dilep *
+                                     process.analyzeBtagsElElSSVHEM4dilep*
+                                     process.analyzeBtagsElElTCHEM4lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM4highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4highPtdilep
+                                     )
