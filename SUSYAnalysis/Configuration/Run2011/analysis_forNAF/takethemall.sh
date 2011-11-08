@@ -13,3 +13,18 @@ do
 
 done
 
+
+for file1 in `ls ${STORAGE} | fgrep _cfg`
+do
+    echo $file1
+    export drop2=`echo $file1 | sed 's/_cfg//'`
+    cd $STORAGE
+    echo $drop2
+
+    mv $file1 ${drop2}
+    cd -
+
+done
+
+
+
