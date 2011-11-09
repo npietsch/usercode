@@ -204,6 +204,10 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   *RA4bSFEventWeights = eventWeightsSF; 
   evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
 
+  //=======================================================================================
+  //=================================== BAUSTELLE =========================================
+  //=======================================================================================
+
   if(scaleJetEffSF_==true)
     {
       std::vector<std::vector<double> > BtagEffSFShiftGrid(0);

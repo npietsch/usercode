@@ -315,71 +315,108 @@ process.analyzeBtags_RA4bEl = cms.Path(# Standard RA4b preselection
 
 ## RA4b selection with cut on two high pt jets in and MET < 300 in addition
 ##---------------------------------------------------------------------------------
-process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
-                                     process.preselectionElHTAllData *
-                                     process.makeObjects *
-                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
-                                     process.highPtJets *
-                                     process.lowPtJets *
-                                     # additinal cut
-                                     process.twoHighPtJets *
-                                     # match different triggers
-                                     process.ElHadSelection *
-                                     # electron selection
-                                     process.electronSelection*
-                                     # jet selection
-                                     process.jetSelection*
-                                     # analyze btags
-                                     process.analyzeBtagsElTCHEM3 *
-                                     process.analyzeBtagsElSSVHEM3*
-                                     process.analyzeBtagsElTCHEM3lowPt *
-                                     process.analyzeBtagsElSSVHEM3lowPt *
-                                     process.analyzeBtagsElTCHEM3highPt *
-                                     process.analyzeBtagsElSSVHEM3highPt *
-                                     # additinal cut
-                                     process.oneNoSignalMET *
-                                     # analyze btags
-                                     process.analyzeBtagsElTCHEM4 *
-                                     process.analyzeBtagsElSSVHEM4*
-                                     process.analyzeBtagsElTCHEM4lowPt *
-                                     process.analyzeBtagsElSSVHEM4lowPt *
-                                     process.analyzeBtagsElTCHEM4highPt *
-                                     process.analyzeBtagsElSSVHEM4highPt
-                                     )
-
-## Incl. RA4b selection with cut on two high pt jets and MET < 300 in addition
-##---------------------------------------------------------------------------------
-process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
+process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.preselectionElHTAllData *
                                       process.makeObjects *
                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                       process.highPtJets *
                                       process.lowPtJets *
-                                      ## additional cut
+                                      # additinal cut
                                       process.twoHighPtJets *
                                       # match different triggers
                                       process.ElHadSelection *
                                       # electron selection
-                                      process.oneGoodElectron *
+                                      process.electronSelection*
                                       # jet selection
-                                      process.twoGoodJets*
+                                      process.jetSelection*
                                       # analyze btags
-                                      process.analyzeBtagsElTCHEM3dilep *
-                                      process.analyzeBtagsElSSVHEM3dilep*
-                                      process.analyzeBtagsElTCHEM3lowPtdilep *
-                                      process.analyzeBtagsElSSVHEM3lowPtdilep *
-                                      process.analyzeBtagsElTCHEM3highPtdilep *
-                                      process.analyzeBtagsElSSVHEM3highPtdilep *
+                                      process.analyzeBtagsElTCHEM3 *
+                                      process.analyzeBtagsElSSVHEM3*
+                                      process.analyzeBtagsElTCHEM3lowPt *
+                                      process.analyzeBtagsElSSVHEM3lowPt *
+                                      process.analyzeBtagsElTCHEM3highPt *
+                                      process.analyzeBtagsElSSVHEM3highPt *
                                       # additinal cut
-                                      process.oneNoSignalMET*
+                                      process.oneNoSignalMET *
                                       # analyze btags
-                                      process.analyzeBtagsElTCHEM4dilep *
-                                      process.analyzeBtagsElSSVHEM4dilep*
-                                      process.analyzeBtagsElTCHEM4lowPtdilep *
-                                      process.analyzeBtagsElSSVHEM4lowPtdilep *
-                                      process.analyzeBtagsElTCHEM4highPtdilep *
-                                      process.analyzeBtagsElSSVHEM4highPtdilep
+                                      process.analyzeBtagsElTCHEM4 *
+                                      process.analyzeBtagsElSSVHEM4*
+                                      process.analyzeBtagsElTCHEM4lowPt *
+                                      process.analyzeBtagsElSSVHEM4lowPt *
+                                      process.analyzeBtagsElTCHEM4highPt *
+                                      process.analyzeBtagsElSSVHEM4highPt
                                       )
+
+## Incl. RA4b selection with cut on two high pt jets and MET < 300 in addition
+##---------------------------------------------------------------------------------
+process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
+                                       process.preselectionElHTAllData *
+                                       process.makeObjects *
+                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                       process.highPtJets *
+                                       process.lowPtJets *
+                                       ## additional cut
+                                       process.twoHighPtJets *
+                                       # match different triggers
+                                       process.ElHadSelection *
+                                       # electron selection
+                                       process.oneGoodElectron *
+                                       # jet selection
+                                       process.twoGoodJets*
+                                       # analyze btags
+                                       process.analyzeBtagsElTCHEM3dilep *
+                                       process.analyzeBtagsElSSVHEM3dilep*
+                                       process.analyzeBtagsElTCHEM3lowPtdilep *
+                                       process.analyzeBtagsElSSVHEM3lowPtdilep *
+                                       process.analyzeBtagsElTCHEM3highPtdilep *
+                                       process.analyzeBtagsElSSVHEM3highPtdilep *
+                                       # additinal cut
+                                       process.oneNoSignalMET*
+                                       # analyze btags
+                                       process.analyzeBtagsElTCHEM4dilep *
+                                       process.analyzeBtagsElSSVHEM4dilep*
+                                       process.analyzeBtagsElTCHEM4lowPtdilep *
+                                       process.analyzeBtagsElSSVHEM4lowPtdilep *
+                                       process.analyzeBtagsElTCHEM4highPtdilep *
+                                       process.analyzeBtagsElSSVHEM4highPtdilep
+                                       )
+
+
+## Incl. RA4b electron selection with cut on two high pt jets and MET < 300 in addition
+##-------------------------------------------------------------------------------------------
+process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
+                                     process.preselectionElHTAllData *
+                                     process.makeObjects *
+                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
+                                     process.highPtJets *
+                                     process.lowPtJets *
+                                     ## additional cut
+                                     process.twoHighPtJets *
+                                     # match different triggers
+                                     process.ElHadSelection *
+                                     # electron selection
+                                     process.oneGoodElectron *
+                                     process.noGoodMuon *
+                                     # jet selection
+                                     process.twoGoodJets*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM3dilep *
+                                     process.analyzeBtagsElElSSVHEM3dilep*
+                                     process.analyzeBtagsElElTCHEM3lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM3highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM3highPtdilep *
+                                     # additinal cut
+                                     process.oneNoSignalMET*
+                                     # analyze btags
+                                     process.analyzeBtagsElElTCHEM4dilep *
+                                     process.analyzeBtagsElElSSVHEM4dilep*
+                                     process.analyzeBtagsElElTCHEM4lowPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4lowPtdilep *
+                                     process.analyzeBtagsElElTCHEM4highPtdilep *
+                                     process.analyzeBtagsElElSSVHEM4highPtdilep
+                                     )
+
 
 
 
