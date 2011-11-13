@@ -123,50 +123,10 @@ mediumTrackHighEffBjets = selectedPatJets.clone(src = 'goodJets',
                                                 cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
                                                 )
 
-## create mediumTrackHighEffBjet collection with scaled up jet energy corrections
-mediumTrackHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
-                                                     cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
-                                                     )
-
-## create mediumTrackHighEffBjet collection with scaled down jet energy corrections
-mediumTrackHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
-                                                       cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
-                                                       )
-
-## create mediumTrackHighEffBjet collection with scaled up jet energy resolution
-mediumTrackHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
-                                                     cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
-                                                     )
-
-## create mediumTrackHighEffBjet collection with scaled down jet energy resolution
-mediumTrackHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
-                                                       cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
-                                                       )
-
 ## create mediumSSVHighEffBjet collection
 mediumSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
                                               cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
                                               )
-
-## create mediumSSVHighEffBjet collection with scaled up jet energy corrections
-mediumSSVHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
-                                                   cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
-                                                   )
-
-## create mediumSSVHighEffBjet collection with scaled down jet energy corrections
-mediumSSVHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
-                                                     cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
-                                                     )
-
-## create mediumSSVHighEffBjet collection with scaled up jet energy corrections
-mediumSSVHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
-                                                   cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
-                                                   )
-
-## create mediumSSVHighEffBjet collection with scaled down jet energy corrections
-mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
-                                                     cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
-                                                     )
 
 #-------------------------------
 # collections of good METs
@@ -179,12 +139,9 @@ goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 'et > 50.'
                                 )
 
-#----------------------------------------------------------------------------
-# collections of good jets and METs with jet energy scaled up and down
-#----------------------------------------------------------------------------
-
-## Load module to vary jet energy scale
-from TopAnalysis.TopUtils.JetEnergyScale_cfi import *
+#--------------------------------------------------------------------------------------------
+# collections of good jets, good  b-tagged jets and METs with jet energy scaled up and down
+#--------------------------------------------------------------------------------------------
 
 ## create collection of good Jets with scaled up jet energy corrections
 goodJetsJECUp = goodJets.clone()
@@ -218,6 +175,45 @@ goodMETsJERUp.src = "scaledJetEnergyJERUp:patMETsPF"
 goodMETsJERDown = goodMETs.clone()
 goodMETsJERDown.src = "scaledJetEnergyJERDown:patMETsPF"
 
+## create mediumTrackHighEffBjet collection with scaled up jet energy corrections
+mediumTrackHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
+                                                     cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
+                                                     )
+
+## create mediumTrackHighEffBjet collection with scaled down jet energy corrections
+mediumTrackHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
+                                                       cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
+                                                       )
+
+## create mediumTrackHighEffBjet collection with scaled up jet energy resolution
+mediumTrackHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
+                                                     cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
+                                                     )
+
+## create mediumTrackHighEffBjet collection with scaled down jet energy resolution
+mediumTrackHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
+                                                       cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
+                                                       )
+
+## create mediumSSVHighEffBjet collection with scaled up jet energy corrections
+mediumSSVHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
+                                                   cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
+                                                   )
+
+## create mediumSSVHighEffBjet collection with scaled down jet energy corrections
+mediumSSVHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
+                                                     cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
+                                                     )
+
+## create mediumSSVHighEffBjet collection with scaled up jet energy resoltuion
+mediumSSVHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
+                                                   cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
+                                                   )
+
+## create mediumSSVHighEffBjet collection with scaled down jet energy resolution
+mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
+                                                     cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
+                                                     )
 
 ##======================================================================
 ##========================== COUNT GOOD OBJECTS ========================
@@ -420,7 +416,15 @@ createGoodObjects = cms.Sequence(## muons
                                  goodJetsJERDown *
                                  ## bjets
                                  mediumTrackHighEffBjets *
+                                 mediumTrackHighEffBjetsJECUp *
+                                 mediumTrackHighEffBjetsJECDown *
+                                 mediumTrackHighEffBjetsJERUp *
+                                 mediumTrackHighEffBjetsJERDown *
                                  mediumSSVHighEffBjets *
+                                 mediumSSVHighEffBjetsJECUp *
+                                 mediumSSVHighEffBjetsJECDown *
+                                 mediumSSVHighEffBjetsJERUp *
+                                 mediumSSVHighEffBjetsJERDown *
                                  ## METs
                                  goodMETs *
                                  goodMETsJECUp *
@@ -436,10 +440,50 @@ MuHadSelection = cms.Sequence(oneGoodHT *
                               oneLooseMuon
                               )
 
+MuHadSelectionJECUp = cms.Sequence(oneGoodHTJECUp *
+                                   oneGoodMETJECUp *
+                                   oneLooseMuon
+                                   )
+
+MuHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
+                                     oneGoodMETJECDown *
+                                     oneLooseMuon
+                                     )
+
+MuHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
+                                   oneGoodMETJERUp *
+                                   oneLooseMuon
+                                   )
+
+MuHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
+                                     oneGoodMETJERDown *
+                                     oneLooseMuon
+                                     )
+  
 ElHadSelection = cms.Sequence(oneGoodHT *
                               oneGoodMET *
                               oneLooseElectron
                               )
+
+ElHadSelectionJECUp = cms.Sequence(oneGoodHTJECUp *
+                                   oneGoodMETJECUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
+                                     oneGoodMETJECDown *
+                                     oneLooseElectron
+                                     )
+
+ElHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
+                                   oneGoodMETJERUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
+                                     oneGoodMETJERDown *
+                                     oneLooseElectron
+                                     )
 
 ## muon selection sequence
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
@@ -462,7 +506,13 @@ electronSelection = cms.Sequence(oneGoodElectron *
 ## jet selection sequence
 jetSelection = cms.Sequence(fourGoodJets)
 
+jetSelectionJECUp = cms.Sequence(fourGoodJetsJECUp)
 
+jetSelectionJECDown = cms.Sequence(fourGoodJetsJECDown)
+
+jetSelectionJERUp = cms.Sequence(fourGoodJetsJERUp)
+
+jetSelectionJERDown = cms.Sequence(fourGoodJetsJERDown)
 
 
 
