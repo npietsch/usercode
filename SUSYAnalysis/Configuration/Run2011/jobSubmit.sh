@@ -24,13 +24,13 @@ nafJobSplitter.pl 200 RA4b_MuHad_PromptReco1_v4_cfg.py
 nafJobSplitter.pl 210 RA4b_MuHad_PromptReco2_v4_cfg.py
 nafJobSplitter.pl 111 RA4b_MuHad_Aug5_cfg.py
 nafJobSplitter.pl 176 RA4b_MuHad_PromptReco_v6_cfg.py
-nafJobSplitter.pl 238 RA4b_MuHad_Promtv1_2011B_cfg_1.py
-nafJobSplitter.pl 130 RA4b_MuHad_Promtv1_2011B_cfg_2.py
+nafJobSplitter.pl 238 RA4b_MuHad_B_PromptReco1_v1_cfg.py
+nafJobSplitter.pl 130 RA4b_MuHad_B_PromptReco2_v1_cfg.py
  
 nafJobSplitter.pl 203 RA4b_ElHad_May10_cfg.py
 nafJobSplitter.pl 230 RA4b_ElHad_PromptReco1_v4_cfg.py
 nafJobSplitter.pl 243 RA4b_ElHad_PromptReco2_v4_cfg.py
 nafJobSplitter.pl 101 RA4b_ElHad_Aug5_cfg.py
 nafJobSplitter.pl 167 RA4b_ElHad_PromptReco_v6_cfg.py
-nafJobSplitter.pl 227 RA4b_ElHad1_v1_Run2011B_cfg.py
-nafJobSplitter.pl 142 RA4b_ElHad2_v1_Run2011B_cfg.py
+nafJobSplitter.pl 227 RA4b_ElHad_B_PromptReco1_v1_cfg.py
+nafJobSplitter.pl 142 RA4b_ElHad_B_PromptReco2_v1_cfg.py
