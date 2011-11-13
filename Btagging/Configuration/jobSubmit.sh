@@ -41,7 +41,6 @@ nafJobSplitter.pl 176 MuHad_PromptReco_v6_cfg.py
 nafJobSplitter.pl 238 RA4b_MuHad_Promtv1_2011B_cfg_1.py
 nafJobSplitter.pl 130 RA4b_MuHad_Promtv1_2011B_cfg_2.py
  
-
 nafJobSplitter.pl 203 ElHad_May10_cfg.py
 nafJobSplitter.pl 230 ElHad_PromptReco1_v4_cfg.py
 nafJobSplitter.pl 243 ElHad_PromptReco2_v4_cfg.py

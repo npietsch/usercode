@@ -151,7 +151,7 @@ process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      # additinal cut
-                                     process.twoHighPtJets *
+                                     #process.twoHighPtJets *
                                      # match different triggers
                                      process.MuHadSelection *
                                      # muon selection
@@ -185,7 +185,7 @@ process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       ## additional cut
-                                      process.twoHighPtJets *
+                                      #process.twoHighPtJets *
                                       # match different triggers
                                       process.MuHadSelection *
                                       # muon selection
@@ -322,7 +322,7 @@ process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       # additinal cut
-                                      process.twoHighPtJets *
+                                      #process.twoHighPtJets *
                                       # match different triggers
                                       process.ElHadSelection *
                                       # electron selection
@@ -356,7 +356,7 @@ process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
                                        process.highPtJets *
                                        process.lowPtJets *
                                        ## additional cut
-                                       process.twoHighPtJets *
+                                       #process.twoHighPtJets *
                                        # match different triggers
                                        process.ElHadSelection *
                                        # electron selection
@@ -391,7 +391,7 @@ process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      ## additional cut
-                                     process.twoHighPtJets *
+                                     #process.twoHighPtJets *
                                      # match different triggers
                                      process.ElHadSelection *
                                      # electron selection

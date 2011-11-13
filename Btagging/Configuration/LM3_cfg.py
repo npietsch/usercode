@@ -7,6 +7,11 @@
 
 from BjetsPAT_cfg import *
 
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 3.438
+process.weightProducer.NumberEvts = 36475
+process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
