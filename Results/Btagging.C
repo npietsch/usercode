@@ -102,20 +102,26 @@ int Btagging()
   TFile* WJets=new TFile("WJets.root","READ");
   TFile* DY=new TFile("DY.root","READ");
   TFile* QCD=new TFile("QCD.root","READ");
-  TFile* MuHad=new TFile("MuHad.root","READ");
+  TFile* LM3=new TFile("LM3.root","READ");
 
   TFile* SM=new TFile("SM.root","READ");
 
-  // Luminosity for MuHad
-  Int_t Luminosity=2960;
-  //Int_t Luminosity=3652.723;
+  TFile* MuHad=new TFile("MuHad.root","READ");
+  TFile* ElHad=new TFile("ElHad.root","READ");
 
-  // Luminosity for ElHad
-  //Int_t Luminosity=2166;
-  //Int_t Luminosity=3610.583;
+  //TFile* SM=new TFile("SM.root","READ");
+
+  // Luminosity for MuHad in fb^-1
+  //Double_t Lumi=4.123723;
+  //Double_t Lumi=2.165723;
+  //Double_t Lumi=1.958;
+  //Double_t Lumi=0.661;
+
+  // Luminosity for ElHad in fb^-1
+  Double_t Lumi=4.190583;
 
   Int_t NGQCD=1;
-  Double_t XSQCD=0.001;
+  Double_t XSQCD=1;
   
   Int_t NGTTJets=3701947;
   Double_t XSTTJets=157.5;
@@ -127,7 +133,7 @@ int Btagging()
   Double_t XSWJets=31314; 
   
   Int_t NGSingleTop=1; 
-  Double_t XSSingleTop=0.001;
+  Double_t XSSingleTop=1;
   
   Int_t NGLM3=36475;
   Double_t XSLM3=3.438;
@@ -138,265 +144,133 @@ int Btagging()
   Int_t NGLM9=79665;
   Double_t XSLM9=7.134;
   
-  Double_t WeightQCD=(Luminosity*(XSQCD))/NGQCD;
-  Double_t WeightTTJets=(Luminosity*(XSTTJets))/NGTTJets;
-  Double_t WeightDY=(Luminosity*(XSDY))/NGDY;
-  Double_t WeightWJets=(Luminosity*(XSWJets))/NGWJets;
-  Double_t WeightSingleTop=(Luminosity*XSSingleTop)/NGSingleTop;
-  Double_t WeightLM3=(Luminosity*(XSLM3))/NGLM3;
-  Double_t WeightLM8=(Luminosity*(XSLM8))/NGLM8;
-  Double_t WeightLM9=(Luminosity*(XSLM9))/NGLM9;
+  Double_t WeightQCD=(Lumi*(XSQCD))/NGQCD;
+  Double_t WeightTTJets=(Lumi*(XSTTJets))/NGTTJets;
+  Double_t WeightDY=(Lumi*(XSDY))/NGDY;
+  Double_t WeightWJets=(Lumi*(XSWJets))/NGWJets;
+  Double_t WeightSingleTop=(Lumi*XSSingleTop)/NGSingleTop;
+  Double_t WeightLM3=(Lumi*(XSLM3))/NGLM3;
+  Double_t WeightLM8=(Lumi*(XSLM8))/NGLM8;
+  Double_t WeightLM9=(Lumi*(XSLM9))/NGLM9;
   
   //-------------------------------------------------------------------------------------------------------------------
   // addSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(QCD,       "QCD",           1, kBlue-7,  kBlue-7,  1101);
-  addSample(DY,        "DY+Jets",       1, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,     "W+Jets",        1, kYellow,  kYellow,  1101);
-  addSample(SingleTop, "Single Top",    1, kRed+2,   kRed+2,   1101);
-  addSample(TTJets,    "T#bar{T}+Jets", 1, kRed,     kRed,     1101);
+  addSample(QCD,       "QCD",           Lumi, kBlue-7,  kBlue-7,  1101);
+  addSample(DY,        "DY+Jets",       Lumi, kGreen+2, kGreen+2, 1101);
+  addSample(WJets,     "W+Jets",        Lumi, kYellow,  kYellow,  1101);
+  addSample(SingleTop, "Single Top",    Lumi, kRed+2,   kRed+2,   1101);
+  addSample(TTJets,    "T#bar{T}+Jets", Lumi, kRed,     kRed,     1101);
+  //addSample(LM3,       "LM3",           Lumi, kBlue,    0,        0);
 
-  addDataSample(MuHad,      "MuHad",    1, 1,        0,        0);
+  addSample(ElHad,     "ElHad",    1,    1,        0,        0);
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
-  Selections.push_back("analyzeBtagsSSVHEM3");
+//   Selections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   Selections.push_back("analyzeBtagsMuTCHEM3");
+//   Selections.push_back("analyzeBtagsMuTCHEM3highPt");
+//   Selections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  
+//   DataSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataSelections.push_back("analyzeBtagsMuTCHEM3");
+//   DataSelections.push_back("analyzeBtagsMuTCHEM3highPt");
+//   DataSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
 
-  DataSelections.push_back("analyzeBtagsSSVHEM3");
+  Selections.push_back("analyzeBtagsRA4bElTCHEM3");
+  Selections.push_back("analyzeBtagsElTCHEM3");
+  Selections.push_back("analyzeBtagsElTCHEM3highPt");
+  Selections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+
+  DataSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+  DataSelections.push_back("analyzeBtagsElTCHEM3");
+  DataSelections.push_back("analyzeBtagsElTCHEM3highPt");
+  DataSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
 
-  addHistogram("btagWeights_noWgt", 1, 1, 1, 1);
-  addHistogram("btagWeights", 1, 1, 1, 1);
-  
-  addDataHistogram("nBtags_noWgt", 1, 1, 1, 1);
-  addDataHistogram("nBtags", 1, 1, 1, 1);
-
-  //===========================================================================
-  //================================ BAUSTELLE ================================
-  //===========================================================================
-
-
-  //--------------------------------------------------------------
-  // Calculate scale factors and ratios
-  //--------------------------------------------------------------
-
-  for(int h=0; h<(int)Histograms.size(); ++h)
-    {
-      double AllData=0;
-      double AllMC=0;
-      double AllDataErr=0;
-      double AllMCErr=0;
-      
-      double CombinedRatio=1;
-      double CombinedRatioErr=0;
-      
-      for(int sel=0; sel<(int)Selections.size(); ++sel)
-	{
-	  std::cout << "----------------------------------" << std::endl;
-	  std::cout << Histograms[h] << std::endl;
-	  std::cout << "----------------------------------" << std::endl;
-
-	  double xmin=XminN[h];
-	  double xmax=XmaxN[h];
-	  
-	  // if no histogram should be normalized
-	  if(Normalize==-1)
-	    {
-	      xmin=0;
-	      xmax=0;
-	    }
-	  // if all histograms should be normalized
-	  if(Normalize==1)
-	    {
-	      if(xmin==0 && xmax==0)
-		{
-	      xmin=1;
-	      xmax=1;
-		}
-	    }
-	  
-	  // if MC background should not be normalized to data
-	  if(xmin==0 && xmax==0)
-	    {
-	      Scales.push_back(1);
-	      std::cout << "Scale factor: 1"  << std::endl;
-	    }
-	  else
-	    {
-	      // if MC background should be normalized to data in whole region
-	      if(xmin==1 && xmax==1)
-		{
-		  xmin=0;
-		  TH1F* Hist=(TH1F*)SM->Get(Selections[sel]+"/"+Histograms[h]);
-		  xmax=Hist->GetNbinsX()+1;
-		}
-
-	      double MC=Luminosity*(hist->Integral(xmin,xmax));
-	      double MCErr=sqrt(hist->GetEntries());
-
-
-	    }
-
-	}
-
-    }
-
-  //===========================================================================
-  //================================ BAUSTELLE ================================
-  //===========================================================================
-
-
-
-//   //--------------------------------------------------------------
-//   // Calculate scale factors and ratios
-//   //--------------------------------------------------------------
-
-//   double xmin2=25;
-//   double xmax2=5;
-
-//   for(int h=0; h<(int)Histograms.size(); ++h)
-//     {
-//       double DataSum=0;
-//       double AllMC=0;
-//       double DataSumErr=0;
-//       double AllMCErr=0;
-      
-//       double CombinedRatio=1;
-//       double CombinedRatioErr=0;
-      
-//       for(int sel=0; sel<(int)Selections.size(); ++sel)
-// 	{ 
-// 	  std::cout << "----------------------------------" << std::endl;
-// 	  std::cout << Histograms[h] << std::endl;
-// 	  std::cout << "----------------------------------" << std::endl;
-	  
-// 	  double xmin=Xmin[h];
-// 	  double xmax=Xmax[h];
-	  
-// 	  // if no histogram should be normalized
-// 	  if(Normalize==-1)
-// 	    {
-// 	      xmin=0;
-// 	      xmax=0;
-// 	    }
-// 	  // if all histograms should be normalized
-// 	  if(Normalize==1)
-// 	    {
-// 	      if(xmin==0 && xmax==0)
-// 		{
-// 	      xmin=1;
-// 	      xmax=1;
-// 		}
-// 	    }
-	  
-// 	  // if MC background should not be normalized to data
-// 	  if(xmin==0 && xmax==0)
-// 	    {
-// 	      Scales.push_back(1);
-// 	      std::cout << "Scale factor: 1"  << std::endl;
-// 	    }
-// 	  else
-// 	    {
-// 	      // if MC background should be normalized to data in whol region
-// 	      if(xmin==1 && xmax==1)
-// 		{
-// 		  xmin=0;
-// 		  TH1F* Hist=(TH1F*)Files[0]->Get(Selections[sel]+"/"+Histograms[h]);
-// 		  xmax=Hist->GetNbinsX()+1;
-// 		}
-	      
-// 	      double MCSum=0;
-// 	      double MCSumErr=0;
-// 	      double Data=0;
-// 	      double DataErr=0;
-// 	      double SF=1;
-// 	      double SFErr=0;
-	      
-// 	      double MCSum2=0;
-// 	      double MCSum2Err=0;
-// 	      double Data2=0;
-// 	      double Data2Err=0;
-// 	      double Ratio=1;
-// 	      double RatioErr=0;
-	      
-// 	      for(int mcx=0; mcx<(f-s); ++mcx)
-// 		{
-// 		  TH1F* hist=(TH1F*)Files[mcx]->Get(Selections[sel]+"/"+Histograms[h]);
-// 		  double Int=(Weights[mcx])*(hist->Integral(xmin,xmax));
-// 		  double Err=(Weights[mcx])*(sqrt(hist->Integral(xmin,xmax)));
-// 		  MCSum=MCSum+Int;
-// 		  MCSumErr=MCSumErr+Err;
-		  
-// 		  double Int2=(Weights[mcx])*(hist->Integral(xmin2,xmax2));
-// 		  double Err2=(Weights[mcx])*(sqrt(hist->Integral(xmin2,xmax2)));
-// 		  MCSum2=MCSum2+Int2;
-// 		  MCSum2Err=MCSum2Err+Err2;
-// 		}   
+  //addHistogram("btagWeights", 1, 1, 1, 1);
+  //addHistogram("nBtags", 1, 1, 1, 1);
+  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+  //addHistogram("MET", 1, 1, 1, 1);
+  //addHistogram("BtagsEta", 1, 1, 1, 1);
+  //addHistogram("BtagsEta_btagWeight", 1, 1, 1, 1);
+  addHistogram("NrHighPtBtags", 1, 1, 1, 1);
+  addHistogram("NrLowPtBtags", 1, 1, 1, 1);
+  //addHistogram("NrHighPtJets", 1, 1, 1, 1);
+  //addHistogram("NrLowPtJets", 1, 1, 1, 1);
+  //addHistogram("NrJets", 1, 1, 1, 1);
+  addHistogram("NrBtags", 1, 1, 1, 1);
+  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
  
-// 	      int ddx=0;
+  //addDataHistogram("nBtags", 1, 1, 1, 1);
+  //addDataHistogram("nBtags", 1, 1, 1, 1);
+  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
+  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
+  //addDataHistogram("MET", 1, 1, 1, 1);
+  //addDataHistogram("BtagsEta", 1, 1, 1, 1);
+  //addDataHistogram("BtagsEta", 1, 1, 1, 1);
+   addDataHistogram("NrHighPtBtags", 1, 1, 1, 1);
+   addDataHistogram("NrLowPtBtags", 1, 1, 1, 1);
+   //addDataHistogram("NrHighPtJets", 1, 1, 1, 1);
+   //addDataHistogram("NrLowPtJets", 1, 1, 1, 1);
+   //addDataHistogram("NrJets", 1, 1, 1, 1);
+   addDataHistogram("NrBtags", 1, 1, 1, 1);
+  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
 
-// 	      if(sel==0) ddx=f-s;
-// 	      if(sel==1) ddx=f-s+1;
+  //===========================================================================
+  //================================ BAUSTELLE ================================
+  //===========================================================================
 
-// 	      TH1F* hist=(TH1F*)Files[ddx]->Get(DataSelections[0]+"/"+Histograms[h]);	  
-// 	      Data=hist->Integral(xmin,xmax);
-// 	      Data2=hist->Integral(xmin2,xmax2);
-	      
-// 	      DataErr=sqrt(Data);
-// 	      Data2Err=sqrt(Data2);
-	      
-// 	      SF=Data/MCSum;
-// 	      Scales.push_back(SF);
-// 	      SFErr=sqrt(pow((DataErr/MCSum),2)+pow((Data*MCSumErr/(MCSum*MCSum)),2));	  
-// 	      std::cout << "Scale factor for " << Names[ddx] << ": " << SF << " +- " << SFErr<< std::endl;
-	      
-// 	      Ratio=Data2/(SF*MCSum2);
-	      
-// 	      RatioErr=sqrt(pow((Data2Err/(SF*MCSum2)),2)+pow((Data2*SFErr/(SF*SF*MCSum2)),2)+pow((Data2*MCSum2Err/(SF*MCSum2*MCSum2)),2));
-	      
-// 	      std::cout << "Ratio for " << Names[ddx] << ": " << Ratio << " +- " << RatioErr << std::endl;
-	      
-// 	      //Backgrounds.push_back(SF*MCSum2);
-// 	      //BackgroundsErr.push_back(sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2)));
-	      
-// 	      DataSum=DataSum+Data2;
-// 	      AllMC=AllMC+SF*MCSum2;
-// 	      AllMCErr=AllMCErr+sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2));
+  double SF=1;
 
-// 	      std::cout << "Data2: " << Data2 << std::endl;
-// 	      std::cout << "DataSum: " << DataSum << std::endl;
+//   TH1F* HistMC=(TH1F*)SM->Get(Selections[0]+"/"+Histograms[0]);
+//   double AllMC=Lumi*HistMC->Integral(5,24);
+  
+//   double AllMCErr=Lumi*sqrt(1000);
 
-// 	      std::cout << "MCSum2: " << MCSum2 << std::endl;
-// 	      std::cout << "AllMC: " << AllMC << std::endl;
+//   TH1F* HistData=(TH1F*)MuHad->Get(DataSelections[0]+"/"+DataHistograms[0]);
+//   double Data=HistData->Integral(5,24);
+//   double DataErr=sqrt(Data);
 
-// 	      std::cout << "MCErr: " << sqrt(pow((SFErr*MCSum2),2)+pow((SF*MCSum2Err),2)) << std::endl;
-// 	      std::cout << "AllMCErr: " << AllMCErr << std::endl;
+//   double SF=Data/AllMC;
 
-// 	    }		     
-// 	}
+//   double SFErr=sqrt(pow(DataErr/AllMC,2) + pow(Data*AllMCErr/(AllMC*AllMC),2));
 
-//       CombinedRatio=DataSum/AllMC;
-//       DataSumErr=sqrt(DataSum);
-//       CombinedRatioErr=sqrt(pow((DataSumErr/AllMC),2)+pow((DataSum*AllMCErr/(AllMC*AllMC)),2));
-      
-//       std::cout << "DataSum: " << DataSum << std::endl;
-//       std::cout << "DataSumErr: " << DataSumErr << std::endl;
+//   std::cout << SF << " +- " << SFErr << std::endl;
 
-//       std::cout << "AllMC: " << AllMC << std::endl;
-//       std::cout << "AllMCErr: " << AllMCErr << std::endl;
+//   //-------------------------------------------------------
 
-//       std::cout << pow((DataSumErr*AllMC),2) << std::endl;
+  
+//   double AllMCRatio=SF*Lumi*(HistMC->Integral(25,49));
+  
+//   double AllMCRatioErr=sqrt(pow(SF*Lumi*sqrt(30),2)+ pow(SFErr*Lumi*(HistMC->Integral(25,49)),2));
 
-//       std::cout << pow((DataSum*AllMCErr),2) << std::endl;
+//   std::cout << AllMCRatioErr << std::endl;
+//   std::cout << SF*Lumi*sqrt(30) << std::endl;
+//   std::cout << SFErr*Lumi*(HistMC->Integral(25,49)) << std::endl;
 
-//       std::cout << "Combined ratio:" << CombinedRatio << " +- " << CombinedRatioErr << std::endl;  
-//     }
+//   double DataRatio=HistData->Integral(25,49);
+//   double DataRatioErr=sqrt(DataRatio);
+
+//   double Ratio=DataRatio/AllMCRatio;
+
+
+
+//   double RatioErr=sqrt(pow(DataRatioErr/AllMCRatio,2) + pow(DataRatio*AllMCRatioErr/(AllMCRatio*AllMCRatio),2));
+
+//   std::cout << DataRatioErr/AllMCRatio << std::endl;
+//   std::cout << DataRatio*AllMCRatioErr/(AllMCRatio*AllMCRatio)  << std::endl;
+//   //std::cout <<  << std::endl;
+
+//   std::cout << Ratio << " +- " << RatioErr << std::endl;
+
 
   //--------
   // Plot
@@ -404,22 +278,24 @@ int Btagging()
 
   plotSet plots("Name");
 
-  for(int h=0; h<Histograms.size(); ++h)
-    { 
-      std::cout << Histograms[h] << std::endl;
-      
-      // loop over f-s MC background files
-      for(int i=0; i<Files.size(); ++i)
-	{
-	  plots.addPlot((TH1F*)Files[i]->Get(Selections[0]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
-	}      
-      
-      // loop over s MC and data signal files
-      for(int i=0; i<DataFiles.size(); ++i)
-	{
-	  plots.addPlot((TH1F*)Files[i]->Get(DataSelections[0]+"/"+DataHistograms[h]),Names[i],Histograms[h]+"_"+Selections[0],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
-	}       
+  for(int sdx=0; sdx<Selections.size(); ++sdx)
+    {
+      for(int h=0; h<Histograms.size(); ++h)
+	{ 
+	  std::cout << Histograms[h] << std::endl;
+	  
+	  // loop over f-s MC background files
+	  for(int i=0; i<(int)Files.size()-1; ++i)
+	    {
+	      plots.addPlot((TH1F*)Files[i]->Get(Selections[sdx]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],SF*Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	    }      
+	  
+	  // loop over data files
+	  for(int i=Files.size()-1; i<(int)Files.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)Files[i]->Get(DataSelections[sdx]+"/"+DataHistograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	    }  
+	}
     }
-  
   plots.printAll("ylog");
 }

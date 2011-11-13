@@ -48,7 +48,7 @@ goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
                                               )
 
 #-------------------------------
-# collections of good leptons
+# collections of veto leptons
 #-------------------------------
 
 trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
@@ -74,6 +74,25 @@ looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 
 vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
                                               )
+
+#------------------------------
+# collections of loose leptons
+#------------------------------
+
+## create collection of loose muons
+looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
+                                    cut =
+                                    'pt > 20. &'
+                                    'abs(eta) < 2.5'
+                                    )
+
+## create collection of loose electrons
+looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                            cut =
+                                            'pt > 20. &'
+                                            'abs(eta) < 2.5 '
+                                            )
+
 #-------------------------------
 # collections of good jets
 #-------------------------------
@@ -132,12 +151,18 @@ mediumSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
 # collections of good METs
 #-------------------------------
 
-## create MET collection
+## create collection of good METs
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
                                 'et > 50.'
                                 )
+
+## create collection of RA4 METs
+RA4METs = selectedPatMET.clone(src = 'patMETsPF',
+                               cut =
+                               'et > 100.'
+                               )
 
 #--------------------------------------------------------------------------------------------
 # collections of good jets, good  b-tagged jets and METs with jet energy scaled up and down
@@ -274,6 +299,7 @@ oneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
 noVetoMuon = countPatMuons.clone(src = 'vetoMuons',
                                   maxNumber = 0
                                   )
+
 ## select events with exactly one veto electron
 oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                           minNumber = 1,
@@ -283,7 +309,19 @@ oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
 noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                          maxNumber = 0
                                          )
+#------------------------------
+# loos lepton countFilter
+#------------------------------
 
+## select events with at least one loose muon
+oneLooseMuon = countPatMuons.clone(src = 'looseMuons',
+                                   minNumber = 1
+                                   )
+
+## select events with at least one loose electron
+oneLooseElectron = countPatElectrons.clone(src = 'looseElectrons',
+                                           minNumber = 1
+                                           )
 #------------------------------
 # jet countFilter
 #------------------------------
@@ -305,7 +343,7 @@ oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                )
 
 ## select events with one RA4 MET
-oneRA4MET = countPatMET.clone(src = 'goodMETs',
+oneRA4MET = countPatMET.clone(src = 'RA4METs',
                               minNumber = 1
                               )
 

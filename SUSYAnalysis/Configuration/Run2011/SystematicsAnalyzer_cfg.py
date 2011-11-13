@@ -23,7 +23,6 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-#process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
 # Choose input files
@@ -308,6 +307,22 @@ process.analyzeSystematics_test2.useBtagEffEventWeight = False
 # Load and configure modules for event weighting
 #-------------------------------------------------
 
+
+## jet energy uncertainty corrections
+process.selectedPatJets.src = cms.InputTag("scaledJetEnergy", "patJets")
+process.highMETs.src = cms.InputTag("scaledJetEnergy", "patMETs")
+process.scaledJetEnergy.scaleType = "abs" #abs = 1, jes:up, jes:down
+#process.scaledJetEnergy.scaleType = "jes:up" #abs = 1, jes:up, jes:down
+#process.scaledJetEnergy.scaleType = "jes:down" #abs = 1, jes:up, jes:down
+
+process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
+
+#process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.0, 0.95, 0.9) # JER down
+process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1) # JER standard
+#process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.2, 1.25, 1.3) # JER up
+
+
+
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 ## DataFile needs to be updated
 process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
@@ -318,44 +333,22 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
 process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
 
-#process.load("TopAnalysis.TopUtils.BTagSFEventWeight_cfi")
-process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
-process.btagEventWeight.jets=cms.InputTag("goodJets")
-process.btagEventWeight.bTagAlgo=cms.string("SSVHEM")
-process.btagEventWeight.filename=cms.string("../../../TopAnalysis/Configuration/data/analyzeBTagEfficiency.root")
-#process.btagEventWeight.sysVar   = cms.string("") # bTagSFUp, bTagSFDown, misTagSFUp, misTagSFDown possible
-process.btagEventWeight.verbose=cms.int32(0)
-
 #--------------------------
 # Test paths
 #--------------------------
 
-process.analyzeBtags_test1 = cms.Path(process.preselectionMuHTMC2 *
-                                      process.makeObjects *
-                                      process.eventWeightPU *
-                                      process.weightProducer *
-                                      process.MuHadSelection *
-                                      process.muonSelection*
-                                      process.jetSelection*
-                                      process.btagEventWeight *
-                                      #process.exactlyTwoMediumSSVHighEffBjets *
-                                      process.analyzeSystematics_test1 *
-                                      process.metSelection
-                                      )
-
-
-process.analyzeBtags_test2 = cms.Path(process.preselectionMuHTMC2 *
-                                      process.makeObjects *
-                                      process.eventWeightPU *
-                                      process.weightProducer *
-                                      process.MuHadSelection *
-                                      process.muonSelection*
-                                      process.jetSelection*
-                                      #process.btagEventWeight *
-                                      process.exactlyTwoMediumSSVHighEffBjets *
-                                      process.analyzeSystematics_test2 *
-                                      process.metSelection
-                                      )
+process.analyzeSystematics_RA4bMu = cms.Path(process.preselectionMuHTMC2 *
+                                             process.
+                                             process.makeObjects *
+                                             process.eventWeightPU *
+                                             process.weightProducer *
+                                             process.MuHadSelection *
+                                             process.muonSelection*
+                                             process.jetSelection*
+                                             process.btagEventWeight *
+                                             process.analyzeSystematics_test1 *
+                                             process.metSelection
+                                             )
 
 
 ## process.EventSelection = cms.PSet(

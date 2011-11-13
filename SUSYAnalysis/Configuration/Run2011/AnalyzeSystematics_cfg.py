@@ -322,7 +322,7 @@ process.scaledJetEnergyJERDown.scaleType   = "jes:down"
 # Load modules for analysis on generator level, level of matched objects and reco level
 #-----------------------------------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.AnalyzeSystematics_cff")
+#process.load("SUSYAnalysis.SUSYAnalyzer.sequences.AnalyzeSystematics_cff")
 
 #-------------------------------------------------
 # Load and configure module for event weighting
@@ -333,7 +333,7 @@ process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 ## load and configure module forprocess.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
 
 ## load and configure module for cross-section and luminosity weighting
-process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cff")
+process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 ## load and configure module for b-tag efficiency weighting
 
@@ -353,7 +353,7 @@ process.Selection1mJECUp = cms.Path(## Producer sequences
                                     process.preselectionMuHTMC2 *
                                     process.MuHadSelectionJERUp *
                                     process.muonSelection*
-                                    process.jetSelectionJERUp*
+                                    process.jetSelectionJERUp#*
                                     ## Analyzer Sequence
-                                    process.analyzeSystematicsJERUp
+                                    #process.analyzeSystematicsJERUp
                                     )

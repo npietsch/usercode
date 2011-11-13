@@ -45,7 +45,7 @@ void addSelectionStep(TString name, int lc, TString sn)
   SelectionNames.push_back(sn);
 }
 
-int Btagging_Shape2()
+int Btagging_Shape3()
 {
   // Define sample
   TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
@@ -56,18 +56,18 @@ int Btagging_Shape2()
 
   // addSample(TFile* sample, TString name)
   addSample(TTJets, "TTJets");
-  //addSample(WJets, "WJets");
-  //addSample(SingleTop, "SingleTop");
-  //addSample(DYJets, "DYJets");
-  //addSample(QCD, "QCD");
+  addSample(WJets, "WJets");
+  addSample(SingleTop, "SingleTop");
+  addSample(DYJets, "DYJets");
+  addSample(QCD, "QCD");
 
   // addAlgorithm(TString name)
   //addAlgorithm("TCHEM");
   addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name)
-  addSelectionStep("1", 1, "Preselection");
-  addSelectionStep("2", 2, "Electron selection");
+  addSelectionStep("bTagEffRA4bElSSVHEM3", 2, "Standard RA4b selection");
+  addSelectionStep("bTagEffDilepElSSVHEM3", 4, "Loose RA4b selection");
   //addSelectionStep("3", 4, "Jet selection");
   //addSelectionStep("4", 8, "MET < 300 GeV");
 
@@ -97,12 +97,12 @@ int Btagging_Shape2()
 	    {
 	      // Define canvas., legend etc.
 	      TCanvas *canvas =new TCanvas(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
-	      TLegend *leg = new TLegend(.5,.15,.88,.42);
+	      TLegend *leg = new TLegend(.45,.15,.98,.42);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(0);
 	      
-	      TLegend *leg2 = new TLegend(.5,.15,.88,.42);
+	      TLegend *leg2 = new TLegend(.45,.15,.98,.42);
 	      leg2->SetTextFont(42);
 	      leg2->SetFillColor(0);
 	      leg2->SetLineColor(0);
@@ -112,13 +112,13 @@ int Btagging_Shape2()
 		{
 		  std::cout << "Selection step " << Steps[s] <<  std::endl;
 
-		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
+		  std::cout << Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
 
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* Pt_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
+		  TH1F* Eta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
 
 		  TaggedPt_->Divide(Pt_);
 
@@ -193,7 +193,7 @@ int Btagging_Shape2()
 		  
 		}
 	      leg->Draw("box");
-	      canvas->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElPt.pdf");
+	      canvas->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElPt3.pdf");
 
 
 	      //----------------------------------------------------------------------------------------------
@@ -213,13 +213,13 @@ int Btagging_Shape2()
 		{
 		  std::cout << "Selection step " << Steps[s] <<  std::endl;
 
-		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
+		  std::cout << Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
 
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
+		  TH1F* Eta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
 		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
+		  TH1F* Eta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get(Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
 
 		  TaggedEta_->Divide(Eta_);
 
@@ -288,7 +288,7 @@ int Btagging_Shape2()
 		  
 		}
 	      //leg2->Draw("box");
-	      canvas2->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElEta.pdf");
+	      canvas2->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElEta3.pdf");
 
 
 	    }
