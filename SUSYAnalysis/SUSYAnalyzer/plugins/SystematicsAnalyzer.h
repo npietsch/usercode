@@ -48,16 +48,15 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   edm::InputTag PUInfo_;
   edm::InputTag PUWeight_;
   edm::InputTag RA2Weight_;
-  edm::InputTag BtagEffWeights_;
-  edm::InputTag BtagEffGrid_;
-
+  edm::InputTag BtagEventWeights_;
+    
   // bool
-  bool useEvtWgt_;
-  bool useBtagEffEvtWgt_;
+  bool useEventWgt_;
+  bool useBtagEventWgt_;
 
   // int
   int btagBin_;
-   	
+
   //--------------------------------
   // histograms      	
   //--------------------------------

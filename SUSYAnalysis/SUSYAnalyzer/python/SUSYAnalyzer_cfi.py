@@ -1,4 +1,4 @@
-import FWCore.ParameterSet.Config as cms
+d import FWCore.ParameterSet.Config as cms
 
 #
 # module to make simple analyses of SUSY

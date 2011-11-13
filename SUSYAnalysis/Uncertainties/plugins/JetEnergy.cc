@@ -169,11 +169,11 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
       
       // consider jet scale shift only if the raw jet pt and emf  !!!!!!!!!!!!!!!
       // is above the thresholds given in the module definition   !!!!!!!!!!!!!!!
-      if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->emEnergyFraction() < jetEMLimitForMET_)
+      if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ )
 	{
 	  dPx    += scaledJet.px() - jet->px();
 	  dPy    += scaledJet.py() - jet->py();
-	  //dSumEt += scaledJet.et() - jet->et();
+	  dSumEt += scaledJet.et() - jet->et();
 	}
     }
       
@@ -185,7 +185,6 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 
   double scaledMETPx = met.px() - dPx;
   double scaledMETPy = met.py() - dPy;
-  dSumEt = sqrt( scaledMETPx* scaledMETPx + scaledMETPy* scaledMETPy);
 
   // If you are using raw pfmet, you could use, as the raw jet uncertainty, the data/MC residual JES in quadrature with
   // the official JES uncertainty (https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETUncertaintyPrescription)

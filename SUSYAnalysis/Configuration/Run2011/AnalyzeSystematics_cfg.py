@@ -291,24 +291,24 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 # Load and configure module for to scale jet energy
 #-----------------------------------------------------------------
 
-process.load("TopAnalysis.TopUtils.JetEnergyScale_cfi")
+process.load("SUSYAnalysis.Uncertainties.JetEnergy_cfi")
 
 ## define default settings
 process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
 process.scaledJetEnergy.inputMETs = "patMETsPF"
 
 process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
-process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1)
+process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.,1.,1.) ## Top group: cms.vdouble(1.1, 1.1, 1.1)
 
-process.scaledJetEnergy.jetPTThresholdForMET = 20. ## ??
+process.scaledJetEnergy.jetPTThresholdForMET = 20. ## still to discuss
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled up jet energy corrections
 process.scaledJetEnergyJECUp = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJECUp.resolutionFactors    = cms.vdouble(1.2, 1.25, 1.3)
+process.scaledJetEnergyJECUp.resolutionFactors    = cms.vdouble(1.1,1.15,1.2) ## Top group: cms.vdouble(1.2, 1.25, 1.3)
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled down jet energy corrections
 process.scaledJetEnergyJECDown = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJECDown.resolutionFactors    = cms.vdouble(1.0, 0.95, 0.9)
+process.scaledJetEnergyJECDown.resolutionFactors    = cms.vdouble(0.9, 0.85, 0.8) ## Top group: cms.vdouble(1., 0.95, 0.9)
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled up jet energy corrections
 process.scaledJetEnergyJERUp = process.scaledJetEnergy.clone()
@@ -322,7 +322,7 @@ process.scaledJetEnergyJERDown.scaleType   = "jes:down"
 # Load modules for analysis on generator level, level of matched objects and reco level
 #-----------------------------------------------------------------------------------------
 
-#process.load("SUSYAnalysis.SUSYAnalyzer.sequences.AnalyzeSystematics_cff")
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SystematicsAnalyzer_cff")
 
 #-------------------------------------------------
 # Load and configure module for event weighting
@@ -335,25 +335,120 @@ process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 ## load and configure module for cross-section and luminosity weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
-## load and configure module for b-tag efficiency weighting
+#------------------------------------------------------------
+# load and configure modules for b-tag efficiency weighting
+#------------------------------------------------------------
 
+process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 
-#--------------------------
+## define default settings
+process.btagEventWeight.bTagAlgo= "TCHEM"
+
+## create weights for muon selection
+process.btagEventWeightMu                    = process.btagEventWeight.clone()
+process.btagEventWeightMu.filename           = "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
+
+process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMu
+process.btagEventWeightMuBtagSFUp.sysVar     = "bTagSFUp"
+
+process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMu
+process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
+
+process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMu
+process.btagEventWeightMuBtagSFUp.sysVar     = "MisTagSFUp"
+
+process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMu
+process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
+
+#-------------------------
 # Muon selection paths
 #--------------------------
 
-## 
-process.Selection1mJECUp = cms.Path(## Producer sequences
-                                    process.scaledJetEnergyJERUp *
-                                    process.createGoodObjects *
-                                    process.makeSUSYGenEvt *
-                                    process.eventWeightPU *
-                                    process.weightProducer *
-                                    ## Selection sequences
-                                    process.preselectionMuHTMC2 *
-                                    process.MuHadSelectionJERUp *
-                                    process.muonSelection*
-                                    process.jetSelectionJERUp#*
-                                    ## Analyzer Sequence
-                                    #process.analyzeSystematicsJERUp
-                                    )
+## muon selection w/o scaled jet energy
+process.RA4bMuonSelection = cms.Path(## Producer sequences
+                                     process.createGoodObjects *
+                                     process.makeSUSYGenEvt *
+                                     process.eventWeightPU *
+                                     process.weightProducer *
+                                     ## Selection sequences
+                                     process.preselectionMuHTMC2 *
+                                     process.MuHadSelection *
+                                     process.muonSelection*
+                                     process.jetSelection *
+                                     ## Analyzer SequenceS
+                                     process.analyzeSystematicsMuMETUp *
+                                     process.analyzeSystematicsMuMETDown *
+                                     process.analyzeSystematicsMuBtagSFUp *
+                                     process.analyzeSystematicsMuBtagSFDown *
+                                     process.analyzeSystematicsMuMistagSFUp *
+                                     process.analyzeSystematicsMuMistagSFDown *
+                                     process.analyzeSystematicsMuPUUp *
+                                     process.analyzeSystematicsMuPUDown
+                                     )
+
+##  muon selection w/o with scaled up jet energy corrections
+process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJECUp *
+                                          process.createGoodObjects *
+                                          process.makeSUSYGenEvt *
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJECUp *
+                                          process.muonSelection*
+                                          process.jetSelectionJECUp*
+                                          ## Analyzer Sequence
+                                          process.analyzeSystematicsMuJECUp
+                                          )
+
+##  muon selection w/o with scaled down jet energy corrections
+process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
+                                            process.scaledJetEnergyJECDown *
+                                            process.createGoodObjects *
+                                            process.makeSUSYGenEvt *
+                                            process.eventWeightPU *
+                                            process.weightProducer *
+                                            ## Selection sequences
+                                            process.preselectionMuHTMC2 *
+                                            process.MuHadSelectionJECDown *
+                                            process.muonSelection*
+                                            process.jetSelectionJECDown*
+                                            ## Analyzer Sequence
+                                            process.analyzeSystematicsMuJECDown
+                                            )
+
+##  muon selection w/o with scaled up jet energy resolution
+process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJERUp *
+                                          process.createGoodObjects *
+                                          process.makeSUSYGenEvt *
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJERUp *
+                                          process.muonSelection*
+                                          process.jetSelectionJERUp*
+                                          ## Analyzer Sequence
+                                          process.analyzeSystematicsMuJERUp
+                                          )
+
+##  muon selection w/o with scaled down jet energy resolution
+process.RA4bMuonSelectionJERDown = cms.Path(## Producer sequences
+                                            process.scaledJetEnergyJERDown *
+                                            process.createGoodObjects *
+                                            process.makeSUSYGenEvt *
+                                            process.eventWeightPU *
+                                            process.weightProducer *
+                                            ## Selection sequences
+                                            process.preselectionMuHTMC2 *
+                                            process.MuHadSelectionJERDown *
+                                            process.muonSelection*
+                                            process.jetSelectionJERDown*
+                                            ## Analyzer Sequence
+                                            process.analyzeSystematicsMuJERDown
+                                            )

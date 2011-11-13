@@ -23,17 +23,17 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   electrons_    (cfg.getParameter<edm::InputTag>("electrons") ),
   met_          (cfg.getParameter<edm::InputTag>("met") ),
   // for event weighting
-  PVSrc_          (cfg.getParameter<edm::InputTag>("PVSrc") ),
-  PUInfo_         (cfg.getParameter<edm::InputTag>("PUInfo") ),
-  PUWeight_       (cfg.getParameter<edm::InputTag>("PUWeight") ),
-  RA2Weight_      (cfg.getParameter<edm::InputTag>("RA2Weight") ),
-  BtagEffWeights_ (cfg.getParameter<edm::InputTag>("BtagEffWeights") ),
-  BtagEffGrid_    (cfg.getParameter<edm::InputTag>("BtagEffGrid") ),
+  PVSrc_                (cfg.getParameter<edm::InputTag>("PVSrc") ),
+  PUInfo_               (cfg.getParameter<edm::InputTag>("PUInfo") ),
+  PUWeight_             (cfg.getParameter<edm::InputTag>("PUWeight") ),
+  RA2Weight_            (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  BtagEventWeights_     (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
   // bool
-  useEvtWgt_        (cfg.getParameter<bool>("useEventWeight") ),
-  useBtagEffEvtWgt_ (cfg.getParameter<bool>("useBtagEffEventWeight") ),
+  useEventWgt_          (cfg.getParameter<bool>("useEventWeight") ),
+  useBtagEventWgt_      (cfg.getParameter<bool>("useBtagEventWeight") ),
   // int
-  btagBin_          (cfg.getParameter<int>("btagBin") )
+  btagBin_              (cfg.getParameter<int>("btagBin") )
+
 
 { 
   edm::Service<TFileService> fs;
@@ -67,7 +67,7 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
 
   MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
-  MHT_ = fs->make<TH1F>("MHT","MhT", 50, 0.,  1000.);
+  MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
 }
 
 SystematicsAnalyzer::~SystematicsAnalyzer()
@@ -110,7 +110,7 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   double weightBtagEff=1;
 
   // if events should be weighted
-  if(useEvtWgt_)
+  if(useEventWgt_)
     {
       // RA2 weight
       edm::Handle<double> RA2WeightHandle;
@@ -131,45 +131,45 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       if(bjets->size() > 2) nBtags=3;
       nBtags_PUWgt_->Fill(nBtags);
       
-      if(useBtagEffEvtWgt_)
+      if(useBtagEventWgt_)
 	{
 	  // Btag weight
-	  edm::Handle<std::vector<double> > BtagEffWeightsHandle;
-	  evt.getByLabel(BtagEffWeights_, BtagEffWeightsHandle);
-	  weightBtagEff=(*BtagEffWeightsHandle)[btagBin_];
+	  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
+	  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
+	  weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
 	
-	  btagWeights_noWgt_->Fill(0.,(*BtagEffWeightsHandle)[0]);
-	  btagWeights_noWgt_->Fill(1, (*BtagEffWeightsHandle)[1]);
-	  btagWeights_noWgt_->Fill(2, (*BtagEffWeightsHandle)[2]);
-	  btagWeights_noWgt_->Fill(3, (*BtagEffWeightsHandle)[3]);
+	  btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
+	  btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
+	  btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
+	  btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
 
-	  btagWeights_PUWgt_->Fill(0.,(*BtagEffWeightsHandle)[0]*weight);
-	  btagWeights_PUWgt_->Fill(1, (*BtagEffWeightsHandle)[1]*weight);
-	  btagWeights_PUWgt_->Fill(2, (*BtagEffWeightsHandle)[2]*weight);
-	  btagWeights_PUWgt_->Fill(3, (*BtagEffWeightsHandle)[3]*weight);
+	  btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
+	  btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
+	  btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
+	  btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight);
 
-// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle).size() << std::endl;
-// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[0] << std::endl;
-// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[1] << std::endl;
-// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[2] << std::endl;
-// 	  std::cout << "SystematicsAnalyzer: " << (*BtagEffWeightsHandle)[3] << std::endl;
+ 	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle).size() << std::endl;
+ 	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[0] << std::endl;
+ 	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[1] << std::endl;
+ 	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[2] << std::endl;
+ 	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[3] << std::endl;
 	  
-	  double summBtagWgt=(*BtagEffWeightsHandle)[0]+(*BtagEffWeightsHandle)[1]+(*BtagEffWeightsHandle)[2]+(*BtagEffWeightsHandle)[3];
+	  //double summBtagWgt=(*BtagEventWeightsHandle)[0]+(*BtagEventWeightsHandle)[1]+(*BtagEventWeightsHandle)[2]+(*BtagEventWeightsHandle)[3];
 	  //std::cout << "SystematicsAnalyzer: " << summBtagWgt << std::endl;
 	}
       
       weight=weightRA2*weightPU*weightBtagEff;
-
-//       std::cout << "--------------------------------" << std::endl;
-//       std::cout << "weightPU: "      << weightPU      << std::endl;
-//       std::cout << "weightRA2: "     << weightRA2     << std::endl;
-//       std::cout << "weightBtagEff: " << weightBtagEff << std::endl << std::endl;
-//       std::cout << "weight: " << weight << std::endl;
-//       std::cout << "--------------------------------" << std::endl;
-  
+      
+      //std::cout << "--------------------------------" << std::endl;
+      //std::cout << "weightPU: "      << weightPU      << std::endl;
+      //std::cout << "weightRA2: "     << weightRA2     << std::endl;
+      //std::cout << "weightBtagEff: " << weightBtagEff << std::endl << std::endl;
+      //std::cout << "weight: " << weight << std::endl;
+      //std::cout << "--------------------------------" << std::endl;
+      
       
       // -----------------------------------------------------------------------
-
+      
       // number of PU interactions only in MC available, therefore filled in this loop
       edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
       evt.getByLabel(PUInfo_, PUInfoHandle);
