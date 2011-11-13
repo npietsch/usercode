@@ -1,13 +1,9 @@
 from BjetsPAT_cfg import *
 
-from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
-process.preselectionMuHTMC = preselectionMuHTMC2
-process.preselectionElHTMC = preselectionElHTMC2
-process.preselectionLepHTMC = preselectionLepHTMC2
-
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 7.87
-process.weightProducer.NumberEvts = 787629
+#process.weightProducer.NumberEvts = 789984
+process.weightProducer.NumberEvts = 809984
 process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleAntiTop_TuneZ2_tW_channel_DR_7TeV_powheg_tauola.root"
@@ -15,22 +11,46 @@ process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_9_1_ehU.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_8_1_Hhj.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_7_1_wwZ.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_6_1_y9w.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_5_1_0i6.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_4_1_fQW.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_3_1_kRd.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_2_1_PvW.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_1_1_uUQ.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_17_1_yPp.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_16_1_3cO.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_15_1_47O.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_14_1_Hv4.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_13_1_w5y.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_12_1_b5X.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_11_1_KBV.root',
-        '/store/user/npietsch/Tbar_TuneZ2_tW-channel-DS_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_10_1_TVN.root'
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_29_1_2ko.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_32_1_yno.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_33_1_MsW.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_36_1_leB.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_10_1_9EY.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_30_1_M4C.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_39_1_1ar.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_22_1_FE3.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_34_1_yhy.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_38_1_Z6K.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_35_1_9RC.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_37_1_ONZ.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_31_1_E0B.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_40_1_a7F.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_21_1_Tra.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_3_1_RcA.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_2_1_cg4.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_6_1_TvO.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_4_1_pGa.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_7_1_NRZ.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_8_1_Vtw.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_5_1_Fdr.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_11_1_Rde.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_12_1_oUL.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_15_1_qgW.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_14_1_q4h.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_13_1_p9B.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_19_1_MJr.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_17_1_p0R.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_25_1_EH6.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_9_1_ref.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_18_1_Kzy.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_16_1_fBh.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_41_1_25x.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_20_1_Upe.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_24_1_rJO.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_23_1_5lQ.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_27_1_iR0.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_1_1_MQD.root',
+'/store/user/schettle/Tbar_TuneZ2_tW-channel-DR_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_28_1_BAL.root'
+
 )
 )

@@ -1,10 +1,5 @@
 from BjetsPAT_cfg import *
 
-from SUSYAnalysis.SUSYFilter.sequences.Preselection_cff import *
-process.preselectionMuHTMC = preselectionMuHTMC2
-process.preselectionElHTMC = preselectionElHTMC2
-process.preselectionLepHTMC = preselectionLepHTMC2
-
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 1.44
 process.weightProducer.NumberEvts = 137980
@@ -15,14 +10,14 @@ process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-            '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_8_1_u5r.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_7_1_gST.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_6_1_IlY.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_5_1_V6m.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_4_1_5xj.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_3_1_vP7.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_2_1_OoV.root',
-        '/store/user/npietsch/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/PAT/d33b50267c88e620c112aadc5d05059b/Summer11_1_2_mhx.root'
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_5_1_1Kt.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_3_1_7Kl.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_6_1_TyY.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_7_1_3Le.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_2_1_qhh.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_4_1_rJ6.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_8_1_BDi.root',
+'/store/user/schettle/Tbar_TuneZ2_s-channel_7TeV-powheg-tauola/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_1_1_94x.root'
 
 )
 )
