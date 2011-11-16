@@ -3,11 +3,11 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("AnalyzeSystematics") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1000
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -298,25 +298,25 @@ process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
 process.scaledJetEnergy.inputMETs = "patMETsPF"
 
 process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
-process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.,1.,1.) ## Top group: cms.vdouble(1.1, 1.1, 1.1)
+process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1)
 
-process.scaledJetEnergy.jetPTThresholdForMET = 20. ## still to discuss
+process.scaledJetEnergy.jetPTThresholdForMET = 10. ## proposed on Nov 15 in RA4 meeting
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled up jet energy corrections
 process.scaledJetEnergyJECUp = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJECUp.resolutionFactors    = cms.vdouble(1.1,1.15,1.2) ## Top group: cms.vdouble(1.2, 1.25, 1.3)
+process.scaledJetEnergyJECUp.scaleType   = "jes:up"
 
-## create collections of selectedPatJetsAK5PF and patMETsPF with scaled down jet energy corrections
+## create collections of selectedPatJetsAK5PF and patMETsPF with scaled down jet energy resolution
 process.scaledJetEnergyJECDown = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJECDown.resolutionFactors    = cms.vdouble(0.9, 0.85, 0.8) ## Top group: cms.vdouble(1., 0.95, 0.9)
+process.scaledJetEnergyJECDown.scaleType   = "jes:down"
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled up jet energy corrections
 process.scaledJetEnergyJERUp = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJERUp.scaleType   = "jes:up"
+process.scaledJetEnergyJERUp.resolutionFactors    = cms.vdouble(1.2, 1.25, 1.3)
 
-## create collections of selectedPatJetsAK5PF and patMETsPF with scaled down jet energy resolution
+## create collections of selectedPatJetsAK5PF and patMETsPF with scaled down jet energy corrections
 process.scaledJetEnergyJERDown = process.scaledJetEnergy.clone()
-process.scaledJetEnergyJERDown.scaleType   = "jes:down"
+process.scaledJetEnergyJERDown.resolutionFactors    = cms.vdouble(1., 0.95, 0.9)
 
 #-----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco level
@@ -348,19 +348,19 @@ process.btagEventWeight.bTagAlgo= "TCHEM"
 
 ## create weights for muon selection
 process.btagEventWeightMu                    = process.btagEventWeight.clone()
-process.btagEventWeightMu.filename           = "../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightMu.filename           = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
 process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
 
-process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMu
+process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMu.clone()
 process.btagEventWeightMuBtagSFUp.sysVar     = "bTagSFUp"
 
-process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMu
+process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMu.clone()
 process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
 
-process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMu
+process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMu.clone()
 process.btagEventWeightMuBtagSFUp.sysVar     = "MisTagSFUp"
 
-process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMu
+process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMu.clone()
 process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
 
 #-------------------------
@@ -369,10 +369,20 @@ process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
 
 ## muon selection w/o scaled jet energy
 process.RA4bMuonSelection = cms.Path(## Producer sequences
+                                     process.scaledJetEnergy *
+                                     process.scaledJetEnergyJECUp *
+                                     process.scaledJetEnergyJECDown *
+                                     process.scaledJetEnergyJERUp *
+                                     process.scaledJetEnergyJERDown *
                                      process.createGoodObjects *
                                      process.makeSUSYGenEvt *
                                      process.eventWeightPU *
                                      process.weightProducer *
+                                     process.btagEventWeightMu *
+                                     process.btagEventWeightMuBtagSFUp *
+                                     process.btagEventWeightMuBtagSFDown *
+                                     process.btagEventWeightMuMistagSFUp *
+                                     process.btagEventWeightMuMistagSFDown *
                                      ## Selection sequences
                                      process.preselectionMuHTMC2 *
                                      process.MuHadSelection *
@@ -391,11 +401,16 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
 
 ##  muon selection w/o with scaled up jet energy corrections
 process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergy *
                                           process.scaledJetEnergyJECUp *
+                                          process.scaledJetEnergyJECDown *
+                                          process.scaledJetEnergyJERUp *
+                                          process.scaledJetEnergyJERDown *
                                           process.createGoodObjects *
                                           process.makeSUSYGenEvt *
                                           process.eventWeightPU *
                                           process.weightProducer *
+                                          process.btagEventWeightMu *
                                           ## Selection sequences
                                           process.preselectionMuHTMC2 *
                                           process.MuHadSelectionJECUp *
@@ -407,11 +422,16 @@ process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
 
 ##  muon selection w/o with scaled down jet energy corrections
 process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
+                                            process.scaledJetEnergy *
+                                            process.scaledJetEnergyJECUp *
                                             process.scaledJetEnergyJECDown *
+                                            process.scaledJetEnergyJERUp *
+                                            process.scaledJetEnergyJERDown *
                                             process.createGoodObjects *
                                             process.makeSUSYGenEvt *
                                             process.eventWeightPU *
                                             process.weightProducer *
+                                            process.btagEventWeightMu *
                                             ## Selection sequences
                                             process.preselectionMuHTMC2 *
                                             process.MuHadSelectionJECDown *
@@ -423,11 +443,16 @@ process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
 
 ##  muon selection w/o with scaled up jet energy resolution
 process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergy *
+                                          process.scaledJetEnergyJECUp *
+                                          process.scaledJetEnergyJECDown *
                                           process.scaledJetEnergyJERUp *
+                                          process.scaledJetEnergyJERDown *
                                           process.createGoodObjects *
                                           process.makeSUSYGenEvt *
                                           process.eventWeightPU *
                                           process.weightProducer *
+                                          process.btagEventWeightMu *
                                           ## Selection sequences
                                           process.preselectionMuHTMC2 *
                                           process.MuHadSelectionJERUp *
@@ -439,11 +464,16 @@ process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
 
 ##  muon selection w/o with scaled down jet energy resolution
 process.RA4bMuonSelectionJERDown = cms.Path(## Producer sequences
+                                            process.scaledJetEnergy *
+                                            process.scaledJetEnergyJECUp *
+                                            process.scaledJetEnergyJECDown *
+                                            process.scaledJetEnergyJERUp *
                                             process.scaledJetEnergyJERDown *
                                             process.createGoodObjects *
                                             process.makeSUSYGenEvt *
                                             process.eventWeightPU *
                                             process.weightProducer *
+                                            process.btagEventWeightMu *
                                             ## Selection sequences
                                             process.preselectionMuHTMC2 *
                                             process.MuHadSelectionJERDown *

@@ -64,7 +64,6 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   SSVHE_= fs->make<TH1F>("SSVHE","SSVHE", 120, -2, 10.);
   SSVHP_= fs->make<TH1F>("SSVHP","SSVHP", 120, -2, 10.);
 
-
   MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
   MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
@@ -97,7 +96,6 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
 
-
   //-------------------------------------------------
   // Event weighting
   //-------------------------------------------------
@@ -126,10 +124,10 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
       weight=weightRA2*weightPU;
 
-      // number of b-tagged jets
+      // number of b-tagged jets, events are weighted
       unsigned int nBtags = bjets->size();
       if(bjets->size() > 2) nBtags=3;
-      nBtags_PUWgt_->Fill(nBtags);
+      nBtags_PUWgt_->Fill(nBtags, weight);
       
       if(useBtagEventWgt_)
 	{
@@ -153,11 +151,8 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
  	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[1] << std::endl;
  	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[2] << std::endl;
  	  //std::cout << "SystematicsAnalyzer: " << (*BtagEventWeightsHandle)[3] << std::endl;
-	  
-	  //double summBtagWgt=(*BtagEventWeightsHandle)[0]+(*BtagEventWeightsHandle)[1]+(*BtagEventWeightsHandle)[2]+(*BtagEventWeightsHandle)[3];
-	  //std::cout << "SystematicsAnalyzer: " << summBtagWgt << std::endl;
 	}
-      
+ 
       weight=weightRA2*weightPU*weightBtagEff;
       
       //std::cout << "--------------------------------" << std::endl;
@@ -166,9 +161,6 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       //std::cout << "weightBtagEff: " << weightBtagEff << std::endl << std::endl;
       //std::cout << "weight: " << weight << std::endl;
       //std::cout << "--------------------------------" << std::endl;
-      
-      
-      // -----------------------------------------------------------------------
       
       // number of PU interactions only in MC available, therefore filled in this loop
       edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
@@ -238,15 +230,29 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   	}   
       MHT=P4.Et();
     }
+  
   // keep HT saparate from MHT calculation
   for(int i=0; i<(int)jets->size();++i)
     {
       HT=HT+(*jets)[i].et();
     }
-
+  
   MET_->Fill(MET,weight);
   HT_->Fill(HT,weight);
   MHT_->Fill(MHT,weight);
+  
+//   // Jets
+//   for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+//     {
+//       JetsPt_->Fill((*jets)[jdx].pt(),weight);
+//       JetsEta_->Fill((*jets)[jdx].eta(),weight);
+
+//       if(jdx < 4) PtJet_[jdx]->Fill((*jets)[jdx].pt(),weight);
+
+//     }
+  
+
+
 }
 
 

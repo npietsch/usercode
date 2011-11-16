@@ -2,6 +2,11 @@ import FWCore.ParameterSet.Config as cms
 
 from SUSYAnalysis.SUSYAnalyzer.SystematicsAnalyzer_cfi import *
 
+## set default settings
+analyzeSystematics.useEventWeight = True
+analyzeSystematics.useBtagEventWeight = True
+analyzeSystematics.BtagEventWeights = "btagEventWeightMu:RA4bSFEventWeights"
+
 ##-------------------------
 ## Create clones
 ##-------------------------
@@ -52,10 +57,10 @@ analyzeSystematicsMuJERDown.met    = "scaledJetEnergyJERDown:patMETsPF"
 
 ## configure clones to study btag eff and mistag scale factor uncertainties
 analyzeSystematicsMuBtagSFUp.BtagEventWeights     = "btagEventWeightMuBtagSFUp:RA4bSFEventWeights"
-analyzeSystematicsMuBtagSFDown.BtagEventWeights   = "btagEventWeightMuBtagSFDown:RA4bSFEventWeight"
+analyzeSystematicsMuBtagSFDown.BtagEventWeights   = "btagEventWeightMuBtagSFDown:RA4bSFEventWeights"
 analyzeSystematicsMuMistagSFUp.BtagEventWeights   = "btagEventWeightMuMistagSFUp:RA4bSFEventWeights"
-analyzeSystematicsMuMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeight"
+analyzeSystematicsMuMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeights"
 
 ## configure clones to study PU uncertainties
-analyzeSystematicsMuPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUP"
+analyzeSystematicsMuPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
 analyzeSystematicsMuPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"

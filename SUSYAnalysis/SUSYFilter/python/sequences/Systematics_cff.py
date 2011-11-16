@@ -99,7 +99,7 @@ looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 
 ## create collection of good Jets
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
-goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+goodJets = cleanPatJets.clone(src = 'scaledJetEnergy:selectedPatJetsAK5PF',
                               preselection =
                               'abs(eta) < 2.4 &'
                               'pt > 40. &'
