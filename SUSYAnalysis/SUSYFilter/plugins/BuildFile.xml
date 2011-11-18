@@ -1,9 +1,0 @@
-<use   name="DataFormats/PatCandidates"/>
-<use   name="PhysicsTools/CandUtils"/>
-<use   name="FWCore/MessageLogger"/>
-<use   name="FWCore/ParameterSet"/>
-<use   name="FWCore/Framework"/>
-<use   name="FWCore/Utilities"/>
-<library   file="*.cc" name="SUSYAnalysisSUSYFilterPlugins">
-  <flags   EDM_PLUGIN="1"/>
-</library>
