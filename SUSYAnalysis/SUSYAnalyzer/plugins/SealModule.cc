@@ -23,3 +23,6 @@ DEFINE_FWK_MODULE(RA4Analyzer);
 
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/Out.h"
 DEFINE_FWK_MODULE(Out);
+
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/GluinoAnalyzer.h"
+DEFINE_FWK_MODULE(GluinoAnalyzer);
