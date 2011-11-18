@@ -1,4 +1,4 @@
-mport FWCore.ParameterSet.Config as cms
+import FWCore.ParameterSet.Config as cms
 
 #
 # module to study systematics

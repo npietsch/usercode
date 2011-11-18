@@ -388,15 +388,42 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
                                      process.MuHadSelection *
                                      process.muonSelection*
                                      process.jetSelection *
-                                     ## Analyzer SequenceS
-                                     process.analyzeSystematicsMuMETUp *
-                                     process.analyzeSystematicsMuMETDown *
-                                     process.analyzeSystematicsMuBtagSFUp *
-                                     process.analyzeSystematicsMuBtagSFDown *
-                                     process.analyzeSystematicsMuMistagSFUp *
-                                     process.analyzeSystematicsMuMistagSFDown *
-                                     process.analyzeSystematicsMuPUUp *
-                                     process.analyzeSystematicsMuPUDown
+                                     ## Analyzer Sequences for Mu 0 btags
+                                     process.analyzeSystematicsMu0bMETUp *
+                                     process.analyzeSystematicsMu0bMETDown *
+                                     process.analyzeSystematicsMu0bBtagSFUp *
+                                     process.analyzeSystematicsMu0bBtagSFDown *
+                                     process.analyzeSystematicsMu0bMistagSFUp *
+                                     process.analyzeSystematicsMu0bMistagSFDown *
+                                     process.analyzeSystematicsMu0bPUUp *
+                                     process.analyzeSystematicsMu0bPUDown *
+                                     ## Analyzer Sequences for Mu 1 btags
+                                     process.analyzeSystematicsMu1bMETUp *
+                                     process.analyzeSystematicsMu1bMETDown *
+                                     process.analyzeSystematicsMu1bBtagSFUp *
+                                     process.analyzeSystematicsMu1bBtagSFDown *
+                                     process.analyzeSystematicsMu1bMistagSFUp *
+                                     process.analyzeSystematicsMu1bMistagSFDown *
+                                     process.analyzeSystematicsMu1bPUUp *
+                                     process.analyzeSystematicsMu1bPUDown *
+                                     ## Analyzer Sequences for Mu 2 btags
+                                     process.analyzeSystematicsMu2bMETUp *
+                                     process.analyzeSystematicsMu2bMETDown *
+                                     process.analyzeSystematicsMu2bBtagSFUp *
+                                     process.analyzeSystematicsMu2bBtagSFDown *
+                                     process.analyzeSystematicsMu2bMistagSFUp *
+                                     process.analyzeSystematicsMu2bMistagSFDown *
+                                     process.analyzeSystematicsMu2bPUUp *
+                                     process.analyzeSystematicsMu2bPUDown *
+                                     ## Analyzer Sequences for Mu 3 btags
+                                     process.analyzeSystematicsMu3bMETUp *
+                                     process.analyzeSystematicsMu3bMETDown *
+                                     process.analyzeSystematicsMu3bBtagSFUp *
+                                     process.analyzeSystematicsMu3bBtagSFDown *
+                                     process.analyzeSystematicsMu3bMistagSFUp *
+                                     process.analyzeSystematicsMu3bMistagSFDown *
+                                     process.analyzeSystematicsMu3bPUUp *
+                                     process.analyzeSystematicsMu3bPUDown
                                      )
 
 ##  muon selection w/o with scaled up jet energy corrections
@@ -417,7 +444,10 @@ process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
                                           process.muonSelection*
                                           process.jetSelectionJECUp*
                                           ## Analyzer Sequence
-                                          process.analyzeSystematicsMuJECUp
+                                          process.analyzeSystematicsMu0bJECUp *
+                                          process.analyzeSystematicsMu1bJECUp *
+                                          process.analyzeSystematicsMu2bJECUp *
+                                          process.analyzeSystematicsMu3bJECUp
                                           )
 
 ##  muon selection w/o with scaled down jet energy corrections
@@ -438,7 +468,10 @@ process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
                                             process.muonSelection*
                                             process.jetSelectionJECDown*
                                             ## Analyzer Sequence
-                                            process.analyzeSystematicsMuJECDown
+                                            process.analyzeSystematicsMu0bJECDown *
+                                            process.analyzeSystematicsMu1bJECDown *
+                                            process.analyzeSystematicsMu2bJECDown *
+                                            process.analyzeSystematicsMu3bJECDown
                                             )
 
 ##  muon selection w/o with scaled up jet energy resolution
@@ -459,7 +492,10 @@ process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
                                           process.muonSelection*
                                           process.jetSelectionJERUp*
                                           ## Analyzer Sequence
-                                          process.analyzeSystematicsMuJERUp
+                                          process.analyzeSystematicsMu0bJERUp *
+                                          process.analyzeSystematicsMu1bJERUp *
+                                          process.analyzeSystematicsMu2bJERUp *
+                                          process.analyzeSystematicsMu3bJERUp
                                           )
 
 ##  muon selection w/o with scaled down jet energy resolution
@@ -480,5 +516,8 @@ process.RA4bMuonSelectionJERDown = cms.Path(## Producer sequences
                                             process.muonSelection*
                                             process.jetSelectionJERDown*
                                             ## Analyzer Sequence
-                                            process.analyzeSystematicsMuJERDown
+                                            process.analyzeSystematicsMu0bJERDown *
+                                            process.analyzeSystematicsMu1bJERDown *
+                                            process.analyzeSystematicsMu2bJERDown *
+                                            process.analyzeSystematicsMu3bJERDown
                                             )
