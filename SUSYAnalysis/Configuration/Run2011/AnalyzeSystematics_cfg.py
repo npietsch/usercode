@@ -389,6 +389,7 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
                                      process.muonSelection*
                                      process.jetSelection *
                                      ## Analyzer Sequences for Mu 0 btags
+                                     process.analyzeSystematicsMu0b *
                                      process.analyzeSystematicsMu0bMETUp *
                                      process.analyzeSystematicsMu0bMETDown *
                                      process.analyzeSystematicsMu0bBtagSFUp *
@@ -398,6 +399,7 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
                                      process.analyzeSystematicsMu0bPUUp *
                                      process.analyzeSystematicsMu0bPUDown *
                                      ## Analyzer Sequences for Mu 1 btags
+                                     process.analyzeSystematicsMu1b *
                                      process.analyzeSystematicsMu1bMETUp *
                                      process.analyzeSystematicsMu1bMETDown *
                                      process.analyzeSystematicsMu1bBtagSFUp *
@@ -407,6 +409,7 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
                                      process.analyzeSystematicsMu1bPUUp *
                                      process.analyzeSystematicsMu1bPUDown *
                                      ## Analyzer Sequences for Mu 2 btags
+                                     process.analyzeSystematicsMu2b *
                                      process.analyzeSystematicsMu2bMETUp *
                                      process.analyzeSystematicsMu2bMETDown *
                                      process.analyzeSystematicsMu2bBtagSFUp *
@@ -416,6 +419,7 @@ process.RA4bMuonSelection = cms.Path(## Producer sequences
                                      process.analyzeSystematicsMu2bPUUp *
                                      process.analyzeSystematicsMu2bPUDown *
                                      ## Analyzer Sequences for Mu 3 btags
+                                     process.analyzeSystematicsMu3b *
                                      process.analyzeSystematicsMu3bMETUp *
                                      process.analyzeSystematicsMu3bMETDown *
                                      process.analyzeSystematicsMu3bBtagSFUp *

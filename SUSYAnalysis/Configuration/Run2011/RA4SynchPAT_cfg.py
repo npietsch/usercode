@@ -1,43 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("RA4Synch")
+process = cms.Process("RA4b")
 
-## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-#process.MessageLogger.cerr.threshold = 'INFO'
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.categories.append('ParticleListDrawer')
 
-# Choose input files
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_10_1_BhC.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_11_1_Le5.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_12_1_KZa.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_13_1_3uv.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_14_1_viA.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_15_1_4k1.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_16_1_9x4.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_17_1_9eE.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_18_1_75D.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_19_1_jk5.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_1_1_aVA.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_20_1_ucC.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_21_1_tz2.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_22_1_wGO.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_2_1_LNw.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_3_1_Evm.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_4_1_4cW.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_5_1_NoR.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_6_1_szm.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_7_1_0vR.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_8_1_uS1.root',
-    '/store/user/npietsch/LM1_SUSY_sftsht_7TeV-pythia6/PAT/89614fbe8472c25559618ceb16e3da73/Spring11_9_1_KMj.root'
-    )
-)
-
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(22000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -52,58 +22,49 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('START311_V2A::All')
-
-#-----------------------------------------------------------------
-# Load modules for preselection
-#-----------------------------------------------------------------
+process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-#-----------------------------------------------------------------
-# Load modules to create objects and filter events on reco level
-#-----------------------------------------------------------------
-
-# Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-#process.load("SUSYAnalysis.SUSYFilter.sequences.RA4_Selection_cff")
-#process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
-#--------------------------------------------------------
-# Load modules for analysis on generator and reco-level
-#--------------------------------------------------------
+#-----------------------------------------------------------------
+# Load modules to monitor selection steps
+#-----------------------------------------------------------------
 
-## process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi")
+process.analyzeRA4.jets = "goodJets"
+process.analyzeRA4.muons = "goodMuons"
+process.analyzeRA4.electrons ="goodElectrons"
+
+process.RA4Preselection = process.analyzeRA4.clone()
+process.RA4OneGoodJet = process.analyzeRA4.clone()
+process.RA4TwoGoodJets = process.analyzeRA4.clone()
+process.RA4ThreeGoodJets = process.analyzeRA4.clone()
+process.RA4FourGoodJets = process.analyzeRA4.clone()
+
+process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
+process.Out.jets = "goodJets"
+process.Out.muons = "goodMuons"
+process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
-#-------------------
+#------------------
 
-## Muon selection
-process.MuonSelection = cms.Path(process.preselectionMuSynch *
+process.MuonSelection = cms.Path(process.preselectionMuHTAllData *
                                  process.goodObjects *
-                                 process.oneVertexMuon *
-                                 process.oneGoodMuon *
-                                 process.exactlyOneGoodMuon *
-                                 process.noGoodElectron *
-                                 process.oneLooseJet*
-                                 process.twoLooseJets *
-                                 process.threeLooseJets *
-                                 process.fourLooseJets *
+                                 process.RA4Preselection *
+                                 process.oneGoodJet *
+                                 process.RA4OneGoodJet *
+                                 process.twoGoodJets *
+                                 process.RA4TwoGoodJets *
+                                 process.threeGoodJets *
+                                 process.RA4ThreeGoodJets *
+                                 process.fourGoodJets *
+                                 process.RA4FourGoodJets *
+                                 process.muonSelection *
+                                 process.HTSelection *
                                  process.oneMediumMET *
-                                 process.oneTightMET
-                                 )
-## Electron selection
-process.ElecSelection = cms.Path(process.preselectionElSynch *
-                                 process.goodObjects *
-                                 process.oneIsolatedElectron *
-                                 process.oneGoodElectron *
-                                 process.exactlyOneGoodElectron *
-                                 process.noGoodMuon *
-                                 process.oneLooseJet*
-                                 process.twoLooseJets *
-                                 process.threeLooseJets *
-                                 process.fourLooseJets *
-                                 process.oneMediumMET *
-                                 process.oneTightMET
+                                 process.Out
                                  )

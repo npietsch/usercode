@@ -146,7 +146,7 @@ process.Out.electrons ="goodElectrons"
 #------------------
 
 process.ViennaMuonSelection = cms.Path(process.susyPatDefaultSequence *
-                                       process.preselectionMuSynchData *
+                                       process.preselectionMuSychData *
                                        process.goodObjects *
                                        process.RA4Preselection *
                                        process.oneGoodJet *

@@ -149,7 +149,7 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 
 from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
 analyzeRA4.jets = "goodJets"
-analyzeRA4.muons = "vertexMuons"
+analyzeRA4.muons = "goodMuons"
 analyzeRA4.electrons ="goodElectrons"
 
 process.RA4Preselection = analyzeRA4.clone()

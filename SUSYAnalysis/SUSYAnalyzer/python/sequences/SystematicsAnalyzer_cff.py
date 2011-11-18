@@ -15,6 +15,7 @@ analyzeSystematicsMu0b = analyzeSystematics.clone()
 analyzeSystematicsMu0b.btagBin = 0
 
 ## clones to study jet energy scale uncertainties
+analyzeSystematicsMu0bJEC            = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJECUp          = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJECDown        = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJERUp          = analyzeSystematicsMu0b.clone()
@@ -96,6 +97,7 @@ analyzeSystematicsMu1b = analyzeSystematics.clone()
 analyzeSystematicsMu1b.btagBin = 1
 
 ## clones to study jet energy scale uncertainties
+analyzeSystematicsMu1bJEC            = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu1bJECUp          = analyzeSystematicsMu1b.clone()
 analyzeSystematicsMu1bJECDown        = analyzeSystematicsMu1b.clone()
 analyzeSystematicsMu1bJERUp          = analyzeSystematicsMu1b.clone()
@@ -177,6 +179,7 @@ analyzeSystematicsMu2b = analyzeSystematics.clone()
 analyzeSystematicsMu2b.btagBin = 2
 
 ## clones to study jet energy scale uncertainties
+analyzeSystematicsMu2bJEC            = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJECUp          = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJECDown        = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJERUp          = analyzeSystematicsMu2b.clone()
@@ -255,6 +258,7 @@ analyzeSystematicsMu3b = analyzeSystematics.clone()
 analyzeSystematicsMu3b.btagBin = 3
 
 ## clones to study jet energy scale uncertainties
+analyzeSystematicsMu3bJEC            = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJECUp          = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJECDown        = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJERUp          = analyzeSystematicsMu3b.clone()
