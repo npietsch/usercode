@@ -80,6 +80,8 @@ class SUSYGenEvent {
   bool isChargino(const reco::GenParticle & genParticle) const;
   /// is neutralino?
   bool isNeutralino(const reco::GenParticle & genParticle) const;
+  /// is neutralino?
+  bool isNeutralino1(const reco::GenParticle & genParticle) const;
   /// is neutral higgs?
   bool isNeutralHiggs(const reco::GenParticle & genParticle) const;
   /// is slepton?

@@ -310,7 +310,7 @@ bool SUSYGenEvent::isChargino(const reco::GenParticle & genParticle) const
 bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
-  if(abs(genParticle.pdgId())==1000022 ||
+  if(//abs(genParticle.pdgId())==1000022 ||
      abs(genParticle.pdgId())==1000023 ||
      abs(genParticle.pdgId())==1000025 ||
      abs(genParticle.pdgId())==1000035)
@@ -321,7 +321,19 @@ bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is neutralino
+// is neutralino1
+bool SUSYGenEvent::isNeutralino1(const reco::GenParticle & genParticle) const
+{
+  bool chk=false;
+  if(abs(genParticle.pdgId())==1000022)
+    {
+      chk=true;
+    }
+  
+  return chk;
+}
+
+// is neutral higgs
 bool SUSYGenEvent::isNeutralHiggs(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -632,6 +644,7 @@ std::string SUSYGenEvent::sparticleName(const reco::Candidate* candidate) const
   else if(isSbottom(*genParticle)== true) sparticleName="sbottom";
   else if(isChargino(*genParticle)== true)sparticleName="chargino";
   else if(isNeutralino(*genParticle)== true)sparticleName="neutralino";
+  else if(isNeutralino1(*genParticle)== true)sparticleName="neutralino1";
   else if(isSlepton(*genParticle)== true)sparticleName="slepton";
   else 
     {
