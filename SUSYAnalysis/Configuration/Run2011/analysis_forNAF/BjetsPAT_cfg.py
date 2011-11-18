@@ -51,16 +51,6 @@ process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-## ## Load module to vary jet energy scale
-process.load("TopAnalysis.TopUtils.JetEnergyScale_cfi")
-process.scaledJetEnergy.inputJets = "selectedPatJets"
-process.scaledJetEnergy.inputMETs = "patMETs"
-process.scaledJetEnergy.scaleType   = "jes:up"
-# #process.scaledJetEnergy.scaleFactor = 0.985#flat offset when using scaleType = "top:*"
-#process.scaledJetEnergy.payload = "AKPF5"
-#process.goodJets.src="scaledJetEnergy:selectedPatJets"
-process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
-process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1) # JER standard
 
 #-----------------------------------------------------------------
 # Load modules to create objects and filter events on reco level
