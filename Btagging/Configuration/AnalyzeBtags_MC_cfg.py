@@ -313,7 +313,7 @@ process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 #process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
-process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
@@ -520,7 +520,7 @@ process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      # additinal cut
-                                     #process.twoHighPtJets *
+                                     process.twoHighPtJets *
                                      # match different triggers
                                      process.MuHadSelection *
                                      # produce btag event weights
@@ -563,7 +563,7 @@ process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       ## additional cut
-                                      #process.twoHighPtJets *
+                                      process.twoHighPtJets *
                                       # match different triggers
                                       process.MuHadSelection *
                                       # produce btag event weights
@@ -808,7 +808,7 @@ process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       # additinal cut
-                                      #process.twoHighPtJets *
+                                      process.twoHighPtJets *
                                       # match different triggers
                                       process.ElHadSelection *
                                       # produce btag event weights
@@ -851,7 +851,7 @@ process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
                                        process.highPtJets *
                                        process.lowPtJets *
                                        ## additional cut
-                                       #process.twoHighPtJets *
+                                       process.twoHighPtJets *
                                        # match different triggers
                                        process.ElHadSelection *
                                        # produce btag event weights
@@ -894,7 +894,7 @@ process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      ## additional cut
-                                     #process.twoHighPtJets *
+                                     process.twoHighPtJets *
                                      # match different triggers
                                      process.ElHadSelection *
                                      # produce btag event weights
