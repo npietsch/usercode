@@ -67,6 +67,20 @@ class JetEnergy : public edm::EDProducer {
   edm::InputTag inputJets_;
   /// met input collection
   edm::InputTag inputMETs_;
+  /// lepton flag to activate lepton scale up and down
+  bool leptonFlag_;
+  /// electrons input collection 
+  edm::InputTag inputElectrons_;
+  /// scale factor for the rescaling Electrons in the barrel
+  double scaleFactorElB_;
+  /// scale factor for the rescaling Electrons in the endcap
+  double scaleFactorElEC_;
+  /// muons input collection
+  edm::InputTag inputMuons_;
+  /// scale factor for the rescaling Muons in the barrel
+  double scaleFactorMuB_;
+  /// scale factor for the rescaling Muons in the endcap
+  double scaleFactorMuEC_;
   /// jet output collection 
   std::string outputJets_;
   /// MET output collection 
