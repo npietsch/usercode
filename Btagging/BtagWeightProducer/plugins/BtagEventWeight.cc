@@ -7,17 +7,18 @@
 
 
 BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
-  jets_           ( cfg.getParameter<edm::InputTag> ( "jets"   ) ),
-  bTagAlgo_       ( cfg.getParameter<std::string>   ("bTagAlgo") ),
-  sysVar_         ( cfg.getParameter<std::string>   ("sysVar"  ) ),
-  verbose_        ( cfg.getParameter<int>           ("verbose" ) ),
-  filename_       ( cfg.getParameter<std::string>   ("filename") ),
-  rootDir_        ( cfg.getParameter<std::string>   ("rootDir" ) ),
-  shift_          ( cfg.getParameter<double>        ("shift"   ) ),
-  scaleJetEffSF_  ( cfg.getParameter<bool>          ("scaleJetEffSF") ),
-  scaleEventEffSF_( cfg.getParameter<bool>          ("scaleEventEffSF") )
+  jets_               ( cfg.getParameter<edm::InputTag> ( "jets"   ) ),
+  bTagAlgo_           ( cfg.getParameter<std::string>   ("bTagAlgo") ),
+  sysVar_             ( cfg.getParameter<std::string>   ("sysVar"  ) ),
+  verbose_            ( cfg.getParameter<int>           ("verbose" ) ),
+  filename_           ( cfg.getParameter<std::string>   ("filename") ),
+  rootDir_            ( cfg.getParameter<std::string>   ("rootDir" ) ),
+  shift_              ( cfg.getParameter<double>        ("shift"   ) ),
+  scaleJetEffSF_      ( cfg.getParameter<bool>          ("scaleJetEffSF"     ) ),
+  scaleEventEffSF_    ( cfg.getParameter<bool>          ("scaleEventEffSF"   ) ),
+  scaleEventMistagSF_ ( cfg.getParameter<bool>          ("scaleEventMistagSF") )
 {
-
+  // collections of weights that will be produced
   produces< std::vector<double> > ("RA4bJetWeights");
   produces< std::vector<double> > ("RA4bSFJetWeights");
   produces< std::vector<double> > ("RA4bEventWeights");
@@ -26,12 +27,13 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 
   produces< std::vector<std::vector<double> > > ("RA4bJetWeightsGrid");
   produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGrid");
+  produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGridMistag");
 
   // set the edges of the last histo bin
   maxPt_ = 500.;
   maxEta_= 3.;
   
-  // laod TFile Service
+  // load TFile Service
   edm::Service<TFileService> fs;
   if( !fs ){
     throw edm::Exception( edm::errors::Configuration,
@@ -40,7 +42,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
  
   std::cout << "bTagAlgo_: " << bTagAlgo_ << std::endl;
 
-  /// getting efficiency histos from input files
+  // getting efficiency histos from input files
   if(filename_!=""){
     file_ = new TFile((TString)filename_);
     dir_ = (TString)rootDir_;
@@ -60,7 +62,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
       effHists_["NumLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/NumLJetsTaggedPtEta")->Clone();
       effHists_["EffLJetsTaggedPtEta"] = (TH2F*) file_->Get("bTagEff"+dir_+"/EffLJetsTaggedPtEta")->Clone();
       
-      /// re-calculation of b tag efficiencies as input might be corrupted due to hadd
+      // re-calculation of b tag efficiencies as input might be corrupted due to hadd
       if(effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta") &&
 	 effHists_.count("NumCJetsPtEta") && effHists_.count("NumCJetsTaggedPtEta") && effHists_.count("EffCJetsTaggedPtEta") &&
 	 effHists_.count("NumBJetsPtEta") && effHists_.count("NumBJetsTaggedPtEta") && effHists_.count("EffBJetsTaggedPtEta"))
@@ -88,7 +90,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
     }
   }
   
-  /// load map from database
+  // load map from database
   measureMap_["BTAGBEFF"]=PerformanceResult::BTAGBEFF;
   measureMap_["BTAGBERR"]=PerformanceResult::BTAGBERR;
   measureMap_["BTAGCEFF"]=PerformanceResult::BTAGCEFF;
@@ -110,15 +112,17 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   measureMap_["BTAGNBERRCORR"]=PerformanceResult::BTAGNBERRCORR;
 }
 
+
 BtagEventWeight::~BtagEventWeight()
 {
   if(filename_!="") {if(!(file_->IsZombie())) file_->Close();}
 }
 
+
 void
 BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 {  
-  //Setup measurement from database
+  // setup measurement from database
   setup.get<BTagPerformanceRecord>().get( "BTAG"+bTagAlgo_, perfHBTag);
   setup.get<BTagPerformanceRecord>().get( "MISTAG"+bTagAlgo_, perfHMisTag);
   
@@ -130,78 +134,53 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   std::vector<double> oneMinusBEffies(0) , oneMinusBEffies_scaled(0);
   std::vector<double> oneMinusBMistags(0), oneMinusBMistags_scaled(0);
   
+  // loop over jets
   for(edm::View<pat::Jet>::const_iterator jet = jets->begin();jet != jets->end(); ++jet)
     {
       pt  = jet->pt();
       eta = std::abs(jet->eta());
+
       if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 	{	
-	  //std::cout << "effBTag(pt, eta): " << (effBTag (pt, eta)) << std::endl;
-	  //std::cout << effBTag(pt, eta)*effBTagSF(pt, eta) << std::endl;
-	  //if(pt>=240)
-	  //{
-	  //  std::cout << "pt, eta: " << pt << ", "<< eta << std::endl;
-	  //  std::cout << "effBTagSF(pt, eta): " << (effBTagSF(pt, eta)) << std::endl;
-	  //}
 	  BEffies.push_back(effBTag(pt, eta));
 	  BEffies_scaled.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta)+shift_) );
-	  
 	  oneMinusBEffies.push_back(1.- effBTag(pt, eta));
 	  oneMinusBEffies_scaled.push_back(1.- effBTag(pt, eta) * (effBTagSF(pt, eta)+shift_) );
-	}
-      
+	}     
       else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 	{
-	  //std::cout << "effBTagCjet(pt, eta): " << (effBTagCjet (pt, eta)) << std::endl;
-	  //std::cout << effBTagCjet(pt, eta)*effBTagSF(pt, eta) << std::endl;
-	  
 	  BEffies.push_back(effBTagCjet(pt, eta));
 	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
-	  
 	  oneMinusBMistags.push_back(1.- effBTagCjet(pt, eta));
 	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
 	}
-      
       else
-	{
-	  //std::cout << "effMisTag(pt, eta): " << (effMisTag (pt, eta)) << std::endl;
-	  //std::cout << effMisTag(pt, eta)*effMisTagSF(pt, eta) << std::endl;
-	  //if(pt>=300)
-	  //{
-	  //  std::cout << "pt, eta: " << pt << ", "<< eta << std::endl;
-	  //  std::cout << "effMisTagSF(pt, eta): " << (effMisTagSF (pt, eta)) << std::endl;
-	  //}
-	  
+	{ 
 	  BEffies.push_back(effMisTag(pt, eta));
 	  BEffies_scaled.push_back(effMisTag(pt, eta)*effMisTagSF(pt, eta));
-	  
 	  oneMinusBMistags               .push_back(1.- effMisTag(pt, eta));
 	  oneMinusBMistags_scaled        .push_back(1.-(effMisTag(pt, eta) * effMisTagSF(pt, eta)));
 	}
     }
 
-  // collection jet weights
-  std::vector<double> jetWeights = BEffies; 
+  // collection of jet weights
   std::auto_ptr<std::vector<double> > RA4bJetWeights( new std::vector<double> );
-  *RA4bJetWeights = jetWeights; 
+  *RA4bJetWeights = BEffies; 
   evt.put(RA4bJetWeights,"RA4bJetWeights");
 
-  // collection jet weights scale factors applied
-  std::vector<double> jetWeightsSF = BEffies_scaled; 
+  // collection of jet weights with scale factors applied
   std::auto_ptr<std::vector<double> > RA4bSFJetWeights( new std::vector<double> );
-  *RA4bSFJetWeights = jetWeightsSF; 
+  *RA4bSFJetWeights = BEffies_scaled; 
   evt.put(RA4bSFJetWeights,"RA4bSFJetWeights");
 
-  // collection  event weights
-  std::vector<double> eventWeights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1);
+  // collection of event weights
   std::auto_ptr<std::vector<double> > RA4bEventWeights( new std::vector<double> );
-  *RA4bEventWeights = eventWeights; 
+  *RA4bEventWeights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1); 
   evt.put(RA4bEventWeights,"RA4bEventWeights");
 
   // collection of event weights with scale factors applied
-  std::vector<double> eventWeightsSF = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1);
   std::auto_ptr<std::vector<double> > RA4bSFEventWeights( new std::vector<double> );
-  *RA4bSFEventWeights = eventWeightsSF; 
+  *RA4bSFEventWeights = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1); 
   evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
 
   //=======================================================================================
@@ -212,7 +191,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
     {
       std::vector<std::vector<double> > BtagEffSFShiftGrid(0);
       
-      for(int sdx=-10; sdx <= 10 ; ++sdx)
+      for(int sdx=-10; sdx <= 10; ++sdx)
 	{
 	  double SFShift=sdx*0.05;
 	  std::vector<double> BtagEffSFShiftVec(0);
@@ -224,13 +203,6 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      
 	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 		{
-		  //std::cout << "effBTag(pt, eta): " << effBTag(pt, eta) << std::endl;
-		  //std::cout << "effBTagSF(pt, eta): " << effBTagSF(pt, eta) << std::endl;
-		  //std::cout << "effBTagSF(pt, eta)+SFShift: " << (effBTagSF(pt, eta)+SFShift) << std::endl;
-		  //std::cout << "-------------------------------------------" << std::endl;
-		  //std::cout << "effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift): " << effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) << std::endl;
-		  //std::cout << "-------------------------------------------" << std::endl;
-
 		  BtagEffSFShiftVec.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) );
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
@@ -246,16 +218,14 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	}
       
       // grid of jet weights with scale factors applied
-      std::vector<std::vector<double> > testSF = BtagEffSFShiftGrid;
       std::auto_ptr<std::vector<std::vector<double> > >  RA4bJetWeightsGrid( new std::vector<std::vector<double> >);
-      *RA4bJetWeightsGrid =  testSF; 
+      *RA4bJetWeightsGrid = BtagEffSFShiftGrid ; 
       evt.put(RA4bJetWeightsGrid,"RA4bJetWeightsGrid");
     }
 
   //=======================================================================================
   //=================================== BAUSTELLE =========================================
   //=======================================================================================
-
 
   if(scaleEventEffSF_==true)
     {
@@ -289,16 +259,54 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	  BtagEffSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
 	}
        
-      // grid of jet weights with scale factors applied
-      std::vector<std::vector<double> > testSF = BtagEffSFShiftGrid;
+      // grid of event weights with scale factors applied
       std::auto_ptr<std::vector<std::vector<double> > >  RA4bEventWeightsGrid( new std::vector<std::vector<double> >);
-      *RA4bEventWeightsGrid =  testSF; 
+      *RA4bEventWeightsGrid = BtagEffSFShiftGrid; 
       evt.put(RA4bEventWeightsGrid,"RA4bEventWeightsGrid");
     }
   
+  if(scaleEventMistagSF_==true)
+    {
+      std::vector<std::vector<double> > MistagSFShiftGrid(0);
+      
+      for(int sdx=-10; sdx <= 10 ; ++sdx)
+	{
+	  double SFShift=sdx*0.01;;
+	  
+	  double JetPt, JetEta;
+	  std::vector<double> oneMinusBEff_scaled(0);
+	  std::vector<double> oneMinusBMis_scaled(0);
+
+	  for(edm::View<pat::Jet>::const_iterator jet = jets->begin();jet != jets->end(); ++jet)
+	    {
+	      JetPt  = jet->pt();
+	      JetEta = std::abs(jet->eta());
+	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
+		{	
+		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*effBTagSF(JetPt, JetEta));
+		}
+	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
+		{
+		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)));
+		}
+	      else
+		{
+		  oneMinusBMis_scaled.push_back(1.-(effMisTag(JetPt, JetEta)*(effMisTagSF(JetPt, JetEta)+SFShift)));
+		}
+	    }
+	  MistagSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
+	}
+       
+      // grid of event weights with scale factors applied
+      std::auto_ptr<std::vector<std::vector<double> > > RA4bEventWeightsGridMistag( new std::vector<std::vector<double> >);
+      *RA4bEventWeightsGridMistag = MistagSFShiftGrid; 
+      evt.put(RA4bEventWeightsGridMistag,"RA4bEventWeightsGridMistag");
+    }
+
   //=======================================================================================
   //=================================== BAUSTELLE =========================================
   //=======================================================================================
+
 
   // systematic study on the influence of different eff and mis 
   double points[]={0.8, 0.9, 0.95, 1, 1.05, 1.1, 1.2};
@@ -324,11 +332,6 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   evt.put( effBTagEventGrid ,"effBTagEventGrid");
 }
 
-//--------------------------------------------------------------------------
-
-// Default Eff. and SF values taken from PAS BTV-11-001 (pTrel method),
-// or from user-defined histo as a function of pt (in the future also eta?).
-// In the future take SF directly from file provided by BTV.
 
 // b tag eff. from MC as a function of jet pt, eta
 double BtagEventWeight::effBTag(double jetPt, double jetEta)

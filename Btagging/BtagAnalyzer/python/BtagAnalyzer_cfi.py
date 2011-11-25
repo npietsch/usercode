@@ -23,8 +23,8 @@ analyzeBtags = cms.EDAnalyzer("BtagAnalyzer",
                               BtagEventWeights = cms.InputTag("btagEventWeight:RA4bEventWeights"),
                               BtagJetWeights = cms.InputTag("btagEventWeight:RA4bJetWeights"),
                               BtagJetWeightsGrid = cms.InputTag("BtagEventWeight:RA4bJetWeightsGrid"),
-                              BtagEventWeightsGrid = cms.InputTag("BtagEventWeight:RA4bJetWeightsGrid"),
-                              BtagEffGrid = cms.InputTag("BtagEventWeight:effBTagEventGrid"),
+                              BtagEventWeightsGrid = cms.InputTag("btagEventWeight:RA4bJetWeightsGrid"),
+                              BtagEffGrid = cms.InputTag("btagEventWeight:effBTagEventGrid"),
                               ## ...
                               ## bool                             
                               useEventWeight = cms.bool(False),

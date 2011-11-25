@@ -19,22 +19,6 @@
 #include "CondFormats/PhysicsToolsObjects/interface/BinningPointByMap.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
-/// This module calculates a b tag scale factor (SF) for the whole event with >=2 b tags,
-/// which is put into the CMSSW event
-/// as a double, which can be used as an event weight in the analyzers of interest.
-/// cfg parameters:
-/// jets_             jet collection
-/// bTagAlgo_         name of the b tag algorithm (supported: SSVHEM)
-/// sysVar_           name of the systematic variation (noSys, bTagSFUp, bTagSFDown, misTagSFUp, misTagSFDown)
-/// verbose_          set to 0 if no output on terminal is desired, 1 for moderate and 2 for detailed output
-/// filename_         if not set to "", efficiencies are loaded from histos in filename_, which have been
-///                   created with BTagEfficiencyAnalyzer.cc
-
-//dk 21.10.11
-// for RA4b we need weights for 0,1,2,3>=-btags: w0,w1,w2,w3
-// to fit the dependency on eps = b-jet b-tag efficiency and eta = non b-jet mistag rate 
-// susvar
-
 class BtagEventWeight : public edm::EDProducer {
 
  public:
@@ -57,6 +41,7 @@ class BtagEventWeight : public edm::EDProducer {
   double shift_;
   bool scaleJetEffSF_;
   bool scaleEventEffSF_;
+  bool scaleEventMistagSF_;
 
   /// to load database
   std::map<std::string,PerformanceResult::ResultType> measureMap_;
@@ -76,7 +61,6 @@ class BtagEventWeight : public edm::EDProducer {
   double effMisTagSF(double, double);
   std::vector<double> effBTagEvent0123(std::vector<double> , std::vector<double> , double scl_eff,double scl_mis);
 
-  
 };
 
 #endif
