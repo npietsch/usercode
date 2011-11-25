@@ -75,7 +75,6 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
   MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
-<<<<<<< SystematicsAnalyzer.cc
   SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
 
   MET1pv_ = fs->make<TH1F>("MET1pv","MET1pv ", 40, 0., 1000.);
@@ -329,7 +328,6 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 400., 20, 0., 20.);
   sigMET_nJets_=fs-> make<TH2F>("sigMET_nJets","nJets vs. sigMET", 20, 0., 20.,16 , -0.5, 15.5 );
   HT_nJets_=fs-> make<TH2F>("HT_nJets","nJets vs. HT", 25, 0., 1000.,16 , -0.5, 15.5 );
-=======
   SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
 
   MET1pv_ = fs->make<TH1F>("MET1pv","MET1pv ", 40, 0., 1000.);
@@ -582,7 +580,7 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   mW_SigMET_=fs-> make<TH2F>("mW_SigMET","SigMET vs. mW",  40, 0., 400., 20, 0., 20.);
   sigMET_nJets_=fs-> make<TH2F>("sigMET_nJets","nJets vs. sigMET", 20, 0., 20.,16 , -0.5, 15.5 );
   HT_nJets_=fs-> make<TH2F>("HT_nJets","nJets vs. HT", 25, 0., 1000.,16 , -0.5, 15.5 );
->>>>>>> 1.12
+
 }
 
 SystematicsAnalyzer::~SystematicsAnalyzer()
