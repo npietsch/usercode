@@ -693,7 +693,7 @@ process.analyzeBtagsElElTCHEM4lowPtdilep  = process.analyzeBtagsElTCHEM4lowPt.cl
 
 # for cross-check
 process.analyzeBtagsRA4bElTCHEM3noSF = process.analyzeBtags.clone()
-process.analyzeBtagsRA4bElTCHEM3noSF.bjets                = "mediumSSVHighEffBjets"
+process.analyzeBtagsRA4bElTCHEM3noSF.bjets                = "mediumTrackHighEffBjets"
 process.analyzeBtagsRA4bElTCHEM3noSF.BtagJetWeights       = "btagEventWeightElTCHEM3:RA4bJetWeights"
 process.analyzeBtagsRA4bElTCHEM3noSF.BtagEventWeights     = "btagEventWeightElTCHEM3:RA4bEventWeights"
 process.analyzeBtagsRA4bElTCHEM3noSF.BtagJetWeightsGrid   = "btagEventWeightElTCHEM3:RA4bJetWeightsGrid"

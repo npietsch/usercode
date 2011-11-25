@@ -73,6 +73,10 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
+  // Pt bins
+  TH1F* BtagPtBins_;
+  TH1F* BtagPtBins_btagWeight_;
+
     // histogram for control quantities
   TH1F* nPV_;
   TH1F* nPV_noWgt_;

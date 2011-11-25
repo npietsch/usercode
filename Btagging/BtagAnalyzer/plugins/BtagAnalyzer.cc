@@ -44,11 +44,14 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
 { 
   edm::Service<TFileService> fs;
 
-  Dummy_=fs->make<TH1F>();
+  Dummy_ = fs->make<TH1F>();
   Dummy_->SetDefaultSumw2(true);
 
-  Dummy2_=fs->make<TH2F>();
+  Dummy2_ = fs->make<TH2F>();
   Dummy2_->SetDefaultSumw2(true);
+
+  BtagPtBins_ = fs->make<TH1F>("BtagPtBins", "BtagPtBins", 2, 0., 2.);
+  BtagPtBins_btagWeight_ = fs->make<TH1F>("BtagPtBins_btagWeight", "BtagPtBins_btagWeight", 2, 0., 2.);
 
   // control plots
   nPV_noWgt_ = fs->make<TH1F>("nPV_noWgt","nPV_noWgt", 50, 0.,  50  );
@@ -444,11 +447,13 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	{
 	  HighPtBtagsEta_->Fill((*bjets)[idx].eta(),weight);
 	  HighPtBtags_0b=HighPtBtags_0b+1;
+	  if((*bjets)[idx].pt()<500) BtagPtBins_->Fill(1.,weight);
 	}
       else
 	{
 	  LowPtBtagsEta_->Fill((*bjets)[idx].eta(),weight);
 	  LowPtBtags_0b = LowPtBtags_0b+1;
+	  BtagPtBins_->Fill(0.,weight);
 	}      
     }
   
@@ -608,7 +613,9 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  double combinedWeight=weight*(*BtagJetWeightsHandle)[idx];
 
 	  BtagsPt_btagWeight_->Fill((*jets)[idx].pt(),combinedWeight);
-	  BtagsEta_btagWeight_->Fill((*jets)[idx].eta(),combinedWeight);    
+	  BtagsEta_btagWeight_->Fill((*jets)[idx].eta(),combinedWeight);
+	  if((*jets)[idx].pt()>240 &&(*jets)[idx].pt()<500) BtagPtBins_btagWeight_->Fill(1.,combinedWeight);
+	  else if((*jets)[idx].pt()<=240) BtagPtBins_btagWeight_->Fill(0.,combinedWeight);
 	}
       
       //------------------------------------------------------
