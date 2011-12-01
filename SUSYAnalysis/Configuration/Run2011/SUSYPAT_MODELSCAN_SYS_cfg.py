@@ -8,14 +8,14 @@
 
 # Starting with a skeleton process which gets imported with the following line
 
-#TODO: Remove the bool flag from the SystematicsAnalyser module. Then everything should work.
+
 
 from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.1 $'),
-    name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_cfg.py,v $'),
+    name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_SYS_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -297,7 +297,7 @@ process.createAllObjects = cms.Sequence(process.PATTuple*
                                         process.createGoodObjects *
                                         process.makeSUSYGenEvt *
                                         process.eventWeightPU *
-                                        process.weightProducer *
+                                        process.weightProducer 
                                         )
 
 #Remove the HBHENoiseFilter, since hcalnoise not present in SUSY AOD
