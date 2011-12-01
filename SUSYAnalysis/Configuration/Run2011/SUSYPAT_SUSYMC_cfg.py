@@ -74,7 +74,7 @@ for line in fileCat:
     lineList = line.split(' ')
 
     #Check to see if point is the one desired
-    if not ( (lineList[0] == str(M0)) and (lineList[1] == str(M12)) ):
+    if not ( (int(lineList[0]) == M0 ) and ( int(lineList[1]) == M12 ) ):
         continue
 
     #Check that point has 10000 events
