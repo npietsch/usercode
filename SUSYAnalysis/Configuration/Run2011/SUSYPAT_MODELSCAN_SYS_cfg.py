@@ -14,7 +14,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1 $'),
+    version = cms.untracked.string('$Revision: 1.2 $'),
     name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_SYS_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -122,7 +122,7 @@ process.btagEventWeight.bTagAlgo= "TCHEM"
 
 ## create weights for muon selection
 process.btagEventWeightMu                    = process.btagEventWeight.clone()
-process.btagEventWeightMu.filename           = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightMu.filename           = "BtagEff_TTJets.root"
 process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
 
 process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMu.clone()
@@ -139,7 +139,7 @@ process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
 
 ## create weights for electron selection
 process.btagEventWeightEl                    = process.btagEventWeight.clone()
-process.btagEventWeightEl.filename           = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeightEl.filename           = "BtagEff_TTJets.root"
 process.btagEventWeightEl.rootDir            = "RA4bElTCHEM3"
 
 process.btagEventWeightElBtagSFUp            = process.btagEventWeightEl.clone()
