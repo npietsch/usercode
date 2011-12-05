@@ -11,3 +11,6 @@ DEFINE_FWK_MODULE(PFMuonConsistency);
 
 #include "SUSYAnalysis/SUSYFilter/plugins/MHTFilter.h"
 DEFINE_FWK_MODULE(MHTFilter);
+
+#include "SUSYAnalysis/SUSYFilter/plugins/YmetFilter.h"
+DEFINE_FWK_MODULE(YmetFilter);
