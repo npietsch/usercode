@@ -112,14 +112,14 @@ from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 from JetMETAnalysis.ecalDeadCellTools.RA2TPfilter_cff import *
 
 ## Load EcalDeadCellBEFilter modules; see UserCode/crohringer/DeadCellFilterLists/python for update
-from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Aug5ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Aug5ReReco_v3_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_May10ReReco_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Prompt_v4_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011A_Prompt_v6_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.ElectronHad_Run2011B_Prompt_v1_filteredEventsBE_cfi import *
 
 Electron_BEfilterSequence=cms.Sequence(
-    veto_ElectronHad_Run2011A_Aug5ReReco_v1_filteredEventsBE*
+    veto_ElectronHad_Run2011A_Aug5ReReco_v3_filteredEventsBE*
     veto_ElectronHad_Run2011A_May10ReReco_filteredEventsBE*
     veto_ElectronHad_Run2011A_Prompt_v4_filteredEventsBE*
     veto_ElectronHad_Run2011A_Prompt_v6_filteredEventsBE*
@@ -127,14 +127,14 @@ Electron_BEfilterSequence=cms.Sequence(
     )
 
 from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_May10ReReco_filteredEventsBE_cfi import *
-from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Aug5ReReco_v1_filteredEventsBE_cfi import *
+from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Aug5ReReco_v3_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Prompt_v4_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.MuHad_Run2011A_Prompt_v6_filteredEventsBE_cfi import *
 from SUSYAnalysis.SUSYFilter.MuHad_Run2011B_Prompt_v1_filteredEventsBE_cfi import *
 
 Mu_BEfilterSequence=cms.Sequence(
     veto_MuHad_Run2011A_May10ReReco_filteredEventsBE*
-    veto_MuHad_Run2011A_Aug5ReReco_v1_filteredEventsBE*
+    veto_MuHad_Run2011A_Aug5ReReco_v3_filteredEventsBE*
     veto_MuHad_Run2011A_Prompt_v4_filteredEventsBE*
     veto_MuHad_Run2011A_Prompt_v6_filteredEventsBE*
     veto_MuHad_Run2011B_Prompt_v1_filteredEventsBE
