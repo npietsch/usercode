@@ -10,72 +10,103 @@
 #include <sstream>
 #include <Plot.h>
 
-vector<TFile*> Files;
-vector<TString> Names;
-vector<double> Weights;
-vector<unsigned int> LineColors;
-vector<unsigned int> FillColors;
-vector<unsigned int> FillStyles;
+// MC samples
+vector<TFile*> MCFiles;
+vector<TString> MCNames;
+vector<double> MCMuWeights;
+vector<double> MCElWeights;
+vector<unsigned int> MCLineColors;
+vector<unsigned int> MCFillColors;
+vector<unsigned int> MCFillStyles;
 
-vector<TFile*> DataFiles;
-vector<TString> DataNames;
-vector<double> DataWeights;
-vector<unsigned int> DataLineColors;
-vector<unsigned int> DataFillColors;
-vector<unsigned int> DataFillStyles;
+// Muon data samples
+vector<TFile*> MuFiles;
+vector<TString> MuNames;
+vector<unsigned int> MuLineColors;
+vector<unsigned int> MuFillColors;
+vector<unsigned int> MuFillStyles;
 
-vector<TString> Histograms;
-vector<double> XminN;
-vector<double> XmaxN;
-vector<double> XminR;
-vector<double> XmaxR;
+// Electron data samples
+vector<TFile*> ElFiles;
+vector<TString> ElNames;
+vector<unsigned int> ElLineColors;
+vector<unsigned int> ElFillColors;
+vector<unsigned int> ElFillStyles;
 
+// MC histograms
+vector<TString> MCHistograms;
+vector<double> MCXminN;
+vector<double> MCXmaxN;
+vector<double> MCXminR;
+vector<double> MCXmaxR;
+
+// Data histograms
 vector<TString> DataHistograms;
 vector<double> DataXminN;
 vector<double> DataXmaxN;
 vector<double> DataXminR;
 vector<double> DataXmaxR;
 
-vector<TString> Selections;
-vector<TString> DataSelections;
+// Selections
+vector<TString> MCMuSelections;
+vector<TString> MCElSelections;
+vector<TString> DataMuSelections;
+vector<TString> DataElSelections;
 
+// Scales vector
 vector<double> Scales;
 
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+// add MC sample
+void addMCSample(TFile* sample, TString name, double MuWeight, double ElWeight,  int lc, int fc, int fs);
 
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+void addMCSample(TFile* sample, TString name, double MuWeight, double ElWeight,  int lc, int fc, int fs)
 {
-  Files.push_back(sample);
-  Names.push_back(name);
-  Weights.push_back(weight);
-  LineColors.push_back(lc);
-  FillColors.push_back(fc);
-  FillStyles.push_back(fs);
+  MCFiles.push_back(sample);
+  MCNames.push_back(name);
+  MCMuWeights.push_back(MuWeight);
+  MCElWeights.push_back(ElWeight);
+  MCLineColors.push_back(lc);
+  MCFillColors.push_back(fc);
+  MCFillStyles.push_back(fs);
 }
 
-void addDataSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+// add Muon data samples
+void addMuSample(TFile* sample, TString name, int lc, int fc, int fs);
 
-void addDataSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+void addMuSample(TFile* sample, TString name, int lc, int fc, int fs)
 {
-  DataFiles.push_back(sample);
-  DataNames.push_back(name);
-  DataWeights.push_back(weight);
-  DataLineColors.push_back(lc);
-  DataFillColors.push_back(fc);
-  DataFillStyles.push_back(fs);
+  MuFiles.push_back(sample);
+  MuNames.push_back(name);
+  MuLineColors.push_back(lc);
+  MuFillColors.push_back(fc);
+  MuFillStyles.push_back(fs);
 }
 
-void addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+// add Electron data sample
+void addElSample(TFile* sample, TString name, int lc, int fc, int fs);
 
-void addHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+void addElSample(TFile* sample, TString name, int lc, int fc, int fs)
 {
-  Histograms.push_back(name);
-  XminN.push_back(xminN);
-  XmaxN.push_back(xmaxN);
-  XminR.push_back(xminR);
-  XmaxR.push_back(xmaxR);
+  ElFiles.push_back(sample);
+  ElNames.push_back(name);
+  ElLineColors.push_back(lc);
+  ElFillColors.push_back(fc);
+  ElFillStyles.push_back(fs);
 }
 
+// add MC histogram
+void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+
+void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+{
+  MCHistograms.push_back(name);
+  MCXminN.push_back(xminN);
+  MCXmaxN.push_back(xmaxN);
+  MCXminR.push_back(xminR);
+  MCXmaxR.push_back(xmaxR);
+}
+
+// add data histogram
 void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
 
 void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
@@ -87,14 +118,19 @@ void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
   DataXmaxR.push_back(xmaxR);
 }
 
+// main function
 int Btagging()
 {
 
   // Normalize background to data? -1: No histogram normalized, 0: only specified normalized, +1: all normalized
   int Normalize=0;
   
+  // Initialize scale factors
+  double MuSF=1;
+  double ElSF=1;
+
   //--------------------------------------------------------------
-  // Samples and event weights
+  // Samples and luminosity
   //--------------------------------------------------------------
 
   TFile* TTJets=new TFile("TTJets.root","READ");
@@ -109,167 +145,152 @@ int Btagging()
   TFile* MuHad=new TFile("MuHad.root","READ");
   TFile* ElHad=new TFile("ElHad.root","READ");
 
-  //TFile* SM=new TFile("SM.root","READ");
-
   // Luminosity for MuHad in fb^-1
-  //Double_t Lumi=4.123723;
-  //Double_t Lumi=2.165723;
-  //Double_t Lumi=1.958;
-  //Double_t Lumi=0.661;
+  Double_t MuLumi=4.123723;
 
   // Luminosity for ElHad in fb^-1
-  Double_t Lumi=4.190583;
+  Double_t ElLumi=4.190583;
 
-  Int_t NGQCD=1;
-  Double_t XSQCD=1;
-  
-  Int_t NGTTJets=3701947;
-  Double_t XSTTJets=157.5;
-  
-  Int_t NGDY=36277961;
-  Double_t XSDY=3048;
-  
-  Int_t NGWJets=81352581;
-  Double_t XSWJets=31314; 
-  
-  Int_t NGSingleTop=1; 
-  Double_t XSSingleTop=1;
-  
-  Int_t NGLM3=36475;
-  Double_t XSLM3=3.438;
-  
-  Int_t NGLM8=10595;
-  Double_t XSLM8=0.73;
-  
-  Int_t NGLM9=79665;
-  Double_t XSLM9=7.134;
-  
-  Double_t WeightQCD=(Lumi*(XSQCD))/NGQCD;
-  Double_t WeightTTJets=(Lumi*(XSTTJets))/NGTTJets;
-  Double_t WeightDY=(Lumi*(XSDY))/NGDY;
-  Double_t WeightWJets=(Lumi*(XSWJets))/NGWJets;
-  Double_t WeightSingleTop=(Lumi*XSSingleTop)/NGSingleTop;
-  Double_t WeightLM3=(Lumi*(XSLM3))/NGLM3;
-  Double_t WeightLM8=(Lumi*(XSLM8))/NGLM8;
-  Double_t WeightLM9=(Lumi*(XSLM9))/NGLM9;
-  
   //-------------------------------------------------------------------------------------------------------------------
-  // addSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
+  // addMCSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(QCD,       "QCD",           Lumi, kBlue-7,  kBlue-7,  1101);
-  addSample(DY,        "DY+Jets",       Lumi, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,     "W+Jets",        Lumi, kYellow,  kYellow,  1101);
-  addSample(SingleTop, "Single Top",    Lumi, kRed+2,   kRed+2,   1101);
-  addSample(TTJets,    "T#bar{T}+Jets", Lumi, kRed,     kRed,     1101);
-  //addSample(LM3,       "LM3",           Lumi, kBlue,    0,        0);
+  addMCSample(QCD,       "QCD",           MuLumi, ElLumi, kBlue-7,  kBlue-7,  1101);
+  addMCSample(DY,        "DY+Jets",       MuLumi, ElLumi, kGreen+2, kGreen+2, 1101);
+  addMCSample(WJets,     "W+Jets",        MuLumi, ElLumi, kYellow,  kYellow,  1101);
+  addMCSample(SingleTop, "Single Top",    MuLumi, ElLumi, kRed+2,   kRed+2,   1101);
+  addMCSample(TTJets,    "T#bar{T}+Jets", MuLumi, ElLumi, kRed,     kRed,     1101);
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  // addMuSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+  //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(ElHad,     "ElHad",    1,    1,        0,        0);
+  addMuSample(MuHad, "MuHad", 1, 0, 0);
+
+  //-------------------------------------------------------------------------------------------------------------------
+  // addElSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+  //-------------------------------------------------------------------------------------------------------------------
+
+  addElSample(ElHad, "ElHad", 1, 0, 0);
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
-//   Selections.push_back("analyzeBtagsRA4bMuTCHEM3");
-//   Selections.push_back("analyzeBtagsMuTCHEM3");
-//   Selections.push_back("analyzeBtagsMuTCHEM3highPt");
-//   Selections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
+  MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3noSF");
+
+  DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+  DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+ 
+  MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
+  MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3noSF");
   
-//   DataSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
-//   DataSelections.push_back("analyzeBtagsMuTCHEM3");
-//   DataSelections.push_back("analyzeBtagsMuTCHEM3highPt");
-//   DataSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
-
-  Selections.push_back("analyzeBtagsRA4bElTCHEM3");
-  Selections.push_back("analyzeBtagsElTCHEM3");
-  Selections.push_back("analyzeBtagsElTCHEM3highPt");
-  Selections.push_back("analyzeBtagsElTCHEM3highPtdilep");
-
-  DataSelections.push_back("analyzeBtagsRA4bElTCHEM3");
-  DataSelections.push_back("analyzeBtagsElTCHEM3");
-  DataSelections.push_back("analyzeBtagsElTCHEM3highPt");
-  DataSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+  DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
 
-  //addHistogram("btagWeights", 1, 1, 1, 1);
-  //addHistogram("nBtags", 1, 1, 1, 1);
-  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
-  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
-  //addHistogram("MET", 1, 1, 1, 1);
-  //addHistogram("BtagsEta", 1, 1, 1, 1);
-  //addHistogram("BtagsEta_btagWeight", 1, 1, 1, 1);
-  addHistogram("NrHighPtBtags", 1, 1, 1, 1);
-  addHistogram("NrLowPtBtags", 1, 1, 1, 1);
-  //addHistogram("NrHighPtJets", 1, 1, 1, 1);
-  //addHistogram("NrLowPtJets", 1, 1, 1, 1);
-  //addHistogram("NrJets", 1, 1, 1, 1);
-  addHistogram("NrBtags", 1, 1, 1, 1);
-  //addHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
- 
-  //addDataHistogram("nBtags", 1, 1, 1, 1);
-  //addDataHistogram("nBtags", 1, 1, 1, 1);
-  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
-  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
-  //addDataHistogram("MET", 1, 1, 1, 1);
-  //addDataHistogram("BtagsEta", 1, 1, 1, 1);
-  //addDataHistogram("BtagsEta", 1, 1, 1, 1);
-   addDataHistogram("NrHighPtBtags", 1, 1, 1, 1);
-   addDataHistogram("NrLowPtBtags", 1, 1, 1, 1);
-   //addDataHistogram("NrHighPtJets", 1, 1, 1, 1);
-   //addDataHistogram("NrLowPtJets", 1, 1, 1, 1);
-   //addDataHistogram("NrJets", 1, 1, 1, 1);
-   addDataHistogram("NrBtags", 1, 1, 1, 1);
-  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
+  
+  addMCHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+  addMCHistogram("NrHighPtBtags",  1, 1, 1, 1);
+  
+  addDataHistogram("BtagsPt", 1, 1, 1, 1);
+  addDataHistogram("NrHighPtBtags",  1, 1, 1, 1);
 
   //===========================================================================
   //================================ BAUSTELLE ================================
   //===========================================================================
 
-  double SF=1;
+  // muon channel
+  TH1F* MCMuHist1=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagsPt_btagWeight");
+  TH1F* MCMuHist2=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagPtBins_btagWeight");
 
-//   TH1F* HistMC=(TH1F*)SM->Get(Selections[0]+"/"+Histograms[0]);
-//   double AllMC=Lumi*HistMC->Integral(5,24);
+  std::cout << "MCMuHist1->Integral(5,24): " << MCMuHist1->Integral(5,24)<< std::endl;
+  std::cout << "MCMuHist2->Integral(1,1): " << MCMuHist2->Integral(1,1)<< std::endl;
+
+  double MCMuInt=MuLumi*MCMuHist1->Integral(5,24);
+  double MCMuIntErr=MuLumi*MCMuHist2->GetBinError(1);
+ 
+  TH1F* DataMuHist=(TH1F*)MuHad->Get(DataMuSelections[0]+"/BtagsPt");
+  double DataMuInt=DataMuHist->Integral(5,24);
+  double DataMuIntErr=sqrt(DataMuInt);
   
-//   double AllMCErr=Lumi*sqrt(1000);
-
-//   TH1F* HistData=(TH1F*)MuHad->Get(DataSelections[0]+"/"+DataHistograms[0]);
-//   double Data=HistData->Integral(5,24);
-//   double DataErr=sqrt(Data);
-
-//   double SF=Data/AllMC;
-
-//   double SFErr=sqrt(pow(DataErr/AllMC,2) + pow(Data*AllMCErr/(AllMC*AllMC),2));
-
-//   std::cout << SF << " +- " << SFErr << std::endl;
-
-//   //-------------------------------------------------------
-
+  MuSF=DataMuInt/MCMuInt;
   
-//   double AllMCRatio=SF*Lumi*(HistMC->Integral(25,49));
+  double MuSFErr=sqrt(pow(DataMuIntErr/MCMuInt,2) + pow(DataMuInt*MCMuIntErr/(MCMuInt*MCMuInt),2));
   
-//   double AllMCRatioErr=sqrt(pow(SF*Lumi*sqrt(30),2)+ pow(SFErr*Lumi*(HistMC->Integral(25,49)),2));
+  std::cout << MuSF << " +- " << MuSFErr << std::endl;
 
-//   std::cout << AllMCRatioErr << std::endl;
-//   std::cout << SF*Lumi*sqrt(30) << std::endl;
-//   std::cout << SFErr*Lumi*(HistMC->Integral(25,49)) << std::endl;
+  //-------------------------------------------------------
 
-//   double DataRatio=HistData->Integral(25,49);
-//   double DataRatioErr=sqrt(DataRatio);
+  double MCMuRatio=MuSF*MuLumi*(MCMuHist1->Integral(25,49));
+  double MCMuRatioErr=sqrt(pow(MuSF*MuLumi*(MCMuHist2->GetBinError(2)),2)+ pow(MuSFErr*MuLumi*(MCMuHist1->Integral(25,49)),2));
 
-//   double Ratio=DataRatio/AllMCRatio;
+  std::cout << MCMuRatioErr << std::endl;
+
+  double DataMuRatio=DataMuHist->Integral(25,49);
+  double DataMuRatioErr=sqrt(DataMuRatio);
+
+  std::cout << DataMuRatioErr << std::endl;
+
+  double MuRatio=DataMuRatio/MCMuRatio;
+
+  double MuRatioErr=sqrt(pow(DataMuRatioErr/MCMuRatio,2) + pow(DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio),2));
+
+  std::cout << DataMuRatioErr/MCMuRatio << std::endl;
+  std::cout << DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio)  << std::endl;
+  std::cout << " " << std::endl;
+  
+  std::cout << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
 
 
+  //============================================================================================================
 
-//   double RatioErr=sqrt(pow(DataRatioErr/AllMCRatio,2) + pow(DataRatio*AllMCRatioErr/(AllMCRatio*AllMCRatio),2));
+  // electron channel
+  TH1F* MCElHist1=(TH1F*)SM->Get(MCElSelections[0]+"/BtagsPt_btagWeight");
+  TH1F* MCElHist2=(TH1F*)SM->Get(MCElSelections[0]+"/BtagPtBins_btagWeight");
 
-//   std::cout << DataRatioErr/AllMCRatio << std::endl;
-//   std::cout << DataRatio*AllMCRatioErr/(AllMCRatio*AllMCRatio)  << std::endl;
-//   //std::cout <<  << std::endl;
+  std::cout << "MCElHist1->Integral(5,24): " << MCElHist1->Integral(5,24)<< std::endl;
+  std::cout << "MCElHist2->Integral(1,1): " << MCElHist2->Integral(1,1)<< std::endl;
 
-//   std::cout << Ratio << " +- " << RatioErr << std::endl;
+  double MCElInt=ElLumi*MCElHist1->Integral(5,24);
+  double MCElIntErr=ElLumi*MCElHist2->GetBinError(1);
+ 
+  TH1F* DataElHist=(TH1F*)ElHad->Get(DataElSelections[0]+"/BtagsPt");
+  double DataElInt=DataElHist->Integral(5,24);
+  double DataElIntErr=sqrt(DataElInt);
+  
+  ElSF=DataElInt/MCElInt;
+  
+  double ElSFErr=sqrt(pow(DataElIntErr/MCElInt,2) + pow(DataElInt*MCElIntErr/(MCElInt*MCElInt),2));
+  
+  std::cout << ElSF << " +- " << ElSFErr << std::endl;
+
+  //-------------------------------------------------------
+
+  double MCElRatio=ElSF*ElLumi*(MCElHist1->Integral(25,49));
+  double MCElRatioErr=sqrt(pow(ElSF*ElLumi*(MCElHist2->GetBinError(2)),2)+ pow(ElSFErr*ElLumi*(MCElHist1->Integral(25,49)),2));
+
+  std::cout << MCElRatioErr << std::endl;
+
+  double DataElRatio=DataElHist->Integral(25,49);
+  double DataElRatioErr=sqrt(DataElRatio);
+
+  std::cout << DataElRatioErr << std::endl;
+
+  double ElRatio=DataElRatio/MCElRatio;
+
+  double ElRatioErr=sqrt(pow(DataElRatioErr/MCElRatio,2) + pow(DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio),2));
+
+  std::cout << DataElRatioErr/MCElRatio << std::endl;
+  std::cout << DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio)  << std::endl;
+  std::cout << " " << std::endl;
+  
+  std::cout << ElRatio << " +- " << ElRatioErr << std::endl  << std::endl;
+
 
 
   //--------
@@ -278,24 +299,55 @@ int Btagging()
 
   plotSet plots("Name");
 
-  for(int sdx=0; sdx<Selections.size(); ++sdx)
+  // Loop over muon selections
+  for(int sdx=0; sdx<(int)MCMuSelections.size(); ++sdx)
     {
-      for(int h=0; h<Histograms.size(); ++h)
-	{ 
-	  std::cout << Histograms[h] << std::endl;
+      std::cout << MCMuSelections[sdx] << std::endl;
 	  
-	  // loop over f-s MC background files
-	  for(int i=0; i<(int)Files.size()-1; ++i)
+      // Loop over histogram
+      for(int h=0; h<(int)MCHistograms.size(); ++h)
+	{ 
+	  std::cout << MCHistograms[h] << std::endl;
+	  
+	  // Loop over MC samples
+	  for(int i=0; i<(int)MCFiles.size(); ++i)
 	    {
-	      plots.addPlot((TH1F*)Files[i]->Get(Selections[sdx]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],SF*Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	      plots.addPlot((TH1F*)MCFiles[i]->Get(MCMuSelections[sdx]+"/"+MCHistograms[h]),MCNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],MuSF*MCMuWeights[i],MCLineColors[i],MCFillStyles[i],MCFillColors[i]);
 	    }      
 	  
-	  // loop over data files
-	  for(int i=Files.size()-1; i<(int)Files.size(); ++i)
+	  // loop over muon data samples
+	  for(int i=0; i<(int)MuFiles.size(); ++i)
 	    {
-	      plots.addPlot((TH1F*)Files[i]->Get(DataSelections[sdx]+"/"+DataHistograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
-	    }  
+	      plots.addPlot((TH1F*)MuFiles[i]->Get(DataMuSelections[sdx]+"/"+DataHistograms[h]),MuNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],1,MuLineColors[i],MuFillStyles[i],MuFillColors[i]);
+	    }
+	  
 	}
     }
+  
+  // Loop over electron selections
+  for(int sdx=0; sdx<(int)MCElSelections.size(); ++sdx)
+    {
+      std::cout << MCElSelections[sdx] << std::endl;
+	  
+      // Loop over histogram
+      for(int h=0; h<(int)MCHistograms.size(); ++h)
+	{ 
+	  std::cout << MCHistograms[h] << std::endl;
+	  
+	  // Loop over MC samples
+	  for(int i=0; i<(int)MCFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)MCFiles[i]->Get(MCElSelections[sdx]+"/"+MCHistograms[h]),MCNames[i],MCHistograms[h]+"_"+MCElSelections[sdx],ElSF*MCElWeights[i],MCLineColors[i],MCFillStyles[i],MCFillColors[i]);
+	    }      
+	  
+	  // loop over muon data samples
+	  for(int i=0; i<(int)ElFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)ElFiles[i]->Get(DataElSelections[sdx]+"/"+DataHistograms[h]),ElNames[i],MCHistograms[h]+"_"+MCElSelections[sdx],1,ElLineColors[i],ElFillStyles[i],ElFillColors[i]);
+	    }
+	  
+	}
+    }
+
   plots.printAll("ylog");
 }
