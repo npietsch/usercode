@@ -153,8 +153,8 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Jet quantities
   //-------------------------------------------------
 
-
-  if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
+  if(susyGenEvent->GluinoGluinoDecay()==true)
+  //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
     {
       std::cout << "PUUUBAER" << std::endl;
       

@@ -1,3 +1,4 @@
+
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("AnalyzeBtags") 
@@ -714,7 +715,7 @@ process.analyzeBtagsElSSVHEM3highPt.bjets                = "mediumSSVHighEffBjet
 process.analyzeBtagsElSSVHEM3highPt.BtagJetWeights       = "btagEventWeightElSSVHEM3highPt:RA4bSFJetWeights"
 process.analyzeBtagsElSSVHEM3highPt.BtagEventWeights     = "btagEventWeightElSSVHEM3highPt:RA4bSFEventWeights"
 process.analyzeBtagsElSSVHEM3highPt.BtagJetWeightsGrid   = "btagEventWeightElSSVHEM3highPt:RA4bJetWeightsGrid"
-process.analyzeBtagsElSSVHEM3highPt.BtagEventWeightsGrid = "btagE"TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"ventWeightElSSVHEM3highPt:RA4bEventWeightsGrid"
+process.analyzeBtagsElSSVHEM3highPt.BtagEventWeightsGrid = "btagEventWeightElSSVHEM3highPt:RA4bEventWeightsGrid"
 process.analyzeBtagsElSSVHEM3highPt.jets                 = "highPtJets"
 
 process.analyzeBtagsElSSVHEM3lowPt = process.analyzeBtags.clone()
@@ -729,7 +730,7 @@ process.analyzeBtagsElSSVHEM4       = process.analyzeBtagsElSSVHEM3.clone()
 process.analyzeBtagsElSSVHEM4highPt = process.analyzeBtagsElSSVHEM3highPt.clone()
 process.analyzeBtagsElSSVHEM4lowPt  = process.analyzeBtagsElSSVHEM3lowPt.clone()
 
-# clones"TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
+# clones
 process.analyzeBtagsRA4bElSSVHEM3       = process.analyzeBtagsElSSVHEM3.clone()
 process.analyzeBtagsRA4bElSSVHEM3highPt = process.analyzeBtagsElSSVHEM3highPt.clone()
 process.analyzeBtagsRA4bElSSVHEM3lowPt  = process.analyzeBtagsElSSVHEM3lowPt.clone()
@@ -799,7 +800,7 @@ process.analyzeBtags_RA4bEl = cms.Path(# Standard RA4b preselection
 
 ## RA4b selection with cut on two high pt jets in and MET < 300 in addition
 ##---------------------------------------------------------------------------------
-process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselectio"TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"n
+process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.preselectionElHTMC2 *
                                       process.eventWeightPU *
                                       process.weightProducer *
@@ -809,7 +810,7 @@ process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselectio"TopAnalysis/To
                                       process.lowPtJets *
                                       # additinal cut
                                       process.twoHighPtJets *
-                                      # match different triggers"TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
+                                      # match different triggers
                                       process.ElHadSelection *
                                       # produce btag event weights
                                       process.btagEventWeightElSSVHEM3 *
