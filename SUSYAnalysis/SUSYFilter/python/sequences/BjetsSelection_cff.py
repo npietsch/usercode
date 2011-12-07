@@ -131,7 +131,7 @@ from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 20. &'
+                               'pt > 30. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'

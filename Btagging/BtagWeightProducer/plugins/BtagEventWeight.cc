@@ -287,7 +287,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)));
+		  oneMinusBMis_scaled.push_back(1.-(effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift)));
 		}
 	      else
 		{
