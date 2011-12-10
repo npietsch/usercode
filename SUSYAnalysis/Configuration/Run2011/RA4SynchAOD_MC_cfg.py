@@ -167,21 +167,20 @@ process.Out.electrons ="goodElectrons"
 # Selection paths
 #------------------
 
-process.ViennaMuonSelection = cms.Path(process.susyPatDefaultSequence *
-                                       process.preselectionMuSynchMC *
-                                       process.goodObjects *
-                                       process.RA4Preselection *
-                                       process.oneGoodJet *
-                                       process.RA4OneGoodJet *
-                                       process.twoGoodJets *
-                                       process.RA4TwoGoodJets *
-                                       process.threeGoodJets *
-                                       process.RA4ThreeGoodJets *
-                                       process.fourGoodJets *
-                                       process.RA4FourGoodJets *
-                                       process.muonSelection *
-                                       process.HTSelection *
-                                       process.oneMediumMET *
-                                       process.Out
-                                       )
-
+process.MuonSelection = cms.Path(process.susyPatDefaultSequence *
+                                 process.preselectionMuSynchMC *
+                                 process.goodObjects *
+                                 process.RA4Preselection *
+                                 process.oneGoodJet *
+                                 process.RA4OneGoodJet *
+                                 process.twoGoodJets *
+                                 process.RA4TwoGoodJets *
+                                 process.threeGoodJets *
+                                 process.RA4ThreeGoodJets *
+                                 process.fourGoodJets *
+                                 process.RA4FourGoodJets *
+                                 process.muonSelection *
+                                 process.HTSelection *
+                                 process.oneMediumMET *
+                                 process.Out
+                                 )
