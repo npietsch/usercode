@@ -1,44 +1,3 @@
-## import FWCore.ParameterSet.Config as cms
-
-## process = cms.Process("PATTuple")
-
-## ## configure message logger
-## process.load("FWCore.MessageLogger.MessageLogger_cfi")
-## process.MessageLogger.cerr.FwkReport.reportEvery = 1
-## process.MessageLogger.categories.append('ParticleListDrawer')
-
-## # Choose input files
-## process.source = cms.Source("PoolSource",
-##     fileNames = cms.untracked.vstring(
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/002FE237-B09C-E011-B7B1-0022199305B1.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/006518E6-A99C-E011-8535-E0CB4E29C51A.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0234044D-B89C-E011-93FD-E0CB4E5536BB.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
-## '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
-## '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
-##     )
-## )
-
-## process.maxEvents = cms.untracked.PSet(
-##     input = cms.untracked.int32(-1),
-##     skipEvents = cms.untracked.uint32(1)
-## )
-
-## process.options = cms.untracked.PSet(
-##     wantSummary = cms.untracked.bool(True)
-## )
-
-## process.TFileService = cms.Service("TFileService",
-##                                    fileName = cms.string('Synch.root')
-##                                    )
-
-## process.load("Configuration.StandardSequences.Geometry_cff")
-## process.load("Configuration.StandardSequences.MagneticField_cff")
-## process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-
-
 #
 #  SUSY-PAT configuration file
 #
@@ -52,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.4 $'),
+    version = cms.untracked.string('$Revision: 1.5 $'),
     name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -74,8 +33,8 @@ process.source = cms.Source("PoolSource",
     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
-'/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
-'/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
+    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
+    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
     )
 )
 
@@ -107,7 +66,6 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-#options.output = "SUSYPAT.root"
 options.maxEvents = 5000
 
 #  for SusyPAT configuration
@@ -141,13 +99,6 @@ from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getS
 addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,options.mcVersion,options.jetTypes,options.doValidation,options.doExtensiveMatching,options.doSusyTopProjection)
 SUSY_pattuple_outputCommands = getSUSY_pattuple_outputCommands( process )
 ############################## END SUSYPAT specifics ####################################
-
-
-## #-- TFileService --------------------------------------------------------------
-## process.load ("PhysicsTools.UtilAlgos.TFileService_cfi")
-## process.TFileService = cms.Service("TFileService",
-##   fileName = cms.string('histo.root')
-## )
 
 #-- HLT selection ------------------------------------------------------------
 import HLTrigger.HLTfilters.hltHighLevel_cfi as hlt
@@ -198,11 +149,6 @@ process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
 process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
 process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
 process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
-
-#from SUSYAnalysis.SUSYEventProducers.SUSYEventContent_cff import *
-#process.out.outputCommands += SUSYEventContent
-#from TopQuarkAnalysis.TopEventProducers.tqafEventContent_cff import *
-#process.out.outputCommands += tqafEventContent
 
 process.outpath = cms.EndPath(process.out)
  
