@@ -7,7 +7,6 @@ analyzeSystematics = cms.EDAnalyzer("SystematicsAnalyzer",
                                     ## collections of RA4b objects
                                     jets = cms.InputTag("goodJets"),
                                     bjets = cms.InputTag("mediumTrackHighEffBjets"),
-                                    lightJets = cms.InputTag("lightJets"),
                                     muons = cms.InputTag("goodMuons"),
                                     electrons = cms.InputTag("goodElectrons"),
                                     met = cms.InputTag("patMETsPF"),
