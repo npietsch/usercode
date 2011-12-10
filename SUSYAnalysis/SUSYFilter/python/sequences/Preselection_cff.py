@@ -6,17 +6,6 @@ import FWCore.ParameterSet.Config as cms
 
 from HLTrigger.HLTfilters.hltHighLevel_cfi import *
 
-## MC trigger Spring11
-MuHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                   HLTPaths = ['HLT_Mu5_HT100*'],throw = False)
-ElHTTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                   HLTPaths = ['HLT_Ele10*_HT100*'],throw = False)
-
-MuTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                 HLTPaths = ['HLT_Mu9'],throw = False)
-ElTriggerMC = hltHighLevel.clone(TriggerResultsTag = 'TriggerResults::REDIGI311X',
-                                 HLTPaths = ['HLT_Ele10_SW_L1R_v2'],throw = False)
-
 ## MC trigger Summer11
 MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200_v*'],throw = False)
@@ -26,15 +15,15 @@ MuTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_v1'],throw = False)
 
 DiLeptonTriggerMC = hltHighLevel.clone(HLTPaths = ['HLT_Mu*_Ele*'],throw = False)
 
-## Data trigger v1, v2
+## Data trigger
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
 
-## Data trigger v4
+## Data trigger 2
 MuHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu15_HT200_v*','HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
 ElHTTriggerData2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT200_v*','HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],throw = False)
 
-## Data trigger v5 ?
+## Data trigger 3
 MuHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_HT250_Mu15_PFMHT20_v*'],throw = False)
 ElHTTriggerData3 = hltHighLevel.clone(HLTPaths = ['HLT_Ele15_CaloIdT_CaloIsoVL_TrkIdT_TrkIsoVL_HT250_v*'],throw = False)
 
@@ -144,19 +133,6 @@ Mu_BEfilterSequence=cms.Sequence(
 ## Define preselection sequences
 ##-------------------------------
 
-## MC Spring11 - PARTLY OUTDATED
-preselectionMuHTMC = cms.Sequence(MuHTTriggerMC *
-                                  goodVertices *
-                                  oneGoodVertex *
-                                  scrapingVeto
-                                  )
-
-preselectionElHTMC = cms.Sequence(ElHTTriggerMC *
-                                  goodVertices *
-                                  oneGoodVertex *
-                                  scrapingVeto
-                                  )
-
 ## MC Summer11
 preselectionMuHTMC2 = cms.Sequence(MuHTTriggerMC2 *
                                    totalKinematicsFilter *
@@ -230,13 +206,6 @@ preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     )
 
 # AOD2PAT MC
-eventCleaningMC2PAT = cms.Sequence(goodVertices *                                   
-                                   HBHENoiseFilter *
-                                   trackingFailureFilter *
-                                   CSCTightHaloFilter *
-                                   ecalDeadCellTPfilter
-                                   )
-
 preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
                                   goodVertices *
                                   HBHENoiseFilter *
@@ -257,17 +226,6 @@ preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
                                      ecalDeadCellTPfilter
                                      )
 
-preselectionMuSynchMC2 = cms.Sequence(MuTriggerMC2 *
-                                      totalKinematicsFilter *
-                                      goodVertices *
-                                      scrapingVeto *
-                                      oneGoodVertex
-                                      #HBHENoiseFilter *
-                                      #CSCTightHaloFilter *
-                                      #trackingFailureFilter *
-                                      #ecalDeadCellTPfilter
-                                      )
-
 preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
                                      totalKinematicsFilter *
                                      goodVertices *
@@ -278,7 +236,6 @@ preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
                                      trackingFailureFilter *
                                      ecalDeadCellTPfilter
                                      )
-
 
 preselectionMuSynchData = cms.Sequence(#MuHTTriggerData2 *
                                        goodVertices *

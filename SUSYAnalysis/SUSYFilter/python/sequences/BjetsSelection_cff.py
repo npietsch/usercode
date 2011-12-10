@@ -1,6 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 
-
 #------------------------------
 # collections of good leptons
 #------------------------------
@@ -25,13 +24,6 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
 
 goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
                                         )
-#### obsolete
-## from TopAnalysis.TopFilter.filters.MuonJetOverlapSelector_cfi import *
-## goodMuons = checkJetOverlapMuons.clone()
-## goodMuons.muons = 'vertexMuons'
-## goodMuons.jets = 'goodJets'
-## goodMuons.deltaR = 0.3
-## goodMuons.overlap=False
 
 ## create good electron collection
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -82,13 +74,6 @@ trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
 
 vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
                                             )
-#### obsolete
-## from TopAnalysis.TopFilter.filters.MuonJetOverlapSelector_cfi import *
-## vetoMuons = checkJetOverlapMuons.clone()
-## vetoMuons.muons = 'vertexVetoMuons'
-## vetoMuons.jets = 'goodJets'
-## vetoMuons.deltaR = 0.3
-## vetoMuons.overlap=False
 
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 cut =
@@ -314,7 +299,7 @@ noSignalMETs = selectedPatMET.clone(src = 'patMETsPF',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
                                   cut =
-                                  'et > 70.'
+                                  'et > 100.'
                                   )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
@@ -668,17 +653,13 @@ oneTightMET = countPatMET.clone(src = 'tightMETs',
 ## HT filter
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
-filterViennaHT = filterHT.clone()
-filterViennaHT.jets = "looseJets"
-filterViennaHT.Cut = 300
-
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
 filterLooseHT.Cut = 300
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 350
+filterMediumHT.Cut = 300
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
@@ -809,21 +790,19 @@ metSelection = cms.Sequence(oneGoodMET
 
 HTSelection = cms.Sequence(filterMediumHT)
 
-ViennaHTSelection = cms.Sequence(filterViennaHT)
-
 tightHTSelection = cms.Sequence(filterTightHT)
 
-MuHadSelection = cms.Sequence(filterLooseHT *
+MuHadSelection = cms.Sequence(filterMediumHT *
                               oneGoodMET *
                               oneLooseMuon
                               )
 
-ElHadSelection = cms.Sequence(filterLooseHT *
+ElHadSelection = cms.Sequence(filterMediumHT *
                               oneGoodMET *
                               oneLooseElectron
                               )
 
-LepHadSelection = cms.Sequence(filterLooseHT *
+LepHadSelection = cms.Sequence(filterMediumHT *
                                oneGoodMET *
                                oneLooseLepton
                                )
