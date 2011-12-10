@@ -24,47 +24,147 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
+## load modules for preselection
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
+## load modules to create objects and filter events on reco level
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
-#-----------------------------------------------------------------
-# Load modules to monitor selection steps
-#-----------------------------------------------------------------
+## load modules for analysis on reco-level
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 
-process.load("SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi")
-process.analyzeRA4.jets = "goodJets"
-process.analyzeRA4.muons = "goodMuons"
-process.analyzeRA4.electrons ="goodElectrons"
+#--------------------------
+# muon selection paths
+#--------------------------
 
-process.RA4Preselection = process.analyzeRA4.clone()
-process.RA4OneGoodJet = process.analyzeRA4.clone()
-process.RA4TwoGoodJets = process.analyzeRA4.clone()
-process.RA4ThreeGoodJets = process.analyzeRA4.clone()
-process.RA4FourGoodJets = process.analyzeRA4.clone()
+## no btag
+process.Selection1m = cms.Path(process.makeObjects *
+                               process.analyzeSUSYBjets1m_noCuts *
+                               process.preselectionMuHTAllData *
+                               process.MuHadSelection *
+                               process.analyzeSUSYBjets1m_preselection *
+                               process.RA4MuonCollections *
+                               process.RA4MuonSelection *
+                               process.muonSelection*
+                               process.analyzeSUSYBjets1m_leptonSelection *
+                               process.jetSelection*
+                               process.analyzeSUSYBjets1m_jetSelection *
+                               process.HTSelection *
+                               process.analyzeSUSYBjets1m_HTSelection *
+                               process.metSelection *
+                               process.analyzeSUSYBjets1m_metSelection *
+                               process.mTSelection *
+                               process.analyzeSUSYBjets1m_mTSelection
+                               )
+## exactly 1 btag
+process.Selection1b1m_2 = cms.Path(process.makeObjects *
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.exactlyOneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1m_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets1b1m_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets1b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets1b1m_1
+                                   )
+## exactly 2 btags
+process.Selection2b1m_2 = cms.Path(process.makeObjects *
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.exactlyTwoMediumTrackHighEffBjets *
+                                   process.analyzeSUSYBjets2b1m_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets2b1m_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets2b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets3b1m_1
+                                   )
+## at least 3 btags
+process.Selection3b1m_1 = cms.Path(process.makeObjects *
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.threeMediumTrackHighEffBjets *
+                                   process.analyzeSUSYBjets3b1m_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets3b1m_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets3b1m_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets1b1m_1
+                                   )
+#--------------------------
+# electron selection paths
+#--------------------------
 
-process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
-process.Out.jets = "goodJets"
-process.Out.muons = "goodMuons"
-process.Out.electrons ="goodElectrons"
-
-#------------------
-# Selection paths
-#------------------
-
-process.MuonSelection = cms.Path(process.preselectionMuHTAllData *
-                                 process.goodObjects *
-                                 process.RA4Preselection *
-                                 process.oneGoodJet *
-                                 process.RA4OneGoodJet *
-                                 process.twoGoodJets *
-                                 process.RA4TwoGoodJets *
-                                 process.threeGoodJets *
-                                 process.RA4ThreeGoodJets *
-                                 process.fourGoodJets *
-                                 process.RA4FourGoodJets *
-                                 process.muonSelection *
-                                 process.HTSelection *
-                                 process.oneMediumMET *
-                                 process.Out
-                                 )
+## no btag
+process.Selection1e = cms.Path(process.makeObjects *
+                               process.analyzeSUSYBjets1e_noCuts *
+                               process.preselectionElHTAllData *
+                               process.ElHadSelection *
+                               process.analyzeSUSYBjets1e_preselection *
+                               process.electronSelection*
+                               process.analyzeSUSYBjets1e_leptonSelection *
+                               process.jetSelection*
+                               process.analyzeSUSYBjets1e_jetSelection *
+                               process.HTSelection *
+                               process.analyzeSUSYBjets1e_HTSelection *
+                               process.metSelection *
+                               process.analyzeSUSYBjets1e_metSelection *
+                               process.mTSelection *
+                               process.analyzeSUSYBjets1e_mTSelection
+                               )
+## exactly 1 btag
+process.Selection1b1e_2 = cms.Path(process.makeObjects *
+                                   process.preselectionElHTAllData *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.exactlyOneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1e_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets1b1e_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets1b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets1b1e_1
+                                   )
+## exactly 2 btags
+process.Selection2b1e_2 = cms.Path(process.makeObjects *
+                                   process.preselectionElHTAllData *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.exactlyTwoMediumTrackHighEffBjets *
+                                   process.analyzeSUSYBjets2b1e_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets2b1e_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets2b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets2b1e_1
+                                   )
+## at least 3 btags
+process.Selection3b1e_1 = cms.Path(process.makeObjects *
+                                   process.preselectionElHTAllData *
+                                   process.ElHadSelection *
+                                   process.electronSelection *
+                                   process.jetSelection *
+                                   process.threeMediumTrackHighEffBjets *
+                                   process.analyzeSUSYBjets3b1e_4 *
+                                   process.HTSelection *
+                                   process.analyzeSUSYBjets3b1e_5 *
+                                   process.metSelection *
+                                   process.analyzeSUSYBjets3b1e_6 *
+                                   process.mTSelection *
+                                   process.analyzeSUSYBjets3b1e_1
+                                   )
