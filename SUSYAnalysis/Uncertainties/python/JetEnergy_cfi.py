@@ -1,15 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
 scaledJetEnergy = cms.EDProducer("JetEnergy",
-    inputJets            = cms.InputTag("selectedPatJetsAK5PF"),
+    inputJets            = cms.InputTag("selectedPatJetsAK5PF'"),
     inputMETs            = cms.InputTag("patMETsPF"),
-    leptonFlag           = cms.bool(False),
-    inputElectrons       = cms.InputTag("selectedPatElectrons"),
-    scaleFactorElB       = cms.double(1.0),
-    scaleFactorElEC      = cms.double(2.5),
-    inputMuons           = cms.InputTag("selectedPatMuons"),
-    scaleFactorMuB       = cms.double(1.0),
-    scaleFactorMuEC      = cms.double(1.0),
     scaleFactor          = cms.double(1.0),
     scaleFactorB         = cms.double(1.0),
     scaleType            = cms.string("abs"), #abs or rel(*eta) or jes:up / jes:down (pt-dependend)

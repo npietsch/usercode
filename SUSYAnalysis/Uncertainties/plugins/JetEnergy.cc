@@ -4,9 +4,6 @@
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "SUSYAnalysis/Uncertainties/plugins/JetEnergy.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "DataFormats/PatCandidates/interface/Muon.h"
-#include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/Math/interface/LorentzVector.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -16,19 +13,9 @@
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-using namespace math;
-using namespace std;
-
 JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   inputJets_           (cfg.getParameter<edm::InputTag>("inputJets"           )),
   inputMETs_           (cfg.getParameter<edm::InputTag>("inputMETs"           )),
-  leptonFlag_          (cfg.getParameter<bool>         ("leptonFlag"          )),
-  inputElectrons_      (cfg.getParameter<edm::InputTag>("inputElectrons"      )),
-  scaleFactorElB_      (cfg.getParameter<double>       ("scaleFactorElB"      )),
-  scaleFactorElEC_     (cfg.getParameter<double>       ("scaleFactorElEC"     )),
-  inputMuons_          (cfg.getParameter<edm::InputTag>("inputMuons"          )),
-  scaleFactorMuB_      (cfg.getParameter<double>       ("scaleFactorMuB"      )),
-  scaleFactorMuEC_     (cfg.getParameter<double>       ("scaleFactorMuEC"     )),
   payload_             (cfg.getParameter<std::string>  ("payload"             )),  
   scaleType_           (cfg.getParameter<std::string>  ("scaleType"           )),  
   scaleFactor_         (cfg.getParameter<double>       ("scaleFactor"         )),
@@ -52,12 +39,7 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
 
   // register products
   produces<std::vector<pat::Jet> >(outputJets_);
-  produces<std::vector<pat::MET> >(outputMETs_);
-
-  scaleFactorElB_ /=100;
-  scaleFactorElEC_ /=100;
-  scaleFactorMuB_ /=100;
-  scaleFactorMuEC_ /=100;
+  produces<std::vector<pat::MET> >(outputMETs_); 
 }
 
 void
@@ -84,18 +66,12 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   // access MET
   edm::Handle<std::vector<pat::MET> > mets;
   event.getByLabel(inputMETs_, mets);
-  // access electrons
-  edm::Handle<std::vector<pat::Electron> > electrons;
-  event.getByLabel(inputElectrons_, electrons);
-  // access muons
-  edm::Handle<std::vector<pat::Muon> > muons;
-  event.getByLabel(inputMuons_, muons);
   
   // create two new collections for jets and MET
   std::auto_ptr<std::vector<pat::Jet> > pJets(new std::vector<pat::Jet>);
   std::auto_ptr<std::vector<pat::MET> > pMETs(new std::vector<pat::MET>);
 
-  // loop and rescale jets
+  // loop ans rescale jets
   double dPx = 0., dPy = 0., dSumEt = 0.;
   for(std::vector<pat::Jet>::const_iterator jet=jets->begin(); jet!=jets->end(); ++jet){
     pat::Jet scaledJet = *jet;
@@ -174,53 +150,14 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
       }
   }
   
-  // MET unc coming from leptons
-  XYZTLorentzVector* deltaMET = new XYZTLorentzVector(0., 0., 0., 0.);
-  if (leptonFlag_) {
-    for (std::vector<pat::Electron>::const_iterator electron=electrons->begin(); electron!=electrons->end(); ++electron){
-      if (electron->p4().Eta()<=2.4) {
-	deltaMET->SetPx(deltaMET->Px() + electron->p4().Px()*scaleFactorElB_);
-	deltaMET->SetPy(deltaMET->Py() + electron->p4().Py()*scaleFactorElB_); } 
-      else {
-	deltaMET->SetPx(deltaMET->Px() + electron->p4().Px()*scaleFactorElEC_);
-	deltaMET->SetPy(deltaMET->Py() + electron->p4().Py()*scaleFactorElEC_); }
-    }
-    for (std::vector<pat::Muon>::const_iterator muon=muons->begin(); muon!=muons->end(); ++muon){
-      if (muon->p4().Eta()<=2.4) {
-	deltaMET->SetPx(deltaMET->Px() + muon->p4().Px()*scaleFactorMuB_);
-	deltaMET->SetPy(deltaMET->Py() + muon->p4().Py()*scaleFactorMuB_);} 
-      else {
-	deltaMET->SetPx(deltaMET->Px() + muon->p4().Px()*scaleFactorMuEC_);
-	deltaMET->SetPy(deltaMET->Py() + muon->p4().Py()*scaleFactorMuEC_);}
-    }
-  }
   // scale MET accordingly
   pat::MET met = *(mets->begin());
-  double r=0.;
-  if (met.pt()!=0) {
-    r=deltaMET->Pt()/met.pt();
-  }
-  else std::cout<<"MET = 0"<<std::endl;
-  double scaledMETPx=0.;
-  double scaledMETPy=0.;
-  if(scaleType_.substr(scaleType_.find(':')+1)=="up"){
-    scaledMETPx = met.px()*(1.+r);    
-    scaledMETPy = met.py()*(1.+r);
-  }
-  if(scaleType_.substr(scaleType_.find(':')+1)=="down"){
-    scaledMETPx = met.px()*(1.-r);    
-    scaledMETPy = met.py()*(1.-r);
-  }
-  scaledMETPx -= dPx;
-  scaledMETPy -= dPy;
-  //double scaledMETPx= met.px() - dPx;
-  //double scaledMETPy= met.py() - dPy;
-  pat::MET scaledMET(reco::MET(reco::MET::LorentzVector(scaledMETPx, scaledMETPy, 0, sqrt(scaledMETPx*scaledMETPx+scaledMETPy*scaledMETPy)), reco::MET::Point(0,0,0)));
-
+  double scaledMETPx = met.px() - dPx;
+  double scaledMETPy = met.py() - dPy;
+  pat::MET scaledMET(reco::MET(met.sumEt()+dSumEt, reco::MET::LorentzVector(scaledMETPx, scaledMETPy, 0, sqrt(scaledMETPx*scaledMETPx+scaledMETPy*scaledMETPy)), reco::MET::Point(0,0,0)));
   pMETs->push_back( scaledMET );
   event.put(pJets, outputJets_);
   event.put(pMETs, outputMETs_);
-
 }
 
 double
