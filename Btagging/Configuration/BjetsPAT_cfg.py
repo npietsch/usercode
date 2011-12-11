@@ -1,4 +1,3 @@
-
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("AnalyzeBtags") 
@@ -521,7 +520,7 @@ process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      # additinal cut
-                                     process.twoHighPtJets *
+                                     #process.twoHighPtJets *
                                      # match different triggers
                                      process.MuHadSelection *
                                      # produce btag event weights
@@ -564,7 +563,7 @@ process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       ## additional cut
-                                      process.twoHighPtJets *
+                                      #process.twoHighPtJets *
                                       # match different triggers
                                       process.MuHadSelection *
                                       # produce btag event weights
@@ -809,7 +808,7 @@ process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.highPtJets *
                                       process.lowPtJets *
                                       # additinal cut
-                                      process.twoHighPtJets *
+                                      #process.twoHighPtJets *
                                       # match different triggers
                                       process.ElHadSelection *
                                       # produce btag event weights
@@ -852,7 +851,7 @@ process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
                                        process.highPtJets *
                                        process.lowPtJets *
                                        ## additional cut
-                                       process.twoHighPtJets *
+                                       #process.twoHighPtJets *
                                        # match different triggers
                                        process.ElHadSelection *
                                        # produce btag event weights
@@ -895,7 +894,7 @@ process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
                                      process.highPtJets *
                                      process.lowPtJets *
                                      ## additional cut
-                                     process.twoHighPtJets *
+                                     #process.twoHighPtJets *
                                      # match different triggers
                                      process.ElHadSelection *
                                      # produce btag event weights

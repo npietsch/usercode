@@ -73,6 +73,11 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
   MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
 
+  MET_0b_ = fs->make<TH1F>("MET_0b","MET_0b", 40, 0.,  1000.);
+  MET_1b_ = fs->make<TH1F>("MET_1b","MET_1b", 40, 0.,  1000.);
+  MET_2b_ = fs->make<TH1F>("MET_2b","MET_2b", 40, 0.,  1000.);
+  MET_3b_ = fs->make<TH1F>("MET_3b","MET_3b", 40, 0.,  1000.);
+
   // Jets
   JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 70, 0.,700.);
   JetsEta_ = fs->make<TH1F>("JetsEta","JetsEta", 30, -3. , 3.);
@@ -326,6 +331,12 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double MET=(*met)[0].et();
   double HT=0;
   double MHT=0;
+
+  // met for different numbers of b-jets
+  if(bjets->size()==0) MET_0b_->Fill(MET, weight);
+  else if(bjets->size()==1) MET_1b_->Fill(MET, weight);
+  else if (bjets->size()==2) MET_2b_->Fill(MET, weight);
+  else MET_3b_->Fill(MET, weight);
 
   if(jets->size()>0)
     {

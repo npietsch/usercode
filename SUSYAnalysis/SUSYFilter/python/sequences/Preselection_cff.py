@@ -11,10 +11,6 @@ MuHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = Fals
 ElHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Ele10*_HT200_v*'],throw = False)
 LepHTTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*','HLT_Ele10*_HT200_v*'], throw = False)
 
-MuTriggerMC2 = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_v1'],throw = False)
-
-DiLeptonTriggerMC = hltHighLevel.clone(HLTPaths = ['HLT_Mu*_Ele*'],throw = False)
-
 ## Data trigger
 MuHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Mu8_HT200_v*'],throw = False)
 ElHTTriggerData = hltHighLevel.clone(HLTPaths = ['HLT_Ele10_CaloIdL_CaloIsoVL_TrkIdVL_TrkIsoVL_HT200_v*'],throw = False)
@@ -129,9 +125,18 @@ Mu_BEfilterSequence=cms.Sequence(
     veto_MuHad_Run2011B_Prompt_v1_filteredEventsBE
     )
 
-##-------------------------------
-## Define preselection sequences
-##-------------------------------
+##-------------------------------------
+## Define MC preselection sequences
+##-------------------------------------
+
+# AOD2PAT MC
+preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
+                                  goodVertices *
+                                  HBHENoiseFilter *
+                                  trackingFailureFilter *
+                                  CSCTightHaloFilter *
+                                  ecalDeadCellTPfilter
+                                  )
 
 ## MC Summer11
 preselectionMuHTMC2 = cms.Sequence(MuHTTriggerMC2 *
@@ -148,13 +153,43 @@ preselectionElHTMC2 = cms.Sequence(ElHTTriggerMC2 *
                                    scrapingVeto
                                    )
 
+## For synchronization
+preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
+                                     totalKinematicsFilter *
+                                     goodVertices *
+                                     scrapingVeto *
+                                     oneGoodVertex *
+                                     HBHENoiseFilter *
+                                     CSCTightHaloFilter *
+                                     trackingFailureFilter *
+                                     ecalDeadCellTPfilter
+                                     )
 
-preselectionDiLeptonMC = cms.Sequence(DiLeptonTriggerMC *
-                                      totalKinematicsFilter *
-                                      goodVertices *
-                                      oneGoodVertex *
-                                      scrapingVeto
-                                      )
+preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
+                                     totalKinematicsFilter *
+                                     goodVertices *
+                                     scrapingVeto *
+                                     oneGoodVertex *
+                                     HBHENoiseFilter *
+                                     CSCTightHaloFilter *
+                                     trackingFailureFilter *
+                                     ecalDeadCellTPfilter
+                                     )
+
+##-------------------------------------
+## Define data preselection sequences
+##-------------------------------------
+
+# AOD2PAT data
+preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
+                                    goodVertices *
+                                    oneGoodVertex *
+                                    HBHENoiseFilter *
+                                    scrapingVeto *
+                                    trackingFailureFilter *
+                                    CSCTightHaloFilter *
+                                    ecalDeadCellTPfilter
+                                    )
 
 ## Data
 preselectionMuHTData = cms.Sequence(Mu_BEfilterSequence *
@@ -185,58 +220,14 @@ preselectionElHTData3 = cms.Sequence(Electron_BEfilterSequence *
 
 ## All Data
 preselectionMuHTAllData = cms.Sequence(Mu_BEfilterSequence *
-                                       Electron_BEfilterSequence *
                                        MuHTTriggerAllData
                                        )
 
 preselectionElHTAllData = cms.Sequence(Electron_BEfilterSequence *
-                                       Mu_BEfilterSequence *
                                        ElHTTriggerAllData
                                        )
 
-# AOD2PAT data
-preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
-                                    goodVertices *
-                                    oneGoodVertex *
-                                    HBHENoiseFilter *
-                                    scrapingVeto *
-                                    trackingFailureFilter *
-                                    CSCTightHaloFilter *
-                                    ecalDeadCellTPfilter
-                                    )
-
-# AOD2PAT MC
-preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
-                                  goodVertices *
-                                  HBHENoiseFilter *
-                                  trackingFailureFilter *
-                                  CSCTightHaloFilter *
-                                  ecalDeadCellTPfilter
-                                  )
-
 ## For synchronization
-preselectionMuSynchMC = cms.Sequence(#MuHTTriggerMC *
-                                     totalKinematicsFilter *
-                                     goodVertices *
-                                     scrapingVeto *
-                                     oneGoodVertex *
-                                     HBHENoiseFilter *
-                                     CSCTightHaloFilter *
-                                     trackingFailureFilter *
-                                     ecalDeadCellTPfilter
-                                     )
-
-preselectionElSynchMC = cms.Sequence(#ElHTTriggerMC *
-                                     totalKinematicsFilter *
-                                     goodVertices *
-                                     scrapingVeto *
-                                     oneGoodVertex *
-                                     HBHENoiseFilter *
-                                     CSCTightHaloFilter *
-                                     trackingFailureFilter *
-                                     ecalDeadCellTPfilter
-                                     )
-
 preselectionMuSynchData = cms.Sequence(#MuHTTriggerData2 *
                                        goodVertices *
                                        scrapingVeto *
@@ -244,7 +235,8 @@ preselectionMuSynchData = cms.Sequence(#MuHTTriggerData2 *
                                        HBHENoiseFilter *
                                        CSCTightHaloFilter *
                                        trackingFailureFilter *
-                                       ecalDeadCellTPfilter
+                                       ecalDeadCellTPfilter *
+                                       Mu_BEfilterSequence
                                        )
 
 preselectionElSynchData = cms.Sequence(#ElHTTriggerData2 *
@@ -254,7 +246,8 @@ preselectionElSynchData = cms.Sequence(#ElHTTriggerData2 *
                                        HBHENoiseFilter *
                                        CSCTightHaloFilter *
                                        trackingFailureFilter *
-                                       ecalDeadCellTPfilter
+                                       ecalDeadCellTPfilter *
+                                       Electron_BEfilterSequence
                                        )
 
 ##----------------------------------------------

@@ -127,21 +127,21 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 # Load modules to monitor selection steps
 #-----------------------------------------------------------------
 
-from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
-analyzeRA4.jets = "goodJets"
-analyzeRA4.muons = "goodMuons"
-analyzeRA4.electrons ="goodElectrons"
+## from SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi import *
+## analyzeRA4.jets = "goodJets"
+## analyzeRA4.muons = "goodMuons"
+## analyzeRA4.electrons ="goodElectrons"
 
-process.RA4Preselection = analyzeRA4.clone()
-process.RA4OneGoodJet = analyzeRA4.clone()
-process.RA4TwoGoodJets = analyzeRA4.clone()
-process.RA4ThreeGoodJets = analyzeRA4.clone()
-process.RA4FourGoodJets = analyzeRA4.clone()
+## process.RA4Preselection = analyzeRA4.clone()
+## process.RA4OneGoodJet = analyzeRA4.clone()
+## process.RA4TwoGoodJets = analyzeRA4.clone()
+## process.RA4ThreeGoodJets = analyzeRA4.clone()
+## process.RA4FourGoodJets = analyzeRA4.clone()
 
-process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
-process.Out.jets = "goodJets"
-process.Out.muons = "goodMuons"
-process.Out.electrons ="goodElectrons"
+## process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
+## process.Out.jets = "goodJets"
+## process.Out.muons = "goodMuons"
+## process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
@@ -150,36 +150,36 @@ process.Out.electrons ="goodElectrons"
 process.MuonSelection = cms.Path(process.susyPatDefaultSequence *
                                  process.preselectionMuSynchData *
                                  process.goodObjects *
-                                 process.RA4Preselection *
+                                 #process.RA4Preselection *
                                  process.oneGoodJet *
-                                 process.RA4OneGoodJet *
+                                 #process.RA4OneGoodJet *
                                  process.twoGoodJets *
-                                 process.RA4TwoGoodJets *
+                                 #process.RA4TwoGoodJets *
                                  process.threeGoodJets *
-                                 process.RA4ThreeGoodJets *
+                                 #process.RA4ThreeGoodJets *
                                  process.fourGoodJets *
-                                 process.RA4FourGoodJets *
+                                 #process.RA4FourGoodJets *
                                  process.muonSelection *
                                  process.HTSelection *
-                                 process.oneMediumMET *
-                                 process.Out
+                                 process.oneMediumMET #*
+                                 #process.Out
                                  )
 
 
 process.ElectronSelection = cms.Path(process.susyPatDefaultSequence *
                                      process.preselectionElSynchData *
                                      process.goodObjects *
-                                     process.RA4Preselection *
+                                     #process.RA4Preselection *
                                      process.oneGoodJet *
-                                     process.RA4OneGoodJet *
+                                     #process.RA4OneGoodJet *
                                      process.twoGoodJets *
-                                     process.RA4TwoGoodJets *
+                                     #process.RA4TwoGoodJets *
                                      process.threeGoodJets *
-                                     process.RA4ThreeGoodJets *
+                                     #process.RA4ThreeGoodJets *
                                      process.fourGoodJets *
-                                     process.RA4FourGoodJets *
+                                     #process.RA4FourGoodJets *
                                      process.electronSelection *
                                      process.HTSelection *
-                                     process.oneMediumMET *
-                                     process.Out
+                                     process.oneMediumMET #*
+                                     #process.Out
                                      )

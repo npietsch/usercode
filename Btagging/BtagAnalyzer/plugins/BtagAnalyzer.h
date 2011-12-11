@@ -96,6 +96,11 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* HT_;
   TH1F* MHT_;
 
+  TH1F* MET_0b_;
+  TH1F* MET_1b_;
+  TH1F* MET_2b_;
+  TH1F* MET_3b_;
+
   // Jets
   TH1F* JetsPt_;
   TH1F* JetsEta_;
