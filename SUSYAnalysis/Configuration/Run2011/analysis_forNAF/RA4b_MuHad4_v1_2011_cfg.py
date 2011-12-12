@@ -1,11 +1,8 @@
 from BjetsData_cfg import *
 
-
-
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_699_1_Lou.root',
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_394_1_0yF.root',
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_245_1_YU3.root',
@@ -182,8 +179,27 @@ process.source = cms.Source("PoolSource",
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_42_0_wDI.root',
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_96_1_uEg.root',
 '/store/user/cakir/Summer11/MuHad_2011B/Summer11_676_1_HcG.root',
-'/store/user/cakir/Summer11/MuHad_2011B/Summer11_757_1_g7G.root'
-
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_757_1_g7G.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_711_1_Nlb.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_756_1_YTI.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_588_1_Q6c.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_459_1_U4M.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_635_1_Ml2.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_580_1_749.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_631_0_2rI.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_661_1_WqQ.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_554_1_hE6.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_607_1_TrH.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_709_1_3Wf.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_14_1_wfm.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_496_1_up8.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_181_1_kmy.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_583_1_Cnu.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_432_0_qFs.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_612_1_rZU.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_669_1_2Vm.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_608_1_JW0.root',
+'/store/user/cakir/Summer11/MuHad_2011B/Summer11_478_1_rAL.root'
 
 
 )
