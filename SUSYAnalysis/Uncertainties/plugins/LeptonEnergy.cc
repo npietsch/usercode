@@ -1,5 +1,4 @@
 #include <algorithm>
-
 #include "FWCore/Framework/interface/Event.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "SUSYAnalysis/Uncertainties/plugins/LeptonEnergy.h"
@@ -40,13 +39,41 @@ LeptonEnergy::beginJob()
 void
 LeptonEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 {
-//   // access jets
-//   edm::Handle<std::vector<pat::Jet> > jets;
-//   event.getByLabel(inputJets_, jets);
+
+//   // access muons
+//   edm::Handle<std::vector<pat::Muon> > muons;
+//   event.getByLabel(inputMuons_, muons);
+//   // access electrons
+//   edm::Handle<std::vector<pat::Muon> > muons;
+//   event.getByLabel(inputMuons_, muons);
 //   // access MET
 //   edm::Handle<std::vector<pat::MET> > mets;
 //   event.getByLabel(inputMETs_, mets);
   
+//   // MET uncertainty from leptons
+//   XYZTLorentzVector* deltaMET = new XYZTLorentzVector(0., 0., 0., 0.);
+//   if (leptonFlag_) {
+//     for (std::vector<pat::Electron>::const_iterator electron=electrons->begin(); electron!=electrons->end(); ++electron){
+//       if (electron->p4().Eta()<=2.4) {
+// 	deltaMET->SetPx(deltaMET->Px() + electron->p4().Px()*scaleFactorElB_);
+// 	deltaMET->SetPy(deltaMET->Py() + electron->p4().Py()*scaleFactorElB_); } 
+//       else {
+// 	deltaMET->SetPx(deltaMET->Px() + electron->p4().Px()*scaleFactorElEC_);
+// 	deltaMET->SetPy(deltaMET->Py() + electron->p4().Py()*scaleFactorElEC_); }
+//     }
+//     for (std::vector<pat::Muon>::const_iterator muon=muons->begin(); muon!=muons->end(); ++muon){
+//       if (muon->p4().Eta()<=2.4) {
+// 	deltaMET->SetPx(deltaMET->Px() + muon->p4().Px()*scaleFactorMuB_);
+// 	deltaMET->SetPy(deltaMET->Py() + muon->p4().Py()*scaleFactorMuB_);} 
+//       else {
+// 	deltaMET->SetPx(deltaMET->Px() + muon->p4().Px()*scaleFactorMuEC_);
+// 	deltaMET->SetPy(deltaMET->Py() + muon->p4().Py()*scaleFactorMuEC_);}
+//     }
+//   }
+
+
+
+
 //   // create two new collections for jets and MET
 //   std::auto_ptr<std::vector<pat::Jet> > pJets(new std::vector<pat::Jet>);
 //   std::auto_ptr<std::vector<pat::MET> > pMETs(new std::vector<pat::MET>);
