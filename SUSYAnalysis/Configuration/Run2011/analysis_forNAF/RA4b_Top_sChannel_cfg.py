@@ -3,10 +3,10 @@ from BjetsPAT_cfg import *
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 3.19
 process.weightProducer.NumberEvts = 259971
-process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
+process.weightProducer.Lumi = 2000  ## Lumi in 1/pb
 
 ## PU histogram has to be updated
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleAntiTop_TuneZ2_s_channel_7TeV_powheg_tauola.root"
+process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_s_channel_7TeV_powheg_tauola.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",
