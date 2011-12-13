@@ -39,7 +39,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   JetEt_nrBjets_ = fs->make<TH2F>("JetEt_nrBjets","JetEt nrBjets", 30,0.,300.,5,0.,5.);
 
-  MET_ = fs->make<TH1F>("MET","MET", 40, 0., 1000.);
+  MET_ = fs->make<TH1F>("MET","MET", 50, 0., 1000.);
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);

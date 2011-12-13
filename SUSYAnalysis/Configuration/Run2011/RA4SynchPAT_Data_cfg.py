@@ -24,47 +24,35 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
+## load modules for preselection
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
+## load modules to create objects and filter events on reco level
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-
-#-----------------------------------------------------------------
-# Load modules to monitor selection steps
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYAnalyzer.RA4Analyzer_cfi")
-process.analyzeRA4.jets = "goodJets"
-process.analyzeRA4.muons = "goodMuons"
-process.analyzeRA4.electrons ="goodElectrons"
-
-process.RA4Preselection = process.analyzeRA4.clone()
-process.RA4OneGoodJet = process.analyzeRA4.clone()
-process.RA4TwoGoodJets = process.analyzeRA4.clone()
-process.RA4ThreeGoodJets = process.analyzeRA4.clone()
-process.RA4FourGoodJets = process.analyzeRA4.clone()
-
-process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
-process.Out.jets = "goodJets"
-process.Out.muons = "goodMuons"
-process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
 #------------------
 
-process.MuonSelection = cms.Path(process.preselectionMuHTAllData *
+process.MuonSelection = cms.Path(process.preselectionMuSynchData *
                                  process.goodObjects *
-                                 process.RA4Preselection *
                                  process.oneGoodJet *
-                                 process.RA4OneGoodJet *
                                  process.twoGoodJets *
-                                 process.RA4TwoGoodJets *
                                  process.threeGoodJets *
-                                 process.RA4ThreeGoodJets *
                                  process.fourGoodJets *
-                                 process.RA4FourGoodJets *
                                  process.muonSelection *
                                  process.HTSelection *
                                  process.oneMediumMET *
-                                 process.Out
                                  )
+
+process.ElectronSelection = cms.Path(process.preselectionElSynchData *
+                                     process.goodObjects *
+                                     process.oneGoodJet *
+                                     process.twoGoodJets *
+                                     process.threeGoodJets *
+                                     process.fourGoodJets *
+                                     process.electronSelection *
+                                     process.HTSelection *
+                                     process.oneMediumMET *
+                                     )
+

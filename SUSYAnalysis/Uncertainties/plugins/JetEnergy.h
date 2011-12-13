@@ -83,9 +83,11 @@ class JetEnergy : public edm::EDProducer {
   std::vector<double> resolutionFactor_;
   /// valid |eta| ranges for the energy resolution scale factors
   std::vector<double> resolutionRanges_;
-  /// threshold on (raw!) jet pt for Type1 MET corrections 
+  /// threshold on (raw!) jet pt for MET corrections 
   double jetPTThresholdForMET_;
-  /// limit on the emf of the jet for Type1 MET corrections 
+  /// threshold on jet peta for MET corrections 
+  double maxJetEtaForMET_;
+  /// limit on the emf of the jet for MET corrections 
   double jetEMLimitForMET_;
   /// allowed scaleTypes
   std::vector<std::string> allowedTypes_;

@@ -15,7 +15,8 @@ analyzeSystematicsMu0b = analyzeSystematics.clone()
 analyzeSystematicsMu0b.btagBin = 0
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu0bJEC            = analyzeSystematicsMu0b.clone()
+analyzeSystematicsMu0b               = analyzeSystematicsMu0b.clone()
+analyzeSystematicsMu0bJER            = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJECUp          = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJECDown        = analyzeSystematicsMu0b.clone()
 analyzeSystematicsMu0bJERUp          = analyzeSystematicsMu0b.clone()
@@ -52,6 +53,10 @@ analyzeSystematicsMu0bPDF6           = analyzeSystematicsMu0b.clone()
 ##-----------------------------------
 
 ## configure clones to study jet energy scale uncertainties
+analyzeSystematicsMu0bJER.jets     = "goodJetsJER"
+analyzeSystematicsMu0bJER.bjets    = "mediumTrackHighEffBjetsJER"
+analyzeSystematicsMu0bJER.met      = "scaledJetEnergy:patMETsPF"
+
 analyzeSystematicsMu0bJECUp.jets     = "goodJetsJECUp"
 analyzeSystematicsMu0bJECUp.bjets    = "mediumTrackHighEffBjetsJECUp"
 analyzeSystematicsMu0bJECUp.met      = "scaledJetEnergyJECUp:patMETsPF"
@@ -97,7 +102,8 @@ analyzeSystematicsMu1b = analyzeSystematics.clone()
 analyzeSystematicsMu1b.btagBin = 1
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu1bJEC            = analyzeSystematicsMu0b.clone()
+analyzeSystematicsMu1b               = analyzeSystematicsMu1b.clone()
+analyzeSystematicsMu1bJER            = analyzeSystematicsMu1b.clone()
 analyzeSystematicsMu1bJECUp          = analyzeSystematicsMu1b.clone()
 analyzeSystematicsMu1bJECDown        = analyzeSystematicsMu1b.clone()
 analyzeSystematicsMu1bJERUp          = analyzeSystematicsMu1b.clone()
@@ -134,6 +140,10 @@ analyzeSystematicsMu1bPDF6           = analyzeSystematicsMu1b.clone()
 ##-----------------------------------
 
 ## configure clones to study jet energy scale uncertainties
+analyzeSystematicsMu1bJER.jets     = "goodJetsJER"
+analyzeSystematicsMu1bJER.bjets    = "mediumTrackHighEffBjetsJER"
+analyzeSystematicsMu1bJER.met      = "scaledJetEnergy:patMETsPF"
+
 analyzeSystematicsMu1bJECUp.jets     = "goodJetsJECUp"
 analyzeSystematicsMu1bJECUp.bjets    = "mediumTrackHighEffBjetsJECUp"
 analyzeSystematicsMu1bJECUp.met      = "scaledJetEnergyJECUp:patMETsPF"
@@ -179,7 +189,8 @@ analyzeSystematicsMu2b = analyzeSystematics.clone()
 analyzeSystematicsMu2b.btagBin = 2
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu2bJEC            = analyzeSystematicsMu2b.clone()
+analyzeSystematicsMu2b               = analyzeSystematicsMu2b.clone()
+analyzeSystematicsMu2bJER            = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJECUp          = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJECDown        = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bJERUp          = analyzeSystematicsMu2b.clone()
@@ -211,12 +222,15 @@ analyzeSystematicsMu2bPDF4           = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bPDF5           = analyzeSystematicsMu2b.clone()
 analyzeSystematicsMu2bPDF6           = analyzeSystematicsMu2b.clone()
 
-
 ##-----------------------------------
 ## Configure clones for 2 btag bin
 ##-----------------------------------
 
 ## configure clones to study jet energy scale uncertainties
+analyzeSystematicsMu2bJER.jets     = "goodJetsJER"
+analyzeSystematicsMu2bJER.bjets    = "mediumTrackHighEffBjetsJER"
+analyzeSystematicsMu2bJER.met      = "scaledJetEnergy:patMETsPF"
+
 analyzeSystematicsMu2bJECUp.jets     = "goodJetsJECUp"
 analyzeSystematicsMu2bJECUp.bjets    = "mediumTrackHighEffBjetsJECUp"
 analyzeSystematicsMu2bJECUp.met      = "scaledJetEnergyJECUp:patMETsPF"
@@ -250,6 +264,10 @@ analyzeSystematicsMu2bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
 analyzeSystematicsMu2bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
 
 
+## configure clones to study PDF uncertainties
+## ...
+
+
 ##-----------------------------------
 ## Create clones for 3 btag bin
 ##-----------------------------------
@@ -258,7 +276,8 @@ analyzeSystematicsMu3b = analyzeSystematics.clone()
 analyzeSystematicsMu3b.btagBin = 3
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu3bJEC            = analyzeSystematicsMu3b.clone()
+analyzeSystematicsMu3b               = analyzeSystematicsMu3b.clone()
+analyzeSystematicsMu3bJER            = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJECUp          = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJECDown        = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bJERUp          = analyzeSystematicsMu3b.clone()
@@ -290,12 +309,15 @@ analyzeSystematicsMu3bPDF4           = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bPDF5           = analyzeSystematicsMu3b.clone()
 analyzeSystematicsMu3bPDF6           = analyzeSystematicsMu3b.clone()
 
-
 ##-----------------------------------
 ## Configure clones for 3 btag bin
 ##-----------------------------------
 
 ## configure clones to study jet energy scale uncertainties
+analyzeSystematicsMu3bJER.jets     = "goodJetsJER"
+analyzeSystematicsMu3bJER.bjets    = "mediumTrackHighEffBjetsJER"
+analyzeSystematicsMu3bJER.met      = "scaledJetEnergy:patMETsPF"
+
 analyzeSystematicsMu3bJECUp.jets     = "goodJetsJECUp"
 analyzeSystematicsMu3bJECUp.bjets    = "mediumTrackHighEffBjetsJECUp"
 analyzeSystematicsMu3bJECUp.met      = "scaledJetEnergyJECUp:patMETsPF"
@@ -327,3 +349,8 @@ analyzeSystematicsMu3bMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSF
 ## configure clones to study PU uncertainties
 analyzeSystematicsMu3bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
 analyzeSystematicsMu3bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+
+
+## configure clones to study PDF uncertainties
+## ...
+

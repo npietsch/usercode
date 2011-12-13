@@ -23,6 +23,7 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   resolutionFactor_    (cfg.getParameter<std::vector<double> > ("resolutionFactors"   )),
   resolutionRanges_    (cfg.getParameter<std::vector<double> > ("resolutionEtaRanges" )),
   jetPTThresholdForMET_(cfg.getParameter<double>       ("jetPTThresholdForMET")),
+  maxJetEtaForMET_     (cfg.getParameter<double>       ("maxJetEtaForMET")),
   jetEMLimitForMET_    (cfg.getParameter<double>       ("jetEMLimitForMET"    ))
 {
   // define allowed types
@@ -141,7 +142,7 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
     pJets->push_back( scaledJet );
     
     // consider jet scale shift only if the raw jet pt is above the thresholds given in the module definition
-    if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_)
+    if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->eta() < maxJetEtaForMET_ )
       {
 	dPx    += scaledJet.px() - jet->px();
 	dPy    += scaledJet.py() - jet->py();

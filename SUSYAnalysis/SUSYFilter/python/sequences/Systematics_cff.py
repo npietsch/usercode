@@ -99,7 +99,7 @@ looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 
 ## create collection of good Jets
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
-goodJets = cleanPatJets.clone(src = 'scaledJetEnergy:selectedPatJetsAK5PF',
+goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                               preselection =
                               'abs(eta) < 2.4 &'
                               'pt > 40. &'
@@ -155,7 +155,7 @@ mediumSSVHighEffBjets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
-                                'et > 50.'
+                                'et > 80.'
                                 )
 
 ## create collection of RA4 METs
@@ -176,6 +176,10 @@ goodJetsJECUp.src = "scaledJetEnergyJECUp:selectedPatJetsAK5PF"
 goodJetsJECDown = goodJets.clone()
 goodJetsJECDown.src = "scaledJetEnergyJECDown:selectedPatJetsAK5PF"
 
+## create collection of good Jets with smeared jet energy
+goodJetsJER = goodJets.clone()
+goodJetsJER.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+
 ## create collection of good Jets with scaled up jet energy resolution
 goodJetsJERUp = goodJets.clone()
 goodJetsJERUp.src = "scaledJetEnergyJERUp:selectedPatJetsAK5PF"
@@ -183,6 +187,7 @@ goodJetsJERUp.src = "scaledJetEnergyJERUp:selectedPatJetsAK5PF"
 ## create collection of good Jets with scaled down jet energy resolution
 goodJetsJERDown = goodJets.clone()
 goodJetsJERDown.src = "scaledJetEnergyJERDown:selectedPatJetsAK5PF"
+
 
 ## create collection of good METs with scaled up jet energy corrections
 goodMETsJECUp = goodMETs.clone()
@@ -192,6 +197,10 @@ goodMETsJECUp.src = "scaledJetEnergyJECUp:patMETsPF"
 goodMETsJECDown = goodMETs.clone()
 goodMETsJECDown.src = "scaledJetEnergyJECDown:patMETsPF"
 
+## create collection of good METs with smeared jet energy 
+goodMETsJER = goodMETs.clone()
+goodMETsJER.src = "scaledJetEnergy:patMETsPF"
+
 ## create collection of good METs with scaled up jet energy resolution
 goodMETsJERUp = goodMETs.clone()
 goodMETsJERUp.src = "scaledJetEnergyJERUp:patMETsPF"
@@ -199,6 +208,7 @@ goodMETsJERUp.src = "scaledJetEnergyJERUp:patMETsPF"
 ## create collection of good METs with scaled down jet energy resolution
 goodMETsJERDown = goodMETs.clone()
 goodMETsJERDown.src = "scaledJetEnergyJERDown:patMETsPF"
+
 
 ## create mediumTrackHighEffBjet collection with scaled up jet energy corrections
 mediumTrackHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
@@ -210,6 +220,11 @@ mediumTrackHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
                                                        cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
                                                        )
 
+## create mediumTrackHighEffBjet collection with smeared jet energy
+mediumTrackHighEffBjetsJER = selectedPatJets.clone(src = 'goodJetsJER',
+                                                   cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
+                                                   )
+
 ## create mediumTrackHighEffBjet collection with scaled up jet energy resolution
 mediumTrackHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
                                                      cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
@@ -220,6 +235,7 @@ mediumTrackHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
                                                        cut = 'bDiscriminator(\"trackCountingHighEffBJetTags\") > 3.3'
                                                        )
 
+
 ## create mediumSSVHighEffBjet collection with scaled up jet energy corrections
 mediumSSVHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
                                                    cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
@@ -229,6 +245,11 @@ mediumSSVHighEffBjetsJECUp = selectedPatJets.clone(src = 'goodJetsJECUp',
 mediumSSVHighEffBjetsJECDown = selectedPatJets.clone(src = 'goodJetsJECDown',
                                                      cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
                                                      )
+
+## create mediumSSVHighEffBjet collection with smeared jet energy
+mediumSSVHighEffBjetsJER = selectedPatJets.clone(src = 'goodJetsJER',
+                                                 cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
+                                                 )
 
 ## create mediumSSVHighEffBjet collection with scaled up jet energy resoltuion
 mediumSSVHighEffBjetsJERUp = selectedPatJets.clone(src = 'goodJetsJERUp',
@@ -331,7 +352,6 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
-
 #------------------------------
 # met countFilter
 #------------------------------
@@ -361,6 +381,11 @@ fourGoodJetsJECDown = countPatJets.clone(src = 'goodJetsJECDown',
                                          minNumber = 4
                                          )
 
+## select events with 4 good jets with smeared jet energy
+fourGoodJetsJER = countPatJets.clone(src = 'goodJetsJER',
+                                     minNumber = 4
+                                     )
+
 ## select events with 4 good Jets with scaled up jet energy resolutions
 fourGoodJetsJERUp = countPatJets.clone(src = 'goodJetsJERUp',
                                        minNumber = 4
@@ -371,6 +396,7 @@ fourGoodJetsJERDown = countPatJets.clone(src = 'goodJetsJERDown',
                                          minNumber = 4
                                          )
 
+
 ## select events with 1 good MET with scaled up jet energy corrections
 oneGoodMETJECUp = countPatMET.clone(src = 'goodMETsJECUp',
                                     minNumber = 1
@@ -380,6 +406,11 @@ oneGoodMETJECUp = countPatMET.clone(src = 'goodMETsJECUp',
 oneGoodMETJECDown = countPatMET.clone(src = 'goodMETsJECDown',
                                       minNumber = 1
                                       )
+
+## select events with 1 good MET with smeared jet energy
+oneGoodMETJER = countPatMET.clone(src = 'goodMETsJER',
+                                  minNumber = 1
+                                  )
 
 ## select events with 1 good MET with scaled up jet energy resolutions
 oneGoodMETJERUp = countPatMET.clone(src = 'goodMETsJERUp',
@@ -418,6 +449,11 @@ oneGoodHTJECDown = filterHT.clone()
 oneGoodHTJECDown.jets = "goodJetsJECDown"
 oneGoodHTJECDown.Cut = 300
 
+## select events with one good HT with smeared jet energy
+oneGoodHTJER = filterHT.clone()
+oneGoodHTJER.jets = "goodJetsJER"
+oneGoodHTJER.Cut = 300
+
 ## select events with one good HT with scaled up jet energy corrections
 oneGoodHTJERUp = filterHT.clone()
 oneGoodHTJERUp.jets = "goodJetsJERUp"
@@ -450,23 +486,27 @@ createGoodObjects = cms.Sequence(## muons
                                  goodJets *
                                  goodJetsJECUp *
                                  goodJetsJECDown *
+                                 goodJetsJER *
                                  goodJetsJERUp *
                                  goodJetsJERDown *
                                  ## bjets
                                  mediumTrackHighEffBjets *
                                  mediumTrackHighEffBjetsJECUp *
                                  mediumTrackHighEffBjetsJECDown *
+                                 mediumTrackHighEffBjetsJER *
                                  mediumTrackHighEffBjetsJERUp *
                                  mediumTrackHighEffBjetsJERDown *
                                  mediumSSVHighEffBjets *
                                  mediumSSVHighEffBjetsJECUp *
                                  mediumSSVHighEffBjetsJECDown *
+                                 mediumSSVHighEffBjetsJER *
                                  mediumSSVHighEffBjetsJERUp *
                                  mediumSSVHighEffBjetsJERDown *
                                  ## METs
                                  goodMETs *
                                  goodMETsJECUp *
                                  goodMETsJECDown *
+                                 goodMETsJER *
                                  goodMETsJERUp *
                                  goodMETsJERDown *
                                  RA4METs
@@ -487,6 +527,11 @@ MuHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
                                      oneGoodMETJECDown *
                                      oneLooseMuon
                                      )
+
+MuHadSelectionJER = cms.Sequence(oneGoodHTJER *
+                                 oneGoodMETJER *
+                                 oneLooseMuon
+                                 )
 
 MuHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
                                    oneGoodMETJERUp *
@@ -512,6 +557,11 @@ ElHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
                                      oneGoodMETJECDown *
                                      oneLooseElectron
                                      )
+
+ElHadSelectionJER = cms.Sequence(oneGoodHTJER *
+                                 oneGoodMETJER *
+                                 oneLooseElectron
+                                 )
 
 ElHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
                                    oneGoodMETJERUp *
@@ -547,6 +597,8 @@ jetSelection = cms.Sequence(fourGoodJets)
 jetSelectionJECUp = cms.Sequence(fourGoodJetsJECUp)
 
 jetSelectionJECDown = cms.Sequence(fourGoodJetsJECDown)
+
+jetSelectionJER = cms.Sequence(fourGoodJetsJERUp)
 
 jetSelectionJERUp = cms.Sequence(fourGoodJetsJERUp)
 
