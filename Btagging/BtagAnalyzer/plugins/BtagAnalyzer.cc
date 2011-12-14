@@ -69,14 +69,14 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   SSVHE_= fs->make<TH1F>("SSVHE","SSVHE", 120, -2, 10.);
   SSVHP_= fs->make<TH1F>("SSVHP","SSVHP", 120, -2, 10.);
 
-  MET_ = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
+  MET_ = fs->make<TH1F>("MET","MET", 50, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
   MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
 
-  MET_0b_ = fs->make<TH1F>("MET_0b","MET_0b", 40, 0.,  1000.);
-  MET_1b_ = fs->make<TH1F>("MET_1b","MET_1b", 40, 0.,  1000.);
-  MET_2b_ = fs->make<TH1F>("MET_2b","MET_2b", 40, 0.,  1000.);
-  MET_3b_ = fs->make<TH1F>("MET_3b","MET_3b", 40, 0.,  1000.);
+  MET_0b_ = fs->make<TH1F>("MET_0b","MET_0b", 50, 0.,  1000.);
+  MET_1b_ = fs->make<TH1F>("MET_1b","MET_1b", 50, 0.,  1000.);
+  MET_2b_ = fs->make<TH1F>("MET_2b","MET_2b", 50, 0.,  1000.);
+  MET_3b_ = fs->make<TH1F>("MET_3b","MET_3b", 50, 0.,  1000.);
 
   // Jets
   JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 70, 0.,700.);
