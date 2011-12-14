@@ -32,7 +32,7 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
            	
-  //--------------------------------
+  ///--------------------------------
   // input collections          	
   //--------------------------------
 

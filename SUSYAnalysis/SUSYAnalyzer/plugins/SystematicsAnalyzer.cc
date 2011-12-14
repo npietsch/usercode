@@ -16,7 +16,7 @@
 using namespace std;
  
 SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
-  /// collections of RA4b objects
+  // collections of RA4b objects
   met_          (cfg.getParameter<edm::InputTag>("met") ),
   jets_         (cfg.getParameter<edm::InputTag>("jets") ),
   bjets_        (cfg.getParameter<edm::InputTag>("bjets" )),
