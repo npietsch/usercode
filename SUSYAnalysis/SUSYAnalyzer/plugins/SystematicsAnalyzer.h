@@ -78,7 +78,7 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   TH1F* SSVHE_;
   TH1F* SSVHP_;
 
-  /// histograms taken from SUSYAnalyzer
+  // histograms taken from SUSYAnalyzer
 
   // TH2F histograms
   TH2F* JetEt_nrBjets_;
