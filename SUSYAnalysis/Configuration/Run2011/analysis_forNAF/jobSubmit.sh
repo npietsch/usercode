@@ -14,6 +14,7 @@ nafJobSplitter.pl -q 12 8 RA4b_Tbar_sChannel_cfg.py
 nafJobSplitter.pl -q 12 98 RA4b_Tbar_tChannel_cfg.py
 nafJobSplitter.pl -q 12 37 RA4b_Top_tW_cfg.py
 nafJobSplitter.pl -q 12 196 RA4b_Top_tChannel_cfg.py
+nafJobSplitter.pl -q 12 14 RA4b_Top_sChannel_cfg.py
 
 nafJobSplitter.pl -q 12 218 RA4b_QCD1_cfg.py
 nafJobSplitter.pl -q 12 231 RA4b_QCD2_cfg.py
