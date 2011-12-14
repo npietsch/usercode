@@ -17,7 +17,7 @@ UnclusteredEnergy::UnclusteredEnergy(const edm::ParameterSet& cfg):
   outputMETs_ = inputMETs_.label(); 
 
   // register product
-  produces<std::vector<pat::MET> >(outputMETs_); 
+  produces<std::vector<pat::MET> >("scaledMET"); 
 }
 
 
@@ -60,7 +60,7 @@ UnclusteredEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   
   std::auto_ptr<std::vector<pat::MET> > pMETs(new std::vector<pat::MET>);
   pMETs->push_back( scaledMET );  
-  event.put(pMETs, outputMETs_);
+  event.put(pMETs, "scaledMET");
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

@@ -4,6 +4,7 @@
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
+#include "DataFormats/PatCandidates/interface/MET.h"
 
 class LeptonEnergy : public edm::EDProducer {
 
@@ -27,17 +28,10 @@ class LeptonEnergy : public edm::EDProducer {
   /// met input collection
   edm::InputTag inputMETs_;
 
-  /// muon output collection 
-  std::string outputMuons_;
-  /// electron output collection 
-  std::string outputElectrons_;
-  /// MET output collection
-  std::string outputMETs_;
-
-  /// scale Type
-  std::string scaleType_;
-  /// scale factor for the rescaling of lepton energy
-  double scaleFactor_;
+  /// scale factor for the rescaling of muon energy
+  double scaleFactorMu_;
+  /// scale factor for the rescaling of electron energy
+  double scaleFactorEl_;
   /// threshold on lepton pt for MET corrections 
   double leptonPTThresholdForMET_;
  

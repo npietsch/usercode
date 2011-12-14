@@ -325,11 +325,13 @@ process.scaledJetEnergyJERDown.resolutionFactors    = cms.vdouble(1., 0.95, 0.9)
 
 process.load("SUSYAnalysis.Uncertainties.UnclusteredEnergy_cfi")
 
-process.unclusteredEnergyUp = process.unclusteredEnergy
+process.unclusteredEnergyUp = process.unclusteredEnergy.clone()
 process.unclusteredEnergyUp.scaleFactor = 1.1
+process.unclusteredEnergyUp.inputMETs = "scaledJetEnergy:patMETsPF"
 
-process.unclusteredEnergyDown = process.unclusteredEnergy
+process.unclusteredEnergyDown = process.unclusteredEnergy.clone()
 process.unclusteredEnergyDown.scaleFactor = 0.9
+process.unclusteredEnergyDown.inputMETs = "scaledJetEnergy:patMETsPF"
 
 #-----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco level
@@ -592,7 +594,7 @@ process.RA4bMuonSelectionMETUp = cms.Path(## Producer sequences
                                           process.btagEventWeightMu *
                                           ## Selection sequences
                                           process.preselectionMuHTMC2 *
-                                          #process.MuHadSelectionMETUp *
+                                          process.MuHadSelectionMETUp *
                                           process.muonSelection*
                                           process.jetSelectionJER*
                                           ## Analyzer Sequence
@@ -618,7 +620,7 @@ process.RA4bMuonSelectionMETDown = cms.Path(## Producer sequences
                                           process.btagEventWeightMu *
                                           ## Selection sequences
                                           process.preselectionMuHTMC2 *
-                                          #process.MuHadSelectionMETDown *
+                                          process.MuHadSelectionMETDown *
                                           process.muonSelection*
                                           process.jetSelectionJER*
                                           ## Analyzer Sequence

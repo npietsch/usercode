@@ -268,11 +268,11 @@ mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
 
 ## create collection of good METs with scaled up unclustered energy
 goodMETsMETUp = goodMETs.clone()
-goodMETsMETUp.src = "unclusteredEnergyUp:patMETsPF"
+goodMETsMETUp.src = "unclusteredEnergyUp:scaledMET"
 
 ## create collection of good METs with scaled down unclustered energy
 goodMETsMETDown = goodMETs.clone()
-goodMETsMETDown.src = "unclusteredEnergyDown:patMETsPF"
+goodMETsMETDown.src = "unclusteredEnergyDown:scaledMET"
 
 
 
