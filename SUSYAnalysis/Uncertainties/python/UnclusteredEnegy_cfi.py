@@ -1,7 +1,9 @@
 import FWCore.ParameterSet.Config as cms
 
-scaledMET = cms.EDProducer("UnclusteredMETScale",
+unclusteredEnergy = cms.EDProducer("UnclusteredEnergy",
     inputJets            = cms.InputTag("selectedpatJetsAK5PF"),
     inputMETs            = cms.InputTag("patMETsPF"),
+    jetPTThresholdForMET = cms.double(10.),
+    maxJetEtaForMET      = cms.double(4.7),                       
     scaleFactor          = cms.double(1.0)
 )
