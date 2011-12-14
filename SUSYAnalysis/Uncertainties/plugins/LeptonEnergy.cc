@@ -16,8 +16,8 @@ LeptonEnergy::LeptonEnergy(const edm::ParameterSet& cfg):
 
 {
   // register products
-  produces<std::vector<pat::Muon> >     ("scaledMuons");
-  produces<std::vector<pat::Electron> > ("scaledElectrons");
+  //produces<std::vector<pat::Muon> >     ("scaledMuons");
+  //produces<std::vector<pat::Electron> > ("scaledElectrons");
   produces<std::vector<pat::MET> >      ("scaledMETsMu");
   produces<std::vector<pat::MET> >      ("scaledMETsEl");
 }
@@ -42,8 +42,8 @@ LeptonEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   event.getByLabel(inputMETs_, mets);
   
   // create new collections for lepton and MET
-  std::auto_ptr<std::vector<pat::Muon> > pMuons(new std::vector<pat::Muon>);
-  std::auto_ptr<std::vector<pat::Electron> > pElectrons(new std::vector<pat::Electron>);
+  //std::auto_ptr<std::vector<pat::Muon> > pMuons(new std::vector<pat::Muon>);
+  //std::auto_ptr<std::vector<pat::Electron> > pElectrons(new std::vector<pat::Electron>);
   std::auto_ptr<std::vector<pat::MET> > pMETsMu(new std::vector<pat::MET>);
   std::auto_ptr<std::vector<pat::MET> > pMETsEl(new std::vector<pat::MET>);
 
@@ -57,9 +57,8 @@ LeptonEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 
   for(std::vector<pat::Muon>::const_iterator muon = muons->begin(); muon != muons->end(); ++muon)
     {      
-      pat::Muon scaledMuon = *muon;
-
-      pMuons->push_back( scaledMuon ); 
+      //pat::Muon scaledMuon = *muon;
+      //pMuons->push_back( scaledMuon ); 
 
       if(muon->pt() > leptonPTThresholdForMET_)
 	{
@@ -76,9 +75,8 @@ LeptonEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   
   for(std::vector<pat::Electron>::const_iterator electron = electrons->begin(); electron != electrons->end(); ++electron)
     {
-      pat::Electron scaledElectron = *electron;
-
-      pElectrons->push_back( scaledElectron ); 
+      //pat::Electron scaledElectron = *electron;
+      //pElectrons->push_back( scaledElectron ); 
 
       if(electron->pt() > leptonPTThresholdForMET_)
 	{
@@ -104,8 +102,8 @@ LeptonEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   pMETsEl->push_back( scaledMETEl ); 
 
   // produce new lepton and MET collections
-  event.put(pElectrons, "scaledElectrons");
-  event.put(pMuons, "scaledMuons");
+  //event.put(pElectrons, "scaledElectrons");
+  //event.put(pMuons, "scaledMuons");
   event.put(pMETsMu,"scaledMETsMu");
   event.put(pMETsEl,"scaledMETsEl");
 
