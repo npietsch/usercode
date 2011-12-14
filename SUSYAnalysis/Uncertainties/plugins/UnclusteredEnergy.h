@@ -23,6 +23,8 @@ class UnclusteredEnergy : public edm::EDProducer {
   edm::InputTag inputJets_;
   /// met input collection
   edm::InputTag inputMETs_;
+  /// MET output collection 
+  std::string outputMETs_;
   /// scale factor for the rescaling
   double scaleFactor_;
   /// jet pt threshold

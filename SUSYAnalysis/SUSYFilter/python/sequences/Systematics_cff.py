@@ -261,6 +261,21 @@ mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
                                                      cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
                                                      )
 
+
+#--------------------------------------------------------------------------------------------
+# collections of METs with unclustered energy scaled up and down
+#--------------------------------------------------------------------------------------------
+
+## create collection of good METs with scaled up unclustered energy
+goodMETsMETUp = goodMETs.clone()
+goodMETsMETUp.src = "unclusteredEnergyUp:patMETsPF"
+
+## create collection of good METs with scaled down unclustered energy
+goodMETsMETDown = goodMETs.clone()
+goodMETsMETDown.src = "unclusteredEnergyDown:patMETsPF"
+
+
+
 ##======================================================================
 ##========================== COUNT GOOD OBJECTS ========================
 ##======================================================================
@@ -423,6 +438,20 @@ oneGoodMETJERDown = countPatMET.clone(src = 'goodMETsJERDown',
                                       )
 
 
+#----------------------------------------------------------------------------
+# filter on number of METs with unclustered energy scaled up and down
+#----------------------------------------------------------------------------
+
+## select events with 1 good MET with scaled up unclustered energy
+oneGoodMETMETUp = countPatMET.clone(src = 'goodMETsMETUp',
+                                    minNumber = 1
+                                    )
+
+## select events with 1 good MET with scaled down unclustered energy
+oneGoodMETMETDown = countPatMET.clone(src = 'goodMETsMETDown',
+                                      minNumber = 1
+                                      )
+
 ##======================================================================
 ##======================== DEFINE EVENT FILTER =========================
 ##======================================================================
@@ -509,10 +538,12 @@ createGoodObjects = cms.Sequence(## muons
                                  goodMETsJER *
                                  goodMETsJERUp *
                                  goodMETsJERDown *
+                                 goodMETsMETUp *
+                                 goodMETsMETDown *
                                  RA4METs
                                  )
 
-## sequences to match different triggers  
+## sequences to match different triggers for muon selections
 MuHadSelection = cms.Sequence(oneGoodHT *
                               oneGoodMET *
                               oneLooseMuon
@@ -542,7 +573,18 @@ MuHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
                                      oneGoodMETJERDown *
                                      oneLooseMuon
                                      )
-  
+
+MuHadSelectionMETUp = cms.Sequence(oneGoodHTJER *
+                                   oneGoodMETMETUp *
+                                   oneLooseMuon
+                                   )
+
+MuHadSelectionMETDown = cms.Sequence(oneGoodHTJER *
+                                     oneGoodMETMETDown *
+                                     oneLooseMuon
+                                     )
+
+## sequences to match different triggers for electron selections
 ElHadSelection = cms.Sequence(oneGoodHT *
                               oneGoodMET *
                               oneLooseElectron
@@ -570,6 +612,16 @@ ElHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
 
 ElHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
                                      oneGoodMETJERDown *
+                                     oneLooseElectron
+                                     )
+
+ElHadSelectionMETUp = cms.Sequence(oneGoodHTJER *
+                                   oneGoodMETMETUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionMETDown = cms.Sequence(oneGoodHTJER *
+                                     oneGoodMETMETDown *
                                      oneLooseElectron
                                      )
 

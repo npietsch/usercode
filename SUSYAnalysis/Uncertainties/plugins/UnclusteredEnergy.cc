@@ -8,12 +8,16 @@
 UnclusteredEnergy::UnclusteredEnergy(const edm::ParameterSet& cfg):
   inputJets_            (cfg.getParameter<edm::InputTag>("inputJets"           )),
   inputMETs_            (cfg.getParameter<edm::InputTag>("inputMETs"           )),
+  scaleFactor_          (cfg.getParameter<double>       ("scaleFactor"         )),
   jetPTThresholdForMET_ (cfg.getParameter<double>       ("jetPTThresholdForMET")),
-  maxJetEtaForMET_      (cfg.getParameter<double>       ("maxJetEtaForMET"     )),
-  scaleFactor_          (cfg.getParameter<double>       ("scaleFactor"         ))
+  maxJetEtaForMET_      (cfg.getParameter<double>       ("maxJetEtaForMET"     ))
 {  
+
+  // use label of input to create label for output
+  outputMETs_ = inputMETs_.label(); 
+
   // register product
-  produces<std::vector<pat::MET> >("scaledMETs"); 
+  produces<std::vector<pat::MET> >(outputMETs_); 
 }
 
 
@@ -56,7 +60,7 @@ UnclusteredEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   
   std::auto_ptr<std::vector<pat::MET> > pMETs(new std::vector<pat::MET>);
   pMETs->push_back( scaledMET );  
-  event.put(pMETs, "scaledMETs");
+  event.put(pMETs, outputMETs_);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

@@ -3,6 +3,7 @@
 <use   name="CommonTools/Utils"/>
 <use   name="DataFormats/PatCandidates"/>
 <use   name="AnalysisDataFormats/TopObjects"/>
+<use   name="HLTrigger/HLTcore"/>
 <use   name="SUSYAnalysis/SUSYObjects"/>
 <use   name="TopQuarkAnalysis/TopSkimming"/>
 <use   name="TopQuarkAnalysis/TopKinFitter"/>
@@ -12,4 +13,3 @@
 <export>
   <lib   name="1"/>
 </export>
-

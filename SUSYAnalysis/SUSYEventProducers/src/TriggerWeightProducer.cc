@@ -12,6 +12,8 @@
 #include "TROOT.h"
 #include "Math/ProbFuncMathCore.h"
 
+#include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
+
 //
 // class decleration
 //
@@ -47,6 +49,8 @@ private:
   // MET trigger threshold
   double threshold_;
 
+  HLTConfigProvider hltConfig_;
+
 };
 
 // Constructor
@@ -81,7 +85,7 @@ void TriggerWeightProducer::produce(edm::Event& iEvent, const edm::EventSetup& i
   // get handle on MET collcetion
   edm::Handle<std::vector<pat::MET> > mets;
   iEvent.getByLabel(inputMETs_, mets);
-  
+
   double weight=1.;
 
   double weight_err;
