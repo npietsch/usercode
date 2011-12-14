@@ -139,14 +139,14 @@ preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
                                   )
 
 ## MC Summer11
-preselectionMuHTMC2 = cms.Sequence(MuHTTriggerMC2 *
+preselectionMuHTMC2 = cms.Sequence(#MuHTTriggerMC2 *
                                    totalKinematicsFilter *
                                    goodVertices *
                                    oneGoodVertex *
                                    scrapingVeto
                                    )
 
-preselectionElHTMC2 = cms.Sequence(ElHTTriggerMC2 *
+preselectionElHTMC2 = cms.Sequence(#ElHTTriggerMC2 *
                                    totalKinematicsFilter *
                                    goodVertices *
                                    oneGoodVertex *
