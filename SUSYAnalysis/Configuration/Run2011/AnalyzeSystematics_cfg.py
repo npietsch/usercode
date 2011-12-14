@@ -288,6 +288,13 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 
 #-----------------------------------------------------------------
+# Load and configure module to scal lepton energy
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.Uncertainties.LeptonEnergy_cfi")
+
+
+#-----------------------------------------------------------------
 # Load and configure module to scale jet energy
 #-----------------------------------------------------------------
 

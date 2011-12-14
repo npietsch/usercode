@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-scaledJetEnergy = cms.EDProducer("JetEnergy",
-    inputMuons              = cms.InputTag("selectedPatMuons'"),
-    inputElectrons          = cms.InputTag("selectedPatElectrons"),                   
+scaledLeptonEnergy = cms.EDProducer("LeptonEnergy",
+    inputMuons              = cms.InputTag("selectedPatMuons"),
+    inputElectrons          = cms.InputTag("selectedPatElectrons"),
     inputMETs               = cms.InputTag("patMETsPF"),
-    scaleType               = cms.string("abs"),                        
-    scaleFactor             = cms.double(1.0),
+    scaleFactorMu           = cms.double(1.0),
+    scaleFactorEl           = cms.double(1.0),
     leptonPTThresholdForMET = cms.double(20.)                                
 )

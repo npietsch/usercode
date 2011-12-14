@@ -1,9 +1,9 @@
-
 from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import *
 
 analyzeSUSY.jets = "goodJets"
 analyzeSUSY.muons = "goodMuons"
 analyzeSUSY.electrons = "goodElectrons"
+analyzeSUSY.useTriggerEventWeight = True
 
 analyzeSUSY1m_1 = analyzeSUSY.clone()
 analyzeSUSY1m_2 = analyzeSUSY.clone()

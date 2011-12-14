@@ -34,39 +34,20 @@ private:
   
   // decalare MET InputTag
   edm::InputTag inputMETs_;
-  
-  // declare input paramters for weighting
-  double sig_;
-  double eps_;
-  double mu_;
-  double sig_err_;
-  double eps_err_;
-  double mu_err_;
-
-  // apply weighting?
-  bool triggerWgt_;
-
-  // MET trigger threshold
-  double threshold_;
-
-  HLTConfigProvider hltConfig_;
-
+  // apply muon trigger weighting?
+  bool MuonTriggerWeight_;
+  // apply muon trigger weighting?
+  bool ElectronTriggerWeight_;
 };
 
 // Constructor
 TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet& iConfig):
-  inputMETs_  (iConfig.getParameter<edm::InputTag> ("inputMETs")),
-  sig_        (iConfig.getParameter<double>        ("sig")),
-  eps_        (iConfig.getParameter<double>        ("eps")),
-  mu_         (iConfig.getParameter<double>        ("mu")),
-  sig_err_    (iConfig.getParameter<double>        ("sig_err")),
-  eps_err_    (iConfig.getParameter<double>        ("eps_err")),
-  mu_err_     (iConfig.getParameter<double>        ("mu_err")),
-  triggerWgt_ (iConfig.getParameter<double>        ("triggerWgt")),
-  threshold_  (iConfig.getParameter<double>        ("threshold"))
+  inputMETs_             (iConfig.getParameter<edm::InputTag> ("inputMETs")),
+  MuonTriggerWeight_     (iConfig.getParameter<bool>          ("MuonTriggerWeight")),
+  ElectronTriggerWeight_ (iConfig.getParameter<bool>          ("ElectronTriggerWeight"))
 {
   // Register your products
-  produces<double> ("TriggerWeight");
+  produces<double>("triggerWeight");
 }
 
 // Destructor
@@ -86,37 +67,71 @@ void TriggerWeightProducer::produce(edm::Event& iEvent, const edm::EventSetup& i
   edm::Handle<std::vector<pat::MET> > mets;
   iEvent.getByLabel(inputMETs_, mets);
 
+  // declare instance of class HLTConfigProvider
+  //HLTConfigProvider hltConfig_;
+
+  // get prescale factor of trigger "triggerName"
+  //double prescale = hltConfig_.prescaleValue(iEvent,iSetup,"triggerName"); 
+
   double weight=1.;
+  double weight_err=0;
 
-  double weight_err;
-  if(triggerWgt_ == true)
+  double met=(*mets)[0].et();
+
+  double sig=1;
+  double mu=1;
+  double eps=1;
+  double sig_err=0;
+  double mu_err=0;
+  double eps_err=0;
+  
+  if(MuonTriggerWeight_ == true)
     {
-      double met=(*mets)[0].et();
-      double sig=sig_;
-      double mu=mu_;
-      double eps=eps_;
-      double sig_err=sig_err_;
-      double mu_err=mu_err_;
-      double eps_err=eps_err_;
-
-      // implement wegthing algorithm here
-      //weight = ...
-      double cdf=eps_*ROOT::Math::gaussian_cdf(met,sig,mu);
-      if(cdf!=0) {
-           weight  = 1./eps/cdf;
-           double dwmu  = (1./eps/ROOT::Math::gaussian_cdf(met,sig,mu*1.00001)-weight)/0.00001/mu;
-           double dwsig = (1./eps/ROOT::Math::gaussian_cdf(met,sig*1.00001,mu)-weight)/0.00001/sig;
-           weight_err = sqrt( pow(dwmu * mu_err,2) + pow(dwsig * sig_err,2) + pow(weight/eps * eps_err,2) );
-      }
-      else {
-           weight_err=0;
-      }
-
+      if(iEvent.run() >= 123456)
+	{
+	  //sig=abc;
+	  //mu==xyz;
+	  //eps=lmn;
+	}
+      if(iEvent.run() >= 234567)
+	{
+	  //sig=...;
+	  //...
+	}
+      //...
+    }
+  
+  else if(ElectronTriggerWeight_ == true)
+    {
+      if(iEvent.run() >= 123456)
+	{
+	  //sig=abc;
+	  //mu==xyz;
+	  //eps=lmn;
+	}
+      if(iEvent.run() >= 234567)
+	{
+	  //sig=...;
+	  //...
+	}
+      //...
     }
 
+  if(MuonTriggerWeight_ == true || ElectronTriggerWeight_ == true)
+    { 
+      double cdf=eps*ROOT::Math::gaussian_cdf(met,sig,mu);
+      if(cdf!=0)
+	{
+	  weight  = 1./eps/cdf;
+	  double dwmu  = (1./eps/ROOT::Math::gaussian_cdf(met,sig,mu*1.00001)-weight)/0.00001/mu;
+	  double dwsig = (1./eps/ROOT::Math::gaussian_cdf(met,sig*1.00001,mu)-weight)/0.00001/sig;
+	  weight_err = sqrt( pow(dwmu * mu_err,2) + pow(dwsig * sig_err,2) + pow(weight/eps * eps_err,2) );
+	}
+    }
+  
   // put triggerwWeight into the Event
   std::auto_ptr<double> outputWeight(new double(weight));
-  iEvent.put(outputWeight, "weight");
+  iEvent.put(outputWeight, "triggerWeight");
 }
 
 

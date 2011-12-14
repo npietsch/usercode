@@ -43,7 +43,9 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag weight_;
   edm::InputTag PUSource_;
   edm::InputTag RA2weight_;
+  edm::InputTag TriggerWeight_;
   bool useEvtWgt_;
+  bool useTriggerEvtWgt_;
 
   // dummy histogram
   TH1F* Dummy_;

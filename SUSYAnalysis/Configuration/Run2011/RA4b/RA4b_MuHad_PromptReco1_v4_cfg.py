@@ -1,5 +1,7 @@
 from BjetsData_cfg import *
 
+process.TriggerWeightProducer.MuonTriggerWeight = True
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
@@ -41,7 +43,7 @@ process.source = cms.Source("PoolSource",
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_132_1_xzy.root',
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_133_1_B2g.root',
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_134_1_2HX.root',
-'/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_135_1_2hV.root',
+'/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_135_x1_2hV.root',
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_136_1_5mn.root',
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_137_1_8oU.root',
 '/store/user/cakir/MuHad/MuHad_PromptReReco_v4/47020f7023c768a0fc8bfde92d01eb80/Summer11_138_1_YPv.root',

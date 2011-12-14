@@ -16,17 +16,19 @@
 using namespace std;
  
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
-  met_          (cfg.getParameter<edm::InputTag>("met")),
-  jets_         (cfg.getParameter<edm::InputTag>("jets")),
-  lightJets_    (cfg.getParameter<edm::InputTag>("lightJets")),
-  bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
-  muons_        (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-  pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
-  weight_       (cfg.getParameter<edm::InputTag>("weight") ),
-  PUSource_     (cfg.getParameter<edm::InputTag>("PUInfo") ),
-  RA2weight_    (cfg.getParameter<edm::InputTag>("RA2weight") ),
-  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") )
+  met_               (cfg.getParameter<edm::InputTag>("met")),
+  jets_              (cfg.getParameter<edm::InputTag>("jets")),
+  lightJets_         (cfg.getParameter<edm::InputTag>("lightJets")),
+  bjets_             (cfg.getParameter<edm::InputTag>("bjets")),
+  muons_             (cfg.getParameter<edm::InputTag>("muons")),
+  electrons_         (cfg.getParameter<edm::InputTag>("electrons")),
+  pvSrc_             (cfg.getParameter<edm::InputTag>("pvSrc") ),
+  weight_            (cfg.getParameter<edm::InputTag>("weight") ),
+  PUSource_          (cfg.getParameter<edm::InputTag>("PUInfo") ),
+  RA2weight_         (cfg.getParameter<edm::InputTag>("RA2weight") ),
+  TriggerWeight_     (cfg.getParameter<edm::InputTag>("TriggerWeight") ),
+  useEvtWgt_         (cfg.getParameter<bool>("useEventWeight") ),
+  useTriggerEvtWgt_  (cfg.getParameter<bool>("useTriggerEventWeight") )
 
 { 
   edm::Service<TFileService> fs;
@@ -307,6 +309,9 @@ SUSYAnalyzer::~SUSYAnalyzer()
 void
 SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
+  // test
+  //if(evt.run() > 123456) std::cout << "Aha" << std::endl;
+
   //--------------------------------------------------
   // Handles
   //-------------------------------------------------
@@ -367,7 +372,14 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nPU_->Fill(nvtx);
     }
 
-  //weight=1;
+  if(useTriggerEvtWgt_)
+    {
+      edm::Handle<double> TriggerWeightHandle;
+      evt.getByLabel(TriggerWeight_, TriggerWeightHandle);
+      weight=weight*(*TriggerWeightHandle);
+
+      std::cout << "Trigger Weight: " << (*TriggerWeightHandle) << std::endl;
+    }
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets
