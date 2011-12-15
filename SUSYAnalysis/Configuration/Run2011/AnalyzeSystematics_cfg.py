@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -287,12 +287,49 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 
-#-----------------------------------------------------------------
-# Load and configure module to scal lepton energy
-#-----------------------------------------------------------------
+#-------------------------------------------------
+# Load and configure module for event weighting
+#-------------------------------------------------
 
-process.load("SUSYAnalysis.Uncertainties.LeptonEnergy_cfi")
+## load and configure module for PU re-weighting
+process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+## load and configure module forprocess.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
 
+## load and configure module for cross-section and luminosity weighting
+process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
+
+#------------------------------------------------------------
+# load and configure modules for b-tag efficiency weighting
+#------------------------------------------------------------
+
+process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
+
+## common default settings (similar for muon and electron channel)
+process.btagEventWeight           = process.btagEventWeight.clone()
+process.btagEventWeight.bTagAlgo  = "TCHEM"
+process.btagEventWeight.filename  = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+
+## muon channel default settings
+process.btagEventWeightMu                    = process.btagEventWeight.clone()
+process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
+
+## create weights for muon selection
+process.btagEventWeightMuJER                 = process.btagEventWeightMu.clone()
+process.btagEventWeightMuJER.jets            = "smearedGoodJets"
+
+process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMuJER.clone()
+process.btagEventWeightMuBtagSFUp.sysVar     = "bTagSFUp"
+
+process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMuJER.clone()
+process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
+
+process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMuJER.clone()
+process.btagEventWeightMuBtagSFUp.sysVar     = "MisTagSFUp"
+
+process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMuJER.clone()
+process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
 
 #-----------------------------------------------------------------
 # Load and configure module to scale jet energy
@@ -308,7 +345,7 @@ process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0
 process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1)
 
 process.scaledJetEnergy.jetPTThresholdForMET = 10. ## proposed on Nov 15 in RA4 meeting
-process.scaledJetEnergy.maxJetEtaForMET = 10.      ## proposed on Nov 15 in RA4 meeting
+process.scaledJetEnergy.maxJetEtaForMET = 4.7      ## proposed on Nov 15 in RA4 meeting
 
 ## create collections of selectedPatJetsAK5PF and patMETsPF with scaled up jet energy corrections
 process.scaledJetEnergyJECUp = process.scaledJetEnergy.clone()
@@ -334,7 +371,7 @@ process.load("SUSYAnalysis.Uncertainties.LeptonEnergy_cfi")
 
 process.scaledLeptonEnergy.inputMuons = "goodMuons"
 process.scaledLeptonEnergy.inputElectrons = "goodElectrons"
-process.scaledLeptonEnergy.inputMETs = "jetEnergyScaled:patMETsPF"
+process.scaledLeptonEnergy.inputMETs = "scaledJetEnergy:patMETsPF"
 
 process.scaledLeptonEnergyUp = process.scaledLeptonEnergy.clone()
 process.scaledLeptonEnergyUp.scaleFactorMu = 1.01     ## proposed on Nov 15 in RA4 meeting
@@ -350,58 +387,19 @@ process.scaledLeptonEnergyDown.scaleFactorEl = 0.975  ## proposed on Nov 15 in R
 
 process.load("SUSYAnalysis.Uncertainties.UnclusteredEnergy_cfi")
 
-process.unclusteredEnergyUp = process.unclusteredEnergy.clone()
-process.unclusteredEnergyUp.scaleFactor = 1.1
-process.unclusteredEnergyUp.inputMETs = "scaledJetEnergy:patMETsPF"
+process.scaledUnclusteredEnergyUp = process.unclusteredEnergy.clone()
+process.scaledUnclusteredEnergyUp.scaleFactor = 1.1
+process.scaledUnclusteredEnergyUp.inputMETs = "scaledJetEnergy:patMETsPF"
 
-process.unclusteredEnergyDown = process.unclusteredEnergy.clone()
-process.unclusteredEnergyDown.scaleFactor = 0.9
-process.unclusteredEnergyDown.inputMETs = "scaledJetEnergy:patMETsPF"
+process.scaledUnclusteredEnergyDown = process.unclusteredEnergy.clone()
+process.scaledUnclusteredEnergyDown.scaleFactor = 0.9
+process.scaledUnclusteredEnergyDown.inputMETs = "scaledJetEnergy:patMETsPF"
 
 #-----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco level
 #-----------------------------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SystematicsAnalyzerMu_cff")
-
-#-------------------------------------------------
-# Load and configure module for event weighting
-#-------------------------------------------------
-
-## load and configure module for PU re-weighting
-process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-## load and configure module forprocess.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
-
-## load and configure module for cross-section and luminosity weighting
-process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
-
-#------------------------------------------------------------
-# load and configure modules for b-tag efficiency weighting
-#------------------------------------------------------------
-
-process.load ("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
-process.load ("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
-process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
-
-## define default settings
-process.btagEventWeight.bTagAlgo= "TCHEM"
-
-## create weights for muon selection
-process.btagEventWeightMu                    = process.btagEventWeight.clone()
-process.btagEventWeightMu.filename           = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
-process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
-
-process.btagEventWeightMuBtagSFUp            = process.btagEventWeightMu.clone()
-process.btagEventWeightMuBtagSFUp.sysVar     = "bTagSFUp"
-
-process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMu.clone()
-process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
-
-process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMu.clone()
-process.btagEventWeightMuBtagSFUp.sysVar     = "MisTagSFUp"
-
-process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMu.clone()
-process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
 
 #-------------------------
 # Muon selection paths
@@ -422,21 +420,24 @@ process.RA4bMuonSelection = cms.Path(## Object Producer sequences
                                      process.MuHadSelection *
                                      process.muonSelection *
                                      process.jetSelection *
-                                     ## Analyzer Sequence
-                                     process.analyzeSystematicsMu0b
+                                     ## Analyzer Sequences
+                                     process.analyzeSystematicsMu0b *
+                                     process.analyzeSystematicsMu1b *
+                                     process.analyzeSystematicsMu2b *
+                                     process.analyzeSystematicsMu3b
                                      )
 
 ## muon selection with smeared jet energy
 process.RA4bMuonSelectionJER = cms.Path(## Object Producer sequences
-                                        process.createGoodLeptons *
                                         process.scaledJetEnergy *
+                                        process.createGoodLeptons *
                                         process.createSmearedGoodJets *
                                         process.createSmearedGoodMETs *
                                         process.makeSUSYGenEvt *
                                         ## Weight producer sequences
                                         process.eventWeightPU *
                                         process.weightProducer *
-                                        process.btagEventWeightMu *
+                                        process.btagEventWeightMuJER *
                                         process.btagEventWeightMuBtagSFUp *
                                         process.btagEventWeightMuBtagSFDown *
                                         process.btagEventWeightMuMistagSFUp *
@@ -453,183 +454,225 @@ process.RA4bMuonSelectionJER = cms.Path(## Object Producer sequences
                                         process.analyzeSystematicsMu0bMistagSFUp *
                                         process.analyzeSystematicsMu0bMistagSFDown *
                                         process.analyzeSystematicsMu0bPUUp *
-                                        process.analyzeSystematicsMu0bPUDown
+                                        process.analyzeSystematicsMu0bPUDown *
+                                        process.analyzeSystematicsMu0bWUp *
+                                        process.analyzeSystematicsMu0bWDown *
+                                        ## Analyzer Sequences for Mu 1 btags
+                                        process.analyzeSystematicsMu1bJER *
+                                        process.analyzeSystematicsMu1bBtagSFUp *
+                                        process.analyzeSystematicsMu1bBtagSFDown *
+                                        process.analyzeSystematicsMu1bMistagSFUp *
+                                        process.analyzeSystematicsMu1bMistagSFDown *
+                                        process.analyzeSystematicsMu1bPUUp *
+                                        process.analyzeSystematicsMu1bPUDown *
+                                        process.analyzeSystematicsMu1bWUp *
+                                        process.analyzeSystematicsMu1bWDown *
+                                        ## Analyzer Sequences for Mu 2 btags
+                                        process.analyzeSystematicsMu2bJER *
+                                        process.analyzeSystematicsMu2bBtagSFUp *
+                                        process.analyzeSystematicsMu2bBtagSFDown *
+                                        process.analyzeSystematicsMu2bMistagSFUp *
+                                        process.analyzeSystematicsMu2bMistagSFDown *
+                                        process.analyzeSystematicsMu2bPUUp *
+                                        process.analyzeSystematicsMu2bPUDown *
+                                        process.analyzeSystematicsMu2bWUp *
+                                        process.analyzeSystematicsMu2bWDown *
+                                        ## Analyzer Sequences for Mu 3 btags
+                                        process.analyzeSystematicsMu3bJER *
+                                        process.analyzeSystematicsMu3bBtagSFUp *
+                                        process.analyzeSystematicsMu3bBtagSFDown *
+                                        process.analyzeSystematicsMu3bMistagSFUp *
+                                        process.analyzeSystematicsMu3bMistagSFDown *
+                                        process.analyzeSystematicsMu3bPUUp *
+                                        process.analyzeSystematicsMu3bPUDown *
+                                        process.analyzeSystematicsMu3bWUp *
+                                        process.analyzeSystematicsMu3bWDown
                                         )
 
-## ##  muon selection with smeared jet energy ans scaled up lepton energy
-## process.RA4bMuonSelectionLepUp = cms.Path(## Object Producer sequences
-##                                           process.createGoodLeptonsUp *
-##                                           process.createGoodJets *
-##                                           process.createGoodMETs *
-##                                           process.makeSUSYGenEvt *
-##                                           ## Weight producer sequences
-##                                           process.eventWeightPU *
-##                                           process.weightProducer *
-##                                           process.btagEventWeightMu *
-##                                           ## Selection sequences
-##                                           process.preselectionMuHTMC2 *
-##                                           process.MuHadSelection *
-##                                           process.muonSelectionUp *
-##                                           process.jetSelectionJER *
-##                                           ## Analyzer Sequence
-##                                           process.analyzeSystematicsMu0b ## *
-##                                           ##                                      process.analyzeSystematicsMu1b *
-##                                           ##                                      process.analyzeSystematicsMu2b *
-##                                           ##                                      process.analyzeSystematicsMu3b
-##                                      )
+##  muon selection with smeared jet energy and scaled up lepton energy
+process.RA4bMuonSelectionLepUp = cms.Path(## Object Producer sequences
+                                          process.scaledJetEnergy *
+                                          process.createGoodLeptonsUp *
+                                          process.createSmearedGoodJets *
+                                          process.scaledLeptonEnergyUp *
+                                          process.createGoodMETsLepUp *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionLepUp *
+                                          process.muonSelectionUp *
+                                          process.jetSelectionJER *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bLepUp *
+                                          process.analyzeSystematicsMu1bLepUp *
+                                          process.analyzeSystematicsMu2bLepUp *
+                                          process.analyzeSystematicsMu3bLepUp
+                                          )
 
-## ##  muon selection with scaled up jet energy corrections
-## process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
-##                                           process.scaledJetEnergy *
-##                                           process.scaledJetEnergyJECUp *
-##                                           process.scaledJetEnergyJECDown *
-##                                           process.scaledJetEnergyJERUp *
-##                                           process.scaledJetEnergyJERDown *
-##                                           process.unclusteredEnergyUp *
-##                                           process.unclusteredEnergyDown *
-##                                           process.createGoodObjects *
-##                                           process.makeSUSYGenEvt *
-##                                           process.eventWeightPU *
-##                                           process.weightProducer *
-##                                           process.btagEventWeightMu *
-##                                           ## Selection sequences
-##                                           process.preselectionMuHTMC2 *
-##                                           process.MuHadSelectionJECUp *
-##                                           process.muonSelection*
-##                                           process.jetSelectionJECUp*
-##                                           ## Analyzer Sequence
-##                                           process.analyzeSystematicsMu0bJECUp *
-##                                           process.analyzeSystematicsMu1bJECUp *
-##                                           process.analyzeSystematicsMu2bJECUp *
-##                                           process.analyzeSystematicsMu3bJECUp
-##                                           )
+##  muon selection with smeared jet energy and scaled down lepton energy
+process.RA4bMuonSelectionLepDown = cms.Path(## Object Producer sequences
+                                            process.scaledJetEnergy *
+                                            process.createGoodLeptonsDown *
+                                            process.createSmearedGoodJets *
+                                            process.scaledLeptonEnergyDown *
+                                            process.createGoodMETsLepDown *
+                                            process.makeSUSYGenEvt *
+                                            ## Weight producer sequences
+                                            process.eventWeightPU *
+                                            process.weightProducer *
+                                            process.btagEventWeightMuJER *
+                                            ## Selection sequences
+                                            process.preselectionMuHTMC2 *
+                                            process.MuHadSelectionLepDown *
+                                            process.muonSelectionDown *
+                                            process.jetSelectionJER *
+                                            ## Analyzer Sequences
+                                            process.analyzeSystematicsMu0bLepDown *
+                                            process.analyzeSystematicsMu1bLepDown *
+                                            process.analyzeSystematicsMu2bLepDown *
+                                            process.analyzeSystematicsMu3bLepDown
+                                            )
 
-## ##  muon selection with scaled down jet energy corrections
-## process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
-##                                             process.scaledJetEnergy *
-##                                             process.scaledJetEnergyJECUp *
-##                                             process.scaledJetEnergyJECDown *
-##                                             process.scaledJetEnergyJERUp *
-##                                             process.scaledJetEnergyJERDown *
-##                                             process.unclusteredEnergyUp *
-##                                             process.unclusteredEnergyDown *
-##                                             process.createGoodObjects *
-##                                             process.makeSUSYGenEvt *
-##                                             process.eventWeightPU *
-##                                             process.weightProducer *
-##                                             process.btagEventWeightMu *
-##                                             ## Selection sequences
-##                                             process.preselectionMuHTMC2 *
-##                                             process.MuHadSelectionJECDown *
-##                                             process.muonSelection*
-##                                             process.jetSelectionJECDown*
-##                                             ## Analyzer Sequence
-##                                             process.analyzeSystematicsMu0bJECDown *
-##                                             process.analyzeSystematicsMu1bJECDown *
-##                                             process.analyzeSystematicsMu2bJECDown *
-##                                             process.analyzeSystematicsMu3bJECDown
-##                                             )
+##  muon selection with smeared jet energy and scaled up unclustered energy
+process.RA4bMuonSelectionMETUp = cms.Path(## Object Producer sequences
+                                          process.scaledJetEnergy *
+                                          process.createGoodLeptons *
+                                          process.createSmearedGoodJets *
+                                          process.scaledUnclusteredEnergyUp *
+                                          process.createGoodMETsMETUp *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionMETUp *
+                                          process.muonSelection *
+                                          process.jetSelectionJER *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bMETUp *
+                                          process.analyzeSystematicsMu1bMETUp *
+                                          process.analyzeSystematicsMu2bMETUp *
+                                          process.analyzeSystematicsMu3bMETUp
+                                          )
 
-## ##  muon selection with scaled up jet energy resolution
-## process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
-##                                           process.scaledJetEnergy *
-##                                           process.scaledJetEnergyJECUp *
-##                                           process.scaledJetEnergyJECDown *
-##                                           process.scaledJetEnergyJERUp *
-##                                           process.scaledJetEnergyJERDown *
-##                                           process.unclusteredEnergyUp *
-##                                           process.unclusteredEnergyDown *
-##                                           process.createGoodObjects *
-##                                           process.makeSUSYGenEvt *
-##                                           process.eventWeightPU *
-##                                           process.weightProducer *
-##                                           process.btagEventWeightMu *
-##                                           ## Selection sequences
-##                                           process.preselectionMuHTMC2 *
-##                                           process.MuHadSelectionJERUp *
-##                                           process.muonSelection*
-##                                           process.jetSelectionJERUp*
-##                                           ## Analyzer Sequence
-##                                           process.analyzeSystematicsMu0bJERUp *
-##                                           process.analyzeSystematicsMu1bJERUp *
-##                                           process.analyzeSystematicsMu2bJERUp *
-##                                           process.analyzeSystematicsMu3bJERUp
-##                                           )
+##  muon selection with smeared jet energy and scaled down unclustered energy
+process.RA4bMuonSelectionMETDown = cms.Path(## Object Producer sequences
+                                          process.scaledJetEnergy *
+                                          process.createGoodLeptons *
+                                          process.createSmearedGoodJets *
+                                          process.scaledUnclusteredEnergyDown *
+                                          process.createGoodMETsMETDown *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionMETDown *
+                                          process.muonSelection *
+                                          process.jetSelectionJER *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bMETDown *
+                                          process.analyzeSystematicsMu1bMETDown *
+                                          process.analyzeSystematicsMu2bMETDown *
+                                          process.analyzeSystematicsMu3bMETDown
+                                          )
 
-## ##  muon selection with scaled down jet energy resolution
-## process.RA4bMuonSelectionJERDown = cms.Path(## Producer sequences
-##                                             process.scaledJetEnergy *
-##                                             process.scaledJetEnergyJECUp *
-##                                             process.scaledJetEnergyJECDown *
-##                                             process.scaledJetEnergyJERUp *
-##                                             process.scaledJetEnergyJERDown *
-##                                             process.unclusteredEnergyUp *
-##                                             process.unclusteredEnergyDown *
-##                                             process.createGoodObjects *
-##                                             process.makeSUSYGenEvt *
-##                                             process.eventWeightPU *
-##                                             process.weightProducer *
-##                                             process.btagEventWeightMu *
-##                                             ## Selection sequences
-##                                             process.preselectionMuHTMC2 *
-##                                             process.MuHadSelectionJERDown *
-##                                             process.muonSelection*
-##                                             process.jetSelectionJERDown*
-##                                             ## Analyzer Sequence
-##                                             process.analyzeSystematicsMu0bJERDown *
-##                                             process.analyzeSystematicsMu1bJERDown *
-##                                             process.analyzeSystematicsMu2bJERDown *
-##                                             process.analyzeSystematicsMu3bJERDown
-##                                             )
+##  muon selection with smeared and scaled up jet energy corrections
+process.RA4bMuonSelectionJECUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJECUp *
+                                          process.createGoodLeptons *
+                                          process.createGoodJetsJECUp *
+                                          process.createGoodMETsJECUp *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJECUp *
+                                          process.muonSelection *
+                                          process.jetSelectionJECUp *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bJECUp *
+                                          process.analyzeSystematicsMu1bJECUp *
+                                          process.analyzeSystematicsMu2bJECUp *
+                                          process.analyzeSystematicsMu3bJECUp
+                                          )
 
-## ##  muon selection with scaled up unclustered jet energy
-## process.RA4bMuonSelectionMETUp = cms.Path(## Producer sequences
-##                                           process.scaledJetEnergy *
-##                                           process.scaledJetEnergyJECUp *
-##                                           process.scaledJetEnergyJECDown *
-##                                           process.scaledJetEnergyJERUp *
-##                                           process.scaledJetEnergyJERDown *
-##                                           process.unclusteredEnergyUp *
-##                                           process.unclusteredEnergyDown *
-##                                           process.createGoodObjects *
-##                                           process.makeSUSYGenEvt *
-##                                           process.eventWeightPU *
-##                                           process.weightProducer *
-##                                           process.btagEventWeightMu *
-##                                           ## Selection sequences
-##                                           process.preselectionMuHTMC2 *
-##                                           process.MuHadSelectionMETUp *
-##                                           process.muonSelection*
-##                                           process.jetSelectionJER*
-##                                           ## Analyzer Sequence
-##                                           process.analyzeSystematicsMu0bMETUp *
-##                                           process.analyzeSystematicsMu1bMETUp *
-##                                           process.analyzeSystematicsMu2bMETUp *
-##                                           process.analyzeSystematicsMu3bMETUp
-##                                           )
+##  muon selection with smeared and scaled down jet energy corrections
+process.RA4bMuonSelectionJECDown = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJECDown *
+                                          process.createGoodLeptons *
+                                          process.createGoodJetsJECDown *
+                                          process.createGoodMETsJECDown *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJECDown *
+                                          process.muonSelection *
+                                          process.jetSelectionJECDown *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bJECDown *
+                                          process.analyzeSystematicsMu1bJECDown *
+                                          process.analyzeSystematicsMu2bJECDown *
+                                          process.analyzeSystematicsMu3bJECDown
+                                          )
 
-## ##  muon selection with scaled up unclustered jet energy
-## process.RA4bMuonSelectionMETDown = cms.Path(## Producer sequences
-##                                           process.scaledJetEnergy *
-##                                           process.scaledJetEnergyJECUp *
-##                                           process.scaledJetEnergyJECDown *
-##                                           process.scaledJetEnergyJERUp *
-##                                           process.scaledJetEnergyJERDown *
-##                                           process.unclusteredEnergyUp *
-##                                           process.unclusteredEnergyDown *
-##                                           process.createGoodObjects *
-##                                           process.makeSUSYGenEvt *
-##                                           process.eventWeightPU *
-##                                           process.weightProducer *
-##                                           process.btagEventWeightMu *
-##                                           ## Selection sequences
-##                                           process.preselectionMuHTMC2 *
-##                                           process.MuHadSelectionMETDown *
-##                                           process.muonSelection*
-##                                           process.jetSelectionJER*
-##                                           ## Analyzer Sequence
-##                                           process.analyzeSystematicsMu0bMETDown *
-##                                           process.analyzeSystematicsMu1bMETDown *
-##                                           process.analyzeSystematicsMu2bMETDown *
-##                                           process.analyzeSystematicsMu3bMETDown
-##                                           )
+##  muon selection with smeared and scaled up jet energy resolution
+process.RA4bMuonSelectionJERUp = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJERUp *
+                                          process.createGoodLeptons *
+                                          process.createGoodJetsJERUp *
+                                          process.createGoodMETsJERUp *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJERUp *
+                                          process.muonSelection *
+                                          process.jetSelectionJERUp *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bJERUp *
+                                          process.analyzeSystematicsMu1bJERUp *
+                                          process.analyzeSystematicsMu2bJERUp *
+                                          process.analyzeSystematicsMu3bJERUp
+                                          )
+
+##  muon selection with smeared and scaled down jet energy resolution
+process.RA4bMuonSelectionJERDown = cms.Path(## Producer sequences
+                                          process.scaledJetEnergyJERDown *
+                                          process.createGoodLeptons *
+                                          process.createGoodJetsJERDown *
+                                          process.createGoodMETsJERDown *
+                                          process.makeSUSYGenEvt *
+                                          ## Weight producer sequences
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.btagEventWeightMuJER *
+                                          ## Selection sequences
+                                          process.preselectionMuHTMC2 *
+                                          process.MuHadSelectionJERDown *
+                                          process.muonSelection *
+                                          process.jetSelectionJERDown *
+                                          ## Analyzer Sequences
+                                          process.analyzeSystematicsMu0bJERDown *
+                                          process.analyzeSystematicsMu1bJERDown *
+                                          process.analyzeSystematicsMu2bJERDown *
+                                          process.analyzeSystematicsMu3bJERDown 
+                                          )

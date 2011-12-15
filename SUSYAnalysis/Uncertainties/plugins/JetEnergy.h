@@ -4,6 +4,10 @@
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "TH1.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+
 /**
    \class   JetEnergy JetEnergy.h "TopAnalysis/TopUtils/plugins/JetEnergy.h"
 
@@ -91,6 +95,10 @@ class JetEnergy : public edm::EDProducer {
   double jetEMLimitForMET_;
   /// allowed scaleTypes
   std::vector<std::string> allowedTypes_;
+
+  // histograms
+  TH1F *JetPt_;
+  TH1F *SmearedJetPt_;
 };
 
 #endif

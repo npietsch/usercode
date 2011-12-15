@@ -9,9 +9,10 @@
 
 LeptonEnergy::LeptonEnergy(const edm::ParameterSet& cfg):
   inputMuons_              (cfg.getParameter<edm::InputTag>("inputMuons"             )),
-  inputElectrons_          (cfg.getParameter<edm::InputTag>("inputElectrons"         )),  
-  scaleFactorMu_           (cfg.getParameter<double>       ("scaleFactor"            )),
-  scaleFactorEl_           (cfg.getParameter<double>       ("scaleFactor"            )),
+  inputElectrons_          (cfg.getParameter<edm::InputTag>("inputElectrons"         )),
+  inputMETs_               (cfg.getParameter<edm::InputTag>("inputMETs"              )),
+  scaleFactorMu_           (cfg.getParameter<double>       ("scaleFactorMu"          )),
+  scaleFactorEl_           (cfg.getParameter<double>       ("scaleFactorEl"          )),
   leptonPTThresholdForMET_ (cfg.getParameter<double>       ("leptonPTThresholdForMET"))
 
 {

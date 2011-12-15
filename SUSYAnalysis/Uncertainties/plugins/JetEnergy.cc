@@ -26,6 +26,11 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   maxJetEtaForMET_     (cfg.getParameter<double>       ("maxJetEtaForMET")),
   jetEMLimitForMET_    (cfg.getParameter<double>       ("jetEMLimitForMET"    ))
 {
+  edm::Service<TFileService> fs;
+    
+  JetPt_= fs->make<TH1F>("JetPt","JetPt", 45, 10., 100.);
+  SmearedJetPt_= fs->make<TH1F>("SmearedJetPt","SmearedJetPt", 45, 10., 100.);
+  
   // define allowed types
   allowedTypes_.push_back(std::string("abs"));
   allowedTypes_.push_back(std::string("rel"));
@@ -72,83 +77,82 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   std::auto_ptr<std::vector<pat::Jet> > pJets(new std::vector<pat::Jet>);
   std::auto_ptr<std::vector<pat::MET> > pMETs(new std::vector<pat::MET>);
 
-  // loop ans rescale jets
-  double dPx = 0., dPy = 0., dSumEt = 0.;
-  for(std::vector<pat::Jet>::const_iterator jet=jets->begin(); jet!=jets->end(); ++jet){
-    pat::Jet scaledJet = *jet;
-    
-    if(scaleType_=="abs"){
-      //scaledJet.scaleEnergy( scaleFactor_ );
-      scaleJetEnergy( scaledJet, scaleFactor_ );
-      if (abs(scaledJet.partonFlavour()) == 5) {
-        //scaledJet.scaleEnergy( scaleFactorB_ );
-	scaleJetEnergy( scaledJet, scaleFactorB_ );
-      }
-      //scaledJet.scaleEnergy( resolutionFactor(scaledJet) );
-      scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+  double dPx = 0.;
+  double dPy = 0.;
+  double dSumEt = 0.;
+
+  // loop and rescale jets
+  for(std::vector<pat::Jet>::const_iterator jet=jets->begin(); jet!=jets->end(); ++jet)
+    {
+      pat::Jet scaledJet = *jet;
+      
+      if(scaleType_=="abs")
+	{
+	  if (abs(scaledJet.partonFlavour()) == 5) scaleJetEnergy(scaledJet,scaleFactorB_);
+	  else scaleJetEnergy(scaledJet,scaleFactor_);
+
+	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	}
+
+      if(scaleType_=="rel")
+	{
+	  scaleJetEnergy( scaledJet, 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )) );
+	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	}   
+      
+      if(scaleType_.substr(0, scaleType_.find(':'))=="jes" || 
+	 scaleType_.substr(0, scaleType_.find(':'))=="top" )
+	{
+	  edm::ESHandle<JetCorrectorParametersCollection> jetCorrParameters;
+	  setup.get<JetCorrectionsRecord>().get(payload_, jetCorrParameters);
+	  JetCorrectorParameters const & param = (*jetCorrParameters)["Uncertainty"];
+	  JetCorrectionUncertainty* deltaJEC = new JetCorrectionUncertainty(param);
+	  deltaJEC->setJetEta(jet->eta()); deltaJEC->setJetPt(jet->pt()); 
+	  
+	  // additional JES uncertainty from Top group
+	  // sum of squared shifts of jet energy to be applied
+	  float topShift2 = 0.;
+	  if(scaleType_.substr(0, scaleType_.find(':'))=="top")
+	    {
+	      float pileUp = 0.352/jet->pt()/jet->pt();
+	      float bjet = 0.;
+	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
+		{
+		  bjet = ((50<jet->pt() && jet->pt()<200) && fabs(jet->eta())<2.0) ? 0.02 : 0.03;
+		}
+	      float sw = (1.-scaleFactor_);
+	      topShift2 += pileUp*pileUp + bjet*bjet + sw*sw;
+	    }
+	  
+	  // scale jet energy
+	  if(scaleType_.substr(scaleType_.find(':')+1)=="up")
+	    {
+	      float jetMet = deltaJEC->getUncertainty(true);
+	      scaleJetEnergy( scaledJet, 1+std::sqrt(jetMet*jetMet + topShift2) );
+	    }
+	  else if(scaleType_.substr(scaleType_.find(':')+1)=="down")
+	    {
+	      float jetMet = deltaJEC->getUncertainty(false);
+	      scaleJetEnergy( scaledJet, 1-std::sqrt(jetMet*jetMet + topShift2) );
+	    }
+	  
+	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	  delete deltaJEC; 
+	}
+      
+      pJets->push_back( scaledJet );
+      
+      // consider jet scale shift only if the raw jet pt is above the thresholds given in the module definition
+      if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->eta() < maxJetEtaForMET_ )
+	{
+	  JetPt_->Fill(jet->pt());
+	  SmearedJetPt_->Fill(scaledJet.pt());
+	  
+	  dPx    += scaledJet.px() - jet->px();
+	  dPy    += scaledJet.py() - jet->py();
+	  dSumEt += scaledJet.et() - jet->et();
+	}
     }
-    if(scaleType_=="rel"){
-      //scaledJet.scaleEnergy( 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )));    
-      scaleJetEnergy( scaledJet, 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )) );
-      //scaledJet.scaleEnergy( resolutionFactor(scaledJet) );
-      scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
-    }    
-    if(scaleType_.substr(0, scaleType_.find(':'))=="jes" || 
-       scaleType_.substr(0, scaleType_.find(':'))=="top" ){
-      // handle to the jet corrector parameters collection
-      edm::ESHandle<JetCorrectorParametersCollection> jetCorrParameters;
-      // get the jet corrector parameters collection from the global tag
-      setup.get<JetCorrectionsRecord>().get(payload_, jetCorrParameters);
-      // get the uncertainty parameters from the collection
-      JetCorrectorParameters const & param = (*jetCorrParameters)["Uncertainty"];
-      // instantiate the jec uncertainty object
-      JetCorrectionUncertainty* deltaJEC = new JetCorrectionUncertainty(param);
-      deltaJEC->setJetEta(jet->eta()); deltaJEC->setJetPt(jet->pt()); 
-
-      // additional JES uncertainty from Top group
-      // sum of squared shifts of jet energy to be applied
-      float topShift2 = 0.;
-      if(scaleType_.substr(0, scaleType_.find(':'))=="top"){
-	// add the recommended PU correction on top  
-	float pileUp = 0.352/jet->pt()/jet->pt();
-	// add bjet uncertainty on top
-	float bjet = 0.;
-	if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
-	  bjet = ((50<jet->pt() && jet->pt()<200) && fabs(jet->eta())<2.0) ? 0.02 : 0.03;
-	// add flat uncertainty for release differences and calibration changes (configurable)
-	float sw = (1.-scaleFactor_);
-	// add top systematics to JES uncertainty
-	topShift2 += pileUp*pileUp + bjet*bjet + sw*sw;
-      }
-
-      // scale jet energy
-      if(scaleType_.substr(scaleType_.find(':')+1)=="up"){
-	// JetMET JES uncertainty
-	float jetMet = deltaJEC->getUncertainty(true);
-	//scaledJet.scaleEnergy( 1+std::sqrt(jetMet*jetMet + topShift2) );
-	scaleJetEnergy( scaledJet, 1+std::sqrt(jetMet*jetMet + topShift2) );
-      }
-      else if(scaleType_.substr(scaleType_.find(':')+1)=="down"){
-	// JetMET JES uncertainty
-	float jetMet = deltaJEC->getUncertainty(false);
-	//scaledJet.scaleEnergy( 1-std::sqrt(jetMet*jetMet + topShift2) );
-	scaleJetEnergy( scaledJet, 1-std::sqrt(jetMet*jetMet + topShift2) );
-      }
-
-      //scaledJet.scaleEnergy( resolutionFactor(scaledJet) );
-      scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
-      delete deltaJEC;
-    }
-    pJets->push_back( scaledJet );
-    
-    // consider jet scale shift only if the raw jet pt is above the thresholds given in the module definition
-    if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->eta() < maxJetEtaForMET_ )
-      {
-	dPx    += scaledJet.px() - jet->px();
-	dPy    += scaledJet.py() - jet->py();
-	dSumEt += scaledJet.et() - jet->et();
-      }
-  }
   
   // scale MET accordingly
   pat::MET met = *(mets->begin());
@@ -165,35 +169,41 @@ JetEnergy::resolutionFactor(const pat::Jet& jet)
 {
   if(!jet.genJet()) { return 1.; }
   // check if vectors are filled properly
-  if((2*resolutionFactor_.size())!=resolutionRanges_.size()){
-    // eta range==infinity
-    if(resolutionFactor_.size()==resolutionRanges_.size()&&resolutionRanges_.size()==1&&resolutionRanges_[0]==-1.){
-      resolutionRanges_[0]=0;
-      resolutionRanges_.push_back(-1.);
+  if((2*resolutionFactor_.size())!=resolutionRanges_.size())
+    {
+      // eta range==infinity
+      if(resolutionFactor_.size()==resolutionRanges_.size()&&resolutionRanges_.size()==1&&resolutionRanges_[0]==-1.)
+	{
+	  resolutionRanges_[0]=0;
+	  resolutionRanges_.push_back(-1.);
+	}
+      // others
+      else
+	{
+	  edm::LogError msg("JetEnergyResolution");
+	  msg << "\n resolutionEtaRanges or resolutionFactors in module JetEnergy not filled properly.\n";
+	  msg << "\n resolutionEtaRanges needs a min and max value for each entry in resolutionFactors.\n";
+	  throw cms::Exception("invalidVectorFilling");
+	}
     }
-    // others
-    else{
-      edm::LogError msg("JetEnergyResolution");
-      msg << "\n resolutionEtaRanges or resolutionFactors in module JetEnergy not filled properly.\n";
-      msg << "\n resolutionEtaRanges needs a min and max value for each entry in resolutionFactors.\n";
-      throw cms::Exception("invalidVectorFilling");
-    }
-  }
   // calculate eta dependend JER factor
   double modifiedResolution = 1.;
-  for(unsigned int numberOfJERvariation=0; numberOfJERvariation<resolutionFactor_.size(); ++numberOfJERvariation){
-    int etaMin = 2*numberOfJERvariation;
-    int etaMax = etaMin+1;
-    if(std::abs(jet.eta())>=resolutionRanges_[etaMin]&&(std::abs(jet.eta())<resolutionRanges_[etaMax]||resolutionRanges_[etaMax]==-1.)){
-      modifiedResolution*=resolutionFactor_[numberOfJERvariation];
-      // take care of negative scale factors 
-      if(resolutionFactor_[numberOfJERvariation]<0){
-	edm::LogError msg("JetEnergyResolution");
-	msg << "\n chosen scale factor " << resolutionFactor_[numberOfJERvariation] << " is not valid, must be positive.\n";
-	throw cms::Exception("negJERscaleFactors");
-      }
+  for(unsigned int numberOfJERvariation=0; numberOfJERvariation<resolutionFactor_.size(); ++numberOfJERvariation)
+    {
+      int etaMin = 2*numberOfJERvariation;
+      int etaMax = etaMin+1;
+      if(std::abs(jet.eta())>=resolutionRanges_[etaMin]&&(std::abs(jet.eta())<resolutionRanges_[etaMax]||resolutionRanges_[etaMax]==-1.))
+	{
+	  modifiedResolution*=resolutionFactor_[numberOfJERvariation];
+	  // take care of negative scale factors 
+	  if(resolutionFactor_[numberOfJERvariation]<0)
+	    {
+	      edm::LogError msg("JetEnergyResolution");
+	      msg << "\n chosen scale factor " << resolutionFactor_[numberOfJERvariation] << " is not valid, must be positive.\n";
+	      throw cms::Exception("negJERscaleFactors");
+	    }
+	}
     }
-  }
   // calculate pt smearing factor
   double factor = 1. + (modifiedResolution-1.)*(jet.pt() - jet.genJet()->pt())/jet.pt();
   return (factor<0 ? 0. : factor);

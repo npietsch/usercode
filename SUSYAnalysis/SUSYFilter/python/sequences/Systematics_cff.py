@@ -190,7 +190,7 @@ trackMuonsUp = selectedPatMuons.clone(src = "selectedPatMuons",
                                       cut =
                                       'isGood("GlobalMuonPromptTight") &'
                                       'isGood("AllTrackerMuons") &'
-                                      'pt >= 20.2 &'
+                                      'pt >= 19.8 &'
                                       'abs(eta) <= 2.1 &'
                                       '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                       'abs(dB) < 0.02 &'
@@ -207,7 +207,7 @@ trackMuonsDown = selectedPatMuons.clone(src = "selectedPatMuons",
                                       cut =
                                       'isGood("GlobalMuonPromptTight") &'
                                       'isGood("AllTrackerMuons") &'
-                                      'pt >= 19.8 &'
+                                       'pt >= 20.2 &'
                                       'abs(eta) <= 2.1 &'
                                       '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                       'abs(dB) < 0.02 &'
@@ -224,11 +224,8 @@ goodMuonsDown = vertexSelectedMuons.clone(src = "trackMuonsDown"
 ## create collection of good electrons with scaled up and down energy
 isolatedElectronsUp = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                  cut =
-                                                 'pt >= 20.5 &'
-                                                 'abs(eta) <= 2.5 &'
-                                                 'electronID(\"simpleEleId80relIso\")=7 &'
-                                                 '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
-                                                 'abs(dB) < 0.02 '
+                                                 '(pt >= 19.8 & abs(eta) <= 1.4 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02) |'
+                                                  '(pt >= 19.5 & abs(eta) > 1.4 & abs(eta) <=2.5 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02)'
                                                  )
 
 goodElectronsUp = vertexSelectedElectrons.clone(src = "isolatedElectronsUp"
@@ -236,12 +233,9 @@ goodElectronsUp = vertexSelectedElectrons.clone(src = "isolatedElectronsUp"
 
 isolatedElectronsDown = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                    cut =
-                                                   'pt >= 19.5 &'
-                                                   'abs(eta) <= 2.5 &'
-                                                   'electronID(\"simpleEleId80relIso\")=7 &'
-                                                   '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
-                                                   'abs(dB) < 0.02 '
-                                                   )
+                                                 '(pt >= 20.2 & abs(eta) <= 1.4 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02) |'
+                                                 '(pt >= 20.5 & abs(eta) > 1.4 & abs(eta) <=2.5 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02)'
+                                                 )
 
 goodElectronsDown = vertexSelectedElectrons.clone(src = "isolatedElectronsDown"
                                                 )
@@ -312,6 +306,25 @@ mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
                                                      cut = 'bDiscriminator(\"simpleSecondaryVertexHighEffBJetTags\") > 1.74 '
                                                      )
 
+#--------------------------------------------------------------------------------------------
+# collections of good  METs with lep energy scaled up and down
+#--------------------------------------------------------------------------------------------
+
+## create collection of good METs with scaled up lepton energy corrections
+goodMETsMuUp = goodMETs.clone()
+goodMETsMuUp.src = "scaledLeptonEnergyUp:scaledMETsMu"
+
+## create collection of good METs with scaled down lepton energy corrections
+goodMETsMuDown = goodMETs.clone()
+goodMETsMuDown.src = "scaledLeptonEnergyDown:scaledMETsMu"
+
+## create collection of good METs with scaled up lepton energy corrections
+goodMETsElUp = goodMETs.clone()
+goodMETsElUp.src = "scaledLeptonEnergyUp:scaledMETsEl"
+
+## create collection of good METs with scaled down lepton energy corrections
+goodMETsElDown = goodMETs.clone()
+goodMETsElDown.src = "scaledLeptonEnergyDown:scaledMETsEl"
 
 #--------------------------------------------------------------------------------------------
 # collections of good  METs with jet energy scaled up and down
@@ -340,11 +353,11 @@ goodMETsJERDown.src = "scaledJetEnergyJERDown:patMETsPF"
 
 ## create collection of good METs with scaled up unclustered energy
 goodMETsMETUp = goodMETs.clone()
-goodMETsMETUp.src = "unclusteredEnergyUp:scaledMET"
+goodMETsMETUp.src = "scaledUnclusteredEnergyUp:scaledMETs"
 
 ## create collection of good METs with scaled down unclustered energy
 goodMETsMETDown = goodMETs.clone()
-goodMETsMETDown.src = "unclusteredEnergyDown:scaledMET"
+goodMETsMETDown.src = "scaledUnclusteredEnergyDown:scaledMETs"
 
 
 
@@ -442,8 +455,8 @@ fourGoodJets = countPatJets.clone(src = 'goodJets',
 
 ## select events with 4 good jets with smeared jet energy
 fourSmearedGoodJets = countPatJets.clone(src = 'smearedGoodJets',
-                                     minNumber = 4
-                                     )
+                                         minNumber = 4
+                                         )
 #------------------------------
 # met countFilter
 #------------------------------
@@ -559,6 +572,30 @@ fourGoodJetsJERUp = countPatJets.clone(src = 'goodJetsJERUp',
 fourGoodJetsJERDown = countPatJets.clone(src = 'goodJetsJERDown',
                                          minNumber = 4
                                          )
+
+#----------------------------------------------------------------------------
+# filter on number of good METs with lepton energy scaled up and down
+#----------------------------------------------------------------------------
+
+## select events with 1 good MET with scaled up lepton energy
+oneGoodMETMuUp = countPatMET.clone(src = 'goodMETsMuUp',
+                                    minNumber = 1
+                                    )
+
+## select events with 1 good MET with scaled down lepton energy
+oneGoodMETMuDown = countPatMET.clone(src = 'goodMETsMuDown',
+                                      minNumber = 1
+                                      )
+
+## select events with 1 good MET with scaled up lepton energy
+oneGoodMETElUp = countPatMET.clone(src = 'goodMETsElUp',
+                                    minNumber = 1
+                                    )
+
+## select events with 1 good MET with scaled down lepton energy
+oneGoodMETElDown = countPatMET.clone(src = 'goodMETsElDown',
+                                      minNumber = 1
+                                      )
 
 #----------------------------------------------------------------------------
 # filter on number of good METs with jet energy scaled up and down
@@ -698,6 +735,17 @@ createGoodMETsJERUp = cms.Sequence(goodMETsJERUp)
 
 createGoodMETsJERDown = cms.Sequence(goodMETsJERDown)
 
+createGoodMETsMETUp = cms.Sequence(goodMETsMETUp)
+
+createGoodMETsMETDown = cms.Sequence(goodMETsMETDown)
+
+createGoodMETsLepUp = cms.Sequence(goodMETsMuUp *
+                                   goodMETsElUp
+                                   )
+
+createGoodMETsLepDown = cms.Sequence(goodMETsMuDown *
+                                     goodMETsElDown
+                                     )
 
 ##======================================================================
 ##======================== DEFINE EVENT FILTER =========================
@@ -716,9 +764,9 @@ oneGoodHT.jets = "goodJets"
 oneGoodHT.Cut = 350
 
 ## select events with one good HT with smeared jet energy
-oneGoodSmearedHT = filterHT.clone()
-oneGoodSmearedHT.jets = "smearedGoodJets"
-oneGoodSmearedHT.Cut = 350
+oneSmearedGoodHT = filterHT.clone()
+oneSmearedGoodHT.jets = "smearedGoodJets"
+oneSmearedGoodHT.Cut = 350
 
 ## select events with one good HT with scaled up jet energy corrections
 oneGoodHTJECUp = filterHT.clone()
@@ -752,7 +800,7 @@ MuHadSelection = cms.Sequence(oneGoodHT *
                               oneLooseMuon
                               )
 
-MuHadSelectionJER = cms.Sequence(oneGoodSmearedHT *
+MuHadSelectionJER = cms.Sequence(oneSmearedGoodHT *
                                  oneSmearedGoodMET *
                                  oneLooseMuon
                                  )
@@ -777,55 +825,24 @@ MuHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
                                      oneLooseMuon
                                      )
 
-MuHadSelectionMETUp = cms.Sequence(oneGoodSmearedHT *
+MuHadSelectionLepUp = cms.Sequence(oneSmearedGoodHT *
+                                   oneGoodMETMuUp *
+                                   oneLooseMuon
+                                   )
+
+MuHadSelectionLepDown = cms.Sequence(oneSmearedGoodHT *
+                                     oneGoodMETMuDown *
+                                     oneLooseMuon
+                                     )
+
+MuHadSelectionMETUp = cms.Sequence(oneSmearedGoodHT *
                                    oneGoodMETMETUp *
                                    oneLooseMuon
                                    )
 
-MuHadSelectionMETDown = cms.Sequence(oneGoodSmearedHT *
+MuHadSelectionMETDown = cms.Sequence(oneSmearedGoodHT *
                                      oneGoodMETMETDown *
                                      oneLooseMuon
-                                     )
-
-## sequences to match different triggers for electron selections
-ElHadSelection = cms.Sequence(oneGoodHT *
-                              oneGoodMET *
-                              oneLooseElectron
-                              )
-
-ElHadSelectionsJER = cms.Sequence(oneGoodSmearedHT *
-                                  oneSmearedGoodMET *
-                                  oneLooseElectron
-                                  )
-
-ElHadSelectionJECUp = cms.Sequence(oneGoodHTJECUp *
-                                   oneGoodMETJECUp *
-                                   oneLooseElectron
-                                   )
-
-ElHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
-                                     oneGoodMETJECDown *
-                                     oneLooseElectron
-                                     )
-
-ElHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
-                                   oneGoodMETJERUp *
-                                   oneLooseElectron
-                                   )
-
-ElHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
-                                     oneGoodMETJERDown *
-                                     oneLooseElectron
-                                     )
-
-ElHadSelectionMETUp = cms.Sequence(oneGoodSmearedHT *
-                                   oneGoodMETMETUp *
-                                   oneLooseElectron
-                                   )
-
-ElHadSelectionMETDown = cms.Sequence(oneGoodSmearedHT *
-                                     oneGoodMETMETDown *
-                                     oneLooseElectron
                                      )
 
 ## muon selection sequences
