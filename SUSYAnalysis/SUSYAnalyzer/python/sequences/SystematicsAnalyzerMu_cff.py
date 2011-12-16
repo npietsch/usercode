@@ -25,7 +25,6 @@ analyzeSystematicsMu0bJER.bjets            = "smearedMediumTrackHighEffBjets"
 analyzeSystematicsMu0bJER.met              = "scaledJetEnergy:patMETsPF"
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu0bJER            = analyzeSystematicsMu0bJER.clone()
 analyzeSystematicsMu0bJECUp          = analyzeSystematicsMu0bJER.clone()
 analyzeSystematicsMu0bJECDown        = analyzeSystematicsMu0bJER.clone()
 analyzeSystematicsMu0bJERUp          = analyzeSystematicsMu0bJER.clone()
@@ -119,7 +118,6 @@ analyzeSystematicsMu1bJER.bjets            = "smearedMediumTrackHighEffBjets"
 analyzeSystematicsMu1bJER.met              = "scaledJetEnergy:patMETsPF"
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu1bJER            = analyzeSystematicsMu1bJER.clone()
 analyzeSystematicsMu1bJECUp          = analyzeSystematicsMu1bJER.clone()
 analyzeSystematicsMu1bJECDown        = analyzeSystematicsMu1bJER.clone()
 analyzeSystematicsMu1bJERUp          = analyzeSystematicsMu1bJER.clone()
@@ -214,7 +212,6 @@ analyzeSystematicsMu2bJER.bjets            = "smearedMediumTrackHighEffBjets"
 analyzeSystematicsMu2bJER.met              = "scaledJetEnergy:patMETsPF"
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu2bJER            = analyzeSystematicsMu2bJER.clone()
 analyzeSystematicsMu2bJECUp          = analyzeSystematicsMu2bJER.clone()
 analyzeSystematicsMu2bJECDown        = analyzeSystematicsMu2bJER.clone()
 analyzeSystematicsMu2bJERUp          = analyzeSystematicsMu2bJER.clone()
@@ -308,7 +305,6 @@ analyzeSystematicsMu3bJER.bjets            = "smearedMediumTrackHighEffBjets"
 analyzeSystematicsMu3bJER.met              = "scaledJetEnergy:patMETsPF"
 
 ## clones to study jet energy scale uncertainties
-analyzeSystematicsMu3bJER            = analyzeSystematicsMu3bJER.clone()
 analyzeSystematicsMu3bJECUp          = analyzeSystematicsMu3bJER.clone()
 analyzeSystematicsMu3bJECDown        = analyzeSystematicsMu3bJER.clone()
 analyzeSystematicsMu3bJERUp          = analyzeSystematicsMu3bJER.clone()

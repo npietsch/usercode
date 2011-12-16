@@ -845,6 +845,57 @@ MuHadSelectionMETDown = cms.Sequence(oneSmearedGoodHT *
                                      oneLooseMuon
                                      )
 
+## sequences to match different triggers for electron selections
+ElHadSelection = cms.Sequence(oneGoodHT *
+                              oneGoodMET *
+                              oneLooseElectron
+                              )
+
+ElHadSelectionJER = cms.Sequence(oneSmearedGoodHT *
+                                 oneSmearedGoodMET *
+                                 oneLooseElectron
+                                 )
+
+ElHadSelectionJECUp = cms.Sequence(oneGoodHTJECUp *
+                                   oneGoodMETJECUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionJECDown = cms.Sequence(oneGoodHTJECDown *
+                                     oneGoodMETJECDown *
+                                     oneLooseElectron
+                                     )
+
+ElHadSelectionJERUp = cms.Sequence(oneGoodHTJERUp *
+                                   oneGoodMETJERUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionJERDown = cms.Sequence(oneGoodHTJERDown *
+                                     oneGoodMETJERDown *
+                                     oneLooseElectron
+                                     )
+
+ElHadSelectionLepUp = cms.Sequence(oneSmearedGoodHT *
+                                   oneGoodMETElUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionLepDown = cms.Sequence(oneSmearedGoodHT *
+                                     oneGoodMETElDown *
+                                     oneLooseElectron
+                                     )
+
+ElHadSelectionMETUp = cms.Sequence(oneSmearedGoodHT *
+                                   oneGoodMETMETUp *
+                                   oneLooseElectron
+                                   )
+
+ElHadSelectionMETDown = cms.Sequence(oneSmearedGoodHT *
+                                     oneGoodMETMETDown *
+                                     oneLooseElectron
+                                     )
+
 ## muon selection sequences
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 muonSelection = cms.Sequence(oneGoodMuon *
@@ -905,6 +956,3 @@ jetSelectionJECDown = cms.Sequence(fourGoodJetsJECDown)
 jetSelectionJERUp = cms.Sequence(fourGoodJetsJERUp)
 
 jetSelectionJERDown = cms.Sequence(fourGoodJetsJERDown)
-
-
-

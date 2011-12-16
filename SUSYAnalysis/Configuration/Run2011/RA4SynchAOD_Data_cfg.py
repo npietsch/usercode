@@ -138,10 +138,10 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 ## process.RA4ThreeGoodJets = analyzeRA4.clone()
 ## process.RA4FourGoodJets = analyzeRA4.clone()
 
-## process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
-## process.Out.jets = "goodJets"
-## process.Out.muons = "goodMuons"
-## process.Out.electrons ="goodElectrons"
+process.load("SUSYAnalysis.SUSYAnalyzer.Out_cfi")
+process.Out.jets = "goodJets"
+process.Out.muons = "goodMuons"
+process.Out.electrons ="goodElectrons"
 
 #------------------
 # Selection paths
@@ -161,8 +161,8 @@ process.MuonSelection = cms.Path(process.susyPatDefaultSequence *
                                  #process.RA4FourGoodJets *
                                  process.muonSelection *
                                  process.HTSelection *
-                                 process.oneMediumMET #*
-                                 #process.Out
+                                 process.oneMediumMET *
+                                 process.Out
                                  )
 
 
@@ -180,6 +180,6 @@ process.ElectronSelection = cms.Path(process.susyPatDefaultSequence *
                                      #process.RA4FourGoodJets *
                                      process.electronSelection *
                                      process.HTSelection *
-                                     process.oneMediumMET #*
-                                     #process.Out
+                                     process.oneMediumMET *
+                                     process.Out
                                      )

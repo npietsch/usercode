@@ -173,9 +173,24 @@ Out::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   nLeptons_->Fill(nMuons+nElectrons, weight);
 
-  std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
-  std::cout << "OUT MODULE. Pt Jets, Muon, MET: " << (*jets)[0].pt() << " " << (*jets)[1].pt() << " " << (*jets)[2].pt() << " " << (*jets)[3].pt() << " " << (*muons)[0].pt() << " " << (*met)[0].et() << std::endl;
-  std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+  int run   = evt.id().run();
+  int lumi  = evt.id().luminosityBlock();
+  int event = evt.id().event();
+
+  if(muons->size()>0)
+    {
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+      std::cout << "OUT MODULE: event lumi block, run, Pt Jets, Muon, MET: " <<  event << ":"<< lumi << ":" << run << ":" <<(*jets)[0].pt() << ":" << (*jets)[1].pt() << ":" << (*jets)[2].pt() << ":" << (*jets)[3].pt() << ":" << (*muons)[0].pt() << ":" << (*met)[0].et() << std::endl;
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+    }
+  if(electrons->size()>0)
+    {
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+      std::cout << "OUT MODULE: event lumi block, run, Pt Jets, Electron, MET: " <<  event << ":"<< lumi << ":" << run << ":" <<(*jets)[0].pt() << ":" << (*jets)[1].pt() << ":" << (*jets)[2].pt() << ":" << (*jets)[3].pt() << ":" << (*electrons)[0].pt() << ":" << (*met)[0].et() << std::endl;
+      std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
+    }
+    
+
 }
 
 void Out::beginJob()
