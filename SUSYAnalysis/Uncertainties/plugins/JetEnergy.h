@@ -93,6 +93,8 @@ class JetEnergy : public edm::EDProducer {
   double maxJetEtaForMET_;
   /// limit on the emf of the jet for MET corrections 
   double jetEMLimitForMET_;
+  /// do jet energy smearing?
+  bool doJetSmearing_;
   /// allowed scaleTypes
   std::vector<std::string> allowedTypes_;
 

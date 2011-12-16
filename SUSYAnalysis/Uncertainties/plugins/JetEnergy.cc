@@ -24,7 +24,8 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   resolutionRanges_    (cfg.getParameter<std::vector<double> > ("resolutionEtaRanges" )),
   jetPTThresholdForMET_(cfg.getParameter<double>       ("jetPTThresholdForMET")),
   maxJetEtaForMET_     (cfg.getParameter<double>       ("maxJetEtaForMET")),
-  jetEMLimitForMET_    (cfg.getParameter<double>       ("jetEMLimitForMET"    ))
+  jetEMLimitForMET_    (cfg.getParameter<double>       ("jetEMLimitForMET"    )),
+  doJetSmearing_       (cfg.getParameter<bool>         ("doJetSmearing"       ))
 {
   edm::Service<TFileService> fs;
     
@@ -91,13 +92,13 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 	  if (abs(scaledJet.partonFlavour()) == 5) scaleJetEnergy(scaledJet,scaleFactorB_);
 	  else scaleJetEnergy(scaledJet,scaleFactor_);
 
-	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
 	}
 
       if(scaleType_=="rel")
 	{
 	  scaleJetEnergy( scaledJet, 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )) );
-	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
 	}   
       
       if(scaleType_.substr(0, scaleType_.find(':'))=="jes" || 
@@ -136,8 +137,8 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 	      scaleJetEnergy( scaledJet, 1-std::sqrt(jetMet*jetMet + topShift2) );
 	    }
 	  
-	  scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
-	  delete deltaJEC; 
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	  delete deltaJEC;
 	}
       
       pJets->push_back( scaledJet );

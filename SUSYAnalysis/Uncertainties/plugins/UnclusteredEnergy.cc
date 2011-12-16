@@ -20,12 +20,10 @@ UnclusteredEnergy::UnclusteredEnergy(const edm::ParameterSet& cfg):
   produces<std::vector<pat::MET> >("scaledMETs"); 
 }
 
-
 void
 UnclusteredEnergy::beginJob()
 { 		
 }
-
 
 void
 UnclusteredEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
