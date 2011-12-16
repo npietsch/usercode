@@ -46,6 +46,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag TriggerWeight_;
   bool useEvtWgt_;
   bool useTriggerEvtWgt_;
+  double HT0_, HT1_, HT2_;
+  double Y0_,  Y1_,  Y2_;
 
   // dummy histogram
   TH1F* Dummy_;
@@ -165,6 +167,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *mW_HT_;
   TH2F *mW_MT_;
   TH2F *mW_MTHad_;
+
+  TH1F *MET_TightA_;
+  TH1F *MET_TightB_;
+  TH1F *MET_TightC_;
+  TH1F *MET_TightD_;
 
   TH1F *BjetsEt_LooseA_;
   TH1F *BjetsEt_LooseB_;
