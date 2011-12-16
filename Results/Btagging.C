@@ -177,119 +177,170 @@ int Btagging()
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
-  MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
-  MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3noSF");
-
-  DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
-  DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
- 
-  MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
-  MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3noSF");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3noSF");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+//   MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  MCMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
   
-  DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
-  DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+//   DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  DataMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
+  
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
+//   MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3noSF");
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   MCElSelections.push_back("analyzeBtagsElTCHEM3lowPtdilep");
+  MCElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
+  
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  DataElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
 
-  
+  // MC
+
+//   addMCHistogram("MET_0b", 1, 1, 1, 1);
+//   addMCHistogram("MET_1b", 1, 1, 1, 1);
+//   addMCHistogram("MET_2b", 1, 1, 1, 1);
+//   addMCHistogram("MET_3b", 1, 1, 1, 1);
+
+  addMCHistogram("nBtags", 1, 1, 1, 1);
+  addMCHistogram("btagWeights", 1, 1, 1, 1);
+
+  addMCHistogram("BtagsPt", 1, 1, 1, 1);
   addMCHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+
+  addMCHistogram("NrBtags",  1, 1, 1, 1);
+  addMCHistogram("NrLowPtBtags",  1, 1, 1, 1);
   addMCHistogram("NrHighPtBtags",  1, 1, 1, 1);
   
+  addMCHistogram("NrJets",  1, 1, 1, 1);
+  addMCHistogram("NrLowPtJets",  1, 1, 1, 1);
+  addMCHistogram("NrHighPtJets",  1, 1, 1, 1);
+
+  // data
+
+//   addDataHistogram("MET_0b", 1, 1, 1, 1);
+//   addDataHistogram("MET_1b", 1, 1, 1, 1);
+//   addDataHistogram("MET_2b", 1, 1, 1, 1);
+//   addDataHistogram("MET_3b", 1, 1, 1, 1);
+
+  addDataHistogram("nBtags", 1, 1, 1, 1);
+  addDataHistogram("nBtags", 1, 1, 1, 1);
+
   addDataHistogram("BtagsPt", 1, 1, 1, 1);
+  addDataHistogram("BtagsPt", 1, 1, 1, 1);
+
+  addDataHistogram("NrBtags",  1, 1, 1, 1);
+  addDataHistogram("NrLowPtBtags",  1, 1, 1, 1);
   addDataHistogram("NrHighPtBtags",  1, 1, 1, 1);
+  
+  addDataHistogram("NrJets",  1, 1, 1, 1);
+  addDataHistogram("NrLowPtJets",  1, 1, 1, 1);
+  addDataHistogram("NrHighPtJets",  1, 1, 1, 1);
 
   //===========================================================================
   //================================ BAUSTELLE ================================
   //===========================================================================
 
-  // muon channel
-  TH1F* MCMuHist1=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagsPt_btagWeight");
-  TH1F* MCMuHist2=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagPtBins_btagWeight");
+//   // muon channel
+//   TH1F* MCMuHist1=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagsPt_btagWeight");
+//   TH1F* MCMuHist2=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagPtBins_btagWeight");
 
-  std::cout << "MCMuHist1->Integral(5,24): " << MCMuHist1->Integral(5,24)<< std::endl;
-  std::cout << "MCMuHist2->Integral(1,1): " << MCMuHist2->Integral(1,1)<< std::endl;
+//   std::cout << "MCMuHist1->Integral(5,24): " << MCMuHist1->Integral(5,24)<< std::endl;
+//   std::cout << "MCMuHist2->Integral(1,1): " << MCMuHist2->Integral(1,1)<< std::endl;
 
-  double MCMuInt=MuLumi*MCMuHist1->Integral(5,24);
-  double MCMuIntErr=MuLumi*MCMuHist2->GetBinError(1);
+//   double MCMuInt=MuLumi*MCMuHist1->Integral(5,24);
+//   double MCMuIntErr=MuLumi*MCMuHist2->GetBinError(1);
  
-  TH1F* DataMuHist=(TH1F*)MuHad->Get(DataMuSelections[0]+"/BtagsPt");
-  double DataMuInt=DataMuHist->Integral(5,24);
-  double DataMuIntErr=sqrt(DataMuInt);
+//   TH1F* DataMuHist=(TH1F*)MuHad->Get(DataMuSelections[0]+"/BtagsPt");
+//   double DataMuInt=DataMuHist->Integral(5,24);
+//   double DataMuIntErr=sqrt(DataMuInt);
   
-  MuSF=DataMuInt/MCMuInt;
+//   MuSF=DataMuInt/MCMuInt;
   
-  double MuSFErr=sqrt(pow(DataMuIntErr/MCMuInt,2) + pow(DataMuInt*MCMuIntErr/(MCMuInt*MCMuInt),2));
+//   double MuSFErr=sqrt(pow(DataMuIntErr/MCMuInt,2) + pow(DataMuInt*MCMuIntErr/(MCMuInt*MCMuInt),2));
   
-  std::cout << MuSF << " +- " << MuSFErr << std::endl;
+//   std::cout << MuSF << " +- " << MuSFErr << std::endl;
 
-  //-------------------------------------------------------
+//   //-------------------------------------------------------
 
-  double MCMuRatio=MuSF*MuLumi*(MCMuHist1->Integral(25,49));
-  double MCMuRatioErr=sqrt(pow(MuSF*MuLumi*(MCMuHist2->GetBinError(2)),2)+ pow(MuSFErr*MuLumi*(MCMuHist1->Integral(25,49)),2));
+//   double MCMuRatio=MuSF*MuLumi*(MCMuHist1->Integral(25,49));
+//   double MCMuRatioErr=sqrt(pow(MuSF*MuLumi*(MCMuHist2->GetBinError(2)),2)+ pow(MuSFErr*MuLumi*(MCMuHist1->Integral(25,49)),2));
 
-  std::cout << MCMuRatioErr << std::endl;
+//   std::cout << MCMuRatioErr << std::endl;
 
-  double DataMuRatio=DataMuHist->Integral(25,49);
-  double DataMuRatioErr=sqrt(DataMuRatio);
+//   double DataMuRatio=DataMuHist->Integral(25,49);
+//   double DataMuRatioErr=sqrt(DataMuRatio);
 
-  std::cout << DataMuRatioErr << std::endl;
+//   std::cout << DataMuRatioErr << std::endl;
 
-  double MuRatio=DataMuRatio/MCMuRatio;
+//   double MuRatio=DataMuRatio/MCMuRatio;
 
-  double MuRatioErr=sqrt(pow(DataMuRatioErr/MCMuRatio,2) + pow(DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio),2));
+//   double MuRatioErr=sqrt(pow(DataMuRatioErr/MCMuRatio,2) + pow(DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio),2));
 
-  std::cout << DataMuRatioErr/MCMuRatio << std::endl;
-  std::cout << DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio)  << std::endl;
-  std::cout << " " << std::endl;
+//   std::cout << DataMuRatioErr/MCMuRatio << std::endl;
+//   std::cout << DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio)  << std::endl;
+//   std::cout << " " << std::endl;
   
-  std::cout << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
+//   std::cout << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
 
 
   //============================================================================================================
 
   // electron channel
-  TH1F* MCElHist1=(TH1F*)SM->Get(MCElSelections[0]+"/BtagsPt_btagWeight");
-  TH1F* MCElHist2=(TH1F*)SM->Get(MCElSelections[0]+"/BtagPtBins_btagWeight");
+//   TH1F* MCElHist1=(TH1F*)SM->Get(MCElSelections[0]+"/BtagsPt_btagWeight");
+//   TH1F* MCElHist2=(TH1F*)SM->Get(MCElSelections[0]+"/BtagPtBins_btagWeight");
 
-  std::cout << "MCElHist1->Integral(5,24): " << MCElHist1->Integral(5,24)<< std::endl;
-  std::cout << "MCElHist2->Integral(1,1): " << MCElHist2->Integral(1,1)<< std::endl;
+//   std::cout << "MCElHist1->Integral(5,24): " << MCElHist1->Integral(5,24)<< std::endl;
+//   std::cout << "MCElHist2->Integral(1,1): " << MCElHist2->Integral(1,1)<< std::endl;
 
-  double MCElInt=ElLumi*MCElHist1->Integral(5,24);
-  double MCElIntErr=ElLumi*MCElHist2->GetBinError(1);
+//   double MCElInt=ElLumi*MCElHist1->Integral(5,24);
+//   double MCElIntErr=ElLumi*MCElHist2->GetBinError(1);
  
-  TH1F* DataElHist=(TH1F*)ElHad->Get(DataElSelections[0]+"/BtagsPt");
-  double DataElInt=DataElHist->Integral(5,24);
-  double DataElIntErr=sqrt(DataElInt);
+//   TH1F* DataElHist=(TH1F*)ElHad->Get(DataElSelections[0]+"/BtagsPt");
+//   double DataElInt=DataElHist->Integral(5,24);
+//   double DataElIntErr=sqrt(DataElInt);
   
-  ElSF=DataElInt/MCElInt;
+//   ElSF=DataElInt/MCElInt;
   
-  double ElSFErr=sqrt(pow(DataElIntErr/MCElInt,2) + pow(DataElInt*MCElIntErr/(MCElInt*MCElInt),2));
+//   double ElSFErr=sqrt(pow(DataElIntErr/MCElInt,2) + pow(DataElInt*MCElIntErr/(MCElInt*MCElInt),2));
   
-  std::cout << ElSF << " +- " << ElSFErr << std::endl;
+//   std::cout << ElSF << " +- " << ElSFErr << std::endl;
 
-  //-------------------------------------------------------
+//   //-------------------------------------------------------
 
-  double MCElRatio=ElSF*ElLumi*(MCElHist1->Integral(25,49));
-  double MCElRatioErr=sqrt(pow(ElSF*ElLumi*(MCElHist2->GetBinError(2)),2)+ pow(ElSFErr*ElLumi*(MCElHist1->Integral(25,49)),2));
+//   double MCElRatio=ElSF*ElLumi*(MCElHist1->Integral(25,49));
+//   double MCElRatioErr=sqrt(pow(ElSF*ElLumi*(MCElHist2->GetBinError(2)),2)+ pow(ElSFErr*ElLumi*(MCElHist1->Integral(25,49)),2));
 
-  std::cout << MCElRatioErr << std::endl;
+//   std::cout << MCElRatioErr << std::endl;
 
-  double DataElRatio=DataElHist->Integral(25,49);
-  double DataElRatioErr=sqrt(DataElRatio);
+//   double DataElRatio=DataElHist->Integral(25,49);
+//   double DataElRatioErr=sqrt(DataElRatio);
 
-  std::cout << DataElRatioErr << std::endl;
+//   std::cout << DataElRatioErr << std::endl;
 
-  double ElRatio=DataElRatio/MCElRatio;
+//   double ElRatio=DataElRatio/MCElRatio;
 
-  double ElRatioErr=sqrt(pow(DataElRatioErr/MCElRatio,2) + pow(DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio),2));
+//   double ElRatioErr=sqrt(pow(DataElRatioErr/MCElRatio,2) + pow(DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio),2));
 
-  std::cout << DataElRatioErr/MCElRatio << std::endl;
-  std::cout << DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio)  << std::endl;
-  std::cout << " " << std::endl;
+//   std::cout << DataElRatioErr/MCElRatio << std::endl;
+//   std::cout << DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio)  << std::endl;
+//   std::cout << " " << std::endl;
   
-  std::cout << ElRatio << " +- " << ElRatioErr << std::endl  << std::endl;
+//   std::cout << ElRatio << " +- " << ElRatioErr << std::endl  << std::endl;
 
 
 

@@ -42,12 +42,28 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 # load modules for analysis on generator level, level of matched objects and reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
+# Load and configure module to scale jet energy
+process.load("SUSYAnalysis.Uncertainties.JetEnergy_cfi")
+
+process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
+process.scaledJetEnergy.inputMETs = "patMETsPF"
+
+process.scaledJetEnergy.resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1)
+process.scaledJetEnergy.resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1)
+
+process.scaledJetEnergy.jetPTThresholdForMET = 10. ## proposed on Nov 15 in RA4 meeting
+process.scaledJetEnergy.maxJetEtaForMET = 4.7      ## proposed on Nov 15 in RA4 meeting
+
+process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+process.goodMETs.src = "scaledJetEnergy:patMETsPF"
+
 #--------------------------
 # muon selection paths
 #--------------------------
 
 ## no btag
-process.Selection1m = cms.Path(process.makeObjects *
+process.Selection1m = cms.Path(process.scaledJetEnergy *
+                               process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.eventWeightPU *
                                process.weightProducer *
@@ -69,7 +85,8 @@ process.Selection1m = cms.Path(process.makeObjects *
                                process.analyzeSUSYBjets1m_mTSelection
                                )
 ## exactly 1 btag
-process.Selection1b1m_2 = cms.Path(process.makeObjects *
+process.Selection1b1m_2 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
@@ -88,7 +105,8 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    
                                    )
 ## exactly 2 btags
-process.Selection2b1m_2 = cms.Path(process.makeObjects *
+process.Selection2b1m_2 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
@@ -106,7 +124,8 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    process.analyzeSUSYBjets2b1m_1
                                    )
 ## at least 3 btags
-process.Selection3b1m_1 = cms.Path(process.makeObjects *
+process.Selection3b1m_1 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
@@ -129,7 +148,8 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
 #--------------------------
 
 ## no btag
-process.Selection1e = cms.Path(process.makeObjects *
+process.Selection1e = cms.Path(process.scaledJetEnergy *
+                               process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.eventWeightPU *
                                process.weightProducer *
@@ -150,7 +170,8 @@ process.Selection1e = cms.Path(process.makeObjects *
                                )
 
 ## exactly 1 btag
-process.Selection1b1e_2 = cms.Path(process.makeObjects *
+process.Selection1b1e_2 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
@@ -169,7 +190,8 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    )
 
 ## exactly 2 btags
-process.Selection2b1e_2 = cms.Path(process.makeObjects *
+process.Selection2b1e_2 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
@@ -188,7 +210,8 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    )
 
 ## at least 3 btags
-process.Selection3b1e_1 = cms.Path(process.makeObjects *
+process.Selection3b1e_1 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
