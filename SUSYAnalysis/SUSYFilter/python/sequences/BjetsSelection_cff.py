@@ -286,6 +286,7 @@ looseMETs = selectedPatMET.clone(src = 'patMETsPF',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
+                                'et > 100.'
                                 'et > 60.'
                                 )
 ## create MET collection
