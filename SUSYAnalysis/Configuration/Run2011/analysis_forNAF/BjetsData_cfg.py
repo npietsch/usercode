@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("RA4b")
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1000
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
@@ -34,12 +34,17 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 ## load modules for analysis on reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 
+## load modules for trigger weighting
+from SUSYAnalysis.SUSYEventProducers.TriggerWeightProducer_cfi import *
+process.TriggerWeightProducer = TriggerWeightProducer.clone()
+
 #--------------------------
 # muon selection paths
 #--------------------------
 
 ## no btag
 process.Selection1m = cms.Path(process.makeObjects *
+                               process.TriggerWeightProducer *
                                process.analyzeSUSYBjets1m_noCuts *
                                process.preselectionMuHTAllData *
                                process.MuHadSelection *
@@ -59,6 +64,7 @@ process.Selection1m = cms.Path(process.makeObjects *
                                )
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -74,6 +80,7 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    )
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -89,6 +96,7 @@ process.Selection2b1m_2 = cms.Path(process.makeObjects *
                                    )
 ## at least 3 btags
 process.Selection3b1m_1 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionMuHTAllData *
                                    process.MuHadSelection *
                                    process.muonSelection*
@@ -108,6 +116,7 @@ process.Selection3b1m_1 = cms.Path(process.makeObjects *
 
 ## no btag
 process.Selection1e = cms.Path(process.makeObjects *
+                               process.TriggerWeightProducer *
                                process.analyzeSUSYBjets1e_noCuts *
                                process.preselectionElHTAllData *
                                process.ElHadSelection *
@@ -125,6 +134,7 @@ process.Selection1e = cms.Path(process.makeObjects *
                                )
 ## exactly 1 btag
 process.Selection1b1e_2 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection*
@@ -140,6 +150,7 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    )
 ## exactly 2 btags
 process.Selection2b1e_2 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection*
@@ -155,6 +166,7 @@ process.Selection2b1e_2 = cms.Path(process.makeObjects *
                                    )
 ## at least 3 btags
 process.Selection3b1e_1 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
                                    process.preselectionElHTAllData *
                                    process.ElHadSelection *
                                    process.electronSelection *

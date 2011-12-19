@@ -1,5 +1,7 @@
 from BjetsData_cfg import *
 
+process.TriggerWeightProducer.ElectronTriggerWeight = True
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
