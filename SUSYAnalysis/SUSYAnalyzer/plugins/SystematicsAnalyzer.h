@@ -19,6 +19,8 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
+
 class SystematicsAnalyzer : public edm::EDAnalyzer {
 
  public:
@@ -37,11 +39,12 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   //--------------------------------
 
   // collections of RA4b objects
+  edm::InputTag met_;
   edm::InputTag jets_;
+  edm::InputTag lightJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
-  edm::InputTag met_;
 
   // for event weighting
   edm::InputTag PVSrc_;
@@ -53,9 +56,14 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   // bool
   bool useEventWgt_;
   bool useBtagEventWgt_;
+  //  bool doSusyGenEvent_;
 
   // int
   int btagBin_;
+
+
+  //SUSY GenEvent
+  edm::InputTag inputGenEvent_;
 
   //--------------------------------
   // histograms      	
@@ -88,6 +96,35 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   // histograms for ABCD method
   TH2F *HT_SigMET_;
   TH2F *HT_SigMET2_;
+
+  //Histograms for SUSY sub-processes
+  //------------------   
+  TH2F *HT_SigMET_gg_;
+  TH2F *HT_SigMET_gs_;
+  TH2F *HT_SigMET_ss_;
+  TH2F *HT_SigMET_sb_;
+  TH2F *HT_SigMET_tb_;
+  TH2F *HT_SigMET_bb_;
+  TH2F *HT_SigMET_ll_;
+  TH2F *HT_SigMET_nn_;
+  TH2F *HT_SigMET_ng_;
+  TH2F *HT_SigMET_ns_;
+  TH2F *HT_SigMET_unknown_;
+
+  TH2F *HT_SigMET_unweighted_gg_;
+  TH2F *HT_SigMET_unweighted_gs_;
+  TH2F *HT_SigMET_unweighted_ss_;
+  TH2F *HT_SigMET_unweighted_sb_;
+  TH2F *HT_SigMET_unweighted_tb_;
+  TH2F *HT_SigMET_unweighted_bb_;
+  TH2F *HT_SigMET_unweighted_ll_;
+  TH2F *HT_SigMET_unweighted_nn_;
+  TH2F *HT_SigMET_unweighted_ng_;
+  TH2F *HT_SigMET_unweighted_ns_;
+  TH2F *HT_SigMET_unweighted_unknown_;
+  //--------//---------
+
+
 
 };  
 

@@ -32,9 +32,9 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   useEventWgt_          (cfg.getParameter<bool>("useEventWeight") ),
   useBtagEventWgt_      (cfg.getParameter<bool>("useBtagEventWeight") ),
   // int
-  btagBin_              (cfg.getParameter<int>("btagBin") )
-
-
+  btagBin_              (cfg.getParameter<int>("btagBin") ),
+  //SUSY GenEvent
+  inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent"))
 { 
   edm::Service<TFileService> fs;
 
@@ -69,6 +69,31 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
   HT_SigMET2_ = fs->make<TH2F>("HT_SigMET2","HT vs. SigMET2", 36, 200., 2000., 40, 0., 20.);
 
+  //Declare HT-SigMET hist for each SUSY sub processes
+  HT_SigMET_gg_ = fs->make<TH2F>("HT_SigMET_gg","HT vs. SigMET (gg)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_gs_ = fs->make<TH2F>("HT_SigMET_gs","HT vs. SigMET (gs)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_ss_ = fs->make<TH2F>("HT_SigMET_ss","HT vs. SigMET (ss)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_sb_ = fs->make<TH2F>("HT_SigMET_sb","HT vs. SigMET (sb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_tb_ = fs->make<TH2F>("HT_SigMET_tb","HT vs. SigMET (tb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_bb_ = fs->make<TH2F>("HT_SigMET_bb","HT vs. SigMET (bb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_ll_ = fs->make<TH2F>("HT_SigMET_ll","HT vs. SigMET (ll)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_nn_ = fs->make<TH2F>("HT_SigMET_nn","HT vs. SigMET (nn)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_ng_ = fs->make<TH2F>("HT_SigMET_ng","HT vs. SigMET (ng)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_ns_ = fs->make<TH2F>("HT_SigMET_ns","HT vs. SigMET (ns)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unknown_ = fs->make<TH2F>("HT_SigMET_unknown","HT vs. SigMET (unknown)", 80, 0., 2000., 80, 0., 20. );
+
+  HT_SigMET_unweighted_gg_ = fs->make<TH2F>("HT_SigMET_unweighted_gg","HT vs. SigMET (gg)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_gs_ = fs->make<TH2F>("HT_SigMET_unweighted_gs","HT vs. SigMET (gs)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_ss_ = fs->make<TH2F>("HT_SigMET_unweighted_ss","HT vs. SigMET (ss)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_sb_ = fs->make<TH2F>("HT_SigMET_unweighted_sb","HT vs. SigMET (sb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_tb_ = fs->make<TH2F>("HT_SigMET_unweighted_tb","HT vs. SigMET (tb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_bb_ = fs->make<TH2F>("HT_SigMET_unweighted_bb","HT vs. SigMET (bb)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_ll_ = fs->make<TH2F>("HT_SigMET_unweighted_ll","HT vs. SigMET (ll)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_nn_ = fs->make<TH2F>("HT_SigMET_unweighted_nn","HT vs. SigMET (nn)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_ng_ = fs->make<TH2F>("HT_SigMET_unweighted_ng","HT vs. SigMET (ng)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_ns_ = fs->make<TH2F>("HT_SigMET_unweighted_ns","HT vs. SigMET (ns)", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_unknown_ = fs->make<TH2F>("HT_SigMET_unweighted_unknown","HT vs. SigMET (unknown)", 80, 0., 2000., 80, 0., 20. );
+
 }
 
 SystematicsAnalyzer::~SystematicsAnalyzer()
@@ -93,6 +118,9 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<pat::MET> > met;
   evt.getByLabel(met_, met);
+
+  edm::Handle<SUSYGenEvent> susyGenEvent;
+  evt.getByLabel(inputGenEvent_, susyGenEvent);
 
   // collection of PV vertices
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
@@ -253,6 +281,83 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   
   HT_SigMET_->Fill(HT,sigMET, weight);
   HT_SigMET2_->Fill(HT,sigMET, weight);
+
+  //Determine the SUSY sub process and fill the appropriate hist
+  //------------------------------------------------------------
+  TH2F* HT_SigMET_hist2Fill = 0;
+  TH2F* HT_SigMET_unweighted_hist2Fill = 0;
+  unsigned numMatchedProcs = 0;
+
+  if (susyGenEvent->GluinoGluinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_gg_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_gg_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->GluinoSquarkDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_gs_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_gs_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->SquarkSquarkDecay() == true) {
+    //Check if squark-antisquark 
+    if (susyGenEvent->ParticleAntiParticleDecay() == true) {
+      HT_SigMET_hist2Fill = HT_SigMET_sb_ ;
+      HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_sb_ ;
+    }
+    else {
+      HT_SigMET_hist2Fill = HT_SigMET_ss_ ;
+      HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_ss_ ;
+    }
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->StopStopDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_tb_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_tb_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->SbottomSbottomDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_bb_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_bb_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->SleptonSleptonDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ll_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_ll_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->EWinoEWinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_nn_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_nn_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->EWinoGluinoDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ng_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_ng_ ;
+    numMatchedProcs++;
+  }
+  if (susyGenEvent->EWinoSquarkDecay() == true) {
+    HT_SigMET_hist2Fill = HT_SigMET_ns_ ;
+    HT_SigMET_unweighted_hist2Fill = HT_SigMET_unweighted_ns_ ;
+    numMatchedProcs++;
+  }
+  //Check that numMatchedProcs is 1. If not, give an error.
+  if (numMatchedProcs == 1 && HT_SigMET_hist2Fill != 0 && HT_SigMET_unweighted_hist2Fill != 0 ) {
+    //Note that the hist is filled with weight one.
+    HT_SigMET_hist2Fill->Fill(HT, sigMET, weight);
+    HT_SigMET_unweighted_hist2Fill->Fill(HT, sigMET, 1.);
+  }
+  else if (numMatchedProcs == 0) {
+    //std::cout << "SUSYGenEventAnalyzer::analyze >> ERROR: Could not find subprocess in event" << std::endl;
+    HT_SigMET_unknown_->Fill(HT,sigMET, weight);
+    HT_SigMET_unweighted_unknown_->Fill(HT,sigMET, 1.);
+  }
+  else {
+    std::cout << "SystematicsAnalyzer::analyze >> ERROR: More than one subprocess matched in event"  << std::endl;
+  }
+  //--------------------//----------------------------------------
+  
+
+
 
 
 
