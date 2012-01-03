@@ -48,33 +48,36 @@ void addSelectionStep(TString name, int lc, TString sn)
 int Btagging_Shape3()
 {
   // Define sample
-  TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
-  TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
-  TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
-  TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
-  TFile* QCD =new TFile("BtagEff_QCD.root", "READ");
+//   TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
+//   TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
+//   TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
+//   TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
+//   TFile* QCD =new TFile("BtagEff_QCD.root", "READ");
+  TFile* SM =new TFile("BtagEff_SM.root", "READ");
+
 
   // addSample(TFile* sample, TString name)
-  addSample(TTJets, "TTJets");
-  addSample(WJets, "WJets");
-  addSample(SingleTop, "SingleTop");
-  addSample(DYJets, "DYJets");
-  addSample(QCD, "QCD");
+//   addSample(TTJets, "TTJets");
+//   addSample(WJets, "WJets");
+//   addSample(SingleTop, "SingleTop");
+//   addSample(DYJets, "DYJets");
+//   addSample(QCD, "QCD");
+  addSample(SM, "SM");
 
   // addAlgorithm(TString name)
   //addAlgorithm("TCHEM");
-  addAlgorithm("SSVHEM");
+  addAlgorithm("TCHEM");
 
   // addSelectionStep(TString name)
-  addSelectionStep("bTagEffRA4bElSSVHEM3", 2, "Standard RA4b selection");
-  addSelectionStep("bTagEffDilepElSSVHEM3", 4, "Loose RA4b selection");
+  addSelectionStep("bTagEffRA4bElTCHEM3", 2, "Standard RA4b selection");
+  addSelectionStep("bTagEffDilepElTCHEM3", 4, "Loose RA4b selection");
   //addSelectionStep("3", 4, "Jet selection");
   //addSelectionStep("4", 8, "MET < 300 GeV");
 
   // Flavors
   Flavors.push_back("B");
-  Flavors.push_back("C");
-  Flavors.push_back("L");
+  //Flavors.push_back("C");
+  //Flavors.push_back("L");
 
   gStyle->SetCanvasColor(10);
   gStyle->SetOptStat(0);
@@ -97,12 +100,12 @@ int Btagging_Shape3()
 	    {
 	      // Define canvas., legend etc.
 	      TCanvas *canvas =new TCanvas(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
-	      TLegend *leg = new TLegend(.45,.15,.98,.42);
+	      TLegend *leg = new TLegend(.3,.15,.88,.4);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(0);
 	      
-	      TLegend *leg2 = new TLegend(.45,.15,.98,.42);
+	      TLegend *leg2 = new TLegend(.3,.15,.88,.4);
 	      leg2->SetTextFont(42);
 	      leg2->SetFillColor(0);
 	      leg2->SetLineColor(0);

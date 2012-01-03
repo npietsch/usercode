@@ -563,7 +563,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetBorderSize(1);
-  TText *text=label->AddText("L=4.191 pb^{-1}");
+  TText *text=label->AddText("L=4.613 pb^{-1}");
   text->SetTextAlign(22);
   label->Draw("same");
 

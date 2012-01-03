@@ -101,6 +101,27 @@ class BtagAnalyzer : public edm::EDAnalyzer {
   TH1F* MET_2b_;
   TH1F* MET_3b_;
 
+  // #btags vs. #PU interactions and #PV
+  TH1F* btagWeights_1PU_;
+  TH1F* btagWeights_5PU_;
+  TH1F* btagWeights_9PU_;
+  TH1F* btagWeights_13PU_;
+
+  TH1F* btagWeights_1PV_;
+  TH1F* btagWeights_5PV_;
+  TH1F* btagWeights_9PV_;
+  TH1F* btagWeights_13PV_;
+
+  TH1F* nbtags_1PU_;
+  TH1F* nbtags_5PU_;
+  TH1F* nbtags_9PU_;
+  TH1F* nbtags_13PU_;
+
+  TH1F* nbtags_1PV_;
+  TH1F* nbtags_5PV_;
+  TH1F* nbtags_9PV_;
+  TH1F* nbtags_13PV_;
+
   // Jets
   TH1F* JetsPt_;
   TH1F* JetsEta_;

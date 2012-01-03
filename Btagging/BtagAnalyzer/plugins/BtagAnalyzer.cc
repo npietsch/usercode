@@ -78,6 +78,27 @@ BtagAnalyzer::BtagAnalyzer(const edm::ParameterSet& cfg):
   MET_2b_ = fs->make<TH1F>("MET_2b","MET_2b", 50, 0.,  1000.);
   MET_3b_ = fs->make<TH1F>("MET_3b","MET_3b", 50, 0.,  1000.);
 
+  // #btags vs. #PU interactions and #PV
+  btagWeights_1PU_=fs->make<TH1F>("btagWeights_1PU","btagWeights_1PU", 4, 0., 4.);
+  btagWeights_5PU_=fs->make<TH1F>("btagWeights_5PU","btagWeights_5PU", 4, 0., 4.);
+  btagWeights_9PU_=fs->make<TH1F>("btagWeights_7PU","btagWeights_97PU", 4, 0., 4.);
+  btagWeights_13PU_=fs->make<TH1F>("btagWeights_10PU","btagWeights_13PU", 4, 0., 4.);
+
+  btagWeights_1PV_=fs->make<TH1F>("btagWeights_1PV","btagWeights_1PV", 4, 0., 4.);
+  btagWeights_5PV_=fs->make<TH1F>("btagWeights_5PV","btagWeights_5PV", 4, 0., 4.);
+  btagWeights_9PV_=fs->make<TH1F>("btagWeights_7PV","btagWeights_97PV", 4, 0., 4.);
+  btagWeights_13PV_=fs->make<TH1F>("btagWeights_10PV","btagWeights_13PV", 4, 0., 4.);
+
+  nbtags_1PU_=fs->make<TH1F>("nbtags_1PU","nbtags_1PU", 4, 0., 4.);
+  nbtags_5PU_=fs->make<TH1F>("nbtags_5PU","nbtags_5PU", 4, 0., 4.);
+  nbtags_9PU_=fs->make<TH1F>("nbtags_7PU","nbtags_97PU", 4, 0., 4.);
+  nbtags_13PU_=fs->make<TH1F>("nbtags_10PU","nbtags_13PU", 4, 0., 4.);
+
+  nbtags_1PV_=fs->make<TH1F>("nbtags_1PV","nbtags_1PV", 4, 0., 4.);
+  nbtags_5PV_=fs->make<TH1F>("nbtags_5PV","nbtags_5PV", 4, 0., 4.);
+  nbtags_9PV_=fs->make<TH1F>("nbtags_7PV","nbtags_97PV", 4, 0., 4.);
+  nbtags_13PV_=fs->make<TH1F>("nbtags_10PV","nbtags_13PV", 4, 0., 4.);
+
   // Jets
   JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 70, 0.,700.);
   JetsEta_ = fs->make<TH1F>("JetsEta","JetsEta", 30, -3. , 3.);
@@ -242,6 +263,25 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
       weight=weightRA2*weightPU;
       
+      // number of PU interactions only in MC available, therefore filled in this loop
+      edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
+      evt.getByLabel(PUInfo_, PUInfoHandle);
+
+      edm::View<PileupSummaryInfo>::const_iterator iterPU;
+      
+      double nvtx=-1;
+      for(iterPU = PUInfoHandle->begin(); iterPU != PUInfoHandle->end(); ++iterPU)  // vector size is 3
+	{ 
+	  if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
+	    {
+	      nvtx = iterPU->getPU_NumInteractions();
+	    }
+	}
+
+      // fill to monitor PU weighting
+      nPU_noWgt_->Fill(nvtx);
+      nPU_->Fill(nvtx,weight);
+
       // if events should be weighted according to b-tag efficiency and mistag-rates
       if(useBtagEventWgt_)
 	{
@@ -266,42 +306,7 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  btagWeights_->Fill(2, weight*weight2b);
 	  btagWeights_->Fill(3, weight*weight3b);
 
-	  //std::cout << "BtagAnalyzer: " << (*BtagEventWeightsHandle).size() << std::endl;
-	  //std::cout << "BtagAnalyzer: " << weight0b << std::endl;
-	  //std::cout << "BtagAnalyzer: " << weight1b << std::endl;
-	  //std::cout << "BtagAnalyzer: " << weight2b << std::endl;
-	  //std::cout << "BtagAnalyzer: " << weight3b << std::endl;
-	  //std::cout << "BtagAnalyzer: " << weight0b+weight1b+weight2b+weight3b << std::endl;
-	  //// obsolete
-	  // weightBtagEvent=(*BtagEventWeightsHandle)[btagBin_];
 	}
-
-      //std::cout << "--------------------------------" << std::endl;
-      //std::cout << "weightPU: "      << weightPU      << std::endl;
-      //std::cout << "weightRA2: "     << weightRA2     << std::endl;
-      //std::cout << "weight: " << weight << std::endl;
-      //std::cout << "--------------------------------" << std::endl;
-      
-      // -----------------------------------------------------------------------
-
-      // number of PU interactions only in MC available, therefore filled in this loop
-      edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
-      evt.getByLabel(PUInfo_, PUInfoHandle);
-
-      edm::View<PileupSummaryInfo>::const_iterator iterPU;
-      
-      double nvtx=-1;
-      for(iterPU = PUInfoHandle->begin(); iterPU != PUInfoHandle->end(); ++iterPU)  // vector size is 3
-	{ 
-	  if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
-	    {
-	      nvtx = iterPU->getPU_NumInteractions();
-	    }
-	}
-
-      // fill to monitor PU weighting
-      nPU_noWgt_->Fill(nvtx);
-      nPU_->Fill(nvtx,weight);
     }
 
   //------------------------------------------------------
@@ -318,13 +323,30 @@ BtagAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nBtags_->Fill(nBtags,weight);
   nBtags_noWgt_->Fill(nBtags);
 
-  // bdisc
-  for(int i=0; i<(int)bjets->size();++i)
+  if(PVSrc->size() > 0 && PVSrc->size() <= 4)
     {
-      TCHE_->Fill((*bjets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
-      TCHP_->Fill((*bjets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
-      SSVHE_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
-      SSVHP_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
+      nbtags_1PU_->Fill(nBtags,weight);
+    }
+  else if(PVSrc->size() > 4 && PVSrc->size() <= 8)
+    {
+      nbtags_5PU_->Fill(nBtags,weight);
+    }
+  else if(PVSrc->size() > 8 && PVSrc->size() <= 12)
+    {
+      nbtags_9PU_->Fill(nBtags,weight);
+    }
+  else
+    {
+      nbtags_13PU_->Fill(nBtags,weight);
+    }
+
+  // bdisc
+  for(int i=0; i<(int)jets->size();++i)
+    {
+      TCHE_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      TCHP_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+      SSVHE_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+      SSVHP_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
     }
 
   // MET, HT, MHT

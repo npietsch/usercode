@@ -48,20 +48,20 @@ int Ratio()
   //--------------------------------------------------------------------------
 
   // selections
-  MCMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
-  MCElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
-  MCElElSelections.push_back("analyzeBtagsElElSSVHEM3highPtdilep");
+  MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  MCElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  MCElElSelections.push_back("analyzeBtagsElElTCHEM3highPtdilep");
 
-  DataMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
-  DataElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
-  DataElElSelections.push_back("analyzeBtagsElElSSVHEM3highPtdilep");
+  DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  DataElElSelections.push_back("analyzeBtagsElElTCHEM3highPtdilep");
 
 
-  //MCMuSelections.push_back("analyzeBtagsMuSSVHEM3lowPtdilep");
-  //MCElSelections.push_back("analyzeBtagsElSSVHEM3lowPtdilep");
+  //MCMuSelections.push_back("analyzeBtagsMuTCHEM3lowPtdilep");
+  //MCElSelections.push_back("analyzeBtagsElTCHEM3lowPtdilep");
 
-  //DataMuSelections.push_back("analyzeBtagsMuSSVHEM3lowPtdilep");
-  //DataElSelections.push_back("analyzeBtagsElSSVHEM3lowPtdilep");
+  //DataMuSelections.push_back("analyzeBtagsMuTCHEM3lowPtdilep");
+  //DataElSelections.push_back("analyzeBtagsElTCHEM3lowPtdilep");
 
   // histograms
   MCHistograms.push_back("BtagsWeight_1btags");
@@ -83,7 +83,7 @@ int Ratio()
   // Plot histograms
   //--------------------------------------------------------------------------
 
-  TString labels[]={"-0.5","","-04","","-0.3","","-0.2","","-0.1","","SF","","+0.1","","+0.2","","+0.3","","+0.4","","+0.5"};
+  TString labels[]={"-0.5","","-04","","-0.3","","-0.2","","-0.1","","SF_{<240}","","+0.1","","+0.2","","+0.3","","+0.4","","+0.5"};
 
 //   // Muon selection
 //   for(int sel=0; sel<(int)MCMuSelections.size(); ++sel)
@@ -283,52 +283,41 @@ int Ratio()
 
   // Combined selection
   for(int sel=0; sel<(int)MCMuSelections.size(); ++sel)
-    { 
-      // data
-      TH1F* NrBtag_=(TH1F*)MuHad->Get(DataMuSelections[sel]+"/"+DataHistograms[sel]);
-      TH1F* NrBtagElEl_=(TH1F*)ElHad->Get(DataElElSelections[sel]+"/"+DataHistograms[sel]);
+    { 	
+      //----------
+      // Canvas
+      //----------
 
-      NrBtag_->Add(NrBtagElEl_);
+      char canvas_name1[30];
+      sprintf(canvas_name1, "%i_RatioMuEl", sel);
+      TCanvas *MuElCanvas =new TCanvas(canvas_name1,canvas_name1 ,1);
 
-      double Nr1Btag=NrBtag_->GetBinContent(2)+NrBtag_->GetBinContent(3)+NrBtag_->GetBinContent(4);
-      double Nr2Btag=NrBtag_->GetBinContent(3)+NrBtag_->GetBinContent(4);
-      
-      std::cout << "Nr1Btag: " << Nr1Btag << std::endl;
-      std::cout << "Nr2Btag: " << Nr2Btag << std::endl;
-      
-      double DataRatio=Nr2Btag/Nr1Btag;
-      double DataRatioErr=sqrt(pow((sqrt(Nr2Btag))/Nr1Btag, 2)+pow(Nr2Btag*(sqrt(Nr1Btag))/(Nr1Btag*Nr1Btag), 2));
-      
-      std::cout << "DataRatio: "<< DataRatio << " +- " << DataRatioErr << std::endl;
-	  
-      TH1F* DataRatio_=new TH1F("DataRatio","DataRatio", 21, 0., 21.);
-      DataRatio_->SetBinContent(11, DataRatio);
-      DataRatio_->SetBinError(11, DataRatioErr);
-	  
-      // MC
+      //--------------------  	  
+      // MC histogram
+      //--------------------
+
+      // get histograms
       TH1F* SF1_=(TH1F*)SM->Get(MCMuSelections[sel]+"/"+MCHistograms[0]);
       TH1F* SF2_=(TH1F*)SM->Get(MCMuSelections[sel]+"/"+MCHistograms[1]);
 
       TH1F* SF1ElEl_=(TH1F*)SM->Get(MCElElSelections[sel]+"/"+MCHistograms[0]);
       TH1F* SF2ElEl_=(TH1F*)SM->Get(MCElElSelections[sel]+"/"+MCHistograms[1]);
 
-      SF1_->Scale(MuLumi);
-      SF2_->Scale(MuLumi);
+      // scale histograms (obsolete)
+      SF1_->Scale(ElLumi);
+      SF2_->Scale(ElLumi);
 
       SF1ElEl_->Scale(ElLumi);
       SF2ElEl_->Scale(ElLumi);
 
+      // add up histograms for muon and electron channel
       SF1_->Add(SF1ElEl_);
       SF2_->Add(SF2ElEl_);
 
+      // divide hisograms
       SF2_->Divide(SF1_);
 	  
-      // canvas
-      char canvas_name1[30];
-      sprintf(canvas_name1, "%i_RatioMuEl", sel);
-      TCanvas *MuElCanvas =new TCanvas(canvas_name1,canvas_name1 ,1);
-
-      // Draw hisograms
+      // Set title, lables etc.
       SF2_->SetTitle("r(2b/1b)");
       SF2_->GetXaxis()->SetTitle("B-tag efficiency scale factor");
       SF2_->GetXaxis()->CenterTitle();
@@ -336,59 +325,125 @@ int Ratio()
       SF2_->GetYaxis()->CenterTitle();
       SF2_->GetYaxis()->SetTitleOffset(1.25);
       SF2_->SetLineColor(4);
-      
-      SF2_->SetTitle("Loose RA4b selection");
+      SF2_->SetLineWidth(1);
+      SF2_->SetTitle("");
       SF2_->GetXaxis()->SetTitle("b-tag efficiency scale factor");
       SF2_->GetXaxis()->CenterTitle();
       SF2_->GetYaxis()->SetTitle("ratio (2b/1b)");
       SF2_->GetYaxis()->CenterTitle();
-      
-      DataRatio_->SetLineColor(2);
       
       // change labels
       for(int ibin=0; ibin<=20; ++ibin)
 	{
 	  SF2_->GetXaxis()->SetBinLabel(ibin+1,labels[ibin]);
 	}
+
+      //--------------------
+      // Data histogram
+      //--------------------
+
+      // get histograms
+      TH1F* NrBtag_=(TH1F*)MuHad->Get(DataMuSelections[sel]+"/"+DataHistograms[sel]);
+      TH1F* NrBtagElEl_=(TH1F*)ElHad->Get(DataElElSelections[sel]+"/"+DataHistograms[sel]);
+
+      // add up histograms for muon and electron channel
+      NrBtag_->Add(NrBtagElEl_);
+
+      // get number of events with one or more and two or more high pt b-tags
+      double Nr1Btag=NrBtag_->GetBinContent(2)+NrBtag_->GetBinContent(3)+NrBtag_->GetBinContent(4);
+      double Nr2Btag=NrBtag_->GetBinContent(3)+NrBtag_->GetBinContent(4);
       
-      //draw hisograms
+      std::cout << "Nr1Btag: " << Nr1Btag << std::endl;
+      std::cout << "Nr2Btag: " << Nr2Btag << std::endl;
+      
+      // calculate ratio and error
+      double DataRatio=Nr2Btag/Nr1Btag;
+      double DataRatioErr=sqrt(pow((sqrt(Nr2Btag))/Nr1Btag, 2)+pow(Nr2Btag*(sqrt(Nr1Btag))/(Nr1Btag*Nr1Btag), 2));
+      
+      std::cout << "DataRatio: "<< DataRatio << " +- " << DataRatioErr << std::endl;
+
+      // fit linear function to MC histogram
+      TF1 *myfit = new TF1("myfit","[0]+[1]*x", 8, 21);
+      myfit->SetLineWidth(2);
+      myfit->SetLineColor(2);
+      SF2_->Fit("myfit", "r");
+
+      // get fit paramteres
+      double p0 = myfit->GetParameter(0);
+      double p1 = myfit->GetParameter(1);
+
+      std::cout << p0 << std::endl;
+      std::cout << p1 << std::endl;
+
+      // calculate SF and error
+      double X_ = (DataRatio-p0)/p1;
+      double XDown_ = (DataRatio-DataRatioErr-p0)/p1;
+      double YDown_ = p0+p1*XDown_;
+      double XUp_ = (DataRatio+DataRatioErr-p0)/p1;
+      double YUp_ = p0+p1*XUp_;
+
+      double ScaleFactor_=0.94+(X_-11)*0.05;
+      double ScaleFactorErrorDown_=(X_-XDown_)*0.05;
+      double ScaleFactorErrorUp_=(XUp_-X_)*0.05;
+
+      std::cout << " " << std::endl;
+      std::cout << "---------------------------------------------" << std::endl;
+      std::cout << "Scale factor: " << ScaleFactor_ << " + " << ScaleFactorErrorUp_ << " - " << ScaleFactorErrorDown_ << std::endl;
+      std::cout << "---------------------------------------------" << std::endl << std::endl;
+
+      // new data histogram
+      TH1F* DataRatio_=new TH1F("DataRatio","DataRatio", 1, X_-0.5, X_+0.5);
+      DataRatio_->SetBinContent(1, DataRatio);
+      DataRatio_->SetBinError(1, DataRatioErr);
+
+      // Set title, lables etc.
+      DataRatio_->SetLineColor(1);
+      DataRatio_->SetLineWidth(2);
+      DataRatio_->SetMarkerStyle(21);
+      DataRatio_->SetMarkerSize(1.3);
+
+      //----------------------------------------
+      // Draw histograms, lines and legend
+      //----------------------------------------
+
       SF2_->Draw("");
-      DataRatio_->Draw("same");
+      DataRatio_->Draw("same E1 x0 P");
       
       // TLine
-      TLine * line = new TLine(10.5, 0.06, 10.5, 0.115 );
-      
-      line->SetLineWidth(2);
+      TLine * line = new TLine(XDown_, 0.053, XDown_, YDown_ );
+      line->SetLineWidth(1);
       line->SetLineStyle(7);
       line->SetLineColor(1);
-      //line->Draw("same");
+      line->Draw("same");
 	  
-      TLine * line2 = new TLine(18.5, 0.06, 18.5, 0.165 );
-      
-      line2->SetLineWidth(2);
+      TLine * line2 = new TLine(XUp_, 0.053, XUp_, YUp_ );
+      line2->SetLineWidth(1);
       line2->SetLineStyle(7);
       line2->SetLineColor(1);
-      //line2->Draw("same");
+      line2->Draw("same");
 	  
-      TLegend *leg = new TLegend(.5,.75,.8,.96);
+      TLegend *leg = new TLegend(.5,.73,.8,.99);
       leg->SetTextFont(42);
       leg->SetFillColor(0);
       leg->SetLineColor(0);
-      
       leg->AddEntry(SF2_,"All SM MC","l E");
-      leg->AddEntry(DataRatio_,"MuEl Had","l E");
-      
+      leg->AddEntry(myfit,"All SM MC Fit","l");
+      leg->AddEntry(DataRatio_,"MuEl Had","l P");
       leg->Draw("same");
       
       TPaveText *label = new TPaveText(0.15,0.78,0.45,0.88,"NDC");
       label->SetFillColor(0);
       label->SetTextFont(42);
       label->SetBorderSize(1);
-      TText *text=label->AddText("L=4.191 fb^{-1}");
+      TText *text=label->AddText("L=4.6 fb^{-1}");
       text->SetTextAlign(22);
       label->Draw("same");
       
-      MuElCanvas->SaveAs(MCMuSelections[sel]+"_RatioMuEl.pdf");
+      //--------------------
+      // Save canvas
+      //--------------------
+
+      MuElCanvas->SaveAs(MCMuSelections[sel]+"_RatioMuEl_JECUp.pdf");
     }
 
 

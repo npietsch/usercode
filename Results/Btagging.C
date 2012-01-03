@@ -138,7 +138,8 @@ int Btagging()
   TFile* WJets=new TFile("WJets.root","READ");
   TFile* DY=new TFile("DY.root","READ");
   TFile* QCD=new TFile("QCD.root","READ");
-  TFile* LM3=new TFile("LM3.root","READ");
+  TFile* LM8=new TFile("LM8.root","READ");
+  TFile* LM13=new TFile("LM13.root","READ");
 
   TFile* SM=new TFile("SM.root","READ");
 
@@ -146,10 +147,13 @@ int Btagging()
   TFile* ElHad=new TFile("ElHad.root","READ");
 
   // Luminosity for MuHad in fb^-1
-  Double_t MuLumi=4.123723;
+  //Double_t MuLumi=4.123723;
+  //Double_t MuLumi=0.215274;
+  Double_t MuLumi=4.621;
 
   // Luminosity for ElHad in fb^-1
-  Double_t ElLumi=4.190583;
+  //Double_t ElLumi=4.190583;
+  Double_t ElLumi=4.613;
 
   //-------------------------------------------------------------------------------------------------------------------
   // addMCSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
@@ -161,6 +165,9 @@ int Btagging()
   addMCSample(SingleTop, "Single Top",    MuLumi, ElLumi, kRed+2,   kRed+2,   1101);
   addMCSample(TTJets,    "T#bar{T}+Jets", MuLumi, ElLumi, kRed,     kRed,     1101);
   
+  addMCSample(LM8,       "LM8",           MuLumi, ElLumi, kBlue+2,  0,     0   );
+  addMCSample(LM13,      "LM13",          MuLumi, ElLumi, 15,  0,     0   );
+
   //-------------------------------------------------------------------------------------------------------------------
   // addMuSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
   //-------------------------------------------------------------------------------------------------------------------
@@ -177,37 +184,41 @@ int Btagging()
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
+  std::cout << "Test1" << std::endl;
+
+  //MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
 //   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
-//   MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3noSF");
 //   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
-//   MCMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
 //   MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
-  MCMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
+  //MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
   
+  //DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
 //   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
-//   DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
 //   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
-//   DataMuSelections.push_back("analyzeBtagsRA4bMuSSVHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
 //   DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
-  DataMuSelections.push_back("analyzeBtagsMuSSVHEM3highPtdilep");
+  //DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
   
+  MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
 //   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
-//   MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3noSF");
 //   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
-//   MCElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
 //   MCElSelections.push_back("analyzeBtagsElTCHEM3lowPtdilep");
-  MCElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
+  //MCElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
   
+  DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
 //   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
-//   DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
 //   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
-//   DataElSelections.push_back("analyzeBtagsRA4bElSSVHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
 //   DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
-  DataElSelections.push_back("analyzeBtagsElSSVHEM3highPtdilep");
+  //DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
+
+  std::cout << "Test2" << std::endl;
 
   // MC
 
@@ -216,19 +227,21 @@ int Btagging()
 //   addMCHistogram("MET_2b", 1, 1, 1, 1);
 //   addMCHistogram("MET_3b", 1, 1, 1, 1);
 
-  addMCHistogram("nBtags", 1, 1, 1, 1);
-  addMCHistogram("btagWeights", 1, 1, 1, 1);
+//   addMCHistogram("nBtags", 1, 1, 1, 1);
+//   addMCHistogram("btagWeights", 1, 1, 1, 1);
 
-  addMCHistogram("BtagsPt", 1, 1, 1, 1);
-  addMCHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+   //addMCHistogram("TCHE", 1, 1, 1, 1); 
+  //addMCHistogram("BtagsPt", 1, 1, 1, 1);
+  //addMCHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
 
-  addMCHistogram("NrBtags",  1, 1, 1, 1);
-  addMCHistogram("NrLowPtBtags",  1, 1, 1, 1);
-  addMCHistogram("NrHighPtBtags",  1, 1, 1, 1);
+   addMCHistogram("NrBtags",  1, 1, 1, 1);
+   addMCHistogram("TCHE",  1, 1, 1, 1);
+//   addMCHistogram("NrLowPtBtags",  1, 1, 1, 1);
+  //addMCHistogram("NrHighPtBtags",  1, 1, 1, 1);
   
-  addMCHistogram("NrJets",  1, 1, 1, 1);
-  addMCHistogram("NrLowPtJets",  1, 1, 1, 1);
-  addMCHistogram("NrHighPtJets",  1, 1, 1, 1);
+//   addMCHistogram("NrJets",  1, 1, 1, 1);
+//   addMCHistogram("NrLowPtJets",  1, 1, 1, 1);
+//   addMCHistogram("NrHighPtJets",  1, 1, 1, 1);
 
   // data
 
@@ -237,23 +250,27 @@ int Btagging()
 //   addDataHistogram("MET_2b", 1, 1, 1, 1);
 //   addDataHistogram("MET_3b", 1, 1, 1, 1);
 
-  addDataHistogram("nBtags", 1, 1, 1, 1);
-  addDataHistogram("nBtags", 1, 1, 1, 1);
-
-  addDataHistogram("BtagsPt", 1, 1, 1, 1);
-  addDataHistogram("BtagsPt", 1, 1, 1, 1);
+//   addDataHistogram("nBtags", 1, 1, 1, 1);
+//   addDataHistogram("nBtags", 1, 1, 1, 1);
+  
+  //addDataHistogram("TCHE", 1, 1, 1, 1);
+  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
+//   addDataHistogram("BtagsPt", 1, 1, 1, 1);
 
   addDataHistogram("NrBtags",  1, 1, 1, 1);
-  addDataHistogram("NrLowPtBtags",  1, 1, 1, 1);
-  addDataHistogram("NrHighPtBtags",  1, 1, 1, 1);
+  addDataHistogram("TCHE",  1, 1, 1, 1);
+//   addDataHistogram("NrLowPtBtags",  1, 1, 1, 1);
+  //addDataHistogram("NrHighPtBtags",  1, 1, 1, 1);
   
-  addDataHistogram("NrJets",  1, 1, 1, 1);
-  addDataHistogram("NrLowPtJets",  1, 1, 1, 1);
-  addDataHistogram("NrHighPtJets",  1, 1, 1, 1);
+//   addDataHistogram("NrJets",  1, 1, 1, 1);
+//   addDataHistogram("NrLowPtJets",  1, 1, 1, 1);
+//   addDataHistogram("NrHighPtJets",  1, 1, 1, 1);
 
   //===========================================================================
   //================================ BAUSTELLE ================================
   //===========================================================================
+
+//   std::cout << "Test3" << std::endl;
 
 //   // muon channel
 //   TH1F* MCMuHist1=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagsPt_btagWeight");
@@ -273,7 +290,7 @@ int Btagging()
   
 //   double MuSFErr=sqrt(pow(DataMuIntErr/MCMuInt,2) + pow(DataMuInt*MCMuIntErr/(MCMuInt*MCMuInt),2));
   
-//   std::cout << MuSF << " +- " << MuSFErr << std::endl;
+//   std::cout << "Muon scale factor: " << MuSF << " +- " << MuSFErr << std::endl;
 
 //   //-------------------------------------------------------
 
@@ -295,12 +312,12 @@ int Btagging()
 //   std::cout << DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio)  << std::endl;
 //   std::cout << " " << std::endl;
   
-//   std::cout << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
+//   std::cout << "Muon ratio: " << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
 
 
   //============================================================================================================
 
-  // electron channel
+//   // electron channel
 //   TH1F* MCElHist1=(TH1F*)SM->Get(MCElSelections[0]+"/BtagsPt_btagWeight");
 //   TH1F* MCElHist2=(TH1F*)SM->Get(MCElSelections[0]+"/BtagPtBins_btagWeight");
 
@@ -320,7 +337,7 @@ int Btagging()
   
 //   std::cout << ElSF << " +- " << ElSFErr << std::endl;
 
-//   //-------------------------------------------------------
+  //-------------------------------------------------------
 
 //   double MCElRatio=ElSF*ElLumi*(MCElHist1->Integral(25,49));
 //   double MCElRatioErr=sqrt(pow(ElSF*ElLumi*(MCElHist2->GetBinError(2)),2)+ pow(ElSFErr*ElLumi*(MCElHist1->Integral(25,49)),2));
@@ -343,6 +360,16 @@ int Btagging()
 //   std::cout << ElRatio << " +- " << ElRatioErr << std::endl  << std::endl;
 
 
+//   //=======================================================
+
+
+//   double CombinedRatio=(DataMuRatio+DataMuRatio)/(MCMuRatio+MCElRatio);
+  
+//   double CombinedRatioErr=sqrt(pow(DataMuRatioErr/(MCMuRatio+MCElRatio),2) + pow(DataElRatioErr/(MCMuRatio+MCElRatio),2) + pow((DataMuRatio+DataElRatio)*MCMuRatioErr/((MCMuRatio+MCElRatio)*(MCMuRatio+MCElRatio)),2) + pow((DataMuRatio+DataElRatio)*MCElRatioErr/((MCMuRatio+MCElRatio)*(MCMuRatio+MCElRatio)),2));
+
+//   std::cout << "Combined ratio: " << CombinedRatio << " +- " << CombinedRatioErr << std::endl;									      
+//   ElSF=1;
+//   MuSF=1;
 
   //--------
   // Plot

@@ -31,23 +31,28 @@ hadd QCD.root QCD_?.root
 rm QCD_*.root
 
 rm MuHad*.root
-cp ../Btagging/Configuration/naf_MuHad_May10_cfg/AnalyzeBtags.root ./MuHad_1.root
-cp ../Btagging/Configuration/naf_MuHad_PromptReco1_v4_cfg/AnalyzeBtags.root ./MuHad_2.root
-cp ../Btagging/Configuration/naf_MuHad_PromptReco2_v4_cfg/AnalyzeBtags.root ./MuHad_3.root
-cp ../Btagging/Configuration/naf_MuHad_Aug5_cfg/AnalyzeBtags.root ./MuHad_4.root
-cp ../Btagging/Configuration/naf_MuHad_PromptReco_v6_cfg/AnalyzeBtags.root ./MuHad_5.root
-cp ../Btagging/Configuration/naf_RA4b_MuHad_Promtv1_2011B_cfg_1/AnalyzeBtags.root ./MuHad_6.root
-cp ../Btagging/Configuration/naf_RA4b_MuHad_Promtv1_2011B_cfg_2/AnalyzeBtags.root ./MuHad_7.root
-hadd MuHad.root MuHad_?.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad_May10thReReco_cfg/AnalyzeBtags.root ./MuHad_1.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad_PromtReco4_cfg_1/AnalyzeBtags.root ./MuHad_2.root    
+cp ../Btagging/Configuration/naf_RA4b_MuHad_PromtReco4_cfg_2/AnalyzeBtags.root ./MuHad_3.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad_Aug05thReReco_cfg/AnalyzeBtags.root ./MuHad_4.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad_PromtReco6_cfg/AnalyzeBtags.root ./MuHad_5.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad1_v1_2011_cfg/AnalyzeBtags.root ./MuHad_6.root   
+cp ../Btagging/Configuration/naf_RA4b_MuHad2_v1_2011_cfg/AnalyzeBtags.root ./MuHad_7.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad3_v1_2011_cfg/AnalyzeBtags.root ./MuHad_8.root
+cp ../Btagging/Configuration/naf_RA4b_MuHad4_v1_2011_cfg/AnalyzeBtags.root ./MuHad_9.root
+hadd MuHad.root MuHad_*.root
 rm MuHad_*.root
 
+
 rm ElHad*.root
-cp ../Btagging/Configuration/naf_ElHad_May10_cfg/AnalyzeBtags.root ./ElHad_1.root
-cp ../Btagging/Configuration/naf_ElHad_PromptReco1_v4_cfg/AnalyzeBtags.root ./ElHad_2.root
-cp ../Btagging/Configuration/naf_ElHad_PromptReco2_v4_cfg/AnalyzeBtags.root ./ElHad_3.root
-cp ../Btagging/Configuration/naf_ElHad_Aug5_cfg/AnalyzeBtags.root ./ElHad_4.root
-cp ../Btagging/Configuration/naf_ElHad_PromptReco_v6_cfg/AnalyzeBtags.root ./ElHad_5.root
-cp ../Btagging/Configuration/naf_RA4b_ElHad1_v1_Run2011B_cfg/AnalyzeBtags.root ./ElHad_6.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad_May10_cfg/AnalyzeBtags.root ./ElHad_1.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad1_v4_cfg/AnalyzeBtags.root ./ElHad_2.root    
+cp ../Btagging/Configuration/naf_RA4b_ElHad2_v4_cfg/AnalyzeBtags.root ./ElHad_3.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad_Aug05_cfg/AnalyzeBtags.root ./ElHad_4.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad_v6_cfg/AnalyzeBtags.root ./ElHad_5.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad1_v1_Run2011B_cfg/AnalyzeBtags.root ./ElHad_6.root   
 cp ../Btagging/Configuration/naf_RA4b_ElHad2_v1_Run2011B_cfg/AnalyzeBtags.root ./ElHad_7.root
-hadd ElHad.root ElHad_?.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad3_v1_Run2011B_cfg/AnalyzeBtags.root ./ElHad_8.root
+cp ../Btagging/Configuration/naf_RA4b_ElHad4_v1_Run2011B_cfg/AnalyzeBtags.root ./ElHad_9.root
+hadd ElHad.root ElHad_*.root
 rm ElHad_*.root

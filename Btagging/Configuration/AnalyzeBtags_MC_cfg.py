@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -287,6 +287,18 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
+# Load and configure module to scale jet energy
+process.load("SUSYAnalysis.Uncertainties.JetEnergy_cfi")
+
+process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
+process.scaledJetEnergy.inputMETs = "patMETsPF"
+
+process.scaledJetEnergy.jetPTThresholdForMET = 10. ## proposed on Nov 15 in RA4 meeting
+process.scaledJetEnergy.maxJetEtaForMET = 4.7      ## proposed on Nov 15 in RA4 meeting
+process.scaledJetEnergy.scaleType       = "jes:down"
+
+#process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+#process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 
@@ -305,7 +317,6 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
                                            minNumber = 2
                                            )
-
 
 #-----------------------------------------------------------------
 # Load and configure modules for event weighting
@@ -486,6 +497,7 @@ process.analyzeBtags_RA4bMu = cms.Path(# Standard RA4b preselection
                                        process.preselectionMuHTMC2 *
                                        process.eventWeightPU *
                                        process.weightProducer *
+                                       process.scaledJetEnergy *
                                        process.makeObjects *
                                        # match different triggers
                                        process.MuHadSelection *
@@ -515,12 +527,13 @@ process.analyzeBtags_RA4b = cms.Path(# Standard RA4b preselection
                                      process.preselectionMuHTMC2 *
                                      process.eventWeightPU *
                                      process.weightProducer *
+                                     process.scaledJetEnergy *
                                      process.makeObjects *
                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                      process.highPtJets *
                                      process.lowPtJets *
                                      # additinal cut
-                                     #process.twoHighPtJets *
+                                     process.twoHighPtJets *
                                      # match different triggers
                                      process.MuHadSelection *
                                      # produce btag event weights
@@ -558,12 +571,13 @@ process.analyzeBtags_diLep = cms.Path(# Standard RA4b preselection
                                       process.preselectionMuHTMC2 *
                                       process.eventWeightPU *
                                       process.weightProducer *
+                                      process.scaledJetEnergy *
                                       process.makeObjects *
                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                       process.highPtJets *
                                       process.lowPtJets *
                                       ## additional cut
-                                      #process.twoHighPtJets *
+                                      process.twoHighPtJets *
                                       # match different triggers
                                       process.MuHadSelection *
                                       # produce btag event weights
@@ -774,6 +788,7 @@ process.analyzeBtags_RA4bEl = cms.Path(# Standard RA4b preselection
                                        process.preselectionElHTMC2 *
                                        process.eventWeightPU *
                                        process.weightProducer *
+                                       process.scaledJetEnergy *
                                        process.makeObjects *
                                        # match different triggers
                                        process.ElHadSelection *
@@ -803,12 +818,13 @@ process.analyzeBtags_RA4b2 = cms.Path(# Standard RA4b preselection
                                       process.preselectionElHTMC2 *
                                       process.eventWeightPU *
                                       process.weightProducer *
+                                      process.scaledJetEnergy *
                                       process.makeObjects *
                                       # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                       process.highPtJets *
                                       process.lowPtJets *
                                       # additinal cut
-                                      #process.twoHighPtJets *
+                                      process.twoHighPtJets *
                                       # match different triggers
                                       process.ElHadSelection *
                                       # produce btag event weights
@@ -846,12 +862,13 @@ process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
                                        process.preselectionElHTMC2 *
                                        process.eventWeightPU *
                                        process.weightProducer *
+                                       process.scaledJetEnergy *
                                        process.makeObjects *
                                        # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                        process.highPtJets *
                                        process.lowPtJets *
                                        ## additional cut
-                                       #process.twoHighPtJets *
+                                       process.twoHighPtJets *
                                        # match different triggers
                                        process.ElHadSelection *
                                        # produce btag event weights
@@ -889,12 +906,13 @@ process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
                                      process.preselectionElHTMC2 *
                                      process.eventWeightPU *
                                      process.weightProducer *
+                                     process.scaledJetEnergy *
                                      process.makeObjects *
                                      # produce collections of low pt (< 240) and hight pt (>240) jets in addition
                                      process.highPtJets *
                                      process.lowPtJets *
                                      ## additional cut
-                                     #process.twoHighPtJets *
+                                     process.twoHighPtJets *
                                      # match different triggers
                                      process.ElHadSelection *
                                      # produce btag event weights
