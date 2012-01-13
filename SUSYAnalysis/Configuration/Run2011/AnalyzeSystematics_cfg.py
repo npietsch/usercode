@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(20000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -326,10 +326,10 @@ process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMuJER.clon
 process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
 
 process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMuJER.clone()
-process.btagEventWeightMuBtagSFUp.sysVar     = "MisTagSFUp"
+process.btagEventWeightMuMistagSFUp.sysVar   = "misTagSFUp"
 
 process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMuJER.clone()
-process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
+process.btagEventWeightMuMistagSFDown.sysVar = "misTagSFDown"
 
 ## electron channel default settings
 process.btagEventWeightEl                    = process.btagEventWeight.clone()
@@ -346,10 +346,10 @@ process.btagEventWeightElBtagSFDown          = process.btagEventWeightElJER.clon
 process.btagEventWeightElBtagSFDown.sysVar   = "bTagSFDown"
 
 process.btagEventWeightElMistagSFUp          = process.btagEventWeightElJER.clone()
-process.btagEventWeightElBtagSFUp.sysVar     = "MisTagSFUp"
+process.btagEventWeightElMistagSFUp.sysVar   = "misTagSFUp"
 
 process.btagEventWeightElMistagSFDown        = process.btagEventWeightElJER.clone()
-process.btagEventWeightElMistagSFDown.sysVar = "MisTagSFDown"
+process.btagEventWeightElMistagSFDown.sysVar = "misTagSFDown"
 
 #-----------------------------------------------------------------
 # Load and configure module to scale jet energy
