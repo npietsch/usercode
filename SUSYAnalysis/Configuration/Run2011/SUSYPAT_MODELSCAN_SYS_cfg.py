@@ -13,7 +13,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.4 $'),
+    version = cms.untracked.string('$Revision: 1.5 $'),
     name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_SYS_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -91,10 +91,10 @@ process.btagEventWeightMuBtagSFDown          = process.btagEventWeightMuJER.clon
 process.btagEventWeightMuBtagSFDown.sysVar   = "bTagSFDown"
 
 process.btagEventWeightMuMistagSFUp          = process.btagEventWeightMuJER.clone()
-process.btagEventWeightMuMistagSFUp.sysVar   = "MisTagSFUp"
+process.btagEventWeightMuMistagSFUp.sysVar   = "misTagSFUp"
 
 process.btagEventWeightMuMistagSFDown        = process.btagEventWeightMuJER.clone()
-process.btagEventWeightMuMistagSFDown.sysVar = "MisTagSFDown"
+process.btagEventWeightMuMistagSFDown.sysVar = "misTagSFDown"
 
 ## electron channel default settings
 process.btagEventWeightEl                    = process.btagEventWeight.clone()
@@ -111,10 +111,10 @@ process.btagEventWeightElBtagSFDown          = process.btagEventWeightElJER.clon
 process.btagEventWeightElBtagSFDown.sysVar   = "bTagSFDown"
 
 process.btagEventWeightElMistagSFUp          = process.btagEventWeightElJER.clone()
-process.btagEventWeightElMistagSFUp.sysVar   = "MisTagSFUp"
+process.btagEventWeightElMistagSFUp.sysVar   = "misTagSFUp"
 
 process.btagEventWeightElMistagSFDown        = process.btagEventWeightElJER.clone()
-process.btagEventWeightElMistagSFDown.sysVar = "MisTagSFDown"
+process.btagEventWeightElMistagSFDown.sysVar = "misTagSFDown"
 
 
 #-----------------------------------------------------------------
