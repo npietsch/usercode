@@ -419,8 +419,19 @@ double BtagEventWeight::effMisTagSF(double jetPt, double jetEta)
   if(perf.isResultOk( measureMap_[ "BTAGLERRCORR" ], measurePoint))
        error = perf.getResult( measureMap_[ "BTAGLERRCORR" ], measurePoint);
   else error = 0.1;
+
+  //if(sysVar_ == "misTagSFUp" || sysVar_ == "misTagSFDown")
+  //{
+  //  std::cout << "result: " << result << std::endl;
+  //  std::cout << "error: " << error << std::endl;
+  //}
+  
   if(sysVar_ == "misTagSFUp")   result += error;
   if(sysVar_ == "misTagSFDown") result -= error;
+
+  //if(sysVar_ == "misTagSFUp") std::cout << "effMisTagSFUp: "<< result << std::endl;
+  //if(sysVar_ == "misTagSFDown") std::cout << "effMisTagDown: "<< result << std::endl;
+
   if(verbose_>=2) std::cout<< "effMisTagSF= "<<result<<" +/- "<<error<<std::endl;
   return result;
 }
