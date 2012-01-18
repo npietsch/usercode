@@ -528,11 +528,11 @@ process.BtagEfficiencies_Muon = cms.Path(# preselection
                                          )
 
 process.BtagEfficiencies_Electron = cms.Path(# preselection
-                                             process.preselectionMuHTMC2 *
+                                             process.preselectionElHTMC2 *
                                              process.makeObjects *
                                              process.eventWeightPU *
                                              process.weightProducer *
-                                             process.MuHadSelection *
+                                             process.ElHadSelection *
                                              # estimate btag eff
                                              process.bTagEffRA4bElTCHEM1 *
                                              process.bTagEffRA4bElTCHPM1 *
@@ -564,117 +564,3 @@ process.BtagEfficiencies_Electron = cms.Path(# preselection
                                              process.bTagEffRA4bElSSVHEM4 *
                                              process.bTagEffRA4bElSSVHPT4
                                              )
-
-## calculate weights for dilep selection
-##------------------------------------------
-
-process.BtagEfficiencies_Muon2 = cms.Path(# preselection
-                                          process.preselectionMuHTMC2 *
-                                          process.makeObjects *
-                                          process.eventWeightPU *
-                                          process.weightProducer *
-                                          process.MuHadSelection *
-                                          # estimate btag eff
-                                          process.bTagEffDilepMuTCHEM1 *
-                                          process.bTagEffDilepMuTCHPM1 *
-                                          process.bTagEffDilepMuTCHPT1 *
-                                          process.bTagEffDilepMuSSVHEM1 *
-                                          process.bTagEffDilepMuSSVHPT1 *
-                                          # muon selection
-                                          process.oneGoodMuon*
-                                          # etsimate btag eff
-                                          process.bTagEffDilepMuTCHEM2 *
-                                          process.bTagEffDilepMuTCHPM2 *
-                                          process.bTagEffDilepMuTCHPT2 *
-                                          process.bTagEffDilepMuSSVHEM2 *
-                                          process.bTagEffDilepMuSSVHPT2 *
-                                          #jet selection
-                                          process.twoGoodJets *
-                                          #estimate btagg eff 
-                                          process.bTagEffDilepMuTCHEM3 *
-                                          process.bTagEffDilepMuTCHPM3 *
-                                          process.bTagEffDilepMuTCHPT3 *
-                                          process.bTagEffDilepMuSSVHEM3 *
-                                          process.bTagEffDilepMuSSVHPT3 *
-                                          # additinal cut
-                                          process.oneNoSignalMET *
-                                          # estimate btagg eff 
-                                          process.bTagEffDilepMuTCHEM4 *
-                                          process.bTagEffDilepMuTCHPM4 *
-                                          process.bTagEffDilepMuTCHPT4 *
-                                          process.bTagEffDilepMuSSVHEM4 *
-                                          process.bTagEffDilepMuSSVHPT4
-                                          )
-
-process.BtagEfficiencies_Electron2 = cms.Path(# preselection
-                                              process.preselectionMuHTMC2 *
-                                              process.makeObjects *
-                                              process.eventWeightPU *
-                                              process.weightProducer *
-                                              process.MuHadSelection *
-                                              # estimate btag eff
-                                              process.bTagEffDilepElTCHEM1 *
-                                              process.bTagEffDilepElTCHPM1 *
-                                              process.bTagEffDilepElTCHPT1 *
-                                              process.bTagEffDilepElSSVHEM1 *
-                                              process.bTagEffDilepElSSVHPT1 *
-                                              # muon selection
-                                              process.oneGoodElectron *
-                                              # etsimate btag eff
-                                              process.bTagEffDilepElTCHEM2 *
-                                              process.bTagEffDilepElTCHPM2 *
-                                              process.bTagEffDilepElTCHPT2 *
-                                              process.bTagEffDilepElSSVHEM2 *
-                                              process.bTagEffDilepElSSVHPT2 *
-                                              #jet selection
-                                              process.twoGoodJets *
-                                              #estimate btagg eff 
-                                              process.bTagEffDilepElTCHEM3 *
-                                              process.bTagEffDilepElTCHPM3 *
-                                              process.bTagEffDilepElTCHPT3 *
-                                              process.bTagEffDilepElSSVHEM3 *
-                                              process.bTagEffDilepElSSVHPT3 *
-                                              # additinal cut
-                                              process.oneNoSignalMET *
-                                              # estimate btagg eff 
-                                              process.bTagEffDilepElTCHEM4 *
-                                              process.bTagEffDilepElTCHPM4 *
-                                              process.bTagEffDilepElTCHPT4 *
-                                              process.bTagEffDilepElSSVHEM4 *
-                                              process.bTagEffDilepElSSVHPT4
-                                              )
-
-## Incl. RA4b electron selection with cut on two high pt jets and MET < 300 in addition
-##-------------------------------------------------------------------------------------------
-process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
-                                     process.preselectionElHTAllData *
-                                     process.makeObjects *
-                                     # produce collections of low pt (< 240) and hight pt (>240) jets in addition
-                                     process.highPtJets *
-                                     process.lowPtJets *
-                                     ## additional cut
-                                     process.twoHighPtJets *
-                                     # match different triggers
-                                     process.ElHadSelection *
-                                     # electron selection
-                                     process.oneGoodElectron *
-                                     process.noGoodMuon *
-                                     # jet selection
-                                     process.twoGoodJets*
-                                     # analyze btags
-                                     process.analyzeBtagsElElTCHEM3dilep *
-                                     process.analyzeBtagsElElSSVHEM3dilep*
-                                     process.analyzeBtagsElElTCHEM3lowPtdilep *
-                                     process.analyzeBtagsElElSSVHEM3lowPtdilep *
-                                     process.analyzeBtagsElElTCHEM3highPtdilep *
-                                     process.analyzeBtagsElElSSVHEM3highPtdilep *
-                                     # additinal cut
-                                     process.oneNoSignalMET*
-                                     # analyze btags
-                                     process.analyzeBtagsElElTCHEM4dilep *
-                                     process.analyzeBtagsElElSSVHEM4dilep*
-                                     process.analyzeBtagsElElTCHEM4lowPtdilep *
-                                     process.analyzeBtagsElElSSVHEM4lowPtdilep *
-                                     process.analyzeBtagsElElTCHEM4highPtdilep *
-                                     process.analyzeBtagsElElSSVHEM4highPtdilep
-                                     )
