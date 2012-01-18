@@ -1,10 +1,10 @@
 #!/bin/bash
 
-nafJobSplitter.pl -q 12 8 RA4b_LM3_cfg.py
+nafJobSplitter.pl -q 12 31 RA4b_LM3_cfg.py
 #nafJobSplitter.pl -q 12 31 RA4b_LM4_cfg.py
 #nafJobSplitter.pl -q 12 27 RA4b_LM6_cfg.py
-nafJobSplitter.pl -q 12 8 RA4b_LM8_cfg.py
-nafJobSplitter.pl -q 12 17 RA4b_LM9_cfg.py
+nafJobSplitter.pl -q 12 32 RA4b_LM8_cfg.py
+nafJobSplitter.pl -q 12 31 RA4b_LM9_cfg.py
 nafJobSplitter.pl -q 12 32 RA4b_LM13_cfg.py
 
 nafJobSplitter.pl -q 12 235 RA4b_TTJets_cfg.py
