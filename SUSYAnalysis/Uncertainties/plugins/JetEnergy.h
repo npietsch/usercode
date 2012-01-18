@@ -95,6 +95,10 @@ class JetEnergy : public edm::EDProducer {
   double jetEMLimitForMET_;
   /// do jet energy smearing?
   bool doJetSmearing_;
+  /// jet correction service
+  std::string JetCorrectionService_;
+  /// Propagate L2L3 Residual corrections to MET? 
+  bool L2L3Residual_;
   /// allowed scaleTypes
   std::vector<std::string> allowedTypes_;
 

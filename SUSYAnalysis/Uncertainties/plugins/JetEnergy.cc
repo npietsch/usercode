@@ -13,6 +13,8 @@
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
+#include "JetMETCorrections/Objects/interface/JetCorrector.h"
+
 JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   inputJets_           (cfg.getParameter<edm::InputTag>("inputJets"           )),
   inputMETs_           (cfg.getParameter<edm::InputTag>("inputMETs"           )),
@@ -25,7 +27,10 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
   jetPTThresholdForMET_(cfg.getParameter<double>       ("jetPTThresholdForMET")),
   maxJetEtaForMET_     (cfg.getParameter<double>       ("maxJetEtaForMET")),
   jetEMLimitForMET_    (cfg.getParameter<double>       ("jetEMLimitForMET"    )),
-  doJetSmearing_       (cfg.getParameter<bool>         ("doJetSmearing"       ))
+  doJetSmearing_       (cfg.getParameter<bool>         ("doJetSmearing"       )),
+  JetCorrectionService_(cfg.getParameter<std::string>  ("JetCorrectionService")),
+  L2L3Residual_        (cfg.getParameter<bool>         ("L2L3Residual"))
+
 {
   edm::Service<TFileService> fs;
     
@@ -86,72 +91,90 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
   for(std::vector<pat::Jet>::const_iterator jet=jets->begin(); jet!=jets->end(); ++jet)
     {
       pat::Jet scaledJet = *jet;
-      
+      pat::Jet scaledJetL2L3 = *jet;
+
       if(scaleType_=="abs")
 	{
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet));
+
 	  if (abs(scaledJet.partonFlavour()) == 5) scaleJetEnergy(scaledJet,scaleFactorB_);
 	  else scaleJetEnergy(scaledJet,scaleFactor_);
-
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
 	}
 
       if(scaleType_=="rel")
 	{
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet));
+
 	  scaleJetEnergy( scaledJet, 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )) );
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
 	}   
       
-      if(scaleType_.substr(0, scaleType_.find(':'))=="jes" || 
-	 scaleType_.substr(0, scaleType_.find(':'))=="top" )
+      if(scaleType_.substr(0, scaleType_.find(':'))=="jes")
 	{
+	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+
 	  edm::ESHandle<JetCorrectorParametersCollection> jetCorrParameters;
 	  setup.get<JetCorrectionsRecord>().get(payload_, jetCorrParameters);
 	  JetCorrectorParameters const & param = (*jetCorrParameters)["Uncertainty"];
 	  JetCorrectionUncertainty* deltaJEC = new JetCorrectionUncertainty(param);
-	  deltaJEC->setJetEta(jet->eta()); deltaJEC->setJetPt(jet->pt()); 
+	  deltaJEC->setJetEta(jet->eta());
+	  deltaJEC->setJetPt(jet->pt()); 
 	  
-	  // additional JES uncertainty from Top group
-	  // sum of squared shifts of jet energy to be applied
-	  float topShift2 = 0.;
-	  if(scaleType_.substr(0, scaleType_.find(':'))=="top")
+	  // get jet corrector fro L2L3 Residual corrections from event setup
+	  double L2L3=0;
+	  if(L2L3Residual_==true)
 	    {
-	      float pileUp = 0.352/jet->pt()/jet->pt();
-	      float bjet = 0.;
-	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
-		{
-		  bjet = ((50<jet->pt() && jet->pt()<200) && fabs(jet->eta())<2.0) ? 0.02 : 0.03;
-		}
-	      float sw = (1.-scaleFactor_);
-	      topShift2 += pileUp*pileUp + bjet*bjet + sw*sw;
+	      const JetCorrector* corrector = JetCorrector::getJetCorrector(JetCorrectionService_,setup);
+	      int index = jet-jets->begin();
+	      edm::RefToBase<reco::Jet> jetRef(edm::Ref<std::vector<pat::Jet> > (jets,index));
+	      L2L3=1-(corrector->correction(*jet,jetRef,event,setup));
+	      // comment out following lines for debugging
+	      //std::cout << "jet pt: " << jet->pt() << std::endl;
+	      //std::cout << "L2L3: " << L2L3 << std::endl;
+	      //std::cout << "(L2L3) * jet et: " << (L2L3)*(jet->pt()) << std::endl;
 	    }
-	  
+
 	  // scale jet energy
 	  if(scaleType_.substr(scaleType_.find(':')+1)=="up")
 	    {
 	      float jetMet = deltaJEC->getUncertainty(true);
-	      scaleJetEnergy( scaledJet, 1+std::sqrt(jetMet*jetMet + topShift2) );
+	      scaleJetEnergy( scaledJet, 1+std::sqrt(jetMet*jetMet) );
+
+	      // apply L2L3 Residual corrections on for propagation on MET uncertainty
+	      scaleJetEnergy( scaledJetL2L3, 1+std::sqrt(jetMet*jetMet + (L2L3)*(L2L3)) );
 	    }
 	  else if(scaleType_.substr(scaleType_.find(':')+1)=="down")
 	    {
 	      float jetMet = deltaJEC->getUncertainty(false);
-	      scaleJetEnergy( scaledJet, 1-std::sqrt(jetMet*jetMet + topShift2) );
+	      scaleJetEnergy( scaledJet, 1-std::sqrt(jetMet*jetMet) );
+
+	      // apply L2L3 Residual corrections on for propagation on MET uncertainty
+	      scaleJetEnergy( scaledJetL2L3, 1 - std::sqrt(jetMet*jetMet + (L2L3)*(L2L3) ) );
 	    }
-	  
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+
 	  delete deltaJEC;
 	}
       
       pJets->push_back( scaledJet );
       
       // consider jet scale shift only if the raw jet pt is above the thresholds given in the module definition
-      if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->eta() < maxJetEtaForMET_ )
+     if(jet->correctedJet("Uncorrected").pt() > jetPTThresholdForMET_ && jet->eta() < maxJetEtaForMET_ )
 	{
 	  JetPt_->Fill(jet->pt());
 	  SmearedJetPt_->Fill(scaledJet.pt());
 	  
-	  dPx    += scaledJet.px() - jet->px();
-	  dPy    += scaledJet.py() - jet->py();
-	  dSumEt += scaledJet.et() - jet->et();
+	  // comment out following lines for debugging
+	  //if(scaleType_.substr(0, scaleType_.find(':'))=="jes")
+	  //{
+	  //  std::cout << "------------------------------------" << std::endl;
+	  //  std::cout << "jet pt: " << jet->pt() << std::endl;
+	  //  std::cout << "scaledJet pt: " << scaledJet.pt() << std::endl;
+	  //  std::cout << "scaledJetL2L3 pt: " << scaledJetL2L3.pt() << std::endl;
+	  //  std::cout << "------------------------------------" << std::endl;
+	  //}
+	  
+	  dPx    += scaledJetL2L3.px() - jet->px();
+	  dPy    += scaledJetL2L3.py() - jet->py();
+	  dSumEt += scaledJetL2L3.et() - jet->et();
 	}
     }
   

@@ -12,5 +12,7 @@ scaledJetEnergy = cms.EDProducer("JetEnergy",
                                  jetEMLimitForMET     = cms.double(0.9),                                 
                                  resolutionFactors    = cms.vdouble(1.1, 1.1, 1.1), # list the different JER factors here: (JER1, JER2)
                                  resolutionEtaRanges  = cms.vdouble(0, 1.5, 1.5, 2.0, 2.0, -1),  # list the |eta| ranges for the different JER factors here (etaMin1, etaMax1, etaMin2, etaMax2), etaMax=-1: means |eta|<infinity
-                                 doJetSmearing        = cms.bool(False)
+                                 doJetSmearing        = cms.bool(False),
+                                 JetCorrectionService = cms.string("L2L3ResidualMC"),
+                                 L2L3Residual         = cms.bool(True)
                                  )
