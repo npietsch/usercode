@@ -27,23 +27,37 @@ process.GlobalTag.globaltag = cms.string('START42_V13::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_9_1_RWk.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_8_1_9rU.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_7_1_Bmf.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_6_1_PHc.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_5_1_5LB.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_4_1_Ez6.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_3_1_mDr.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_2_1_qAa.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_1_1_EfL.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_17_1_vO7.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_16_1_2nK.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_15_1_TIr.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_14_1_t1t.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_13_1_ijg.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_12_1_tbw.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_11_1_2iZ.root',
-    '/store/user/npietsch/LM9_SUSY_sftsht_7TeV-pythia6/SUSYPAT/1bd78d5132693ded1fbe0b8a82b5b12c/Summer11_10_1_CIh.root'    
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_10_2_DWR.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_11_2_bZK.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_12_2_33F.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_13_2_WxO.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_14_2_Vnk.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_15_2_UoD.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_16_2_MKR.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_17_2_GHI.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_18_2_x61.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_19_2_bKs.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_1_2_pMS.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_20_2_2NX.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_21_2_cRh.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_22_2_Tcn.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_23_2_unu.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_24_2_ihv.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_25_2_29N.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_26_2_umf.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_27_2_kIn.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_28_2_zqm.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_29_2_fEJ.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_2_2_KZW.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_30_2_i0C.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_31_2_0ux.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_3_2_275.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_4_2_yOX.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_5_2_nQr.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_6_2_qVT.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_7_2_wxo.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_8_2_omT.root',
+    '/store/user/fcostanz/LM9_SUSY_sftsht_7TeV-pythia6/LM9_Summer2011/7775abddf4cecee1ba70f412bba59ece/Summer11_9_2_UPY.root'
     )
  )
 
@@ -61,8 +75,18 @@ process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 # Import modules to filter events on generator level 
 #------------------------------------------------------
 
-#from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
-#process.SUSYGenEventFilter = SUSYGenEventFilter.clone(cut='decayCascadeA=\"gluinosquarkneutralino1\"')
+from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
+
+process.GluinoGluinoFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay()')
+process.GluinoGluinoVeto   = SUSYGenEventFilter.clone(cut='!GluinoGluinoDecay()')
+
+process.GluinoGluino0TopFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfTops()==0')
+process.GluinoGluino1TopFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfTops()==1')
+process.GluinoGluino2TopFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfTops()>1' )
+
+process.GluinoGluino0LepFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfLeptons()==0')
+process.GluinoGluino1LepFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfLeptons()==1')
+process.GluinoGluino2LepFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfLeptons()>1' )
 
 #-----------------------------------------------------------------
 # Load modules for preselection
@@ -82,6 +106,18 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 
+process.analyzeAll              = process.analyzeGluino.clone()
+process.analyzeGluinoGluino     = process.analyzeGluino.clone()
+process.analyzeGluinoGluinoVeto = process.analyzeGluino.clone()
+
+process.analyzeGluinoGluino0Top = process.analyzeGluino.clone()
+process.analyzeGluinoGluino1Top = process.analyzeGluino.clone()
+process.analyzeGluinoGluino2Top = process.analyzeGluino.clone()
+
+process.analyzeGluinoGluino0Lep = process.analyzeGluino.clone()
+process.analyzeGluinoGluino1Lep = process.analyzeGluino.clone()
+process.analyzeGluinoGluino2Lep = process.analyzeGluino.clone()
+
 #-------------------------------------------------
 # Load and configure module for event weighting
 #-------------------------------------------------
@@ -95,10 +131,83 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 # selection paths
 #--------------------------
 
-process.Selection1m = cms.Path(process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.eventWeightPU *
-                               process.weightProducer *
-                               process.jetSelection *
-                               process.analyzeGluino
-                               )
+process.all = cms.Path(process.makeObjects *
+                       process.makeSUSYGenEvt *
+                       process.eventWeightPU *
+                       process.weightProducer *
+                       process.jetSelection *
+                       process.analyzeAll
+                       )
+
+process.GluinoGluino = cms.Path(process.makeObjects *
+                                process.makeSUSYGenEvt *
+                                process.eventWeightPU *
+                                process.weightProducer *
+                                process.jetSelection *
+                                process.GluinoGluinoFilter *
+                                process.analyzeGluinoGluino
+                                )
+
+process.Other = cms.Path(process.makeObjects *
+                         process.makeSUSYGenEvt *
+                         process.eventWeightPU *
+                         process.weightProducer *
+                         process.jetSelection *
+                         process.GluinoGluinoVeto *
+                         process.analyzeGluinoGluinoVeto
+                         )
+
+process.GluinoGluino0Top = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino0TopFilter *
+                                    process.analyzeGluinoGluino0Top
+                                    )
+
+process.GluinoGluino1Top = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino1TopFilter *
+                                    process.analyzeGluinoGluino1Top
+                                    )
+
+process.GluinoGluino2Top = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino2TopFilter *
+                                    process.analyzeGluinoGluino2Top
+                                    )
+
+
+process.GluinoGluino0Lep = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino1LepFilter *
+                                    process.analyzeGluinoGluino0Lep
+                                    )
+
+process.GluinoGluino1Lep = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino2LepFilter *
+                                    process.analyzeGluinoGluino1Lep
+                                    )
+
+process.GluinoGluino2Lep = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluino2LepFilter *
+                                    process.analyzeGluinoGluino2Lep
+                                    )

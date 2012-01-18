@@ -31,13 +31,13 @@ SUSYGenEvent::candidate(int id, unsigned int parentId) const
   return cand;
 }
 
-// is lepton
+// is muon or electron
 bool SUSYGenEvent::isLepton(const reco::GenParticle & genParticle) const
 {
   bool lep=false;
   if(abs(genParticle.pdgId())==11 || abs(genParticle.pdgId())==13)
     {
-      if(abs(genParticle.mother()->pdgId())==24 || abs(genParticle.mother()->pdgId())==23 ||
+      if(abs(genParticle.mother()->pdgId())==22 || abs(genParticle.mother()->pdgId())==23 || abs(genParticle.mother()->pdgId())==24 ||
 	 abs(genParticle.mother()->pdgId())==1000022 || abs(genParticle.mother()->pdgId())==1000023 ||
 	 abs(genParticle.mother()->pdgId())==1000024 || abs(genParticle.mother()->pdgId())==1000025 ||
 	 abs(genParticle.mother()->pdgId())==1000035 || abs(genParticle.mother()->pdgId())==1000037 ||
@@ -48,7 +48,7 @@ bool SUSYGenEvent::isLepton(const reco::GenParticle & genParticle) const
 	 abs(genParticle.mother()->pdgId())==2000013 || abs(genParticle.mother()->pdgId())==2000014 ||
 	 abs(genParticle.mother()->pdgId())==2000015 || abs(genParticle.mother()->pdgId())==2000016 ||
 	 abs(genParticle.mother()->pdgId())==25 || abs(genParticle.mother()->pdgId())==35 ||
-	 abs(genParticle.mother()->pdgId())==36 )
+	 abs(genParticle.mother()->pdgId())==36 || abs(genParticle.mother()->pdgId())==37)
 	{   
 	  lep=true;
 	}
@@ -56,7 +56,7 @@ bool SUSYGenEvent::isLepton(const reco::GenParticle & genParticle) const
   return lep;
 }
 
-// returns number of leptons from the decay of W, Z
+// returns number of leptons
 int
 SUSYGenEvent::numberOfLeptons() const
 {
@@ -158,7 +158,7 @@ SUSYGenEvent::numberOfLeptons(Wdecay::LepType typeRestriction, bool fromWBoson) 
   return lep;
 }
 
-// returns number of bottom-quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
+// returns number of bottom quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
 int
 SUSYGenEvent::numberOfBQuarks() const
 {
@@ -179,7 +179,7 @@ SUSYGenEvent::numberOfBQuarks() const
   return bq;
 }
 
-// returns number of bottom-quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
+// returns number of top quarks from the decay of top, gluino, stop, sbottom or neutral Higgs
 int
 SUSYGenEvent::numberOfTops() const
 {
@@ -280,7 +280,7 @@ bool SUSYGenEvent::isStop(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is stop
+// is sbottom
 bool SUSYGenEvent::isSbottom(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -310,7 +310,7 @@ bool SUSYGenEvent::isChargino(const reco::GenParticle & genParticle) const
 bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
-  if(//abs(genParticle.pdgId())==1000022 ||
+  if(abs(genParticle.pdgId())==1000022 ||
      abs(genParticle.pdgId())==1000023 ||
      abs(genParticle.pdgId())==1000025 ||
      abs(genParticle.pdgId())==1000035)
@@ -395,7 +395,7 @@ bool SUSYGenEvent::SquarkDecay() const
   return squarkDecay;
 }
 
-// is gluino-gluino decay
+// is gluino gluino decay
 bool SUSYGenEvent::GluinoGluinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -407,7 +407,7 @@ bool SUSYGenEvent::GluinoGluinoDecay() const
   return gluinoGluinoDecay;
 }
 
-// is squark-squark decay
+// is squark squark decay
 bool SUSYGenEvent::SquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -427,7 +427,7 @@ bool SUSYGenEvent::SquarkSquarkDecay() const
   return squarkSquarkDecay;
 }
 
-// is same sign squark-squark decay
+// is same sign squark squark decay
 bool SUSYGenEvent::SSignSquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -439,7 +439,7 @@ bool SUSYGenEvent::SSignSquarkSquarkDecay() const
   return sSignSquarkSquarkDecay;
 }
 
-// is opposite sign squark-squark decay
+// is opposite sign squark squark decay
 bool SUSYGenEvent::OSignSquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -451,7 +451,7 @@ bool SUSYGenEvent::OSignSquarkSquarkDecay() const
   return oSignSquarkSquarkDecay;
 }
 
-// is gluino-squark decay
+// is gluino squark decay
 bool SUSYGenEvent::GluinoSquarkDecay() const
 {
   bool gluinoSquarkDecay=false;
@@ -508,6 +508,7 @@ bool SUSYGenEvent::StopStopDecay() const
   if (isStop(initSpartsColl[0]) && isStop(initSpartsColl[1])) decayTrue=true;
   return decayTrue;
 }
+
 bool SUSYGenEvent::SbottomSbottomDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -518,6 +519,7 @@ bool SUSYGenEvent::SbottomSbottomDecay() const
   if (isSbottom(initSpartsColl[0]) && isSbottom(initSpartsColl[1]) ) decayTrue=true;
   return decayTrue;
 }
+
 bool SUSYGenEvent::SleptonSleptonDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -528,6 +530,7 @@ bool SUSYGenEvent::SleptonSleptonDecay() const
   if (isSlepton(initSpartsColl[0])  && isSlepton(initSpartsColl[1]) ) decayTrue=true;
   return decayTrue;
 }
+
 bool SUSYGenEvent::EWinoEWinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -562,7 +565,6 @@ bool SUSYGenEvent::EWinoSquarkDecay() const
   if ( (isChargino(initSpartsColl[1]) || isNeutralino(initSpartsColl[1]))  && isSquark(initSpartsColl[0]) ) decayTrue=true;
   return decayTrue;
 }
-
 
 // decay chain A
 int SUSYGenEvent::decayChainA() const
@@ -630,10 +632,9 @@ const reco::Candidate* SUSYGenEvent::createSdaughter(const reco::Candidate* moth
   return sdaughter;
 }
 
-// returns sparticle name
+// return sparticle name
 std::string SUSYGenEvent::sparticleName(const reco::Candidate* candidate) const
 {
- 
   reco::GenParticle* genParticle=new reco::GenParticle(candidate->threeCharge(),candidate->p4(), candidate->vertex(),candidate->pdgId(), candidate->status(), false );
   
   std::string sparticleName="none";
@@ -644,7 +645,6 @@ std::string SUSYGenEvent::sparticleName(const reco::Candidate* candidate) const
   else if(isSbottom(*genParticle)== true) sparticleName="sbottom";
   else if(isChargino(*genParticle)== true)sparticleName="chargino";
   else if(isNeutralino(*genParticle)== true)sparticleName="neutralino";
-  else if(isNeutralino1(*genParticle)== true)sparticleName="neutralino1";
   else if(isSlepton(*genParticle)== true)sparticleName="slepton";
   else 
     {

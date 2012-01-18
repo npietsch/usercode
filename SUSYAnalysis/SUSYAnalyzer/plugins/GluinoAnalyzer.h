@@ -57,12 +57,9 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   // histograms      	
   //--------------------------------
 
-  // dummy histogram
+  // dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
- 
-  // histograms for ABCD method
-  // ...
 
   // histogram for control quantities
   TH1F* nPV_;
@@ -83,7 +80,9 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* MET_;
   TH1F* HT_;
   TH1F* MHT_;
+  TH1F* nJets_;
 
+  // mjj variables
   TH1F* mjj_;
   TH1F* mjjI1_;
   TH1F* mjjMaxI_;
