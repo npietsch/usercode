@@ -85,6 +85,8 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* MHT_;
 
   TH1F* mjj_;
+  TH1F* mjjI1_;
+  TH1F* mjjMaxI_;
 };  
 
 #endif  
