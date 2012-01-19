@@ -64,9 +64,11 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nJets_ = fs->make<TH1F>("nJets","nJets", 14, 0.,  14.);
 
   // Declare mjj variables
-  mjj_ = fs->make<TH1F>("mjj","mjj", 80, 0.,  800.);
-  mjjI1_ = fs->make<TH1F>("mjjI1","mjjI1", 80, 0.,  800.);
-  mjjMaxI_  = fs->make<TH1F>("mjjMaxI","mjjMaxI", 80, 0.,  800.);
+  mjjLow_ = fs->make<TH1F>("mjjLow","mjjLow", 80, 0.,  800.);
+  mjjHigh_ = fs->make<TH1F>("mjjHigh","mjjHigh", 80, 0.,  800.);
+  mjjMin_  = fs->make<TH1F>("mjjMin","mjjMin", 80, 0.,  800.);
+  mjjMax_  = fs->make<TH1F>("mjjMax","mjjMax", 80, 0.,  800.);
+  mjjLow2_ = fs->make<TH1F>("mjjLow2","mjjLow2", 80, 0.,  800.);
 }
 
 GluinoAnalyzer::~GluinoAnalyzer()
@@ -156,8 +158,17 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
 
   //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
+
   if(jets->size()>3)
     {
+      //if((*jets)[0].genParton())
+      //{
+      //  std::cout << (*jets)[0].genParton()->mother()->pdgId() << std::endl;
+      //}
+
+      std::cout << jets->size() << std::endl;
+
+      // define four vectors
       reco::Particle::LorentzVector Jet1=(*jets)[0].p4();
       reco::Particle::LorentzVector Jet2=(*jets)[1].p4();
       reco::Particle::LorentzVector Jet3=(*jets)[2].p4();
@@ -166,23 +177,33 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       reco::Particle::LorentzVector JetI1=(*jets)[jets->size()-1].p4();
       reco::Particle::LorentzVector JetI2=(*jets)[jets->size()-2].p4();
       
-      //double m14=sqrt((Jet1+Jet4).Dot(Jet1+Jet4));
-      //double m24=sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
-      
-      double m1I1=sqrt((Jet1+JetI1).Dot(Jet1+JetI1));
-      double m2I1=sqrt((Jet2+JetI1).Dot(Jet2+JetI1));
-      
+      // define invariant dijet masses
+      double m1I1=sqrt((Jet1+JetI1).Dot(Jet1+JetI1));   
       double m1I2=sqrt((Jet1+JetI2).Dot(Jet1+JetI2));
-      
-      double minI1=min(m1I1,m2I1);
-      double minI2=min(m1I1,m1I2);
+
+      double m2I1=sqrt((Jet2+JetI1).Dot(Jet2+JetI1));
+
+      double m14=sqrt((Jet1+Jet4).Dot(Jet1+Jet4));   
+      double m24=sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
+
+      // softest jet fixed
+      double minLow=min(m1I1,m2I1);
+
+      // leading jet fixed
+      double minHigh=min(m1I1,m1I2);
 	 
-      double maxI=max(minI1,minI2);
+      // min and max of above
+      double minI=min(minLow,minHigh);
+      double maxI=max(minLow,minHigh);
       
-      mjj_->Fill(minI1);
-      mjjI1_->Fill(minI2);
-      mjjMaxI_->Fill(maxI);
-      
+      double minLow2=min(m14,m24);
+
+      // fill hisotgrams
+      mjjLow_->Fill(minLow);
+      mjjHigh_->Fill(minHigh);
+      mjjMin_->Fill(minI);
+      mjjMax_->Fill(maxI);
+      mjjLow2_->Fill(minLow2);
     }
 
   //-------------------------------------------------

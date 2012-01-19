@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -127,6 +127,13 @@ process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-1
 
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
+#-------------------------------------------------
+# Temporary
+#-------------------------------------------------
+
+## produce printout of particle listings (for debugging)
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+
 #--------------------------
 # selection paths
 #--------------------------
@@ -145,6 +152,7 @@ process.GluinoGluino = cms.Path(process.makeObjects *
                                 process.weightProducer *
                                 process.jetSelection *
                                 process.GluinoGluinoFilter *
+                                #process.printGenParticles *
                                 process.analyzeGluinoGluino
                                 )
 
@@ -190,7 +198,7 @@ process.GluinoGluino0Lep = cms.Path(process.makeObjects *
                                     process.eventWeightPU *
                                     process.weightProducer *
                                     process.jetSelection *
-                                    process.GluinoGluino1LepFilter *
+                                    process.GluinoGluino0LepFilter *
                                     process.analyzeGluinoGluino0Lep
                                     )
 
@@ -199,7 +207,7 @@ process.GluinoGluino1Lep = cms.Path(process.makeObjects *
                                     process.eventWeightPU *
                                     process.weightProducer *
                                     process.jetSelection *
-                                    process.GluinoGluino2LepFilter *
+                                    process.GluinoGluino1LepFilter *
                                     process.analyzeGluinoGluino1Lep
                                     )
 

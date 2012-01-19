@@ -83,9 +83,11 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* nJets_;
 
   // mjj variables
-  TH1F* mjj_;
-  TH1F* mjjI1_;
-  TH1F* mjjMaxI_;
+  TH1F* mjjLow_;
+  TH1F* mjjHigh_;
+  TH1F* mjjMin_;
+  TH1F* mjjMax_;
+  TH1F* mjjLow2_;
 };  
 
 #endif  
