@@ -293,7 +293,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 
 ## load and configure module for PU re-weighting
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-## load and configure module forprocess.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/PU_data2011_upTo178078_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
 
 ## load and configure module for cross-section and luminosity weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
@@ -309,7 +309,7 @@ process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 ## common default settings (similar for muon and electron channel)
 process.btagEventWeight           = process.btagEventWeight.clone()
 process.btagEventWeight.bTagAlgo  = "TCHEM"
-process.btagEventWeight.filename  = "../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
 
 ## muon channel default settings
 process.btagEventWeightMu                    = process.btagEventWeight.clone()
@@ -433,6 +433,13 @@ process.scaledUnclusteredEnergyDown.inputMETs = "scaledJetEnergy:patMETsPF"
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SystematicsAnalyzerMu_cff")
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SystematicsAnalyzerEl_cff")
 
+#-------------------------------------------------
+# Analyzer for cross-check with SUSYAnalyzer
+#-------------------------------------------------
+
+process.CrossCheck = process.analyzeSystematicsMu0b.clone()
+process.CrossCheck.useBtagEventWeight = False
+
 #--------------------------
 # Muon selection paths
 #--------------------------
@@ -453,6 +460,7 @@ process.RA4bMuonSelection = cms.Path(## Object Producer sequences
                                      process.muonSelection *
                                      process.jetSelection *
                                      ## Analyzer Sequences
+                                     process.CrossCheck *
                                      process.analyzeSystematicsMu0b *
                                      process.analyzeSystematicsMu1b *
                                      process.analyzeSystematicsMu2b *
