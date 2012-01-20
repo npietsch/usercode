@@ -1,7 +1,7 @@
 #include <algorithm>
 
 #include "FWCore/Framework/interface/Event.h"
-#include "SUSYAnalysis/SUSYEventProducers/interface/JetsProducer.h"
+#include "SUSYAnalysis/SUSYEventProducers/interface/JetCollectionProducer.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -9,7 +9,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-JetsProducer::JetsProducer(const edm::ParameterSet& cfg):
+JetCollectionProducer::JetCollectionProducer(const edm::ParameterSet& cfg):
   inputJets_  (cfg.getParameter<edm::InputTag>("inputJets"))
 
 {
@@ -22,12 +22,12 @@ JetsProducer::JetsProducer(const edm::ParameterSet& cfg):
 }
 
 void
-JetsProducer::beginJob()
+JetCollectionProducer::beginJob()
 {	
 }
 
 void
-JetsProducer::produce(edm::Event& event, const edm::EventSetup& setup)
+JetCollectionProducer::produce(edm::Event& event, const edm::EventSetup& setup)
 {
   // access jets
   edm::Handle<std::vector<pat::Jet> > jets;
@@ -50,4 +50,4 @@ JetsProducer::produce(edm::Event& event, const edm::EventSetup& setup)
   event.put(pJets,outputJets_);
 }
 
-DEFINE_FWK_MODULE( JetsProducer );
+DEFINE_FWK_MODULE( JetCollectionProducer );

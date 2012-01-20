@@ -1,5 +1,5 @@
-#ifndef JetsProducer_h
-#define JetsProducer_h
+#ifndef JetCollectionProducer_h
+#define JetCollectionProducer_h
 
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
@@ -8,13 +8,13 @@
 #include "TH1.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-class JetsProducer : public edm::EDProducer {
+class JetCollectionProducer : public edm::EDProducer {
 
  public:
   /// default constructor
-  explicit JetsProducer(const edm::ParameterSet&);
+  explicit JetCollectionProducer(const edm::ParameterSet&);
   /// default destructor
-  ~JetsProducer(){};
+  ~JetCollectionProducer(){};
   
  private:
   /// check settings
