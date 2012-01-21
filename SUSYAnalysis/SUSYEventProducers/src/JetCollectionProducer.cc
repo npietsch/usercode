@@ -15,10 +15,8 @@ JetCollectionProducer::JetCollectionProducer(const edm::ParameterSet& cfg):
 {
   edm::Service<TFileService> fs;
 
-  outputJets_ = inputJets_.label();
-
   // register products
-  produces<std::vector<pat::Jet> >(outputJets_);
+  produces<std::vector<pat::Jet> >("GluinoJets");
 }
 
 void
@@ -47,7 +45,7 @@ JetCollectionProducer::produce(edm::Event& event, const edm::EventSetup& setup)
 	}
     }
 
-  event.put(pJets,outputJets_);
+  event.put(pJets,"GluinoJets");
 }
 
-DEFINE_FWK_MODULE( JetCollectionProducer );
+DEFINE_FWK_MODULE(JetCollectionProducer);

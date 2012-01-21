@@ -27,9 +27,6 @@ class JetCollectionProducer : public edm::EDProducer {
   /// jet input collection 
   edm::InputTag inputJets_;
  
-  /// jet output collection 
-  std::string outputJets_;
-
   // histograms
   //...
 };

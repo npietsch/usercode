@@ -122,7 +122,7 @@ looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                'chargedEmEnergyFraction     < 0.99 &'
                                'neutralEmEnergyFraction     < 0.99 &'
                                'chargedMultiplicity > 0            &'
-                               'nConstituents > 1'      
+                               'nConstituents > 1'
                                )
                                
 looseJets.checkOverlaps = cms.PSet(
@@ -156,8 +156,7 @@ goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                'chargedEmEnergyFraction     < 0.99 &'
                                'neutralEmEnergyFraction     < 0.99 &'
                                'chargedMultiplicity > 0            &'
-                               'nConstituents > 1'
-                              
+                               'nConstituents > 1' 
                                )
                                
 goodJets.checkOverlaps = cms.PSet(
@@ -193,6 +192,9 @@ tightJets = selectedPatJets.clone(src = 'goodJets',
                                   cut =
                                   'pt > 100.'
                                   )
+
+from SUSYAnalysis.SUSYEventProducers.JetCollectionProducer_cfi import *
+produceJetCollection.inputJets = "goodJets"
 
 #----------------------------------------------------
 # track counting bjet collections, input: goodJets
@@ -744,6 +746,7 @@ goodObjects = cms.Sequence(## loose leptons
                            lightJets *
                            mediumJets *
                            tightJets *
+                           produceJetCollection *
                            ## METs
                            looseMETs *
                            goodMETs *

@@ -161,13 +161,6 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(jets->size()>3)
     {
-      //if((*jets)[0].genParton())
-      //{
-      //  std::cout << (*jets)[0].genParton()->mother()->pdgId() << std::endl;
-      //}
-
-      std::cout << jets->size() << std::endl;
-
       // define four vectors
       reco::Particle::LorentzVector Jet1=(*jets)[0].p4();
       reco::Particle::LorentzVector Jet2=(*jets)[1].p4();
