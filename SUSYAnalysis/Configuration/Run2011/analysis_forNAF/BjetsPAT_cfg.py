@@ -43,10 +43,12 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
 process.scaledJetEnergy = scaledJetEnergy.clone()
 process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
+process.scaledJetEnergy.inputMETs = "patMETsPF"
 process.scaledJetEnergy.doJetSmearing = True
 
-# define source for good Jets producer
+# define source for goodJets producer
 process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 # load modules for analysis on generator level, level of matched objects and reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
