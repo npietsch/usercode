@@ -193,6 +193,9 @@ tightJets = selectedPatJets.clone(src = 'goodJets',
                                   'pt > 100.'
                                   )
 
+from SUSYAnalysis.SUSYEventProducers.JetCollectionProducer_cfi import *
+produceJetCollection.inputJets = "goodJets"
+
 #----------------------------------------------------
 # track counting bjet collections, input: goodJets
 #-----------------------------------------------------
