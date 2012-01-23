@@ -743,7 +743,6 @@ goodObjects = cms.Sequence(## loose leptons
                            lightJets *
                            mediumJets *
                            tightJets *
-                           produceJetCollection *
                            ## METs
                            looseMETs *
                            goodMETs *
