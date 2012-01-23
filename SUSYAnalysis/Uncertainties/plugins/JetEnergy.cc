@@ -36,6 +36,7 @@ JetEnergy::JetEnergy(const edm::ParameterSet& cfg):
     
   JetPt_= fs->make<TH1F>("JetPt","JetPt", 45, 10., 100.);
   SmearedJetPt_= fs->make<TH1F>("SmearedJetPt","SmearedJetPt", 45, 10., 100.);
+  DeltaJetPt_= fs->make<TH1F>("DeltaJetPt","DeltaJetPt", 40, -20., 20.);
   
   // define allowed types
   allowedTypes_.push_back(std::string("abs"));
@@ -161,6 +162,8 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 	{
 	  JetPt_->Fill(jet->pt());
 	  SmearedJetPt_->Fill(scaledJet.pt());
+
+	  DeltaJetPt_->Fill(jet->pt()-jet.genJet()->pt()));
 	  
 	  // comment out following lines for debugging
 	  //if(scaleType_.substr(0, scaleType_.find(':'))=="jes")

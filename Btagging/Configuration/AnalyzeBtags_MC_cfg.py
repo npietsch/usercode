@@ -287,18 +287,17 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Object Selection
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-# Load and configure module to scale jet energy
-process.load("SUSYAnalysis.Uncertainties.JetEnergy_cfi")
-
+# load and configure module to smear jet energy
+from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
+process.scaledJetEnergy = scaledJetEnergy.clone()
 process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
 process.scaledJetEnergy.inputMETs = "patMETsPF"
+process.scaledJetEnergy.doJetSmearing = True
 
-process.scaledJetEnergy.jetPTThresholdForMET = 10. ## proposed on Nov 15 in RA4 meeting
-process.scaledJetEnergy.maxJetEtaForMET = 4.7      ## proposed on Nov 15 in RA4 meeting
-process.scaledJetEnergy.scaleType       = "jes:down"
+# define source for goodJets producer
+process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
-#process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
-#process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 
@@ -323,7 +322,6 @@ process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
 #-----------------------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-#process.eventWeightPU.DataFile = "TopAnalysis/TopUtils/data/Data_PUDist_160404-163869_7TeV_May10ReReco_Collisions11_v2_and_165088-167913_7TeV_PromptReco_Collisions11.root"
 process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
@@ -903,7 +901,7 @@ process.analyzeBtags_diLep2 = cms.Path(# Standard RA4b preselection
 ## Incl. RA4b electron selection with cut on two high pt jets and MET < 300 in addition
 ##-------------------------------------------------------------------------------------------
 process.analyzeBtags_elel = cms.Path(# Standard RA4b preselection
-                                     process.preselectionElHTMC2 *
+                                      process.preselectionElHTMC2 *
                                      process.eventWeightPU *
                                      process.weightProducer *
                                      process.scaledJetEnergy *

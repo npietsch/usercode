@@ -17,6 +17,7 @@ JetCollectionProducer::JetCollectionProducer(const edm::ParameterSet& cfg):
 
   // register products
   produces<std::vector<pat::Jet> >("GluinoJets");
+  produces<std::vector<pat::Jet> >("NoGluonJets");
 }
 
 void
@@ -31,21 +32,30 @@ JetCollectionProducer::produce(edm::Event& event, const edm::EventSetup& setup)
   edm::Handle<std::vector<pat::Jet> > jets;
   event.getByLabel(inputJets_, jets);
   
-  // create new jet collection 
-  std::auto_ptr<std::vector<pat::Jet> > pJets(new std::vector<pat::Jet>);
-
-  // loop and rescale jets
+  // create new jet collections
+  std::auto_ptr<std::vector<pat::Jet> > gluinoJets(new std::vector<pat::Jet>);
+  std::auto_ptr<std::vector<pat::Jet> > noGluonJets(new std::vector<pat::Jet>);
+  
+  // loop over jets
   for(std::vector<pat::Jet>::const_iterator jet=jets->begin(); jet!=jets->end(); ++jet)
     {
-      pat::Jet selectedJet = *jet;
-
+      pat::Jet selectedJet  = *jet;
+      
+      // if genParton is not from gluino three-body decay
       if(selectedJet.genParton())
 	{
-	  if(selectedJet.genParton()->mother()->pdgId()==1000021) pJets->push_back(selectedJet);
+	  if(selectedJet.genParton()->mother()->pdgId()==1000021) gluinoJets->push_back(selectedJet);
+	}
+      
+      // if matched parton is gluon
+      if(selectedJet.genParton())
+	{
+	  if(selectedJet.partonFlavour()!=21) noGluonJets->push_back(selectedJet);
 	}
     }
 
-  event.put(pJets,"GluinoJets");
+  event.put(gluinoJets,"GluinoJets");
+  event.put(noGluonJets,"NoGluonJets");
 }
 
 DEFINE_FWK_MODULE(JetCollectionProducer);

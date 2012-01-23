@@ -77,8 +77,13 @@ process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 
-process.GluinoGluinoFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay()')
-process.GluinoGluinoVeto   = SUSYGenEventFilter.clone(cut='!GluinoGluinoDecay()')
+process.GluinoGluinoFilter     = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay()')
+process.GluinoGluinoVetoFilter = SUSYGenEventFilter.clone(cut='!GluinoGluinoDecay()')
+   
+process.CharginoVetoFilter     = SUSYGenEventFilter.clone(cut='numberOfCharginos()==0')
+process.NeutralinoVetoFilter   = SUSYGenEventFilter.clone(cut='numberOfNeutralinos()==2')
+
+process.CharginoNeutralinoVetoFilter = SUSYGenEventFilter.clone(cut='numberOfNeutralinos()==2 && numberOfCharginos()==0')
 
 process.GluinoGluino0TopFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfTops()==0')
 process.GluinoGluino1TopFilter = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay() &&  numberOfTops()==1')
@@ -98,7 +103,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Load modules to create objects and filter events on reco level
 #-----------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.JetSelection_cff")
 
 #----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco-level
@@ -106,17 +111,65 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 
-process.analyzeAll              = process.analyzeGluino.clone()
-process.analyzeGluinoGluino     = process.analyzeGluino.clone()
-process.analyzeGluinoGluinoVeto = process.analyzeGluino.clone()
+## configure modules to analyze good jets from gluino decay
+process.analyzeAll1                = process.analyzeGluino.clone()
+process.analyzeAll1.jets           = "goodJets"
 
-process.analyzeGluinoGluino0Top = process.analyzeGluino.clone()
-process.analyzeGluinoGluino1Top = process.analyzeGluino.clone()
-process.analyzeGluinoGluino2Top = process.analyzeGluino.clone()
+process.analyzeGluinoGluinoFilter1 = process.analyzeAll1.clone()
+process.analyzeGluinoGluinoVeto1   = process.analyzeAll1.clone()
 
-process.analyzeGluinoGluino0Lep = process.analyzeGluino.clone()
-process.analyzeGluinoGluino1Lep = process.analyzeGluino.clone()
-process.analyzeGluinoGluino2Lep = process.analyzeGluino.clone()
+process.analyzeCharginoVeto1       = process.analyzeAll1.clone()
+process.analyzeNeutralinoVeto1     = process.analyzeAll1.clone()
+
+process.analyzeCharginoNeutralinoVeto1 = process.analyzeAll1.clone()
+
+process.analyzeGluinoGluino0Top1   = process.analyzeAll1.clone()
+process.analyzeGluinoGluino1Top1   = process.analyzeAll1.clone()
+process.analyzeGluinoGluino2Top1   = process.analyzeAll1.clone()
+
+process.analyzeGluinoGluino0Lep1   = process.analyzeAll1.clone()
+process.analyzeGluinoGluino1Lep1   = process.analyzeAll1.clone()
+process.analyzeGluinoGluino2Lep1   = process.analyzeAll1.clone()
+
+## configure modules to analyze good jets from gluino decay
+process.analyzeAll2                = process.analyzeGluino.clone()
+process.analyzeAll2.jets           = "produceJetCollection:GluinoJets"
+
+process.analyzeGluinoGluinoFilter2 = process.analyzeAll2.clone()
+process.analyzeGluinoGluinoVeto2   = process.analyzeAll2.clone()
+
+process.analyzeCharginoVeto2       = process.analyzeAll2.clone()
+process.analyzeNeutralinoVeto2     = process.analyzeAll2.clone()
+
+process.analyzeCharginoNeutralinoVeto2 = process.analyzeAll2.clone()
+
+process.analyzeGluinoGluino0Top2   = process.analyzeAll2.clone()
+process.analyzeGluinoGluino1Top2   = process.analyzeAll2.clone()
+process.analyzeGluinoGluino2Top2   = process.analyzeAll2.clone()
+
+process.analyzeGluinoGluino0Lep2   = process.analyzeAll2.clone()
+process.analyzeGluinoGluino1Lep2   = process.analyzeAll2.clone()
+process.analyzeGluinoGluino2Lep2   = process.analyzeAll2.clone()
+
+## configure modules to analyze good jets that can not be matched to a gluon
+process.analyzeAll3                = process.analyzeGluino.clone()
+process.analyzeAll3.jets           = "produceJetCollection:NoGluonJets"
+
+process.analyzeGluinoGluinoFilter3 = process.analyzeAll3.clone()
+process.analyzeGluinoGluinoVeto3   = process.analyzeAll3.clone()
+
+process.analyzeCharginoVeto3       = process.analyzeAll3.clone()
+process.analyzeNeutralinoVeto3     = process.analyzeAll3.clone()
+
+process.analyzeCharginoNeutralinoVeto3 = process.analyzeAll3.clone()
+
+process.analyzeGluinoGluino0Top3   = process.analyzeAll3.clone()
+process.analyzeGluinoGluino1Top3   = process.analyzeAll3.clone()
+process.analyzeGluinoGluino2Top3   = process.analyzeAll3.clone()
+
+process.analyzeGluinoGluino0Lep3   = process.analyzeAll3.clone()
+process.analyzeGluinoGluino1Lep3   = process.analyzeAll3.clone()
+process.analyzeGluinoGluino2Lep3   = process.analyzeAll3.clone()
 
 #-------------------------------------------------
 # Load and configure module for event weighting
@@ -138,14 +191,17 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # selection paths
 #--------------------------
 
-process.all = cms.Path(process.makeObjects *
+process.All = cms.Path(process.makeObjects *
                        process.makeSUSYGenEvt *
                        process.eventWeightPU *
                        process.weightProducer *
                        process.jetSelection *
-                       process.analyzeAll
+                       process.analyzeAll1 *
+                       process.analyzeAll2 *
+                       process.analyzeAll3
                        )
 
+## comment in "process.printGenParticles" to get particle listing for gluino gluino events
 process.GluinoGluino = cms.Path(process.makeObjects *
                                 process.makeSUSYGenEvt *
                                 process.eventWeightPU *
@@ -153,17 +209,55 @@ process.GluinoGluino = cms.Path(process.makeObjects *
                                 process.jetSelection *
                                 process.GluinoGluinoFilter *
                                 #process.printGenParticles *
-                                process.analyzeGluinoGluino
+                                process.analyzeGluinoGluinoFilter1 *
+                                process.analyzeGluinoGluinoFilter2 *
+                                process.analyzeGluinoGluinoFilter3
                                 )
 
-process.Other = cms.Path(process.makeObjects *
-                         process.makeSUSYGenEvt *
-                         process.eventWeightPU *
-                         process.weightProducer *
-                         process.jetSelection *
-                         process.GluinoGluinoVeto *
-                         process.analyzeGluinoGluinoVeto
-                         )
+process.GluinoGluinoVeto = cms.Path(process.makeObjects *
+                                    process.makeSUSYGenEvt *
+                                    process.eventWeightPU *
+                                    process.weightProducer *
+                                    process.jetSelection *
+                                    process.GluinoGluinoVetoFilter *
+                                    process.analyzeGluinoGluinoVeto1 *
+                                    process.analyzeGluinoGluinoVeto2 *
+                                    process.analyzeGluinoGluinoVeto3
+                                    )
+
+process.CharginoVeto = cms.Path(process.makeObjects *
+                                process.makeSUSYGenEvt *
+                                process.eventWeightPU *
+                                process.weightProducer *
+                                process.jetSelection *
+                                process.CharginoVetoFilter *
+                                process.analyzeCharginoVeto1 *
+                                process.analyzeCharginoVeto2 *
+                                process.analyzeCharginoVeto3
+                                )
+
+process.NeutralinoVeto = cms.Path(process.makeObjects *
+                                  process.makeSUSYGenEvt *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  process.jetSelection *
+                                  process.NeutralinoVetoFilter *
+                                  process.analyzeNeutralinoVeto1 *
+                                  process.analyzeNeutralinoVeto2 *
+                                  process.analyzeNeutralinoVeto3
+                                  )
+
+process.CharginoNeutralinoVeto = cms.Path(process.makeObjects *
+                                          process.makeSUSYGenEvt *
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          process.jetSelection *
+                                          process.CharginoNeutralinoVetoFilter *
+                                          process.analyzeCharginoNeutralinoVeto1 *
+                                          process.analyzeCharginoNeutralinoVeto2 *
+                                          process.analyzeCharginoNeutralinoVeto3
+                                          )
+
 
 process.GluinoGluino0Top = cms.Path(process.makeObjects *
                                     process.makeSUSYGenEvt *
@@ -171,7 +265,9 @@ process.GluinoGluino0Top = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino0TopFilter *
-                                    process.analyzeGluinoGluino0Top
+                                    process.analyzeGluinoGluino0Top1 *
+                                    process.analyzeGluinoGluino0Top2 *
+                                    process.analyzeGluinoGluino0Top3
                                     )
 
 process.GluinoGluino1Top = cms.Path(process.makeObjects *
@@ -180,7 +276,9 @@ process.GluinoGluino1Top = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino1TopFilter *
-                                    process.analyzeGluinoGluino1Top
+                                    process.analyzeGluinoGluino1Top1 * 
+                                    process.analyzeGluinoGluino1Top2 *
+                                    process.analyzeGluinoGluino1Top3
                                     )
 
 process.GluinoGluino2Top = cms.Path(process.makeObjects *
@@ -189,7 +287,9 @@ process.GluinoGluino2Top = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino2TopFilter *
-                                    process.analyzeGluinoGluino2Top
+                                    process.analyzeGluinoGluino2Top1 *
+                                    process.analyzeGluinoGluino2Top2 *
+                                    process.analyzeGluinoGluino2Top3
                                     )
 
 
@@ -199,7 +299,9 @@ process.GluinoGluino0Lep = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino0LepFilter *
-                                    process.analyzeGluinoGluino0Lep
+                                    process.analyzeGluinoGluino0Lep1 *
+                                    process.analyzeGluinoGluino0Lep2 *
+                                    process.analyzeGluinoGluino0Lep3
                                     )
 
 process.GluinoGluino1Lep = cms.Path(process.makeObjects *
@@ -208,7 +310,9 @@ process.GluinoGluino1Lep = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino1LepFilter *
-                                    process.analyzeGluinoGluino1Lep
+                                    process.analyzeGluinoGluino1Lep1 *
+                                    process.analyzeGluinoGluino1Lep2 *
+                                    process.analyzeGluinoGluino1Lep3
                                     )
 
 process.GluinoGluino2Lep = cms.Path(process.makeObjects *
@@ -217,5 +321,7 @@ process.GluinoGluino2Lep = cms.Path(process.makeObjects *
                                     process.weightProducer *
                                     process.jetSelection *
                                     process.GluinoGluino2LepFilter *
-                                    process.analyzeGluinoGluino2Lep
+                                    process.analyzeGluinoGluino2Lep1 *
+                                    process.analyzeGluinoGluino2Lep2 *
+                                    process.analyzeGluinoGluino2Lep3
                                     )

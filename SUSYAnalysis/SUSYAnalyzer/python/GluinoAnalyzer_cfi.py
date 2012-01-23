@@ -5,7 +5,7 @@ import FWCore.ParameterSet.Config as cms
 #
 analyzeGluino = cms.EDAnalyzer("GluinoAnalyzer",
                                ## collections of RA4b objects
-                               jets = cms.InputTag("produceJetCollection:GluinoJets"),
+                               jets = cms.InputTag("selectedPatJetsAK5PF"),
                                bjets = cms.InputTag("mediumTrackHighEffBjets"),
                                muons = cms.InputTag("goodMuons"),
                                electrons = cms.InputTag("goodElectrons"),

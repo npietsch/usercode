@@ -69,6 +69,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   mjjMin_  = fs->make<TH1F>("mjjMin","mjjMin", 80, 0.,  800.);
   mjjMax_  = fs->make<TH1F>("mjjMax","mjjMax", 80, 0.,  800.);
   mjjLow2_ = fs->make<TH1F>("mjjLow2","mjjLow2", 80, 0.,  800.);
+
+  mjjMCTruth_ = fs->make<TH1F>("mjjMCTruth","mjjMCTruth", 80, 0.,  800.);
 }
 
 GluinoAnalyzer::~GluinoAnalyzer()
@@ -158,6 +160,26 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
 
   //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
+  
+  for(int idx=0; idx<(int)jets->size(); ++idx)
+    {
+      for(int jdx=idx; jdx<(int)jets->size(); ++jdx)
+	{
+	  if((*jets)[idx].genParton() && (*jets)[jdx].genParton())
+	    {
+	      if((*jets)[idx].genParton()->mother()->pdgId()==1000021 && (*jets)[jdx].genParton()->mother()->pdgId()==1000021 && (*jets)[idx].genParton()->mother() == (*jets)[jdx].genParton()->mother())
+		{
+		  //std::cout << "Aha" << std::endl;
+		  reco::Particle::LorentzVector JetA=(*jets)[idx].p4();
+		  reco::Particle::LorentzVector JetB=(*jets)[jdx].p4();
+		  
+		  double mjjMCTruth=sqrt((JetA+JetB).Dot(JetA+JetB));
+		  mjjMCTruth_->Fill(mjjMCTruth,weight);
+		}
+	      
+	    }
+	}
+    }
 
   if(jets->size()>3)
     {

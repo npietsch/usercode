@@ -105,6 +105,7 @@ class JetEnergy : public edm::EDProducer {
   // histograms
   TH1F *JetPt_;
   TH1F *SmearedJetPt_;
+  TH1F *DeltaJetPt_;
 };
 
 #endif
