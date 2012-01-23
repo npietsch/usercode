@@ -31,7 +31,7 @@ SUSYGenEvent::candidate(int id, unsigned int parentId) const
   return cand;
 }
 
-// is muon or electron
+// is muon or electron?
 bool SUSYGenEvent::isLepton(const reco::GenParticle & genParticle) const
 {
   bool lep=false;
@@ -69,7 +69,7 @@ SUSYGenEvent::numberOfLeptons() const
   return lep;
 }
 
-// same sign di-lepton
+// is same sign di-lepton?
 bool SUSYGenEvent::SSignDiLepton() const
 {
   int posCharge=0;
@@ -91,7 +91,7 @@ bool SUSYGenEvent::SSignDiLepton() const
   return sSDiLep;
 }
 
-// opposite sign di-lepton
+// os opposite sign di-lepton?
 bool SUSYGenEvent::OSignDiLepton() const
 {
   int posCharge=0;
@@ -217,7 +217,7 @@ SUSYGenEvent::radiatedGluons(int pdgId) const{
   return rads;
 }
 
-// is gluino
+// is gluino?
 bool SUSYGenEvent::isGluino(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -229,7 +229,7 @@ bool SUSYGenEvent::isGluino(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is squark of first or second generation
+// is squark of first or second generation?
 bool SUSYGenEvent::isSquark(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -248,7 +248,7 @@ bool SUSYGenEvent::isSquark(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is squark of first or second generation
+// is squark of first or second generation?
 bool SUSYGenEvent::isAntiSquark(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -267,7 +267,7 @@ bool SUSYGenEvent::isAntiSquark(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is stop
+// is stop?
 bool SUSYGenEvent::isStop(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -280,7 +280,7 @@ bool SUSYGenEvent::isStop(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is sbottom
+// is sbottom?
 bool SUSYGenEvent::isSbottom(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -293,7 +293,7 @@ bool SUSYGenEvent::isSbottom(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is chargino
+// is chargino?
 bool SUSYGenEvent::isChargino(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -306,7 +306,20 @@ bool SUSYGenEvent::isChargino(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is neutralino
+// returns number of charginos
+int
+SUSYGenEvent::numberOfCharginos() const
+{
+  int chargino=0;
+  const reco::GenParticleCollection& partsColl = *parts_;
+  for(unsigned int i = 0; i < partsColl.size(); ++i)
+    {
+      if(isChargino(partsColl[i])==true) ++chargino;
+    } 
+  return chargino;
+}
+
+// is neutralino?
 bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -321,7 +334,20 @@ bool SUSYGenEvent::isNeutralino(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is neutralino1
+// returns number of neutralinos
+int
+SUSYGenEvent::numberOfNeutralinos() const
+{
+  int neutralino=0;
+  const reco::GenParticleCollection& partsColl = *parts_;
+  for(unsigned int i = 0; i < partsColl.size(); ++i)
+    {
+      if(isNeutralino(partsColl[i])==true) ++neutralino;
+    } 
+  return neutralino;
+}
+
+// is neutralino1?
 bool SUSYGenEvent::isNeutralino1(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -333,7 +359,7 @@ bool SUSYGenEvent::isNeutralino1(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is neutral higgs
+// is neutral higgs?
 bool SUSYGenEvent::isNeutralHiggs(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -347,7 +373,7 @@ bool SUSYGenEvent::isNeutralHiggs(const reco::GenParticle & genParticle) const
   return chk;
  }
 
-// is slepton
+// is slepton?
 bool SUSYGenEvent::isSlepton(const reco::GenParticle & genParticle) const
 {
   bool chk=false;
@@ -370,7 +396,7 @@ bool SUSYGenEvent::isSlepton(const reco::GenParticle & genParticle) const
   return chk;
 }
 
-// is gluino decay
+// is gluino decay?
 bool SUSYGenEvent::GluinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -382,7 +408,7 @@ bool SUSYGenEvent::GluinoDecay() const
   return gluinoDecay;
 }
 
-// is squark decay
+// is squark decay?
 bool SUSYGenEvent::SquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -395,7 +421,7 @@ bool SUSYGenEvent::SquarkDecay() const
   return squarkDecay;
 }
 
-// is gluino gluino decay
+// is gluino gluino decay?
 bool SUSYGenEvent::GluinoGluinoDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -407,7 +433,7 @@ bool SUSYGenEvent::GluinoGluinoDecay() const
   return gluinoGluinoDecay;
 }
 
-// is squark squark decay
+// is squark squark decay?
 bool SUSYGenEvent::SquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -427,7 +453,7 @@ bool SUSYGenEvent::SquarkSquarkDecay() const
   return squarkSquarkDecay;
 }
 
-// is same sign squark squark decay
+// is same sign squark squark decay?
 bool SUSYGenEvent::SSignSquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -439,7 +465,7 @@ bool SUSYGenEvent::SSignSquarkSquarkDecay() const
   return sSignSquarkSquarkDecay;
 }
 
-// is opposite sign squark squark decay
+// is opposite sign squark squark decay?
 bool SUSYGenEvent::OSignSquarkSquarkDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -451,7 +477,7 @@ bool SUSYGenEvent::OSignSquarkSquarkDecay() const
   return oSignSquarkSquarkDecay;
 }
 
-// is gluino squark decay
+// is gluino squark decay?
 bool SUSYGenEvent::GluinoSquarkDecay() const
 {
   bool gluinoSquarkDecay=false;
@@ -468,6 +494,7 @@ bool SUSYGenEvent::GluinoSquarkDecay() const
   return gluinoSquarkDecay;
 }
 
+// 
 bool SUSYGenEvent::ParticleAntiParticleDecay() const
 {
   bool decayTrue=false;
@@ -484,6 +511,7 @@ bool SUSYGenEvent::ParticleAntiParticleDecay() const
   return decayTrue;
 }
 
+//
 void SUSYGenEvent::GetParentPDGNos() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -497,7 +525,7 @@ void SUSYGenEvent::GetParentPDGNos() const
   return;
 }
 
-
+// is stop stop decay?
 bool SUSYGenEvent::StopStopDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -509,6 +537,7 @@ bool SUSYGenEvent::StopStopDecay() const
   return decayTrue;
 }
 
+// is sbottom sbottom decay?
 bool SUSYGenEvent::SbottomSbottomDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;
@@ -520,6 +549,7 @@ bool SUSYGenEvent::SbottomSbottomDecay() const
   return decayTrue;
 }
 
+// is slepton slepton decay?
 bool SUSYGenEvent::SleptonSleptonDecay() const
 {
   const reco::GenParticleCollection & initSpartsColl = *initSparticles_;

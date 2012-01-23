@@ -54,16 +54,16 @@ class SUSYGenEvent {
   bool isLepton(const reco::GenParticle&) const;
   /// return number of leptons in the decay chain
   int numberOfLeptons() const;
+  /// return number of leptons in the decay chain
+  int numberOfLeptons(Wdecay::LepType type, bool fromWBoson=true) const;
   // is same sign di-lepton?
   bool SSignDiLepton() const;
   // is opposite sign di-lepton?
   bool OSignDiLepton() const;
-  /// return number of leptons in the decay chain
-  int numberOfLeptons(Wdecay::LepType type, bool fromWBoson=true) const;
 
-  /// return number of b quarks in the decay chain
+  /// return number of bottom quarks in the decay chain
   int numberOfBQuarks() const;
-  /// return number of b quarks in the decay chain
+  /// return number of top quarks in the decay chain
   int numberOfTops() const;
 
   /// is gluino?
@@ -76,11 +76,15 @@ class SUSYGenEvent {
   bool isStop(const reco::GenParticle & genParticle) const;
   /// is sbottom quark?
   bool isSbottom(const reco::GenParticle & genParticle) const;
-    /// is chargino?
+  /// is chargino?
   bool isChargino(const reco::GenParticle & genParticle) const;
+  /// return number of charginos
+  int numberOfCharginos() const;
   /// is neutralino?
   bool isNeutralino(const reco::GenParticle & genParticle) const;
-  /// is neutralino?
+  /// return number of neutralinos
+  int numberOfNeutralinos() const;
+  /// is lightest neutralino?
   bool isNeutralino1(const reco::GenParticle & genParticle) const;
   /// is neutral higgs?
   bool isNeutralHiggs(const reco::GenParticle & genParticle) const;
