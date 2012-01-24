@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -293,7 +293,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 
 ## load and configure module for PU re-weighting
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
 
 ## load and configure module for cross-section and luminosity weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")

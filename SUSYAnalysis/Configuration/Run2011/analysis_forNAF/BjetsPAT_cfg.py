@@ -26,7 +26,7 @@ process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
 # load and configure modules for event weighting
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 # load modules to create SUSYGenEvent

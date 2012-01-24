@@ -322,7 +322,7 @@ process.twoHighPtJets = countPatJets.clone(src = 'highPtJets',
 #-----------------------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_data2011_upTo178078_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
