@@ -147,6 +147,7 @@ analyzeBjets.tightTrackHighEffBjets = "tightTrackHighEffBjets"
 analyzeBjets.looseTrackHighPurBjets = "looseTrackHighPurBjets"
 analyzeBjets.mediumTrackHighPurBjets = "mediumTrackHighPurBjets"
 analyzeBjets.tightTrackHighPurBjets = "tightTrackHighPurBjets"
+analyzeBjets.useTriggerEventWeight = True
 
 analyzeBjets1m_1 = analyzeBjets.clone()
 analyzeBjets1m_2 = analyzeBjets.clone()

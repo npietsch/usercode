@@ -413,6 +413,11 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
 	  btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
 	  btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight);
+
+ 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[0] << std::endl;
+ 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[1] << std::endl;
+ 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[2] << std::endl;
+ 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[3] << std::endl;
 	}
  
       weight=weightRA2*weightPU*weightBtagEff;

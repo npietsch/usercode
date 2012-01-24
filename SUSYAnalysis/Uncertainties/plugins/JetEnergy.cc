@@ -162,8 +162,10 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 	{
 	  JetPt_->Fill(jet->pt());
 	  SmearedJetPt_->Fill(scaledJet.pt());
-
-	  DeltaJetPt_->Fill(jet->pt()-jet.genJet()->pt()));
+	  if(jet->genJet())
+	    {
+	      DeltaJetPt_->Fill(jet->pt()-jet->genJet()->pt());
+	    }
 	  
 	  // comment out following lines for debugging
 	  //if(scaleType_.substr(0, scaleType_.find(':'))=="jes")
