@@ -48,6 +48,9 @@ class BjetsAnalyzer : public edm::EDAnalyzer {
   edm::InputTag weight_;
   edm::InputTag RA2weight_;
   bool useEvtWgt_;
+  edm::InputTag TriggerWeight_;
+  bool useTriggerEvtWgt_;
+
 
   // TH1F
   TH1F *nbjets_[4][5];

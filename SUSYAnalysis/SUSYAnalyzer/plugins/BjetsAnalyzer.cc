@@ -28,7 +28,10 @@ BjetsAnalyzer::BjetsAnalyzer(const edm::ParameterSet& cfg):
   pvSrc_        (cfg.getParameter<edm::InputTag>("pvSrc") ),
   weight_       (cfg.getParameter<edm::InputTag>("weight") ),
   RA2weight_    (cfg.getParameter<edm::InputTag>("RA2weight") ),
-  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") )
+  useEvtWgt_    (cfg.getParameter<bool>("useEventWeight") ),
+  TriggerWeight_     (cfg.getParameter<edm::InputTag>("TriggerWeight") ),
+  useTriggerEvtWgt_  (cfg.getParameter<bool>("useTriggerEventWeight") )
+
 { 
   edm::Service<TFileService> fs;
   
@@ -220,6 +223,13 @@ BjetsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       //std::cout << "-------------------------------------" << std::endl;
     }
 
+  if(useTriggerEvtWgt_)
+    {
+      edm::Handle<double> TriggerWeightHandle;
+      evt.getByLabel(TriggerWeight_, TriggerWeightHandle);
+      weight=weight*(*TriggerWeightHandle);
+    }
+  
   //-------------------------------------------------
   // BJets
   //-------------------------------------------------

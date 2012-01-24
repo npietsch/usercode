@@ -61,7 +61,13 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
   nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
   nBtags_PUWgt_ = fs->make<TH1F>("nBtags_PUWgt","nBtags_PUWgt", 4, 0., 4.);
+  nBtags2_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
   nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
+
+  TCHE_= fs->make<TH1F>("TCHE","TCHE", 80, -20., 20.);
+  TCHP_= fs->make<TH1F>("TCHP","TCHP", 80, -20., 20.);
+  SSVHE_= fs->make<TH1F>("SSVHE","SSVHE", 120, -2, 10.);
+  SSVHP_= fs->make<TH1F>("SSVHP","SSVHP", 120, -2, 10.);
 
   JetEt_nrBjets_ = fs->make<TH2F>("JetEt_nrBjets","JetEt nrBjets", 30,0.,300.,5,0.,5.);
 
@@ -444,9 +450,19 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   // number of b-tagged jets
   unsigned int nBtags = bjets->size();
+  nBtags2_->Fill(nBtags,weight);
   if(bjets->size() > 2) nBtags=3;
   nBtags_->Fill(nBtags,weight);
   nBtags_noWgt_->Fill(nBtags);
+
+  // bdisc
+  for(int i=0; i<(int)jets->size();++i)
+    {
+      TCHE_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      TCHP_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+      SSVHE_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+      SSVHP_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
+    }
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets

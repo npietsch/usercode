@@ -73,7 +73,13 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* btagWeights_PUWgt_;
   TH1F* nBtags_noWgt_;
   TH1F* nBtags_PUWgt_;
+  TH1F* nBtags2_;
   TH1F* nBtags_;
+
+  TH1F* TCHE_;
+  TH1F* TCHP_;
+  TH1F* SSVHE_;
+  TH1F* SSVHP_;
 
   TH1F *MET_;
   TH1F *MET_SSDiLepReco_;
