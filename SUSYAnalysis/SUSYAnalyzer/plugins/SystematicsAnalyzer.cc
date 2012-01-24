@@ -64,7 +64,18 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   MET_ = fs->make<TH1F>("MET","MET", 50, 0.,  1000.);
   HT_  = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
   MHT_ = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
-
+  nJets_ = fs->make<TH1F>("nJets","nJets", 14, 0., 14);
+  
+  JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 90, 0., 90);
+  JetsEta_  = fs->make<TH1F>("JetsPt","JetsPt", 60, -3, 3);
+  
+  for(int idx=0; idx<4; ++idx)
+    {
+      char histname[20];
+      sprintf(histname,"Jet%i_Pt",idx);
+      JetPt_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+    }
+  
   // Declare histograms for ABCD mehtod
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
   HT_SigMET2_ = fs->make<TH2F>("HT_SigMET2","HT vs. SigMET2", 36, 200., 2000., 40, 0., 20.);
@@ -258,16 +269,16 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   MET_->Fill(MET,weight);
   HT_->Fill(HT,weight);
   MHT_->Fill(MHT,weight);
-  
-//   // Jets
-//   for(int jdx=0; jdx<(int)jets->size(); ++jdx)
-//     {
-//       JetsPt_->Fill((*jets)[jdx].pt(),weight);
-//       JetsEta_->Fill((*jets)[jdx].eta(),weight);
+  nJets_->Fill(jets->size(),weight);
 
-//       if(jdx < 4) PtJet_[jdx]->Fill((*jets)[jdx].pt(),weight);
-
-//     }
+  // Jets
+  for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+    {
+      JetsPt_->Fill((*jets)[jdx].pt(),weight);
+      JetsEta_->Fill((*jets)[jdx].eta(),weight);
+      
+      if(jdx < 4) JetPt_[jdx]->Fill((*jets)[jdx].pt(),weight);
+    }
   
   //-------------------------------------------------
   // ABCD quantities

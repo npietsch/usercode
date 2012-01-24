@@ -32,20 +32,26 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
            	
-  //edm::InputTag inputGenEvent_;
   edm::InputTag met_;
   edm::InputTag jets_;
   edm::InputTag lightJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
-  edm::InputTag pvSrc_;
-  edm::InputTag weight_;
-  edm::InputTag PUSource_;
-  edm::InputTag RA2weight_;
+  edm::InputTag PVSrc_;
+  edm::InputTag PUInfo_;
+
+  edm::InputTag PUWeight_;
+  edm::InputTag RA2Weight_;
+  edm::InputTag BtagEventWeights_;
+  int btagBin_;
+ 
+  bool useEventWgt_;
+  bool useBtagEventWgt_;
+
   edm::InputTag TriggerWeight_;
-  bool useEvtWgt_;
   bool useTriggerEvtWgt_;
+
   double HT0_, HT1_, HT2_;
   double Y0_,  Y1_,  Y2_;
 
@@ -57,6 +63,18 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* JetEt_nrBjets_;
 
   // TH1F histograms
+
+  TH1F* nPV_;
+  TH1F* nPV_noWgt_;
+  TH1F* nPU_;
+  TH1F* nPU_noWgt_;
+
+  TH1F* btagWeights_noWgt_;
+  TH1F* btagWeights_PUWgt_;
+  TH1F* nBtags_noWgt_;
+  TH1F* nBtags_PUWgt_;
+  TH1F* nBtags_;
+
   TH1F *MET_;
   TH1F *MET_SSDiLepReco_;
   TH1F *MET_OSDiLepReco_;
@@ -103,9 +121,6 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
 
   TH1F *Electron0_eta_;
   TH1F *Muon0_eta_;
-
-  TH1F *nPV_;
-  TH1F *nPU_;
 
   TH2F *HTidxMETidx_;
   TH2F *HT_SigMET_;

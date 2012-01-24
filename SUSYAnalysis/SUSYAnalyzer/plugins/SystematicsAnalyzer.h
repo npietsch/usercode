@@ -92,6 +92,12 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   TH1F* MET_;
   TH1F* HT_;
   TH1F* MHT_;
+  TH1F* nJets_;
+
+  TH1F* JetsPt_;
+  TH1F* JetsEta_;
+
+  std::vector<TH1F*> JetPt_;
 
   // histograms for ABCD method
   TH2F *HT_SigMET_;

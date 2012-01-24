@@ -16,28 +16,34 @@
 using namespace std;
  
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
-  met_               (cfg.getParameter<edm::InputTag>("met")),
-  jets_              (cfg.getParameter<edm::InputTag>("jets")),
-  lightJets_         (cfg.getParameter<edm::InputTag>("lightJets")),
-  bjets_             (cfg.getParameter<edm::InputTag>("bjets")),
-  muons_             (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_         (cfg.getParameter<edm::InputTag>("electrons")),
-  pvSrc_             (cfg.getParameter<edm::InputTag>("pvSrc") ),
-  weight_            (cfg.getParameter<edm::InputTag>("weight") ),
-  PUSource_          (cfg.getParameter<edm::InputTag>("PUInfo") ),
-  RA2weight_         (cfg.getParameter<edm::InputTag>("RA2weight") ),
+  met_               (cfg.getParameter<edm::InputTag>("met") ),
+  jets_              (cfg.getParameter<edm::InputTag>("jets") ),
+  lightJets_         (cfg.getParameter<edm::InputTag>("lightJets") ),
+  bjets_             (cfg.getParameter<edm::InputTag>("bjets") ),
+  muons_             (cfg.getParameter<edm::InputTag>("muons") ),
+  electrons_         (cfg.getParameter<edm::InputTag>("electrons") ),
+  PVSrc_             (cfg.getParameter<edm::InputTag>("PVSrc") ),
+  PUInfo_            (cfg.getParameter<edm::InputTag>("PUInfo") ),
+
+  PUWeight_          (cfg.getParameter<edm::InputTag>("PUWeight") ),
+  RA2Weight_         (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  BtagEventWeights_  (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
+  btagBin_           (cfg.getParameter<int>("btagBin") ),
+
+  useEventWgt_       (cfg.getParameter<bool>("useEventWeight") ),
+  useBtagEventWgt_   (cfg.getParameter<bool>("useBtagEventWeight") ),
+
   TriggerWeight_     (cfg.getParameter<edm::InputTag>("TriggerWeight") ),
-  useEvtWgt_         (cfg.getParameter<bool>("useEventWeight") ),
   useTriggerEvtWgt_  (cfg.getParameter<bool>("useTriggerEventWeight") ),
+
   HT0_               (cfg.getParameter<double>("HT0") ),
   HT1_               (cfg.getParameter<double>("HT1") ),
   HT2_               (cfg.getParameter<double>("HT2") ),
   Y0_                (cfg.getParameter<double>("Y0") ),
   Y1_                (cfg.getParameter<double>("Y1") ),
-  Y2_                (cfg.getParameter<double>("Y2"))
+  Y2_                (cfg.getParameter<double>("Y2") )
 
 { 
-
   edm::Service<TFileService> fs;
 
   Dummy_=fs->make<TH1F>();
@@ -45,6 +51,17 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   Dummy2_=fs->make<TH2F>();
   Dummy2_->SetDefaultSumw2(true);
+
+  nPV_noWgt_ = fs->make<TH1F>("nPV_noWgt","nPV_noWgt", 50, 0.,  50  );
+  nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0.,  50  );
+  nPU_noWgt_ = fs->make<TH1F>("nPU_noWgt","nPU_noWgt", 50, 0.5, 50.5);
+  nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
+
+  btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt","btagWeights_noWgt", 4, 0., 4.);
+  btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
+  nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
+  nBtags_PUWgt_ = fs->make<TH1F>("nBtags_PUWgt","nBtags_PUWgt", 4, 0., 4.);
+  nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
 
   JetEt_nrBjets_ = fs->make<TH2F>("JetEt_nrBjets","JetEt nrBjets", 30,0.,300.,5,0.,5.);
 
@@ -322,9 +339,6 @@ SUSYAnalyzer::~SUSYAnalyzer()
 void
 SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
-  // test
-  //if(evt.run() > 123456) std::cout << "Aha" << std::endl;
-
   //--------------------------------------------------
   // Handles
   //-------------------------------------------------
@@ -341,28 +355,70 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
-  edm::Handle<std::vector<reco::Vertex> > pvSrc;
-  evt.getByLabel(pvSrc_, pvSrc);
+  edm::Handle<std::vector<reco::Vertex> > PVSrc;
+  evt.getByLabel(PVSrc_, PVSrc);
+
+  //-------------------------------------------------
+  // Event weighting
+  //-------------------------------------------------
 
   double weight=1;
+
+  // declare and initialize different weights
   double weightPU=1;
   double weightRA2=1;
+  double weightBtagEff=1;
 
-  if(useEvtWgt_)
+  // if events should be weighted
+  if(useEventWgt_)
     {
-      //std::cout << "use event weight" << std::endl;
-      edm::Handle<double> weightHandle;
-      evt.getByLabel(weight_, weightHandle);
-      weightPU=*weightHandle;
+      // RA2 weight
+      edm::Handle<double> RA2WeightHandle;
+      evt.getByLabel(RA2Weight_, RA2WeightHandle);
+      weightRA2=*RA2WeightHandle;
 
-      edm::Handle<edm::View<PileupSummaryInfo> > PUInfo;
-      evt.getByLabel(PUSource_, PUInfo);
+      weight=weightRA2;
+
+      // PU weight
+      edm::Handle<double> PUWeightHandle;
+      evt.getByLabel(PUWeight_, PUWeightHandle);
+      weightPU=(*PUWeightHandle);
+
+      weight=weightRA2*weightPU;
+
+      // number of b-tagged jets, events are weighted
+      unsigned int nBtags = bjets->size();
+      if(bjets->size() > 2) nBtags=3;
+      nBtags_PUWgt_->Fill(nBtags, weight);
+      
+      if(useBtagEventWgt_)
+	{
+	  // Btag weight
+	  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
+	  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
+	  weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
+	
+	  btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
+	  btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
+	  btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
+	  btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
+
+	  btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
+	  btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
+	  btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
+	  btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight);
+	}
+ 
+      weight=weightRA2*weightPU*weightBtagEff;
+      
+      // number of PU interactions only in MC available, therefore filled in this loop
+      edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
+      evt.getByLabel(PUInfo_, PUInfoHandle);
 
       edm::View<PileupSummaryInfo>::const_iterator iterPU;
       
       double nvtx=-1;
-      
-      for(iterPU = PUInfo->begin(); iterPU != PUInfo->end(); ++iterPU)  // vector size is 3
+      for(iterPU = PUInfoHandle->begin(); iterPU != PUInfoHandle->end(); ++iterPU)  // vector size is 3
 	{ 
 	  if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
 	    {
@@ -370,29 +426,27 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	    }
 	}
 
-      edm::Handle<double> RA2weightHandle;
-      evt.getByLabel(RA2weight_, RA2weightHandle);
-      weightRA2=*RA2weightHandle;
-
-      weight=weightPU*weightRA2;
-
-      //std::cout << "-------------------------------------" << std::endl;
-      //std::cout << "weightPU: " << weightPU << std::endl;
-      //std::cout << "weightRA2: " << weightRA2 << std::endl;
-      //std::cout << "weight: " << weight << std::endl;
-      //std::cout << "-------------------------------------" << std::endl;
-
-      nPU_->Fill(nvtx);
+      nPU_noWgt_->Fill(nvtx);
+      nPU_->Fill(nvtx,weight);
     }
+
 
   if(useTriggerEvtWgt_)
     {
       edm::Handle<double> TriggerWeightHandle;
       evt.getByLabel(TriggerWeight_, TriggerWeightHandle);
       weight=weight*(*TriggerWeightHandle);
-
-      std::cout << "Trigger Weight: " << (*TriggerWeightHandle) << std::endl;
     }
+
+  // number of primary vertices
+  nPV_noWgt_->Fill(PVSrc->size());
+  nPV_->Fill(PVSrc->size(), weight);
+
+  // number of b-tagged jets
+  unsigned int nBtags = bjets->size();
+  if(bjets->size() > 2) nBtags=3;
+  nBtags_->Fill(nBtags,weight);
+  nBtags_noWgt_->Fill(nBtags);
 
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets
@@ -560,9 +614,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   else if(CTight) MET_TightC_->Fill((*met)[0].et(),weight);
   else if(DTight) MET_TightD_->Fill((*met)[0].et(),weight);
 
-  nPV_->Fill(pvSrc->size(), weight);
-
-  if(pvSrc->size()==1)
+  if(PVSrc->size()==1)
     {
       MET1pv_->Fill((*met)[0].et(), weight);
       HT1pv_->Fill(HT, weight);
@@ -577,7 +629,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	} 
     }
 
-  if(pvSrc->size()==2 || pvSrc->size()==3)
+  if(PVSrc->size()==2 || PVSrc->size()==3)
     {
       MET2pv_->Fill((*met)[0].et(), weight);
       HT2pv_->Fill(HT, weight);
@@ -592,7 +644,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	} 
     }
 
-  if(pvSrc->size()==4 || pvSrc->size()==5 || pvSrc->size()==6)
+  if(PVSrc->size()==4 || PVSrc->size()==5 || PVSrc->size()==6)
     {
       MET3pv_->Fill((*met)[0].et(), weight);
       HT3pv_->Fill(HT, weight);
@@ -607,7 +659,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	} 
     }
   
-  if(pvSrc->size()==7 || pvSrc->size()==8 || pvSrc->size()==9)
+  if(PVSrc->size()==7 || PVSrc->size()==8 || PVSrc->size()==9)
     {  
       MET4pv_->Fill((*met)[0].et(), weight);
       HT4pv_->Fill(HT, weight);
@@ -622,7 +674,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	} 
     }
   
-  if(pvSrc->size()>=10)
+  if(PVSrc->size()>=10)
     {
       MET5pv_->Fill((*met)[0].et(), weight);
       HT5pv_->Fill(HT, weight);
@@ -637,23 +689,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	} 
     }
 
-  //std::cout << "===========================================" << std::endl;
-  //std::cout << "==================MET: " << (*met)[0].et() << std::endl;
-  //std::cout << "==================HT:  " << HT << std::endl;
-  //std::cout << "===========================================" << std::endl;
-
   for(int METidx=0; METidx<300; METidx+=10 )
     {
-      //std::cout << "-----------------" << std::endl;
-      //std::cout << "METidx: " << METidx <<std::endl;
-      //std::cout << "-----------------" << std::endl;
-
       for(int HTidx=200; HTidx<600; HTidx+=10)
 	{
-	  //std::cout << "-----------------" << std::endl;
-	  //std::cout << "HTidx: " << HTidx <<std::endl;
-	  //std::cout << "-----------------" << std::endl;
-
 	  if( (*met)[0].et() > METidx && HT > HTidx) HTidxMETidx_->Fill(HTidx,METidx, weight);
 	}
     }
@@ -681,9 +720,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nmuons=nmuons+1;
       nleptons=nleptons+1;
       lepHT=lepHT+(*muons)[i].et();
-      //std::cout << "muon charge: " << (*muons)[i].charge() << std::endl;
       charge.push_back((*muons)[i].charge());
-      //if((*muons)[i].genLepton()) std::cout << (*muons)[i].genLepton()->pdgId() << std::endl;
 
       RelIso=((*muons)[i].trackIso()+(*muons)[i].caloIso())/((*muons)[i].pt());
 
@@ -710,10 +747,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nelectrons=nelectrons+1;
       nleptons=nleptons+1;
       lepHT=lepHT+(*electrons)[i].et();
-      //std::cout << "electron charge: " << (*electrons)[i].charge() << std::endl;
       charge.push_back((*electrons)[i].charge());
-      //if((*electrons)[i].genLepton()) std::cout << (*electrons)[i].genLepton()->pdgId() << std::endl;
     }
+
   nMuons_->Fill(nmuons, weight);
   nElectrons_->Fill(nelectrons, weight);
   nLeptons_->Fill(nleptons, weight);

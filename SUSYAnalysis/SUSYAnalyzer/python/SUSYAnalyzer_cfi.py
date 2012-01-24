@@ -10,18 +10,25 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              bjets = cms.InputTag("mediumTrackHighEffBjets"),
                              muons = cms.InputTag("selectedPatMuons"),
                              electrons = cms.InputTag("selectedPatElectrons"),
-                             pvSrc = cms.InputTag("offlinePrimaryVertices"),
-                             weight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                             PVSrc = cms.InputTag("offlinePrimaryVertices"),
                              PUInfo = cms.InputTag("addPileupInfo"),
-                             RA2weight = cms.InputTag("weightProducer:weight"),
-                             TriggerWeight = cms.InputTag("TriggerWeightProducer:triggerWeight"),
+
+                             PUWeight = cms.InputTag("eventWeightPU:eventWeightPU"),
+                             RA2Weight = cms.InputTag("weightProducer:weight"),
+                             BtagEventWeights = cms.InputTag("btagEventWeight:RA4bEventWeights"),
+                             btagBin = cms.int32(0),
+             
                              useEventWeight = cms.bool(False),
+                             useBtagEventWeight = cms.bool(False),
+
+                             TriggerWeight = cms.InputTag("TriggerWeightProducer:triggerWeight"),
                              useTriggerEventWeight = cms.bool(False),
+                             
                              HT0 = cms.double(375),
                              HT1 = cms.double(650),
                              HT2 = cms.double(650),   
                              Y0 = cms.double(3.25),
                              Y1 = cms.double(5.5),
-                             Y2 = cms.double(5.5),
+                             Y2 = cms.double(5.5)
                              )
                 
