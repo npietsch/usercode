@@ -105,7 +105,11 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
       
       if(scaleType_.substr(0, scaleType_.find(':'))=="jes")
 	{
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	  if(doJetSmearing_ == true )
+	    {
+	      scaleJetEnergy( scaledJet, resolutionFactor(scaledJet) );
+	      scaleJetEnergy( scaledJetL2L3, resolutionFactor(scaledJet) );
+	    }
 
 	  edm::ESHandle<JetCorrectorParametersCollection> jetCorrParameters;
 	  setup.get<JetCorrectionsRecord>().get(payload_, jetCorrParameters);
