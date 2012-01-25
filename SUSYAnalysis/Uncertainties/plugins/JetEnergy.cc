@@ -96,18 +96,12 @@ JetEnergy::produce(edm::Event& event, const edm::EventSetup& setup)
 
       if(scaleType_=="abs")
 	{
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet));
-
-	  if (abs(scaledJet.partonFlavour()) == 5) scaleJetEnergy(scaledJet,scaleFactorB_);
-	  else scaleJetEnergy(scaledJet,scaleFactor_);
+	  if(doJetSmearing_ == true )
+	    {
+	      scaleJetEnergy( scaledJet, resolutionFactor(scaledJet));
+	      scaleJetEnergy( scaledJetL2L3, resolutionFactor(scaledJet));
+	    }
 	}
-
-      if(scaleType_=="rel")
-	{
-	  if(doJetSmearing_ == true ) scaleJetEnergy( scaledJet, resolutionFactor(scaledJet));
-
-	  scaleJetEnergy( scaledJet, 1+(fabs(scaledJet.eta())*(scaleFactor_-1. )) );
-	}   
       
       if(scaleType_.substr(0, scaleType_.find(':'))=="jes")
 	{
