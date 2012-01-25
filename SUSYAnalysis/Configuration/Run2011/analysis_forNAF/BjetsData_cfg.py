@@ -62,6 +62,18 @@ process.Selection1m = cms.Path(process.makeObjects *
                                process.mTSelection *
                                process.analyzeSUSYBjets1m_mTSelection
                                )
+
+## at least 1 btag
+process.Selection1b1m_1 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.oneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1m_4
+                                   )
+
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.TriggerWeightProducer *
@@ -70,7 +82,7 @@ process.Selection1b1m_2 = cms.Path(process.makeObjects *
                                    process.muonSelection*
                                    process.jetSelection *
                                    process.exactlyOneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1m_4 *
+                                   #process.analyzeSUSYBjets1b1m_4 *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1m_5 *
                                    process.metSelection *
@@ -132,6 +144,17 @@ process.Selection1e = cms.Path(process.makeObjects *
                                process.mTSelection *
                                process.analyzeSUSYBjets1e_mTSelection
                                )
+## at least 1 btag
+process.Selection1b1e_1 = cms.Path(process.makeObjects *
+                                   process.TriggerWeightProducer *
+                                   process.preselectionElHTAllData *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.oneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1e_4
+                                   )
+
 ## exactly 1 btag
 process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.TriggerWeightProducer *
@@ -140,7 +163,7 @@ process.Selection1b1e_2 = cms.Path(process.makeObjects *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.exactlyOneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1e_4 *
+                                   #process.analyzeSUSYBjets1b1e_4 *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1e_5 *
                                    process.metSelection *

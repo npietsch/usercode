@@ -29,9 +29,11 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   RA2Weight_         (cfg.getParameter<edm::InputTag>("RA2Weight") ),
   BtagEventWeights_  (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
   btagBin_           (cfg.getParameter<int>("btagBin") ),
+  inclusiveBtagBin_  (cfg.getParameter<int>("inclusiveBtagBin") ),
 
   useEventWgt_       (cfg.getParameter<bool>("useEventWeight") ),
   useBtagEventWgt_   (cfg.getParameter<bool>("useBtagEventWeight") ),
+  useInclusiveBtagEventWgt_  (cfg.getParameter<bool>("useInclusiveBtagEventWeight") ),
 
   TriggerWeight_     (cfg.getParameter<edm::InputTag>("TriggerWeight") ),
   useTriggerEvtWgt_  (cfg.getParameter<bool>("useTriggerEventWeight") ),
@@ -397,29 +399,43 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       if(bjets->size() > 2) nBtags=3;
       nBtags_PUWgt_->Fill(nBtags, weight);
       
-      if(useBtagEventWgt_)
+      if(useBtagEventWgt_ ||useInclusiveBtagEventWgt_)
 	{
 	  // Btag weight
 	  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
 	  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
-	  weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
-	
-	  btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
-	  btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
-	  btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
-	  btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
 
-	  btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
-	  btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
-	  btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
-	  btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight);
-
- 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[0] << std::endl;
- 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[1] << std::endl;
- 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[2] << std::endl;
- 	  //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[3] << std::endl;
+	  if(useBtagEventWgt_)
+	    {
+	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
+	      
+	      btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
+	      btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
+	      btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
+	      btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
+	      
+	      btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
+	      btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
+	      btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
+	      btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight);
+	      
+	      //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[0] << std::endl;
+	      //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[1] << std::endl;
+	      //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[2] << std::endl;
+	      //std::cout << "SUSYAnalyzer: " << (*BtagEventWeightsHandle)[3] << std::endl;
+	    }
+	  
+	  if(useInclusiveBtagEventWgt_)
+	    {
+	      weightBtagEff=0;
+	      for(int bwx=inclusiveBtagBin_; bwx<4; ++bwx)
+		{
+		  weightBtagEff=weightBtagEff+(*BtagEventWeightsHandle)[bwx];
+		}
+	    }
+	  //std::cout << "weightBtagEff: " << weightBtagEff << std::endl;
 	}
- 
+      
       weight=weightRA2*weightPU*weightBtagEff;
       
       // number of PU interactions only in MC available, therefore filled in this loop

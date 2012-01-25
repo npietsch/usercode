@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -53,6 +53,11 @@ process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 # load modules for analysis on generator level, level of matched objects and reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
+
+process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
+process.analyzeSUSY1b1m_4.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+
 process.analyzeSUSY1b1m_6.useBtagEventWeight = True
 process.analyzeSUSY1b1m_6.btagBin = 1
 process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
@@ -64,6 +69,10 @@ process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWe
 process.analyzeSUSY3b1m_6.useBtagEventWeight = True
 process.analyzeSUSY3b1m_6.btagBin = 3
 process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+
+process.analyzeSUSY1b1e_4.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1b1e_4.inclusiveBtagBin = 1
+process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
 
 process.analyzeSUSY1b1e_6.useBtagEventWeight = True
 process.analyzeSUSY1b1e_6.btagBin = 1
@@ -123,10 +132,27 @@ process.Selection1m = cms.Path(process.scaledJetEnergy *
                                process.HTSelection *
                                process.analyzeSUSYBjets1m_HTSelection *
                                process.metSelection *
-                               process.analyzeSUSYBjets1m_metSelection *
-                               process.mTSelection *
-                               process.analyzeSUSYBjets1m_mTSelection
+                               process.analyzeSUSYBjets1m_metSelection #*
+                               #process.mTSelection *
+                               #process.analyzeSUSYBjets1m_mTSelection
                                )
+
+
+## at least 1 btag
+process.Selection1b1m_1 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
+                                   #process.oneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1m_4
+                                   )
+
 ## exactly 1 btag
 process.Selection1b1m_2 = cms.Path(process.scaledJetEnergy *
                                    process.makeObjects *
@@ -139,13 +165,13 @@ process.Selection1b1m_2 = cms.Path(process.scaledJetEnergy *
                                    process.jetSelection *
                                    process.btagEventWeightMuJER *
                                    #process.exactlyOneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1m_4 *
+                                   #process.analyzeSUSYBjets1b1m_4 *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1m_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets1b1m_1
+                                   process.analyzeSUSYBjets1b1m_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets1b1m_1
                                    )
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(process.scaledJetEnergy *
@@ -163,9 +189,9 @@ process.Selection2b1m_2 = cms.Path(process.scaledJetEnergy *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1m_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets2b1m_1
+                                   process.analyzeSUSYBjets2b1m_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets2b1m_1
                                    )
 ## at least 3 btags
 process.Selection3b1m_1 = cms.Path(process.scaledJetEnergy *
@@ -183,9 +209,9 @@ process.Selection3b1m_1 = cms.Path(process.scaledJetEnergy *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets3b1m_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets3b1m_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets3b1m_1
+                                   process.analyzeSUSYBjets3b1m_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets3b1m_1
                                    )
 
 #--------------------------
@@ -209,10 +235,25 @@ process.Selection1e = cms.Path(process.scaledJetEnergy *
                                process.HTSelection *
                                process.analyzeSUSYBjets1e_HTSelection *
                                process.metSelection *
-                               process.analyzeSUSYBjets1e_metSelection *
-                               process.mTSelection *
-                               process.analyzeSUSYBjets1e_mTSelection
+                               process.analyzeSUSYBjets1e_metSelection #*
+                               #process.mTSelection *
+                               #process.analyzeSUSYBjets1e_mTSelection
                                )
+
+## at least 1 btag
+process.Selection1b1e_1 = cms.Path(process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   process.preselectionElHTMC2 *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightElJER *
+                                   #process.oneMediumTrackHighEffBjet *
+                                   process.analyzeSUSYBjets1b1e_4
+                                   )
 
 ## exactly 1 btag
 process.Selection1b1e_2 = cms.Path(process.scaledJetEnergy *
@@ -226,13 +267,13 @@ process.Selection1b1e_2 = cms.Path(process.scaledJetEnergy *
                                    process.jetSelection *
                                    process.btagEventWeightElJER *
                                    #process.exactlyOneMediumTrackHighEffBjet *
-                                   process.analyzeSUSYBjets1b1e_4 *
+                                   #process.analyzeSUSYBjets1b1e_4 *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets1b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets1b1e_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets1b1e_1
+                                   process.analyzeSUSYBjets1b1e_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets1b1e_1
                                    )
 
 ## exactly 2 btags
@@ -251,9 +292,9 @@ process.Selection2b1e_2 = cms.Path(process.scaledJetEnergy *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets2b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets2b1e_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets2b1e_1
+                                   process.analyzeSUSYBjets2b1e_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets2b1e_1
                                    )
 
 ## at least 3 btags
@@ -272,7 +313,7 @@ process.Selection3b1e_1 = cms.Path(process.scaledJetEnergy *
                                    process.HTSelection *
                                    process.analyzeSUSYBjets3b1e_5 *
                                    process.metSelection *
-                                   process.analyzeSUSYBjets3b1e_6 *
-                                   process.mTSelection *
-                                   process.analyzeSUSYBjets3b1e_1
+                                   process.analyzeSUSYBjets3b1e_6 #*
+                                   #process.mTSelection *
+                                   #process.analyzeSUSYBjets3b1e_1
                                    )

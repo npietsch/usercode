@@ -45,9 +45,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag RA2Weight_;
   edm::InputTag BtagEventWeights_;
   int btagBin_;
- 
+  int inclusiveBtagBin_; 
+
   bool useEventWgt_;
   bool useBtagEventWgt_;
+  bool useInclusiveBtagEventWgt_;
 
   edm::InputTag TriggerWeight_;
   bool useTriggerEvtWgt_;
