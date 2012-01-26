@@ -79,6 +79,8 @@ class SystematicsAnalyzer : public edm::EDAnalyzer {
   TH1F* nPU_;
   TH1F* nPU_noWgt_;
 
+  TH1F* PUWeights_;
+
   TH1F* btagWeights_noWgt_;
   TH1F* btagWeights_PUWgt_;
   TH1F* nBtags_noWgt_;

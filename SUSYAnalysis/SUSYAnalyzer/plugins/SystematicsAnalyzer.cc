@@ -50,6 +50,8 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   nPU_noWgt_ = fs->make<TH1F>("nPU_noWgt","nPU_noWgt", 50, 0.5, 50.5);
   nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
 
+  PUWeights_ = fs->make<TH1F>("PUWeights","PUWeights", 50, 0., 5);
+
   btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt","btagWeights_noWgt", 4, 0., 4.);
   btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
   nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
@@ -162,6 +164,8 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       edm::Handle<double> PUWeightHandle;
       evt.getByLabel(PUWeight_, PUWeightHandle);
       weightPU=(*PUWeightHandle);
+
+      PUWeights_->Fill(weightPU);
 
       weight=weightRA2*weightPU;
 

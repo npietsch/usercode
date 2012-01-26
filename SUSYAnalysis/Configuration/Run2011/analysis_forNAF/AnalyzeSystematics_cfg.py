@@ -293,7 +293,13 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Systematics_cff")
 
 ## load and configure module for PU re-weighting
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_2011Full_bin70.root"
+
+process.eventWeightPUUp = process.eventWeightPU.clone()
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_sysUp_2011Full_bin70.root"
+
+process.eventWeightPUDown = process.eventWeightPU.clone()
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_sysDown_2011Full_bin70.root"
 
 ## load and configure module for cross-section and luminosity weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
@@ -476,6 +482,8 @@ process.RA4bMuonSelectionJER = cms.Path(## Object Producer sequences
                                         process.makeSUSYGenEvt *
                                         ## Weight producer sequences
                                         process.eventWeightPU *
+                                        process.eventWeightPUUp *
+                                        process.eventWeightPUDown *
                                         process.weightProducer *
                                         process.btagEventWeightMuJER *
                                         process.btagEventWeightMuBtagSFUp *
@@ -761,6 +769,8 @@ process.RA4bElectronSelectionJER = cms.Path(## Object Producer sequences
                                             process.makeSUSYGenEvt *
                                             ## Weight producer sequences
                                             process.eventWeightPU *
+                                            process.eventWeightPUUp *
+                                            process.eventWeightPUDown *
                                             process.weightProducer *
                                             process.btagEventWeightElJER *
                                             process.btagEventWeightElBtagSFUp *

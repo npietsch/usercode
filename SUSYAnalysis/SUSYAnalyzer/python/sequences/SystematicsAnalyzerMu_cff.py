@@ -91,8 +91,8 @@ analyzeSystematicsMu0bMistagSFUp.BtagEventWeights   = "btagEventWeightMuMistagSF
 analyzeSystematicsMu0bMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeights"
 
 ## configure clones to study PU uncertainties
-analyzeSystematicsMu0bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
-analyzeSystematicsMu0bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+analyzeSystematicsMu0bPUUp.PUWeight   =  "eventWeightPUUp:eventWeightPU"
+analyzeSystematicsMu0bPUDown.PUWeight =  "eventWeightPUDown:eventWeightPU"
 
 
 ## configure clones to study W polatization uncertainty
@@ -185,8 +185,8 @@ analyzeSystematicsMu1bMistagSFUp.BtagEventWeights   = "btagEventWeightMuMistagSF
 analyzeSystematicsMu1bMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeights"
 
 ## configure clones to study PU uncertainties
-analyzeSystematicsMu1bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
-analyzeSystematicsMu1bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+analyzeSystematicsMu1bPUUp.PUWeight   =  "eventWeightPUUp:eventWeightPU"
+analyzeSystematicsMu1bPUDown.PUWeight =  "eventWeightPUDown:eventWeightPU"
 
 
 ## configure clones to study W polatization uncertainty
@@ -278,8 +278,8 @@ analyzeSystematicsMu2bMistagSFUp.BtagEventWeights   = "btagEventWeightMuMistagSF
 analyzeSystematicsMu2bMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeights"
 
 ## configure clones to study PU uncertainties
-analyzeSystematicsMu2bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
-analyzeSystematicsMu2bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+analyzeSystematicsMu2bPUUp.PUWeight   =  "eventWeightPUUp:eventWeightPU"
+analyzeSystematicsMu2bPUDown.PUWeight =  "eventWeightPUDown:eventWeightPU"
 
 
 ## configure clones to study W polatization uncertainty
@@ -371,8 +371,8 @@ analyzeSystematicsMu3bMistagSFUp.BtagEventWeights   = "btagEventWeightMuMistagSF
 analyzeSystematicsMu3bMistagSFDown.BtagEventWeights = "btagEventWeightMuMistagSFDown:RA4bSFEventWeights"
 
 ## configure clones to study PU uncertainties
-analyzeSystematicsMu3bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
-analyzeSystematicsMu3bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+analyzeSystematicsMu3bPUUp.PUWeight   =  "eventWeightPUUp:eventWeightPU"
+analyzeSystematicsMu3bPUDown.PUWeight =  "eventWeightPUDown:eventWeightPU"
 
 
 ## configure clones to study W polatization uncertainty

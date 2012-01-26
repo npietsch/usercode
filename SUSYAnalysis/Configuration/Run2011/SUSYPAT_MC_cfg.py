@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.5 $'),
+    version = cms.untracked.string('$Revision: 1.6 $'),
     name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -27,14 +27,22 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/002FE237-B09C-E011-B7B1-0022199305B1.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/006518E6-A99C-E011-8535-E0CB4E29C51A.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0234044D-B89C-E011-93FD-E0CB4E5536BB.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
-    '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/02CE7216-92A5-E011-A989-003048678BC6.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/823017FF-51A3-E011-85EA-0026189438F9.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/105B2061-0BA3-E011-9289-001A92810AA0.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/963F9745-4AA3-E011-BCDE-0026189438F7.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/1E5DF9C9-36A3-E011-97D0-001A92811738.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/1ED7C8F7-3CA3-E011-AD8E-001A92971B26.root',
+    '/store/mc/Summer11/mSUGRA_m0-20to2000_m12-20to760_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_S4_START42_V11_FSIM-v1/0000/A0195826-33A3-E011-AE31-0018F3D095EA.root'
+    
+    ##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/002FE237-B09C-E011-B7B1-0022199305B1.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/006518E6-A99C-E011-8535-E0CB4E29C51A.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0234044D-B89C-E011-93FD-E0CB4E5536BB.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
+##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
     )
 )
 
@@ -66,7 +74,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-options.maxEvents = 5000
+options.maxEvents = 10000
 
 #  for SusyPAT configuration
 options.register('GlobalTag', 'START42_V13::All', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
@@ -119,8 +127,8 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 # Selection paths
 #------------------
 
-process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.preselectionMC2PAT
+process.PATTuple = cms.Path(process.susyPatDefaultSequence #*
+                            #process.preselectionMC2PAT
                             )
 
 #-------------------------------------------------
@@ -143,12 +151,27 @@ process.out = cms.OutputModule("PoolOutputModule",
 
 # Specify what to keep in the event content
 from PhysicsTools.PatAlgos.patEventContent_cff import *
-process.out.outputCommands += patEventContentNoCleaning
-process.out.outputCommands += patExtraAodEventContent
+#process.out.outputCommands += patEventContentNoCleaning
+#process.out.outputCommands += patExtraAodEventContent
+process.out.outputCommands += cms.untracked.vstring('keep *_generator_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_TriggerResults_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_offlineBeamSpot_*_*')
 process.out.outputCommands += cms.untracked.vstring('keep *_addPileupInfo_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_genParticles_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_offlinePrimaryVertices_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_hltTriggerSummaryAOD_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_TriggerResults_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatElectrons_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatElectronsPF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatJetsAK5PF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_patMETsPF_*_*')
 process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIPF_*_*')
-process.out.outputCommands += cms.untracked.vstring('keep *_*ElectronsPF_*_*')
-process.out.outputCommands += cms.untracked.vstring('keep *_*MuonsPF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_patMETsTypeIIPF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatMuons_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatMuonsPF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_selectedPatJetsAK5PF_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_offlinePrimaryVertices_*_*')
+process.out.outputCommands += cms.untracked.vstring('keep *_generalTracks_*_*')
 
 process.outpath = cms.EndPath(process.out)
  

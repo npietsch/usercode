@@ -6,11 +6,11 @@
 
 void PU() {
   //TDirectory* keep = gDirectory->GetDirectory("");
-  TFile* ORGPUDIST = new TFile("PU_Run2011.root");
+  TFile* ORGPUDIST = new TFile("Data_PUDist_sysDown_2011Full.root");
 
   cout<<"file read"<<endl;
 
-  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("pileup");//->Clone("puorg");
+  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("histoData_observed");//->Clone("puorg");
   TH1D* orgpu = (TH1D*) orgpuT->Clone("puorg");
   cout<<"histo cloned"<<endl;
 
@@ -38,7 +38,7 @@ void PU() {
 
    rebpu->Draw();
 
-   TFile* REBPUDIST = new TFile("PU_Run2011_bin70.root","RECREATE");
+   TFile* REBPUDIST = new TFile("Data_PUDist_sysDown_2011Full_bin70.root","RECREATE");
    rebpu->Write();
    REBPUDIST->Close();
    //   ORGPUDIST->Close();

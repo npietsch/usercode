@@ -63,7 +63,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
   nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
   nBtags_PUWgt_ = fs->make<TH1F>("nBtags_PUWgt","nBtags_PUWgt", 4, 0., 4.);
-  nBtags2_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
+  nBtags2_ = fs->make<TH1F>("nBtags2","nBtags2", 8, 0., 8.);
   nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
 
   TCHE_= fs->make<TH1F>("TCHE","TCHE", 80, -20., 20.);
