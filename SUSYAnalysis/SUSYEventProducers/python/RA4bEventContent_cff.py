@@ -19,5 +19,6 @@ RA4bEventContent = [
     'keep *_selectedPatMuonsPF_*_*',
     'keep *_selectedPatJetsAK5PF_*_*',
     'keep *_offlinePrimaryVertices_*_*',
-    'keep *_generalTracks_*_*'
+    'keep *_generalTracks_*_*',
+    'keep LHEEventProduct_source_*_LHE'
 ]
