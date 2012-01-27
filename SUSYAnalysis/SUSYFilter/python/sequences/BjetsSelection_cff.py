@@ -49,14 +49,15 @@ goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
 from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                     cut =
-                                    'pt > 20. &'
-                                    'abs(eta) < 2.5'
+                                    'pt > 10. &'
+                                    'abs(eta) < 2.5 &'
+                                    '(trackIso+hcalIso+ecalIso)/pt < 0.2'
                                     )
 ## create loose electron collection
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             cut =
-                                            'pt > 20. &'
+                                            'pt > 10. &'
                                             'abs(eta) < 2.5 '
                                             )
 #------------------------------
