@@ -241,12 +241,12 @@ SystematicsAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   nBtags_noWgt_->Fill(nBtags);
 
   // bdisc
-  for(int i=0; i<(int)bjets->size();++i)
+  for(int i=0; i<(int)jets->size();++i)
     {
-      TCHE_->Fill((*bjets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
-      TCHP_->Fill((*bjets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
-      SSVHE_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
-      SSVHP_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
+      TCHE_->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      TCHP_->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+      SSVHE_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+      SSVHP_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
     }
 
   // MET, HT, MHT
