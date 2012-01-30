@@ -69,7 +69,7 @@ SystematicsAnalyzer::SystematicsAnalyzer(const edm::ParameterSet& cfg):
   nJets_ = fs->make<TH1F>("nJets","nJets", 14, 0., 14);
   
   JetsPt_ = fs->make<TH1F>("JetsPt","JetsPt", 90, 0., 90);
-  JetsEta_  = fs->make<TH1F>("JetsPt","JetsPt", 60, -3, 3);
+  JetsEta_  = fs->make<TH1F>("JetsEta","JetsEta", 60, -3, 3);
   
   for(int idx=0; idx<4; ++idx)
     {
