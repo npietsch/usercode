@@ -1,6 +1,7 @@
 #At the moment should import from AnalyzeSystematics_cfg
 #A script copies the AnalyzeSystematics_cfg and renames it SUSYPAT_MODELSCAN_cfg
 from SUSYPAT_MODELSCAN_cfg import *
+#from AnalyzeSystematics_cfg import *
 
 #Set the SUSY parameters M0 and M12#
 ####################################
@@ -84,13 +85,16 @@ process.RA4bMuonSelection.replace(process.btagEventWeightMu,
                                   )
 
 #Insert the filter in the makeSUSYGenEvt, since this is always present in each path
-process.globalReplace(process.makeSUSYGenEvt,
+process.makeSUSYGenEvt.replace(process.SUSYInitSubset,
                       process.susyParamExtract*       #extract susyPars
                       process.prePatCount*            #fill a Hist
                       process.susyParamFilter*        #filter susyPars                            
                       process.postPatCount*
-                      process.makeSUSYGenEvt
+                      process.SUSYInitSubset
                       )
+
+#Set the correct file for tagging effs
+process.btagEventWeight.filename  = "./BtagEff_TTJets.root"
 
 #---------------------------------------------
 #Load all files for the appropriate SUSY point
