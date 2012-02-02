@@ -1,3 +1,5 @@
+#At the moment should import from AnalyzeSystematics_cfg
+#A script copies the AnalyzeSystematics_cfg and renames it SUSYPAT_MODELSCAN_cfg
 from SUSYPAT_MODELSCAN_cfg import *
 
 #Set the SUSY parameters M0 and M12#
@@ -52,13 +54,43 @@ process.TFileService = cms.Service("TFileService",
 #Insert modules into the paths
 ##############################
 
-process.PATTuple.replace(process.susyPatDefaultSequence,
-                         process.susyParamExtract*       #extract susyPars
-                         process.prePatCount*            #fill a Hist
-                         process.susyParamFilter*        #filter susyPars                            
-                         process.susyPatDefaultSequence* #produce PAT sequence
-                         process.postPatCount
-                         )
+#Use this if doing combined PAT-tuple - analysis
+#print "MODE: Creating pat-tuples..... "
+#process.PATTuple.replace(process.susyPatDefaultSequence,
+#                         process.susyParamExtract*       #extract susyPars
+#                         process.prePatCount*            #fill a Hist
+#                         process.susyParamFilter*        #filter susyPars                            
+#                         process.susyPatDefaultSequence* #produce PAT sequence
+#                         process.postPatCount
+#                         )
+
+
+#Use this if just running analysis of pat-tuples
+print "MODE: Running over pat-tuples..... "
+
+#Create a set of analysers to perform pre-cut checks
+#Needed to obtain the total number of each subproc
+process.analyzeSystematicsNoCuts0b = process.analyzeSystematicsMu0b.clone()
+process.analyzeSystematicsNoCuts1b = process.analyzeSystematicsMu1b.clone()
+process.analyzeSystematicsNoCuts2b = process.analyzeSystematicsMu2b.clone()
+process.analyzeSystematicsNoCuts3b = process.analyzeSystematicsMu3b.clone()
+
+process.RA4bMuonSelection.replace(process.btagEventWeightMu,
+                                  process.btagEventWeightMu *
+                                  process.analyzeSystematicsNoCuts0b *
+                                  process.analyzeSystematicsNoCuts1b *
+                                  process.analyzeSystematicsNoCuts2b *
+                                  process.analyzeSystematicsNoCuts3b
+                                  )
+
+#Insert the filter in the makeSUSYGenEvt, since this is always present in each path
+process.globalReplace(process.makeSUSYGenEvt,
+                      process.susyParamExtract*       #extract susyPars
+                      process.prePatCount*            #fill a Hist
+                      process.susyParamFilter*        #filter susyPars                            
+                      process.postPatCount*
+                      process.makeSUSYGenEvt
+                      )
 
 #---------------------------------------------
 #Load all files for the appropriate SUSY point
@@ -77,10 +109,13 @@ for line in fileCat:
     if not ( (int(lineList[0]) == M0 ) and ( int(lineList[1]) == M12 ) ):
         continue
 
-    #Check that point has 10000 events
+    #If there are no files listed in the catalogue, quit
     if ( len(lineList) < 4 ) :
         break
-    if ( lineList[2] == '10000' ) :
+
+    #Check that point has (almost) 10000 events
+    numEvents = int(lineList[2])
+    if ( numEvents <  11000 and numEvents > 9000 ) :
         for fileName in lineList[3:] :
             fileList.append(fileName[len(FILEPREFIX):])
     break
