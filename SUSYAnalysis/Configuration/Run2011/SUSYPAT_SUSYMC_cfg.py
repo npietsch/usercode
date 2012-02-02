@@ -95,6 +95,42 @@ process.makeSUSYGenEvt.replace(process.SUSYInitSubset,
 
 #Set the correct file for tagging effs
 process.btagEventWeight.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightMu.filename  = "./BtagEff_TTJets.root"                    
+process.btagEventWeightMuJER.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightMuBtagSFUp.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightMuBtagSFDown.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightMuMistagSFUp.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightMuMistagSFDown.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightEl.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightElJER.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightElBtagSFUp.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightElBtagSFDown.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightElMistagSFUp.filename  = "./BtagEff_TTJets.root"
+process.btagEventWeightElMistagSFDown.filename  = "./BtagEff_TTJets.root"
+
+
+#Fix some weight names
+process.analyzeSystematicsMu0bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsMu0bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsMu1bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsMu1bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsMu2bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsMu2bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsMu3bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsMu3bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+
+process.analyzeSystematicsEl0bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsEl0bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsEl1bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsEl1bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsEl2bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsEl2bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+process.analyzeSystematicsEl3bPUUp.PUWeight   =  "eventWeightPU:eventWeightPUUp"
+process.analyzeSystematicsEl3bPUDown.PUWeight =  "eventWeightPU:eventWeightPUDown"
+
+
+
+
 
 #---------------------------------------------
 #Load all files for the appropriate SUSY point
