@@ -130,7 +130,7 @@ Mu_BEfilterSequence=cms.Sequence(
 ##-------------------------------------
 
 # AOD2PAT MC
-preselectionMC2PAT = cms.Sequence(LepHTTriggerMC2 *
+preselectionMC2PAT = cms.Sequence(#LepHTTriggerMC2 *
                                   goodVertices *
                                   HBHENoiseFilter *
                                   trackingFailureFilter *
