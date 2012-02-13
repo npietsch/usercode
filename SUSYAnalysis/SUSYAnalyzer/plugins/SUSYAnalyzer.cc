@@ -77,7 +77,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   MET_SSDiLepReco_ = fs->make<TH1F>("MET_SS_DiLepReco","MET", 40, 0., 1000.);
   MET_OSDiLepReco_ = fs->make<TH1F>("MET_OS_DiLepReco","MET", 40, 0., 1000.);
   HT_ = fs->make<TH1F>("HT","HT", 40, 0., 2000.);
-  SigMET_ = fs->make<TH1F>("SigMET","SigMET", 20, 0., 20);
+
+  SigMET_ = fs->make<TH1F>("SigMET","SigMET", 40, 0., 40);
+  significance_ = fs->make<TH1F>("significance","significance", 40, 0., 40);
 
   nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0., 50);
   nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
@@ -116,6 +118,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_SigMET2_ = fs->make<TH2F>("HT_SigMET2","HT vs. SigMET2", 36, 200., 2000., 40, 0., 20. );
   HT_SigMET_ = fs->make<TH2F>("HT_SigMET","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
 
+  HT_significance2_ = fs->make<TH2F>("HT_significance2","HT vs. significance2", 36, 200., 2000., 40, 0., 20.);
+  HT_significance_ = fs->make<TH2F>("HT_significance","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  significance_SigMET_ = fs->make<TH2F>("significance_SigMET","significance vs. SigMET", 80, 0., 40., 80, 0., 40.);
 
   HT_SigPtl_ = fs->make<TH2F>("HT_SigPtl","HT vs. SigPtl", 40, 0., 2000., 40, 0., 20. );
   HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 40, 0., 2000., 40, 0., 20. );
@@ -534,11 +539,24 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   double sigMET=((*met)[0].et())/(sqrt(HT));
   
+  //--------------------"fancy" met significance plots ---------------------------
+  double sigmaX2= (*met)[0].getSignificanceMatrix()(0,0);
+  double sigmaY2= (*met)[0].getSignificanceMatrix()(1,1);
+  double significance = 0;
+  if(sigmaX2<1.e10 && sigmaY2<1.e10) significance = (*met)[0].significance();
+
+  significance_->Fill(significance, weight);
+  HT_significance_->Fill(HT,significance, weight);
+  HT_significance2_->Fill(HT,significance, weight);
+  significance_SigMET_->Fill(significance, sigMET, weight);
+  //------------------------------------------------------------------------------
+
+  //std::cout << significance << std::endl;
+  
   SigMET_->Fill(sigMET, weight);
   HT_SigMET_->Fill(HT,sigMET, weight);
   HT_SigMET2_->Fill(HT,sigMET, weight);
   HT_SigMET_unweighted_->Fill(HT,sigMET, 1.);
-
   HT_MET_->Fill(HT,(*met)[0].et(), weight);
 
   bool ATight = HT >= HT0_ && HT < HT1_ && sigMET >= Y0_ && sigMET < Y1_;

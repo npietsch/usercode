@@ -88,6 +88,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F *MET_OSDiLepReco_;
   TH1F *HT_;
   TH1F *SigMET_;
+  TH1F *significance_;
   TH1F *nJets_;
   TH1F *nMuons_;
   TH1F *nElectrons_;
@@ -134,6 +135,10 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *HT_SigMET_;
   TH2F *HT_SigMET2_;
   TH2F *HT_MET_;
+
+  TH2F *HT_significance2_;
+  TH2F *HT_significance_;
+  TH2F *significance_SigMET_;
 
   TH2F *HT_SigPtl_;
   TH2F *HT_SigMET_unweighted_;
