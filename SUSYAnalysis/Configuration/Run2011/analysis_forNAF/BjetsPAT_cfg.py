@@ -24,10 +24,20 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
-# load and configure modules for event weighting
-process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
+## # load and configure modules for event weighting
+## process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+## process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
+
+## load and configure module for PU re-weighting
+process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_2011Full_bin70.root"
+
+process.eventWeightPUUp = process.eventWeightPU.clone()
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_sysUp_2011Full_bin70.root"
+
+process.eventWeightPUDown = process.eventWeightPU.clone()
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_sysDown_2011Full_bin70.root"
 
 # load modules to create SUSYGenEvent
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
