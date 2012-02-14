@@ -545,6 +545,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double significance = 0;
   if(sigmaX2<1.e10 && sigmaY2<1.e10) significance = (*met)[0].significance();
 
+  //Use the sqrt of significance
+  if (significance > 0.) significance = sqrt(significance);
+
   significance_->Fill(significance, weight);
   HT_significance_->Fill(HT,significance, weight);
   HT_significance2_->Fill(HT,significance, weight);
