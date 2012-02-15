@@ -394,6 +394,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Event weighting
   //-------------------------------------------------
 
+  //std::cout << "Test1" << std::endl;
+
   double weight=1;
 
   // declare and initialize different weights
@@ -481,6 +483,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nPU_->Fill(nvtx,weight);
     }
 
+  //std::cout << "Test2" << std::endl;
 
   if(useTriggerEvtWgt_)
     {
@@ -509,6 +512,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       SSVHP_->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
     }
 
+  //std::cout << "Test3" << std::endl;
+
+  if(met->size()==0) return;
+
   //-------------------------------------------------
   // Jet Et, MET, HT, nJets
   //-------------------------------------------------
@@ -527,34 +534,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   HT_->Fill(HT, weight);
   nJets_->Fill(njets, weight);
 
-  double HTBjets=0;
-  double HTLightJets=0;
-
-  if(bjets->size()>0 && lightJets->size()>0 && jets->size()>0)
-    {
-      for(int i=0; i<(int)bjets->size(); ++i)
-	{
-	  double frac=((*bjets)[i].et())*(jets->size())/HT;
-	  if(i<4) Bjet_EtFrac_[i]->Fill(frac, weight);
-	  HTBjets=HTBjets+(*bjets)[i].et();
-	}
-      for(int i=0; i<(int)lightJets->size(); ++i)
-	{
-	  double frac=((*lightJets)[i].et())*(lightJets->size())/HT;
-	  if(i<4) LightJet_EtFrac_[i]->Fill(frac, weight);
-	  HTLightJets=HTLightJets+(*lightJets)[i].et();
-	}
-      double BjetsFrac=(HTBjets/(bjets->size()))/(HT/(jets->size()));
-      double LightJetsFrac=(HTLightJets/(lightJets->size()))/(HT/(jets->size()));
-
-      Bjets_EtFrac_->Fill(BjetsFrac, weight);
-      LightJets_EtFrac_->Fill(LightJetsFrac, weight);
-    }
-
-  if(jets->size()>0)
-    {
-      JetEt_nrBjets_->Fill(HT/(jets->size()),bjets->size(), weight);
-    }
+  //std::cout << "Test4" << std::endl;
 
   double sigMET=((*met)[0].et())/(sqrt(HT));
   
@@ -573,7 +553,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   significance_SigMET_->Fill(significance, sigMET, weight);
   //------------------------------------------------------------------------------
 
-  //std::cout << significance << std::endl;
+  //std::cout << "Test5" << std::endl;
+
+  //std:cout << significance << std::endl;
   
   SigMET_->Fill(sigMET, weight);
   HT_SigMET_->Fill(HT,sigMET, weight);
@@ -581,202 +563,11 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   HT_SigMET_unweighted_->Fill(HT,sigMET, 1.);
   HT_MET_->Fill(HT,(*met)[0].et(), weight);
 
-  bool ATight = HT >= HT0_ && HT < HT1_ && sigMET >= Y0_ && sigMET < Y1_;
-  bool BTight = HT >= HT2_ && sigMET >= Y0_ && sigMET < Y1_;
-  bool CTight = HT >= HT0_ && HT < HT1_ && sigMET >= Y2_;
-  bool DTight = HT >= HT2_ && sigMET >= Y2_;
-
-  for(int bdx=0; bdx<(int) bjets->size(); ++bdx)
-    {
-      if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) BjetsEt_LooseA_->Fill((*bjets)[bdx].et(),weight);
-      else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) BjetsEt_LooseB_->Fill((*bjets)[bdx].et(),weight);
-      else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) BjetsEt_LooseC_->Fill((*bjets)[bdx].et(),weight);
-      else if(HT >= 400 && sigMET >= 4.5 )  BjetsEt_LooseD_->Fill((*bjets)[bdx].et(),weight);
-
-      if(ATight) BjetsEt_TightA_->Fill((*bjets)[bdx].et(),weight);
-      else if(BTight) BjetsEt_TightB_->Fill((*bjets)[bdx].et(),weight);
-      else if(CTight) BjetsEt_TightC_->Fill((*bjets)[bdx].et(),weight);
-      else if(DTight) BjetsEt_TightD_->Fill((*bjets)[bdx].et(),weight);
-
-      if(bdx==0)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Bjet0Et_LooseA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Bjet0Et_LooseB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Bjet0Et_LooseC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Bjet0Et_LooseD_->Fill((*bjets)[bdx].et(),weight);
-	  
-	  if(ATight) Bjet0Et_TightA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(BTight) Bjet0Et_TightB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(CTight) Bjet0Et_TightC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(DTight) Bjet0Et_TightD_->Fill((*bjets)[bdx].et(),weight);
-	}
-      if(bdx==1)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Bjet1Et_LooseA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Bjet1Et_LooseB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Bjet1Et_LooseC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Bjet1Et_LooseD_->Fill((*bjets)[bdx].et(),weight);
-	  
-	  if(ATight) Bjet1Et_TightA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(BTight) Bjet1Et_TightB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(CTight) Bjet1Et_TightC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(DTight) Bjet1Et_TightD_->Fill((*bjets)[bdx].et(),weight);
-	}
-      if(bdx==2)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Bjet2Et_LooseA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Bjet2Et_LooseB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Bjet2Et_LooseC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Bjet2Et_LooseD_->Fill((*bjets)[bdx].et(),weight);
-	  
-	  if(ATight) Bjet2Et_TightA_->Fill((*bjets)[bdx].et(),weight);
-	  else if(BTight) Bjet2Et_TightB_->Fill((*bjets)[bdx].et(),weight);
-	  else if(CTight) Bjet2Et_TightC_->Fill((*bjets)[bdx].et(),weight);
-	  else if(DTight) Bjet2Et_TightD_->Fill((*bjets)[bdx].et(),weight);
-	}
-    }
-
-  for(int jjdx=0; jjdx<(int) jets->size(); ++jjdx)
-    {
-      if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) JetsEt_LooseA_->Fill((*jets)[jjdx].et(),weight);
-      else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) JetsEt_LooseB_->Fill((*jets)[jjdx].et(),weight);
-      else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) JetsEt_LooseC_->Fill((*jets)[jjdx].et(),weight);
-      else if(HT >= 400 && sigMET >= 4.5 )  JetsEt_LooseD_->Fill((*jets)[jjdx].et(),weight);
-
-      if(ATight) JetsEt_TightA_->Fill((*jets)[jjdx].et(),weight);
-      else if(BTight) JetsEt_TightB_->Fill((*jets)[jjdx].et(),weight);
-      else if(CTight) JetsEt_TightC_->Fill((*jets)[jjdx].et(),weight);
-      else if(DTight) JetsEt_TightD_->Fill((*jets)[jjdx].et(),weight);
-
-      if(jjdx==0)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet0Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet0Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet0Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Jet0Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
-	  
-	  if(ATight) Jet0Et_TightA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(BTight) Jet0Et_TightB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(CTight) Jet0Et_TightC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(DTight) Jet0Et_TightD_->Fill((*jets)[jjdx].et(),weight);
-	}
-      if(jjdx==1)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet1Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet1Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet1Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Jet1Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
-	  
-	  if(ATight) Jet1Et_TightA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(BTight) Jet1Et_TightB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(CTight ) Jet1Et_TightC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(DTight ) Jet1Et_TightD_->Fill((*jets)[jjdx].et(),weight);
-	}
-      if(jjdx==2)
-	{
-	  if(HT >= 300 && HT < 350 && sigMET >= 2.5 && sigMET < 4.) Jet2Et_LooseA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 2.5 && sigMET < 4.) Jet2Et_LooseB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 300 && HT < 350 && sigMET >= 4.5 ) Jet2Et_LooseC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(HT >= 400 && sigMET >= 4.5 )  Jet2Et_LooseD_->Fill((*jets)[jjdx].et(),weight);
-	  
-	  if(ATight) Jet2Et_TightA_->Fill((*jets)[jjdx].et(),weight);
-	  else if(BTight) Jet2Et_TightB_->Fill((*jets)[jjdx].et(),weight);
-	  else if(CTight) Jet2Et_TightC_->Fill((*jets)[jjdx].et(),weight);
-	  else if(DTight) Jet2Et_TightD_->Fill((*jets)[jjdx].et(),weight);
-	}
-    }
-
-  if(ATight) MET_TightA_->Fill((*met)[0].et(),weight);
-  else if(BTight) MET_TightB_->Fill((*met)[0].et(),weight);
-  else if(CTight) MET_TightC_->Fill((*met)[0].et(),weight);
-  else if(DTight) MET_TightD_->Fill((*met)[0].et(),weight);
-
-  if(PVSrc->size()==1)
-    {
-      MET1pv_->Fill((*met)[0].et(), weight);
-      HT1pv_->Fill(HT, weight);
-      nJets1pv_->Fill(njets, weight);
-      if(jets->size()>0)
-	{
-	  Jet0_Et1pv_->Fill((*jets)[0].et(), weight);
-	}
-      if(jets->size()>1)
-	{
-	  Jet0_Et1pv_->Fill((*jets)[1].et(), weight);
-	} 
-    }
-
-  if(PVSrc->size()==2 || PVSrc->size()==3)
-    {
-      MET2pv_->Fill((*met)[0].et(), weight);
-      HT2pv_->Fill(HT, weight);
-      nJets2pv_->Fill(njets, weight);
-      if(jets->size()>0)
-	{
-	  Jet0_Et2pv_->Fill((*jets)[0].et(), weight);
-	}
-      if(jets->size()>1)
-	{
-	  Jet0_Et2pv_->Fill((*jets)[1].et(), weight);
-	} 
-    }
-
-  if(PVSrc->size()==4 || PVSrc->size()==5 || PVSrc->size()==6)
-    {
-      MET3pv_->Fill((*met)[0].et(), weight);
-      HT3pv_->Fill(HT, weight);
-      nJets3pv_->Fill(njets, weight);
-      if(jets->size()>0)
-	{
-	  Jet0_Et3pv_->Fill((*jets)[0].et(), weight);
-	}
-      if(jets->size()>1)
-	{
-	  Jet0_Et3pv_->Fill((*jets)[1].et(), weight);
-	} 
-    }
-  
-  if(PVSrc->size()==7 || PVSrc->size()==8 || PVSrc->size()==9)
-    {  
-      MET4pv_->Fill((*met)[0].et(), weight);
-      HT4pv_->Fill(HT, weight);
-      nJets4pv_->Fill(njets, weight);
-      if(jets->size()>0)
-	{
-	  Jet0_Et4pv_->Fill((*jets)[0].et(), weight);
-	}
-      if(jets->size()>1)
-	{
-	  Jet0_Et4pv_->Fill((*jets)[1].et(), weight);
-	} 
-    }
-  
-  if(PVSrc->size()>=10)
-    {
-      MET5pv_->Fill((*met)[0].et(), weight);
-      HT5pv_->Fill(HT, weight);
-      nJets5pv_->Fill(njets, weight);
-      if(jets->size()>0)
-	{
-	  Jet0_Et5pv_->Fill((*jets)[0].et(), weight);
-	}
-      if(jets->size()>1)
-	{
-	  Jet0_Et5pv_->Fill((*jets)[1].et(), weight);
-	} 
-    }
-
-  for(int METidx=0; METidx<300; METidx+=10 )
-    {
-      for(int HTidx=200; HTidx<600; HTidx+=10)
-	{
-	  if( (*met)[0].et() > METidx && HT > HTidx) HTidxMETidx_->Fill(HTidx,METidx, weight);
-	}
-    }
-
   //-------------------------------------------------
   // Lepton pt, nMuons, nElectrons, nLeptons
   //-------------------------------------------------
+
+  //std::cout << "Test6" << std::endl;
 
   if(muons->size()>0) Muon0_eta_->Fill((*muons)[0].eta(), weight);
   if(electrons->size()>0) Electron0_eta_->Fill((*electrons)[0].eta(), weight);
@@ -812,6 +603,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
     }
 
+  //std::cout << "Test7" << std::endl;
+
   if(RelIso1 >= 1 && RelIso1 < 100) RelIso1=0.9999;
   if(RelIso1 >= 5 && RelIso2 < 100) RelIso2=0.4999;
 
@@ -832,7 +625,6 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nLeptons_->Fill(nleptons, weight);
 
   double MT=lepHT+HT+(*met)[0].et();
-  double MTHad=HT+(*met)[0].et();
   MT_->Fill(MT, weight);
   
   if(nleptons==2)
@@ -852,6 +644,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       double MuMu_p4_square = ((*muons)[0].p4()+(*muons)[1].p4()).Dot((*muons)[0].p4()+(*muons)[1].p4());
       invMuMuMass_->Fill(sqrt(MuMu_p4_square), weight);
     }
+
+  //std::cout << "Test8" << std::endl;
 
   //transverse W-mass
   double mW=0;
@@ -885,7 +679,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
 	   }
 	}
-    }
+    }  
   else if(electrons->size()==1)
     {
       singleLepton = &(*electrons)[0];
@@ -908,14 +702,16 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
     }
 
+  //std::cout << "Test9" << std::endl;
+
   //Fill HT_SigPtl_ histogram
   //Also fill other histograms, depending on MET and lepton PT
   if (singleLepton != 0 && HT > 0.) {
     double SigPtl = singleLepton->et() / sqrt(HT); 
     HT_SigPtl_->Fill(HT,SigPtl,weight);
-
+    
     double MET=(*met)[0].et();
-
+    
     //Fill histograms
     if (singleLepton->et() >= 60.) {
       if (MET >= 60.) {
@@ -944,128 +740,18 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	HT_SigPtl_PT20_MET20->Fill(HT, SigPtl, weight);
       }
     }
-
-
+    
     //Smear the lepton pT. Do this using the MET significance.
     if (significance > 0.) {
       double MET_resolution = 1. / significance ;  
-
+      
       //Now produce some smearing factor.
       TRandom3 rNum(0);
       double smearFactor = pow ( (1.+ MET_resolution) , rNum.Gaus() );
       SigPtl_smearFactor_->Fill(smearFactor, weight);
       HT_SigPtl_smeared_->Fill(HT, SigPtl * smearFactor, weight);
-    }
-
-  }
-
-  if(mW2 > 0)
-    {
-      mW2_->Fill(mW2, weight);
-    }
-
-  if(70 < mW2 && 90 < mW2  && mTop > 0)
-    {
-      mTop_->Fill(mTop, weight);
-    }
-
-  if(mW > 0)
-    {
-      mW_->Fill(mW, weight);
-      if(lepCharge > 0) mW_posCharge_->Fill(mW, weight);
-      if(lepCharge < 0) mW_negCharge_->Fill(mW, weight);
-
-      if(abs(eta)<= 0.5) mW_eta05_->Fill(mW, weight);
-      else if(0.5 <= abs(eta) && abs(eta)< 1.0) mW_eta10_->Fill(mW, weight);
-      else if(1.0 <= abs(eta) && abs(eta)< 1.5) mW_eta15_->Fill(mW, weight);
-      else if(1.5 <= abs(eta) && abs(eta)< 2.0) mW_eta20_->Fill(mW, weight);
-      else if(2.0 <= abs(eta) && abs(eta)< 2.5) mW_eta25_->Fill(mW, weight);
-
-      if(mW >= 60 && mW < 90)
-	{
-	  nJets_control_->Fill(jets->size(), weight);
-	  if(abs(eta)<= 0.5) nJets_control_eta05_->Fill(jets->size(), weight);
-	  else if(0.5 <= abs(eta) && abs(eta)< 1.0) nJets_control_eta10_->Fill(jets->size(), weight);
-	  else if(1.0 <= abs(eta) && abs(eta)< 1.5) nJets_control_eta15_->Fill(jets->size(), weight);
-	  else if(1.5 <= abs(eta) && abs(eta)< 2.0) nJets_control_eta20_->Fill(jets->size(), weight);
-	  else if(2.0 <= abs(eta) && abs(eta)< 2.5) nJets_control_eta25_->Fill(jets->size(), weight);
-
-	  HT_control_->Fill(HT, weight);
-	  if(abs(eta)<= 0.5) HT_control_eta05_->Fill(HT, weight);
-	  else if(0.5 <= abs(eta) && abs(eta)< 1.0) HT_control_eta10_->Fill(HT, weight);
-	  else if(1.0 <= abs(eta) && abs(eta)< 1.5) HT_control_eta15_->Fill(HT, weight);
-	  else if(1.5 <= abs(eta) && abs(eta)< 2.0) HT_control_eta20_->Fill(HT, weight);
-	  else if(2.0 <= abs(eta) && abs(eta)< 2.5) HT_control_eta25_->Fill(HT, weight);
-
-	  mW_control_->Fill(mW, weight);
-	  if(abs(eta)<= 0.5) mW_control_eta05_->Fill(mW, weight);
-	  else if(0.5 <= abs(eta) && abs(eta) && abs(eta)< 1.0) mW_control_eta10_->Fill(mW, weight);
-	  else if(1.0 <= abs(eta) && abs(eta) && abs(eta)< 1.5) mW_control_eta15_->Fill(mW, weight);
-	  else if(1.5 <= abs(eta) && abs(eta) && abs(eta)< 2.0) mW_control_eta20_->Fill(mW, weight);
-	  else if(2.0 <= abs(eta) && abs(eta) && abs(eta)< 2.5) mW_control_eta25_->Fill(mW, weight);
-	}
-      else
-	{
-	  nJets_signal_->Fill(jets->size(), weight);
-	  if(eta<= 0.5) nJets_signal_eta05_->Fill(jets->size(), weight);
-	  else if(0.5 <= abs(eta) && eta< 1.0) nJets_signal_eta10_->Fill(jets->size(), weight);
-	  else if(1.0 <= abs(eta) && eta< 1.5) nJets_signal_eta15_->Fill(jets->size(), weight);
-	  else if(1.5 <= abs(eta) && eta< 2.0) nJets_signal_eta20_->Fill(jets->size(), weight);
-	  else if(2.0 <= abs(eta) && eta< 2.5) nJets_signal_eta25_->Fill(jets->size(), weight);
-
-	  HT_signal_->Fill(HT, weight);
-	  if(eta<= 0.5) HT_signal_eta05_->Fill(HT, weight);
-	  else if(0.5 <= abs(eta) && eta< 1.0) HT_signal_eta10_->Fill(HT, weight);
-	  else if(1.0 <= abs(eta) && eta< 1.5) HT_signal_eta15_->Fill(HT, weight);
-	  else if(1.5 <= abs(eta) && eta< 2.0) HT_signal_eta20_->Fill(HT, weight);
-	  else if(2.0 <= abs(eta) && eta< 2.5) HT_signal_eta25_->Fill(HT, weight);
-
-	  mW_signal_->Fill(mW, weight);
-	  if(eta< 0.5) mW_signal_eta05_->Fill(mW, weight);
-	  else if(0.5 <= abs(eta) && eta< 1.0) mW_signal_eta10_->Fill(mW, weight);
-	  else if(1.0 <= abs(eta) && eta< 1.5) mW_signal_eta15_->Fill(mW, weight);
-	  else if(1.5 <= abs(eta) && eta< 2.0) mW_signal_eta20_->Fill(mW, weight);
-	  else if(2.0 <= abs(eta) && eta< 2.5) mW_signal_eta25_->Fill(mW, weight);
-	}
-
-      mW_MET_->Fill(mW,(*met)[0].et(), weight);
-      mW_nJets_->Fill(mW,jets->size(), weight);
-      mW_HT_->Fill(mW,HT, weight);
-      mW_SigMET_->Fill(mW,sigMET, weight);
-      sigMET_nJets_->Fill(sigMET,jets->size(), weight);
-      HT_nJets_->Fill(HT,jets->size(), weight);
-      mW_MT_->Fill(mW,MT, weight);
-      mW_MTHad_->Fill(mW,MTHad, weight);
-
-      if((*met)[0].et()<50) mW_MET0_->Fill(mW, weight);
-      else if((*met)[0].et()>= 50  &&(*met)[0].et()<100) mW_MET50_->Fill(mW, weight);
-      else if((*met)[0].et()>= 100 &&(*met)[0].et()<150) mW_MET100_->Fill(mW, weight);
-      else if((*met)[0].et()>= 150 &&(*met)[0].et()<200) mW_MET150_->Fill(mW, weight);
-      else if((*met)[0].et()>= 200 &&(*met)[0].et()<250) mW_MET200_->Fill(mW, weight);
-      else if((*met)[0].et()>= 250 &&(*met)[0].et()<300) mW_MET250_->Fill(mW, weight);
-      else if((*met)[0].et()>= 300) mW_MET300_->Fill(mW, weight);
-      
-      if(sigMET<2) mW_SigMET0_->Fill(mW, weight);
-      else if(sigMET>= 2 &&sigMET<4) mW_SigMET2_->Fill(mW, weight);
-      else if(sigMET>= 4 &&sigMET<6) mW_SigMET4_->Fill(mW, weight);
-      else if(sigMET>= 6 &&sigMET<9) mW_SigMET6_->Fill(mW, weight);
-      else if(sigMET>= 9 &&sigMET<12) mW_SigMET9_->Fill(mW, weight);
-      else if(sigMET>= 12) mW_SigMET12_->Fill(mW, weight);
-
-      if(jets->size()==4) mW_4Jets_->Fill(mW, weight);
-      else if(jets->size()==5) mW_5Jets_->Fill(mW, weight);
-      else if(jets->size()==6) mW_6Jets_->Fill(mW, weight);
-      else if(jets->size()==7) mW_7Jets_->Fill(mW, weight);
-      else if(jets->size()==8) mW_8Jets_->Fill(mW, weight);
-      else if(jets->size()>=9) mW_9Jets_->Fill(mW, weight);
-
-      if(HT >= 300 && HT < 400) mW_HT300_->Fill(mW, weight);
-      else if(HT >= 400 && HT < 500) mW_HT400_->Fill(mW, weight);
-      else if(HT >= 500 && HT < 600) mW_HT500_->Fill(mW, weight);
-      else if(HT >= 600 && HT < 700) mW_HT600_->Fill(mW, weight);
-      else if(HT >= 700 && HT < 800) mW_HT700_->Fill(mW, weight);
-      else if(HT >= 800) mW_HT800_->Fill(mW, weight);
-    }
+    } 
+  } 
 }
 
 void SUSYAnalyzer::beginJob()

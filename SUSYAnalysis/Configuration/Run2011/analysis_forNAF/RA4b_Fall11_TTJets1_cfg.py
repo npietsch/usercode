@@ -1,7 +1,7 @@
 #----------------------------------------------------
 # To run on the NAF, type:
 #
-# xport NJS_QUEUE=1 
+# export NJS_QUEUE=1 
 # nafJobSplitter.pl 240 RA4b_Fall11_TTJets1_cfg.py
 #----------------------------------------------------
 

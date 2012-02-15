@@ -16,9 +16,8 @@ TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
   ttbarEta_  = fs->make<TH1F>("ttbarEta",  "eta(ttbar)",   40,  -5.,   5.);
   ttbarPhi_  = fs->make<TH1F>("ttbarPhi",  "phi(ttbar)",   60, -3.5,  3.5);
 
-  mW_MET_=fs-> make<TH2F>("mW_MET","MET vs. mW", 20, 0., 200., 40, 0., 1000.);
-  mW_HT_=fs-> make<TH2F>("mW_HT","HT vs. mW", 20, 0., 200., 40, 0., 2000.);
-  mW_MT_=fs-> make<TH2F>("mW_MT","MT vs. mW", 20, 0., 200., 40, 0., 2000.);
+  HT_Ymet_=fs-> make<TH2F>("mW_MET","MET vs. mW", 80, 0., 2000., 80, 0., 20.);
+
 }
 
 TtGenEventAnalyzer::~TtGenEventAnalyzer()
@@ -48,9 +47,9 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   ttbarEta_->Fill(p4.eta());
   ttbarPhi_->Fill(p4.phi());
 
-  //transverse W mass
   if( genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
     {
+      //transverse W mass
       double NuPt=genEvent->singleNeutrino()->pt();
       double LepPt=genEvent->singleLepton()->pt();
 
@@ -62,15 +61,16 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
       double mW=sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
 
-      double HT=genEvent->hadronicDecayTop()->pt()+genEvent->leptonicDecayB()->pt();
-      double MT=genEvent->hadronicDecayTop()->pt()+genEvent->leptonicDecayTop()->pt();
-
-      mW_MET_->Fill(mW,NuPt);
-      mW_HT_->Fill(mW,HT);
-      mW_MT_->Fill(mW,MT);
-
+       //Ymet
+      double HT=genEvent->hadronicDecayB()->pt()+genEvent->leptonicDecayB()->pt();
+      
+      for(int ddx=0; ddx<(int)genEvent->hadronicDecayW()->numberOfDaughters(); ++ddx)
+	{
+	  //std::cout << genEvent->hadronicDecayW()->daughter(ddx)->pdgId() <<std::endl;
+	  HT=HT+genEvent->hadronicDecayW()->daughter(ddx)->pt();
+	}
+      HT_Ymet_->Fill(HT,NuPt/(sqrt(HT)));
     }
-
 }
 
 void TtGenEventAnalyzer::beginJob()
