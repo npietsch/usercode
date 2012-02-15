@@ -123,6 +123,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   significance_SigMET_ = fs->make<TH2F>("significance_SigMET","significance vs. SigMET", 80, 0., 40., 80, 0., 40.);
 
   HT_SigPtl_ = fs->make<TH2F>("HT_SigPtl","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigPtl_smeared_ = fs->make<TH2F>("HT_SigPtl_smeared","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  SigPtl_smearFactor_ = fs->make<TH1F>("SigPtl_smearFactor","SigPtl_smearFactor", 100, 0., 10. );
   HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 80, 0., 2000., 80, 0., 20. );
 
   //HISTS FOR STUDYING THE MET AND PT DEPENDENCE OF KAPPA
@@ -943,6 +945,17 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       }
     }
 
+
+    //Smear the lepton pT. Do this using the MET significance.
+    if (significance > 0.) {
+      double MET_resolution = 1. / significance ;  
+
+      //Now produce some smearing factor.
+      TRandom3 rNum(0);
+      double smearFactor = pow ( (1.+ MET_resolution) , rNum.Gaus() );
+      SigPtl_smearFactor_->Fill(smearFactor, weight);
+      HT_SigPtl_smeared_->Fill(HT, SigPtl * smearFactor, weight);
+    }
 
   }
 

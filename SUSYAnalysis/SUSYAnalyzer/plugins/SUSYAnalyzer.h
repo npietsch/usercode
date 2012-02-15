@@ -3,6 +3,7 @@
 
 #include "TH1.h"
 #include "TH2.h"
+#include "TRandom3.h"
 
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -141,6 +142,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *significance_SigMET_;
 
   TH2F *HT_SigPtl_;
+  TH2F *HT_SigPtl_smeared_;
+  TH1F *SigPtl_smearFactor_;
   TH2F *HT_SigMET_unweighted_;
 
   //HISTS FOR STUDYING THE MET AND PT DEPENDENCE OF KAPPA
