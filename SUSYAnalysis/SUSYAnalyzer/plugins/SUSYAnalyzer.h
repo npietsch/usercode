@@ -143,6 +143,21 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F *HT_SigPtl_;
   TH2F *HT_SigMET_unweighted_;
 
+  //HISTS FOR STUDYING THE MET AND PT DEPENDENCE OF KAPPA
+  ///////////////////////////////////////////////////////
+  TH2F * HT_SigMET_PT20_MET60;
+  TH2F * HT_SigMET_PT40_MET60;       
+  TH2F * HT_SigMET_PT60_MET60;       
+  TH2F * HT_SigPtl_PT20_MET20       ;
+  TH2F * HT_SigPtl_PT20_MET40       ;
+  TH2F * HT_SigPtl_PT20_MET60       ;
+  TH2F * HT_significance_PT20_MET20 ;
+  TH2F * HT_significance_PT20_MET40 ;
+  TH2F * HT_significance_PT20_MET60 ;
+  TH2F * HT_significance_PT40_MET60 ;
+  TH2F * HT_significance_PT60_MET60 ;
+  ////////////////////////////
+
   TH2F *mW_SigMET_;
   TH2F *sigMET_nJets_;
   TH2F *HT_nJets_;

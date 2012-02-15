@@ -122,8 +122,25 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_significance_ = fs->make<TH2F>("HT_significance","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   significance_SigMET_ = fs->make<TH2F>("significance_SigMET","significance vs. SigMET", 80, 0., 40., 80, 0., 40.);
 
-  HT_SigPtl_ = fs->make<TH2F>("HT_SigPtl","HT vs. SigPtl", 40, 0., 2000., 40, 0., 20. );
-  HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 40, 0., 2000., 40, 0., 20. );
+  HT_SigPtl_ = fs->make<TH2F>("HT_SigPtl","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 80, 0., 2000., 80, 0., 20. );
+
+  //HISTS FOR STUDYING THE MET AND PT DEPENDENCE OF KAPPA
+  ///////////////////////////////////////////////////////
+  HT_SigMET_PT20_MET60       = fs->make<TH2F>("HT_SigMET_PT20_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  HT_SigMET_PT40_MET60       = fs->make<TH2F>("HT_SigMET_PT40_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  HT_SigMET_PT60_MET60       = fs->make<TH2F>("HT_SigMET_PT60_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+			     
+  HT_SigPtl_PT20_MET20       = fs->make<TH2F>("HT_SigPtl_PT20_MET20","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigPtl_PT20_MET40       = fs->make<TH2F>("HT_SigPtl_PT20_MET40","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigPtl_PT20_MET60       = fs->make<TH2F>("HT_SigPtl_PT20_MET60","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+			     
+  HT_significance_PT20_MET20 = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT20_MET40 = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT20_MET60 = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT40_MET60 = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT60_MET60 = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  ////////////////////////////
 
   HTidxMETidx_= fs->make<TH2F>("HTidxMETidx","HTidx METidx", 38, 220., 600., 30, 0., 300. );
 
@@ -890,9 +907,43 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     }
 
   //Fill HT_SigPtl_ histogram
+  //Also fill other histograms, depending on MET and lepton PT
   if (singleLepton != 0 && HT > 0.) {
     double SigPtl = singleLepton->et() / sqrt(HT); 
     HT_SigPtl_->Fill(HT,SigPtl,weight);
+
+    double MET=(*met)[0].et();
+
+    //Fill histograms
+    if (singleLepton->et() >= 60.) {
+      if (MET >= 60.) {
+	HT_SigMET_PT60_MET60->Fill(HT, sigMET, weight);
+	HT_significance_PT60_MET60->Fill(HT, significance, weight);
+      }
+    }
+    if (singleLepton->et() >= 40.) {
+      if (MET >= 60.) {
+	HT_SigMET_PT40_MET60->Fill(HT, sigMET, weight);
+	HT_significance_PT40_MET60->Fill(HT, significance, weight);
+      }
+    }
+    if (singleLepton->et() >= 20.) {
+      if (MET >= 60.) {
+	HT_SigMET_PT20_MET60->Fill(HT, sigMET, weight);
+	HT_significance_PT20_MET60->Fill(HT, significance, weight);
+	HT_SigPtl_PT20_MET60->Fill(HT, SigPtl, weight);
+      }
+      if (MET >= 40.) {
+	HT_significance_PT20_MET40->Fill(HT, significance, weight);
+	HT_SigPtl_PT20_MET40->Fill(HT, SigPtl, weight);
+      }
+      if (MET >= 20.) {
+	HT_significance_PT20_MET20->Fill(HT, significance, weight);
+	HT_SigPtl_PT20_MET20->Fill(HT, SigPtl, weight);
+      }
+    }
+
+
   }
 
   if(mW2 > 0)
