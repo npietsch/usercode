@@ -373,12 +373,19 @@ process.goodMETsJER30Down.src = "scaledJetEnergyJER30Down:patMETsPF"
 
 process.load("SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi")
 
-process.analyzeTtGenEvent_noCuts          = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_preselection    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_leptonSelection = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_jetSelection    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_HTSelection     = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_metSelection    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_noCuts_1m          = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_preselection_1m    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_leptonSelection_1m = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_jetSelection_1m    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_HTSelection_1m     = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_metSelection_1m    = process.analyzeTtGenEvent.clone()
+
+process.analyzeTtGenEvent_noCuts_1e          = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_preselection_1e    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_leptonSelection_1e = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_jetSelection_1e    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_HTSelection_1e     = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_metSelection_1e    = process.analyzeTtGenEvent.clone()
 
 #--------------------------------------------------------------------
 # load and configure SUSYAnalyzer clones
@@ -413,37 +420,36 @@ process.btagEventWeightElJER.jets         = "goodJets"
 # muon selection paths
 #--------------------------
 
-## no btag
-process.Selection1m = cms.Path(# producer sequences
-                               process.scaledJetEnergy *
-                               process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.makeGenEvt *
-                               process.eventWeightPU *
-                               process.weightProducer *
-                               # analyzer and filter sequences
-                               process.analyzeSUSY1m_noCuts *
-                               process.analyzeTtGenEvent_noCuts *
-                               process.preselectionMuHTMC2 *
-                               process.MuHadSelection *
-                               process.analyzeSUSY1m_preselection *
-                               process.analyzeTtGenEvent_preselection *
-                               process.muonSelection*
-                               process.analyzeSUSY1m_leptonSelection *
-                               process.analyzeTtGenEvent_leptonSelection *
-                               process.jetSelection*
-                               process.analyzeSUSY1m_jetSelection *
-                               process.analyzeTtGenEvent_jetSelection *
-                               process.HTSelection *
-                               process.analyzeSUSY1m_HTSelection *
-                               process.analyzeTtGenEvent_HTSelection *
-                               process.metSelection *
-                               process.analyzeSUSY1m_metSelection *
-                               process.analyzeTtGenEvent_metSelection
-                               )
-
-## at least 1 btag
-process.Selection1b1m_1 = cms.Path(# sequences to produce jet and met collections w/ different JER
+## at least 0 btag
+process.Selection0b1m_1 = cms.Path(# producer sequences
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.makeGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   # analyzer and filter sequences
+                                   process.analyzeSUSY1m_noCuts *
+                                   process.analyzeTtGenEvent_noCuts_1m *
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.analyzeSUSY1m_preselection *
+                                   process.analyzeTtGenEvent_preselection_1m *
+                                   process.muonSelection*
+                                   process.analyzeSUSY1m_leptonSelection *
+                                   process.analyzeTtGenEvent_leptonSelection_1m *
+                                   process.jetSelection*
+                                   process.analyzeSUSY1m_jetSelection *
+                                   process.analyzeTtGenEvent_jetSelection_1m *
+                                   process.HTSelection *
+                                   process.analyzeSUSY1m_HTSelection *
+                                   process.analyzeTtGenEvent_HTSelection_1m *
+                                   #process.metSelection *
+                                   process.analyzeSUSY1m_metSelection *
+                                   process.analyzeTtGenEvent_metSelection_1m
+                                   )
+## exatly 0 btag
+process.Selection0b1m_2 = cms.Path(# sequences to produce jet and met collections w/ different JER
                                    process.scaledJetEnergy *
                                    process.scaledJetEnergyJER10Up *
                                    process.scaledJetEnergyJER20Up *
@@ -475,6 +481,27 @@ process.Selection1b1m_1 = cms.Path(# sequences to produce jet and met collection
                                    process.muonSelection*
                                    process.jetSelection *
                                    process.btagEventWeightMuJER *
+                                   process.HTSelection *
+                                   #process.metSelection *
+                                   process.analyzeSUSY0b1m_6 *
+                                   process.analyzeCorrelation0b1m_6
+                                   )
+
+## at least 1 btag
+process.Selection1b1m_1 = cms.Path(# producer sequences
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   # analyzer and filter sequences
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
+                                   process.HTSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY1b1m_4 *
                                    process.analyzeCorrelation1b1m_4
                                    )
@@ -493,7 +520,7 @@ process.Selection1b1m_2 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightMuJER *
                                    process.HTSelection *
-                                   process.metSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY1b1m_6 *
                                    process.analyzeCorrelation1b1m_6
                                    )
@@ -511,6 +538,7 @@ process.Selection2b1m_2 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightMuJER *
                                    process.HTSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY2b1m_6 *
                                    process.analyzeCorrelation2b1m_6
                                    )
@@ -529,7 +557,7 @@ process.Selection3b1m_1 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightMuJER *
                                    process.HTSelection *
-                                   process.metSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY3b1m_6 *
                                    process.analyzeCorrelation3b1m_6
                                    )
@@ -538,27 +566,52 @@ process.Selection3b1m_1 = cms.Path(# producer sequences
 # electron selection paths
 #--------------------------
 
-## no btag
-process.Selection1e = cms.Path(# producer sequences
-                               process.scaledJetEnergy *
-                               process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.eventWeightPU *
-                               process.weightProducer *
-                               # analyzer and filter sequences
-                               process.analyzeSUSY1e_noCuts *
-                               process.preselectionElHTMC2 *
-                               process.ElHadSelection *
-                               process.analyzeSUSY1e_preselection *
-                               process.electronSelection*
-                               process.analyzeSUSY1e_leptonSelection *
-                               process.jetSelection*
-                               process.analyzeSUSY1e_jetSelection *
-                               process.HTSelection *
-                               process.analyzeSUSY1e_HTSelection *
-                               process.metSelection *
-                               process.analyzeSUSY1e_metSelection
-                               )
+## at least 0 btag
+process.Selection0b1e_1 = cms.Path(# producer sequences
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   # analyzer and filter sequences
+                                   process.analyzeSUSY1e_noCuts *
+                                   process.analyzeTtGenEvent_noCuts_1e *
+                                   process.preselectionElHTMC2 *
+                                   process.ElHadSelection *
+                                   process.analyzeSUSY1e_preselection *
+                                   process.analyzeTtGenEvent_preselection_1e *
+                                   process.electronSelection*
+                                   process.analyzeSUSY1e_leptonSelection *
+                                   process.analyzeTtGenEvent_leptonSelection_1e *
+                                   process.jetSelection*
+                                   process.analyzeSUSY1e_jetSelection *
+                                   process.analyzeTtGenEvent_jetSelection_1e *
+                                   process.HTSelection *
+                                   process.analyzeSUSY1e_HTSelection *
+                                   process.analyzeTtGenEvent_HTSelection_1e *
+                                   #process.metSelection *
+                                   process.analyzeSUSY1e_metSelection *
+                                   process.analyzeTtGenEvent_metSelection_1e
+                                   )
+
+## exactly 0 btag
+process.Selection0b1e_2 = cms.Path(# producer sequences
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   # analyzer and filter sequences
+                                   process.weightProducer *
+                                   process.preselectionElHTMC2 *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightElJER *
+                                   process.HTSelection *
+                                   #process.metSelection *
+                                   process.analyzeSUSY0b1e_6 *
+                                   process.analyzeCorrelation0b1e_6
+                                   )
 
 ## at least 1 btag
 process.Selection1b1e_1 = cms.Path(# producer sequences
@@ -573,6 +626,8 @@ process.Selection1b1e_1 = cms.Path(# producer sequences
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.btagEventWeightElJER *
+                                   process.HTSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY1b1e_4 *
                                    process.analyzeCorrelation1b1e_4
                                    )
@@ -591,7 +646,7 @@ process.Selection1b1e_2 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightElJER *
                                    process.HTSelection *
-                                   process.metSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY1b1e_6 *
                                    process.analyzeCorrelation1b1e_6
                                    )
@@ -610,7 +665,7 @@ process.Selection2b1e_2 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightElJER *
                                    process.HTSelection *
-                                   process.metSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY3b1e_6  *
                                    process.analyzeCorrelation2b1e_6
                                    )
@@ -629,7 +684,7 @@ process.Selection3b1e_1 = cms.Path(# producer sequences
                                    process.jetSelection *
                                    process.btagEventWeightElJER *
                                    process.HTSelection *
-                                   process.metSelection *
+                                   #process.metSelection *
                                    process.analyzeSUSY3b1e_6 *
                                    process.analyzeCorrelation3b1e_6 
                                    )
