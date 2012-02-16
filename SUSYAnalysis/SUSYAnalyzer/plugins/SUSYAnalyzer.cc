@@ -136,7 +136,11 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_SigPtl_PT20_MET20       = fs->make<TH2F>("HT_SigPtl_PT20_MET20","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
   HT_SigPtl_PT20_MET40       = fs->make<TH2F>("HT_SigPtl_PT20_MET40","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
   HT_SigPtl_PT20_MET60       = fs->make<TH2F>("HT_SigPtl_PT20_MET60","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
-			     
+		
+  HT_SigPtl_PT20_MET20_smeared       = fs->make<TH2F>("HT_SigPtl_PT20_MET20_smeared","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigPtl_PT20_MET40_smeared       = fs->make<TH2F>("HT_SigPtl_PT20_MET40_smeared","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+  HT_SigPtl_PT20_MET60_smeared       = fs->make<TH2F>("HT_SigPtl_PT20_MET60_smeared","HT vs. SigPtl", 80, 0., 2000., 80, 0., 20. );
+	     
   HT_significance_PT20_MET20 = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT20_MET40 = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT20_MET60 = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
@@ -711,6 +715,14 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     HT_SigPtl_->Fill(HT,SigPtl,weight);
     
     double MET=(*met)[0].et();
+
+    //Smear the lepton pT. Do this using the MET significance.
+    double MET_resolution = 0.;
+    if (significance > 0.) MET_resolution = 1. / significance ;  
+    TRandom3 rNum(0);
+    double smearFactor = pow ( (1.+ MET_resolution) , rNum.Gaus() );
+    SigPtl_smearFactor_->Fill(smearFactor, weight);
+    HT_SigPtl_smeared_->Fill(HT, SigPtl * smearFactor, weight);
     
     //Fill histograms
     if (singleLepton->et() >= 60.) {
@@ -730,27 +742,21 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	HT_SigMET_PT20_MET60->Fill(HT, sigMET, weight);
 	HT_significance_PT20_MET60->Fill(HT, significance, weight);
 	HT_SigPtl_PT20_MET60->Fill(HT, SigPtl, weight);
+	HT_SigPtl_PT20_MET60_smeared->Fill(HT, SigPtl * smearFactor, weight);
       }
       if (MET >= 40.) {
 	HT_significance_PT20_MET40->Fill(HT, significance, weight);
 	HT_SigPtl_PT20_MET40->Fill(HT, SigPtl, weight);
+	HT_SigPtl_PT20_MET40_smeared->Fill(HT, SigPtl * smearFactor, weight);
       }
       if (MET >= 20.) {
 	HT_significance_PT20_MET20->Fill(HT, significance, weight);
 	HT_SigPtl_PT20_MET20->Fill(HT, SigPtl, weight);
+	HT_SigPtl_PT20_MET20_smeared->Fill(HT, SigPtl * smearFactor, weight);
       }
+      
     }
     
-    //Smear the lepton pT. Do this using the MET significance.
-    if (significance > 0.) {
-      double MET_resolution = 1. / significance ;  
-      
-      //Now produce some smearing factor.
-      TRandom3 rNum(0);
-      double smearFactor = pow ( (1.+ MET_resolution) , rNum.Gaus() );
-      SigPtl_smearFactor_->Fill(smearFactor, weight);
-      HT_SigPtl_smeared_->Fill(HT, SigPtl * smearFactor, weight);
-    } 
   } 
 }
 
