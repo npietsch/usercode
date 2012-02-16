@@ -38,6 +38,12 @@ class TtGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F *ttbarEta_;
   TH1F *ttbarPhi_;
 
-  TH2F *HT_Ymet_;};  
+  TH1F  *NuPt_;
+  TH1F  *LepPt_;
+
+  TH2F *HT_Ymet_;
+  TH2F *HT_LepPt_;
+  TH2F *HT_mW_;
+};  
 
 #endif  
