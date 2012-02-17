@@ -432,7 +432,6 @@ process.Selection0b1m_1 = cms.Path(# producer sequences
                                    process.analyzeSUSY1m_noCuts *
                                    process.analyzeTtGenEvent_noCuts_1m *
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
                                    process.analyzeSUSY1m_preselection *
                                    process.analyzeTtGenEvent_preselection_1m *
                                    process.muonSelection*
@@ -444,7 +443,7 @@ process.Selection0b1m_1 = cms.Path(# producer sequences
                                    process.HTSelection *
                                    process.analyzeSUSY1m_HTSelection *
                                    process.analyzeTtGenEvent_HTSelection_1m *
-                                   #process.metSelection *
+                                   process.metSelection *
                                    process.analyzeSUSY1m_metSelection *
                                    process.analyzeTtGenEvent_metSelection_1m
                                    )
@@ -475,16 +474,15 @@ process.Selection0b1m_2 = cms.Path(# sequences to produce jet and met collection
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightMuJER *
                                    # analyzer and filter sequences
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
                                    process.muonSelection*
+                                   process.analyzeCorrelation0b1m_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightMuJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY0b1m_6 *
-                                   process.analyzeCorrelation0b1m_6
+                                   process.analyzeSUSY0b1m_6
                                    )
 
 ## at least 1 btag
@@ -494,16 +492,16 @@ process.Selection1b1m_1 = cms.Path(# producer sequences
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightMuJER *
                                    # analyzer and filter sequences
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
                                    process.muonSelection*
+                                   process.analyzeCorrelation1b1m_4 *
                                    process.jetSelection *
-                                   process.btagEventWeightMuJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY1b1m_4 *
-                                   process.analyzeCorrelation1b1m_4
+                                   process.analyzeSUSY1b1m_4
+   
                                    )
 
 ## exactly 1 btag
@@ -513,16 +511,16 @@ process.Selection1b1m_2 = cms.Path(# producer sequences
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightMuJER *
                                    # analyzer and filter sequences
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
                                    process.muonSelection*
+                                   process.analyzeCorrelation1b1m_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightMuJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY1b1m_6 *
-                                   process.analyzeCorrelation1b1m_6
+                                   process.analyzeSUSY1b1m_6
+
                                    )
 ## exactly 2 btags
 process.Selection2b1m_2 = cms.Path(# producer sequences
@@ -531,16 +529,15 @@ process.Selection2b1m_2 = cms.Path(# producer sequences
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightMuJER *
                                    # analyzer and filter sequences
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
+                                   process.muonSelection *
+                                   process.analyzeCorrelation2b1m_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightMuJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY2b1m_6 *
-                                   process.analyzeCorrelation2b1m_6
+                                   process.analyzeSUSY2b1m_6
                                    )
 
 ## exactly 3 btags or more (= at least 3 b-tag)
@@ -550,16 +547,15 @@ process.Selection3b1m_1 = cms.Path(# producer sequences
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightMuJER *
                                    # analyzer and filter sequences
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
+                                   process.muonSelection *
+                                   process.analyzeCorrelation3b1m_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightMuJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY3b1m_6 *
-                                   process.analyzeCorrelation3b1m_6
+                                   process.analyzeSUSY3b1m_6
                                    )
 
 #--------------------------
@@ -577,7 +573,6 @@ process.Selection0b1e_1 = cms.Path(# producer sequences
                                    process.analyzeSUSY1e_noCuts *
                                    process.analyzeTtGenEvent_noCuts_1e *
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
                                    process.analyzeSUSY1e_preselection *
                                    process.analyzeTtGenEvent_preselection_1e *
                                    process.electronSelection*
@@ -600,17 +595,16 @@ process.Selection0b1e_2 = cms.Path(# producer sequences
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
+                                   process.btagEventWeightElJER *
                                    # analyzer and filter sequences
                                    process.weightProducer *
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
+                                   process.electronSelection *
+                                   process.analyzeCorrelation0b1e_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightElJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY0b1e_6 *
-                                   process.analyzeCorrelation0b1e_6
+                                   process.analyzeSUSY0b1e_6
                                    )
 
 ## at least 1 btag
@@ -619,17 +613,16 @@ process.Selection1b1e_1 = cms.Path(# producer sequences
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
+                                   process.btagEventWeightElJER *
                                    # analyzer and filter sequences
                                    process.weightProducer *
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
+                                   process.electronSelection *
+                                   process.analyzeCorrelation1b1e_4*
                                    process.jetSelection *
-                                   process.btagEventWeightElJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY1b1e_4 *
-                                   process.analyzeCorrelation1b1e_4
+                                   process.analyzeSUSY1b1e_4
                                    )
 
 ## exactly 1 btag
@@ -638,17 +631,16 @@ process.Selection1b1e_2 = cms.Path(# producer sequences
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
+                                   process.btagEventWeightElJER *
                                    # analyzer and filter sequences
                                    process.weightProducer *
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
                                    process.electronSelection*
+                                   process.analyzeCorrelation1b1e_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightElJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY1b1e_6 *
-                                   process.analyzeCorrelation1b1e_6
+                                   process.analyzeSUSY1b1e_6
                                    )
 
 ## exactly 2 btags
@@ -657,17 +649,16 @@ process.Selection2b1e_2 = cms.Path(# producer sequences
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
+                                   process.btagEventWeightElJER *
                                    # analyzer and filter sequences
                                    process.weightProducer *
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
+                                   process.electronSelection  *
+                                   process.analyzeCorrelation2b1e_6 *
                                    process.jetSelection *
-                                   process.btagEventWeightElJER *
                                    process.HTSelection *
                                    #process.metSelection *
-                                   process.analyzeSUSY3b1e_6  *
-                                   process.analyzeCorrelation2b1e_6
+                                   process.analyzeSUSY2b1e_6
                                    )
 
 ## exactly 3 btags or more (= at least 3 b-tag)
@@ -677,14 +668,13 @@ process.Selection3b1e_1 = cms.Path(# producer sequences
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
+                                   process.btagEventWeightElJER *
                                    # analyzer and filter sequences
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection *
+                                   process.electronSelection  *
+                                   process.analyzeCorrelation3b1e_6*
                                    process.jetSelection *
-                                   process.btagEventWeightElJER *
                                    process.HTSelection *
-                                   #process.metSelection *
-                                   process.analyzeSUSY3b1e_6 *
-                                   process.analyzeCorrelation3b1e_6 
+                                   process.metSelection *
+                                   process.analyzeSUSY3b1e_6 
                                    )
