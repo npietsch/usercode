@@ -7,7 +7,9 @@
 
 from BjetsPAT_cfg import *
 
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_Fall11_TTJets.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 
