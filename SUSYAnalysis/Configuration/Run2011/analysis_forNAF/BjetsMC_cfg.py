@@ -24,14 +24,12 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
-## # load and configure modules for event weighting
-## process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-## process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
+# load and configure modules for event weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 ## load and configure module for PU re-weighting
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-#process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/Data_PUDist_2011Full_bin70.root"
+
 process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Fall11_TTJets.root"
 
 process.eventWeightPUUp = process.eventWeightPU.clone()
@@ -48,7 +46,6 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 # load modules to create objects and filter events on reco level
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 # load and configure module to smear jet energy
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
@@ -63,7 +60,6 @@ process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 # load modules for analysis on generator level, level of matched objects and reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
-
 
 process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
 process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
