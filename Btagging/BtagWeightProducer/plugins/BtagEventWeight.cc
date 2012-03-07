@@ -143,16 +143,16 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
       if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 	{	
 	  BEffies.push_back(effBTag(pt, eta));
-	  BEffies_scaled.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta)+shift_) );
+	  BEffies_scaled.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta,1)+shift_) );
 	  oneMinusBEffies.push_back(1.- effBTag(pt, eta));
-	  oneMinusBEffies_scaled.push_back(1.- effBTag(pt, eta) * (effBTagSF(pt, eta)+shift_) );
+	  oneMinusBEffies_scaled.push_back(1.- effBTag(pt, eta) * (effBTagSF(pt, eta,1)+shift_) );
 	}     
       else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 	{
 	  BEffies.push_back(effBTagCjet(pt, eta));
-	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
+	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)) );
 	  oneMinusBMistags.push_back(1.- effBTagCjet(pt, eta));
-	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
+	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)) );
 	}
       else
 	{ 
@@ -161,6 +161,7 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	  oneMinusBMistags               .push_back(1.- effMisTag(pt, eta));
 	  oneMinusBMistags_scaled        .push_back(1.-(effMisTag(pt, eta) * effMisTagSF(pt, eta)));
 	}
+
     }
 
   // collection of jet weights
@@ -203,11 +204,11 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      
 	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 		{
-		  BtagEffSFShiftVec.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta)+SFShift) );
+		  BtagEffSFShiftVec.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta,1)+SFShift) );
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  BtagEffSFShiftVec.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta)) );
+		  BtagEffSFShiftVec.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)) );
 		}
 	      else
 		{
@@ -245,11 +246,11 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      JetEta = std::abs(jet->eta());
 	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 		{	
-		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift));
+		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*(effBTagSF(JetPt, JetEta,1)+SFShift));
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)));
+		  oneMinusBMis_scaled.push_back(1.-effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta,2)));
 		}
 	      else
 		{
@@ -283,11 +284,11 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      JetEta = std::abs(jet->eta());
 	      if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
 		{	
-		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*effBTagSF(JetPt, JetEta));
+		  oneMinusBEff_scaled.push_back(1.- effBTag(JetPt, JetEta)*effBTagSF(JetPt, JetEta,1));
 		}
 	      else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 		{
-		  oneMinusBMis_scaled.push_back(1.-(effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta)+SFShift)));
+		  oneMinusBMis_scaled.push_back(1.-(effBTagCjet(JetPt, JetEta)*(effBTagSF(JetPt, JetEta,2)+SFShift)));
 		}
 	      else
 		{
@@ -350,8 +351,8 @@ double BtagEventWeight::effBTag(double jetPt, double jetEta)
   return result;
 }
 
-// b tag eff. SF as a function of jet pt, eta
-double BtagEventWeight::effBTagSF(double jetPt, double jetEta)
+// b tag eff. SF as a function of jet pt, eta - kept for reference and later use with updated db
+double BtagEventWeight::effBTagSF_old(double jetPt, double jetEta)
 {
   double result = -1111., error = -1111.;
   const BtagPerformance & perf = *(perfHBTag.product());
@@ -365,10 +366,78 @@ double BtagEventWeight::effBTagSF(double jetPt, double jetEta)
     if(perf.isResultOk( measureMap_[ "BTAGBERRCORR" ], measurePoint))
          error = perf.getResult( measureMap_[ "BTAGBERRCORR" ], measurePoint);
     else error = 0.1;
+
   if(sysVar_ == "bTagSFUp")   result += error;
   if(sysVar_ == "bTagSFDown") result -= error;
   if(verbose_>=2) std::cout<< "effBTagSF= "<<result<<" +/- "<<error<<std::endl;
+  // std::cout<< "effBTagSF old ("<<jetPt<<")="<<result<<" +/- "<<error<<std::endl;
   return result;
+}
+// b tag eff. SF as a function of jet pt, eta - see https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagPOG#Recommendation_for_b_c_tagging_a
+double BtagEventWeight::effBTagSF(double jetPt, double jetEta, double blowUp)
+{
+
+  double result = 0.932251*((1.+(0.00335634*jetPt))/(1.+(0.00305994*jetPt)));
+
+  //Find the correct pt bin
+  //Works for 16 different pt bins. 
+  //This must be changed by hand, if the payload changes.
+  int ptBinNum = 15; //Initialise to last bin. 
+  
+  //Loop through each of the bins, iBin, in order of pt. 
+  //When one finds a ptmin[iBin] value greater than jetPt, set ptBinNum to iBin-1 and escape.
+  //This works except for jets in the last bin, which is taken into account by the initialisation.
+  if ( jetPt < SFb_ptmin[15] ) {
+    for (int iPtBin = 0 ; iPtBin < 16 ; iPtBin++ ) {
+      if (SFb_ptmin[iPtBin] > jetPt) {
+	ptBinNum = iPtBin - 1;
+	break;
+      }
+    }
+  }
+  //Protect against negative values. Should not be needed.
+  if (ptBinNum < 0) ptBinNum = 0;
+
+  if (ptBinNum == 0)  result = 0.939843589813758817; //0.932251*((1.+(0.00335634*30))/(1.+(0.00305994*30)));
+  if (ptBinNum == 15) result = 0.992947446654368848; // 0.932251*((1.+(0.00335634*670))/(1.+(0.00305994*670)));
+  double   error = SFb_err[ptBinNum];
+
+  // ugly 
+//   int i=0;
+//   if (jetPt<=80) {
+//      i=jetPt/10-3;
+//      i=i<0?0:i+1;
+//      if(i<0){
+//      	i=0;
+//      	result = 0.939843589813758817; //0.932251*((1.+(0.00335634*30))/(1.+(0.00305994*30)));
+//      }
+//   } else if(jetPt<160) {
+//      i=jetPt/20+2;
+//      i=i>8?8:i;
+//   } else if(jetPt<260) {
+//      i=(jetPt-10)/50+6;
+//   } else if(jetPt<400) {
+//      i = jetPt<320?11:12;
+//   } else if(jetPt<400) {
+//      i = jetPt<500?11:12;
+//   } else if(jetPt<500){
+//      i=13;
+//   } else if(jetPt<=670) {
+//      i=14;
+//   }else {
+//      i=15;
+//      result = 0.992947446654368848; // 0.932251*((1.+(0.00335634*670))/(1.+(0.00305994*670)));
+//   };
+//   double   error = SFb_err[i];
+  //std::cout<<jetPt<<" "<<result<<" "<<error<<std::endl;
+
+  if(sysVar_ == "bTagSFUp")   result += error*blowUp;
+  if(sysVar_ == "bTagSFDown") result -= error*blowUp;
+  if(verbose_>=2) std::cout<< "effBTagSF= "<<result<<" +/- "<<error<<std::endl;
+  // std::cout<< "effBTagSF new ("<<jetPt<<")= "<<result<<" +/- "<<error<<std::endl;
+
+  return result;
+
 }
 
 // b tag eff. from MC for c jets as a function of jet pt, eta;
@@ -406,7 +475,7 @@ double BtagEventWeight::effMisTag(double jetPt, double jetEta)
 }
 
 // mistag eff. SF as a function of jet pt, eta
-double BtagEventWeight::effMisTagSF(double jetPt, double jetEta)
+double BtagEventWeight::effMisTagSF_old(double jetPt, double jetEta)
 {
   double result = -1111., error = -1111.;
   const BtagPerformance & perf = *(perfHMisTag.product());
@@ -433,6 +502,45 @@ double BtagEventWeight::effMisTagSF(double jetPt, double jetEta)
   //if(sysVar_ == "misTagSFDown") std::cout << "effMisTagDown: "<< result << std::endl;
 
   if(verbose_>=2) std::cout<< "effMisTagSF= "<<result<<" +/- "<<error<<std::endl;
+  //std::cout<< "effMisTagSF old (pt="<<jetPt<<", eta="<<jetEta<<") = "<<result<<" +/- "<<error<<std::endl;
+  return result;
+}
+
+// mistag eff. SF as a function of jet pt, eta - see https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagPOG#Recommendation_for_b_c_tagging_a
+double BtagEventWeight::effMisTagSF(double jetPt, double jetEta)
+{
+  double result,max,min;
+
+  if(fabs(jetEta)>2.4) { // to keep it running as in the old code
+  		result =   1;
+  		max    = 0.1;
+  		min    = 0.1;
+  } else if(jetPt<=670) {
+  	if(fabs(jetEta)<=0.8) {
+  		result  = SFL_0008_mean(jetPt);
+  		max     = SFL_0008_max(jetPt);
+  		min     = SFL_0008_min(jetPt);
+  	} else if(fabs(jetEta)<=1.6) {
+  		result  = SFL_0816_mean(jetPt);
+  		max     = SFL_0816_max(jetPt);
+  		min     = SFL_0816_min(jetPt);
+  	} else { // <=2.4
+  		result  = SFL_1624_mean(jetPt);
+  		max     = SFL_1624_max(jetPt);
+  		min     = SFL_1624_min(jetPt);
+  	} 
+  } else { // pt>670
+    //Following BTAG POG recommendation, use the SF for eta integrated, with twice the uncertainty.
+  		result  = SFL_0024_mean(670);
+  		max     = SFL_0024_mean(670) + 2.*( SFL_0024_max(670) - SFL_0024_mean(670) );
+  		min     = SFL_0024_mean(670) + 2.*( SFL_0024_min(670) - SFL_0024_mean(670) );
+  } 
+  
+  if(sysVar_ == "misTagSFUp")   result = max;
+  if(sysVar_ == "misTagSFDown") result = min;
+
+  if(verbose_>=2) std::cout<< "effMisTagSF= "<<result<<" (max="<<max<<", min="<<min<<std::endl;
+  // std::cout<< "effMisTagSF new (pt="<<jetPt<<", eta="<<jetEta<<") = "<<result<<" (max="<<max<<", min="<<min<<std::endl;
   return result;
 }
 
@@ -486,6 +594,47 @@ std::vector<double> BtagEventWeight::effBTagEvent0123(std::vector<double> oneMin
 void
     BtagEventWeight::endJob() 
 {
+}
+// numbers from https://twiki.cern.ch/twiki/pub/CMS/BtagPOG/SFb-mujet_payload.txt
+float BtagEventWeight::SFb_err[] = {0.12, 0.0311456, 0.0303825, 0.0209488, 0.0216987, 0.0227149, 0.0260294, 0.0205766, 0.0227065, 0.0260481, 0.0278001, 0.0295361, 0.0306555, 0.0367805, 0.0527368 , 0.1054736};
+float BtagEventWeight::SFb_ptmin[] = {0, 30, 40, 50, 60, 70, 80, 100, 120, 160, 210, 260, 320, 400, 500, 670};
+
+
+double BtagEventWeight::SFL_0008_mean(double x){
+	return (1.2875*((1+(-0.000356371*x))+(1.08081e-07*(x*x))))+(-6.89998e-11*(x*(x*(x/(1+(-0.0012139*x))))));
+}
+double BtagEventWeight::SFL_0008_max(double x){
+	return (1.47515*((1+(-0.000484868*x))+(2.36817e-07*(x*x))))+(-2.05073e-11*(x*(x*(x/(1+(-0.00142819*x))))));
+}
+double BtagEventWeight::SFL_0008_min(double x){
+	return (1.11418*((1+(-0.000442274*x))+(1.53463e-06*(x*x))))+(-4.93683e-09*(x*(x*(x/(1+(0.00152436*x))))));
+}
+double BtagEventWeight::SFL_0816_mean(double x){
+	return (1.24986*((1+(-0.00039734*x))+(5.37486e-07*(x*x))))+(-1.74023e-10*(x*(x*(x/(1+(-0.00112954*x))))));
+}
+double BtagEventWeight::SFL_0816_max(double x){
+	return (1.41211*((1+(-0.000559603*x))+(9.50754e-07*(x*x))))+(-5.81148e-10*(x*(x*(x/(1+(-0.000787359*x))))));
+}
+double BtagEventWeight::SFL_0816_min(double x){
+	return (1.08828*((1+(-0.000208737*x))+(1.50487e-07*(x*x))))+(-2.54249e-11*(x*(x*(x/(1+(-0.00141477*x))))));
+}
+double BtagEventWeight::SFL_1624_mean(double x){
+	return (1.10763*((1+(-0.000105805*x))+(7.11718e-07*(x*x))))+(-5.3001e-10*(x*(x*(x/(1+(-0.000821215*x))))));
+}
+double BtagEventWeight::SFL_1624_min(double x){
+	return (0.958079*((1+(0.000327804*x))+(-4.09511e-07*(x*x))))+(-1.95933e-11*(x*(x*(x/(1+(-0.00143323*x))))));
+}
+double BtagEventWeight::SFL_1624_max(double x){
+	return (1.26236*((1+(-0.000524055*x))+(2.08863e-06*(x*x))))+(-2.29473e-09*(x*(x*(x/(1+(-0.000276268*x))))));
+}
+double BtagEventWeight::SFL_0024_mean(double x){
+	return (1.06268*((1+(0.00390509*x))+(-5.85405e-05*(x*x))))+(7.87135e-07*(x*(x*(x/(1+(0.01259*x))))));
+}
+double BtagEventWeight::SFL_0024_min(double x){
+	return (0.967092*((1+(0.00201431*x))+(-1.49359e-05*(x*x))))+(6.94324e-08*(x*(x*(x/(1+(0.00459787*x))))));
+}
+double BtagEventWeight::SFL_0024_max(double x){
+	return (1.22691*((1+(0.00211682*x))+(-2.07959e-05*(x*x))))+(1.72938e-07*(x*(x*(x/(1+(0.00658853*x))))));
 }
 
 

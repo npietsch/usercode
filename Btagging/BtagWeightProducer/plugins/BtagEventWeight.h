@@ -55,12 +55,29 @@ class BtagEventWeight : public edm::EDProducer {
   TString dir_;
 
   double effBTag    (double, double);
-  double effBTagSF  (double, double);
+  double effBTagSF_old  (double, double);
   double effBTagCjet(double, double);
   double effMisTag  (double, double);
-  double effMisTagSF(double, double);
+  double effMisTagSF_old(double, double);
   std::vector<double> effBTagEvent0123(std::vector<double> , std::vector<double> , double scl_eff,double scl_mis);
-
+  
+  static float SFb_err[16];
+  static float SFb_ptmin[16];
+  double effBTagSF(double,double,double);
+  double effMisTagSF(double, double);
+  inline double SFL_0008_mean(double x);
+  inline double SFL_0008_max(double x);
+  inline double SFL_0008_min(double x);
+  inline double SFL_0816_mean(double x);
+  inline double SFL_0816_max(double x);
+  inline double SFL_0816_min(double x);
+  inline double SFL_1624_mean(double x);
+  inline double SFL_1624_min(double x);
+  inline double SFL_1624_max(double x);
+  inline double SFL_0024_mean(double x);
+  inline double SFL_0024_min(double x);
+  inline double SFL_0024_max(double x);
 };
+
 
 #endif
