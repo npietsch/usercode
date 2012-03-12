@@ -3,6 +3,7 @@ from SUSYAnalysis.SUSYAnalyzer.SUSYAnalyzer_cfi import *
 analyzeSUSY.jets = "goodJets"
 analyzeSUSY.muons = "goodMuons"
 analyzeSUSY.electrons = "goodElectrons"
+analyzeSUSY.met = "scaledJetEnergy:patMETsPF"
 analyzeSUSY.useEventWeight = True
 
 analyzeSUSY1m_1 = analyzeSUSY.clone()
