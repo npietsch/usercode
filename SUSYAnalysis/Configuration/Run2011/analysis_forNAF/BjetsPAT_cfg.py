@@ -24,9 +24,6 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
-## # load and configure modules for event weighting
-## process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
-## process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Run2011_bin70.root"
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 ## load and configure module for PU re-weighting
@@ -62,7 +59,6 @@ process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 # load modules for analysis on generator level, level of matched objects and reco-level
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
-
 
 process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
 process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
