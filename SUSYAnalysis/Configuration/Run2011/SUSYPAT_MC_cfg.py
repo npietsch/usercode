@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.7 $'),
+    version = cms.untracked.string('$Revision: 1.8 $'),
     name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -26,25 +26,32 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 # Choose input files
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00139A23-9417-E111-AB24-001EC9AA78B1.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/002FE566-7414-E111-A6F6-842B2B1811CE.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00557A15-9214-E111-83A5-0025901AC3F0.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/005A4CEC-9314-E111-AD5F-A4BADB1C5D42.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/0078038C-BC17-E111-AE56-001EC9AAA2E7.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00943269-7B17-E111-8E08-001EC9AA91F8.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/009C688D-B016-E111-A67C-0002C90A36B8.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00B60D41-CF16-E111-BB5C-001EC9AAA3D7.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00EF9363-1017-E111-A17D-001EC9AA9FE0.root',
-    '/store/mc/Summer11/mSUGRA_m0-220to3000_m12-100to1000_tanb-40andA0-m500_7TeV-Pythia6Z/AODSIM/PU_START42_V11_FastSim-v2/0000/00F2F738-7A16-E111-BED8-D485644C0CF9.root'
-    ##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/002FE237-B09C-E011-B7B1-0022199305B1.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/006518E6-A99C-E011-8535-E0CB4E29C51A.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0234044D-B89C-E011-93FD-E0CB4E5536BB.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/026B1823-A69C-E011-9D3F-E0CB4E1A118D.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0282098A-AF9C-E011-BDE4-90E6BA19A25A.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/02DE32D4-B79C-E011-B2E4-001A4BA9B97A.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04388498-B99C-E011-B208-90E6BA442F1C.root',
-##     '/store/mc/Summer11/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/04412127-A89C-E011-8297-90E6BA19A22F.root'
+                            fileNames = cms.untracked.vstring(
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/008663B8-A20F-E111-99C1-00248C55CC7F.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/00B0C2ED-930F-E111-9EEE-0018F3D09692.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/00C27A22-B80F-E111-8909-001A92971BA0.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/00C8FC89-AF0F-E111-ADB5-00261894384F.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/00CED186-7D0F-E111-A1D9-003048678BAC.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/00F78A9A-B40F-E111-AB79-001A92810A94.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02256CF5-A20F-E111-88AC-0018F3D09682.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/0232BD3A-AF0F-E111-872F-002618943979.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/0239F0BE-9B0F-E111-950C-001A928116EE.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/025BF849-A00F-E111-B2FC-0026189438B9.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/027388B3-A20F-E111-BD0B-0026189438A9.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02859B43-C00F-E111-A3DE-003048679012.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02B7E7A1-B60F-E111-936F-0018F3D096CE.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02C6F93F-9D0F-E111-9298-0018F3D096E6.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02E4D7DA-880F-E111-9F28-002618943842.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/02EE027C-850F-E111-8A94-00304867901A.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/04017892-800F-E111-ADF7-002618943849.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/040C98E3-9A0F-E111-82F4-0026189438CF.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/043501B4-9C0F-E111-BCAE-001A928116EE.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/048B7EDE-800F-E111-8B8F-003048678B76.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/04A9A828-A80F-E111-BB9C-002354EF3BDC.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/04C37A45-900F-E111-8304-0026189438D7.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/04F290B5-B20F-E111-9C64-00261894386C.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/0637F92A-750F-E111-A6E7-0018F3D09608.root',
+    '/store/mc/Fall11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S6_START42_V14B-v2/0000/0653B5F5-B30F-E111-AB3F-0018F3D09704.root'
     )
 )
 
@@ -76,7 +83,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-options.maxEvents = 2
+options.maxEvents = 200
 
 #  for SusyPAT configuration
 options.register('GlobalTag', 'START42_V13::All', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
@@ -129,7 +136,12 @@ process.p = cms.Path( process.susyPatDefaultSequence )
 # Selection paths
 #------------------
 
-process.PATTuple = cms.Path(process.susyPatDefaultSequence
+process.PATTuple = cms.Path(process.susyPatDefaultSequence *
+                            process.preselectionMC2PAT *
+                            process.goodObjects *
+                            process.oneLooseLepton *
+                            process.filterLooseHT *
+                            process.oneLooseMET
                             )
 
 #-------------------------------------------------

@@ -280,7 +280,7 @@ matchedLightJets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 looseMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 20.'
+                                 'et > 40.'
                                  )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
@@ -655,7 +655,7 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
-filterLooseHT.Cut = 300
+filterLooseHT.Cut = 250
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"

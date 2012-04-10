@@ -46,6 +46,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 # load modules to create objects and filter events on reco level
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 # load and configure module to smear jet energy
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
