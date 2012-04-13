@@ -35,7 +35,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.341.2.2 $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
     annotation = cms.untracked.string('QCD_Pt_30_7TeV_herwigpp_cff.py nevts:10'),
     name = cms.untracked.string('PyReleaseValidation')
 )
@@ -45,7 +45,7 @@ process.configurationMetadata = cms.untracked.PSet(
 process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('QCD_Pt_30_7TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'),
+    fileName = cms.untracked.string('PointA3.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-DIGI-RECO')
