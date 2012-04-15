@@ -22,7 +22,7 @@ process.TFileService = cms.Service("TFileService",
 # Choose input file
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    'file:Summer11.root'
+    'file:Fall11.root'
     )
 )
 
@@ -135,7 +135,7 @@ process.Selection1m = cms.Path(process.scaledJetEnergy *
                                process.eventWeightPU *
                                process.weightProducer *
                                process.analyzeSUSYBjets1m_noCuts *
-                               process.preselectionMuHTMC2 *
+                               #process.preselectionMuHTMC2 *
                                process.MuHadSelection *
                                process.analyzeSUSYBjets1m_preselection *
                                process.RA4MuonCollections *
@@ -159,7 +159,7 @@ process.Selection1b1m_1 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC2 *
+                                   #process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -174,7 +174,7 @@ process.Selection1b1m_2 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC2 *
+                                   #process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -194,7 +194,7 @@ process.Selection2b1m_2 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC2 *
+                                   #process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -214,7 +214,7 @@ process.Selection3b1m_1 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionMuHTMC2 *
+                                   #process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
@@ -240,7 +240,7 @@ process.Selection1e = cms.Path(process.scaledJetEnergy *
                                process.eventWeightPU *
                                process.weightProducer *
                                process.analyzeSUSYBjets1e_noCuts *
-                               process.preselectionElHTMC2 *
+                               #process.preselectionElHTMC2 *
                                process.ElHadSelection *
                                process.analyzeSUSYBjets1e_preselection *
                                process.electronSelection*
@@ -261,7 +261,7 @@ process.Selection1b1e_1 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC2 *
+                                   #process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -276,7 +276,7 @@ process.Selection1b1e_2 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC2 *
+                                   #process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -297,7 +297,7 @@ process.Selection2b1e_2 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC2 *
+                                   #process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -318,7 +318,7 @@ process.Selection3b1e_1 = cms.Path(process.scaledJetEnergy *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
                                    process.weightProducer *
-                                   process.preselectionElHTMC2 *
+                                   #process.preselectionElHTMC2 *
                                    process.ElHadSelection *
                                    process.electronSelection *
                                    process.jetSelection *

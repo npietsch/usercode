@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.8 $'),
+    version = cms.untracked.string('$Revision: 1.9 $'),
     name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -71,7 +71,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('Summer11.root')
+    fileName = cms.untracked.string('Fall11.root')
 )
 
 #-----------------------------------------------------------------
@@ -83,7 +83,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-options.maxEvents = 200
+options.maxEvents = 500
 
 #  for SusyPAT configuration
 options.register('GlobalTag', 'START42_V13::All', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
@@ -159,7 +159,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('Summer11.root')
+                               fileName = cms.untracked.string('Fall11.root')
                                )
 
 # Specify what to keep in the event content
