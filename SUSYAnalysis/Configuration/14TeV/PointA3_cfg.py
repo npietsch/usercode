@@ -35,7 +35,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1 $'),
+    version = cms.untracked.string('$Revision: 1.2 $'),
     annotation = cms.untracked.string('QCD_Pt_30_7TeV_herwigpp_cff.py nevts:10'),
     name = cms.untracked.string('PyReleaseValidation')
 )
@@ -221,7 +221,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
         'cd /'),
     eventHandlers = cms.string('/Herwig/EventHandlers'),
     configFiles = cms.vstring(),
-    crossSection = cms.untracked.double(62292700.0),
+    crossSection = cms.untracked.double(0.36),
     parameterSets = cms.vstring('cm14TeV', 
         'pdfMRST2001', 
         'Summer09QCDParameters', 
@@ -230,7 +230,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
     filterEfficiency = cms.untracked.double(1.0),
     Summer09QCDParameters = cms.vstring(
 	#-----------
-	'read MSSM.model',
+	'read data/MSSM.model',
 	'cd /Herwig/NewPhysics',
 
 	'set HPConstructor:IncludeEW Yes',
@@ -255,7 +255,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
 	'insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_R',
 	'insert HPConstructor:Outgoing 8 /Herwig/Particles/~c_R',
 
-	'setup MSSM/Model PointA3.slha',
+	'setup MSSM/Model data/PointA3.slha',
 	#-----------
 
 ## 	'cd /Herwig/MatrixElements/', 
