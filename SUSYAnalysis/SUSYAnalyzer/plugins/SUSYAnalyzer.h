@@ -58,292 +58,85 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   double HT0_, HT1_, HT2_;
   double Y0_,  Y1_,  Y2_;
 
-  // dummy histogram
-  TH1F* Dummy_;
-  TH2F* Dummy2_;
+  // Dummy histograms
+  TH1F Dummy_ ;
+  TH2F Dummy2_;
 
-  // TH2F histograms
-  TH2F* JetEt_nrBjets_;
+  // Event weighting
+  TH1F btagWeights_noWgt_;
+  TH1F btagWeights_PUWgt_;
+  TH1F nPU_noWgt_;
+  TH1F nPU_;
+  TH1F nPV_noWgt_;       
+  TH1F nPV_;
+  
+  // Btagging
+  TH1F TCHE_;
+  TH1F TCHP_;
+  TH1F SSVHE_;
+  TH1F SSVHP_;
+  
+  TH1F nBjets_noWgt_;
+  TH1F nBjets_noWgt_2_;
+  TH1F nBjets_;
+  TH1F nBjets_2_;
 
-  // TH1F histograms
-
-  TH1F* nPV_;
-  TH1F* nPV_noWgt_;
-  TH1F* nPU_;
-  TH1F* nPU_noWgt_;
-
-  TH1F* btagWeights_noWgt_;
-  TH1F* btagWeights_PUWgt_;
-  TH1F* nBtags_noWgt_;
-  TH1F* nBtags_PUWgt_;
-  TH1F* nBtags2_;
-  TH1F* nBtags_;
-
-  TH1F* TCHE_;
-  TH1F* TCHP_;
-  TH1F* SSVHE_;
-  TH1F* SSVHP_;
-
-  TH1F *MET_;
-  TH1F *MET_SSDiLepReco_;
-  TH1F *MET_OSDiLepReco_;
-  TH1F *HT_;
-  TH1F *SigMET_;
-  TH1F *significance_;
-  TH1F *nJets_;
-  TH1F *nMuons_;
-  TH1F *nElectrons_;
-  TH1F *nLeptons_;
-  TH1F *MT_;
-  TH1F *invMuMuMass_;
-  TH1F *RelIsoMu1_;
-  TH1F *RelIsoMu2_;
-
-  TH1F *MET1pv_;
-  TH1F *HT1pv_;
-  TH1F *nJets1pv_;
-  TH1F *Jet0_Et1pv_;
-  TH1F *Jet1_Et1pv_;
-
-  TH1F *MET2pv_;
-  TH1F *HT2pv_;
-  TH1F *nJets2pv_;
-  TH1F *Jet0_Et2pv_;
-  TH1F *Jet1_Et2pv_;
-
-  TH1F *MET3pv_;
-  TH1F *HT3pv_;
-  TH1F *nJets3pv_;
-  TH1F *Jet0_Et3pv_;
-  TH1F *Jet1_Et3pv_;
-
-  TH1F *MET4pv_;
-  TH1F *HT4pv_;
-  TH1F *nJets4pv_;
-  TH1F *Jet0_Et4pv_;
-  TH1F *Jet1_Et4pv_;
-
-  TH1F *MET5pv_;
-  TH1F *HT5pv_;
-  TH1F *nJets5pv_;
-  TH1F *Jet0_Et5pv_;
-  TH1F *Jet1_Et5pv_;
-
-  TH1F *Electron0_eta_;
-  TH1F *Muon0_eta_;
-
-  TH2F *HTidxMETidx_;
-  TH2F *HT_SigMET_;
-  TH2F *HT_SigMET2_;
-  TH2F *HT_MET_;
-
-  TH2F *HT_significance2_;
-  TH2F *HT_significance_;
-  TH2F *significance_SigMET_;
-
-  TH2F *HT_SigPtl_;
-  TH2F *HT_SigPtl_smeared_;
-  TH1F *SigPtl_smearFactor_;
-  TH2F *HT_SigMET_unweighted_;
-
-  //HISTS FOR STUDYING THE MET AND PT DEPENDENCE OF KAPPA
-  ///////////////////////////////////////////////////////
-  TH2F * HT_SigMET_PT20_MET60;
-  TH2F * HT_SigMET_PT40_MET60;       
-  TH2F * HT_SigMET_PT60_MET60;       
-
-  TH2F * HT_SigPtl_PT20_MET20       ;
-  TH2F * HT_SigPtl_PT20_MET40       ;
-  TH2F * HT_SigPtl_PT20_MET60       ;
-
-  TH2F * HT_SigPtl_PT20_MET20_smeared;
-  TH2F * HT_SigPtl_PT20_MET40_smeared;
-  TH2F * HT_SigPtl_PT20_MET60_smeared;
-
-  TH2F * HT_significance_PT20_MET20 ;
-  TH2F * HT_significance_PT20_MET40 ;
-  TH2F * HT_significance_PT20_MET60 ;
-  TH2F * HT_significance_PT40_MET60 ;
-  TH2F * HT_significance_PT60_MET60 ;
-  ////////////////////////////
-
-  TH2F *mW_SigMET_;
-  TH2F *sigMET_nJets_;
-  TH2F *HT_nJets_;
-
+  // Basic kinematics
   std::vector<TH1F*> Jet_Et_;
-  std::vector<TH1F*> Muon_pt_;
-  std::vector<TH1F*> Elec_pt_;
-  std::vector<TH1F*> Bjet_EtFrac_;
-  std::vector<TH1F*> LightJet_EtFrac_;
+  TH1F MET_;
+  TH1F HT_; 
+  TH1F nJets_;
 
-  TH1F *Bjets_EtFrac_;
-  TH1F *LightJets_EtFrac_;
-  TH1F *mW_;
-  TH1F *mW_posCharge_;
-  TH1F *mW_negCharge_;
-  TH1F *mW2_;
-  TH1F *mTop_;
+  // Ymet
+  TH1F YMET_;
 
-  TH1F *mW_MET0_;
-  TH1F *mW_MET50_;
-  TH1F *mW_MET100_;
-  TH1F *mW_MET150_;
-  TH1F *mW_MET200_;
-  TH1F *mW_MET250_;
-  TH1F *mW_MET300_;
+  TH1F HT_YMET_;
+  TH1F HT_YMET_noWgt_;
+  TH1F HT_MET_;
 
-  TH1F *mW_SigMET0_;
-  TH1F *mW_SigMET2_;
-  TH1F *mW_SigMET4_;
-  TH1F *mW_SigMET6_;
-  TH1F *mW_SigMET9_;
-  TH1F *mW_SigMET12_;
+  // MET significance
+  TH1F METSig_;
 
-  TH1F *mW_4Jets_;
-  TH1F *mW_5Jets_;
-  TH1F *mW_6Jets_;
-  TH1F *mW_7Jets_;
-  TH1F *mW_8Jets_;
-  TH1F *mW_9Jets_;
+  TH2F HT_METSig_;
+  TH2F HT_METSig_noWgt_;
 
-  TH1F *mW_HT300_;
-  TH1F *mW_HT400_;
-  TH1F *mW_HT500_;
-  TH1F *mW_HT600_;
-  TH1F *mW_HT700_;
-  TH1F *mW_HT800_;
+  // Lepton variables
+  std::vector<TH1F*> Muon_Pt_;
+  std::vector<TH1F*> Muon_Eta_;
+  std::vector<TH1F*> Electron_Pt_;
+  std::vector<TH1F*> Electron_Eta_;
 
-  TH2F *mW_MET_;
-  TH2F *mW_nJets_;
-  TH2F *mW_HT_;
-  TH2F *mW_MT_;
-  TH2F *mW_MTHad_;
+  TH1F nMuons_;
+  TH1F nElectrons_;
+  TH1F nLeptons_;
 
-  TH1F *MET_TightA_;
-  TH1F *MET_TightB_;
-  TH1F *MET_TightC_;
-  TH1F *MET_TightD_;
+  // MT
+  TH1F MT_;
 
-  TH1F *BjetsEt_LooseA_;
-  TH1F *BjetsEt_LooseB_;
-  TH1F *BjetsEt_LooseC_;
-  TH1F *BjetsEt_LooseD_;
-  TH1F *BjetsEt_TightA_;
-  TH1F *BjetsEt_TightB_;
-  TH1F *BjetsEt_TightC_;
-  TH1F *BjetsEt_TightD_;
+  // Correlation between HT and YMET / MET significance
+  TH2F HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
+  TH2F HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 80, 0., 2000., 80, 0., 20. );
 
-  TH1F *Bjet0Et_LooseA_;
-  TH1F *Bjet0Et_LooseB_;
-  TH1F *Bjet0Et_LooseC_;
-  TH1F *Bjet0Et_LooseD_;
-  TH1F *Bjet0Et_TightA_;
-  TH1F *Bjet0Et_TightB_;
-  TH1F *Bjet0Et_TightC_;
-  TH1F *Bjet0Et_TightD_;
+  TH2F HT_SigMET_PT20_MET60       = fs->make<TH2F>("HT_SigMET_PT20_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_SigMET_PT40_MET60       = fs->make<TH2F>("HT_SigMET_PT40_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_SigMET_PT60_MET60       = fs->make<TH2F>("HT_SigMET_PT60_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+			     
+  TH2F HT_LepPtSig_PT20_MET20       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F HT_LepPtSig_PT20_MET40       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F HT_LepPtSig_PT20_MET60       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+		
+  TH2F HT_LepPtSig_PT20_MET20_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F HT_LepPtSig_PT20_MET40_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F HT_LepPtSig_PT20_MET60_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+	     
+  TH2F HT_significance_PT20_MET20 = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_significance_PT20_MET40 = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_significance_PT20_MET60 = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_significance_PT40_MET60 = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  TH2F HT_significance_PT60_MET60 = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
 
-  TH1F *Bjet1Et_LooseA_;
-  TH1F *Bjet1Et_LooseB_;
-  TH1F *Bjet1Et_LooseC_;
-  TH1F *Bjet1Et_LooseD_;
-  TH1F *Bjet1Et_TightA_;
-  TH1F *Bjet1Et_TightB_;
-  TH1F *Bjet1Et_TightC_;
-  TH1F *Bjet1Et_TightD_;
-
-  TH1F *Bjet2Et_LooseA_;
-  TH1F *Bjet2Et_LooseB_;
-  TH1F *Bjet2Et_LooseC_;
-  TH1F *Bjet2Et_LooseD_;
-  TH1F *Bjet2Et_TightA_;
-  TH1F *Bjet2Et_TightB_;
-  TH1F *Bjet2Et_TightC_;
-  TH1F *Bjet2Et_TightD_;
-
-  TH1F *JetsEt_LooseA_;
-  TH1F *JetsEt_LooseB_;
-  TH1F *JetsEt_LooseC_;
-  TH1F *JetsEt_LooseD_;
-  TH1F *JetsEt_TightA_;
-  TH1F *JetsEt_TightB_;
-  TH1F *JetsEt_TightC_;
-  TH1F *JetsEt_TightD_;
-
-  TH1F *Jet0Et_LooseA_;
-  TH1F *Jet0Et_LooseB_;
-  TH1F *Jet0Et_LooseC_;
-  TH1F *Jet0Et_LooseD_;
-  TH1F *Jet0Et_TightA_;
-  TH1F *Jet0Et_TightB_;
-  TH1F *Jet0Et_TightC_;
-  TH1F *Jet0Et_TightD_;
-
-  TH1F *Jet1Et_LooseA_;
-  TH1F *Jet1Et_LooseB_;
-  TH1F *Jet1Et_LooseC_;
-  TH1F *Jet1Et_LooseD_;
-  TH1F *Jet1Et_TightA_;
-  TH1F *Jet1Et_TightB_;
-  TH1F *Jet1Et_TightC_;
-  TH1F *Jet1Et_TightD_;
-
-  TH1F *Jet2Et_LooseA_;
-  TH1F *Jet2Et_LooseB_;
-  TH1F *Jet2Et_LooseC_;
-  TH1F *Jet2Et_LooseD_;
-  TH1F *Jet2Et_TightA_;
-  TH1F *Jet2Et_TightB_;
-  TH1F *Jet2Et_TightC_;
-  TH1F *Jet2Et_TightD_;
-
-  TH1F *nJets_control_;
-  TH1F *nJets_control_eta05_;
-  TH1F *nJets_control_eta10_;
-  TH1F *nJets_control_eta15_;
-  TH1F *nJets_control_eta20_;
-  TH1F *nJets_control_eta25_;
-
-  TH1F *nJets_signal_;
-  TH1F *nJets_signal_eta05_;
-  TH1F *nJets_signal_eta10_;
-  TH1F *nJets_signal_eta15_;
-  TH1F *nJets_signal_eta20_;
-  TH1F *nJets_signal_eta25_;
-
-  TH1F *HT_control_;
-  TH1F *HT_control_eta05_;
-  TH1F *HT_control_eta10_;
-  TH1F *HT_control_eta15_;
-  TH1F *HT_control_eta20_;
-  TH1F *HT_control_eta25_;
-
-  TH1F *HT_signal_;
-  TH1F *HT_signal_eta05_;
-  TH1F *HT_signal_eta10_;
-  TH1F *HT_signal_eta15_;
-  TH1F *HT_signal_eta20_;
-  TH1F *HT_signal_eta25_;
-
-  TH1F *mW_control_;
-  TH1F *mW_control_eta05_;
-  TH1F *mW_control_eta10_;
-  TH1F *mW_control_eta15_;
-  TH1F *mW_control_eta20_;
-  TH1F *mW_control_eta25_;
-
-  TH1F *mW_signal_;
-  TH1F *mW_signal_eta05_;
-  TH1F *mW_signal_eta10_;
-  TH1F *mW_signal_eta15_;
-  TH1F *mW_signal_eta20_;
-  TH1F *mW_signal_eta25_;
-
-  TH1F *mW_eta05_;
-  TH1F *mW_eta10_;
-  TH1F *mW_eta15_;
-  TH1F *mW_eta20_;
-  TH1F *mW_eta25_;
 };  
 
 #endif  
