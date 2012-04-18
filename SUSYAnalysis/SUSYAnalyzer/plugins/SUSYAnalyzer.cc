@@ -48,14 +48,20 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 { 
   edm::Service<TFileService> fs;
 
+  //-------------------------------------------------
   // Dummy histograms
-  Dummy_  =fs->make<TH1F>();
-  Dummy2_ =fs->make<TH2F>();
+  //-------------------------------------------------
+
+  Dummy_ =fs->make<TH1F>();
+  Dummy2_=fs->make<TH2F>();
 
   Dummy_->SetDefaultSumw2(true);
   Dummy2_->SetDefaultSumw2(true);
 
+  //-------------------------------------------------
   // Event weighting
+  //-------------------------------------------------
+
   btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt", "btagWeights_noWgt",  4, 0.,   4. );
   btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt", "btagWeights_PUWgt",  4, 0.,   4. );
   nPU_noWgt_         = fs->make<TH1F>("nPU_noWgt",         "nPU_noWgt",         50, 0.5, 50.5);
@@ -63,42 +69,28 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nPV_noWgt_         = fs->make<TH1F>("nPV_noWgt",         "nPV_noWgt",         50, 0.,  50  );
   nPV_               = fs->make<TH1F>("nPV",               "nPV",               50, 0.,  50  );
 
-  // Btagging
-  TCHE_  = fs->make<TH1F>("TCHE",  "TCHE",   80, -20, 20);
-  TCHP_  = fs->make<TH1F>("TCHP",  "TCHP",   80, -20, 20);
-  SSVHE_ = fs->make<TH1F>("SSVHE", "SSVHE", 120,  -2, 10);
-  SSVHP_ = fs->make<TH1F>("SSVHP", "SSVHP", 120,  -2, 10);
-
-  nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, 0, 4);
-  nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, 0, 8);
-  nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
-  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, 0, 8);
-
+  //-------------------------------------------------
   // Basic kinematics
-  for(int idx=0; idx<6; ++idx)
+  //-------------------------------------------------
+
+  for(int idx=0; idx<8; ++idx)
     {
       char histname[20];
       sprintf(histname,"Jet%i_Et",idx);
       Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+
+      char histname2[20];
+      sprintf(histname2,"Jet%i_Eta",idx);
+      Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
-  MET_   = fs->make<TH1F>("MET",   "MET",   50,   0.,  1000.);
-  HT_    = fs->make<TH1F>("HT",    "HT",    40,   0.,  2000.);
-  nJets_ = fs->make<TH1F>("nJets", "njets", 16 , -0.5,  15.5);
 
-  // Ymet
-  YMET_= fs->make<TH1F>("YMET","YMET", 40, 0., 40);
+  Jets_Et_  = fs->make<TH1F>("Jets_Et",  "Jets_Et",  90,   0.,   900.);
+  Jets_Eta_ = fs->make<TH1F>("Jets_Eta", "Jets_Eta", 60,  -3.,     3.);
 
-  HT_YMET_       = fs->make<TH2F>("HT_YMET",       "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
-  HT_YMET_noWgt_ = fs->make<TH2F>("HT_YMET_noWgt", "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
-  HT_MET_        = fs->make<TH2F>("HT_MET",        "HT vs. MET",  78, 220., 1000., 30, 0., 300.);
+  MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  1000.);
+  HT_       = fs->make<TH1F>("HT",       "HT",       40,   0.,  2000.);
+  nJets_    = fs->make<TH1F>("nJets",    "njets",    16 , -0.5,  15.5);
 
-  // MET significance
-  METSig_ = fs->make<TH1F>("METSig","METSig", 40, 0., 40);
-
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
-
-  // Lepton variables
   for(int idx=0; idx<2; ++idx)
     {
       char histname[20];
@@ -119,36 +111,151 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       sprintf(histname2,"Electron%i_Eta",idx);
       Electron_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
+
   nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,  6.5);
   nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,  6.5);
   nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5, 12.5);
 
-  // MT
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
+  //-------------------------------------------------
+  // Btagging
+  //-------------------------------------------------
+
+  TCHE_  = fs->make<TH1F>("TCHE",  "TCHE",   80, -20, 20);
+  TCHP_  = fs->make<TH1F>("TCHP",  "TCHP",   80, -20, 20);
+  SSVHE_ = fs->make<TH1F>("SSVHE", "SSVHE", 120,  -2, 10);
+  SSVHP_ = fs->make<TH1F>("SSVHP", "SSVHP", 120,  -2, 10);
+
+  nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, 0, 4);
+  nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, 0, 8);
+  nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
+  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "bigot's_2",       8, 0, 8);
+
+  for(int idx=0; idx<4; ++idx)
+    {
+      char histname[20];
+      sprintf(histname,"Bjet%i_Et",idx);
+      Bjet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+
+      char histname2[20];
+      sprintf(histname2,"Bjet%i_Eta",idx);
+      Bjet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
+    }
+
+  Bjets_Et_  = fs->make<TH1F>("Bjets_Et",  "Bjets_Et",  90,   0.,   900.);
+  Bjets_Eta_ = fs->make<TH1F>("Bjets_Eta", "Bjets_Eta", 60,  -3.,     3.);
+
+  //-------------------------------------------------
+  // Ymet
+  //-------------------------------------------------
+
+  YMET_= fs->make<TH1F>("YMET","YMET", 40, 0., 40);
+
+  HT_YMET_       = fs->make<TH2F>("HT_YMET",       "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
+  HT_YMET_noWgt_ = fs->make<TH2F>("HT_YMET_noWgt", "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
+  HT_MET_        = fs->make<TH2F>("HT_MET",        "HT vs. MET",  78, 220., 1000., 30, 0., 300.);
+
+  //-------------------------------------------------
+  // MET significance
+  //-------------------------------------------------
+
+  METSig_ = fs->make<TH1F>("METSig","METSig", 40, 0., 40);
+
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
+
+  //----------------------------------------------------
   // Correlation between HT and YMET / MET significance
+  //----------------------------------------------------
+
   HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
-  HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 80, 0., 2000., 80, 0., 20. );
+  HT_METSig_unweighted_ = fs->make<TH2F>("HT_METSig_unweighted","HT vs. METSig unweighted", 80, 0., 2000., 80, 0., 20. );
 
-  HT_SigMET_PT20_MET60       = fs->make<TH2F>("HT_SigMET_PT20_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
-  HT_SigMET_PT40_MET60       = fs->make<TH2F>("HT_SigMET_PT40_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
-  HT_SigMET_PT60_MET60       = fs->make<TH2F>("HT_SigMET_PT60_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  HT_METSig_PT20_MET20_      = fs->make<TH2F>("HT_METSig_PT20_MET20","HT vs. METSig", 80, 0., 2000., 80, 0., 20.);
+  HT_METSig_PT20_MET40_       = fs->make<TH2F>("HT_METSig_PT20_MET40","HT vs. METSig", 80, 0., 2000., 80, 0., 20.);
+
+  HT_METSig_PT20_MET60_      = fs->make<TH2F>("HT_METSig_PT20_MET60","HT vs. METSig", 80, 0., 2000., 80, 0., 20.);
+  HT_METSig_PT40_MET60_       = fs->make<TH2F>("HT_METSig_PT40_MET60","HT vs. METSig", 80, 0., 2000., 80, 0., 20.);
+  HT_METSig_PT60_MET60_       = fs->make<TH2F>("HT_METSig_PT60_MET60","HT vs. METSig", 80, 0., 2000., 80, 0., 20.);
 			     
-  HT_LepPtSig_PT20_MET20       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET40       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET60       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET20_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET40_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET60_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
 		
-  HT_LepPtSig_PT20_MET20_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET40_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET60_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET20_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET40_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET60_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
 	     
-  HT_significance_PT20_MET20 = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  HT_significance_PT20_MET40 = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  HT_significance_PT20_MET60 = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  HT_significance_PT40_MET60 = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  HT_significance_PT60_MET60 = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT20_MET20_ = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT20_MET40_ = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT20_MET60_ = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT40_MET60_ = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  HT_significance_PT60_MET60_ = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+
+  //-------------------------------------------------
+  // ABCD method
+  //-------------------------------------------------
+  
+  MET_A_ = fs->make<TH1F>("MET_A",   "MET_A",   50,   0.,  1000.);
+  MET_B_ = fs->make<TH1F>("MET_B",   "MET_B",   50,   0.,  1000.);
+  MET_C_ = fs->make<TH1F>("MET_C",   "MET_C",   50,   0.,  1000.);
+  MET_D_ = fs->make<TH1F>("MET_D",   "MET_D",   50,   0.,  1000.);
+
+  Lep_Pt_A_ = fs->make<TH1F>("Lep_Pt_A", "Lep_Pt_A", 60, 0., 600);
+  Lep_Pt_B_ = fs->make<TH1F>("Lep_Pt_B", "Lep_Pt_B", 60, 0., 600);
+  Lep_Pt_C_ = fs->make<TH1F>("Lep_Pt_C", "Lep_Pt_C", 60, 0., 600);
+  Lep_Pt_D_ = fs->make<TH1F>("Lep_Pt_D", "Lep_Pt_D", 60, 0., 600);
+
+  Jets_Et_A_ = fs->make<TH1F>("Jets_Et_A", "Jets_Et_A", 90, 0., 900);
+  Jets_Et_B_ = fs->make<TH1F>("Jets_Et_B", "Jets_Et_B", 90, 0., 900);
+  Jets_Et_C_ = fs->make<TH1F>("Jets_Et_C", "Jets_Et_C", 90, 0., 900);
+  Jets_Et_D_ = fs->make<TH1F>("Jets_Et_D", "Jets_Et_D", 90, 0., 900);
+
+  Bjets_Et_A_ = fs->make<TH1F>("Bjets_Et_A", "Bjets_Et_A", 90, 0., 900);
+  Bjets_Et_B_ = fs->make<TH1F>("Bjets_Et_B", "Bjets_Et_B", 90, 0., 900);
+  Bjets_Et_C_ = fs->make<TH1F>("Bjets_Et_C", "Bjets_Et_C", 90, 0., 900);
+  Bjets_Et_D_ = fs->make<TH1F>("Bjets_Et_D", "Bjets_Et_D", 90, 0., 900);
+
+  for(int idx=0; idx<8; ++idx)
+    {
+      char histname[20];
+      sprintf(histname,"Jet%i_Et_A",idx);
+      Jet_Et_A_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+
+      char histname2[20];
+      sprintf(histname2,"Jet%i_Et_B",idx);
+      Jet_Et_B_.push_back(fs->make<TH1F>(histname2,histname2, 90, 0., 900.));
+
+      char histname3[20];
+      sprintf(histname3,"Jet%i_Et_C",idx);
+      Jet_Et_C_.push_back(fs->make<TH1F>(histname3,histname3, 90, 0., 900.));
+
+      char histname4[20];
+      sprintf(histname4,"Jet%i_Et_D",idx);
+      Jet_Et_D_.push_back(fs->make<TH1F>(histname4,histname4, 90, 0., 900.));
+    }
+
+  for(int bdx=0; bdx<4; ++bdx)
+    {
+      char histname[20];
+      sprintf(histname,"Bjet%i_Et_A",bdx);
+      Bjet_Et_A_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+
+      char histname2[20];
+      sprintf(histname2,"Bjet%i_Et_B",bdx);
+      Bjet_Et_B_.push_back(fs->make<TH1F>(histname2,histname2, 90, 0., 900.));
+
+      char histname3[20];
+      sprintf(histname3,"Bjet%i_Et_C",bdx);
+      Bjet_Et_C_.push_back(fs->make<TH1F>(histname3,histname3, 90, 0., 900.));
+
+      char histname4[20];
+      sprintf(histname4,"Bjet%i_Et_D",bdx);
+      Bjet_Et_D_.push_back(fs->make<TH1F>(histname4,histname4, 90, 0., 900.));
+    }
 
 }
 
@@ -265,6 +372,73 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nPV_->Fill(PVSrc->size(), weight);
 
   //-------------------------------------------------
+  // Basic variables
+  //-------------------------------------------------
+
+  if(met->size()==0) return;
+
+  double HT=0;
+
+  for(int i=0; i<(int)jets->size(); ++i)
+    {
+      if(i<8)
+	{
+	  Jet_Et_[i] ->Fill((*jets)[i].et(),  weight);
+	}
+      Jets_Et_  ->Fill((*jets)[i].et(),  weight);
+      Jets_Eta_ ->Fill((*jets)[i].eta(), weight);
+      HT=HT+(*jets)[i].et();
+
+    }
+  
+  MET_->Fill((*met)[0].et(), weight);
+  HT_->Fill(HT, weight);
+  nJets_->Fill(jets->size(), weight);
+
+  int nLeptons=0;
+  int nMuons=0;
+  int nElectrons=0;
+  double LepHT=0;
+
+  // loop over muons
+  for(int i=0; i<(int)muons->size(); ++i)
+    {
+      if(i<2)
+	{
+	  Muon_Pt_[i] ->Fill((*muons)[i].pt(),  weight);
+	  Muon_Eta_[i]->Fill((*muons)[i].eta(), weight);
+	}
+      nMuons=nMuons+1;
+      nLeptons=nLeptons+1;
+      LepHT=LepHT+(*muons)[i].pt();
+    }
+
+  // loop over electrons
+  for(int i=0; i<(int)electrons->size(); ++i)
+    {
+      if(i<2)
+	{
+	  Electron_Pt_[i] ->Fill((*electrons)[i].pt(),  weight);
+	  Electron_Eta_[i]->Fill((*electrons)[i].eta(), weight);
+	}
+      nElectrons=nElectrons+1;
+      nLeptons=nLeptons+1;
+      LepHT=LepHT+(*electrons)[i].pt();
+    }
+
+  nMuons_    ->Fill(nMuons,     weight);
+  nElectrons_->Fill(nElectrons, weight);
+  nLeptons_  ->Fill(nLeptons,   weight);
+
+  // MT
+  double MT=LepHT+HT+(*met)[0].et();
+  MT_->Fill(MT, weight);
+  
+  const reco::LeafCandidate * singleLepton = 0;
+  if(muons->size()==1) singleLepton = &(*muons)[0];
+  else if(electrons->size()==1) singleLepton = &(*electrons)[0];
+
+  //-------------------------------------------------
   // Btagging
   //-------------------------------------------------
 
@@ -281,25 +455,16 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nBjets_         ->Fill(bjets->size(),weight);
   nBjets_2_       ->Fill(bjets->size(),weight);
 
-  //-------------------------------------------------
-  // Jet Et, MET, HT, nJets
-  //-------------------------------------------------
-
-  if(met->size()==0) return;
-
-  double HT=0;
-  int njets=0;
-
-  for(int i=0; i<(int)jets->size(); ++i)
+  for(int bdx=0; bdx<(int)bjets->size();++bdx)
     {
-      if(i<6) Jet_Et_[i]->Fill((*jets)[i].et(), weight);
-      HT=HT+(*jets)[i].et();
-      njets=njets+1;
+      if(bdx<4)
+	{
+	  Bjet_Et_[bdx] ->Fill((*bjets)[bdx].et(),  weight);
+	  Bjet_Eta_[bdx]->Fill((*bjets)[bdx].eta(), weight);
+	}
+      Bjets_Et_  ->Fill((*bjets)[bdx].et(),  weight);
+      Bjets_Eta_ ->Fill((*bjets)[bdx].eta(), weight);
     }
-  
-  MET_->Fill((*met)[0].et(), weight);
-  HT_->Fill(HT, weight);
-  nJets_->Fill(njets, weight);
 
   //-------------------------------------------------
   // YMET
@@ -333,53 +498,6 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // METSig vs. YMET
   METSig_YMET_ ->Fill(METSig, YMET, weight);
 
-  //-------------------------------------------------
-  // Lepton variables 
-  //-------------------------------------------------
-
-  int nLeptons=0;
-  int nMuons=0;
-  int nElectrons=0;
-  double LepHT=0;
-
-  // loop over muons
-  for(int i=0; i<(int)muons->size(); ++i)
-    {
-      if(i<2)
-	{
-	  Muon_pt_[i] ->Fill((*muons)[i].pt(),  weight);
-	  Muon_eta_[i]->Fill((*muons)[i].eta(), weight);
-	}
-      nMuons=nMuons+1;
-      nLeptons=nLeptons+1;
-      LepHT=LepHT+(*muons)[i].pt());
-    }
-
-  // loop over electrons
-  for(int i=0; i<(int)electrons->size(); ++i)
-    {
-      if(i<2)
-	{
-	  Electron_pt_[i] ->Fill((*electrons)[i].pt(),  weight);
-	  Electron_eta_[i]->Fill((*electrons)[i].eta(), weight);
-	}
-      nElectrons=nElectrons+1;
-      nLeptons=nLeptons+1;
-      LepHT=LepHT+(*electrons)[i].pt());
-    }
-
-  nMuons_    ->Fill(nMuons,     weight);
-  nElectrons_->Fill(nElectrons, weight);
-  nLeptons_  ->Fill(nLeptons,   weight);
-
-  // MT
-  double MT=LepHT+HT+(*met)[0].et();
-  MT_->Fill(MT, weight);
-  
-  const reco::LeafCandidate * singleLepton = 0;
-  if(muons->size()==1) singleLepton = &(*muons)[0];
-  else if(electrons->size()==1) singleLepton = &(*electrons)[0];
-
   //-----------------------------------------------------------
   // Study Correlation between HT and YMET / MET significnace
   //----------------------------------------------------------
@@ -402,57 +520,123 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       //Fill histograms
       if (singleLepton->et() >= 60.) {
 	if (MET >= 60.) {
-	  HT_SigMET_PT60_MET60->Fill(HT, YMET, weight);
-	  HT_METSig_PT60_MET60->Fill(HT, METSig, weight);
+	  HT_METSig_PT60_MET60_->Fill(HT, YMET, weight);
+	  HT_METSig_PT60_MET60_->Fill(HT, METSig, weight);
 	}
       }
       if (singleLepton->et() >= 40.) {
 	if (MET >= 60.) {
-	  HT_SigMET_PT40_MET60->Fill(HT, YMET, weight);
-	  HT_METSig_PT40_MET60->Fill(HT, METSig, weight);
+	  HT_METSig_PT40_MET60_->Fill(HT, YMET, weight);
+	  HT_METSig_PT40_MET60_->Fill(HT, METSig, weight);
 	}
       }
       if (singleLepton->et() >= 20.) {
 	if (MET >= 60.) {
-	  HT_SigMET_PT20_MET60->Fill(HT, YMET, weight);
-	  HT_METSig_PT20_MET60->Fill(HT, METSig, weight);
-	  HT_LepPtSig_PT20_MET60->Fill(HT, LepPtSig, weight);
-	  HT_LepPtSig_PT20_MET60_smeared->Fill(HT, LepPtSig * smearFactor, weight);
+	  HT_METSig_PT20_MET60_->Fill(HT, YMET, weight);
+	  HT_METSig_PT20_MET60_->Fill(HT, METSig, weight);
+	  HT_LepPtSig_PT20_MET60_->Fill(HT, LepPtSig, weight);
+	  HT_LepPtSig_PT20_MET60_smeared_->Fill(HT, LepPtSig * smearFactor, weight);
 	}
 	if (MET >= 40.) {
-	  HT_METSig_PT20_MET40->Fill(HT, METSig, weight);
-	  HT_LepPtSig_PT20_MET40->Fill(HT, LepPtSig, weight);
-	  HT_LepPtSig_PT20_MET40_smeared->Fill(HT, LepPtSig * smearFactor, weight);
+	  HT_METSig_PT20_MET40_->Fill(HT, METSig, weight);
+	  HT_LepPtSig_PT20_MET40_->Fill(HT, LepPtSig, weight);
+	  HT_LepPtSig_PT20_MET40_smeared_->Fill(HT, LepPtSig * smearFactor, weight);
 	}
 	if (MET >= 20.) {
-	  HT_METSig_PT20_MET20->Fill(HT, METSig, weight);
-	  HT_LepPtSig_PT20_MET20->Fill(HT, LepPtSig, weight);
-	  HT_LepPtSig_PT20_MET20_smeared->Fill(HT, LepPtSig * smearFactor, weight);
+	  HT_METSig_PT20_MET20_->Fill(HT, METSig, weight);
+	  HT_LepPtSig_PT20_MET20_->Fill(HT, LepPtSig, weight);
+	  HT_LepPtSig_PT20_MET20_smeared_->Fill(HT, LepPtSig * smearFactor, weight);
 	}  
       }    
     } 
   
-//   //-------------------------------------------------
-//   // ABCD plots
-//   //-------------------------------------------------
- 
-//   bool ATight = HT >= HT0_ && HT < HT1_ && YMET >= Y0_ && YMET < Y1_;
-//   bool BTight = HT >= HT2_ && YMET >= Y0_ && YMET < Y1_;
-//   bool CTight = HT >= HT0_ && HT < HT1_ && YMET >= Y2_;
-//   bool DTight = HT >= HT2_ && YMET >= Y2_;
+  //-------------------------------------------------
+  // ABCD method
+  //-------------------------------------------------
 
-//   if(ATight)
-//     {
-//       MET_A_->Fill((*met)[0].et(),weight);      
-//       if(singleLepton != 0)
-// 	{
-// 	  Lep_Pt_A_->Fill(singleLepton->pt(),weight);
-// 	}
-//       for(int jdx=0; jdx<(int)jets->size(); ++jdx)
-// 	{
-// 	  Jet_Et_A_[jdx]->Fill((*jets)[jdx].et(),weight);
-// 	}
-//     }
+  bool ATight = HT >= HT0_ && HT < HT1_ && YMET >= Y0_ && YMET < Y1_;
+  bool BTight = HT >= HT2_ && YMET >= Y0_ && YMET < Y1_;
+  bool CTight = HT >= HT0_ && HT < HT1_ && YMET >= Y2_;
+  bool DTight = HT >= HT2_ && YMET >= Y2_;
+
+  // A region
+  if(ATight)
+    {
+      MET_A_->Fill((*met)[0].et(),weight);      
+      if(singleLepton != 0)
+	{
+	  Lep_Pt_A_->Fill(singleLepton->pt(),weight);
+	}
+      for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+	{
+	  if(jdx<8) Jet_Et_A_[jdx]->Fill((*jets)[jdx].et(),weight);
+	  Jets_Et_A_->Fill((*jets)[jdx].et(),weight);
+	}
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  if(bdx<4) Bjet_Et_A_[bdx]->Fill((*bjets)[bdx].et(),weight);
+	  Bjets_Et_A_->Fill((*bjets)[bdx].et(),weight);
+	}
+    }
+  // B region
+  if(BTight)
+    {
+      MET_B_->Fill((*met)[0].et(),weight);      
+      if(singleLepton != 0)
+	{
+	  Lep_Pt_B_->Fill(singleLepton->pt(),weight);
+	}
+      for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+	{
+	  if(jdx<8) Jet_Et_B_[jdx]->Fill((*jets)[jdx].et(),weight);
+	  Jets_Et_B_->Fill((*jets)[jdx].et(),weight);
+	}
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  if(bdx<4) Bjet_Et_B_[bdx]->Fill((*bjets)[bdx].et(),weight);
+	  Bjets_Et_B_->Fill((*bjets)[bdx].et(),weight);
+	}
+    }
+  // C region
+  if(CTight)
+    {
+      MET_C_->Fill((*met)[0].et(),weight);      
+      if(singleLepton != 0)
+	{
+	  Lep_Pt_C_->Fill(singleLepton->pt(),weight);
+	}
+      for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+	{
+	  if(jdx<8) Jet_Et_C_[jdx]->Fill((*jets)[jdx].et(),weight);
+	  Jets_Et_C_->Fill((*jets)[jdx].et(),weight);
+	}
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  if(bdx<4) Bjet_Et_C_[bdx]->Fill((*bjets)[bdx].et(),weight);
+	  Bjets_Et_C_->Fill((*bjets)[bdx].et(),weight);
+	}
+    }
+  // D region
+  if(DTight)
+    {
+      MET_D_->Fill((*met)[0].et(),weight);      
+      if(singleLepton != 0)
+	{
+	  Lep_Pt_D_->Fill(singleLepton->pt(),weight);
+	}
+      for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+	{
+	  if(jdx<8) Jet_Et_D_[jdx]->Fill((*jets)[jdx].et(),weight);
+	  Jets_Et_D_->Fill((*jets)[jdx].et(),weight);
+	}
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  if(bdx<4) Bjet_Et_D_[bdx]->Fill((*bjets)[bdx].et(),weight);
+	  Bjets_Et_D_->Fill((*bjets)[bdx].et(),weight);
+	}
+    }
+
+
 }
 
 void SUSYAnalyzer::beginJob()

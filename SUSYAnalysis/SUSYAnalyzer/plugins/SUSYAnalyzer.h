@@ -59,84 +59,127 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   double Y0_,  Y1_,  Y2_;
 
   // Dummy histograms
-  TH1F Dummy_ ;
-  TH2F Dummy2_;
+  TH1F* Dummy_;
+  TH2F* Dummy2_;
 
   // Event weighting
-  TH1F btagWeights_noWgt_;
-  TH1F btagWeights_PUWgt_;
-  TH1F nPU_noWgt_;
-  TH1F nPU_;
-  TH1F nPV_noWgt_;       
-  TH1F nPV_;
+  TH1F* btagWeights_noWgt_;
+  TH1F* btagWeights_PUWgt_;
+  TH1F* nPU_noWgt_;
+  TH1F* nPU_;
+  TH1F* nPV_noWgt_;       
+  TH1F* nPV_;
   
-  // Btagging
-  TH1F TCHE_;
-  TH1F TCHP_;
-  TH1F SSVHE_;
-  TH1F SSVHP_;
-  
-  TH1F nBjets_noWgt_;
-  TH1F nBjets_noWgt_2_;
-  TH1F nBjets_;
-  TH1F nBjets_2_;
-
   // Basic kinematics
   std::vector<TH1F*> Jet_Et_;
-  TH1F MET_;
-  TH1F HT_; 
-  TH1F nJets_;
+  std::vector<TH1F*> Jet_Eta_;
 
-  // Ymet
-  TH1F YMET_;
+  TH1F* Jets_Et_;
+  TH1F* Jets_Eta_;
+  TH1F* MET_;
+  TH1F* HT_; 
+  TH1F* nJets_;
 
-  TH1F HT_YMET_;
-  TH1F HT_YMET_noWgt_;
-  TH1F HT_MET_;
-
-  // MET significance
-  TH1F METSig_;
-
-  TH2F HT_METSig_;
-  TH2F HT_METSig_noWgt_;
-
-  // Lepton variables
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;
+
   std::vector<TH1F*> Electron_Pt_;
   std::vector<TH1F*> Electron_Eta_;
 
-  TH1F nMuons_;
-  TH1F nElectrons_;
-  TH1F nLeptons_;
+  TH1F* nMuons_;
+  TH1F* nElectrons_;
+  TH1F* nLeptons_;
 
-  // MT
-  TH1F MT_;
+  TH1F* MT_;
+
+  // Btagging
+  TH1F* TCHE_;
+  TH1F* TCHP_;
+  TH1F* SSVHE_;
+  TH1F* SSVHP_;
+  
+  TH1F* nBjets_noWgt_;
+  TH1F* nBjets_noWgt_2_;
+  TH1F* nBjets_;
+  TH1F* nBjets_2_;
+
+  std::vector<TH1F*> Bjet_Et_;
+  std::vector<TH1F*> Bjet_Eta_;
+
+  TH1F* Bjets_Et_;
+  TH1F* Bjets_Eta_;
+
+  // Ymet
+  TH1F* YMET_;
+
+  TH2F* HT_YMET_;
+  TH2F* HT_YMET_noWgt_;
+  TH2F* HT_MET_;
+
+  // MET significance
+  TH1F* METSig_;
+
+  TH2F* HT_METSig_;
+  TH2F* HT_METSig_noWgt_;
+
+  TH2F* METSig_YMET_;
 
   // Correlation between HT and YMET / MET significance
-  TH2F HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
-  TH2F HT_SigMET_unweighted_ = fs->make<TH2F>("HT_SigMET_unweighted","HT vs. SigMET unweighted", 80, 0., 2000., 80, 0., 20. );
+  TH2F* HT_LepPtSig_;
+  TH2F* HT_LepPtSig_smeared_;
+  TH1F* LepPtSig_smearFactor_;
+  TH2F* HT_METSig_unweighted_;
 
-  TH2F HT_SigMET_PT20_MET60       = fs->make<TH2F>("HT_SigMET_PT20_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_SigMET_PT40_MET60       = fs->make<TH2F>("HT_SigMET_PT40_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_SigMET_PT60_MET60       = fs->make<TH2F>("HT_SigMET_PT60_MET60","HT vs. SigMET", 80, 0., 2000., 80, 0., 20.);
+  TH2F* HT_METSig_PT20_MET20_;
+  TH2F* HT_METSig_PT20_MET40_;
+  TH2F* HT_METSig_PT20_MET60_;
+  TH2F* HT_METSig_PT40_MET60_;      
+  TH2F* HT_METSig_PT60_MET60_;
 			     
-  TH2F HT_LepPtSig_PT20_MET20       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F HT_LepPtSig_PT20_MET40       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F HT_LepPtSig_PT20_MET60       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F* HT_LepPtSig_PT20_MET20_;
+  TH2F* HT_LepPtSig_PT20_MET40_;
+  TH2F* HT_LepPtSig_PT20_MET60_;
 		
-  TH2F HT_LepPtSig_PT20_MET20_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F HT_LepPtSig_PT20_MET40_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  TH2F HT_LepPtSig_PT20_MET60_smeared       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  TH2F* HT_LepPtSig_PT20_MET20_smeared_;
+  TH2F* HT_LepPtSig_PT20_MET40_smeared_;
+  TH2F* HT_LepPtSig_PT20_MET60_smeared_;
 	     
-  TH2F HT_significance_PT20_MET20 = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_significance_PT20_MET40 = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_significance_PT20_MET60 = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_significance_PT40_MET60 = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
-  TH2F HT_significance_PT60_MET60 = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+  TH2F* HT_significance_PT20_MET20_;
+  TH2F* HT_significance_PT20_MET40_;
+  TH2F* HT_significance_PT20_MET60_;
+  TH2F* HT_significance_PT40_MET60_;
+  TH2F* HT_significance_PT60_MET60_;
 
+  // ABCD method
+  TH1F* MET_A_;
+  TH1F* MET_B_;
+  TH1F* MET_C_;
+  TH1F* MET_D_;
+
+  TH1F* Lep_Pt_A_;
+  TH1F* Lep_Pt_B_;
+  TH1F* Lep_Pt_C_;
+  TH1F* Lep_Pt_D_;
+
+  TH1F* Jets_Et_A_;
+  TH1F* Jets_Et_B_;
+  TH1F* Jets_Et_C_;
+  TH1F* Jets_Et_D_;
+
+  TH1F* Bjets_Et_A_;
+  TH1F* Bjets_Et_B_;
+  TH1F* Bjets_Et_C_;
+  TH1F* Bjets_Et_D_;
+
+  std::vector<TH1F*> Jet_Et_A_;
+  std::vector<TH1F*> Jet_Et_B_;
+  std::vector<TH1F*> Jet_Et_C_;
+  std::vector<TH1F*> Jet_Et_D_;
+
+  std::vector<TH1F*> Bjet_Et_A_;
+  std::vector<TH1F*> Bjet_Et_B_;
+  std::vector<TH1F*> Bjet_Et_C_;
+  std::vector<TH1F*> Bjet_Et_D_;
 };  
 
 #endif  
