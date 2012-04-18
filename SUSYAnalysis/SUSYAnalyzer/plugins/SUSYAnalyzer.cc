@@ -89,7 +89,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  1000.);
   HT_       = fs->make<TH1F>("HT",       "HT",       40,   0.,  2000.);
-  nJets_    = fs->make<TH1F>("nJets",    "njets",    16 , -0.5,  15.5);
+  nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -165,6 +165,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
   HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
 
+  METSig_YMET_ = fs->make<TH2F>("METSig_YMET", "METSig_YMET", 80,  0., 20., 80, 0.,  20.);
+
   //----------------------------------------------------
   // Correlation between HT and YMET / MET significance
   //----------------------------------------------------
@@ -218,6 +220,11 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Et_B_ = fs->make<TH1F>("Bjets_Et_B", "Bjets_Et_B", 90, 0., 900);
   Bjets_Et_C_ = fs->make<TH1F>("Bjets_Et_C", "Bjets_Et_C", 90, 0., 900);
   Bjets_Et_D_ = fs->make<TH1F>("Bjets_Et_D", "Bjets_Et_D", 90, 0., 900);
+
+  nJets_A_ = fs->make<TH1F>("nJets_A",    "nJets_A",    16 , -0.5,  15.5);
+  nJets_B_ = fs->make<TH1F>("nJets_B",    "nJets_B",    16 , -0.5,  15.5);
+  nJets_C_ = fs->make<TH1F>("nJets_C",    "nJets_C",    16 , -0.5,  15.5);
+  nJets_D_ = fs->make<TH1F>("nJets_D",    "nJets_D",    16 , -0.5,  15.5);
 
   for(int idx=0; idx<8; ++idx)
     {
@@ -287,7 +294,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //-------------------------------------------------
   // Event weighting
-  //-------------------------------------------------
+  //----------------------f--------------------------
+
+  //std::cout << "Test1" << std::endl;
 
   // declare and initialize different weights
   double weight=1;
@@ -375,6 +384,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Basic variables
   //-------------------------------------------------
 
+  //std::cout << "Test2" << std::endl;
+
   if(met->size()==0) return;
 
   double HT=0;
@@ -400,6 +411,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   int nElectrons=0;
   double LepHT=0;
 
+  //std::cout << "Test3" << std::endl;
+
   // loop over muons
   for(int i=0; i<(int)muons->size(); ++i)
     {
@@ -412,6 +425,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nLeptons=nLeptons+1;
       LepHT=LepHT+(*muons)[i].pt();
     }
+
+  //std::cout << "Test4" << std::endl;
 
   // loop over electrons
   for(int i=0; i<(int)electrons->size(); ++i)
@@ -430,6 +445,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nElectrons_->Fill(nElectrons, weight);
   nLeptons_  ->Fill(nLeptons,   weight);
 
+  //std::cout << "Test5" << std::endl;
+
   // MT
   double MT=LepHT+HT+(*met)[0].et();
   MT_->Fill(MT, weight);
@@ -441,6 +458,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
   // Btagging
   //-------------------------------------------------
+
+  //std::cout << "Test6" << std::endl;
 
   for(int i=0; i<(int)jets->size();++i)
     {
@@ -454,6 +473,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nBjets_noWgt_2_ ->Fill(bjets->size());
   nBjets_         ->Fill(bjets->size(),weight);
   nBjets_2_       ->Fill(bjets->size(),weight);
+
+  //std::cout << "Test7" << std::endl;
 
   for(int bdx=0; bdx<(int)bjets->size();++bdx)
     {
@@ -470,6 +491,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // YMET
   //-------------------------------------------------
 
+  //std::cout << "Test8" << std::endl;
+
   double YMET=((*met)[0].et())/(sqrt(HT));  
   YMET_->Fill(YMET, weight);
 
@@ -482,6 +505,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // MET significance
   //-------------------------------------------------
 
+  //std::cout << "Test9" << std::endl;
+
   double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
   double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
   double METSig  = 0;
@@ -489,11 +514,15 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Use the sqrt of the significance
   if (METSig > 0.) METSig = sqrt(METSig);
 
+  //std::cout << "Test92" << std::endl;
+
   METSig_->Fill(METSig, weight);
 
   // METSig vs. HT
   HT_METSig_      ->Fill(HT, METSig, weight);
   HT_METSig_noWgt_->Fill(HT, METSig,     1.);
+
+  //std::cout << "Test93" << std::endl;
 
   // METSig vs. YMET
   METSig_YMET_ ->Fill(METSig, YMET, weight);
@@ -501,6 +530,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-----------------------------------------------------------
   // Study Correlation between HT and YMET / MET significnace
   //----------------------------------------------------------
+
+  //std::cout << "Test10" << std::endl;
 
   if(singleLepton != 0 && HT > 0. && jets->size()>=4)
     {
@@ -554,6 +585,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // ABCD method
   //-------------------------------------------------
 
+  //std::cout << "Test11" << std::endl;
+
   bool ATight = HT >= HT0_ && HT < HT1_ && YMET >= Y0_ && YMET < Y1_;
   bool BTight = HT >= HT2_ && YMET >= Y0_ && YMET < Y1_;
   bool CTight = HT >= HT0_ && HT < HT1_ && YMET >= Y2_;
@@ -562,7 +595,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // A region
   if(ATight)
     {
-      MET_A_->Fill((*met)[0].et(),weight);      
+      MET_A_  ->Fill((*met)[0].et(),weight);
+      nJets_A_->Fill(jets->size(),  weight);    
       if(singleLepton != 0)
 	{
 	  Lep_Pt_A_->Fill(singleLepton->pt(),weight);
@@ -581,7 +615,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // B region
   if(BTight)
     {
-      MET_B_->Fill((*met)[0].et(),weight);      
+      MET_B_->Fill((*met)[0].et(),weight);
+      nJets_B_->Fill(jets->size(),  weight);
       if(singleLepton != 0)
 	{
 	  Lep_Pt_B_->Fill(singleLepton->pt(),weight);
@@ -600,7 +635,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // C region
   if(CTight)
     {
-      MET_C_->Fill((*met)[0].et(),weight);      
+      MET_C_->Fill((*met)[0].et(),weight);
+      nJets_B_->Fill(jets->size(),  weight);
       if(singleLepton != 0)
 	{
 	  Lep_Pt_C_->Fill(singleLepton->pt(),weight);
@@ -619,7 +655,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // D region
   if(DTight)
     {
-      MET_D_->Fill((*met)[0].et(),weight);      
+      MET_D_->Fill((*met)[0].et(),weight);
+      nJets_D_->Fill(jets->size(),  weight);
       if(singleLepton != 0)
 	{
 	  Lep_Pt_D_->Fill(singleLepton->pt(),weight);
@@ -636,6 +673,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
     }
 
+  //std::cout << "Test12" << std::endl;
 
 }
 

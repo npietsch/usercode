@@ -170,6 +170,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* Bjets_Et_B_;
   TH1F* Bjets_Et_C_;
   TH1F* Bjets_Et_D_;
+  
+  TH1F* nJets_A_;
+  TH1F* nJets_B_;
+  TH1F* nJets_C_;
+  TH1F* nJets_D_;
 
   std::vector<TH1F*> Jet_Et_A_;
   std::vector<TH1F*> Jet_Et_B_;
