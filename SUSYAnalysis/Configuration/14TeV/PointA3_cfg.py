@@ -23,7 +23,7 @@ process.load('FastSimulation.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
@@ -35,7 +35,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.6 $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
     annotation = cms.untracked.string('QCD_Pt_30_7TeV_herwigpp_cff.py nevts:10'),
     name = cms.untracked.string('PyReleaseValidation')
 )
@@ -142,7 +142,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
     basicSetup = cms.vstring('cd /Herwig/Generators', 
         'create ThePEG::RandomEngineGlue /Herwig/RandomGlue', 
         'set LHCGenerator:RandomNumberGenerator /Herwig/RandomGlue', 
-        'set LHCGenerator:NumberOfEvents 50000', 
+        'set LHCGenerator:NumberOfEvents 10000000', 
         'set LHCGenerator:DebugLevel 1', 
         #'set LHCGenerator:PrintEvent 0', 
         'set LHCGenerator:MaxErrors 10000'
@@ -152,7 +152,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
 	'set LHCGenerator:PrintEvent 10',
 
 	'insert LHCGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile',
-	'set /Herwig/Analysis/HepMCFile:PrintEvent 500000',
+	'set /Herwig/Analysis/HepMCFile:PrintEvent 1000000',
 	'set /Herwig/Analysis/HepMCFile:Format GenEvent',
 	'set /Herwig/Analysis/HepMCFile:Units GeV_mm',
 
@@ -221,7 +221,7 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
         'cd /'),
     eventHandlers = cms.string('/Herwig/EventHandlers'),
     configFiles = cms.vstring(),
-    crossSection = cms.untracked.double(0.36),
+    crossSection = cms.untracked.double(62292700.0),
     parameterSets = cms.vstring('cm14TeV', 
         'pdfMRST2001', 
         'Summer09QCDParameters', 
