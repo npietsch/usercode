@@ -16,6 +16,7 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              PUWeight = cms.InputTag("eventWeightPU:eventWeightPU"),
                              RA2Weight = cms.InputTag("weightProducer:weight"),
                              BtagEventWeights = cms.InputTag("btagEventWeight:RA4bEventWeights"),
+                             BtagJetWeights   = cms.InputTag("btagEventWeight:RA4bJetWeights"),
                              btagBin = cms.int32(0),
                              inclusiveBtagBin = cms.int32(0),
                              

@@ -28,6 +28,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   PUWeight_          (cfg.getParameter<edm::InputTag>("PUWeight") ),
   RA2Weight_         (cfg.getParameter<edm::InputTag>("RA2Weight") ),
   BtagEventWeights_  (cfg.getParameter<edm::InputTag>("BtagEventWeights") ),
+  BtagJetWeights_    (cfg.getParameter<edm::InputTag>("BtagJetWeights") ),
   btagBin_           (cfg.getParameter<int>("btagBin") ),
   inclusiveBtagBin_  (cfg.getParameter<int>("inclusiveBtagBin") ),
 
@@ -220,6 +221,26 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Et_B_ = fs->make<TH1F>("Bjets_Et_B", "Bjets_Et_B", 90, 0., 900);
   Bjets_Et_C_ = fs->make<TH1F>("Bjets_Et_C", "Bjets_Et_C", 90, 0., 900);
   Bjets_Et_D_ = fs->make<TH1F>("Bjets_Et_D", "Bjets_Et_D", 90, 0., 900);
+
+  Bjets_Et_Weights_A_ = fs->make<TH1F>("Bjets_Et_Weights_A", "Bjets_Et_Weights_A", 90, 0., 900);
+  Bjets_Et_Weights_B_ = fs->make<TH1F>("Bjets_Et_Weights_B", "Bjets_Et_Weights_B", 90, 0., 900);
+  Bjets_Et_Weights_C_ = fs->make<TH1F>("Bjets_Et_Weights_C", "Bjets_Et_Weights_C", 90, 0., 900);
+  Bjets_Et_Weights_D_ = fs->make<TH1F>("Bjets_Et_Weights_D", "Bjets_Et_Weights_D", 90, 0., 900);
+
+  Bjets_Et_Weights_A_670_ = fs->make<TH1F>("Bjets_Et_Weights_A_670", "Bjets_Et_Weights_A_670", 90, 0., 900);
+  Bjets_Et_Weights_B_670_ = fs->make<TH1F>("Bjets_Et_Weights_B_670", "Bjets_Et_Weights_B_670", 90, 0., 900);
+  Bjets_Et_Weights_C_670_ = fs->make<TH1F>("Bjets_Et_Weights_C_670", "Bjets_Et_Weights_C_670", 90, 0., 900);
+  Bjets_Et_Weights_D_670_ = fs->make<TH1F>("Bjets_Et_Weights_D_670", "Bjets_Et_Weights_D_670", 90, 0., 900);
+
+  Bjets_Eta_Weights_A_ = fs->make<TH1F>("Bjets_Eta_Weights_A", "Bjets_Eta_Weights_A", 60, -3., 3);
+  Bjets_Eta_Weights_B_ = fs->make<TH1F>("Bjets_Eta_Weights_B", "Bjets_Eta_Weights_B", 60, -3., 3);
+  Bjets_Eta_Weights_C_ = fs->make<TH1F>("Bjets_Eta_Weights_C", "Bjets_Eta_Weights_C", 60, -3., 3);
+  Bjets_Eta_Weights_D_ = fs->make<TH1F>("Bjets_Eta_Weights_D", "Bjets_Eta_Weights_D", 60, -3., 3);
+
+  Bjets_Eta_Weights_A_670_ = fs->make<TH1F>("Bjets_Eta_Weights_A_670", "Bjets_Eta_Weights_A_670", 90, 0., 900);
+  Bjets_Eta_Weights_B_670_ = fs->make<TH1F>("Bjets_Eta_Weights_B_670", "Bjets_Eta_Weights_B_670", 90, 0., 900);
+  Bjets_Eta_Weights_C_670_ = fs->make<TH1F>("Bjets_Eta_Weights_C_670", "Bjets_Eta_Weights_C_670", 90, 0., 900);
+  Bjets_Eta_Weights_D_670_ = fs->make<TH1F>("Bjets_Eta_Weights_D_670", "Bjets_Eta_Weights_D_670", 90, 0., 900);
 
   nJets_A_ = fs->make<TH1F>("nJets_A",    "nJets_A",    16 , -0.5,  15.5);
   nJets_B_ = fs->make<TH1F>("nJets_B",    "nJets_B",    16 , -0.5,  15.5);
@@ -611,7 +632,32 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  if(bdx<4) Bjet_Et_A_[bdx]->Fill((*bjets)[bdx].et(),weight);
 	  Bjets_Et_A_->Fill((*bjets)[bdx].et(),weight);
 	}
+      // Enter loop only when b-tag weights are applied
+      if(useBtagEventWgt_ || useInclusiveBtagEventWgt_)
+	{
+	  // Get jet weights
+	  edm::Handle<std::vector<double> > BtagJetWeightsHandle;
+	  evt.getByLabel(BtagJetWeights_, BtagJetWeightsHandle);
+	  
+	  //std::cout << "\n" << std::endl;
+	  for(int idx=0; idx < (int)jets->size(); ++idx)
+	    {
+	      //std::cout << "(*BtagJetWeightsHandle)[idx]" << (*BtagJetWeightsHandle)[idx] << std::endl;
+	      double combinedWeight=weightRA2*weightPU*(*BtagJetWeightsHandle)[idx];
+
+	      Bjets_Et_Weights_A_ ->Fill((*jets)[idx].et(), combinedWeight);
+	      Bjets_Eta_Weights_A_->Fill((*jets)[idx].eta(),combinedWeight);
+
+	      if((*jets)[idx].et()<670)
+		{
+		  Bjets_Et_Weights_A_670_ ->Fill((*jets)[idx].et(), combinedWeight);
+		  Bjets_Eta_Weights_A_670_->Fill((*jets)[idx].eta(),combinedWeight);
+		}  
+	    }
+	  //std::cout << "\n" << std::endl;
+	}
     }
+
   // B region
   if(BTight)
     {
@@ -631,7 +677,32 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  if(bdx<4) Bjet_Et_B_[bdx]->Fill((*bjets)[bdx].et(),weight);
 	  Bjets_Et_B_->Fill((*bjets)[bdx].et(),weight);
 	}
+      // Enter loop only when b-tag weights are applied
+      if(useBtagEventWgt_ || useInclusiveBtagEventWgt_)
+	{
+	  // Get jet weights
+	  edm::Handle<std::vector<double> > BtagJetWeightsHandle;
+	  evt.getByLabel(BtagJetWeights_, BtagJetWeightsHandle);
+	  
+	  //std::cout << "\n" << std::endl;
+	  for(int idx=0; idx < (int)jets->size(); ++idx)
+	    {
+	      //std::cout << "(*BtagJetWeightsHandle)[idx]" << (*BtagJetWeightsHandle)[idx] << std::endl;
+	      double combinedWeight=weightRA2*weightPU*(*BtagJetWeightsHandle)[idx];
+
+	      Bjets_Et_Weights_B_ ->Fill((*jets)[idx].et(), combinedWeight);
+	      Bjets_Eta_Weights_B_->Fill((*jets)[idx].eta(),combinedWeight);
+
+	      if((*jets)[idx].et()<670)
+		{
+		  Bjets_Et_Weights_B_670_ ->Fill((*jets)[idx].et(), combinedWeight);
+		  Bjets_Eta_Weights_B_670_->Fill((*jets)[idx].eta(),combinedWeight);
+		}  
+	    }
+	  //std::cout << "\n" << std::endl;
+	}
     }
+
   // C region
   if(CTight)
     {
@@ -651,7 +722,32 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  if(bdx<4) Bjet_Et_C_[bdx]->Fill((*bjets)[bdx].et(),weight);
 	  Bjets_Et_C_->Fill((*bjets)[bdx].et(),weight);
 	}
+      // Enter loop only when b-tag weights are applied
+      if(useBtagEventWgt_ || useInclusiveBtagEventWgt_)
+	{
+	  // Get jet weights
+	  edm::Handle<std::vector<double> > BtagJetWeightsHandle;
+	  evt.getByLabel(BtagJetWeights_, BtagJetWeightsHandle);
+	  
+	  //std::cout << "\n" << std::endl;
+	  for(int idx=0; idx < (int)jets->size(); ++idx)
+	    {
+	      //std::cout << "(*BtagJetWeightsHandle)[idx]" << (*BtagJetWeightsHandle)[idx] << std::endl;
+	      double combinedWeight=weightRA2*weightPU*(*BtagJetWeightsHandle)[idx];
+
+	      Bjets_Et_Weights_C_ ->Fill((*jets)[idx].et(), combinedWeight);
+	      Bjets_Eta_Weights_C_->Fill((*jets)[idx].eta(),combinedWeight);
+
+	      if((*jets)[idx].et()<670)
+		{
+		  Bjets_Et_Weights_C_670_ ->Fill((*jets)[idx].et(), combinedWeight);
+		  Bjets_Eta_Weights_C_670_->Fill((*jets)[idx].eta(),combinedWeight);
+		}  
+	    }
+	  //std::cout << "\n" << std::endl;
+	}
     }
+
   // D region
   if(DTight)
     {
@@ -671,6 +767,31 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  if(bdx<4) Bjet_Et_D_[bdx]->Fill((*bjets)[bdx].et(),weight);
 	  Bjets_Et_D_->Fill((*bjets)[bdx].et(),weight);
 	}
+      // Enter loop only when b-tag weights are applied
+      if(useBtagEventWgt_ || useInclusiveBtagEventWgt_)
+	{
+	  // Get jet weights
+	  edm::Handle<std::vector<double> > BtagJetWeightsHandle;
+	  evt.getByLabel(BtagJetWeights_, BtagJetWeightsHandle);
+	  
+	  //std::cout << "\n" << std::endl;
+	  for(int idx=0; idx < (int)jets->size(); ++idx)
+	    {
+	      //std::cout << "(*BtagJetWeightsHandle)[idx]" << (*BtagJetWeightsHandle)[idx] << std::endl;
+	      double combinedWeight=weightRA2*weightPU*(*BtagJetWeightsHandle)[idx];
+
+	      Bjets_Et_Weights_D_ ->Fill((*jets)[idx].et(), combinedWeight);
+	      Bjets_Eta_Weights_D_->Fill((*jets)[idx].eta(),combinedWeight);
+
+	      if((*jets)[idx].et()<670)
+		{
+		  Bjets_Et_Weights_D_670_ ->Fill((*jets)[idx].et(), combinedWeight);
+		  Bjets_Eta_Weights_D_670_->Fill((*jets)[idx].eta(),combinedWeight);
+		}  
+	    }
+	  //std::cout << "\n" << std::endl;
+	}
+
     }
 
   //std::cout << "Test12" << std::endl;

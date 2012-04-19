@@ -45,6 +45,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag PUWeight_;
   edm::InputTag RA2Weight_;
   edm::InputTag BtagEventWeights_;
+  edm::InputTag BtagJetWeights_;
   int btagBin_;
   int inclusiveBtagBin_; 
 
@@ -171,6 +172,26 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* Bjets_Et_C_;
   TH1F* Bjets_Et_D_;
   
+  TH1F* Bjets_Et_Weights_A_;
+  TH1F* Bjets_Et_Weights_B_;
+  TH1F* Bjets_Et_Weights_C_;
+  TH1F* Bjets_Et_Weights_D_;
+
+  TH1F* Bjets_Et_Weights_A_670_;
+  TH1F* Bjets_Et_Weights_B_670_;
+  TH1F* Bjets_Et_Weights_C_670_;
+  TH1F* Bjets_Et_Weights_D_670_;
+  
+  TH1F* Bjets_Eta_Weights_A_;
+  TH1F* Bjets_Eta_Weights_B_;
+  TH1F* Bjets_Eta_Weights_C_;
+  TH1F* Bjets_Eta_Weights_D_;
+
+  TH1F* Bjets_Eta_Weights_A_670_;
+  TH1F* Bjets_Eta_Weights_B_670_;
+  TH1F* Bjets_Eta_Weights_C_670_;
+  TH1F* Bjets_Eta_Weights_D_670_;
+
   TH1F* nJets_A_;
   TH1F* nJets_B_;
   TH1F* nJets_C_;
