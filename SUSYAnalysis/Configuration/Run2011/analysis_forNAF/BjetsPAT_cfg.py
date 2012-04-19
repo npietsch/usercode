@@ -65,34 +65,42 @@ process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
 process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
 process.analyzeSUSY1b1m_4.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1m_4.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY1b1m_6.useBtagEventWeight = True
 process.analyzeSUSY1b1m_6.btagBin = 1
 process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY2b1m_6.useBtagEventWeight = True
 process.analyzeSUSY2b1m_6.btagBin = 2
 process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY2b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY3b1m_6.useBtagEventWeight = True
 process.analyzeSUSY3b1m_6.btagBin = 3
 process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY3b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY1b1e_4.useInclusiveBtagEventWeight = True
 process.analyzeSUSY1b1e_4.inclusiveBtagBin = 1
 process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1e_4.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 process.analyzeSUSY1b1e_6.useBtagEventWeight = True
 process.analyzeSUSY1b1e_6.btagBin = 1
 process.analyzeSUSY1b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 process.analyzeSUSY2b1e_6.useBtagEventWeight = True
 process.analyzeSUSY2b1e_6.btagBin = 2
 process.analyzeSUSY2b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY2b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 process.analyzeSUSY3b1e_6.useBtagEventWeight = True
 process.analyzeSUSY3b1e_6.btagBin = 3
 process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 #------------------------------------------------------------
 # load and configure modules for b-tag efficiency weighting
