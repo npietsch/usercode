@@ -73,8 +73,11 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
 
-  Jets_Et_  = fs->make<TH1F>("Jets_Et",  "Jets_Et",  90,   0.,   900.);
-  Jets_Eta_ = fs->make<TH1F>("Jets_Eta", "Jets_Eta", 60,  -3.,     3.);
+  Jets_Et_      = fs->make<TH1F>("Jets_Et",      "Jets_Et",      90,   0.,  900. );
+  Jets_Eta_     = fs->make<TH1F>("Jets_Eta",     "Jets_Eta",     60,  -3.,    3. );
+  Jets_Phi_     = fs->make<TH1F>("Jets_Phi",     "Jets_Phi",     70,  -3.5,   3.5);
+  Jets_Theta_   = fs->make<TH1F>("Jets_Theta",   "Jets_Theta",   35,   0.,    3.5);
+  GluonJets_Et_ = fs->make<TH1F>("GluonJets_Et", "GluonJets_Et", 90,   0.,  900. );
 
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  1000.);
   HT_       = fs->make<TH1F>("HT",       "HT",       40,   0.,  2000.);
@@ -261,11 +264,15 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     {
       if(i<8)
 	{
-	  Jet_Et_[i] ->Fill((*jets)[i].et(),  weight);
+	  Jet_Et_[i]  ->Fill((*jets)[i].et(),  weight);
+	  Jet_Eta_[i] ->Fill((*jets)[i].eta(), weight);
 	}
-      Jets_Et_  ->Fill((*jets)[i].et(),  weight);
-      Jets_Eta_ ->Fill((*jets)[i].eta(), weight);
+      Jets_Et_    ->Fill((*jets)[i].et(),  weight);
+      Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
+      Jets_Phi_   ->Fill((*jets)[i].phi(), weight);
+      Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
       HT=HT+(*jets)[i].et();
+      if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
 
     }
   

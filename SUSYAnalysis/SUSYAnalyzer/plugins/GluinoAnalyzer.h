@@ -72,7 +72,10 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   std::vector<TH1F*> Jet_Eta_;
 
   TH1F* Jets_Et_;
+  TH1F* GluonJets_Et_;
   TH1F* Jets_Eta_;
+  TH1F* Jets_Phi_;
+  TH1F* Jets_Theta_;
   TH1F* MET_;
   TH1F* HT_; 
   TH1F* nJets_;

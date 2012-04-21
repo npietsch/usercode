@@ -22,7 +22,7 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('START42_V13::All')
+process.GlobalTag.globaltag = cms.string('START44_V10::All')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
