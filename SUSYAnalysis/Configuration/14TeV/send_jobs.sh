@@ -8,7 +8,7 @@ export VO_CMS_SW_DIR=/afs/naf.desy.de/group/cms/sw
 
 qsub -l h_vmem=15000M PointB1.sh
 
-qsub -l h_vmem=15000M PointB2.sh
+qsub -l h_vmem=15000M PointC1.sh
 
-qsub -l h_vmem=15000M PointB3.sh
+qsub -l h_vmem=15000M PointD1.sh
 
