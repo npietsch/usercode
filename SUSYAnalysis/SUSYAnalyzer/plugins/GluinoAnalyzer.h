@@ -31,64 +31,64 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-           	
-  //--------------------------------
-  // input collections          	
-  //--------------------------------
-
-  // collections of RA4b objects
+     
+  //----------------------------
+  // Input tags
+  //----------------------------
+         
   edm::InputTag jets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag met_;
   edm::InputTag inputGenEvent_;
-
-  // for event weighting
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
-  edm::InputTag PUWeight_;
-  edm::InputTag RA2Weight_;
-      
-  // bool
-  bool useEventWgt_;
-  
-  //--------------------------------
-  // histograms      	
-  //--------------------------------
 
-  // dummy histograms
+  //----------------------------
+  // Histograms
+  //----------------------------
+
+  // Dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
-  // histogram for control quantities
-  TH1F* nPV_;
-  TH1F* nPV_noWgt_;
+  // Event weighting and Pile-up
+  TH1F* nPV_;    
   TH1F* nPU_;
-  TH1F* nPU_noWgt_;
+  
+  // mjj variables
+  TH1F* mjjMCTruth_;
 
-  TH1F* btagWeights_noWgt_;
-  TH1F* btagWeights_PUWgt_;
-  TH1F* nBtags_noWgt_;
-  TH1F* nBtags_PUWgt_;
-  TH1F* nBtags_;
-  TH1F* TCHE_;
-  TH1F* TCHP_;
-  TH1F* SSVHE_;
-  TH1F* SSVHP_;
+  TH1F* min123_;
+  TH1F* min123_right_;
+  TH1F* min123_wrong_;
+  TH1F* min123_noMatch_;
 
+  TH1F* min124_;
+
+  // Basic kinematics
+  std::vector<TH1F*> Jet_Et_;
+  std::vector<TH1F*> Jet_Eta_;
+
+  TH1F* Jets_Et_;
+  TH1F* Jets_Eta_;
   TH1F* MET_;
-  TH1F* HT_;
-  TH1F* MHT_;
+  TH1F* HT_; 
   TH1F* nJets_;
 
-  // mjj variables
-  TH1F* mjjLow_;
-  TH1F* mjjHigh_;
-  TH1F* mjjMin_;
-  TH1F* mjjMax_;
-  TH1F* mjjLow2_;
-  TH1F* mjjMCTruth_;
+  std::vector<TH1F*> Muon_Pt_;
+  std::vector<TH1F*> Muon_Eta_;
+
+  std::vector<TH1F*> Electron_Pt_;
+  std::vector<TH1F*> Electron_Eta_;
+
+  TH1F* nMuons_;
+  TH1F* nElectrons_;
+  TH1F* nLeptons_;
+
+  TH1F* MT_;
+
 };  
 
 #endif  

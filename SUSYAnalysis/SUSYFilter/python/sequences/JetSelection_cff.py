@@ -86,34 +86,13 @@ looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 
 vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
                                               )
-
-#------------------------------
-# matched-lepton collections 
-#------------------------------
-
-## genLepton.pdgId is not working for the moment, so modules are commented out in cmsSequence "matchedGoodObjects" defined in the end of this file
-
-## create collection of good muons that can be matched to a generator muon
-from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
-matchedMuons = selectedPatMuons.clone(src = 'goodMuons',
-                                      cut =  'genLepton.pdgId &'
-                                      'abs(genLepton.pdgId) = 13'
-                                      )
-
-## create collection of good electrons that can be matched to a generator electron
-from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
-matchedElectrons = selectedPatMuons.clone(src = 'goodMuons',
-                                          cut = 'genLepton.pdgId &'
-                                          'abs(genLepton.pdgId) = 11'
-                                          )
-
 #------------------------------
 # jet collections
 #------------------------------
 
 ## create good jet collection
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
-looseJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+looseJets = cleanPatJets.clone(src = 'selectedPatJetsPF',
                                preselection =
                                'abs(eta) < 2.4 &'
                                'pt > 30. &'
@@ -147,10 +126,10 @@ looseJets.checkOverlaps = cms.PSet(
 )
 
 ## create good jet collection
-goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+goodJets = cleanPatJets.clone(src = 'selectedPatJetsPF',
                                preselection =
-                               'abs(eta) < 2.4 &'
-                               'pt > 40. &'
+                               'abs(eta) < 2.5 &'
+                               'pt > 50. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'
@@ -461,7 +440,17 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
+## select events with 4 good jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+maxFourGoodJets = countPatJets.clone(src = 'goodJets',
+                                     maxNumber = 4
+                                     )
 
+## select events with 4 good jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+sevenGoodJets = countPatJets.clone(src = 'goodJets',
+                                   minNumber = 7
+                                   )
 
 ## select events with 2 medium jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
@@ -722,9 +711,7 @@ filterMT.electrons = "goodElectrons"
 #------------------------------
 
 matchedGoodObjects = cms.Sequence(matchedBjets *
-                                  matchedLightJets ## *
-##                                   matchedMuons  *
-##                                   matchedElectrons
+                                  matchedLightJets
                                   )
 
 goodObjects = cms.Sequence(## loose leptons
