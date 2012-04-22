@@ -166,6 +166,9 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Example how to use member function of SUSYGenEvent
   //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
   
+  //std::cout << susyGenEvent->decayChainA() << std::endl;
+  //std::cout << susyGenEvent->decayChainB() << std::endl;
+
   for(int idx=0; idx<(int)jets->size(); ++idx)
     {
       for(int jdx=idx; jdx<(int)jets->size(); ++jdx)
@@ -262,6 +265,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   for(int i=0; i<(int)jets->size(); ++i)
     {
+      //std::cout << (*jets)[i].partonFlavour() << std::endl;
       if(i<8)
 	{
 	  Jet_Et_[i]  ->Fill((*jets)[i].et(),  weight);
@@ -273,7 +277,6 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
       HT=HT+(*jets)[i].et();
       if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
-
     }
   
   MET_->Fill((*met)[0].et(), weight);

@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.38 $'),
-    name = cms.untracked.string('$Source: /cvs/CMSSW/CMSSW/PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
+    name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -27,7 +27,9 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    'file:PointA3.root'
+    #'file:PointA1.root'
+    #'file:QCD_Pt_30_7TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'
+    'file:'
     )
 )
 
@@ -35,7 +37,7 @@ process.source = cms.Source("PoolSource",
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('SUSYPAT.root')
+    fileName = cms.untracked.string('A1PAT.root')
 )
 
 #-- VarParsing ----------------------------------------------------------------
@@ -43,7 +45,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 options.output = "SUSYPAT.root"
-options.maxEvents = 10000
+options.maxEvents = 50000
 #  for SusyPAT configuration
 options.register('GlobalTag', "START44_V10::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
@@ -115,7 +117,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('SUSYPAT.root')
+                               fileName = cms.untracked.string('A1PAT.root')
                                )
 
 # Specify what to keep in the event content
