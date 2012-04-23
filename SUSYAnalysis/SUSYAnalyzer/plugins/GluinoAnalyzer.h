@@ -14,6 +14,7 @@
 
 #include "DataFormats/Math/interface/angle.h"
 #include "DataFormats/Math/interface/deltaR.h"
+#include "DataFormats/Math/interface/deltaPhi.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
@@ -59,13 +60,23 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   
   // mjj variables
   TH1F* mjjMCTruth_;
+  TH1F* mjj_;
 
   TH1F* min123_;
+  TH1F* min123_random_;
   TH1F* min123_right_;
   TH1F* min123_wrong_;
   TH1F* min123_noMatch_;
 
+  TH1F* random_;
+  TH1F* Jet2_Phi_;
+  TH1F* Jet2_Eta_;
+  TH1F* Jet2_Theta_;
+  TH1F* Jet2_Phi_random_;
+  TH1F* deltaPhi_;
+
   TH1F* min124_;
+  TH1F* min124_random_;
 
   // Basic kinematics
   std::vector<TH1F*> Jet_Et_;
