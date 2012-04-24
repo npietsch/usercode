@@ -1,22 +1,20 @@
 import FWCore.ParameterSet.Config as cms
 
-from Configuration.Generator.HerwigppDefaults_cfi import *
-from Configuration.Generator.HerwigppUE_EE_3C_cfi import *
+from Configuration.Generator.SMSHerwigppDefaults_cfi import *
 
-
+source = cms.Source("EmptySource")
 generator = cms.EDFilter("ThePEGGeneratorFilter",
 	herwigDefaultsBlock,
-	herwigppUESettingsBlock,
-	crossSection = cms.untracked.double(9.755344e+00),
-	filterEfficiency = cms.untracked.double(1),
 
 	configFiles = cms.vstring(),
 	parameterSets = cms.vstring(
-		'herwigppUE_EE_3C_8000GeV',
+		'cm14TeV',
+		'pdfMRST2001',
 		'productionParameters',
 		'basicSetup',
 		'setParticlesStableForDetector',
 	),
+
 	productionParameters = cms.vstring(
 	'read MSSM.model',
 	'cd /Herwig/NewPhysics',
@@ -42,10 +40,9 @@ generator = cms.EDFilter("ThePEGGeneratorFilter",
 	'setup MSSM/Model PointA3.slha',
 	'cd /'
 	),
+                         
+	crossSection = cms.untracked.double(0.36),
+	filterEfficiency = cms.untracked.double(1.0),
 )
 
-configurationMetadata = cms.untracked.PSet(
-	version = cms.untracked.string('\$Revision: 1.1 $'),
-	name = cms.untracked.string('\$Source:  $'),
-	annotation = cms.untracked.string('Sumer2012 sample with HERWIGPP: Z + Jet production, Z -> ee, pThat = 80 .. 120 GeV, TuneEE3C')
-)
+ProductionFilterSequence = cms.Sequence(generator)
