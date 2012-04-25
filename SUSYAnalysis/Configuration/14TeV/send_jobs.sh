@@ -10,5 +10,5 @@ for i in "${models[@]}"
 do echo $i
 cat MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.py | sed "s/___MODEL___/$i/g" > Point"$i"_cfg.py
 cat MSSM.sh | sed "s/___MODEL___/$i/g" > Point"$i".sh
-qsub -l h_vmem=20000M PointA1.sh
+qsub -l h_vmem=2000M Point"$i".sh
 done

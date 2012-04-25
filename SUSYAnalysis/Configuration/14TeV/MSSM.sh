@@ -23,4 +23,4 @@ cp ${FILEDIR}/Point___MODEL____cfg.py .
 cp ${FILEDIR}/Point___MODEL___.slha .
 cp ${FILEDIR}/MSSM.model .
 
-cmsRun -p Point___MODEL____cfg.py &> log___MODEL___.txt
+cmsRun Point___MODEL____cfg.py &> log___MODEL___.txt
