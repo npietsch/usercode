@@ -4,7 +4,7 @@ export JOBID=`echo $PBS_JOBID | cut -d. -f1`
 export RUNDIR=/tmp/pbs.${JOBID}
 export VO_CMS_SW_DIR=/afs/naf.desy.de/group/cms/sw
 
-models=( A1 )
+models=( A1 B1 C1 D1 )
 
 for i in "${models[@]}"
 do echo $i
