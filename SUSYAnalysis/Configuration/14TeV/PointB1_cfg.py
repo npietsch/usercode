@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.341.2.2 
 # Source: /local/reps/CMSSW.admin/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
-# with command line options: QCD_Pt_30_7TeV_herwigpp_cff.py -s GEN,FASTSIM,HLT --pileup=NoPileUp --conditions auto:mc --datatier GEN-SIM-DIGI-RECO --eventcontent AODSIM -n 10 --no_exec
+# with command line options: MSSM_14TeV_herwigpp_cff.py -s GEN,FASTSIM,HLT --pileup=NoPileUp --conditions auto:mc --datatier GEN-SIM-DIGI-RECO --eventcontent AODSIM -n 20 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -23,7 +23,7 @@ process.load('FastSimulation.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100000)
+    input = cms.untracked.int32(20)
 )
 
 # Input source
@@ -35,8 +35,8 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1 $'),
-    annotation = cms.untracked.string('QCD_Pt_30_7TeV_herwigpp_cff.py nevts:10'),
+    version = cms.untracked.string('$Revision: 1.341.2.2 $'),
+    annotation = cms.untracked.string('MSSM_14TeV_herwigpp_cff.py nevts:20'),
     name = cms.untracked.string('PyReleaseValidation')
 )
 
@@ -45,7 +45,7 @@ process.configurationMetadata = cms.untracked.PSet(
 process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('PointB1.root'),
+    fileName = cms.untracked.string('MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-DIGI-RECO')
@@ -142,24 +142,11 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
     basicSetup = cms.vstring('cd /Herwig/Generators', 
         'create ThePEG::RandomEngineGlue /Herwig/RandomGlue', 
         'set LHCGenerator:RandomNumberGenerator /Herwig/RandomGlue', 
-        'set LHCGenerator:NumberOfEvents 100000', 
+        'set LHCGenerator:RandomNumberGenerator:Seed 28181231241245125140', 
+        'set LHCGenerator:NumberOfEvents 10000000', 
         'set LHCGenerator:DebugLevel 1', 
-        #'set LHCGenerator:PrintEvent 0', 
-        'set LHCGenerator:MaxErrors 10000'
-
-	#-----------
-        'set LHCGenerator:RandomNumberGenerator:Seed 28181231241245125140',
-	'set LHCGenerator:PrintEvent 10',
-
-	'insert LHCGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile',
-	'set /Herwig/Analysis/HepMCFile:PrintEvent 100000',
-	'set /Herwig/Analysis/HepMCFile:Format GenEvent',
-	'set /Herwig/Analysis/HepMCFile:Units GeV_mm',
-
-	'cd /Herwig/Analysis',
-	'set Basics:CheckQuark 0',		     
-	#-----------
-			     
+        'set LHCGenerator:PrintEvent 0', 
+        'set LHCGenerator:MaxErrors 10000', 
         'cd /Herwig/Particles', 
         'set p+:PDF /Herwig/Partons/cmsPDFSet', 
         'set pbar-:PDF /Herwig/Partons/cmsPDFSet', 
@@ -169,10 +156,8 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
     run = cms.string('LHC'),
     repository = cms.string('HerwigDefaults.rpo'),
     cm14TeV = cms.vstring('set /Herwig/Generators/LHCGenerator:EventHandler:LuminosityFunction:Energy 14000.0', 
-        'set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV',
-	#-----------		  
-	'set /Herwig/Shower/ShowerHandler:MPIHandler NULL'),
-	#-----------
+        'set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV', 
+        'set /Herwig/Shower/ShowerHandler:MPIHandler NULL'),
     dataLocation = cms.string('${HERWIGPATH}'),
     pdfCTEQ5L = cms.vstring('cd /Herwig/Partons', 
         'create ThePEG::LHAPDF CTEQ5L ThePEGLHAPDF.so', 
@@ -224,48 +209,33 @@ process.generator = cms.EDFilter("ThePEGGeneratorFilter",
     crossSection = cms.untracked.double(0.36),
     parameterSets = cms.vstring('cm14TeV', 
         'pdfMRST2001', 
-        'Summer09QCDParameters', 
+        'productionParameters', 
         'basicSetup', 
         'setParticlesStableForDetector'),
     filterEfficiency = cms.untracked.double(1.0),
-    Summer09QCDParameters = cms.vstring(
-	#-----------
-	'read MSSM.model',
-	'cd /Herwig/NewPhysics',
-
-	'set HPConstructor:IncludeEW Yes',
-
-	'insert HPConstructor:Incoming 0 /Herwig/Particles/g',
-	'insert HPConstructor:Incoming 1 /Herwig/Particles/u',
-	'insert HPConstructor:Incoming 2 /Herwig/Particles/ubar',
-	'insert HPConstructor:Incoming 3 /Herwig/Particles/d',
-	'insert HPConstructor:Incoming 4 /Herwig/Particles/dbar',
-	'insert HPConstructor:Incoming 5 /Herwig/Particles/s',
-	'insert HPConstructor:Incoming 6 /Herwig/Particles/sbar',
-	'insert HPConstructor:Incoming 7 /Herwig/Particles/c',
-	'insert HPConstructor:Incoming 8 /Herwig/Particles/cbar',
-	
-	'insert HPConstructor:Outgoing 0 /Herwig/Particles/~g',
-	'insert HPConstructor:Outgoing 1 /Herwig/Particles/~d_R',
-	'insert HPConstructor:Outgoing 2 /Herwig/Particles/~u_L',
-	'insert HPConstructor:Outgoing 3 /Herwig/Particles/~d_R',
-	'insert HPConstructor:Outgoing 4 /Herwig/Particles/~u_R',
-	'insert HPConstructor:Outgoing 5 /Herwig/Particles/~s_L',
-	'insert HPConstructor:Outgoing 6 /Herwig/Particles/~c_L',
-	'insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_R',
-	'insert HPConstructor:Outgoing 8 /Herwig/Particles/~c_R',
-
-	'setup MSSM/Model PointB1.slha',
-	#-----------
-
-## 	'cd /Herwig/MatrixElements/', 
-##         'insert SimpleQCD:MatrixElements[0] MEQCD2to2', 
-##         'cd /', 
-##         'set /Herwig/Cuts/JetKtCut:MinKT 30*GeV', 
-##         'set /Herwig/Cuts/QCDCuts:MHatMin 0.0*GeV', 
-##         'set /Herwig/UnderlyingEvent/MPIHandler:IdenticalToUE 0'
-
-	'cd /')
+    productionParameters = cms.vstring('read MSSM.model', 
+        'cd /Herwig/NewPhysics', 
+        'set HPConstructor:IncludeEW Yes', 
+        'insert HPConstructor:Incoming 0 /Herwig/Particles/g', 
+        'insert HPConstructor:Incoming 1 /Herwig/Particles/u', 
+        'insert HPConstructor:Incoming 2 /Herwig/Particles/ubar', 
+        'insert HPConstructor:Incoming 3 /Herwig/Particles/d', 
+        'insert HPConstructor:Incoming 4 /Herwig/Particles/dbar', 
+        'insert HPConstructor:Incoming 5 /Herwig/Particles/s', 
+        'insert HPConstructor:Incoming 6 /Herwig/Particles/sbar', 
+        'insert HPConstructor:Incoming 7 /Herwig/Particles/c', 
+        'insert HPConstructor:Incoming 8 /Herwig/Particles/cbar', 
+        'insert HPConstructor:Outgoing 0 /Herwig/Particles/~g', 
+        'insert HPConstructor:Outgoing 1 /Herwig/Particles/~d_R', 
+        'insert HPConstructor:Outgoing 2 /Herwig/Particles/~u_L', 
+        'insert HPConstructor:Outgoing 3 /Herwig/Particles/~d_R', 
+        'insert HPConstructor:Outgoing 4 /Herwig/Particles/~u_R', 
+        'insert HPConstructor:Outgoing 5 /Herwig/Particles/~s_L', 
+        'insert HPConstructor:Outgoing 6 /Herwig/Particles/~c_L', 
+        'insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_R', 
+        'insert HPConstructor:Outgoing 8 /Herwig/Particles/~c_R', 
+        'setup MSSM/Model PointB1.slha', 
+        'cd /')
 )
 
 

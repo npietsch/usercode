@@ -37,7 +37,7 @@ generator = cms.EDFilter("ThePEGGeneratorFilter",
 	'insert HPConstructor:Outgoing 6 /Herwig/Particles/~c_L',
 	'insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_R',
 	'insert HPConstructor:Outgoing 8 /Herwig/Particles/~c_R',
-	'setup MSSM/Model PointA3.slha',
+	'setup MSSM/Model Point___MODEL___.slha',
 	'cd /'
 	),
                          

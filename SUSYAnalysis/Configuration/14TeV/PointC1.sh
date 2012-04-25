@@ -24,7 +24,3 @@ cp ${FILEDIR}/PointC1.slha .
 cp ${FILEDIR}/MSSM.model .
 
 cmsRun -p PointC1_cfg.py &> logC1.txt
-
-#mv ${WORKDIR}/PointC1.root ${STORAGE}
-#mv ${WORKDIR}/logC1.txt ${STORAGE}
-

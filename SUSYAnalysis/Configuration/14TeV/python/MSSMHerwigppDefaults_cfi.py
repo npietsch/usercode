@@ -20,7 +20,7 @@ herwigDefaultsBlock = cms.PSet(
 	basicSetup = cms.vstring(
 		'cd /Herwig/Generators',
 		'create ThePEG::RandomEngineGlue /Herwig/RandomGlue',
-		#'set LHCGenerator:RandomNumberGenerator /Herwig/RandomGlue',
+		'set LHCGenerator:RandomNumberGenerator /Herwig/RandomGlue',
                 'set LHCGenerator:RandomNumberGenerator:Seed 28181231241245125140',
 		'set LHCGenerator:NumberOfEvents 10000000',
 		'set LHCGenerator:DebugLevel 1',
