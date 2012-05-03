@@ -17,7 +17,6 @@ process.options = cms.untracked.PSet(
 
 process.TFileService = cms.Service("TFileService",
                                    fileName = cms.string(
-    #'/store/mc/Fall11/QCD_Pt-15to3000_Tune23_Flat_7TeV_herwigpp/AODSIM/PU_S6_START44_V9B-v1/0000/4276495A-A840-E111-B631-003048F0E5A4.root'
     'file:Ruediger.root'
     )
 )                                   
@@ -31,8 +30,8 @@ process.GlobalTag.globaltag = cms.string('START44_V10::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    'file:A1PAT.root'
-    #'file:Test.root'
+    #'file:A1PAT.root'
+    'file:Test.root'
     )
  )
 
@@ -88,6 +87,17 @@ process.scaledJetEnergyJERUp.resolutionFactors   = cms.vdouble(1.2, 1.25, 1.3)
 process.scaledJetEnergyJERDown                   = scaledJetEnergy.clone()
 process.scaledJetEnergyJERDown.resolutionFactors = cms.vdouble(1., 0.95, 0.9)
 
+process.L2L3ResidualMC = cms.ESSource(
+    'LXXXCorrectionService',
+    era = cms.string('Jec11V12'),
+    section   = cms.string(''),
+    level     = cms.string('L2L3Residual'),
+    # the above 3 elements are needed only when the service is initialized from local txt files
+    algorithm = cms.string('AK5PF'),
+    # the 'algorithm' tag is also the name of the DB payload
+    useCondDB = cms.untracked.bool(True)
+    )
+
 #----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco-level
 #-----------------------------------------------------------------------------------------
@@ -131,6 +141,18 @@ process.analyzeBino1JERUp.jets    = "goodJetsJERUp"
 process.analyzeBino1JERDown       = process.analyzeGluino.clone()
 process.analyzeBino1JERDown.jets  = "goodJetsJERDown"
 
+process.analyzeWino1JECUp         = process.analyzeGluino.clone()
+process.analyzeWino1JECUp.jets    = "goodJetsJECUp"
+
+process.analyzeWino1JECDown       = process.analyzeGluino.clone()
+process.analyzeWino1JECDown.jets  = "goodJetsJECDown"
+
+process.analyzeWino1JERUp         = process.analyzeGluino.clone()
+process.analyzeWino1JERUp.jets    = "goodJetsJERUp"
+
+process.analyzeWino1JERDown       = process.analyzeGluino.clone()
+process.analyzeWino1JERDown.jets  = "goodJetsJERDown"
+
 #-------------------------------------------------
 # Temporary
 #-------------------------------------------------
@@ -159,15 +181,19 @@ process.Bino = cms.Path(process.scaledJetEnergy *
                         process.analyzeBino1JERDown
                         )
 
-process.Wino = cms.Path(process.scaledJetEnergy *
-                        process.scaledJetEnergyJECUp *
-                        process.scaledJetEnergyJECDown *
-                        process.scaledJetEnergyJERUp *
-                        process.scaledJetEnergyJERDown *
-                        process.makeObjects *
-                        process.makeSUSYGenEvt *
+process.Wino = cms.Path(#process.scaledJetEnergy *
+                        #process.scaledJetEnergyJECUp *
+                        #process.scaledJetEnergyJECDown *
+                        #process.scaledJetEnergyJERUp *
+                        #process.scaledJetEnergyJERDown *
+                        #process.makeObjects *
+                        #process.makeSUSYGenEvt *
                         process.sevenGoodJets *
                         process.analyzeWino1 *
+                        process.analyzeWino1JECUp *
+                        process.analyzeWino1JECDown *
+                        process.analyzeWino1JERUp *
+                        process.analyzeWino1JERDown*
                         process.oneGoodLepton *
                         process.analyzeWino2 
                         )

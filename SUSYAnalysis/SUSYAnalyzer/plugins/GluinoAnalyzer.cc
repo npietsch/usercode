@@ -63,6 +63,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
 
   random_          = fs->make<TH1F>("random",          "random",           70,  -3.5,   3.5);
   Jet2_Phi_        = fs->make<TH1F>("Jet2_Phi",        "Jet2_Phi",         34,  -3.4,   3.4);
+  // obsolete; histogram defined below 
   //Jet2_Eta_        = fs->make<TH1F>("Jet2_Eta",        "Jet2_Eta",         30,  -3. ,   3. );
   Jet2_Theta_      = fs->make<TH1F>("Jet2_Theta",      "Jet2_Theta",       17,   0.,    3.4);
   Jet2_Phi_random_ = fs->make<TH1F>("Jet2_Phi_random", "Jet2_Phi_random",  70,  -3.5,   3.5);
@@ -84,6 +85,10 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       char histname2[20];
       sprintf(histname2,"Jet%i_Eta",idx);
       Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
+
+      char histname3[20];
+      sprintf(histname3,"DeltaPhi_MHT_Jet%i_",idx);
+      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 60, -3, 3));
     }
 
   Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
@@ -93,6 +98,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   GluonJets_Et_    = fs->make<TH1F>("GluonJets_Et",    "GluonJets_Et",     90,   0.,  900. );
 
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
+  MHT_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",       80,   0.,  4000.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
 
@@ -314,25 +320,40 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(met->size()==0) return;
 
+  double MHT=0;
   double HT=0;
 
-  for(int i=0; i<(int)jets->size(); ++i)
+  if(jets->size()>0)
     {
-      //std::cout << (*jets)[i].partonFlavour() << std::endl;
-      if(i<8)
+      reco::Particle::LorentzVector P4=(*jets)[0].p4();
+      
+      // loop over all jets
+      for(int i=1; i< (int)jets->size(); ++i)
 	{
-	  Jet_Et_[i]  ->Fill((*jets)[i].et(),  weight);
-	  Jet_Eta_[i] ->Fill((*jets)[i].eta(), weight);
+	  P4=P4+(*jets)[i].p4();
+  	}   
+      MHT=P4.Et();
+
+      for(int i=0; i<(int)jets->size(); ++i)
+	{
+	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
+	  if(i<8)
+	    {
+	      Jet_Et_[i]           ->Fill((*jets)[i].et()                    , weight);
+	      Jet_Eta_[i]          ->Fill((*jets)[i].eta()                   , weight);
+	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(P4.phi(),(*jets)[i].phi()), weight);
+	    }
+	  Jets_Et_    ->Fill((*jets)[i].et(),  weight);
+	  Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
+	  Jets_Phi_   ->Fill((*jets)[i].phi(), weight);
+	  Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
+	  HT=HT+(*jets)[i].et();
+	  if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
 	}
-      Jets_Et_    ->Fill((*jets)[i].et(),  weight);
-      Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
-      Jets_Phi_   ->Fill((*jets)[i].phi(), weight);
-      Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
-      HT=HT+(*jets)[i].et();
-      if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
     }
-  
+
   MET_->Fill((*met)[0].et(), weight);
+  MHT_->Fill(MHT, weight);
   HT_->Fill(HT, weight);
   nJets_->Fill(jets->size(), weight);
 

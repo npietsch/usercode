@@ -81,13 +81,14 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   // Basic kinematics
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Jet_Eta_;
-
+  std::vector<TH1F*> DeltaPhi_MHT_Jet_;
   TH1F* Jets_Et_;
   TH1F* GluonJets_Et_;
   TH1F* Jets_Eta_;
   TH1F* Jets_Phi_;
   TH1F* Jets_Theta_;
   TH1F* MET_;
+  TH1F* MHT_;
   TH1F* HT_; 
   TH1F* nJets_;
 
