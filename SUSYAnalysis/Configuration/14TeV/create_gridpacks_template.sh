@@ -24,7 +24,7 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # location of the madgraph tarball and of the output main storage directory
 
-export SOURCE=${PRODHOME}/MG5v1.1.tar.gz
+export SOURCE=${PRODHOME}/MG5v1.3.30_CERN20111121.tgz
 
 scram project -n ${name}_gridpack CMSSW ${RELEASE} ; cd ${name}_gridpack ; mkdir -p work ; cd work
 eval `scram runtime -sh`
@@ -62,7 +62,6 @@ else
   exit 1
 fi
 
-
 # run the production stage - here you can select for running on multicore or not...
 
 # sequential run
@@ -78,7 +77,6 @@ export PATH=`pwd`/bin:${PATH}
 
 echo "End of job on " `date`
 echo "Will now copy gridpack to local dir"
-
 
 #srmcp file:///$PWD/gridpack.tar.gz srm://maite.iihe.ac.be:8443/pnfs/iihe/cms/store/user/alkaloge/MadGraph_V5_V1/Tests/7TeV/Gridpacks/7TeV_${name}_grid.tar.gz
 exit 0;

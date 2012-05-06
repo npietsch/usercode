@@ -30,8 +30,8 @@ process.GlobalTag.globaltag = cms.string('START44_V10::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    #'file:A1PAT.root'
-    'file:Test.root'
+    'file:A1PAT.root'
+    #'file:Test.root'
     )
  )
 

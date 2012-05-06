@@ -52,14 +52,14 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   //-------------------------------------------------
   // Hisograms for mjj variables
   //-------------------------------------------------
-  mjjMCTruth_     = fs->make<TH1F>("mjjMCTruth",    "mjjMCTruth",     100, 0.,  2000.);
-  mjj_            = fs->make<TH1F>("mjj",           "mjj",            100, 0.,  2000.);
+  mjjMCTruth_     = fs->make<TH1F>("mjjMCTruth",    "mjjMCTruth",     70, 0.,  1400.);
+  mjj_            = fs->make<TH1F>("mjj",           "mjj",            70, 0.,  1400.);
 
-  min123_         = fs->make<TH1F>("min123",        "min123",         100, 0.,  2000.);
-  min123_random_  = fs->make<TH1F>("min123_random", "min123_random",  100, 0.,  2000.);
-  min123_right_   = fs->make<TH1F>("min123_right",  "min123_right",   100, 0.,  2000.);
-  min123_wrong_   = fs->make<TH1F>("min123_wrong",  "min123_wrong",   100, 0.,  2000.);
-  min123_noMatch_ = fs->make<TH1F>("min123_noMatch","min123_noMatch", 100, 0.,  2000.);
+  min123_         = fs->make<TH1F>("min123",        "min123",         70, 0.,  1400.);
+  min123_random_  = fs->make<TH1F>("min123_random", "min123_random",  70, 0.,  1400.);
+  min123_right_   = fs->make<TH1F>("min123_right",  "min123_right",   70, 0.,  1400.);
+  min123_wrong_   = fs->make<TH1F>("min123_wrong",  "min123_wrong",   70, 0.,  1400.);
+  min123_noMatch_ = fs->make<TH1F>("min123_noMatch","min123_noMatch", 70, 0.,  1400.);
 
   random_          = fs->make<TH1F>("random",          "random",           70,  -3.5,   3.5);
   Jet2_Phi_        = fs->make<TH1F>("Jet2_Phi",        "Jet2_Phi",         34,  -3.4,   3.4);
@@ -69,8 +69,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   Jet2_Phi_random_ = fs->make<TH1F>("Jet2_Phi_random", "Jet2_Phi_random",  70,  -3.5,   3.5);
   deltaPhi_        = fs->make<TH1F>("deltaPhi",        "deltaPhi",         70,  -3.5,   3.5);
 
-  min124_         = fs->make<TH1F>("min124",        "min124",        100, 0.,  2000.);
-  min124_random_  = fs->make<TH1F>("min124_random", "min124_random", 100, 0.,  2000.);
+  min124_         = fs->make<TH1F>("min124",        "min124",        70, 0.,  1400.);
+  min124_random_  = fs->make<TH1F>("min124_random", "min124_random", 70, 0.,  1400.);
 
   //-------------------------------------------------
   // Basic kinematics
@@ -88,7 +88,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
 
       char histname3[20];
       sprintf(histname3,"DeltaPhi_MHT_Jet%i_",idx);
-      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 60, -3, 3));
+      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 64, -3.2, 3.2));
     }
 
   Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
@@ -219,12 +219,12 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // define randomly rotated four-vector
       TVector3 v3(Jet3.Px(),Jet3.Py(),Jet3.Pz());
       double random=6.28*(gRandom->Rndm())-3.14;
-      //v3.RotateZ(random);
-      double phi=v3.Phi();
-      v3.SetPhi(-phi);
+      v3.RotateZ(random);
+      //double phi=v3.Phi();
+      //v3.SetPhi(-phi);
       //random_->Fill(random, weight);
-      double theta=v3.Theta();
-      v3.SetTheta(3.14159-theta);
+      //double theta=v3.Theta();
+      //v3.SetTheta(3.14159-theta);
       reco::Particle::LorentzVector Jet3_random(v3.X(),v3.Y(),v3.Z(),Jet3.E());
 
       Jet2_Phi_   ->Fill(Jet3.phi(),   weight);
@@ -325,12 +325,13 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(jets->size()>0)
     {
-      reco::Particle::LorentzVector P4=(*jets)[0].p4();
+      reco::Particle::LorentzVector P4=-(*jets)[0].p4();
       
       // loop over all jets
       for(int i=1; i< (int)jets->size(); ++i)
 	{
-	  P4=P4+(*jets)[i].p4();
+	  //
+	  P4=P4-(*jets)[i].p4();
   	}   
       MHT=P4.Et();
 
