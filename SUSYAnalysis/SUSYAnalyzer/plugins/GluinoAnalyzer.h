@@ -14,7 +14,6 @@
 
 #include "DataFormats/Math/interface/angle.h"
 #include "DataFormats/Math/interface/deltaR.h"
-#include "DataFormats/Math/interface/deltaPhi.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
@@ -32,78 +31,64 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-     
-  //----------------------------
-  // Input tags
-  //----------------------------
-         
+           	
+  //--------------------------------
+  // input collections          	
+  //--------------------------------
+
+  // collections of RA4b objects
   edm::InputTag jets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag met_;
   edm::InputTag inputGenEvent_;
+
+  // for event weighting
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
+  edm::InputTag PUWeight_;
+  edm::InputTag RA2Weight_;
+      
+  // bool
+  bool useEventWgt_;
+  
+  //--------------------------------
+  // histograms      	
+  //--------------------------------
 
-  //----------------------------
-  // Histograms
-  //----------------------------
-
-  // Dummy histograms
+  // dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
-  // Event weighting and Pile-up
-  TH1F* nPV_;    
+  // histogram for control quantities
+  TH1F* nPV_;
+  TH1F* nPV_noWgt_;
   TH1F* nPU_;
-  
-  // mjj variables
-  TH1F* mjjMCTruth_;
-  TH1F* mjj_;
+  TH1F* nPU_noWgt_;
 
-  TH1F* min123_;
-  TH1F* min123_random_;
-  TH1F* min123_right_;
-  TH1F* min123_wrong_;
-  TH1F* min123_noMatch_;
+  TH1F* btagWeights_noWgt_;
+  TH1F* btagWeights_PUWgt_;
+  TH1F* nBtags_noWgt_;
+  TH1F* nBtags_PUWgt_;
+  TH1F* nBtags_;
+  TH1F* TCHE_;
+  TH1F* TCHP_;
+  TH1F* SSVHE_;
+  TH1F* SSVHP_;
 
-  TH1F* random_;
-  TH1F* Jet2_Phi_;
-  TH1F* Jet2_Eta_;
-  TH1F* Jet2_Theta_;
-  TH1F* Jet2_Phi_random_;
-  TH1F* deltaPhi_;
-
-  TH1F* min124_;
-  TH1F* min124_random_;
-
-  // Basic kinematics
-  std::vector<TH1F*> Jet_Et_;
-  std::vector<TH1F*> Jet_Eta_;
-  std::vector<TH1F*> DeltaPhi_MHT_Jet_;
-  TH1F* Jets_Et_;
-  TH1F* GluonJets_Et_;
-  TH1F* Jets_Eta_;
-  TH1F* Jets_Phi_;
-  TH1F* Jets_Theta_;
   TH1F* MET_;
+  TH1F* HT_;
   TH1F* MHT_;
-  TH1F* HT_; 
   TH1F* nJets_;
 
-  std::vector<TH1F*> Muon_Pt_;
-  std::vector<TH1F*> Muon_Eta_;
-
-  std::vector<TH1F*> Electron_Pt_;
-  std::vector<TH1F*> Electron_Eta_;
-
-  TH1F* nMuons_;
-  TH1F* nElectrons_;
-  TH1F* nLeptons_;
-
-  TH1F* MT_;
-
+  // mjj variables
+  TH1F* mjjLow_;
+  TH1F* mjjHigh_;
+  TH1F* mjjMin_;
+  TH1F* mjjMax_;
+  TH1F* mjjLow2_;
+  TH1F* mjjMCTruth_;
 };  
 
 #endif  
