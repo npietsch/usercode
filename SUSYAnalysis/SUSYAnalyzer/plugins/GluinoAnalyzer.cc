@@ -13,122 +13,64 @@
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
-#include <Math/RotationZ.h>
-#include "TVector3.h"
-#include "TRandom.h"
 
 using namespace std;
  
 GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
-  jets_         (cfg.getParameter<edm::InputTag>("jets")),
-  bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
-  muons_        (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-  met_          (cfg.getParameter<edm::InputTag>("met")),
-  inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent")),
-  PVSrc_        (cfg.getParameter<edm::InputTag>("PVSrc")),
-  PUInfo_       (cfg.getParameter<edm::InputTag>("PUInfo"))
+  // collections of R44b objects
+  jets_         (cfg.getParameter<edm::InputTag>("jets") ),
+  bjets_        (cfg.getParameter<edm::InputTag>("bjets" )),
+  muons_        (cfg.getParameter<edm::InputTag>("muons" )),
+  electrons_    (cfg.getParameter<edm::InputTag>("electrons") ),
+  met_          (cfg.getParameter<edm::InputTag>("met") ),
+  inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent") ),
+  // for event weighting
+  PVSrc_                (cfg.getParameter<edm::InputTag>("PVSrc") ),
+  PUInfo_               (cfg.getParameter<edm::InputTag>("PUInfo") ),
+  PUWeight_             (cfg.getParameter<edm::InputTag>("PUWeight") ),
+  RA2Weight_            (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  useEventWgt_          (cfg.getParameter<bool>("useEventWeight") )
 
 { 
   edm::Service<TFileService> fs;
 
-  //-------------------------------------------------
-  // Dummy histograms
-  //-------------------------------------------------
-
-  Dummy_ =fs->make<TH1F>();
-  Dummy2_=fs->make<TH2F>();
-
+  // Declare dummy histograms
+  Dummy_=fs->make<TH1F>();
   Dummy_->SetDefaultSumw2(true);
+
+  Dummy2_=fs->make<TH2F>();
   Dummy2_->SetDefaultSumw2(true);
 
-  //-------------------------------------------------
-  // Event weighting and Pile-up
-  //-------------------------------------------------
+  // Declare histograms for control quantities
+  nPV_noWgt_ = fs->make<TH1F>("nPV_noWgt","nPV_noWgt", 50, 0.,  50  );
+  nPV_ = fs->make<TH1F>("nPV","nPV", 50, 0.,  50  );
+  nPU_noWgt_ = fs->make<TH1F>("nPU_noWgt","nPU_noWgt", 50, 0.5, 50.5);
+  nPU_ = fs->make<TH1F>("nPU","nPU", 50, 0.5, 50.5);
 
-  nPV_ = fs->make<TH1F>("nPV", "nPV", 50, 0. , 50  );
-  nPU_ = fs->make<TH1F>("nPU", "nPU", 50, 0.5, 50.5);
+  btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt","btagWeights_noWgt", 4, 0., 4.);
+  btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt","btagWeights_PUWgt", 4, 0., 4.);
+  nBtags_noWgt_ = fs->make<TH1F>("nBtags_noWgt","nBtags_noWgt", 4, 0., 4.); 
+  nBtags_PUWgt_ = fs->make<TH1F>("nBtags_PUWgt","nBtags_PUWgt", 4, 0., 4.);
+  nBtags_ = fs->make<TH1F>("nBtags","nBtags", 4, 0., 4.);
 
-  //-------------------------------------------------
-  // Hisograms for mjj variables
-  //-------------------------------------------------
-  mjjMCTruth_     = fs->make<TH1F>("mjjMCTruth",    "mjjMCTruth",     100, 0.,  2000.);
-  mjj_            = fs->make<TH1F>("mjj",           "mjj",            100, 0.,  2000.);
+  TCHE_= fs->make<TH1F>("TCHE","TCHE", 80, -20., 20.);
+  TCHP_= fs->make<TH1F>("TCHP","TCHP", 80, -20., 20.);
+  SSVHE_= fs->make<TH1F>("SSVHE","SSVHE", 120, -2, 10.);
+  SSVHP_= fs->make<TH1F>("SSVHP","SSVHP", 120, -2, 10.);
 
-  min123_         = fs->make<TH1F>("min123",        "min123",         100, 0.,  2000.);
-  min123_random_  = fs->make<TH1F>("min123_random", "min123_random",  100, 0.,  2000.);
-  min123_right_   = fs->make<TH1F>("min123_right",  "min123_right",   100, 0.,  2000.);
-  min123_wrong_   = fs->make<TH1F>("min123_wrong",  "min123_wrong",   100, 0.,  2000.);
-  min123_noMatch_ = fs->make<TH1F>("min123_noMatch","min123_noMatch", 100, 0.,  2000.);
+  MET_   = fs->make<TH1F>("MET","MET", 40, 0.,  1000.);
+  HT_    = fs->make<TH1F>("HT","HT",   40, 0.,  2000.);
+  MHT_   = fs->make<TH1F>("MHT","MHT", 50, 0.,  1000.);
+  nJets_ = fs->make<TH1F>("nJets","nJets", 14, 0.,  14.);
 
-  random_          = fs->make<TH1F>("random",          "random",           70,  -3.5,   3.5);
-  Jet2_Phi_        = fs->make<TH1F>("Jet2_Phi",        "Jet2_Phi",         34,  -3.4,   3.4);
-  // obsolete; histogram defined below 
-  //Jet2_Eta_        = fs->make<TH1F>("Jet2_Eta",        "Jet2_Eta",         30,  -3. ,   3. );
-  Jet2_Theta_      = fs->make<TH1F>("Jet2_Theta",      "Jet2_Theta",       17,   0.,    3.4);
-  Jet2_Phi_random_ = fs->make<TH1F>("Jet2_Phi_random", "Jet2_Phi_random",  70,  -3.5,   3.5);
-  deltaPhi_        = fs->make<TH1F>("deltaPhi",        "deltaPhi",         70,  -3.5,   3.5);
+  // Declare mjj variables
+  mjjLow_ = fs->make<TH1F>("mjjLow","mjjLow", 80, 0.,  800.);
+  mjjHigh_ = fs->make<TH1F>("mjjHigh","mjjHigh", 80, 0.,  800.);
+  mjjMin_  = fs->make<TH1F>("mjjMin","mjjMin", 80, 0.,  800.);
+  mjjMax_  = fs->make<TH1F>("mjjMax","mjjMax", 80, 0.,  800.);
+  mjjLow2_ = fs->make<TH1F>("mjjLow2","mjjLow2", 80, 0.,  800.);
 
-  min124_         = fs->make<TH1F>("min124",        "min124",        100, 0.,  2000.);
-  min124_random_  = fs->make<TH1F>("min124_random", "min124_random", 100, 0.,  2000.);
-
-  //-------------------------------------------------
-  // Basic kinematics
-  //-------------------------------------------------
-
-  for(int idx=0; idx<8; ++idx)
-    {
-      char histname[20];
-      sprintf(histname,"Jet%i_Et",idx);
-      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
-
-      char histname2[20];
-      sprintf(histname2,"Jet%i_Eta",idx);
-      Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
-
-      char histname3[20];
-      sprintf(histname3,"DeltaPhi_MHT_Jet%i_",idx);
-      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 60, -3, 3));
-    }
-
-  Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
-  Jets_Eta_        = fs->make<TH1F>("Jets_Eta",        "Jets_Eta",         60,  -3.,    3. );
-  Jets_Phi_        = fs->make<TH1F>("Jets_Phi",        "Jets_Phi",         68,  -3.4,   3.4);
-  Jets_Theta_      = fs->make<TH1F>("Jets_Theta",      "Jets_Theta",       34,   0.,    3.4);
-  GluonJets_Et_    = fs->make<TH1F>("GluonJets_Et",    "GluonJets_Et",     90,   0.,  900. );
-
-  MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
-  MHT_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
-  HT_       = fs->make<TH1F>("HT",       "HT",       80,   0.,  4000.);
-  nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
-
-  for(int idx=0; idx<2; ++idx)
-    {
-      char histname[20];
-      sprintf(histname,"Muon%i_Pt",idx);
-      Muon_Pt_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
-
-      char histname2[20];
-      sprintf(histname2,"Muon%i_Eta",idx);
-      Muon_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
-    }
-  for(int idx=0; idx<2; ++idx)
-    {
-      char histname[20];
-      sprintf(histname,"Electron%i_Pt",idx);
-      Electron_Pt_.push_back(fs->make<TH1F>(histname,histname, 60, 0., 600.));
-
-      char histname2[20];
-      sprintf(histname2,"Electron%i_Eta",idx);
-      Electron_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
-    }
-
-  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,  6.5);
-  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,  6.5);
-  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5, 12.5);
-
-  MT_          = fs->make<TH1F>("MT","MT", 80, 0., 4000.);
-
+  mjjMCTruth_ = fs->make<TH1F>("mjjMCTruth","mjjMCTruth", 80, 0.,  800.);
 }
 
 GluinoAnalyzer::~GluinoAnalyzer()
@@ -142,6 +84,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Fetch input collection from the event content
   //-------------------------------------------------
 
+  // collections of RA4b objects
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
   edm::Handle<std::vector<pat::Jet> > bjets;
@@ -154,257 +97,178 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(met_, met);
   edm::Handle<SUSYGenEvent> susyGenEvent;
   evt.getByLabel(inputGenEvent_, susyGenEvent);
+
+  // collection of PV vertices
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
-  edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
-  evt.getByLabel(PUInfo_, PUInfoHandle);
 
   //-------------------------------------------------
-  // Event weighting and Pile-up
+  // Event weighting
   //-------------------------------------------------
 
-  double weight=1;  
+  double weight=1;
 
-  edm::View<PileupSummaryInfo>::const_iterator iterPU;      
-  double nvtx=-1;
-  for(iterPU = PUInfoHandle->begin(); iterPU != PUInfoHandle->end(); ++iterPU)
-    { 
-      if (iterPU->getBunchCrossing()==0)
-	{
-	  nvtx = iterPU->getPU_NumInteractions();
+  // declare and initialize different weights
+  double weightPU=1;
+  double weightRA2=1;
+
+  // if events should be weighted
+  if(useEventWgt_)
+    {
+      // RA2 weight
+      edm::Handle<double> RA2WeightHandle;
+      evt.getByLabel(RA2Weight_, RA2WeightHandle);
+      weightRA2=*RA2WeightHandle;
+
+      weight=weightRA2;
+
+      // PU weight
+      edm::Handle<double> PUWeightHandle;
+      evt.getByLabel(PUWeight_, PUWeightHandle);
+      weightPU=(*PUWeightHandle);
+
+      weight=weightRA2*weightPU;
+
+      // number of b-tagged jets, events are weighted
+      unsigned int nBtags = bjets->size();
+      if(bjets->size() > 2) nBtags=3;
+      nBtags_PUWgt_->Fill(nBtags, weight);
+      
+      weight=weightRA2*weightPU;
+      
+      // number of PU interactions only in MC available, therefore filled in this loop
+      edm::Handle<edm::View<PileupSummaryInfo> > PUInfoHandle;
+      evt.getByLabel(PUInfo_, PUInfoHandle);
+
+      edm::View<PileupSummaryInfo>::const_iterator iterPU;
+      
+      double nvtx=-1;
+      for(iterPU = PUInfoHandle->begin(); iterPU != PUInfoHandle->end(); ++iterPU)  // vector size is 3
+	{ 
+	  if (iterPU->getBunchCrossing()==0) // -1: previous BX, 0: current BX,  1: next BX
+	    {
+	      nvtx = iterPU->getPU_NumInteractions();
+	    }
 	}
+
+      nPU_noWgt_->Fill(nvtx);
+      nPU_->Fill(nvtx,weight);
     }
-  
-  nPV_->Fill(PVSrc->size(), weight);
-  nPU_->Fill(nvtx,          weight);
 
   //-------------------------------------------------
-  // mjj variabels
+  // Jet quantities
   //-------------------------------------------------
 
-  // Example how to use member function of SUSYGenEvent
   //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
-
+  
   for(int idx=0; idx<(int)jets->size(); ++idx)
     {
       for(int jdx=idx; jdx<(int)jets->size(); ++jdx)
 	{
-	  reco::Particle::LorentzVector Jet_idx=(*jets)[idx].p4();
-	  reco::Particle::LorentzVector Jet_jdx=(*jets)[jdx].p4();
-	  mjj_->Fill(sqrt((Jet_idx+Jet_jdx).Dot(Jet_idx+Jet_jdx)), weight);
-	  
 	  if((*jets)[idx].genParton() && (*jets)[jdx].genParton())
 	    {
-	      if((*jets)[idx].genParton()->mother()->pdgId()==1000021 && (*jets)[idx].genParton()->mother() == (*jets)[jdx].genParton()->mother())
+	      if((*jets)[idx].genParton()->mother()->pdgId()==1000021 && (*jets)[jdx].genParton()->mother()->pdgId()==1000021 && (*jets)[idx].genParton()->mother() == (*jets)[jdx].genParton()->mother())
 		{
+		  //std::cout << "Aha" << std::endl;
 		  reco::Particle::LorentzVector JetA=(*jets)[idx].p4();
 		  reco::Particle::LorentzVector JetB=(*jets)[jdx].p4();
 		  
 		  double mjjMCTruth=sqrt((JetA+JetB).Dot(JetA+JetB));
 		  mjjMCTruth_->Fill(mjjMCTruth,weight);
 		}
+	      
 	    }
 	}
     }
 
-  //TF1 *f1 = new TF1("f1","",-3.1,3.1);
- 
-  if(jets->size() >= 3)
+  if(jets->size()>3)
     {
-      // define four--vectors
-      reco::Particle::LorentzVector Jet1 = (*jets)[0].p4();
-      reco::Particle::LorentzVector Jet2 = (*jets)[1].p4();
-      reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
-
-      // define randomly rotated four-vector
-      TVector3 v3(Jet3.Px(),Jet3.Py(),Jet3.Pz());
-      double random=6.28*(gRandom->Rndm())-3.14;
-      //v3.RotateZ(random);
-      double phi=v3.Phi();
-      v3.SetPhi(-phi);
-      //random_->Fill(random, weight);
-      double theta=v3.Theta();
-      v3.SetTheta(3.14159-theta);
-      reco::Particle::LorentzVector Jet3_random(v3.X(),v3.Y(),v3.Z(),Jet3.E());
-
-      Jet2_Phi_   ->Fill(Jet3.phi(),   weight);
-      //Jet2_Eta_   ->Fill(Jet3.eta(),   weight);
-      Jet2_Theta_ ->Fill(Jet3.theta(), weight);
-      Jet2_Phi_random_->Fill(Jet3_random.phi(), weight);
-      deltaPhi_->Fill(deltaPhi(Jet3_random.phi(),Jet3.phi()), weight);
-
-      // define invariant dijet masses   
-      double m13=sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
-      double m23=sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
+      // define four vectors
+      reco::Particle::LorentzVector Jet1=(*jets)[0].p4();
+      reco::Particle::LorentzVector Jet2=(*jets)[1].p4();
+      reco::Particle::LorentzVector Jet3=(*jets)[2].p4();
+      reco::Particle::LorentzVector Jet4=(*jets)[3].p4();
       
-      double m13_random=sqrt((Jet1+Jet3_random).Dot(Jet1+Jet3_random));
-      double m23_random=sqrt((Jet2+Jet3_random).Dot(Jet2+Jet3_random));
+      reco::Particle::LorentzVector JetI1=(*jets)[jets->size()-1].p4();
+      reco::Particle::LorentzVector JetI2=(*jets)[jets->size()-2].p4();
+      
+      // define invariant dijet masses
+      double m1I1=sqrt((Jet1+JetI1).Dot(Jet1+JetI1));   
+      double m1I2=sqrt((Jet1+JetI2).Dot(Jet1+JetI2));
 
-      // calculate minima
-      double min123        = min(m13,m23);
-      double min123_random = min(m13_random,m23_random);
+      double m2I1=sqrt((Jet2+JetI1).Dot(Jet2+JetI1));
 
-      // fill histograms
-      min123_       ->Fill(min123, weight);
-      min123_random_->Fill(min123_random, weight);
+      double m14=sqrt((Jet1+Jet4).Dot(Jet1+Jet4));   
+      double m24=sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
 
-      // correct and wrong assignments
-      if(min123 == m13)
-	{
-	  if((*jets)[0].genParton() && (*jets)[2].genParton())
-	    {
-	      if( (*jets)[0].genParton()->mother()->pdgId()==1000021 && (*jets)[0].genParton()->mother() == (*jets)[2].genParton()->mother() )
-		{
-		  min123_right_->Fill(min123);
-		}
-	      else
-		{
-		  min123_wrong_->Fill(min123);
-		}
-	    }
-	  else
-	    {
-	      min123_noMatch_->Fill(min123);  
-	    }
-	}
-      else if(min123 == m23)
-	{
-	  if((*jets)[1].genParton() && (*jets)[2].genParton())
-	    {
-	      if( (*jets)[1].genParton()->mother()->pdgId()==1000021 && (*jets)[1].genParton()->mother() == (*jets)[2].genParton()->mother() )
-		{
-		  min123_right_->Fill(min123);
-		}
-	      else
-		{
-		  min123_wrong_->Fill(min123);
-		}
-	    }
-	  else
-	    {
-	      min123_noMatch_->Fill(min123);  
-	    }
-	}
+      // softest jet fixed
+      double minLow=min(m1I1,m2I1);
 
-      if(jets->size() >= 4)
-	{
-	  reco::Particle::LorentzVector Jet4=(*jets)[3].p4();
+      // leading jet fixed
+      double minHigh=min(m1I1,m1I2);
+	 
+      // min and max of above
+      double minI=min(minLow,minHigh);
+      double maxI=max(minLow,minHigh);
+      
+      double minLow2=min(m14,m24);
 
-	  // define randomly rotated four-vector
-	  TVector3 v3(Jet4.Px(),Jet4.Py(),Jet4.Pz());
-	  double phi=v3.Phi();
-	  v3.SetPhi(-phi);
-	  double theta=v3.Theta();
-	  v3.SetTheta(3.14159-theta);
-	  reco::Particle::LorentzVector Jet4_random(v3.X(),v3.Y(),v3.Z(),Jet4.E());
-
-	  double m14=sqrt((Jet1+Jet4).Dot(Jet1+Jet4));
-	  double m24=sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
-
-	  double m14_random=sqrt((Jet1+Jet4_random).Dot(Jet1+Jet4_random));
-	  double m24_random=sqrt((Jet2+Jet4_random).Dot(Jet2+Jet4_random));
-
-	  double min124        = min(m14,m24);
-	  double min124_random = min(m14_random, m24_random);
-
-	  min124_        ->Fill(min124);
-	  min124_random_ ->Fill(min124_random);
-	}
+      // fill hisotgrams
+      mjjLow_->Fill(minLow);
+      mjjHigh_->Fill(minHigh);
+      mjjMin_->Fill(minI);
+      mjjMax_->Fill(maxI);
+      mjjLow2_->Fill(minLow2);
     }
 
   //-------------------------------------------------
-  // Basic kinematics
+  // control plots
   //-------------------------------------------------
 
-  //std::cout << "Test2" << std::endl;
+  // number of primary vertices
+  nPV_noWgt_->Fill(PVSrc->size());
+  nPV_->Fill(PVSrc->size(), weight);
 
-  if(met->size()==0) return;
+  // number of b-tagged jets
+  unsigned int nBtags = bjets->size();
+  if(bjets->size() > 2) nBtags=3;
+  nBtags_->Fill(nBtags,weight);
+  nBtags_noWgt_->Fill(nBtags);
 
-  double MHT=0;
+  // bdisc
+  for(int i=0; i<(int)bjets->size();++i)
+    {
+      TCHE_->Fill((*bjets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+      TCHP_->Fill((*bjets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+      SSVHE_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+      SSVHP_->Fill((*bjets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
+    }
+
+  // MET, HT, MHT
+  double MET=(*met)[0].et();
   double HT=0;
+  double MHT=0;
 
   if(jets->size()>0)
     {
       reco::Particle::LorentzVector P4=(*jets)[0].p4();
-      
-      // loop over all jets
       for(int i=1; i< (int)jets->size(); ++i)
 	{
 	  P4=P4+(*jets)[i].p4();
   	}   
       MHT=P4.Et();
-
-      for(int i=0; i<(int)jets->size(); ++i)
-	{
-	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
-	  if(i<8)
-	    {
-	      Jet_Et_[i]           ->Fill((*jets)[i].et()                    , weight);
-	      Jet_Eta_[i]          ->Fill((*jets)[i].eta()                   , weight);
-	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(P4.phi(),(*jets)[i].phi()), weight);
-	    }
-	  Jets_Et_    ->Fill((*jets)[i].et(),  weight);
-	  Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
-	  Jets_Phi_   ->Fill((*jets)[i].phi(), weight);
-	  Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
-	  HT=HT+(*jets)[i].et();
-	  if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
-	}
     }
-
-  MET_->Fill((*met)[0].et(), weight);
-  MHT_->Fill(MHT, weight);
-  HT_->Fill(HT, weight);
-  nJets_->Fill(jets->size(), weight);
-
-  int nLeptons=0;
-  int nMuons=0;
-  int nElectrons=0;
-  double LepHT=0;
-
-  //std::cout << "Test3" << std::endl;
-
-  // loop over muons
-  for(int i=0; i<(int)muons->size(); ++i)
-    {
-      if(i<2)
-	{
-	  Muon_Pt_[i] ->Fill((*muons)[i].pt(),  weight);
-	  Muon_Eta_[i]->Fill((*muons)[i].eta(), weight);
-	}
-      nMuons=nMuons+1;
-      nLeptons=nLeptons+1;
-      LepHT=LepHT+(*muons)[i].pt();
-    }
-
-  //std::cout << "Test4" << std::endl;
-
-  // loop over electrons
-  for(int i=0; i<(int)electrons->size(); ++i)
-    {
-      if(i<2)
-	{
-	  Electron_Pt_[i] ->Fill((*electrons)[i].pt(),  weight);
-	  Electron_Eta_[i]->Fill((*electrons)[i].eta(), weight);
-	}
-      nElectrons=nElectrons+1;
-      nLeptons=nLeptons+1;
-      LepHT=LepHT+(*electrons)[i].pt();
-    }
-
-  nMuons_    ->Fill(nMuons,     weight);
-  nElectrons_->Fill(nElectrons, weight);
-  nLeptons_  ->Fill(nLeptons,   weight);
-
-  //std::cout << "Test5" << std::endl;
-
-  // MT
-  double MT=LepHT+HT+(*met)[0].et();
-  MT_->Fill(MT, weight);
   
-  const reco::LeafCandidate * singleLepton = 0;
-  if(muons->size()==1) singleLepton = &(*muons)[0];
-  else if(electrons->size()==1) singleLepton = &(*electrons)[0];
+  // keep HT saparate from MHT calculation
+  for(int i=0; i<(int)jets->size();++i)
+    {
+      HT=HT+(*jets)[i].et();
+    }
+  
+  MET_->Fill(MET,weight);
+  HT_->Fill(HT,weight);
+  MHT_->Fill(MHT,weight);
+  nJets_->Fill(jets->size(),weight);
 
 }
 
