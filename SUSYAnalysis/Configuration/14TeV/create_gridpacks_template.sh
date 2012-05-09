@@ -65,12 +65,12 @@ fi
 # run the production stage - here you can select for running on multicore or not...
 
 # sequential run
-#./bin/generate_events 0 gridpack_${name}
+./bin/generate_events 0 gridpack_${name}
 
 export PATH=`pwd`/bin:${PATH}
 
 # batch run
-./bin/generate_events 1 gridpack_${name} gridpack_${name}
+#./bin/generate_events 1 gridpack_${name} gridpack_${name}
 
 # multicore run
 #./bin/generate_events 2 3 gridpack_${name}

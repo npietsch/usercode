@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1 $'),
-    name = cms.untracked.string('$Source: /cvs/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.2 $'),
+    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -29,7 +29,7 @@ process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
     #'file:PointA1.root'
     #'file:QCD_Pt_30_7TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'
-    'file:'
+    'file:test.root'
     )
 )
 
@@ -37,7 +37,7 @@ process.source = cms.Source("PoolSource",
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
-    fileName = cms.untracked.string('A1PAT.root')
+    fileName = cms.untracked.string('SUSYPAT.root')
 )
 
 #-- VarParsing ----------------------------------------------------------------
@@ -117,7 +117,7 @@ process.out = cms.OutputModule("PoolOutputModule",
                                process.EventSelection,
                                outputCommands = cms.untracked.vstring('drop *'),
                                dropMetaData = cms.untracked.string('DROPPED'),
-                               fileName = cms.untracked.string('A1PAT.root')
+                               fileName = cms.untracked.string('SUSYPAT.root')
                                )
 
 # Specify what to keep in the event content
