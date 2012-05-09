@@ -32,8 +32,8 @@ define vl~ ve~ vm~ vt~
 # Specify process(es) to run
 generate p p > t t~ > l- vl~ b b~ j j @0
 generate p p > t t~ > l+ vl  b b~ j j @1
-generate p p > t t~ > l- vl~ l+ vl b b~ @2
-generate p p > t t~ > b b~ j j j j @3
+#generate p p > t t~ > l- vl~ l+ vl b b~ @2
+#generate p p > t t~ > b b~ j j j j @3
 
 #generate p p > t t~ @0
 #add process p p > t t~ j @1
