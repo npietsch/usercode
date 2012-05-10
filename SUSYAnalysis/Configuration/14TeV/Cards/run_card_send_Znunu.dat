@@ -20,23 +20,23 @@
 #*********************************************************************
 # Tag name for the run (one word)                                    *
 #*********************************************************************
-  'tt'     = run_tag ! name of the run 
+  'Zvv'      = run_tag ! name of the run 
 #*********************************************************************
 # Run to generate the grid pack                                      *
 #*********************************************************************
-  .true.     = gridpack  !True = setting up the grid pack
+  .false.     = gridpack  !True = setting up the grid pack
 #*********************************************************************
 # Number of events and rnd seed                                      *
 #*********************************************************************
-   1000      = nevents ! Number of unweighted events requested 
+  90000       = nevents ! Number of unweighted events requested 
       0       = iseed   ! rnd seed (0=assigned automatically=default))
 #*********************************************************************
 # Collider type and energy                                           *
 #*********************************************************************
         1     = lpp1  ! beam 1 type (0=NO PDF)
         1     = lpp2  ! beam 2 type (0=NO PDF)
-     7000     = ebeam1  ! beam 1 energy in GeV
-     7000     = ebeam2  ! beam 2 energy in GeV
+     7000   =ebeam1  ! beam 1 energy in GeV
+     7000   =ebeam2  ! beam 2 energy in GeV
 #*********************************************************************
 # Beam polarization from -100 (left-handed) to 100 (right-handed)    *
 #*********************************************************************
@@ -58,12 +58,13 @@
 #*********************************************************************
 # Matching - Warning! ickkw > 0 is still beta
 #*********************************************************************
- 0        = ickkw            ! 0 no matching, 1 MLM, 2 CKKW matching
+ 1        = ickkw            ! 0 no matching, 1 MLM, 2 CKKW matching
  1        = highestmult      ! for ickkw=2, highest mult group
  1        = ktscheme         ! for ickkw=1, 1 Durham kT, 2 Pythia pTE
  1        = alpsfact         ! scale factor for QCD emission vx
  F        = chcluster        ! cluster only according to channel diag
  F        = pdfwgt           ! for ickkw=1, perform pdf reweighting
+
 #*********************************************************************
 #                                                                    
 #**********************************
@@ -72,6 +73,7 @@
   15  = bwcutoff
 
   F  = cut_decays ! Apply decays to products
+
 #*******************                                                 
 # Standard Cuts
 #*******************                                                 
@@ -80,8 +82,8 @@
 # Minimum and maximum pt's                                           *
 #*********************************************************************
  20  = ptj       ! minimum pt for the jets 
- 20  = ptb       ! minimum pt for the b 
-  0  = pta       ! minimum pt for the photons 
+  0  = ptb       ! minimum pt for the b 
+ 10  = pta       ! minimum pt for the photons 
   0  = ptl       ! minimum pt for the charged leptons 
  100 = misset    ! minimum missing Et (sum of neutrino's momenta)
   0  = ptheavy   ! minimum pt for one heavy final state
@@ -104,10 +106,10 @@
 #*********************************************************************
 # Maximum and minimum rapidity                                       *
 #*********************************************************************
- 5d0  = etaj    ! max rap for the jets 
- 5d0  = etab    ! max rap for the b 
- 2d5  = etaa    ! max rap for the photons 
- 2d5  = etal    ! max rap for the charged leptons 
+  5   = etaj    ! max rap for the jets 
+ 1d2  = etab    ! max rap for the b 
+ 2.5  = etaa    ! max rap for the photons 
+ 1d2  = etal    ! max rap for the charged leptons 
  0d0  = etajmin ! min rap for the jets
  0d0  = etabmin ! min rap for the b
  0d0  = etaamin ! min rap for the photons
@@ -116,15 +118,15 @@
 # Minimum and maximum DeltaR distance                                *
 #*********************************************************************
  0.001 = drjj    ! min distance between jets 
- 0.001   = drbb    ! min distance between b's 
- 0   = drll    ! min distance between leptons 
- 0   = draa    ! min distance between gammas 
- 0.001   = drbj    ! min distance between b and jet 
- 0   = draj    ! min distance between gamma and jet 
+ 0   = drbb    ! min distance between b's 
+ 0 = drll    ! min distance between leptons 
+ 0.4 = draa    ! min distance between gammas 
+ 0   = drbj    ! min distance between b and jet 
+ 0.4 = draj    ! min distance between gamma and jet 
  0   = drjl    ! min distance between jet and lepton 
  0   = drab    ! min distance between gamma and b 
  0   = drbl    ! min distance between b and lepton 
- 0   = dral    ! min distance between gamma and lepton 
+ 0.4 = dral    ! min distance between gamma and lepton 
  1d2 = drjjmax ! max distance between jets
  1d2 = drbbmax ! max distance between b's
  1d2 = drllmax ! max distance between leptons
@@ -190,9 +192,9 @@
 # maximal pdg code for quark to be considered as a jet               *
 # otherwise b cuts are applied                                       *
 #*********************************************************************
- 5 = maxjetflavor ! Apply b cuts
+ 5 = maxjetflavor ! Apply b cuts ! Apply b cuts
 #*********************************************************************
 # Jet measure cuts                                                   *
 #*********************************************************************
- 20   = xqcut   ! minimum kt jet measure between partons
+ 10   = xqcut   ! minimum kt jet measure between partons
 #*********************************************************************
