@@ -29,6 +29,6 @@ define l e+ e- mu+ mu- ta+ ta-
 # Specify process(es) to run
 generate p p > j j @0
 add process p p > j j j @1
-add process p p > j j j j @2
+#add process p p > j j j j @2
 # Output processes to MadEvent directory
 output -f
