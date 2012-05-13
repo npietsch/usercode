@@ -93,6 +93,18 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       char histname4[20];
       sprintf(histname4,"Delta_Et_%i",idx);
       Delta_Et_.push_back(fs->make<TH1F>(histname4,histname4, 400, -200, 200 ));
+
+      char histname5[20];
+      sprintf(histname5,"Delta_Et_MET_%i",idx);
+      Delta_Et_MHT_.push_back(fs->make<TH2F>(histname5,histname5, 400, -200, 200, 50, 0, 500));
+
+      char histname6[20];
+      sprintf(histname6,"RecoJetEt_MHT_%i",idx);
+      RecoJetEt_MHT_.push_back(fs->make<TH2F>(histname6,histname6, 90, 0, 900, 90, 0, 900));
+
+      char histname7[20];
+      sprintf(histname7,"GenJetEt_MHT_%i",idx);
+      GenJetEt_MHT_.push_back(fs->make<TH2F>(histname7,histname6, 90, 0, 900, 90, 0, 900));
     }
 
   Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
@@ -105,6 +117,9 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   MHT_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",       80,   0.,  4000.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
+
+  DeltaEtSum_     = fs->make<TH1F>("DeltaEtSum", "DeltaEtSum", 50,   0.,  500.);
+  DeltaEtSum_MHT_ = fs->make<TH2F>("DeltaEtSum_MHT", "DeltaEtSum_MHT", 50,   0.,  500., 50, 0, 500);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -326,6 +341,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   double MHT=0;
   double HT=0;
+  double DeltaEtSum=0;
 
   if(jets->size()>0)
     {
@@ -346,10 +362,20 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
 	  if(i<8)
 	    {
-	      Jet_Et_[i]           ->Fill((*jets)[i].et(),                        weight);
-	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(),                       weight);
-	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(),(*jets)[i].phi()), weight);
-	      if((*jets)[i].genJet()) Delta_Et_[i]->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(), weight);
+	      Jet_Et_[i]           ->Fill((*jets)[i].et(),  weight);
+	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(), weight);
+
+	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(), (*jets)[i].phi()), weight);
+	      RecoJetEt_MHT_[i]    ->Fill((*jets)[i].et(),      MHT,               weight);
+
+	      if((*jets)[i].genJet())
+		{
+		  Delta_Et_[i]     ->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(),      weight);
+		  Delta_Et_MHT_[i] ->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(), MHT, weight);
+		  GenJetEt_MHT_[i]  ->Fill((*jets)[i].genJet()->et(),                MHT, weight);
+
+		  DeltaEtSum=DeltaEtSum+abs((*jets)[i].et()-(*jets)[i].genJet()->pt());
+		}
 	    }
 	  Jets_Et_    ->Fill((*jets)[i].et(),  weight);
 	  Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
@@ -364,6 +390,8 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   MHT_->Fill(MHT, weight);
   HT_->Fill(HT, weight);
   nJets_->Fill(jets->size(), weight);
+  DeltaEtSum_->Fill(DeltaEtSum, weight);
+  DeltaEtSum_MHT_->Fill(DeltaEtSum, MHT, weight);
 
   int nLeptons=0;
   int nMuons=0;
