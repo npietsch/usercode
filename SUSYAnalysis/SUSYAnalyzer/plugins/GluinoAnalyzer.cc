@@ -79,8 +79,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   for(int idx=0; idx<8; ++idx)
     {
       char histname[20];
-      sprintf(histname,"Jet%i_Et",idx);
-      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+      sprintf(histname,"Jet%i_Pt",idx);
+      Jet_Pt_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
 
       char histname2[20];
       sprintf(histname2,"Jet%i_Eta",idx);
@@ -91,35 +91,36 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 66, -3.3, 3.3));
 
       char histname4[20];
-      sprintf(histname4,"Delta_Et_%i",idx);
-      Delta_Et_.push_back(fs->make<TH1F>(histname4,histname4, 400, -200, 200 ));
+      sprintf(histname4,"Delta_Pt_%i",idx);
+      Delta_Pt_.push_back(fs->make<TH1F>(histname4,histname4, 400, -200, 200 ));
 
       char histname5[20];
-      sprintf(histname5,"Delta_Et_MET_%i",idx);
-      Delta_Et_MHT_.push_back(fs->make<TH2F>(histname5,histname5, 400, -200, 200, 50, 0, 500));
+      sprintf(histname5,"Delta_Pt_MHT_%i",idx);
+      Delta_Pt_MHT_.push_back(fs->make<TH2F>(histname5,histname5, 400, -200, 200, 50, 0, 500));
 
       char histname6[20];
-      sprintf(histname6,"RecoJetEt_MHT_%i",idx);
-      RecoJetEt_MHT_.push_back(fs->make<TH2F>(histname6,histname6, 90, 0, 900, 90, 0, 900));
+      sprintf(histname6,"RecoJetPt_MHT_%i",idx);
+      RecoJetPt_MHT_.push_back(fs->make<TH2F>(histname6,histname6, 90, 0, 900, 90, 0, 900));
 
       char histname7[20];
-      sprintf(histname7,"GenJetEt_MHT_%i",idx);
-      GenJetEt_MHT_.push_back(fs->make<TH2F>(histname7,histname6, 90, 0, 900, 90, 0, 900));
+      sprintf(histname7,"GenJetPt_MHT_%i",idx);
+      GenJetPt_MHT_.push_back(fs->make<TH2F>(histname7,histname6, 90, 0, 900, 90, 0, 900));
     }
 
-  Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
+  Jets_Pt_         = fs->make<TH1F>("Jets_Pt",         "Jets_Pt",          60,   0., 1200. );
   Jets_Eta_        = fs->make<TH1F>("Jets_Eta",        "Jets_Eta",         60,  -3.,    3. );
   Jets_Phi_        = fs->make<TH1F>("Jets_Phi",        "Jets_Phi",         68,  -3.4,   3.4);
   Jets_Theta_      = fs->make<TH1F>("Jets_Theta",      "Jets_Theta",       34,   0.,    3.4);
-  GluonJets_Et_    = fs->make<TH1F>("GluonJets_Et",    "GluonJets_Et",     90,   0.,  900. );
+  GluonJets_Pt_    = fs->make<TH1F>("GluonJets_Pt",    "GluonJets_Pt",     90,   0.,  900. );
 
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
-  MHT_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
+  MHT_      = fs->make<TH1F>("MHT",      "MHT",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",       80,   0.,  4000.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
+  DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
 
-  DeltaEtSum_     = fs->make<TH1F>("DeltaEtSum", "DeltaEtSum", 50,   0.,  500.);
-  DeltaEtSum_MHT_ = fs->make<TH2F>("DeltaEtSum_MHT", "DeltaEtSum_MHT", 50,   0.,  500., 50, 0, 500);
+  DeltaPtSum_MHT_ = fs->make<TH2F>("DeltaPtSum_MHT", "DeltaPtSum_MHT", 50, 0.,  500., 50, 0,  500);
+  HT_MHT_         = fs->make<TH2F>("HT_MHT",         "HT_MHT",         80, 0., 4000., 50, 0, 2000);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -237,11 +238,11 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
       // define randomly rotated four-vector
       TVector3 v3(Jet3.Px(),Jet3.Py(),Jet3.Pz());
-      double random=6.28*(gRandom->Rndm())-3.14;
+      //double random=6.28*(gRandom->Rndm())-3.14;
+      //random_->Fill(random, weight);
       //v3.RotateZ(random);
       double phi=v3.Phi();
       v3.SetPhi(-phi);
-      //random_->Fill(random, weight);
       double theta=v3.Theta();
       v3.SetTheta(3.14159-theta);
       reco::Particle::LorentzVector Jet3_random(v3.X(),v3.Y(),v3.Z(),Jet3.E());
@@ -341,7 +342,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   double MHT=0;
   double HT=0;
-  double DeltaEtSum=0;
+  double DeltaPtSum=0;
 
   if(jets->size()>0)
     {
@@ -362,27 +363,27 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
 	  if(i<8)
 	    {
-	      Jet_Et_[i]           ->Fill((*jets)[i].et(),  weight);
+	      Jet_Pt_[i]           ->Fill((*jets)[i].pt(),  weight);
 	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(), weight);
 
 	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(), (*jets)[i].phi()), weight);
-	      RecoJetEt_MHT_[i]    ->Fill((*jets)[i].et(),      MHT,               weight);
+	      RecoJetPt_MHT_[i]    ->Fill((*jets)[i].pt(),      MHT,               weight);
 
 	      if((*jets)[i].genJet())
 		{
-		  Delta_Et_[i]     ->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(),      weight);
-		  Delta_Et_MHT_[i] ->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(), MHT, weight);
-		  GenJetEt_MHT_[i]  ->Fill((*jets)[i].genJet()->et(),                MHT, weight);
+		  Delta_Pt_[i]     ->Fill((*jets)[i].pt()-(*jets)[i].genJet()->pt(),      weight);
+		  Delta_Pt_MHT_[i] ->Fill((*jets)[i].pt()-(*jets)[i].genJet()->pt(), MHT, weight);
+		  GenJetPt_MHT_[i]  ->Fill((*jets)[i].genJet()->pt(),                MHT, weight);
 
-		  DeltaEtSum=DeltaEtSum+abs((*jets)[i].et()-(*jets)[i].genJet()->pt());
+		  DeltaPtSum=DeltaPtSum+abs((*jets)[i].pt()-(*jets)[i].genJet()->pt());
 		}
 	    }
-	  Jets_Et_    ->Fill((*jets)[i].et(),  weight);
+	  Jets_Pt_    ->Fill((*jets)[i].pt(),  weight);
 	  Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
 	  Jets_Phi_   ->Fill((*jets)[i].phi(), weight);
 	  Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
-	  HT=HT+(*jets)[i].et();
-	  if((*jets)[i].partonFlavour() == 21) GluonJets_Et_->Fill((*jets)[i].et(),  weight);
+	  HT=HT+(*jets)[i].pt();
+	  if((*jets)[i].partonFlavour() == 21) GluonJets_Pt_->Fill((*jets)[i].pt(),  weight);
 	}
     }
 
@@ -390,8 +391,9 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   MHT_->Fill(MHT, weight);
   HT_->Fill(HT, weight);
   nJets_->Fill(jets->size(), weight);
-  DeltaEtSum_->Fill(DeltaEtSum, weight);
-  DeltaEtSum_MHT_->Fill(DeltaEtSum, MHT, weight);
+  DeltaPtSum_->Fill(DeltaPtSum, weight);
+  DeltaPtSum_MHT_->Fill(DeltaPtSum, MHT, weight);
+  HT_MHT_->Fill(HT, MHT, weight);
 
   int nLeptons=0;
   int nMuons=0;

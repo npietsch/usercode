@@ -79,15 +79,15 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* min124_random_;
 
   // Basic kinematics
-  std::vector<TH1F*> Jet_Et_;
+  std::vector<TH1F*> Jet_Pt_;
   std::vector<TH1F*> Jet_Eta_;
   std::vector<TH1F*> DeltaPhi_MHT_Jet_;
-  std::vector<TH1F*> Delta_Et_;
-  std::vector<TH2F*> Delta_Et_MHT_;
-  std::vector<TH2F*> RecoJetEt_MHT_;
-  std::vector<TH2F*> GenJetEt_MHT_;
-  TH1F* Jets_Et_;
-  TH1F* GluonJets_Et_;
+  std::vector<TH1F*> Delta_Pt_;
+  std::vector<TH2F*> Delta_Pt_MHT_;
+  std::vector<TH2F*> RecoJetPt_MHT_;
+  std::vector<TH2F*> GenJetPt_MHT_;
+  TH1F* Jets_Pt_;
+  TH1F* GluonJets_Pt_;
   TH1F* Jets_Eta_;
   TH1F* Jets_Phi_;
   TH1F* Jets_Theta_;
@@ -95,8 +95,9 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* MHT_;
   TH1F* HT_; 
   TH1F* nJets_;
-  TH1F* DeltaEtSum_;
-  TH2F* DeltaEtSum_MHT_;
+  TH1F* DeltaPtSum_;
+  TH2F* DeltaPtSum_MHT_;
+  TH2F* HT_MHT_; 
 
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;
