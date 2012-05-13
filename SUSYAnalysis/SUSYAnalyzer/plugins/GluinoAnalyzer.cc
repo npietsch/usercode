@@ -87,8 +87,12 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
 
       char histname3[20];
-      sprintf(histname3,"DeltaPhi_MHT_Jet%i_",idx);
-      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 64, -3.2, 3.2));
+      sprintf(histname3,"DeltaPhi_MHT_Jet%i",idx);
+      DeltaPhi_MHT_Jet_.push_back(fs->make<TH1F>(histname3,histname3, 66, -3.3, 3.3));
+
+      char histname4[20];
+      sprintf(histname4,"Delta_Et_%i",idx);
+      Delta_Et_.push_back(fs->make<TH1F>(histname4,histname4, 400, -200, 200 ));
     }
 
   Jets_Et_         = fs->make<TH1F>("Jets_Et",         "Jets_Et",          60,   0., 1200. );
@@ -219,12 +223,12 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       // define randomly rotated four-vector
       TVector3 v3(Jet3.Px(),Jet3.Py(),Jet3.Pz());
       double random=6.28*(gRandom->Rndm())-3.14;
-      v3.RotateZ(random);
-      //double phi=v3.Phi();
-      //v3.SetPhi(-phi);
+      //v3.RotateZ(random);
+      double phi=v3.Phi();
+      v3.SetPhi(-phi);
       //random_->Fill(random, weight);
-      //double theta=v3.Theta();
-      //v3.SetTheta(3.14159-theta);
+      double theta=v3.Theta();
+      v3.SetTheta(3.14159-theta);
       reco::Particle::LorentzVector Jet3_random(v3.X(),v3.Y(),v3.Z(),Jet3.E());
 
       Jet2_Phi_   ->Fill(Jet3.phi(),   weight);
@@ -325,24 +329,27 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   if(jets->size()>0)
     {
-      reco::Particle::LorentzVector P4=-(*jets)[0].p4();
+      reco::Particle::LorentzVector P4=(*jets)[0].p4();
       
       // loop over all jets
       for(int i=1; i< (int)jets->size(); ++i)
 	{
 	  //
-	  P4=P4-(*jets)[i].p4();
-  	}   
-      MHT=P4.Et();
+	  P4=P4+(*jets)[i].p4();
+  	}
+      reco::Particle::LorentzVector MHTP4(-P4.X(),-P4.Y(),-P4.Z(),P4.E());
+
+      MHT=MHTP4.pt();
 
       for(int i=0; i<(int)jets->size(); ++i)
 	{
 	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
 	  if(i<8)
 	    {
-	      Jet_Et_[i]           ->Fill((*jets)[i].et()                    , weight);
-	      Jet_Eta_[i]          ->Fill((*jets)[i].eta()                   , weight);
-	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(P4.phi(),(*jets)[i].phi()), weight);
+	      Jet_Et_[i]           ->Fill((*jets)[i].et(),                        weight);
+	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(),                       weight);
+	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(),(*jets)[i].phi()), weight);
+	      if((*jets)[i].genJet()) Delta_Et_[i]->Fill((*jets)[i].et()-(*jets)[i].genJet()->pt(), weight);
 	    }
 	  Jets_Et_    ->Fill((*jets)[i].et(),  weight);
 	  Jets_Eta_   ->Fill((*jets)[i].eta(), weight);
