@@ -21,6 +21,7 @@ using namespace std;
  
 GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   jets_         (cfg.getParameter<edm::InputTag>("jets")),
+  looseJets_    (cfg.getParameter<edm::InputTag>("looseJets")),
   bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
@@ -164,6 +165,8 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   edm::Handle<std::vector<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
+  edm::Handle<std::vector<pat::Jet> > looseJets;
+  evt.getByLabel(looseJets_, looseJets);
   edm::Handle<std::vector<pat::Jet> > bjets;
   evt.getByLabel(bjets_, bjets);
   edm::Handle<std::vector<pat::Muon> > muons;
@@ -344,15 +347,15 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HT=0;
   double DeltaPtSum=0;
 
-  if(jets->size()>0)
+  if(looseJets->size()>0)
     {
       reco::Particle::LorentzVector P4=(*jets)[0].p4();
       
-      // loop over all jets
-      for(int i=1; i< (int)jets->size(); ++i)
+      // loop over all loose jets
+      for(int i=1; i< (int)looseJets->size(); ++i)
 	{
 	  //
-	  P4=P4+(*jets)[i].p4();
+	  P4=P4+(*looseJets)[i].p4();
   	}
       reco::Particle::LorentzVector MHTP4(-P4.X(),-P4.Y(),-P4.Z(),P4.E());
 

@@ -38,6 +38,7 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   //----------------------------
          
   edm::InputTag jets_;
+  edm::InputTag looseJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
