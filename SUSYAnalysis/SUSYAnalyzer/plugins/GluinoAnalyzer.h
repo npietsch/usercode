@@ -46,6 +46,8 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   edm::InputTag inputGenEvent_;
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
+  edm::InputTag PUWeight_;
+  edm::InputTag RA2Weight_;
 
   //----------------------------
   // Histograms

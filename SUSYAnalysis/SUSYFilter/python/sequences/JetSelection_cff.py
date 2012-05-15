@@ -22,7 +22,7 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     )
 
 goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
-                                        )
+                                      )
 
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
@@ -88,8 +88,8 @@ vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 looseJets = cleanPatJets.clone(src = 'selectedPatJetsPF',
                                preselection =
-                               'abs(eta) < 2.5 &'
-                               'pt > 10. &'
+                               'abs(eta) < 5 &'
+                               'pt > 30. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'
@@ -323,9 +323,9 @@ maxFourGoodJets = countPatJets.clone(src = 'goodJets',
                                      )
 
 ## select events with 4 good jets
-sevenGoodJets = countPatJets.clone(src = 'goodJets',
-                                   minNumber = 7
-                                   )
+sixGoodJets = countPatJets.clone(src = 'goodJets',
+                                 minNumber = 6
+                                 )
 
 #------------------------------
 # MET countFilter
@@ -361,7 +361,7 @@ filterLooseHT.Cut = 300
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 350
+filterMediumHT.Cut = 800
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
@@ -372,7 +372,7 @@ from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
 
 filterMediumMHT = filterMHT.clone()
 filterMediumMHT.jets = "goodJets"
-filterMediumMHT.Cut = 60
+filterMediumMHT.Cut = 400
 
 ## DiLepton filter
 from TopAnalysis.TopFilter.filters.DiMuonFilter_cfi import *

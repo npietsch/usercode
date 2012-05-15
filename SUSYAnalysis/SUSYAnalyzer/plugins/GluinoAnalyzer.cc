@@ -28,7 +28,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   met_          (cfg.getParameter<edm::InputTag>("met")),
   inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent")),
   PVSrc_        (cfg.getParameter<edm::InputTag>("PVSrc")),
-  PUInfo_       (cfg.getParameter<edm::InputTag>("PUInfo"))
+  PUInfo_       (cfg.getParameter<edm::InputTag>("PUInfo")),
+  RA2Weight_    (cfg.getParameter<edm::InputTag>("RA2Weight") )
 
 { 
   edm::Service<TFileService> fs;
@@ -187,6 +188,10 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
 
   double weight=1;  
+
+  edm::Handle<double> RA2WeightHandle;
+  evt.getByLabel(RA2Weight_, RA2WeightHandle);
+  weight=*RA2WeightHandle;
 
   edm::View<PileupSummaryInfo>::const_iterator iterPU;      
   double nvtx=-1;
@@ -347,19 +352,21 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HT=0;
   double DeltaPtSum=0;
 
-  if(looseJets->size()>0)
+  if(jets->size()>0)
     {
       reco::Particle::LorentzVector P4=(*jets)[0].p4();
       
       // loop over all loose jets
-      for(int i=1; i< (int)looseJets->size(); ++i)
+      for(int i=1; i< (int)jets->size(); ++i)
 	{
 	  //
-	  P4=P4+(*looseJets)[i].p4();
+	  P4=P4+(*jets)[i].p4();
   	}
       reco::Particle::LorentzVector MHTP4(-P4.X(),-P4.Y(),-P4.Z(),P4.E());
 
       MHT=MHTP4.pt();
+
+      //std::cout << "GluinoAnalyzer: " << MHT << std::endl;
 
       for(int i=0; i<(int)jets->size(); ++i)
 	{

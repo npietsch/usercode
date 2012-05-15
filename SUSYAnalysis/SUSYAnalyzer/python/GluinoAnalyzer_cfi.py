@@ -12,6 +12,7 @@ analyzeGluino = cms.EDAnalyzer("GluinoAnalyzer",
                                met = cms.InputTag("patMETsPF"),
                                susyGenEvent = cms.InputTag("SUSYGenEvt"),
                                PVSrc = cms.InputTag("offlinePrimaryVertices"),
-                               PUInfo = cms.InputTag("addPileupInfo")
+                               PUInfo = cms.InputTag("addPileupInfo"),
+                               RA2Weight = cms.InputTag("weightProducer:weight")
                                )
 

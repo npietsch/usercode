@@ -30,13 +30,13 @@ process.GlobalTag.globaltag = cms.string('START44_V10::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    #'file:../../../../../../Storage/SemiLepTTJets_HT700_MET100_14TeV_PAT.root'
-    #'file:../../../../../../Storage/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointA1_PAT_1.root',
-    #'file:../../../../../../Storage/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointA1_PAT_2.root'
     'file:../../../../../../Storage/QCD_HT700_JetPt40_14TeV_PAT.root'
-    #'file:Test.root'
     )
  )
+process.source.duplictateCheckMode = cms.untracked.string('noDuplicateCheck')
+
+# load and configure modules for event weighting
+process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 #------------------------------------------------------
 # Import module to produce SUSYGenEvent
@@ -122,6 +122,9 @@ process.analyzeBino2.jets     = "goodJets"
 process.analyzeBino3          = process.analyzeGluino.clone()
 process.analyzeBino3.jets     = "goodJets"
 
+process.analyzeBino4          = process.analyzeGluino.clone()
+process.analyzeBino4.jets     = "goodJets"
+
 process.analyzeWino1          = process.analyzeGluino.clone()
 process.analyzeWino1.jets     = "goodJets"
 
@@ -130,6 +133,9 @@ process.analyzeWino2.jets     = "goodJets"
 
 process.analyzeWino3          = process.analyzeGluino.clone()
 process.analyzeWino3.jets     = "goodJets"
+
+process.analyzeWino4          = process.analyzeGluino.clone()
+process.analyzeWino4.jets     = "goodJets"   
 
 # Configure modules for JER/JEC studies
 process.analyzeBino1JECUp         = process.analyzeGluino.clone()
@@ -167,18 +173,25 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # selection paths
 #--------------------------
 
-process.Bino = cms.Path(process.scaledJetEnergy *
+process.Bino = cms.Path(process.weightProducer *
+                        process.scaledJetEnergy *
                         process.scaledJetEnergyJECUp *
                         process.scaledJetEnergyJECDown *
                         process.scaledJetEnergyJERUp *
                         process.scaledJetEnergyJERDown *
                         process.makeObjects *
                         process.makeSUSYGenEvt *
-                        process.filterMediumHT *
                         process.analyzeLooseJets *
                         process.analyzeGoodJets *
-                        process.maxFourGoodJets *
+                        process.filterMediumHT *
                         process.analyzeBino1 *
+                        process.filterMediumMHT *
+                        process.analyzeBino2 *
+                        process.maxFourGoodJets *
+                        process.analyzeBino3 *
+                        process.noVetoMuon *
+                        process.noVetoElectron *
+                        process.analyzeBino4 *
                         process.analyzeBino1JECUp *
                         process.analyzeBino1JECDown *
                         process.analyzeBino1JERUp *
@@ -186,12 +199,15 @@ process.Bino = cms.Path(process.scaledJetEnergy *
                         )
 
 process.Wino = cms.Path(process.filterMediumHT *
-                        process.sevenGoodJets *
                         process.analyzeWino1 *
+                        process.filterMediumMHT *
+                        process.analyzeWino2 *
+                        process.sixGoodJets *
+                        process.analyzeWino3 *
+                        process.oneGoodLepton *
+                        process.analyzeWino4 *
                         process.analyzeWino1JECUp *
                         process.analyzeWino1JECDown *
                         process.analyzeWino1JERUp *
-                        process.analyzeWino1JERDown*
-                        process.oneGoodLepton *
-                        process.analyzeWino2 
+                        process.analyzeWino1JERDown 
                         )

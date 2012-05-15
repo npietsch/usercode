@@ -4,8 +4,8 @@
 
 /// default constructor 
 MHTFilter::MHTFilter(const edm::ParameterSet& cfg):
-  jets_    (cfg.getParameter<edm::InputTag>(       "jets"  )),
-  Cut_      (cfg.getParameter<double>("Cut"    ))
+  jets_    (cfg.getParameter<edm::InputTag>("jets")),
+  Cut_     (cfg.getParameter<double>("Cut"))
 {
 }
 
@@ -39,8 +39,9 @@ MHTFilter::filter(edm::Event& event, const edm::EventSetup& setup)
 	{
 	  P4=P4+(*jets)[i].p4();
   	}   
-      MHT=P4.Et();
+      MHT=P4.pt();
     }
+  //std::cout << "MHTFilter: " << MHT << std::endl;
   
   if (MHT > Cut_) return true;
   else return false;
