@@ -10,7 +10,7 @@ source ${VO_CMS_SW_DIR}/cmsset_default.sh
 
 export CMSSWDIR=/scratch/hh/lustre/cms/user/npietsch/TTJets/CMSSW_4_4_4
 export FILEDIR=/scratch/hh/lustre/cms/user/npietsch/TTJets/CMSSW_4_4_4/src/SUSYAnalysis/Configuration/14TeV
-export WORKDIR=/scratch/hh/lustre/cms/user/npietsch/TTJets/CMSSW_4_4_4/src/SUSYAnalysis/Configuration/14TeV/QCD____JOB___
+export WORKDIR=/scratch/hh/lustre/cms/user/npietsch/TTJets/CMSSW_4_4_4/src/SUSYAnalysis/Configuration/14TeV/naf_QCD____JOB___
 
 mkdir ${WORKDIR}
 cd ${WORKDIR}
