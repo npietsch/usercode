@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+export JOBID=`echo $PBS_JOBID | cut -d. -f1`
+export RUNDIR=/tmp/pbs.${JOBID}
+export VO_CMS_SW_DIR=/afs/naf.desy.de/group/cms/sw
+
+rm -r QCD_?
+rm QCD_?.sh
+
+for i in {1..5}
+do
+cat QCD.sh | sed "s/___JOB___/$i/g" > QCD_"$i".sh
+chmod +x QCD_"$i".sh
+#qsub -l h_vmem=20000M -l h_cpu=139:00:00 Point"$i".sh QCD_"$i".sh
+qsub -l h_vmem=2000M -l h_cpu=00:59:00 QCD_"$i".sh
+done
