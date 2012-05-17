@@ -37,7 +37,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.341.2.2 $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
     annotation = cms.untracked.string('QCD_Pythia_14TeV_cff.py nevts:5000'),
     name = cms.untracked.string('PyReleaseValidation')
 )
@@ -98,7 +98,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
             'MSTP(81)=21    ! multiple parton interactions 1 is Pythia default', 
             'MSTP(82)=4     ! Defines the multi-parton model'),
         processParameters = cms.vstring('MSEL=1                ! QCD hight pT processes', 
-            'CKIN(3)=100.          ! minimum pt hat for hard interactions', 
+            'CKIN(3)=15.           ! minimum pt hat for hard interactions', 
             'CKIN(4)=3000.         ! maximum pt hat for hard interactions', 
             'MSTP(142)=2           ! Turns on the PYWEVT Pt reweighting routine'),
         parameterSets = cms.vstring('pythiaUESettings', 
