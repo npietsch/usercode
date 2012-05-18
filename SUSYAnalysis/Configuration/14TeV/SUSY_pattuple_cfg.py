@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.2 $'),
+    version = cms.untracked.string('$Revision: 1.3 $'),
     name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -29,7 +29,7 @@ process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
     #'file:PointA1.root'
     #'file:QCD_Pt_30_7TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'
-    'file:test.root'
+    'file:QCD_Pythia_14TeV.root'
     )
 )
 
@@ -45,7 +45,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 options.output = "SUSYPAT.root"
-options.maxEvents = 50000
+options.maxEvents = -1
 #  for SusyPAT configuration
 options.register('GlobalTag', "START44_V10::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', True, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
