@@ -49,25 +49,25 @@ int Plot()
   // Samples
   //--------------------------------------------------------------
 
-  TFile* SemiLepTTJets = new TFile("SemiLepTTJets.root","READ");
-  TFile* FullHadTTJets = new TFile("FullHadTTJets.root","READ");
-  TFile* WJets         = new TFile("WJets.root","READ");
-  TFile* ZJets         = new TFile("ZJets.root","READ");
-  TFile* QCD           = new TFile("QCD.root","READ");
+  TFile* SemiLepTTJets = new TFile("naf_SemiLepTTJets_cfg/Ruediger.root","READ");
+  //TFile* FullHadTTJets = new TFile("naf_FullHadTTJets_cfg/Ruediger.root","READ");
+  //TFile* WJets         = new TFile("naf_WJets_cfg/Ruediger.root","READ");
+  //TFile* ZJets         = new TFile("naf_ZJets_cfg/Ruediger.root","READ");
+  //TFile* QCD           = new TFile("naf_QCD_cfg/Ruediger.root","READ");
 
-  TFile* A1            = new TFile("LM8.root","READ");
+  //TFile* A1            = new TFile("naf_A1_cfg/Ruediger.root","READ");
   
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(FullHadTTJets, "fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
-  addSample(SemiLepTTJets, "semilep t#bar{t}", 1, kRed,     kRed,     1101);
-  addSample(ZJets,         "Zvv + Jets",       1, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,         "Wlv + Jets",       1, kYellow,  kYellow,  1101);
-  addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
+  //addSample(FullHadTTJets, "Fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
+  addSample(SemiLepTTJets, "Semilep t#bar{t}", 1, kRed,     kRed,     1101);
+  //addSample(ZJets,         "Zvv + Jets",       1, kGreen+2, kGreen+2, 1101);
+  //addSample(WJets,         "Wlv + Jets",       1, kYellow,  kYellow,  1101);
+  //addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
 
-  addSample(A1,            "A1",               1, 1,        0,        0   );
+  //addSample(A1,            "A1",               1, 1,        0,        0   );
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
@@ -75,7 +75,7 @@ int Plot()
 
   std::cout << "Test1" << std::endl;
 
-  Selections.push_back("analyzeSUSY1b1e_6");
+  Selections.push_back("analyzeBino1");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
@@ -83,7 +83,7 @@ int Plot()
 
   std::cout << "Test2" << std::endl;
 
-  addHistogram("Bjets_Et_Weights_D");
+  addHistogram("MET");
   
   //--------
   // Plot
