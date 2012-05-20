@@ -173,7 +173,8 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # selection paths
 #--------------------------
 
-process.Bino = cms.Path(process.weightProducer *
+process.Bino = cms.Path(# producer sequneces
+                        process.weightProducer *
                         process.scaledJetEnergy *
                         process.scaledJetEnergyJECUp *
                         process.scaledJetEnergyJECDown *
@@ -181,31 +182,36 @@ process.Bino = cms.Path(process.weightProducer *
                         process.scaledJetEnergyJERDown *
                         process.makeObjects *
                         process.makeSUSYGenEvt *
+                        # filter and analyzer sequences
+                        process.filterMediumHT *
                         process.analyzeLooseJets *
                         process.analyzeGoodJets *
-                        process.filterMediumHT *
+                        process.filterTightHT *
                         process.analyzeBino1 *
-                        process.filterMediumMHT *
+                        process.oneMediumMET *
                         process.analyzeBino2 *
                         process.maxFourGoodJets *
                         process.analyzeBino3 *
                         process.noVetoMuon *
                         process.noVetoElectron *
                         process.analyzeBino4 *
+                        # study JES dependence
                         process.analyzeBino1JECUp *
                         process.analyzeBino1JECDown *
                         process.analyzeBino1JERUp *
                         process.analyzeBino1JERDown
                         )
 
-process.Wino = cms.Path(process.filterMediumHT *
+process.Wino = cms.Path(# filter and analyzer sequences
+                        process.filterTightHT *
                         process.analyzeWino1 *
-                        process.filterMediumMHT *
+                        process.oneMediumMET *
                         process.analyzeWino2 *
                         process.sixGoodJets *
                         process.analyzeWino3 *
                         process.oneGoodLepton *
                         process.analyzeWino4 *
+                        # study JES dependence
                         process.analyzeWino1JECUp *
                         process.analyzeWino1JECDown *
                         process.analyzeWino1JERUp *
