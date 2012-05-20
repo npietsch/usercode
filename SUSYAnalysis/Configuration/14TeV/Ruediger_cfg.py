@@ -190,6 +190,7 @@ process.Bino = cms.Path(# producer sequneces
                         process.analyzeBino1 *
                         process.oneMediumMET *
                         process.analyzeBino2 *
+                        process.twoGoodJets *
                         process.maxFourGoodJets *
                         process.analyzeBino3 *
                         process.noVetoMuon *
@@ -203,9 +204,9 @@ process.Bino = cms.Path(# producer sequneces
                         )
 
 process.Wino = cms.Path(# filter and analyzer sequences
-                        process.filterTightHT *
+                        process.filterMediumHT *
                         process.analyzeWino1 *
-                        process.oneMediumMET *
+                        process.oneLooseMET *
                         process.analyzeWino2 *
                         process.sixGoodJets *
                         process.analyzeWino3 *
