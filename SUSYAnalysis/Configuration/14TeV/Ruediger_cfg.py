@@ -17,7 +17,7 @@ process.options = cms.untracked.PSet(
 
 process.TFileService = cms.Service("TFileService",
                                    fileName = cms.string(
-    'file:Ruediger.root'
+    'Ruediger.root'
     )
 )                                   
   
