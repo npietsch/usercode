@@ -162,9 +162,9 @@ class plotSet {
   void addPlot( TH1* h, TString n, TString t,  double w, unsigned lc, unsigned fs, unsigned fc) {
     if (fs==1101) addToStack(h,n,t,w,lc,fs,fc);
     else addPlot(h,n,t,w,lc,fs);
-    if(w==1) fixDrawStyles[n]="P E";
+    //if(w==1) fixDrawStyles[n]="P E";
     if(fc==0) signals[n]="n";
-    if(lc==10) invisible[n]="n";
+    //if(lc==10) invisible[n]="n";
   }
 
   void scale(TString, TString, double);
@@ -469,7 +469,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   Canvases[c->first] = tmpC;
   tmpC->cd();
   float legSize = .05 + (.05*min((int)c->second.size(),4));
-  TLegend *leg = new TLegend(.65,.6,.99,.99);
+  TLegend *leg = new TLegend(.6,.65,.99,.99);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
   leg->SetLineColor(0);
@@ -559,11 +559,11 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
 	}
     }
 
-  TPaveText *label = new TPaveText(0.15,0.81,0.45,0.9,"NDC");
+  TPaveText *label = new TPaveText(0.1,0.85,0.4,0.95,"NDC");
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetBorderSize(1);
-  TText *text=label->AddText("L=4.613 pb^{-1}");
+  TText *text=label->AddText("L=300 fb^{-1}");
   text->SetTextAlign(22);
   label->Draw("same");
 
@@ -584,7 +584,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   //tmpC->Modified();
   //tmpC->Update();
   
-  tmpC->SaveAs(c->first+"_tight.pdf");
+  tmpC->SaveAs(c->first+".pdf");
 
   return 1;
 }

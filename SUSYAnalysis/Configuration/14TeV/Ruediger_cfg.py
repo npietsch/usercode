@@ -70,13 +70,13 @@ from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
 process.scaledJetEnergy = scaledJetEnergy.clone()
 
 # Define sources for jets and met producer modules
-process.looseJets.src  = "scaledJetEnergy:selectedPatJetsAK5PF"
-process.goodJets.src   = "scaledJetEnergy:selectedPatJetsAK5PF"
+#process.looseJets.src  = "scaledJetEnergy:selectedPatJetsAK5PF"
+#process.goodJets.src   = "scaledJetEnergy:selectedPatJetsAK5PF"
 
-process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
-process.mediumMETs.src = "scaledJetEnergy:patMETsPF"
-process.tightMETs.src  = "scaledJetEnergy:patMETsPF"
-process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
+#process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
+#process.mediumMETs.src = "scaledJetEnergy:patMETsPF"
+#process.tightMETs.src  = "scaledJetEnergy:patMETsPF"
+#process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
 
 process.scaledJetEnergyJECUp                     = scaledJetEnergy.clone()
 process.scaledJetEnergyJECUp.scaleType           = "jes:up"
@@ -175,7 +175,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 
 process.Bino = cms.Path(# producer sequneces
                         process.weightProducer *
-                        process.scaledJetEnergy *
+                        #process.scaledJetEnergy *
                         process.scaledJetEnergyJECUp *
                         process.scaledJetEnergyJECDown *
                         process.scaledJetEnergyJERUp *
@@ -184,17 +184,22 @@ process.Bino = cms.Path(# producer sequneces
                         process.makeSUSYGenEvt *
                         # filter and analyzer sequences
                         process.filterMediumHT *
+                        process.oneLooseMET *
                         process.analyzeLooseJets *
                         process.analyzeGoodJets *
-                        process.filterTightHT *
-                        process.analyzeBino1 *
-                        process.oneMediumMET *
-                        process.analyzeBino2 *
-                        process.twoGoodJets *
+                        
+                        process.threeGoodJets *
                         process.maxFourGoodJets *
-                        process.analyzeBino3 *
+                        process.analyzeBino1 *
+                        
                         process.noVetoMuon *
                         process.noVetoElectron *
+                        process.analyzeBino2 *
+                        
+                        process.filterTightHT *
+                        process.analyzeBino3 *
+                        
+                        process.oneMediumMET *
                         process.analyzeBino4 *
                         # study JES dependence
                         process.analyzeBino1JECUp *
@@ -205,12 +210,18 @@ process.Bino = cms.Path(# producer sequneces
 
 process.Wino = cms.Path(# filter and analyzer sequences
                         process.filterMediumHT *
-                        process.analyzeWino1 *
                         process.oneLooseMET *
-                        process.analyzeWino2 *
+
                         process.sixGoodJets *
-                        process.analyzeWino3 *
+                        process.analyzeWino1 *
+                        
                         process.oneGoodLepton *
+                        process.analyzeWino2 *
+
+                        process.filterTightHT *
+                        process.analyzeWino3 *
+                                                
+                        process.oneMediumMET *
                         process.analyzeWino4 *
                         # study JES dependence
                         process.analyzeWino1JECUp *
