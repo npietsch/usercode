@@ -87,7 +87,8 @@ int Plot()
 
   std::cout << "Test2" << std::endl;
 
-  addHistogram("MET");
+  addHistogram("Jet0_Pt");
+  addHistogram("Jet1_Pt");
   
   //--------
   // Plot

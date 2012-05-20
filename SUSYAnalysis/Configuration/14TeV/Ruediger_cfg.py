@@ -199,7 +199,7 @@ process.Bino = cms.Path(# producer sequneces
                         process.filterTightHT *
                         process.analyzeBino3 *
                         
-                        process.oneMediumMET *
+                        process.oneTightMET *
                         process.analyzeBino4 *
                         # study JES dependence
                         process.analyzeBino1JECUp *

@@ -96,7 +96,8 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* Jets_Theta_;
   TH1F* MET_;
   TH1F* MHT_;
-  TH1F* HT_; 
+  TH1F* HT_;
+  TH1F* YMET_; 
   TH1F* nJets_;
   TH1F* DeltaPtSum_;
   TH2F* DeltaPtSum_MHT_;

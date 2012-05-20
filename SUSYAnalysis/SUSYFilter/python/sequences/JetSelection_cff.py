@@ -186,22 +186,22 @@ goodJetsJERDown.src = "scaledJetEnergyJERDown:selectedPatJetsAK5PF"
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 looseMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 20.'
+                                 'et > 200.'
                                  )
 ## create MET collection
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
-                                'et > 60.'
+                                'et > 300.'
                                 )
 ## create MET collection
 mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
                                   cut =
-                                  'et > 100.'
+                                  'et > 300.'
                                   )
 ## create MET collection
 tightMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 150.'
+                                 'et > 450.'
                                  )
 
 #------------------------------
@@ -357,7 +357,7 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
-filterLooseHT.Cut = 300
+filterLooseHT.Cut = 400
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
@@ -365,7 +365,7 @@ filterMediumHT.Cut = 800
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
-filterTightHT.Cut = 400
+filterTightHT.Cut = 1000
 
 ## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
