@@ -67,6 +67,7 @@ int Plot()
   addSample(ZJets,         "Z->vv + Jets",     1, kGreen+2, kGreen+2, 1101);
   addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
   addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
+  //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
 
   addSample(A1,            "A1",               1, 1,        0,        0   );
 
@@ -76,10 +77,11 @@ int Plot()
 
   std::cout << "Test1" << std::endl;
 
+  Selections.push_back("analyzeGoodJetss");
   Selections.push_back("analyzeBino1");
   Selections.push_back("analyzeBino2");
-  Selections.push_back("analyzeBino3");
-  Selections.push_back("analyzeBino4");
+  //Selections.push_back("analyzeBino3");
+  //Selections.push_back("analyzeBino4");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
@@ -87,9 +89,18 @@ int Plot()
 
   std::cout << "Test2" << std::endl;
 
-  addHistogram("Jet0_Pt");
-  addHistogram("Jet1_Pt");
-  
+  //addHistogram("Jet0_Pt");
+  //addHistogram("Jet1_Pt");
+  //addHistogram("YMET");
+  addHistogram("nJets");
+  //addHistogram("MET");
+  //addHistogram("HT");
+  //addHistogram("DeltaPhi_MET_Jet0");
+  //addHistogram("DeltaPhi_MET_Jet1");
+  //addHistogram("DeltaPhi_MET_Jet2");
+  //addHistogram("MET");
+  //addHistogram("nLeptons");
+
   //--------
   // Plot
   //--------
@@ -113,6 +124,6 @@ int Plot()
 	    }      
 	}
     }
-  
+  //plots.printAll(" ");
   plots.printAll("ylog");
 }

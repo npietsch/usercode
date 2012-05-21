@@ -42,6 +42,8 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+  edm::InputTag vetoMuons_;
+  edm::InputTag vetoElectrons_;
   edm::InputTag met_;
   edm::InputTag inputGenEvent_;
   edm::InputTag PVSrc_;
@@ -85,6 +87,7 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   std::vector<TH1F*> Jet_Pt_;
   std::vector<TH1F*> Jet_Eta_;
   std::vector<TH1F*> DeltaPhi_MHT_Jet_;
+  std::vector<TH1F*> DeltaPhi_MET_Jet_;
   std::vector<TH1F*> Delta_Pt_;
   std::vector<TH2F*> Delta_Pt_MHT_;
   std::vector<TH2F*> RecoJetPt_MHT_;
@@ -112,6 +115,10 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* nMuons_;
   TH1F* nElectrons_;
   TH1F* nLeptons_;
+
+  TH1F* nVetoMuons_;
+  TH1F* nVetoElectrons_;
+  TH1F* nVetoLeptons_;
 
   TH1F* MT_;
 

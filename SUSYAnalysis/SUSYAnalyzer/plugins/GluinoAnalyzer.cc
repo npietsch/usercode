@@ -25,6 +25,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
   muons_        (cfg.getParameter<edm::InputTag>("muons")),
   electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
+  vetoMuons_    (cfg.getParameter<edm::InputTag>("vetoMuons")),
+  vetoElectrons_(cfg.getParameter<edm::InputTag>("vetoElectrons")),
   met_          (cfg.getParameter<edm::InputTag>("met")),
   inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent")),
   PVSrc_        (cfg.getParameter<edm::InputTag>("PVSrc")),
@@ -107,6 +109,10 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       char histname7[20];
       sprintf(histname7,"GenJetPt_MHT_%i",idx);
       GenJetPt_MHT_.push_back(fs->make<TH2F>(histname7,histname6, 200, 0, 2000, 90, 0, 900));
+
+      char histname8[20];
+      sprintf(histname8,"DeltaPhi_MET_Jet%i",idx);
+      DeltaPhi_MET_Jet_.push_back(fs->make<TH1F>(histname8,histname8, 66, -3.3, 3.3));
     }
 
   Jets_Pt_         = fs->make<TH1F>("Jets_Pt",         "Jets_Pt",         200,   0.,  2000.);
@@ -118,7 +124,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
   MHT_      = fs->make<TH1F>("MHT",      "MHT",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",      100,   0.,  5000.);
-  YMET_     = fs->make<TH1F>("YMET",     "YMET",      0,   50., 25.);
+  YMET_     = fs->make<TH1F>("YMET",     "YMET",     50,   0.,  25.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
   DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
 
@@ -149,6 +155,10 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,  6.5);
   nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,  6.5);
   nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5, 12.5);
+  
+  nVetoMuons_      = fs->make<TH1F>("nVetoMuons",     "nVetoMuons",      7, -0.5,  6.5);
+  nVetoElectrons_  = fs->make<TH1F>("nVetoElectrons", "nVetoElectrons",  7, -0.5,  6.5);
+  nVetoLeptons_    = fs->make<TH1F>("nVetoLeptons",   "nVetoLeptons",   13, -0.5, 12.5);
 
   MT_          = fs->make<TH1F>("MT","MT", 80, 0., 4000.);
 
@@ -175,6 +185,10 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
+ edm::Handle<std::vector<pat::Muon> > vetoMuons;
+  evt.getByLabel(vetoMuons_, vetoMuons);
+  edm::Handle<std::vector<pat::Electron> > vetoElectrons;
+  evt.getByLabel(vetoElectrons_, vetoElectrons);
   edm::Handle<std::vector<pat::MET> > met;
   evt.getByLabel(met_, met);
   edm::Handle<SUSYGenEvent> susyGenEvent;
@@ -377,8 +391,9 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	      Jet_Pt_[i]           ->Fill((*jets)[i].pt(),  weight);
 	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(), weight);
 
-	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(), (*jets)[i].phi()), weight);
-	      RecoJetPt_MHT_[i]    ->Fill((*jets)[i].pt(),      MHT,               weight);
+	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(),     (*jets)[i].phi()), weight);
+	      DeltaPhi_MET_Jet_[i] ->Fill(deltaPhi((*met)[0].phi(), (*jets)[i].phi()), weight);
+	      RecoJetPt_MHT_[i]    ->Fill((*jets)[i].pt(),           MHT,              weight);
 
 	      if((*jets)[i].genJet())
 		{
@@ -445,6 +460,10 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nMuons_    ->Fill(nMuons,     weight);
   nElectrons_->Fill(nElectrons, weight);
   nLeptons_  ->Fill(nLeptons,   weight);
+
+  nVetoMuons_    ->Fill(vetoMuons->size(),                       weight);
+  nVetoElectrons_->Fill(vetoElectrons->size(),                   weight);
+  nVetoLeptons_  ->Fill(vetoMuons->size()+vetoElectrons->size(), weight);
 
   //std::cout << "Test5" << std::endl;
 
