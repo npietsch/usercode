@@ -7,6 +7,7 @@ process.weightProducer.Lumi = 300  ## Lumi in 1/pb
 
 # Choose input files
 process.source = cms.Source("PoolSource",
+                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck'),
                             fileNames = cms.untracked.vstring(
     'file:../../../../../../Storage/ '
     )

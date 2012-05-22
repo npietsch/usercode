@@ -124,7 +124,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
   MHT_      = fs->make<TH1F>("MHT",      "MHT",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",      100,   0.,  5000.);
-  YMET_     = fs->make<TH1F>("YMET",     "YMET",     50,   0.,  25.);
+  YMET_     = fs->make<TH1F>("YMET",     "YMET",    100,   0.,  50.);
+  METSig_   = fs->make<TH1F>("METSig",   "METSig",  100,   0.,  50.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
   DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
 
@@ -367,6 +368,8 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HT=0;
   double DeltaPtSum=0;
 
+  //std::cout << "GluinoAnalyzer: nJets=" << jets->size() << std::endl;
+
   if(jets->size()>0)
     {
       reco::Particle::LorentzVector P4=(*jets)[0].p4();
@@ -392,6 +395,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	      Jet_Eta_[i]          ->Fill((*jets)[i].eta(), weight);
 
 	      DeltaPhi_MHT_Jet_[i] ->Fill(deltaPhi(MHTP4.phi(),     (*jets)[i].phi()), weight);
+	      //if(i==0)std::cout << "deltaPhi((*met)[0].phi(), (*jets)[i].phi()): " << deltaPhi((*met)[0].phi(), (*jets)[i].phi()) << std::endl;
 	      DeltaPhi_MET_Jet_[i] ->Fill(deltaPhi((*met)[0].phi(), (*jets)[i].phi()), weight);
 	      RecoJetPt_MHT_[i]    ->Fill((*jets)[i].pt(),           MHT,              weight);
 
@@ -413,10 +417,18 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
     }
 
+  double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
+  double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
+  double METSig  = 0;
+  if(sigmaX2<1.e10 && sigmaY2<1.e10) METSig = (*met)[0].significance();
+  // Use the sqrt of the significance
+  if (METSig > 0.) METSig = sqrt(METSig);
+
   MET_->Fill((*met)[0].et(), weight);
   MHT_->Fill(MHT, weight);
   HT_->Fill(HT, weight);
   YMET_->Fill((*met)[0].et()/sqrt(HT),weight);
+  METSig_->Fill(METSig, weight);
   nJets_->Fill(jets->size(), weight);
   DeltaPtSum_->Fill(DeltaPtSum, weight);
   DeltaPtSum_MHT_->Fill(DeltaPtSum, MHT, weight);

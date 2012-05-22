@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 # module to study systematics
 #
 analyzeGluino = cms.EDAnalyzer("GluinoAnalyzer",
-                               jets = cms.InputTag("selectedPatJetsAK5PF"),
+                               jets = cms.InputTag("patMETsPF"),
                                looseJets = cms.InputTag("looseJets"),
                                bjets = cms.InputTag("mediumTrackHighEffBjets"),
                                muons = cms.InputTag("goodMuons"),

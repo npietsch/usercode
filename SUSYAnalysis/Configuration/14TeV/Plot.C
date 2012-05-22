@@ -57,7 +57,9 @@ int Plot()
   TFile* QCD           = new TFile("naf_QCD_cfg/Ruediger.root","READ");
 
   TFile* A1            = new TFile("naf_A1_cfg/Ruediger.root","READ");
-  
+  TFile* B1            = new TFile("naf_B1_cfg/Ruediger.root","READ");
+  TFile* C1            = new TFile("naf_C1_cfg/Ruediger.root","READ");
+
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
@@ -69,7 +71,10 @@ int Plot()
   addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
   //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
 
-  addSample(A1,            "A1",               1, 1,        0,        0   );
+  addSample(A1,            "A1",               1, kRed+2,        0,        0   );
+  addSample(B1,            "B1",               1, 1,   0,        0   );
+  addSample(C1,            "C1",               1, kBlue,    0,        0   );
+
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
@@ -77,9 +82,9 @@ int Plot()
 
   std::cout << "Test1" << std::endl;
 
-  Selections.push_back("analyzeGoodJetss");
-  Selections.push_back("analyzeBino1");
-  Selections.push_back("analyzeBino2");
+  //Selections.push_back("analyzeGoodJets");
+  //Selections.push_back("analyzeWino1");
+  Selections.push_back("analyzeWino2");
   //Selections.push_back("analyzeBino3");
   //Selections.push_back("analyzeBino4");
 
@@ -89,16 +94,18 @@ int Plot()
 
   std::cout << "Test2" << std::endl;
 
-  //addHistogram("Jet0_Pt");
-  //addHistogram("Jet1_Pt");
-  //addHistogram("YMET");
-  addHistogram("nJets");
-  //addHistogram("MET");
-  //addHistogram("HT");
-  //addHistogram("DeltaPhi_MET_Jet0");
-  //addHistogram("DeltaPhi_MET_Jet1");
+  addHistogram("Jet0_Pt");
+  addHistogram("Jet1_Pt");
+  addHistogram("YMET");
+  //addHistogram("nJets");
+  //addHistogram("nLeptons");
+  addHistogram("MHT");
+  addHistogram("MET");
+  addHistogram("HT");
+  addHistogram("DeltaPhi_MET_Jet0");
+  addHistogram("DeltaPhi_MET_Jet1");
   //addHistogram("DeltaPhi_MET_Jet2");
-  //addHistogram("MET");
+  //addHistogram("min123");
   //addHistogram("nLeptons");
 
   //--------
@@ -124,6 +131,6 @@ int Plot()
 	    }      
 	}
     }
-  //plots.printAll(" ");
+  //plots.printAll("");
   plots.printAll("ylog");
 }

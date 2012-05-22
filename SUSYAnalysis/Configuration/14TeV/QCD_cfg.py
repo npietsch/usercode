@@ -7,6 +7,7 @@ process.weightProducer.Lumi = 300000  ## Lumi in 1/pb
 
 # Choose input files
 process.source = cms.Source("PoolSource",
+                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck'),
                             fileNames = cms.untracked.vstring(
     'file:../../../../../../Storage/QCD_Pt15to3000_Pythia_PAT_1.root',
     'file:../../../../../../Storage/QCD_Pt15to3000_Pythia_PAT_2.root',

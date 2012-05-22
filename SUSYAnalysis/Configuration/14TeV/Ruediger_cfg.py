@@ -101,7 +101,7 @@ process.L2L3ResidualMC = cms.ESSource(
     useCondDB = cms.untracked.bool(True)
     )
 
-#----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
 # Load modules for analysis on generator level, level of matched objects and reco-level
 #-----------------------------------------------------------------------------------------
 
@@ -113,6 +113,7 @@ process.analyzeLooseJets.jets = "looseJets"
 process.analyzeGoodJets      = process.analyzeGluino.clone()
 process.analyzeGoodJets.jets = "goodJets"
 
+## analyzer modules for bino selection
 process.analyzeBino1          = process.analyzeGluino.clone()
 process.analyzeBino1.jets     = "goodJets"
 
@@ -125,6 +126,20 @@ process.analyzeBino3.jets     = "goodJets"
 process.analyzeBino4          = process.analyzeGluino.clone()
 process.analyzeBino4.jets     = "goodJets"
 
+## analyzer modules for bino selection type A
+process.analyzeBino1A         = process.analyzeGluino.clone()
+process.analyzeBino1A.jets    = "goodJets"
+
+process.analyzeBino2A         = process.analyzeGluino.clone()
+process.analyzeBino2A.jets    = "goodJets"
+
+process.analyzeBino3A         = process.analyzeGluino.clone()
+process.analyzeBino3A.jets    = "goodJets"
+
+process.analyzeBino4A         = process.analyzeGluino.clone()
+process.analyzeBino4A.jets    = "goodJets"
+
+## analyzer modules for wino selection
 process.analyzeWino1          = process.analyzeGluino.clone()
 process.analyzeWino1.jets     = "goodJets"
 
@@ -163,6 +178,20 @@ process.analyzeWino1JERDown       = process.analyzeGluino.clone()
 process.analyzeWino1JERDown.jets  = "goodJetsJERDown"
 
 #-------------------------------------------------
+# Load additional filter modules 
+#-------------------------------------------------
+
+from SUSYAnalysis.SUSYFilter.filters.DeltaPhiFilter_cfi import *
+
+process.filterDeltaPhi1=filterDeltaPhi.clone()
+process.filterDeltaPhi1.Jet = 0
+process.filterDeltaPhi1.jets = "goodJets"
+
+process.filterDeltaPhi2=filterDeltaPhi.clone()
+process.filterDeltaPhi2.Jet = 1
+process.filterDeltaPhi2.jets = "goodJets"
+
+#-------------------------------------------------
 # Temporary
 #-------------------------------------------------
 
@@ -189,17 +218,17 @@ process.Bino = cms.Path(# producer sequneces
                         process.analyzeGoodJets *
                         
                         process.threeGoodJets *
-                        process.maxFourGoodJets *
+                        process.maxFiveGoodJets *
                         process.analyzeBino1 *
                         
                         process.noVetoMuon *
                         process.noVetoElectron *
                         process.analyzeBino2 *
                         
-                        process.filterTightHT *
+                        process.filterDeltaPhi1 *
                         process.analyzeBino3 *
                         
-                        process.oneTightMET *
+                        process.filterDeltaPhi2 *
                         process.analyzeBino4 *
                         # study JES dependence
                         process.analyzeBino1JECUp *
@@ -207,6 +236,26 @@ process.Bino = cms.Path(# producer sequneces
                         process.analyzeBino1JERUp *
                         process.analyzeBino1JERDown
                         )
+
+
+process.BinoA = cms.Path(# filter and analyzer sequences
+                         process.filterMediumHT *
+                         process.oneLooseMET *
+                                                
+                         process.threeGoodJets *
+                         process.maxFourGoodJets *
+                         process.analyzeBino1A *
+                        
+                         process.noVetoMuon *
+                         process.noVetoElectron *
+                         process.analyzeBino2A *
+                         
+                         process.filterDeltaPhi1 *
+                         process.analyzeBino3A *
+                         
+                         process.filterDeltaPhi2 *
+                         process.analyzeBino4A
+                         )
 
 process.Wino = cms.Path(# filter and analyzer sequences
                         process.filterMediumHT *

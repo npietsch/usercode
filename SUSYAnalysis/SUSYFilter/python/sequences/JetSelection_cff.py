@@ -317,11 +317,14 @@ threeGoodJets = countPatJets.clone(src = 'goodJets',
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
-## select events with 4 good jets
+## select events with max. 4 good jets
 maxFourGoodJets = countPatJets.clone(src = 'goodJets',
                                      maxNumber = 4
                                      )
-
+## select events with max. 5 good jets
+maxFiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                     maxNumber = 5
+                                     )
 ## select events with 4 good jets
 sixGoodJets = countPatJets.clone(src = 'goodJets',
                                  minNumber = 6
