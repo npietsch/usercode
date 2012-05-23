@@ -42,7 +42,7 @@ void addHistogram(TString name)
 }
 
 // main function
-int Plot()
+int Plot_Shape()
 {
 
   //--------------------------------------------------------------
@@ -63,16 +63,16 @@ int Plot()
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(FullHadTTJets, "Fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
-  addSample(SemiLepTTJets, "Semilep t#bar{t}", 1, kRed,     kRed,     1101);
-  addSample(ZJets,         "Z->vv + Jets",     1, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
-  addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
+  //addSample(FullHadTTJets, "Fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
+  //addSample(SemiLepTTJets, "Semilep t#bar{t}", 1, kRed,     kRed,     1101);
+  //addSample(ZJets,         "Z->vv + Jets",     1, kGreen+2, kGreen+2, 1101);
+  //addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
+  //addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
   //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
 
-  //addSample(A1,            "A1",               1, kRed+2,        0,        0   );
-  //addSample(B1,            "B1",               1, 1,   0,        0   );
-  addSample(C1,            "C1",            0.15, kBlue,    0,        0   );
+  addSample(A1,            "A1",               1, kRed+2,        0,        0   );
+  addSample(B1,            "B1",               1, 1,   0,        0   );
+  addSample(C1,            "C1",               1, kBlue,    0,        0   );
 
 
   //-------------------------------------------------------------------------------------------------
@@ -86,14 +86,14 @@ int Plot()
   //Selections.push_back("analyzeBino1");
   //Selections.push_back("analyzeBino2");
   //Selections.push_back("analyzeBino3");
-  Selections.push_back("analyzeBino4");
-  Selections.push_back("analyzeBino5");
+  //Selections.push_back("analyzeBino4");
+  //Selections.push_back("analyzeBino5");
 
   //Selections.push_back("analyzeBino1A");
   //Selections.push_back("analyzeBino2A");
   //Selections.push_back("analyzeBino3A");
-  Selections.push_back("analyzeBino4A");
-  Selections.push_back("analyzeBino5A");
+  //Selections.push_back("analyzeBino4A");
+  //Selections.push_back("analyzeBino5A");
 
   //Selections.push_back("analyzeWino1");
   //Selections.push_back("analyzeWino2");
@@ -101,6 +101,7 @@ int Plot()
   //Selections.push_back("analyzeWino4");
   //Selections.push_back("analyzeWino5");
 
+  Selections.push_back("analyzeSignal1");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
@@ -115,12 +116,12 @@ int Plot()
   //addHistogram("nJets");
   //addHistogram("nVetoLeptons");
   //addHistogram("MHT");
-  //addHistogram("MET");
+  addHistogram("MET");
   //addHistogram("HT");
   //addHistogram("DeltaPhi_MET_Jet0");
   //addHistogram("DeltaPhi_MET_Jet1");
   //addHistogram("DeltaPhi_MET_Jet2");
-  addHistogram("min123");
+  //addHistogram("min123");
   //addHistogram("nLeptons");
 
   //--------
@@ -142,7 +143,11 @@ int Plot()
 	  // Loop over samples
 	  for(int i=0; i<(int)Files.size(); ++i)
 	    {
-	      plots.addPlot((TH1F*)Files[i]->Get(Selections[sdx]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
+	      TH1F* Temp=(TH1F*)Files[i]->Get(Selections[sdx]+"/"+Histograms[h]);
+	      double Int=Temp->Integral();
+	      std::cout << Int << std::endl;
+
+	      plots.addPlot((TH1F*)Files[i]->Get(Selections[sdx]+"/"+Histograms[h]),Names[i],Histograms[h]+"_"+Selections[sdx],(1/Int)*Weights[i],LineColors[i],FillStyles[i],FillColors[i]);
 	    }      
 	}
     }

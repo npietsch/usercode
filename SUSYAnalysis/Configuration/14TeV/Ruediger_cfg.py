@@ -113,6 +113,13 @@ process.analyzeLooseJets.jets = "looseJets"
 process.analyzeGoodJets      = process.analyzeGluino.clone()
 process.analyzeGoodJets.jets = "goodJets"
 
+## analyzer modules for signal only
+process.analyzeSignal1        = process.analyzeGluino.clone()
+process.analyzeSignal1.jets   = "goodJets"
+
+process.analyzeSignal2        = process.analyzeGluino.clone()
+process.analyzeSignal2.jets   = "goodJets"
+
 ## analyzer modules for bino selection
 process.analyzeBino1          = process.analyzeGluino.clone()
 process.analyzeBino1.jets     = "goodJets"
@@ -227,6 +234,8 @@ process.Bino = cms.Path(# producer sequneces
                         process.makeObjects *
                         process.makeSUSYGenEvt *
                         # filter and analyzer sequences
+                        process.analyzeSignal1 *
+                        
                         process.filterMediumHT *
                         process.oneLooseMET *
                         process.analyzeLooseJets *
