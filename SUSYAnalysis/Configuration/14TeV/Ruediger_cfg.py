@@ -126,6 +126,9 @@ process.analyzeBino3.jets     = "goodJets"
 process.analyzeBino4          = process.analyzeGluino.clone()
 process.analyzeBino4.jets     = "goodJets"
 
+process.analyzeBino5          = process.analyzeGluino.clone()
+process.analyzeBino5.jets     = "goodJets"
+
 ## analyzer modules for bino selection type A
 process.analyzeBino1A         = process.analyzeGluino.clone()
 process.analyzeBino1A.jets    = "goodJets"
@@ -139,6 +142,9 @@ process.analyzeBino3A.jets    = "goodJets"
 process.analyzeBino4A         = process.analyzeGluino.clone()
 process.analyzeBino4A.jets    = "goodJets"
 
+process.analyzeBino5A         = process.analyzeGluino.clone()
+process.analyzeBino5A.jets    = "goodJets"
+
 ## analyzer modules for wino selection
 process.analyzeWino1          = process.analyzeGluino.clone()
 process.analyzeWino1.jets     = "goodJets"
@@ -151,6 +157,9 @@ process.analyzeWino3.jets     = "goodJets"
 
 process.analyzeWino4          = process.analyzeGluino.clone()
 process.analyzeWino4.jets     = "goodJets"   
+
+process.analyzeWino5          = process.analyzeGluino.clone()
+process.analyzeWino5.jets     = "goodJets"
 
 # Configure modules for JER/JEC studies
 process.analyzeBino1JECUp         = process.analyzeGluino.clone()
@@ -191,6 +200,12 @@ process.filterDeltaPhi2=filterDeltaPhi.clone()
 process.filterDeltaPhi2.Jet = 1
 process.filterDeltaPhi2.jets = "goodJets"
 
+from SUSYAnalysis.SUSYFilter.filters.YmetFilter_cfi import *
+
+process.filterYmet = filterYmet.clone()
+process.filterYmet.jets = "goodJets"
+process.filterYmet.Cut =15
+
 #-------------------------------------------------
 # Temporary
 #-------------------------------------------------
@@ -230,6 +245,9 @@ process.Bino = cms.Path(# producer sequneces
                         
                         process.filterDeltaPhi2 *
                         process.analyzeBino4 *
+
+                        process.filterYmet *
+                        process.analyzeBino5 *
                         # study JES dependence
                         process.analyzeBino1JECUp *
                         process.analyzeBino1JECDown *
@@ -254,7 +272,10 @@ process.BinoA = cms.Path(# filter and analyzer sequences
                          process.analyzeBino3A *
                          
                          process.filterDeltaPhi2 *
-                         process.analyzeBino4A
+                         process.analyzeBino4A*
+
+                         process.filterYmet *
+                         process.analyzeBino5A
                          )
 
 process.Wino = cms.Path(# filter and analyzer sequences

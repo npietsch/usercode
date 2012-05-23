@@ -85,8 +85,8 @@ int Plot()
   //Selections.push_back("analyzeGoodJets");
   //Selections.push_back("analyzeWino1");
   Selections.push_back("analyzeWino2");
-  //Selections.push_back("analyzeBino3");
-  //Selections.push_back("analyzeBino4");
+  Selections.push_back("analyzeBino3");
+  Selections.push_back("analyzeBino4");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
@@ -94,14 +94,14 @@ int Plot()
 
   std::cout << "Test2" << std::endl;
 
-  addHistogram("Jet0_Pt");
-  addHistogram("Jet1_Pt");
-  addHistogram("YMET");
+  //addHistogram("Jet0_Pt");
+  //addHistogram("Jet1_Pt");
+  //addHistogram("YMET");
   //addHistogram("nJets");
   //addHistogram("nLeptons");
-  addHistogram("MHT");
-  addHistogram("MET");
-  addHistogram("HT");
+  //addHistogram("MHT");
+  //addHistogram("MET");
+  //addHistogram("HT");
   addHistogram("DeltaPhi_MET_Jet0");
   addHistogram("DeltaPhi_MET_Jet1");
   //addHistogram("DeltaPhi_MET_Jet2");
