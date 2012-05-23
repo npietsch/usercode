@@ -70,9 +70,9 @@ int Plot()
   addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
   //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
 
-  //addSample(A1,            "A1",               1, kRed+2,        0,        0   );
-  //addSample(B1,            "B1",               1, 1,   0,        0   );
-  addSample(C1,            "C1",            0.15, kBlue,    0,        0   );
+  addSample(A1,            "A1",               1, kRed+2,     0,        0   );
+  addSample(B1,            "B1",               1, 1,          0,        0   );
+  addSample(C1,            "C1",               1, kBlue,      0,        0   );
 
 
   //-------------------------------------------------------------------------------------------------
@@ -86,20 +86,20 @@ int Plot()
   //Selections.push_back("analyzeBino1");
   //Selections.push_back("analyzeBino2");
   //Selections.push_back("analyzeBino3");
-  Selections.push_back("analyzeBino4");
-  Selections.push_back("analyzeBino5");
+  //Selections.push_back("analyzeBino4");
+  //Selections.push_back("analyzeBino5");
 
   //Selections.push_back("analyzeBino1A");
   //Selections.push_back("analyzeBino2A");
   //Selections.push_back("analyzeBino3A");
-  Selections.push_back("analyzeBino4A");
-  Selections.push_back("analyzeBino5A");
+  //Selections.push_back("analyzeBino4A");
+  //Selections.push_back("analyzeBino5A");
 
-  //Selections.push_back("analyzeWino1");
-  //Selections.push_back("analyzeWino2");
-  //Selections.push_back("analyzeWino3");
-  //Selections.push_back("analyzeWino4");
-  //Selections.push_back("analyzeWino5");
+  Selections.push_back("analyzeWino1");
+  Selections.push_back("analyzeWino2");
+  Selections.push_back("analyzeWino3");
+  Selections.push_back("analyzeWino4");
+  Selections.push_back("analyzeWino5");
 
 
   //-------------------------------------------------------------------------------------------------
@@ -110,7 +110,9 @@ int Plot()
 
   //addHistogram("Jet0_Pt");
   //addHistogram("Jet1_Pt");
-  //addHistogram("YMET");
+  //addHistogram("Jet2_Pt");
+  //addHistogram("Jet3_Pt");
+  addHistogram("YMET");
   //addHistogram("METSig");
   //addHistogram("nJets");
   //addHistogram("nVetoLeptons");
@@ -120,7 +122,7 @@ int Plot()
   //addHistogram("DeltaPhi_MET_Jet0");
   //addHistogram("DeltaPhi_MET_Jet1");
   //addHistogram("DeltaPhi_MET_Jet2");
-  addHistogram("min123");
+  //addHistogram("min123");
   //addHistogram("nLeptons");
 
   //--------
@@ -146,6 +148,6 @@ int Plot()
 	    }      
 	}
     }
-  plots.printAll("");
-  //plots.printAll("ylog");
+  //plots.printAll("");
+  plots.printAll("ylog");
 }

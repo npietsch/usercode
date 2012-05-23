@@ -21,7 +21,6 @@ process.TFileService = cms.Service("TFileService",
     )
 )                                   
   
-
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
@@ -120,37 +119,85 @@ process.analyzeSignal1.jets   = "goodJets"
 process.analyzeSignal2        = process.analyzeGluino.clone()
 process.analyzeSignal2.jets   = "goodJets"
 
-## analyzer modules for bino selection
-process.analyzeBino1          = process.analyzeGluino.clone()
-process.analyzeBino1.jets     = "goodJets"
+## analyzer modules for bino selection with 4 Jets
+process.analyzeBino14         = process.analyzeGluino.clone()
+process.analyzeBino14.jets     = "goodJets"
 
-process.analyzeBino2          = process.analyzeGluino.clone()
-process.analyzeBino2.jets     = "goodJets"
+process.analyzeBino24          = process.analyzeGluino.clone()
+process.analyzeBino24.jets     = "goodJets"
 
-process.analyzeBino3          = process.analyzeGluino.clone()
-process.analyzeBino3.jets     = "goodJets"
+process.analyzeBino34          = process.analyzeGluino.clone()
+process.analyzeBino34.jets     = "goodJets"
 
-process.analyzeBino4          = process.analyzeGluino.clone()
-process.analyzeBino4.jets     = "goodJets"
+process.analyzeBino44          = process.analyzeGluino.clone()
+process.analyzeBino44.jets     = "goodJets"
 
-process.analyzeBino5          = process.analyzeGluino.clone()
-process.analyzeBino5.jets     = "goodJets"
+process.analyzeBino54          = process.analyzeGluino.clone()
+process.analyzeBino54.jets     = "goodJets"
 
-## analyzer modules for bino selection type A
-process.analyzeBino1A         = process.analyzeGluino.clone()
-process.analyzeBino1A.jets    = "goodJets"
+## analyzer modules for bino selection with 5 Jets
+process.analyzeBino15         = process.analyzeGluino.clone()
+process.analyzeBino15.jets     = "goodJets"
 
-process.analyzeBino2A         = process.analyzeGluino.clone()
-process.analyzeBino2A.jets    = "goodJets"
+process.analyzeBino25          = process.analyzeGluino.clone()
+process.analyzeBino25.jets     = "goodJets"
 
-process.analyzeBino3A         = process.analyzeGluino.clone()
-process.analyzeBino3A.jets    = "goodJets"
+process.analyzeBino35          = process.analyzeGluino.clone()
+process.analyzeBino35.jets     = "goodJets"
 
-process.analyzeBino4A         = process.analyzeGluino.clone()
-process.analyzeBino4A.jets    = "goodJets"
+process.analyzeBino45          = process.analyzeGluino.clone()
+process.analyzeBino45.jets     = "goodJets"
 
-process.analyzeBino5A         = process.analyzeGluino.clone()
-process.analyzeBino5A.jets    = "goodJets"
+process.analyzeBino55          = process.analyzeGluino.clone()
+process.analyzeBino55.jets     = "goodJets"
+
+## analyzer modules for bino selection with 4-5 Jets
+process.analyzeBino145          = process.analyzeGluino.clone()
+process.analyzeBino145.jets     = "goodJets"
+
+process.analyzeBino245          = process.analyzeGluino.clone()
+process.analyzeBino245.jets     = "goodJets"
+
+process.analyzeBino345          = process.analyzeGluino.clone()
+process.analyzeBino345.jets     = "goodJets"
+
+process.analyzeBino445          = process.analyzeGluino.clone()
+process.analyzeBino445.jets     = "goodJets"
+
+process.analyzeBino545          = process.analyzeGluino.clone()
+process.analyzeBino545.jets     = "goodJets"
+
+## analyzer modules for bino selection with 4-6 Jets
+process.analyzeBino146          = process.analyzeGluino.clone()
+process.analyzeBino146.jets     = "goodJets"
+
+process.analyzeBino246          = process.analyzeGluino.clone()
+process.analyzeBino246.jets     = "goodJets"
+
+process.analyzeBino346          = process.analyzeGluino.clone()
+process.analyzeBino346.jets     = "goodJets"
+
+process.analyzeBino446          = process.analyzeGluino.clone()
+process.analyzeBino446.jets     = "goodJets"
+
+process.analyzeBino546          = process.analyzeGluino.clone()
+process.analyzeBino546.jets     = "goodJets"
+
+## analyzer modules for bino selection with 5-6 Jets
+process.analyzeBino156          = process.analyzeGluino.clone()
+process.analyzeBino156.jets     = "goodJets"
+
+process.analyzeBino256          = process.analyzeGluino.clone()
+process.analyzeBino256.jets     = "goodJets"
+
+process.analyzeBino356          = process.analyzeGluino.clone()
+process.analyzeBino356.jets     = "goodJets"
+
+process.analyzeBino456          = process.analyzeGluino.clone()
+process.analyzeBino456.jets     = "goodJets"
+
+process.analyzeBino556          = process.analyzeGluino.clone()
+process.analyzeBino556.jets     = "goodJets"
 
 ## analyzer modules for wino selection
 process.analyzeWino1          = process.analyzeGluino.clone()
@@ -169,29 +216,29 @@ process.analyzeWino5          = process.analyzeGluino.clone()
 process.analyzeWino5.jets     = "goodJets"
 
 # Configure modules for JER/JEC studies
-process.analyzeBino1JECUp         = process.analyzeGluino.clone()
-process.analyzeBino1JECUp.jets    = "goodJetsJECUp"
+process.analyzeBinoJECUp         = process.analyzeGluino.clone()
+process.analyzeBinoJECUp.jets    = "goodJetsJECUp"
 
-process.analyzeBino1JECDown       = process.analyzeGluino.clone()
-process.analyzeBino1JECDown.jets  = "goodJetsJECDown"
+process.analyzeBinoJECDown       = process.analyzeGluino.clone()
+process.analyzeBinoJECDown.jets  = "goodJetsJECDown"
 
-process.analyzeBino1JERUp         = process.analyzeGluino.clone()
-process.analyzeBino1JERUp.jets    = "goodJetsJERUp"
+process.analyzeBinoJERUp         = process.analyzeGluino.clone()
+process.analyzeBinoJERUp.jets    = "goodJetsJERUp"
 
-process.analyzeBino1JERDown       = process.analyzeGluino.clone()
-process.analyzeBino1JERDown.jets  = "goodJetsJERDown"
+process.analyzeBinoJERDown       = process.analyzeGluino.clone()
+process.analyzeBinoJERDown.jets  = "goodJetsJERDown"
 
-process.analyzeWino1JECUp         = process.analyzeGluino.clone()
-process.analyzeWino1JECUp.jets    = "goodJetsJECUp"
+process.analyzeWinoJECUp         = process.analyzeGluino.clone()
+process.analyzeWinoJECUp.jets    = "goodJetsJECUp"
 
-process.analyzeWino1JECDown       = process.analyzeGluino.clone()
-process.analyzeWino1JECDown.jets  = "goodJetsJECDown"
+process.analyzeWinoJECDown       = process.analyzeGluino.clone()
+process.analyzeWinoJECDown.jets  = "goodJetsJECDown"
 
-process.analyzeWino1JERUp         = process.analyzeGluino.clone()
-process.analyzeWino1JERUp.jets    = "goodJetsJERUp"
+process.analyzeWinoJERUp         = process.analyzeGluino.clone()
+process.analyzeWinoJERUp.jets    = "goodJetsJERUp"
 
-process.analyzeWino1JERDown       = process.analyzeGluino.clone()
-process.analyzeWino1JERDown.jets  = "goodJetsJERDown"
+process.analyzeWinoJERDown       = process.analyzeGluino.clone()
+process.analyzeWinoJERDown.jets  = "goodJetsJERDown"
 
 #-------------------------------------------------
 # Load additional filter modules 
@@ -209,9 +256,13 @@ process.filterDeltaPhi2.jets = "goodJets"
 
 from SUSYAnalysis.SUSYFilter.filters.YmetFilter_cfi import *
 
-process.filterYmet = filterYmet.clone()
-process.filterYmet.jets = "goodJets"
-process.filterYmet.Cut =15
+process.filterYmetBino = filterYmet.clone()
+process.filterYmetBino.jets = "goodJets"
+process.filterYmetBino.Cut =15
+
+process.filterYmetWino = filterYmet.clone()
+process.filterYmetWino.jets = "goodJets"
+process.filterYmetWino.Cut = 8
 
 #-------------------------------------------------
 # Temporary
@@ -224,68 +275,141 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 # selection paths
 #--------------------------
 
-process.Bino = cms.Path(# producer sequneces
-                        process.weightProducer *
-                        #process.scaledJetEnergy *
-                        process.scaledJetEnergyJECUp *
-                        process.scaledJetEnergyJECDown *
-                        process.scaledJetEnergyJERUp *
-                        process.scaledJetEnergyJERDown *
-                        process.makeObjects *
-                        process.makeSUSYGenEvt *
-                        # filter and analyzer sequences
-                        process.analyzeSignal1 *
-                        
-                        process.filterMediumHT *
-                        process.oneLooseMET *
-                        process.analyzeLooseJets *
-                        process.analyzeGoodJets *
-                        
-                        process.threeGoodJets *
-                        process.maxFiveGoodJets *
-                        process.analyzeBino1 *
-                        
-                        process.noVetoMuon *
-                        process.noVetoElectron *
-                        process.analyzeBino2 *
-                        
-                        process.filterDeltaPhi1 *
-                        process.analyzeBino3 *
-                        
-                        process.filterDeltaPhi2 *
-                        process.analyzeBino4 *
+##------------------------------
+## Bino selection paths
+##------------------------------
 
-                        process.filterYmet *
-                        process.analyzeBino5 *
-                        # study JES dependence
-                        process.analyzeBino1JECUp *
-                        process.analyzeBino1JECDown *
-                        process.analyzeBino1JERUp *
-                        process.analyzeBino1JERDown
-                        )
+process.Bino45 = cms.Path(# producer sequneces
+                          process.weightProducer *
+                          #process.scaledJetEnergy *
+                          process.scaledJetEnergyJECUp *
+                          process.scaledJetEnergyJECDown *
+                          process.scaledJetEnergyJERUp *
+                          process.scaledJetEnergyJERDown *
+                          process.makeObjects *
+                          process.makeSUSYGenEvt *
+                          # filter and analyzer sequences
+                          process.analyzeSignal1 *
+                          
+                          process.filterMediumHT *
+                          process.oneLooseMET *
+                          process.analyzeLooseJets *
+                          process.analyzeGoodJets *
+                          
+                          process.fourGoodJets *
+                          process.maxFiveGoodJets *
+                          process.analyzeBino145 *
+                          
+                          process.noVetoMuon *
+                          process.noVetoElectron *
+                          process.analyzeBino245 *
+                          
+                          process.filterDeltaPhi1 *
+                          process.analyzeBino345 *
+                          
+                          process.filterDeltaPhi2 *
+                          process.analyzeBino445 *
+                          
+                          process.filterYmetBino *
+                          process.analyzeBino545 *
+                          # study JES dependence
+                          process.analyzeBinoJECUp *
+                          process.analyzeBinoJECDown *
+                          process.analyzeBinoJERUp *
+                          process.analyzeBinoJERDown
+                          )
 
-
-process.BinoA = cms.Path(# filter and analyzer sequences
+process.Bino4 = cms.Path(# filter and analyzer sequences
                          process.filterMediumHT *
                          process.oneLooseMET *
                                                 
-                         process.threeGoodJets *
+                         process.fourGoodJets *
                          process.maxFourGoodJets *
-                         process.analyzeBino1A *
+                         process.analyzeBino14 *
                         
                          process.noVetoMuon *
                          process.noVetoElectron *
-                         process.analyzeBino2A *
+                         process.analyzeBino24 *
                          
                          process.filterDeltaPhi1 *
-                         process.analyzeBino3A *
+                         process.analyzeBino34 *
                          
                          process.filterDeltaPhi2 *
-                         process.analyzeBino4A*
+                         process.analyzeBino44*
 
-                         process.filterYmet *
-                         process.analyzeBino5A
+                         process.filterYmetBino *
+                         process.analyzeBino54
                          )
+
+process.Bino5 = cms.Path(# filter and analyzer sequences
+                         process.filterMediumHT *
+                         process.oneLooseMET *
+                                                
+                         process.fiveGoodJets *
+                         process.maxFiveGoodJets *
+                         process.analyzeBino15 *
+                        
+                         process.noVetoMuon *
+                         process.noVetoElectron *
+                         process.analyzeBino25 *
+                         
+                         process.filterDeltaPhi1 *
+                         process.analyzeBino35 *
+                         
+                         process.filterDeltaPhi2 *
+                         process.analyzeBino45*
+
+                         process.filterYmetBino *
+                         process.analyzeBino55
+                         )
+
+process.Bino46 = cms.Path(# filter and analyzer sequences
+                          process.filterMediumHT *
+                          process.oneLooseMET *
+                          
+                          process.fourGoodJets *
+                          process.maxSixGoodJets *
+                          process.analyzeBino146 *
+                          
+                          process.noVetoMuon *
+                          process.noVetoElectron *
+                          process.analyzeBino246 *
+                          
+                          process.filterDeltaPhi1 *
+                          process.analyzeBino346 *
+                          
+                          process.filterDeltaPhi2 *
+                          process.analyzeBino446*
+                          
+                          process.filterYmetBino *
+                          process.analyzeBino546
+                         )
+
+process.Bino56 = cms.Path(# filter and analyzer sequences
+                          process.filterMediumHT *
+                          process.oneLooseMET *
+                          
+                          process.fiveGoodJets *
+                          process.maxSixGoodJets *
+                          process.analyzeBino156 *
+                          
+                          process.noVetoMuon *
+                          process.noVetoElectron *
+                          process.analyzeBino256 *
+                          
+                          process.filterDeltaPhi1 *
+                          process.analyzeBino356 *
+                          
+                          process.filterDeltaPhi2 *
+                          process.analyzeBino456*
+                          
+                          process.filterYmetBino *
+                          process.analyzeBino556
+                         )
+
+##------------------------------
+## Wino selection path
+##------------------------------
 
 process.Wino = cms.Path(# filter and analyzer sequences
                         process.filterMediumHT *
@@ -303,11 +427,11 @@ process.Wino = cms.Path(# filter and analyzer sequences
                         process.oneMediumMET *
                         process.analyzeWino4 *
 
-                        process.filterYmet *
+                        process.filterYmetWino *
                         process.analyzeWino5 *
                         # study JES dependence
-                        process.analyzeWino1JECUp *
-                        process.analyzeWino1JECDown *
-                        process.analyzeWino1JERUp *
-                        process.analyzeWino1JERDown 
+                        process.analyzeWinoJECUp *
+                        process.analyzeWinoJECDown *
+                        process.analyzeWinoJERUp *
+                        process.analyzeWinoJERDown 
                         )

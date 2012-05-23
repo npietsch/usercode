@@ -1,7 +1,7 @@
 from Ruediger_cfg import *
 
 process.weightProducer.Method = "Constant"
-process.weightProducer.XS = 0.36
+process.weightProducer.XS = 0.054
 process.weightProducer.NumberEvts = 100000
 process.weightProducer.Lumi = 300000
 
