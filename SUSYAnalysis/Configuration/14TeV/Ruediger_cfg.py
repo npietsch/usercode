@@ -293,6 +293,9 @@ process.Wino = cms.Path(# filter and analyzer sequences
                                                 
                         process.oneMediumMET *
                         process.analyzeWino4 *
+
+                        process.filterYmet *
+                        process.analyzeWino5 *
                         # study JES dependence
                         process.analyzeWino1JECUp *
                         process.analyzeWino1JECDown *
