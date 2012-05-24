@@ -57,7 +57,7 @@ int Plot()
 
   TFile* A1            = new TFile("naf_A1_cfg/Ruediger.root","READ");
   TFile* B1            = new TFile("naf_B1_cfg/Ruediger.root","READ");
-  TFile* C1            = new TFile("naf_D1_cfg/Ruediger.root","READ");
+  TFile* C1            = new TFile("naf_C1_cfg/Ruediger.root","READ");
 
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
@@ -65,7 +65,7 @@ int Plot()
 
   addSample(FullHadTTJets, "Fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
   addSample(SemiLepTTJets, "Semilep t#bar{t}", 1, kRed,     kRed,     1101);
-  addSample(ZJets,         "Z->vv + Jets",     1, kGreen+2, kGreen+2, 1101);
+  addSample(ZJets,         "Z->vv + Jets",     3, kGreen+2, kGreen+2, 1101);
   addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
   addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
   //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
@@ -81,25 +81,19 @@ int Plot()
 
   std::cout << "Test1" << std::endl;
 
-  //Selections.push_back("analyzeGoodJets");
+  Selections.push_back("analyzeGoodJets");
 
   //Selections.push_back("analyzeBino1");
   //Selections.push_back("analyzeBino2");
   //Selections.push_back("analyzeBino3");
-  //Selections.push_back("analyzeBino4");
+  //Selections.push_back("analyzeBino445");
   //Selections.push_back("analyzeBino5");
 
-  //Selections.push_back("analyzeBino1A");
-  //Selections.push_back("analyzeBino2A");
-  //Selections.push_back("analyzeBino3A");
-  //Selections.push_back("analyzeBino4A");
-  //Selections.push_back("analyzeBino5A");
-
-  Selections.push_back("analyzeWino1");
-  Selections.push_back("analyzeWino2");
-  Selections.push_back("analyzeWino3");
-  Selections.push_back("analyzeWino4");
-  Selections.push_back("analyzeWino5");
+  //Selections.push_back("analyzeWino1");
+  //Selections.push_back("analyzeWino2");
+  //Selections.push_back("analyzeWino3");
+  //Selections.push_back("analyzeWino4");
+  //Selections.push_back("analyzeWino5");
 
 
   //-------------------------------------------------------------------------------------------------
@@ -112,7 +106,7 @@ int Plot()
   //addHistogram("Jet1_Pt");
   //addHistogram("Jet2_Pt");
   //addHistogram("Jet3_Pt");
-  addHistogram("YMET");
+  //addHistogram("YMET");
   //addHistogram("METSig");
   //addHistogram("nJets");
   //addHistogram("nVetoLeptons");
@@ -124,6 +118,13 @@ int Plot()
   //addHistogram("DeltaPhi_MET_Jet2");
   //addHistogram("min123");
   //addHistogram("nLeptons");
+
+  addHistogram("nJets70");
+  addHistogram("nJets80");
+  addHistogram("nJets100");
+  addHistogram("nJets120");
+  addHistogram("nJets150");
+  addHistogram("nJets");
 
   //--------
   // Plot
