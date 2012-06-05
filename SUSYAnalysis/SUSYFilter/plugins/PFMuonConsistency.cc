@@ -47,10 +47,10 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
   
   if(reco_pt>0 && pf_pt>0) 
     {
-      if((reco_pt-pf_pt)/reco_pt >= 0.2) return false;
+      if(fabs(reco_pt-pf_pt)/reco_pt) >= 0.2) return false;
       else return true;
     }
-  else return true;
+  else return false;
 }
 
 

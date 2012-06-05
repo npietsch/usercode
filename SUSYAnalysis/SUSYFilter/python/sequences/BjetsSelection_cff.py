@@ -32,8 +32,8 @@ from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
                                                'pt >= 20. &'
-                                               'abs(eta) <= 2.5 &'
-                                               'electronID(\"simpleEleId80relIso\")=7 &'
+                                               'electronID(\"simpleEleId80cIso\")=7 &'
+                                               'abs(superCluster.eta) <= 2.5 &'
                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
                                                'abs(dB) < 0.02 '
                                                )
@@ -79,8 +79,8 @@ vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 cut =
                                                 'pt >= 15. &'
-                                                'abs(eta) <= 2.5 &'
-                                                'electronID(\"simpleEleId95relIso\")=7 &'
+                                                'electronID(\"simpleEleId95cIso\")=7 &'
+                                                'abs(superCluster.eta) <= 2.5 &'
                                                 '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
                                                 'abs(dB) < 0.1'
                                                 )
@@ -762,6 +762,7 @@ goodObjects = cms.Sequence(## loose leptons
                            )
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
+pfMuonConsistency.muons = "goodMuons"
 
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
