@@ -30,8 +30,8 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGridMistag");
 
   // set the edges of the last histo bin
-  maxPt_ = 500.;
-  maxEta_= 3.;
+  maxPt_ = 670.;
+  maxEta_= 2.4;
   
   // load TFile Service
   edm::Service<TFileService> fs;
@@ -401,35 +401,6 @@ double BtagEventWeight::effBTagSF(double jetPt, double jetEta, double blowUp)
   if (ptBinNum == 0)  result = 0.939843589813758817; //0.932251*((1.+(0.00335634*30))/(1.+(0.00305994*30)));
   if (ptBinNum == 15) result = 0.992947446654368848; // 0.932251*((1.+(0.00335634*670))/(1.+(0.00305994*670)));
   double   error = SFb_err[ptBinNum];
-
-  // ugly 
-//   int i=0;
-//   if (jetPt<=80) {
-//      i=jetPt/10-3;
-//      i=i<0?0:i+1;
-//      if(i<0){
-//      	i=0;
-//      	result = 0.939843589813758817; //0.932251*((1.+(0.00335634*30))/(1.+(0.00305994*30)));
-//      }
-//   } else if(jetPt<160) {
-//      i=jetPt/20+2;
-//      i=i>8?8:i;
-//   } else if(jetPt<260) {
-//      i=(jetPt-10)/50+6;
-//   } else if(jetPt<400) {
-//      i = jetPt<320?11:12;
-//   } else if(jetPt<400) {
-//      i = jetPt<500?11:12;
-//   } else if(jetPt<500){
-//      i=13;
-//   } else if(jetPt<=670) {
-//      i=14;
-//   }else {
-//      i=15;
-//      result = 0.992947446654368848; // 0.932251*((1.+(0.00335634*670))/(1.+(0.00305994*670)));
-//   };
-//   double   error = SFb_err[i];
-  //std::cout<<jetPt<<" "<<result<<" "<<error<<std::endl;
 
   if(sysVar_ == "bTagSFUp")   result += error*blowUp;
   if(sysVar_ == "bTagSFDown") result -= error*blowUp;

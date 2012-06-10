@@ -102,6 +102,26 @@ process.analyzeSUSY3b1e_6.btagBin = 3
 process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
 process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
+#---------------------------------------------------------------------------------
+# Load module to estimate b-tag efficiency and mis-tag rate in simulated events
+#---------------------------------------------------------------------------------
+
+process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
+
+process.analyzeBTagEfficiency.jets = "goodJets"
+process.analyzeBTagEfficiency.binsPtB     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
+process.analyzeBTagEfficiency.binsEtaB    =  0.,0.4,0.8,1.2,1.6,2.0,2.4
+process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
+process.analyzeBTagEfficiency.binsEtaL    =  0.,0.4,0.8,1.2,1.6,2.0,2.4
+
+process.bTagEffRA4bMuTCHEM = process.analyzeBTagEfficiency.clone()
+process.bTagEffRA4bMuTCHEM.bTagAlgo = "trackCountingHighEffBJetTags"
+process.bTagEffRA4bMuTCHEM.bTagDiscrCut = 3.3
+
+process.bTagEffRA4bElTCHEM = process.analyzeBTagEfficiency.clone()
+process.bTagEffRA4bElTCHEM.bTagAlgo = "trackCountingHighEffBJetTags"
+process.bTagEffRA4bElTCHEM.bTagDiscrCut = 3.3
+
 #------------------------------------------------------------
 # load and configure modules for b-tag efficiency weighting
 #------------------------------------------------------------
@@ -144,6 +164,7 @@ process.Selection1m = cms.Path(process.scaledJetEnergy *
                                process.muonSelection*
                                process.analyzeSUSYBjets1m_leptonSelection *
                                process.jetSelection*
+                               process.bTagEffRA4bMuTCHEM *
                                process.analyzeSUSYBjets1m_jetSelection *
                                process.HTSelection *
                                process.analyzeSUSYBjets1m_HTSelection *
@@ -247,6 +268,7 @@ process.Selection1e = cms.Path(process.scaledJetEnergy *
                                process.electronSelection*
                                process.analyzeSUSYBjets1e_leptonSelection *
                                process.jetSelection*
+                               process.bTagEffRA4bElTCHEM*
                                process.analyzeSUSYBjets1e_jetSelection *
                                process.HTSelection *
                                process.analyzeSUSYBjets1e_HTSelection *
