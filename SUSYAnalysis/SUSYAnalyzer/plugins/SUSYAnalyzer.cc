@@ -131,7 +131,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, 0, 4);
   nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, 0, 8);
   nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
-  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "bigot's_2",       8, 0, 8);
+  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, 0, 8);
 
   for(int idx=0; idx<4; ++idx)
     {
@@ -490,9 +490,12 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       SSVHP_ ->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
     }
 
-  nBjets_noWgt_   ->Fill(bjets->size());
+  int nBjets=bjets->size();
+  if(bjets->size()>3) nBjets=3;
+
+  nBjets_noWgt_   ->Fill(nBjets);
   nBjets_noWgt_2_ ->Fill(bjets->size());
-  nBjets_         ->Fill(bjets->size(),weight);
+  nBjets_         ->Fill(nBjets, weight);
   nBjets_2_       ->Fill(bjets->size(),weight);
 
   //std::cout << "Test7" << std::endl;

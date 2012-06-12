@@ -31,7 +31,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
 
   // set the edges of the last histo bin
   maxPt_ = 670.;
-  maxEta_= 2.4;
+  maxEta_= 3.0;
   
   // load TFile Service
   edm::Service<TFileService> fs;
