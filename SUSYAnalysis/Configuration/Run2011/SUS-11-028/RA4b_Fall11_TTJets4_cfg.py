@@ -13,7 +13,8 @@ process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 
-process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsFall11.root"
+process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsFall11.root"
+process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsFall11.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",

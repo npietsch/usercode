@@ -50,11 +50,11 @@ int BtagEff()
   //--------------------------------------------------------------
 
   TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
-  TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
+  //TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
   TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
-  TFile* ZJets          = new TFile("ZJets.root",          "READ");
-  TFile* WJets          = new TFile("WJets.root",          "READ");
-  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  //TFile* ZJets          = new TFile("ZJets.root",          "READ");
+  //TFile* WJets          = new TFile("WJets.root",          "READ");
+  //TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
   TFile* LM3            = new TFile("LM3.root",            "READ");
@@ -66,11 +66,11 @@ int BtagEff()
   //-------------------------------------------------------------------------------------------------------------------
 
   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
-  addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
+  //addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
   addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
-  addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
-  addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-  addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
+  //addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
+  //addSample(WJets,          "WJets",          1, kYellow,  0, 0);
+  //addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
   addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
 					    
   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
@@ -79,18 +79,20 @@ int BtagEff()
 
 
   //-------------------------------------------------------------------------------------------------
-  Selections.push_back("analyzeSUSY1b1m_6");
-  Selections.push_back("analyzeSUSY1b1e_6");  // push back selection step to vector<TString> Selections and DataSelection;
+  // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
   std::cout << "Test1" << std::endl;
 
-  Selections.push_back("analyzeSUSY1b1m_6");
-  Selections.push_back("analyzeSUSY2b1m_6");
-  Selections.push_back("analyzeSUSY3b1m_6");
-  Selections.push_back("analyzeSUSY1b1e_6");
-  Selections.push_back("analyzeSUSY2b1e_6");
-  Selections.push_back("analyzeSUSY3b1e_6");
+  //Selections.push_back("analyzeSUSY1b1m_6");
+  //Selections.push_back("analyzeSUSY2b1m_6");
+  //Selections.push_back("analyzeSUSY3b1m_6");
+  //Selections.push_back("analyzeSUSY1b1e_6");
+  //Selections.push_back("analyzeSUSY2b1e_6");
+  //Selections.push_back("analyzeSUSY3b1e_6");
+
+  Selections.push_back("monitorBtagWeightingMu");
+  Selections.push_back("monitorBtagWeightingEl");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
