@@ -6,6 +6,12 @@ nafJobSplitter.pl -q 1 32 RA4b_LM13_cfg.py
 
 nafJobSplitter.pl -q 1 235 RA4b_TTJets_cfg.py
 
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets1_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets2cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets3_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets4_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets5_cfg.py
+
 nafJobSplitter.pl -q 1 40 RA4b_Tbar_tW_cfg.py
 nafJobSplitter.pl -q 1 8 RA4b_Tbar_sChannel_cfg.py
 nafJobSplitter.pl -q 1 98 RA4b_Tbar_tChannel_cfg.py
