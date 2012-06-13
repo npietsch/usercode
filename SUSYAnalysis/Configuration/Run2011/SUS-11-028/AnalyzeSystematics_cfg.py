@@ -315,11 +315,11 @@ process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 ## common default settings (similar for muon and electron channel)
 process.btagEventWeight           = process.btagEventWeight.clone()
 process.btagEventWeight.bTagAlgo  = "TCHEM"
-process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/BtagEff_TTJets.root"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsSummer11.root"
 
 ## muon channel default settings
 process.btagEventWeightMu                    = process.btagEventWeight.clone()
-process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM3"
+process.btagEventWeightMu.rootDir            = "RA4bMuTCHEM"
 
 ## create weights for muon selection
 process.btagEventWeightMuJER                 = process.btagEventWeightMu.clone()
@@ -339,7 +339,7 @@ process.btagEventWeightMuMistagSFDown.sysVar = "misTagSFDown"
 
 ## electron channel default settings
 process.btagEventWeightEl                    = process.btagEventWeight.clone()
-process.btagEventWeightEl.rootDir            = "RA4bElTCHEM3"
+process.btagEventWeightEl.rootDir            = "RA4bElTCHEM"
 
 ## create weights for electron selection
 process.btagEventWeightElJER                 = process.btagEventWeightEl.clone()
