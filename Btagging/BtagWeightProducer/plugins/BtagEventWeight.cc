@@ -30,8 +30,8 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGridMistag");
 
   // set the edges of the last histo bin
-  maxPt_ = 670.;
-  maxEta_= 3.0;
+  maxPt_ = 500.;
+  maxEta_= 2.4;
   
   // load TFile Service
   edm::Service<TFileService> fs;
