@@ -67,44 +67,48 @@ process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
 process.analyzeSUSY1b1m_4.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
 process.analyzeSUSY1b1m_4.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
 
-#process.analyzeSUSY1m_jetSelection.useBtagEventWeight = True
-#process.analyzeSUSY1m_jetSelection.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-#process.analyzeSUSY1m_jetSelection.BtagJetWeights = "btagEventWeightMuJER:RA4bJetWeights"
-
 process.analyzeSUSY1b1m_6.useBtagEventWeight = True
 process.analyzeSUSY1b1m_6.btagBin = 1
-process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.analyzeSUSY1b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
+
+process.monitorBtagWeightingMu                  = process.analyzeSUSY1b1m_6.clone()
+process.monitorBtagWeightingMu.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+process.monitorBtagWeightingMu.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
 
 process.analyzeSUSY2b1m_6.useBtagEventWeight = True
 process.analyzeSUSY2b1m_6.btagBin = 2
-process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.analyzeSUSY2b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY2b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY3b1m_6.useBtagEventWeight = True
 process.analyzeSUSY3b1m_6.btagBin = 3
-process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.analyzeSUSY3b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+process.analyzeSUSY3b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 process.analyzeSUSY1b1e_4.useInclusiveBtagEventWeight = True
 process.analyzeSUSY1b1e_4.inclusiveBtagBin = 1
-process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.analyzeSUSY1b1e_4.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
+process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1e_4.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 process.analyzeSUSY1b1e_6.useBtagEventWeight = True
 process.analyzeSUSY1b1e_6.btagBin = 1
-process.analyzeSUSY1b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.analyzeSUSY1b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
+process.analyzeSUSY1b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY1b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
+
+process.monitorBtagWeightingEl                  = process.analyzeSUSY1b1m_6.clone()
+process.monitorBtagWeightingEl.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
+process.monitorBtagWeightingEl.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
 
 process.analyzeSUSY2b1e_6.useBtagEventWeight = True
 process.analyzeSUSY2b1e_6.btagBin = 2
-process.analyzeSUSY2b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.analyzeSUSY2b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
+process.analyzeSUSY2b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY2b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 process.analyzeSUSY3b1e_6.useBtagEventWeight = True
 process.analyzeSUSY3b1e_6.btagBin = 3
-process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
+process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 #---------------------------------------------------------------------------------
 # Load module to estimate b-tag efficiency and mis-tag rate in simulated events
@@ -139,7 +143,7 @@ process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
 ## common default settings (similar for muon and electron channel)
 process.btagEventWeight           = process.btagEventWeight.clone()
 process.btagEventWeight.bTagAlgo  = "TCHEM"
-process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/BtagEff_Test.root"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsSummer11.root"
 
 ## create weights for muon selection
 process.btagEventWeightMuJER                 = process.btagEventWeight.clone()
@@ -192,6 +196,7 @@ process.Selection1b1m_1 = cms.Path(process.scaledJetEnergy *
                                    process.jetSelection *
                                    process.bTagEffRA4bMuTCHEM *
                                    process.btagEventWeightMuJER *
+                                   process.monitorBtagWeightingMu *
                                    #process.oneMediumTrackHighEffBjet *
                                    process.analyzeSUSYBjets1b1m_4
                                    )
@@ -295,6 +300,7 @@ process.Selection1b1e_1 = cms.Path(process.scaledJetEnergy *
                                    process.jetSelection *
                                    process.bTagEffRA4bElTCHEM*
                                    process.btagEventWeightElJER *
+                                   process.monitorBtagWeightingEl *
                                    #process.oneMediumTrackHighEffBjet *
                                    process.analyzeSUSYBjets1b1e_4
                                    )

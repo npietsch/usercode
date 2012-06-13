@@ -10,6 +10,7 @@ process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_s_channel_7TeV_powheg_tauola.root"
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_s_channel_7TeV_powheg_tauola.root"
 
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/SingleTop.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",

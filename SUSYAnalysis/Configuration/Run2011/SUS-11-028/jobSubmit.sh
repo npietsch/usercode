@@ -24,9 +24,9 @@ nafJobSplitter.pl -q 1 231 RA4b_QCD2_cfg.py
 
 nafJobSplitter.pl -q 1 225 RA4b_WJets_cfg_1.py 
 nafJobSplitter.pl -q 1 213 RA4b_WJets_cfg_2.py
-nafJobSplitter.pl -q 1 145 RA4b_WJets_HT300_cfg.py
-nafJobSplitter.pl -q 1 235 RA4b_WJets_HT250_300_cfg_1.py
-nafJobSplitter.pl -q 1 210 RA4b_WJets_HT250_300_cfg_2.py
+nafJobSplitter.pl -q 12 142 RA4b_WJets_HT300_cfg.py
+nafJobSplitter.pl -q 12 235 RA4b_WJets_HT250_300_cfg_1.py
+nafJobSplitter.pl -q 12 210 RA4b_WJets_HT250_300_cfg_2.py
 
 nafJobSplitter.pl -q 1 232 RA4b_ZJets_cfg_1.py
 nafJobSplitter.pl -q 1 227 RA4b_ZJets_cfg_2.py
