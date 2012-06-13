@@ -6,7 +6,7 @@
 
 void PU() {
   //TDirectory* keep = gDirectory->GetDirectory("");
-  TFile* ORGPUDIST = new TFile("Data_PUDist_sysDown_2011Full.root");
+  TFile* ORGPUDIST = new TFile("Run2011_PU.root");
 
   cout<<"file read"<<endl;
 
@@ -18,12 +18,12 @@ void PU() {
   //keep->cd();
   //ORGPUDIST->Close();
 
-  TH1D* rebpu = new TH1D("pileup2","pileup", 71, -0.5, 70.5);
+  TH1D* rebpu = new TH1D("pileup2","pileup", 50, 0.5, 50.5);
 
   for(int i=1; i<=orgpu->GetXaxis()->GetNbins(); i++) {
     cout<<i<<"    "<<orgpu->GetBinContent(i)<<endl;
-    rebpu->SetBinContent(i,orgpu->GetBinContent(i));
-    rebpu->SetBinError(i,orgpu->GetBinError(i));
+    rebpu->SetBinContent(i,orgpu->GetBinContent(i+1));
+    rebpu->SetBinError(i,orgpu->GetBinError(i+1));
   }
   for(int i2=orgpu->GetXaxis()->GetNbins()+1; i2<=rebpu->GetXaxis()->GetNbins(); i2++) {
     cout<<i2<<"    "<<0<<endl;
@@ -38,7 +38,7 @@ void PU() {
 
    rebpu->Draw();
 
-   TFile* REBPUDIST = new TFile("Data_PUDist_sysDown_2011Full_bin70.root","RECREATE");
+   TFile* REBPUDIST = new TFile("Run2011_PU_bin50.root","RECREATE");
    rebpu->Write();
    REBPUDIST->Close();
    //   ORGPUDIST->Close();
