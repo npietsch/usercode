@@ -2,6 +2,16 @@ from BjetsPAT_cfg import *
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 3497
+process.weightProducer.NumberEvts = 6830000 
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
+
+process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
+
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(

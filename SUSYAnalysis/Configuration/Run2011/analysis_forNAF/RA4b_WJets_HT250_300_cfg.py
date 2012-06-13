@@ -3,7 +3,7 @@ from BjetsPAT_cfg import *
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 3511
 process.weightProducer.NumberEvts = 10000000
-process.weightProducer.Lumi = 4980 ## Lumi in 1/p
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
