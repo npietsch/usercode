@@ -16,6 +16,8 @@ process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summ
 process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
 process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
 
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/QCD.root"
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(

@@ -4,6 +4,7 @@
 # xport NJS_QUEUE=1 
 # nafJobSplitter.pl 16 RA4b_LM13_cfg.py
 #-------------------------------------------
+
 from BjetsPAT_cfg import *
 
 process.weightProducer.Method = "PtHat"
@@ -14,6 +15,8 @@ process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
 process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
 process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
+
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/QCD.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",

@@ -7,6 +7,8 @@
 
 from BjetsPAT_cfg import *
 
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/LM13.root"
+
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
