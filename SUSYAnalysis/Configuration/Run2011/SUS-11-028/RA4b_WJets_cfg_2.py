@@ -4,8 +4,8 @@ process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 
-process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJets.root"
-process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJets.root"
+#process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJets.root"
+#process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJets.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",

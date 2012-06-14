@@ -7,8 +7,8 @@
 
 from BjetsPAT_cfg import *
 
-process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/LM3.root"
-process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/LM3.root"
+#process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/LM3.root"
+#process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/LM3.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",
