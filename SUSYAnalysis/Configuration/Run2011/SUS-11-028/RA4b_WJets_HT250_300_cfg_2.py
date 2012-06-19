@@ -1,7 +1,7 @@
 from BjetsPAT_cfg import *
 
 process.weightProducer.Method = "Constant"
-process.weightProducer.XS = 3511
+process.weightProducer.XS = 34.8
 process.weightProducer.NumberEvts = 10000000
 process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
