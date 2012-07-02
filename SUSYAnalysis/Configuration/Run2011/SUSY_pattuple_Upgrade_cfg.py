@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.8 $'),
-    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MC_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1.2.1 $'),
+    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -23,13 +23,6 @@ process.MessageLogger.cerr.PATSummaryTables = cms.untracked.PSet(
     reportEvery = cms.untracked.int32(1)
     )
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
-
-# Choose input files
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-    "/store/mc/Summer11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/FEEE3638-F297-E011-AAF8-00304867BEC0.root"
-    )
-                            )
 
 #-- VarParsing ----------------------------------------------------------------
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -44,7 +37,7 @@ options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
-options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
+options.register('jetTypes', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
 options.register('hltSelection', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.register('doValidation', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Include the validation histograms from SusyDQM (needs extra tags)")
 options.register('doExtensiveMatching', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Matching to simtracks (needs extra tags)")
@@ -56,16 +49,11 @@ options.parseArguments()
 options._tagOrder =[]
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-options.output = "SUSYPAT.root"
-process.maxEvents.input = -1
+
 
 # Due to problem in production of LM samples: same event number appears multiple times
 process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
-#-- Calibration tag -----------------------------------------------------------
-options.GlobalTag = "START42_V17::All"
-if options.GlobalTag:
-    process.GlobalTag.globaltag = options.GlobalTag
 
 ############################# START SUSYPAT specifics ####################################
 from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getSUSY_pattuple_outputCommands
@@ -100,12 +88,31 @@ if options.hltSelection:
 if options.addKeep:
     process.out.outputCommands.extend(options.addKeep)
 
+############################## some Custome options for the Upgrade  ####################################
+
+# Choose input files
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+    "/store/mc/Summer11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/FEEE3638-F297-E011-AAF8-00304867BEC0.root"
+    )
+                            )
+
+#-- Calibration tag -----------------------------------------------------------
+options.GlobalTag = "START42_V17::All"
+if options.GlobalTag:
+    process.GlobalTag.globaltag = options.GlobalTag
+
+# Output
+options.output = "SUSYPAT.root"
+process.maxEvents.input = -1
+
 
 from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
 process.out.outputCommands += RA4bEventContent
 
 process.outpath = cms.EndPath(process.out)
  
+############################## end of Custome options for the Upgrade  ####################################
 
 #-- Execution path ------------------------------------------------------------
 # Full path
