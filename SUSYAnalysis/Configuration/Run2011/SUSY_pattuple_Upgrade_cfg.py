@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1.2.1 $'),
+    version = cms.untracked.string('$Revision: 1.1.2.2 $'),
     name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -103,12 +103,12 @@ if options.GlobalTag:
     process.GlobalTag.globaltag = options.GlobalTag
 
 # Output
-options.output = "SUSYPAT.root"
-process.maxEvents.input = -1
+process.maxEvents.input = 1
 
 
 from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
 process.out.outputCommands += RA4bEventContent
+process.out.fileName="Summer11.root"
 
 process.outpath = cms.EndPath(process.out)
  
