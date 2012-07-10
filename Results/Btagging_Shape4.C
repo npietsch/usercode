@@ -5,27 +5,31 @@
 #include <fstream>
 #include "TFile.h"
 #include "TH1.h"
+#include "TH2.h"
 #include "TCanvas.h"
 #include "TStyle.h"
 #include "TLegend.h"
+#include "TPaveText.h"
 
 vector<TFile*> Files;
 vector<TString> Names;
-vector<TString> Algos;
-vector<TString> Flavors;
-vector<TString> Steps;
-vector<TString> SelectionNames;
-
-vector<unsigned int> LineColors;
 vector<unsigned int> SampleColors;
 vector<unsigned int> MarkerStyles;
 vector<double> MarkerSizes;
 
+vector<TString> Algos;
+
+vector<TString> Flavors;
+
+vector<TString> Steps;
+vector<unsigned int> LineColors;
+vector<TString> SelectionNames;
+
 vector<TH1F*> Histograms;
 
-void addSample(TFile* sample, TString name; int lc; int ms; double msize);
+void addSample(TFile* sample, TString name, int lc, int ms, double msize);
 
-void addSample(TFile* sample, TString name, int lc; int ms; double msize)
+void addSample(TFile* sample, TString name, int lc, int ms, double msize)
 {
   Files.push_back(sample);
   Names.push_back(name);
@@ -54,25 +58,27 @@ void addSelectionStep(TString name, int lc, TString sn)
 int Btagging_Shape4()
 {
   // Define sample
-  TFile* TTJets=new TFile("TTJetsFall11.root","READ");
-  TFile* WJetsHT=new TFile("WJetsHT.root","READ");
+  TFile* TTJets    = new TFile("TTJetsFall11.root" , "READ");
+  TFile* WJetsHT   = new TFile("WJetsHT.root"      , "READ");
+  TFile* SingleTop = new TFile("SingleTop.root"    , "READ");
 
   // addSample(TFile* sample, TString name)
-  addSample(TTJets,  "TTJets", 2, 21, 0.7);
-  addSample(WJetsHT, "WJets",  4, 22, 0.7);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed,      21, 0.8);
+  addSample(WJetsHT,   "W+Jets",        kYellow+1, 25, 0.8);
+  addSample(SingleTop, "single top",    kRed+2,    24, 0.8);
 
   // addAlgorithm(TString name)
   addAlgorithm("TCHEM");
-  //addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name, int lc, TString sn);
-  addSelectionStep("", 8, "MET < 300 GeV");
+  addSelectionStep("", 8, "RA4b");
 
   // Flavors
   Flavors.push_back("B");
   Flavors.push_back("C");
   Flavors.push_back("L");
 
+  // global settings
   gStyle->SetCanvasColor(10);
   gStyle->SetOptStat(0);
   gStyle->SetPalette(1);
@@ -91,33 +97,38 @@ int Btagging_Shape4()
 	    {
 	      std::cout << "Selection step " << Steps[s] <<  std::endl;
 	       
-	      // Define canvas., legend etc.
+	      // Define canvas and legend
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.5,.15,.88,.42);
+	      TLegend *leg = new TLegend(.68,.13,.88,.36);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
-	      leg->SetLineColor(0);
+	      leg->SetLineColor(1);
 	      
-	      TLegend *leg2 = new TLegend(.5,.15,.88,.42);
-	      leg2->SetTextFont(42);
-	      leg2->SetFillColor(0);
-	      leg2->SetLineColor(0);
+	      TPaveText *label = new TPaveText(0.12,0.90,0.3,0.94,"NDC");
+	      label->SetFillColor(0);
+	      label->SetTextFont(42);
+	      label->SetBorderSize(0);
+	      TText *text=label->AddText("CMS Simulation");
+	      text->SetTextAlign(22);
+	      
+	      TPaveText *label2 = new TPaveText(0.68,0.90,0.88,0.94,"NDC");
+	      label2->SetFillColor(0);
+	      label2->SetTextFont(62);
+	      label2->SetBorderSize(0);
+	      TText *text2=label2->AddText("0 < |#eta| < 0.8");
+	      text2->SetTextAlign(22);
+
+	      // declare maximum and ybin
+	      double Maximum=0;
+	      double ybin=1;
 
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
-		  std::cout << Names[f] << std::endl;
-		  std::cout << "------------" << std::endl;
-		  
-	      
-		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
-		  
 		  TH2F* Pt_=(TH2F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPtEta");
 		  TH2F* Pt2_=(TH2F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPtEta");
 		  Pt_->Add(Pt2_);
-
-		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPtEta" << std::endl;
 
 		  TH2F* TaggedPt_=(TH2F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPtEta");
 		  TH2F* TaggedPt2_=(TH2F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPtEta");
@@ -129,7 +140,7 @@ int Btagging_Shape4()
 		  // Draw y errors
 		  //--------------------------------------
 		  
-		  // define shift
+		  // define shifts
 		  double shift_=2*f;
 		  double shift2_=4*f;
 		  double shift3_=6*f;
@@ -144,18 +155,17 @@ int Btagging_Shape4()
 		  xbinsPt[0]=xbin0;
 		  xbinsPtX[0]=xbin0;
 		  std::cout << xbin0 << std::endl;
-		  // 
-		  double xbin=0;
-		  for(int ibin=1; ibin<TaggedPt_->GetNbinsX(); ++ibin)
-		    {
-		      xbin=xbin+TaggedPt_->GetXaxis()->GetBinWidth(ibin);
-		      if(TaggedPt_->GetXaxis()->GetBinWidth(ibin)>20) shift_=shift3_;
 
-		      xbinsPtX[ibin]=xbin;
-		      xbinsPt[ibin]=xbin+shift_;
-		      std::cout << xbin[ibin] << std::endl;
+		  //
+		  double ibinX=0;
+		  for(int xbin=1; xbin<TaggedPt_->GetNbinsX(); ++xbin)
+		    {
+		      ibinX=ibinX+TaggedPt_->GetXaxis()->GetBinWidth(xbin);
+		      if(TaggedPt_->GetXaxis()->GetBinWidth(xbin)>20) shift_=shift3_;
+
+		      xbinsPtX[xbin]=ibinX;
+		      xbinsPt[xbin]=ibinX+shift_;
 		    }
-		  //double xEndShift=shift_*(TaggedPt_->GetXaxis()->GetBinWidth(TaggedPt_->GetNbinsX()));
 		  xbinsPt[TaggedPt_->GetNbinsX()]=TaggedPt_->GetBinLowEdge(TaggedPt_->GetNbinsX()+1)+shift_;
 		  xbinsPtX[TaggedPt_->GetNbinsX()]=TaggedPt_->GetBinLowEdge(TaggedPt_->GetNbinsX()+1);
 
@@ -166,46 +176,62 @@ int Btagging_Shape4()
 		  TH1F* Tmp2_=new TH1F("Tmp2", "Tmp2", nBins, xbinsPtX);
 
 		  // fill histogram Tmp_
-		  for(int ibin=0; ibin<Tmp_->GetNbinsX()+1; ++ibin)
+		  for(int xbin=0; xbin<Tmp_->GetNbinsX()+1; ++xbin)
 		    {
-		      std::cout << "ibin: " << ibin << std::endl;
-		      Tmp_->SetBinContent(ibin,TaggedPt_->GetBinContent(ibin,1));
-		      std::cout << "bin content: " << TaggedPt_->GetBinContent(ibin,1) << std::endl;
-		      Tmp_->SetBinError(ibin,TaggedPt_->GetBinError(ibin,1));
-		      std::cout << "bin error: " << TaggedPt_->GetBinError(ibin,1) << std::endl;
+		      Tmp_->SetBinContent(xbin,TaggedPt_->GetBinContent(xbin, ybin));
+		      Tmp_->SetBinError(xbin,TaggedPt_->GetBinError(xbin, ybin));
+		      
+		      Tmp2_->SetBinContent(xbin,TaggedPt_->GetBinContent(xbin, ybin));
+		      Tmp2_->SetBinError(xbin,0.0000001);
 
-		      Tmp2_->SetBinContent(ibin,TaggedPt_->GetBinContent(ibin,1));
-		      Tmp2_->SetBinError(ibin,0.0000000001);
+		      if(TaggedPt_->GetBinContent(xbin, ybin)+TaggedPt_->GetBinError(xbin, ybin) > Maximum)
+			{
+			  Maximum=TaggedPt_->GetBinContent(xbin, ybin)+TaggedPt_->GetBinError(xbin, ybin);
+			}
 		    }
-		  
+
 		  // draw histogram Tmp_
-		  Tmp_->SetTitle("TCHEM b-tag efficiency for "+Flavors[flv]+"-Jets");
-		  if(Flavors[flv]=="L") Tmp_->SetTitle("TCHEM b-tag efficiency for other jets");
+		  if(Flavors[flv]=="B") Tmp_->SetMaximum(1.05*0.951668);
+		  if(Flavors[flv]=="C") Tmp_->SetMaximum(1.05*0.373941);
+		  if(Flavors[flv]=="L") Tmp_->SetMaximum(1.05*0.0727985);
+		  Tmp_->SetTitle("");
 		  Tmp_->GetXaxis()->SetTitle("p_{T} [GeV]");
 		  Tmp_->GetXaxis()->SetTitleOffset(1.1);
 		  Tmp_->GetXaxis()->CenterTitle();
 		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
 		  Tmp_->GetYaxis()->SetTitleOffset(1.25);
 		  Tmp_->GetYaxis()->CenterTitle();
-
 		  Tmp_->SetLineColor(SampleColors[f]);
+		  Tmp_->SetLineWidth(1);
+
+		  Tmp_->SetMarkerStyle(MarkerStyles[f]);
+		  Tmp_->SetMarkerColor(SampleColors[f]);
+		  Tmp_->SetMarkerSize(MarkerSizes[f]);
+
 		  if(f==0) Tmp_->Draw("E x0");
 		  else Tmp_->Draw("same E x0");
-		  
-		  std::cout << "Test" << std::endl;
+
 
 		  //--------------------------------------
 		  // Draw x errors
 		  //--------------------------------------
 		  
-		  // draw histogram Tmp2_    
+		  // draw histogram Tmp2_   
 		  Tmp2_->SetLineColor(SampleColors[f]);
+		  Tmp2_->SetLineWidth(1);
 		  Tmp2_->Draw("same");
-		  
-		  leg->AddEntry(Tmp_,Names[f],"l");
+
+		  leg->AddEntry(Tmp_,Names[f],"l P");
 		  
 		}
-	      leg->Draw("box");
+	      std::cout << "==============================" << std::endl;
+	      std::cout << "Maximum: " << Maximum << std::endl;
+	      std::cout << "==============================" << std::endl;
+
+	      leg->SetShadowColor(0);
+	      leg->Draw();
+	      label->Draw();
+	      label2->Draw();
 	      canvas->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_MuPt.pdf");
 	      
 	    }
@@ -215,3 +241,4 @@ int Btagging_Shape4()
   
   return 0;
 }
+
