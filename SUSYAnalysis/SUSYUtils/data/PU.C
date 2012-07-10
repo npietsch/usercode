@@ -6,11 +6,11 @@
 
 void PU() {
   //TDirectory* keep = gDirectory->GetDirectory("");
-  TFile* ORGPUDIST = new TFile("Run2011_PU.root");
+  TFile* ORGPUDIST = new TFile("temp.root");
 
   cout<<"file read"<<endl;
 
-  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("histoData_observed");//->Clone("puorg");
+  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("analyzeSUSY1m_noCuts/nPU"); //->Clone("puorg");
   TH1D* orgpu = (TH1D*) orgpuT->Clone("puorg");
   cout<<"histo cloned"<<endl;
 
@@ -18,7 +18,7 @@ void PU() {
   //keep->cd();
   //ORGPUDIST->Close();
 
-  TH1D* rebpu = new TH1D("pileup2","pileup", 50, 0.5, 50.5);
+  TH1D* rebpu = new TH1D("pileup2","pileup", 71, -0.5, 70.5);
 
   for(int i=1; i<=orgpu->GetXaxis()->GetNbins(); i++) {
     cout<<i<<"    "<<orgpu->GetBinContent(i)<<endl;
@@ -38,7 +38,7 @@ void PU() {
 
    rebpu->Draw();
 
-   TFile* REBPUDIST = new TFile("Run2011_PU_bin50.root","RECREATE");
+   TFile* REBPUDIST = new TFile("PU_Fall11_WJetsHT300.root","RECREATE");
    rebpu->Write();
    REBPUDIST->Close();
    //   ORGPUDIST->Close();
