@@ -10,6 +10,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
+#include "TDRStyle.h"
 
 vector<TFile*> Files;
 vector<TString> Names;
@@ -63,9 +64,9 @@ int Btagging_Shape4()
   TFile* SingleTop = new TFile("SingleTop.root"    , "READ");
 
   // addSample(TFile* sample, TString name)
-  addSample(TTJets,    "t#bar{t}+Jets", kRed,      21, 0.8);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed-3,    21, 0.8);
   addSample(WJetsHT,   "W+Jets",        kYellow+1, 25, 0.8);
-  addSample(SingleTop, "single top",    kRed+2,    24, 0.8);
+  addSample(SingleTop, "single top",    kOrange+4, 24, 0.8);
 
   // addAlgorithm(TString name)
   addAlgorithm("TCHEM");
@@ -79,10 +80,12 @@ int Btagging_Shape4()
   Flavors.push_back("L");
 
   // global settings
-  gStyle->SetCanvasColor(10);
-  gStyle->SetOptStat(0);
-  gStyle->SetPalette(1);
-  gStyle->SetTitleFillColor(0);
+//   gStyle->SetCanvasColor(10);
+//   gStyle->SetOptStat(0);
+//   gStyle->SetPalette(1);
+//   gStyle->SetTitleFillColor(0);
+
+  setTDRStyle();
 
   // loop over algorithms
   for(int a=0; a<Algos.size(); ++a)
@@ -100,19 +103,19 @@ int Btagging_Shape4()
 	      // Define canvas and legend
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.68,.13,.88,.36);
+	      TLegend *leg = new TLegend(.64,.18,.91,.35);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
 	      
-	      TPaveText *label = new TPaveText(0.12,0.90,0.3,0.94,"NDC");
+	      TPaveText *label = new TPaveText(0.17,0.85,0.52,0.93,"NDC");
 	      label->SetFillColor(0);
 	      label->SetTextFont(42);
 	      label->SetBorderSize(0);
-	      TText *text=label->AddText("CMS Simulation");
+	      TText *text=label->AddText("CMS Simulation, #sqrt{s}=7 TeV");
 	      text->SetTextAlign(22);
 	      
-	      TPaveText *label2 = new TPaveText(0.68,0.90,0.88,0.94,"NDC");
+	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
 	      label2->SetFillColor(0);
 	      label2->SetTextFont(62);
 	      label2->SetBorderSize(0);
@@ -195,12 +198,14 @@ int Btagging_Shape4()
 		  if(Flavors[flv]=="C") Tmp_->SetMaximum(1.05*0.373941);
 		  if(Flavors[flv]=="L") Tmp_->SetMaximum(1.05*0.0727985);
 		  Tmp_->SetTitle("");
-		  Tmp_->GetXaxis()->SetTitle("p_{T} [GeV]");
-		  Tmp_->GetXaxis()->SetTitleOffset(1.1);
-		  Tmp_->GetXaxis()->CenterTitle();
+		  if(Flavors[flv]=="B") Tmp_->GetXaxis()->SetTitle("b-jet p_{T} [GeV]");
+		  if(Flavors[flv]=="C") Tmp_->GetXaxis()->SetTitle("c-jet p_{T} [GeV]");
+		  if(Flavors[flv]=="L") Tmp_->GetXaxis()->SetTitle("light quark jet p_{T} [GeV]");
+		  Tmp_->GetXaxis()->SetTitleOffset(1.35);
+		  //Tmp_->GetXaxis()->CenterTitle();
 		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
-		  Tmp_->GetYaxis()->SetTitleOffset(1.25);
-		  Tmp_->GetYaxis()->CenterTitle();
+		  Tmp_->GetYaxis()->SetTitleOffset(1.35);
+		  //Tmp_->GetYaxis()->CenterTitle();
 		  Tmp_->SetLineColor(SampleColors[f]);
 		  Tmp_->SetLineWidth(1);
 
@@ -232,6 +237,7 @@ int Btagging_Shape4()
 	      leg->Draw();
 	      label->Draw();
 	      label2->Draw();
+
 	      canvas->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_MuPt.pdf");
 	      
 	    }
