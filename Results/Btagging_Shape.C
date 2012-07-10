@@ -50,26 +50,17 @@ void addSelectionStep(TString name, int lc, TString sn)
 int Btagging_Shape()
 {
   // Define sample
-  TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
-  TFile* SinlgeTop =new TFile("BtagEff_SingleTop.root", "READ");
-  TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
-  TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
-
+  TFile* TTJets=new TFile("TTJetsFall11.root","READ");
+  
   // addSample(TFile* sample, TString name)
-  addSample(WJets,    "WJets",     1);
-  addSample(DYJets,   "DYJets",    8);
-  addSample(SinlgeTop,"SinlgeTop", 4);
-  addSample(TTJets,   "TTJets",    2);
+    addSample(TTJets,   "TTJets",    2);
 
   // addAlgorithm(TString name)
+  addAlgorithm("TCHEM");
   //addAlgorithm("SSVHEM");
-  addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name, int lc, TString sn);
-  addSelectionStep("1", 1, "Preselection");
-  addSelectionStep("2", 2, "Electron selection");
-  addSelectionStep("3", 4, "Jet selection");
-  addSelectionStep("4", 8, "MET < 300 GeV");
+  addSelectionStep("", 8, "MET < 300 GeV");
 
   // Flavors
   Flavors.push_back("B");
@@ -114,14 +105,16 @@ int Btagging_Shape()
 		  std::cout << "------------" << std::endl;
 		  
 	      
-		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
+		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
 		  
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
-		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
-		  
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  Pt_->Add(Pt2_);
+
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TaggedPt_->Add(TaggedPt2_);
+
 		  TaggedPt_->Divide(Pt_);
 		  
 		  //--------------------------------------
@@ -166,14 +159,19 @@ int Btagging_Shape()
 		      std::cout << ibin << std::endl;
 		      Tmp_->SetBinContent(ibin,TaggedPt_->GetBinContent(ibin));
 		      Tmp_->SetBinError(ibin,TaggedPt_->GetBinError(ibin));
+		      std::cout << "bin error: " << TaggedPt_->GetBinError(ibin) << std::endl;
 		    }
 		  
 		  // draw histogram Tmp_
-		  Tmp_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]+Steps[s]);
+		  Tmp_->SetTitle("TCHEM b-tag efficiency for "+Flavors[flv]+"-Jets");
+		  if(Flavors[flv]=="L") Tmp_->SetTitle("TCHEM b-tag efficiency for other jets");
 		  Tmp_->GetXaxis()->SetTitle("p_{T} [GeV]");
+		  Tmp_->GetXaxis()->SetTitleOffset(1.1);
 		  Tmp_->GetXaxis()->CenterTitle();
 		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
+		  Tmp_->GetYaxis()->SetTitleOffset(1.25);
 		  Tmp_->GetYaxis()->CenterTitle();
+
 		  Tmp_->SetLineColor(SampleColors[f]);
 		  if(f==0) Tmp_->Draw("E x0");
 		  else Tmp_->Draw("same E x0");
@@ -197,7 +195,7 @@ int Btagging_Shape()
 		  
 		}
 	      leg->Draw("box");
-	      canvas->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_ElPt.pdf");
+	      canvas->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_MuPt.pdf");
 	      
 	      
 	      //----------------------------------------------------------------------------------------------
@@ -215,15 +213,17 @@ int Btagging_Shape()
 		  std::cout << Names[f] << std::endl;
 		  std::cout << "------------" << std::endl;
 
-		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
+		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta" << std::endl;
 		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
-		  
-		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
-		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta"); 
-		  
-		  TaggedEta_->Divide(Eta_);
+		  TH1F* Eta_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  TH1F* Eta2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsEta");
+		  Eta_->Add(Eta2_);
+
+		  TH1F* TaggedEta_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
+		   TH1F* TaggedEta2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedEta");
+		   TaggedEta_->Add(TaggedEta2_);
+
+		   TaggedEta_->Divide(Eta_);
 		  
 		  //--------------------------------------
 		  // Draw y errors
@@ -264,11 +264,14 @@ int Btagging_Shape()
 		    }
 		  
 		  // draw histogram TmpEta_
-		  TmpEta_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]+Steps[s]);
-		  TmpEta_->GetXaxis()->SetTitle("Eta");
+		  TmpEta_->SetTitle("TCHEM b-tag efficiency for "+Flavors[flv]+"-Jets");
+		  if(Flavors[flv]=="L") TmpEta_->SetTitle("TCHEM b-tag efficiency for other jets");
+		  TmpEta_->GetXaxis()->SetTitle("|#eta|");
+		  TmpEta_->GetXaxis()->SetTitleOffset(1.1);
 		  TmpEta_->GetXaxis()->CenterTitle();
 		  TmpEta_->GetYaxis()->SetTitle("b-tag efficiency");
 		  TmpEta_->GetYaxis()->CenterTitle();
+		  TmpEta_->GetYaxis()->SetTitleOffset(1.25);
 		  TmpEta_->SetLineColor(SampleColors[f]);
 		  if(f==0) TmpEta_->Draw("E x0");
 		  else TmpEta_->Draw("same E x0");
@@ -289,8 +292,8 @@ int Btagging_Shape()
 		  leg2->AddEntry(TaggedEta_,Names[f],"l");
 		  
 		}
-	      //leg2->Draw("box");
-	      canvas2->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_ElEta.pdf");
+	      leg2->Draw("box");
+	      canvas2->SaveAs(Algos[a]+Steps[s]+"_"+Flavors[flv]+"jetsEff_MuEta.pdf");
 	    }
 	}
     }

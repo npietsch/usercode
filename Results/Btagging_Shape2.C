@@ -48,11 +48,11 @@ void addSelectionStep(TString name, int lc, TString sn)
 int Btagging_Shape2()
 {
   // Define sample
-  TFile* TTJets=new TFile("BtagEff_TTJets.root","READ");
-  TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
-  TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
-  TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
-  TFile* QCD =new TFile("BtagEff_QCD.root", "READ");
+  TFile* TTJets=new TFile("TTJetsFall11.root","READ");
+  //TFile* WJets =new TFile("BtagEff_WJets.root", "READ");
+  //TFile* SingleTop =new TFile("BtagEff_SingleTop.root", "READ");
+  //TFile* DYJets =new TFile("BtagEff_DY.root", "READ");
+  //TFile* QCD =new TFile("BtagEff_QCD.root", "READ");
 
   // addSample(TFile* sample, TString name)
   addSample(TTJets, "TTJets");
@@ -62,14 +62,12 @@ int Btagging_Shape2()
   //addSample(QCD, "QCD");
 
   // addAlgorithm(TString name)
-  //addAlgorithm("TCHEM");
-  addAlgorithm("SSVHEM");
+  addAlgorithm("TCHEM");
+  //addAlgorithm("SSVHEM");
 
   // addSelectionStep(TString name)
-  addSelectionStep("1", 1, "Preselection");
-  addSelectionStep("2", 2, "Electron selection");
-  //addSelectionStep("3", 4, "Jet selection");
-  //addSelectionStep("4", 8, "MET < 300 GeV");
+  addSelectionStep("", 2, "Muon selection");
+  //addSelectionStep("", 2, "Electron selection");
 
   // Flavors
   Flavors.push_back("B");
