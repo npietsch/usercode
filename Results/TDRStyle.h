@@ -73,7 +73,7 @@ void setTDRStyle() {
 /*   // tdrStyle->SetStatY(Float_t y = 0); */
 
   // Margins:
-  tdrStyle->SetPadTopMargin(0.05);
+  tdrStyle->SetPadTopMargin(0.1); // set from 0.5 to 1
   tdrStyle->SetPadBottomMargin(0.14); // set from 0.13 to 0.14
   tdrStyle->SetPadLeftMargin(0.14); // set from 0.13 to 0.14
   tdrStyle->SetPadRightMargin(0.05);

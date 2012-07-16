@@ -6,6 +6,7 @@
 #include "TFile.h"
 #include "TH1.h"
 #include "TH2.h"
+#include "TF1.h"
 #include "TCanvas.h"
 #include "TStyle.h"
 #include "TLegend.h"
@@ -17,6 +18,7 @@ vector<TString> Names;
 vector<unsigned int> SampleColors;
 vector<unsigned int> MarkerStyles;
 vector<double> MarkerSizes;
+vector<unsigned int> FitStyles;
 
 vector<TString> Algos;
 
@@ -27,16 +29,18 @@ vector<unsigned int> LineColors;
 vector<TString> SelectionNames;
 
 vector<TH1F*> Histograms;
+vector<TF1*> FitFunctions;
 
-void addSample(TFile* sample, TString name, int lc, int ms, double msize);
+void addSample(TFile* sample, TString name, int lc, int ms, double msize, int fs);
 
-void addSample(TFile* sample, TString name, int lc, int ms, double msize)
+void addSample(TFile* sample, TString name, int lc, int ms, double msize, int fs)
 {
   Files.push_back(sample);
   Names.push_back(name);
   SampleColors.push_back(lc);
   MarkerStyles.push_back(ms);
   MarkerSizes.push_back(msize);
+  FitStyles.push_back(fs);
 }
 
 void addAlgorithm(TString name);
@@ -56,7 +60,7 @@ void addSelectionStep(TString name, int lc, TString sn)
   SelectionNames.push_back(sn);
 }
 
-int Btagging_Shape4()
+int BtagEfficiencies()
 {
   // Define sample
   TFile* TTJets    = new TFile("TTJetsFall11.root" , "READ");
@@ -64,9 +68,12 @@ int Btagging_Shape4()
   TFile* SingleTop = new TFile("SingleTop.root"    , "READ");
 
   // addSample(TFile* sample, TString name)
-  addSample(TTJets,    "t#bar{t}+Jets", kRed,   21, 0.8);
-  addSample(WJetsHT,   "W+Jets",        8,      25, 0.8);
-  addSample(SingleTop, "single top",    kBlue,  24, 0.8);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed,     21, 0.9, 7);
+  addSample(SingleTop, "single top",    kBlue,    20, 1.0, 7);
+  addSample(WJetsHT,   "W+Jets",        kGreen+2, 23, 1.1, 7);
+  //addSample(SingleTop, "single top",    kBlue,  24, 1,   7);
+  //addSample(WJetsHT,   "W+Jets",        kGreen, 25, 1,   7);
+
 
   // addAlgorithm(TString name)
   addAlgorithm("TCHEM");
@@ -100,7 +107,7 @@ int Btagging_Shape4()
 	    {
 	      std::cout << "Selection step " << Steps[s] <<  std::endl;
 	       
-	      // Define canvas and legend
+	      // Define canvas and legend/afs/desy.de/user/n/npietsch
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
 	      TLegend *leg = new TLegend(.64,.18,.91,.35);
@@ -140,13 +147,13 @@ int Btagging_Shape4()
 		  TaggedPt_->Divide(Pt_);
 		  
 		  //--------------------------------------
-		  // Draw y errors
+		  // Draw x and y errors
 		  //--------------------------------------
 		  
 		  // define shifts
-		  double shift_=2*f;
-		  double shift2_=4*f;
-		  double shift3_=6*f;
+		  double shift_=4*(f-1);
+		  double shift2_=5*(f-1);
+		  double shift3_=6*(f-1);
 		  
 		  // define array xbinsPt
 		  Int_t nBins=TaggedPt_->GetNbinsX();
@@ -172,11 +179,13 @@ int Btagging_Shape4()
 		  xbinsPt[TaggedPt_->GetNbinsX()]=TaggedPt_->GetBinLowEdge(TaggedPt_->GetNbinsX()+1)+shift_;
 		  xbinsPtX[TaggedPt_->GetNbinsX()]=TaggedPt_->GetBinLowEdge(TaggedPt_->GetNbinsX()+1);
 
-		  // define new histogram Temp_
+		  // define new histograms
 		  char Tmp [70];
+		  char Tmp2 [70];
 		  sprintf(Tmp,"%i_%i_%i_%i_Pt", f, a, flv, s);
-		  TH1F* Tmp_=new TH1F(Tmp, "Tmp", nBins, xbinsPt);
-		  TH1F* Tmp2_=new TH1F("Tmp2", "Tmp2", nBins, xbinsPtX);
+		  sprintf(Tmp2,"%i_%i_%i_%i_Pt2", f, a, flv, s);
+		  TH1F* Tmp_=new TH1F(Tmp, Tmp, nBins, xbinsPt);
+		  TH1F* Tmp2_=new TH1F(Tmp2, Tmp2, nBins, xbinsPtX);
 
 		  // fill histogram Tmp_
 		  for(int xbin=0; xbin<Tmp_->GetNbinsX()+1; ++xbin)
@@ -193,38 +202,89 @@ int Btagging_Shape4()
 			}
 		    }
 
+		  //--------------------------------------
+		  // Draw histogram
+		  //--------------------------------------
+
+		  // draw histogram Tmp2_
+		  if(Flavors[flv]=="B") Tmp2_->SetMaximum(1.05*0.947686);
+		  if(Flavors[flv]=="C") Tmp2_->SetMaximum(1.05*0.388437);
+		  if(Flavors[flv]=="L") Tmp2_->SetMaximum(1.05*0.0880499);
+		  Tmp2_->SetMinimum(0);
+		  Tmp2_->SetTitle("");
+		  if(Flavors[flv]=="B") Tmp2_->GetXaxis()->SetTitle("b-jet p_{T} [GeV]");
+		  if(Flavors[flv]=="C") Tmp2_->GetXaxis()->SetTitle("c-jet p_{T} [GeV]");
+		  if(Flavors[flv]=="L") Tmp2_->GetXaxis()->SetTitle("light quark jet p_{T} [GeV]");
+		  Tmp2_->GetXaxis()->SetTitleOffset(1.35);
+		  //Tmp2_->GetXaxis()->CenterTitle();
+		  Tmp2_->GetYaxis()->SetTitle("b-tag efficiency");
+		  Tmp2_->GetYaxis()->SetTitleOffset(1.35);
+		  //Tmp2_->GetYaxis()->CenterTitle();
+		  Tmp2_->SetLineColor(SampleColors[f]);
+		  Tmp2_->SetLineWidth(2);
+		  if(f==0) Tmp2_->Draw("");
+		  else Tmp2_->Draw("same");
+
+// 		  TF1 *myfit1 = new TF1("myfit1","[0]+[1]*x", 40, 160);
+// 		  myfit1->SetLineWidth(2);
+// 		  myfit1->SetLineColor(SampleColors[f]);
+
+// 		  Tmp2_->Fit("myfit1","0EMR"); // "0" = do NOT automatically draw "hist"
+// 		  Tmp2_->GetFunction("myfit1")->ResetBit(1<<9); // make "fitname" visible
+
+// 		  TF1 *myfit2 = new TF1("myfit2","[0]+[1]*x", 160, 670);
+// 		  myfit2->SetLineWidth(2);
+// 		  myfit2->SetLineColor(SampleColors[f]);
+
+// 		  Tmp2_->Fit("myfit2","0EMR+"); // "0" = do NOT automatically draw "hist"
+// 		  Tmp2_->GetFunction("myfit2")->ResetBit(1<<9); // make "fitname" visible
+		  
+		  // fit functions
+// 		  Double_t par[6];
+
+// 		  if(Flavors[flv] == "B")
+// 		    {
+// 		      TF1 *g1 = new TF1("g1","[1]+[2]*x+[3]*x**2",40,160);
+// 		      g1->SetLineColor(SampleColors[f]);
+// 		      Tmp2_->Fit(g1,"0EMR");
+// 		      Tmp2_->GetFunction("g1")->ResetBit(1<<9);
+		      
+// 		      TF1 *g2 = new TF1("g2","[4]+[5]*x",160,670);
+// 		      g2->SetLineColor(SampleColors[f]);
+// 		      Tmp2_->Fit(g2,"0EMR+");
+// 		      Tmp2_->GetFunction("g2")->ResetBit(1<<9);
+// 		    }
+
+
+		  if(Flavors[flv] == "C" || Flavors[flv] == "L")
+		    {
+		      TF1 *g1 = new TF1("g1","[1]+[2]*x+[3]*x**2",40,670);
+		      g1->SetLineColor(SampleColors[f]);
+		      g1->SetLineWidth(2);
+		      Tmp2_->Fit(g1,"0EMR");
+		      Tmp2_->GetFunction("g1")->ResetBit(1<<9);
+		    }
+
+// 		  TF1 *total = new TF1("total","[0]+[1]*x+[2]*x**2+[3]+[4]*x",40,670);
+// 		  total->SetLineColor(SampleColors[f]);
+
+// 		  g1->GetParameters(&par[0]);
+// 		  g2->GetParameters(&par[3]);
+
+// 		  total->SetParameters(par);
+		  
+// 		  Tmp2_->Fit("total","0EMR+"); // "0" = do NOT automatically draw "hist"
+// 		  Tmp2_->GetFunction("total")->ResetBit(1<<9); // make "fitname" visible
+
 		  // draw histogram Tmp_
-		  if(Flavors[flv]=="B") Tmp_->SetMaximum(1.05*0.947686);
-		  if(Flavors[flv]=="C") Tmp_->SetMaximum(1.05*0.388437);
-		  if(Flavors[flv]=="L") Tmp_->SetMaximum(1.05*0.0880499);
-		  Tmp_->SetTitle("");
-		  if(Flavors[flv]=="B") Tmp_->GetXaxis()->SetTitle("b-jet p_{T} [GeV]");
-		  if(Flavors[flv]=="C") Tmp_->GetXaxis()->SetTitle("c-jet p_{T} [GeV]");
-		  if(Flavors[flv]=="L") Tmp_->GetXaxis()->SetTitle("light quark jet p_{T} [GeV]");
-		  Tmp_->GetXaxis()->SetTitleOffset(1.35);
-		  //Tmp_->GetXaxis()->CenterTitle();
-		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
-		  Tmp_->GetYaxis()->SetTitleOffset(1.35);
-		  //Tmp_->GetYaxis()->CenterTitle();
 		  Tmp_->SetLineColor(SampleColors[f]);
-		  Tmp_->SetLineWidth(1);
+		  Tmp_->SetLineWidth(2);
 
 		  Tmp_->SetMarkerStyle(MarkerStyles[f]);
 		  Tmp_->SetMarkerColor(SampleColors[f]);
 		  Tmp_->SetMarkerSize(MarkerSizes[f]);
 
-		  if(f==0) Tmp_->Draw("E x0");
-		  else Tmp_->Draw("same E x0");
-
-
-		  //--------------------------------------
-		  // Draw x errors
-		  //--------------------------------------
-		  
-		  // draw histogram Tmp2_   
-		  Tmp2_->SetLineColor(SampleColors[f]);
-		  Tmp2_->SetLineWidth(1);
-		  Tmp2_->Draw("same");
+		  Tmp_->Draw("same E x0");
 
 		  leg->AddEntry(Tmp_,Names[f],"l P");
 		  
