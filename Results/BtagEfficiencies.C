@@ -256,14 +256,14 @@ int BtagEfficiencies()
 // 		    }
 
 
-		  if(Flavors[flv] == "C" || Flavors[flv] == "L")
-		    {
-		      TF1 *g1 = new TF1("g1","[1]+[2]*x+[3]*x**2",40,670);
-		      g1->SetLineColor(SampleColors[f]);
-		      g1->SetLineWidth(2);
-		      Tmp2_->Fit(g1,"0EMR");
-		      Tmp2_->GetFunction("g1")->ResetBit(1<<9);
-		    }
+// 		  if(Flavors[flv] == "C" || Flavors[flv] == "L")
+// 		    {
+// 		      TF1 *g1 = new TF1("g1","[1]+[2]*x+[3]*x**2",40,670);
+// 		      g1->SetLineColor(SampleColors[f]);
+// 		      g1->SetLineWidth(2);
+// 		      Tmp2_->Fit(g1,"0EMR");
+// 		      Tmp2_->GetFunction("g1")->ResetBit(1<<9);
+// 		    }
 
 // 		  TF1 *total = new TF1("total","[0]+[1]*x+[2]*x**2+[3]+[4]*x",40,670);
 // 		  total->SetLineColor(SampleColors[f]);
