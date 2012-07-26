@@ -88,7 +88,7 @@ Double_t fitf(Double_t *x, Double_t *par)
   return fitValue;
  }
 
-int BtagEfficienciesAllEta()
+int FitBtagEfficienciesAllEta()
 {
   //-----------------------------------------------------
   // Define samples
