@@ -71,6 +71,12 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nPV_noWgt_;       
   TH1F* nPV_;
   
+  TH1F* Weight_ ;
+  TH1F* WeightPU_;
+  TH1F* WeightRA2_;
+  TH1F* WeightBtagEff_;
+  TH1F* WeightTrigger_;
+
   // Basic kinematics
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Jet_Eta_;

@@ -70,6 +70,12 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nPV_noWgt_         = fs->make<TH1F>("nPV_noWgt",         "nPV_noWgt",         50, 0.,  50  );
   nPV_               = fs->make<TH1F>("nPV",               "nPV",               50, 0.,  50  );
 
+  Weight_        = fs->make<TH1F>("Weight",        "Weight",        50 , 0.,   10. );
+  WeightPU_      = fs->make<TH1F>("WeightPU",      "WeightPU",      50 , 0.,   10. );
+  WeightRA2_     = fs->make<TH1F>("WeightRA2",     "WeightRA2",     50 , 0.,   10. );
+  WeightBtagEff_ = fs->make<TH1F>("WeightBtagEff", "WeightBtagEff", 50 , 0.,   10. );
+  WeightTrigger_ = fs->make<TH1F>("WeightTrigger", "WeightTrigger", 50 , 0.,   10. );
+
   //-------------------------------------------------
   // Basic kinematics
   //-------------------------------------------------
@@ -324,6 +330,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double weightPU=1;
   double weightRA2=1;
   double weightBtagEff=1;
+  double weightTrigger=1;
 
   if(useEventWgt_)
     {
@@ -394,8 +401,15 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     {
       edm::Handle<double> TriggerWeightHandle;
       evt.getByLabel(TriggerWeight_, TriggerWeightHandle);
-      weight=weight*(*TriggerWeightHandle);
+      weightTrigger=(*TriggerWeightHandle);
+      weight=weight*weightTrigger;
     }
+
+  Weight_->Fill(weight);
+  WeightPU_->Fill(weightPU);
+  WeightRA2_->Fill(weightRA2);
+  WeightBtagEff_->Fill(weightBtagEff);
+  WeightTrigger_->Fill(weightTrigger);
 
   // number of primary vertices
   nPV_noWgt_->Fill(PVSrc->size());
