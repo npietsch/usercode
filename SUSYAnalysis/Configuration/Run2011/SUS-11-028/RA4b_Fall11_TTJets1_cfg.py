@@ -7,13 +7,13 @@
 
 from BjetsPAT_cfg import *
 
-process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_Fall11_TTJets.root"
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsFall11.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_Fall11_TTJets.root"
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsFall11.root"
 process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_Fall11_TTJets.root"
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsFall11.root"
 process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsFall11.root"

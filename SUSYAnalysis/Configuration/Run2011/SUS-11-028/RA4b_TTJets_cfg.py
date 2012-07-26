@@ -7,7 +7,10 @@
 
 from BjetsPAT_cfg import *
 
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/TTJetsSummer11_test.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("analyzeSUSY1m_noCuts/nPU_noWgt")
+
+#process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
 

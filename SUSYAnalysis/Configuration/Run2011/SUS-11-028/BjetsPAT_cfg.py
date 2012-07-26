@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -118,10 +118,12 @@ process.load("TopAnalysis.TopAnalyzer.BTagEfficiencyAnalyzer_cfi")
 
 process.analyzeBTagEfficiency.jets = "goodJets"
 #process.analyzeBTagEfficiency.binsPtB     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
-process.analyzeBTagEfficiency.binsPtB     =  0.,20.,30.,40.,60.,80.,120.,210.,320.,500.
+process.analyzeBTagEfficiency.binsPtB      = 0.,20.,30.,40.,50.,60.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
+#process.analyzeBTagEfficiency.binsPtB     =  0.,20.,30.,40.,60.,80.,120.,210.,320.,500.
 process.analyzeBTagEfficiency.binsEtaB    =  0.,0.8,1.6,2.4,3.0
 #process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
-process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,60.,80.,120.,210.,320.,500.
+process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,60.,80.,100.,160.,260.,400.,670.
+#process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,60.,80.,120.,210.,320.,500.
 process.analyzeBTagEfficiency.binsEtaL    =  0.,0.8,1.6,2.4,3.0
 
 process.bTagEffRA4bMuTCHEM = process.analyzeBTagEfficiency.clone()
