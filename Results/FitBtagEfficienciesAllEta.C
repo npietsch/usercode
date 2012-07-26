@@ -11,7 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
-#include "TDRStyle_BtagEfficienciesAllEta.h"
+#include "TDRStyle_FitBtagEfficienciesAllEta.h"
 
 vector<TFile*> Files;
 vector<TString> Names;
