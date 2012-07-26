@@ -1,194 +1,160 @@
-#include <vector>
-#include <iostream>
-#include <bitset>
-#include <vector>
-#include <fstream>
+#include <TROOT.h>
 #include "TFile.h"
 #include "TH1.h"
-#include "TCanvas.h"
-#include "TStyle.h"
-#include "TLegend.h"
+#include "TH2.h"
+#include "TTree.h"
+#include "TKey.h"
+#include "TF1.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <Plot.h>
 
+vector<TFile*> Files;
+vector<TString> Names;
+vector<double> Weights;
+vector<unsigned int> LineColors;
+vector<unsigned int> FillColors;
+vector<unsigned int> FillStyles;
 
+vector<TString> Selections;
+vector<TString> Histograms;
+
+// add  sample
+void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+
+void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+{
+  Files.push_back(sample);
+  Names.push_back(name);
+  Weights.push_back(weight);
+  LineColors.push_back(lc);
+  FillColors.push_back(fc);
+  FillStyles.push_back(fs);
+}
+
+// add  histogram
+void addHistogram(TString name);
+
+void addHistogram(TString name)
+{
+  Histograms.push_back(name);
+}
+
+// main function
 int PU()
 {
-  // define sample
-  TFile* ElHad_ =new TFile("ElHad.root", "READ");
 
-  // get histograms
-  TH1F* nBtags1PV_=(TH1F*)ElHad_->Get("analyzeBtagsRA4bElTCHEM3/nbtags_1PU");
-  TH1F* nBtags5PV_=(TH1F*)ElHad_->Get("analyzeBtagsRA4bElTCHEM3/nbtags_5PU");
-  TH1F* nBtags9PV_=(TH1F*)ElHad_->Get("analyzeBtagsRA4bElTCHEM3/nbtags_7PU");
-  TH1F* nBtags13PV_=(TH1F*)ElHad_->Get("analyzeBtagsRA4bElTCHEM3/nbtags_10PU");
+  //--------------------------------------------------------------
+  // Samples
+  //--------------------------------------------------------------
 
-  // normaliz histograms to unit area
-  nBtags1PV_->Scale(1/(nBtags1PV_->Integral()));
-  nBtags5PV_->Scale(1/(nBtags5PV_->Integral()));
-  nBtags9PV_->Scale(1/(nBtags9PV_->Integral()));
-  nBtags13PV_->Scale(1/(nBtags13PV_->Integral()));
+  TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
+  TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
+  TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
+  TFile* ZJets          = new TFile("ZJets.root",          "READ");
+  TFile* WJets          = new TFile("WJets.root",          "READ");
+  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  TFile* QCD            = new TFile("QCD.root",            "READ");
+  
+  TFile* LM3            = new TFile("LM3.root",            "READ");
+  TFile* LM8            = new TFile("LM8.root",            "READ");
+  TFile* LM13           = new TFile("LM13.root",           "READ");
 
-  // set gStyle
+  TFile* Data = new TFile("Run2011_PU_bin70.root", "Read"); 
+
+  //-------------------------------------------------------------------------------------------------------------------
+  // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+  //-------------------------------------------------------------------------------------------------------------------
+
+  addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
+  addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
+  addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
+  addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
+  addSample(WJets,          "WJets",          1, kYellow,  0, 0);
+  addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
+  addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
+				    
+  addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
+  addSample(LM8,       "LM8",         1, 1,        0, 0);
+  addSample(LM13,      "LM13",        1, kBlue,    0, 0);
+
+  //-------------------------------------------------------------------------------------------------
+  // push back selection step to vector<TString> Selections and DataSelection;
+  //-------------------------------------------------------------------------------------------------
+
+  std::cout << "Test1" << std::endl;
+
+  Selections.push_back("analyzeSUSY1m_noCuts");
+  
+  //-------------------------------------------------------------------------------------------------
+  // push back histogram to vector<int> Histograms and DataHistograms;
+  //-------------------------------------------------------------------------------------------------
+
+  std::cout << "Test2" << std::endl;
+
+  addHistogram("nPU");
+
+  //------------
+  // set style 
+  //------------ 
+
   gStyle->SetCanvasColor(10);
   gStyle->SetOptStat(0);
   gStyle->SetPalette(1);
   gStyle->SetTitleFillColor(0);
 
-  // histogram and marker style
-  nBtags1PV_->SetLineColor(8);
-  nBtags1PV_->SetMarkerStyle(20);
-  nBtags1PV_->SetMarkerColor(8);
-  nBtags1PV_->SetMarkerSize(1.3);
-  nBtags1PV_->SetTitle("");
-  nBtags1PV_->GetXaxis()->SetTitle("number of b-tagged jets");
-  nBtags1PV_->GetXaxis()->CenterTitle();
-  nBtags1PV_->GetYaxis()->SetTitle("a.u.");
-  nBtags1PV_->GetYaxis()->CenterTitle();
+  //--------
+  // Plot
+  //--------
 
-  nBtags5PV_->SetLineColor(2);
-  nBtags5PV_->SetMarkerStyle(21);
-  nBtags5PV_->SetMarkerColor(2);
-  nBtags5PV_->SetMarkerSize(1.3);
+  // loop over samples
+   for(int ndx=0; ndx<(int)Files.size(); ++ndx)
+     {
 
-  nBtags9PV_->SetLineColor(4);
-  nBtags9PV_->SetMarkerStyle(22);
-  nBtags9PV_->SetMarkerColor(4);
-  nBtags9PV_->SetMarkerSize(1.3);
+       // loop over selections
+       for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
+	 {
+	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx], 1);
+	   
+	   TLegend *leg = new TLegend(.65,.75,.98,.98);
+	   leg->SetTextFont(42);
+	   leg->SetFillColor(0);
+	   leg->SetLineColor(0);
+	   
+	   std::cout << "Test3" << std::endl;
 
-  nBtags13PV_->SetLineColor(1);
-  nBtags13PV_->SetMarkerStyle(23);
-  nBtags13PV_->SetMarkerColor(1);
-  nBtags13PV_->SetMarkerSize(1.3);
+	   // draw first histogram
+	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
+	   Temp1->Draw();
+	   Temp1->Scale(1/(Temp1->Integral()));
+	   Temp1->SetTitle(Names[ndx]);
+	   Temp1->GetXaxis()->SetTitle("Number of pile-up interactions");
+	   Temp1->GetXaxis()->CenterTitle();
+	   Temp1->GetYaxis()->SetTitle("a.u.");
+	   Temp1->GetYaxis()->CenterTitle();
+	   Temp1->GetYaxis()->SetTitleOffset(1.3);
+	   Temp1->SetLineColor(LineColors[ndx]);
+	   Temp1->SetLineStyle(1);
+	   Temp1->SetMarkerStyle(20);
+	   Temp1->SetMarkerColor(LineColors[ndx]);
+	   Temp1->SetMarkerSize(0.7);
+	   leg->AddEntry(Temp1,Names[ndx],"l P");
 
-  TLegend *leg = new TLegend(.73,.55,.88,.88);
-  leg->SetTextFont(42);
-  leg->SetFillColor(0);
-  leg->SetLineColor(0);
-  
-  leg->AddEntry(nBtags1PV_,"1-4 PV","l P");
-  leg->AddEntry(nBtags5PV_,"5-8 PV","l P");
-  leg->AddEntry(nBtags9PV_,"9-12 PV","l P");
-  leg->AddEntry(nBtags13PV_,"> 13 PV","l P");
-
-  TCanvas *c1 =new TCanvas("c1","c1",1);
-
-  nBtags1PV_->Draw("");
-  nBtags5PV_->Draw("same");
-  nBtags9PV_->Draw("same");
-  nBtags13PV_->Draw("same");
-  leg->Draw("box");
-
-  TPaveText *label = new TPaveText(0.16,0.16,0.43,0.27,"NDC");
-  label->SetFillColor(0);
-  label->SetTextFont(42);
-  label->SetBorderSize(1);
-  TText *text=label->AddText("L=4.13 fb^{-1}");
-  text->SetTextAlign(22);
-  label->Draw("same");
-
-  c1->SaveAs("PV_El.pdf");
-
-//   //double xbins[5]={0.1,1.1,2.1,3.1,4.1};
-
-
-// //   for(int ibin=1; ibin<Tag0gedPt_->GetNbinsX(); ++ibin)
-// //     {
-// //       xbin=xbin+TaggedPt_->GetXaxis()->GetBinWidth(ibin);
-// //       if(TaggedPt_->GetXaxis()->GetBinWidth(ibin)>20) shift_=shift3_;
-// //       xbinsPt[ibin]=xbin+shift_;
-// //       std::cout << xbin[ibin] << std::endl;
-// //     }
-  
-//   // define new histogram
-
-//   TH1F* nBtags5PV_New_= new TH1F("nBtags5PV_New", "nBtags5PV_New", 4, 0.1, 4.1);
-
-//   for(int i=0; i<5; ++i)
-//     {
-//       nBtags5PV_New_->SetBinContent(i,nBtags5PV_->GetBinContent(i));
-//     }
-//   TCanvas *c1 =new TCanvas("c1" ,"c1" ,1);
-
-//   nBtags5PV_->SetFillColor
-
-//   //nBtags1PV_->Draw("");
-//   nBtags5PV_->Draw("");
-//   nBtags5PV_New_->Draw("same");
-//   //nBtags9PV_->Draw("same");
-//   //nBtags13PV_->Draw("same");
-
-
-
-
-
-// 		  // define shift
-// 		  double shift_=2*s;
-// 		  double shift2_=4*s;
-// 		  double shift3_=6*s;
-
-// 		  // define array xbinsPt
-// 		  Int_t nBins=TaggedPt_->GetNbinsX();
-// 		  double xbinsPt[11];
-		  
-// 		  // fill array xbinsPt
-// 		  double xbin0=TaggedPt_->GetBinLowEdge(1);
-// 		  xbinsPt[0]=xbin0;
-// 		  std::cout << xbin0 << std::endl;
-// 		  // 
-// 		  double xbin=0;
-// 		  for(int ibin=1; ibin<TaggedPt_->GetNbinsX(); ++ibin)
-// 		    {
-// 		      xbin=xbin+TaggedPt_->GetXaxis()->GetBinWidth(ibin);
-// 		      //if(TaggedPt_->GetXaxis()->GetBinWidth(ibin)>10) shift_=shift2_;
-// 		      if(TaggedPt_->GetXaxis()->GetBinWidth(ibin)>20) shift_=shift3_;
-// 		      //xbinsPt[ibin]=xbin+shift_*(TaggedPt_->GetXaxis()->GetBinWidth(ibin));
-// 		      xbinsPt[ibin]=xbin+shift_;
-// 		      std::cout << xbin[ibin] << std::endl;
-// 		    }
-// 		  //double xEndShift=shift_*(TaggedPt_->GetXaxis()->GetBinWidth(TaggedPt_->GetNbinsX()));
-// 		  xbinsPt[TaggedPt_->GetNbinsX()]=TaggedPt_->GetBinLowEdge(TaggedPt_->GetNbinsX()+1)+shift_;
-		  
-// 		  // define new histogram TaggePt_
-// 		  char Tmp [70];
-// 		  sprintf(Tmp,"%i_%i_%i_%i_Pt", f, a, flv, s);
-// 		  TH1F* Tmp_=new TH1F(Tmp, "Tmp", nBins, xbinsPt);
-
-// 		  // fill histogram TaggedPt_
-// 		  for(int ibin=0; ibin<Tmp_->GetNbinsX()+1; ++ibin)
-// 		    {
-// 		      std::cout << ibin << std::endl;
-// 		      Tmp_->SetBinContent(ibin,TaggedPt_->GetBinContent(ibin));
-// 		      Tmp_->SetBinError(ibin,TaggedPt_->GetBinError(ibin));
-// 		    }
-
-// 		  // draw histogram Tmp_
-// 		  Tmp_->SetTitle(Flavors[flv]+"Jets tag efficiency "+Algos[a]);
-// 		  Tmp_->GetXaxis()->SetTitle("p_{T} [GeV]");
-// 		  Tmp_->GetXaxis()->CenterTitle();
-// 		  Tmp_->GetYaxis()->SetTitle("b-tag efficiency");
-// 		  Tmp_->GetYaxis()->CenterTitle();
-// 		  Tmp_->SetLineColor(LineColors[s]);
-// 		  if(s==0) Tmp_->Draw("E x0");
-// 		  else Tmp_->Draw("same E x0");
-
-// 		  //--------------------------------------
-// 		  // Draw x errors
-// 		  //--------------------------------------
-
-// 		  // draw histogram TaggePt_    
-// 		  TaggedPt_->SetLineColor(LineColors[s]);
-// 		  for(int ibin=0; ibin<TaggedPt_->GetNbinsX()+1; ++ibin)
-// 		    {
-// 		      TaggedPt_->SetBinError(ibin,0.0000000001);
-// 		    }
-
-// 		  TaggedPt_->Draw("same");
-		  
-// 		  leg->AddEntry(TaggedPt_,SelectionNames[s],"l");
-		  
-// 		}
-// 	      leg->Draw("box");
-// 	      canvas->SaveAs(Names[f]+"_"+Algos[a]+"_"+Flavors[flv]+"jetsEff_ElPt.pdf");
-
-  return 0;
-  
+	   std::cout << "Test4" << std::endl;
+	   
+	   TH1F* Temp2=(TH1F*)Data->Get("pileup");
+	   Temp2->Draw("same");
+	   Temp2->Scale(1/(Temp2->Integral()));
+	   Temp2->SetLineColor(1);
+	   Temp2->SetLineStyle(2);
+	   Temp2->SetMarkerStyle(25);
+	   Temp2->SetMarkerColor(1);
+	   Temp2->SetMarkerSize(0.9);
+	   leg->AddEntry(Temp2,"Data","l P");
+	   	 
+	   leg->Draw("box");
+	   c1->SaveAs(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx]+".pdf");
+	 }
+     }
 }
