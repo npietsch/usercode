@@ -9,6 +9,8 @@ void PU70() {
 
   Names.push_back("TTJetsFall11");
   Names.push_back("WJetsHT");
+  Names.push_back("WJetsHT250");
+  Names.push_back("WJetsHT300");
   Names.push_back("LM3");
   Names.push_back("LM8");
   Names.push_back("LM13");

@@ -1,14 +1,17 @@
-#include <TROOT.h>
+#include <vector>
+#include <iostream>
+#include <bitset>
+#include <vector>
+#include <fstream>
 #include "TFile.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TTree.h"
-#include "TKey.h"
 #include "TF1.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <Plot.h>
+#include "TCanvas.h"
+#include "TStyle.h"
+#include "TLegend.h"
+#include "TPaveText.h"
+#include <TDRStyle_PU.h>
 
 vector<TFile*> Files;
 vector<TString> Names;
@@ -67,17 +70,17 @@ int PU()
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
+//   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
   addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
-  addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
-  addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
-  addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-  addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
-  addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
+//   addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
+//   addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
+//   addSample(WJets,          "WJets",          1, kYellow,  0, 0);
+//   addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
+//   addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
 				    
-  addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
-  addSample(LM8,       "LM8",         1, 1,        0, 0);
-  addSample(LM13,      "LM13",        1, kBlue,    0, 0);
+//   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
+//   addSample(LM8,       "LM8",         1, 1,        0, 0);
+//   addSample(LM13,      "LM13",        1, kBlue,    0, 0);
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
@@ -99,10 +102,12 @@ int PU()
   // set style 
   //------------ 
 
-  gStyle->SetCanvasColor(10);
-  gStyle->SetOptStat(0);
-  gStyle->SetPalette(1);
-  gStyle->SetTitleFillColor(0);
+  setTDRStyle();
+
+//   gStyle->SetCanvasColor(10);
+//   gStyle->SetOptStat(0);
+//   gStyle->SetPalette(1);
+//   gStyle->SetTitleFillColor(0);
 
   //--------
   // Plot
