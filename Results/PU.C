@@ -74,8 +74,8 @@ int PU()
   addSample(TTJetsFall11,   "T#bar{T}+Jets",   1, kRed,      0, 0);
   addSample(SingleTop,      "Single Top",      1, kBlue,     0, 0);
   addSample(ZJets,          "DY+Jets",         1, kYellow+1, 0, 0);
-//   addSample(WJets,          "W+Jets",         1, kYellow,  0, 0);
-  addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
+//   addSample(WJets,          "W+Jets",          1, kYellow,   0, 0);
+//   addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
   addSample(QCD,            "QCD",             1, kRed+2,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
