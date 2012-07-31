@@ -11,18 +11,17 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1.2.2 $'),
+    version = cms.untracked.string('$Revision: 1.1.2.3 $'),
     name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
-
 #-- Message Logger ------------------------------------------------------------
 process.MessageLogger.categories.append('PATSummaryTables')
 process.MessageLogger.cerr.PATSummaryTables = cms.untracked.PSet(
     limit = cms.untracked.int32(-1),
     reportEvery = cms.untracked.int32(1)
     )
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 #-- VarParsing ----------------------------------------------------------------
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -37,7 +36,7 @@ options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
-options.register('jetTypes', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
+options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
 options.register('hltSelection', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.register('doValidation', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Include the validation histograms from SusyDQM (needs extra tags)")
 options.register('doExtensiveMatching', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Matching to simtracks (needs extra tags)")
@@ -93,30 +92,62 @@ if options.addKeep:
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    "/store/mc/Summer11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/FEEE3638-F297-E011-AAF8-00304867BEC0.root"
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428_R2-PU50-DESIGN42_V17S-v1/00002/FECBD54C-49D7-E111-AD5C-002618943901.root'
+    #"/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428-PU50-DESIGN42_V17S-v2/0002/FED1A35B-97C9-E111-A11D-002618943939.root"
+    #"root://eoscms.cern.ch//eos/cms/store/mc/Summer12/DYToMuMu_M_20_TuneZ2star_14TeV_pythia6/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428-PU50-DESIGN42_V17S-v1/0002/FE6A3DDB-A3C9-E111-8DB9-003048678B86.root"
+    #"root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0000/A6A3B8DE-A9AA-E111-936F-003048D3C880.root"
+    #"/store/mc/Summer11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/FEEE3638-F297-E011-AAF8-00304867BEC0.root"
     )
                             )
 
 #-- Calibration tag -----------------------------------------------------------
-options.GlobalTag = "START42_V17::All"
+#options.GlobalTag = "START42_V17::All"
+options.GlobalTag = "DESIGN42_V17S::All"
 if options.GlobalTag:
     process.GlobalTag.globaltag = options.GlobalTag
 
 # Output
-process.maxEvents.input = 1
-
+process.maxEvents.input = 10
 
 from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
 process.out.outputCommands += RA4bEventContent
 process.out.fileName="Summer11.root"
 
+process.load("Configuration.StandardSequences.Generator_cff")# import genJetMET
+#process.load("RecoJets.JetProducers.ak5JetID_cfi")# load ak5JetID
+#process.load("RecoJets.JetProducers.ak5CaloJets_cfi")
+#process.calonew=process.ak5CaloJets.clone()
+#process.ak5JetID.useRecHits = cms.bool(False)
+#process.ak5JetID.src="ak5CaloJetsnew"
+process.TrackerDigiGeometryESModule.applyAlignment = cms.bool(False)
+process.patJetsAK5PF.jetIDMap="ak5JetID"
+#process.patJetsAK5PF.jetSource = cms.InputTag("ak5CaloJets")
+process.patJetsAK5PF.addJetID = cms.bool(True)
+process.patJets.jetIDMap="ak5JetID"
+#process.patJets.jetSource = cms.InputTag("ak5CaloJets")
+process.patJets.addJetID = cms.bool(True)
+process.load("SLHCUpgradeSimulations.Geometry.Phase1_cmsSimIdealGeometryXML_cfi")
+
+process.ak5JetID = cms.EDProducer("JetIDProducer",
+    eeRecHitsColl = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
+    hbheRecHitsColl = cms.InputTag("hbhereco"),
+    rpcRecHits = cms.InputTag("rpcRecHits"),
+    hoRecHitsColl = cms.InputTag("horeco"),
+    ebRecHitsColl = cms.InputTag("ecalRecHit","EcalRecHitsEB"),
+    hfRecHitsColl = cms.InputTag("hfreco"),
+    useRecHits = cms.bool(True),
+    src = cms.InputTag("ak5CaloJets")
+)
+
 process.outpath = cms.EndPath(process.out)
- 
+
 ############################## end of Custome options for the Upgrade  ####################################
 
 #-- Execution path ------------------------------------------------------------
 # Full path
-process.p = cms.Path( process.susyPatDefaultSequence )
+#process.p = cms.Path( process.genJetMET*process.susyPatDefaultSequence )
+process.p = cms.Path( process.genJetMET*process.ak5JetID*process.susyPatDefaultSequence )
+process.p.remove(process.daVertices)
 #-- Dump config ------------------------------------------------------------
 file = open('SusyPAT_cfg.py','w')
 file.write(str(process.dumpPython()))
