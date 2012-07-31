@@ -1,3 +1,10 @@
+#----------------------------------------------------
+# To run on the NAF, type:
+#
+# export NJS_QUEUE=1 
+# nafJobSplitter.pl 196 RA4b_Top_tChannel_cfg.py
+#----------------------------------------------------
+
 from BjetsPAT_cfg import *
 
 process.weightProducer.Method = "Constant"
@@ -5,9 +12,18 @@ process.weightProducer.XS = 41.92
 process.weightProducer.NumberEvts = 3900171
 process.weightProducer.Lumi = 1000  ## Lumi in 1/pb
 
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
-process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
-process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
+#process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
+#process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
+#process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
+
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/SingleTop.root"
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/SingleTop.root"
@@ -211,8 +227,5 @@ process.source = cms.Source("PoolSource",
 '/store/user/schettle/T_TuneZ2_t-channel_7TeV-powheg-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_182_1_Z3E.root',
 '/store/user/schettle/T_TuneZ2_t-channel_7TeV-powheg-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_135_1_39d.root',
 '/store/user/schettle/T_TuneZ2_t-channel_7TeV-powheg-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_134_1_EcL.root'
-
-
-
 )
 )
