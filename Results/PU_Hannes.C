@@ -4,13 +4,13 @@
 #include "TFile.h"
 
 
-void PU() {
+void PU_Hannes() {
   //TDirectory* keep = gDirectory->GetDirectory("");
-  TFile* ORGPUDIST = new TFile("temp.root");
+  TFile* ORGPUDIST = new TFile("Data_PUDist_sysNo_68000_2011Full.root");
 
   cout<<"file read"<<endl;
 
-  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("analyzeSUSY1m_noCuts/nPU"); //->Clone("puorg");
+  TH1D* orgpuT = (TH1D*) ORGPUDIST->Get("histoData_true"); //->Clone("puorg");
   TH1D* orgpu = (TH1D*) orgpuT->Clone("puorg");
   cout<<"histo cloned"<<endl;
 
@@ -38,7 +38,7 @@ void PU() {
 
    rebpu->Draw();
 
-   TFile* REBPUDIST = new TFile("PU_Fall11_WJetsHT300.root","RECREATE");
+   TFile* REBPUDIST = new TFile("PU_Data.root","RECREATE");
    rebpu->Write();
    REBPUDIST->Close();
    //   ORGPUDIST->Close();
