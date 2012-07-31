@@ -14,7 +14,7 @@
 #include "TDRStyle_BtagEfficienciesAllEta.h"
 
 vector<TFile*> Files;
-vector<TString> Names;
+vector<TString> Labels;
 vector<unsigned int> SampleColors;
 vector<unsigned int> MarkerStyles;
 vector<double> MarkerSizes;
@@ -31,12 +31,12 @@ vector<TString> SelectionNames;
 vector<TH1F*> Histograms;
 
 // function addSample
-void addSample(TFile* sample, TString name, int lc, int ms, double msize, int fs);
+void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
 
-void addSample(TFile* sample, TString name, int lc, int ms, double msize, int fs)
+void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs)
 {
   Files.push_back(sample);
-  Names.push_back(name);
+  Labels.push_back(label);
   SampleColors.push_back(lc);
   MarkerStyles.push_back(ms);
   MarkerSizes.push_back(msize);
@@ -67,7 +67,7 @@ int BtagEfficienciesAllEta()
   // Define samples
   //-----------------------------------------------------
 
-  TFile* TTJets    = new TFile("TTJetsFall11.root", "READ");
+  TFile* TTJets    = new TFile("TTJetsFall11.root",   "READ");
   TFile* WJetsHT   = new TFile("WJetsHT.root",        "READ");
   TFile* SingleTop = new TFile("SingleTop.root",      "READ");
 
@@ -75,13 +75,13 @@ int BtagEfficienciesAllEta()
   TFile* LM8       = new TFile("LM8.root",            "READ");
   TFile* LM13      = new TFile("LM13.root",           "READ");
 
-  //-----------------------------------------------------
-  // addSample(TFile* sample, TString name)
-  //-----------------------------------------------------
+  //----------------------------------------------------------------------------------
+  // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
+  //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "T#bar{T}+Jets", kRed,     20, 1.1, 7);
-  addSample(SingleTop, "single top",    kBlue,    21, 0.9, 7);
-  addSample(WJetsHT,   "W+Jets",        kGreen+2, 22, 1.2, 7);
+  addSample(TTJets,    "t#bar{t}+Jets",           kRed,     20, 1.1, 7);
+  addSample(SingleTop, "Single Top",              kBlue,    21, 0.9, 7);
+  addSample(WJetsHT,   "W(#rightarrowl#nu)+Jets", kGreen+2, 22, 1.2, 7);
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
 //   addSample(LM8,  "LM8",  kBlue,    21, 0.9, 7);
@@ -129,16 +129,16 @@ int BtagEfficienciesAllEta()
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.64,.18,.91,.35);
+	      TLegend *leg = new TLegend(.54,.18,.91,.36);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
 	      
-	      TPaveText *label = new TPaveText(0.16,0.85,0.62,0.93,"NDC");
+	      TPaveText *label = new TPaveText(0.16,0.85,0.58,0.93,"NDC");
 	      label->SetFillColor(0);
 	      label->SetTextFont(42);
 	      label->SetBorderSize(0);
-	      TText *text=label->AddText("CMS Simulation, #sqrt{s}=7 TeV");
+	      TText *text=label->AddText("Simulation, #sqrt{s}=7 TeV");
 	      text->SetTextAlign(22);
 	      
 	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
@@ -244,7 +244,7 @@ int BtagEfficienciesAllEta()
 		    }
 
 		  Tmp2_->GetXaxis()->SetTitleOffset(1.2); 
-		  Tmp2_->GetYaxis()->SetTitleOffset(1.3);
+		  Tmp2_->GetYaxis()->SetTitleOffset(1.4);
 		  
 		  Tmp2_->SetLineColor(SampleColors[f]);
 		  Tmp2_->SetLineWidth(1);
@@ -258,8 +258,8 @@ int BtagEfficienciesAllEta()
 		  Tmp_->SetMarkerColor(SampleColors[f]);
 		  Tmp_->SetMarkerSize(MarkerSizes[f]);
 		  Tmp_->Draw("same E x0");
-		  
-		  leg->AddEntry(Tmp_,Names[f],"l P");
+
+		  leg->AddEntry(Tmp_,Labels[f],"l P");
 		}
 	      
 	      std::cout << "==============================" << std::endl;
@@ -272,7 +272,7 @@ int BtagEfficienciesAllEta()
 	      //label2->Draw();
 	      //label3->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_SM.pdf");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_SM.eps");
 	    }
 	}
     }

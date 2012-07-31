@@ -71,12 +71,12 @@ int PU()
   //-------------------------------------------------------------------------------------------------------------------
 
 //   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
-  addSample(TTJetsFall11,   "T#bar{T}+Jets",   1, kRed,      0, 0);
-  addSample(SingleTop,      "Single Top",      1, kBlue,     0, 0);
-  addSample(ZJets,          "DY+Jets",         1, kYellow+1, 0, 0);
+  //addSample(TTJetsFall11,   "T#bar{T}+Jets",   1, kRed,      0, 0);
+  //addSample(SingleTop,      "Single Top",      1, kBlue,     0, 0);
+  addSample(ZJets,          "DY+Jets",         1, kYellow,   0, 0);
 //   addSample(WJets,          "W+Jets",          1, kYellow,   0, 0);
-//   addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
-  addSample(QCD,            "QCD",             1, kRed+2,    0, 0);
+  //addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
+  //addSample(QCD,            "QCD",             1, kRed+2,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -136,6 +136,7 @@ int PU()
 	   Temp1->Scale(1/(Temp1->Integral()));
 	   Temp1->SetTitle("");
 	   Temp1->SetMaximum(0.095);
+	   if(Names[ndx]=="Single Top") Temp1->SetMaximum(0.11);
 	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
 	   //Temp1->GetXaxis()->CenterTitle();
 	   Temp1->GetXaxis()->SetTitleOffset(1.2);
@@ -178,7 +179,7 @@ int PU()
 	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
 	   leg->Draw();
-	   c1->SaveAs(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx]+".pdf");
+	   c1->SaveAs("PU_"+Names[ndx]+".pdf");
 	 }
      }
 }
