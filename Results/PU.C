@@ -71,12 +71,12 @@ int PU()
   //-------------------------------------------------------------------------------------------------------------------
 
 //   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
-  addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
-//   addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
-//   addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
-//   addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-//   addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
-//   addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
+  addSample(TTJetsFall11,   "T#bar{T}+Jets",   1, kRed,      0, 0);
+  addSample(SingleTop,      "Single Top",      1, kBlue,     0, 0);
+  addSample(ZJets,          "DY+Jets",         1, kYellow+1, 0, 0);
+//   addSample(WJets,          "W+Jets",         1, kYellow,  0, 0);
+  addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
+  addSample(QCD,            "QCD",             1, kRed+2,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -97,6 +97,7 @@ int PU()
   std::cout << "Test2" << std::endl;
 
   addHistogram("nPU");
+  addHistogram("nPU_noWgt");
 
   //------------
   // set style 
@@ -122,43 +123,61 @@ int PU()
 	 {
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx], 1);
 	   
-	   TLegend *leg = new TLegend(.65,.75,.98,.98);
+	   TLegend *leg = new TLegend(.38,.70,.91,.91);
 	   leg->SetTextFont(42);
 	   leg->SetFillColor(0);
-	   leg->SetLineColor(0);
-	   
+	   leg->SetLineColor(1);
+	   leg->SetShadowColor(0);
+	   	   
 	   std::cout << "Test3" << std::endl;
 
-	   // draw first histogram
+	   // Draw first histogram
 	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
-	   Temp1->Draw();
 	   Temp1->Scale(1/(Temp1->Integral()));
-	   Temp1->SetTitle(Names[ndx]);
-	   Temp1->GetXaxis()->SetTitle("Number of pile-up interactions");
-	   Temp1->GetXaxis()->CenterTitle();
+	   Temp1->SetTitle("");
+	   Temp1->SetMaximum(0.095);
+	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
+	   //Temp1->GetXaxis()->CenterTitle();
+	   Temp1->GetXaxis()->SetTitleOffset(1.2);
+	   Temp1->GetXaxis()->SetRangeUser(-0.5,50.5);
 	   Temp1->GetYaxis()->SetTitle("a.u.");
-	   Temp1->GetYaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitleOffset(1.3);
+	   //Temp1->GetYaxis()->CenterTitle();
+	   Temp1->GetYaxis()->SetTitleOffset(1.7);
 	   Temp1->SetLineColor(LineColors[ndx]);
-	   Temp1->SetLineStyle(1);
-	   Temp1->SetMarkerStyle(20);
-	   Temp1->SetMarkerColor(LineColors[ndx]);
-	   Temp1->SetMarkerSize(0.7);
-	   leg->AddEntry(Temp1,Names[ndx],"l P");
+	   Temp1->SetLineStyle(3);
+	   Temp1->SetLineWidth(3);
+	   //Temp1->SetMarkerStyle(24);
+	   //Temp1->SetMarkerColor(LineColors[ndx]);
+	   //Temp1->SetMarkerSize(1.0);
+	   Temp1->Draw("Hist");
 
 	   std::cout << "Test4" << std::endl;
 	   
-	   TH1F* Temp2=(TH1F*)Data->Get("pileup");
-	   Temp2->Draw("same");
+	   // Draw first histogram
+	   TH1F* Temp2=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[1]);
 	   Temp2->Scale(1/(Temp2->Integral()));
-	   Temp2->SetLineColor(1);
-	   Temp2->SetLineStyle(2);
-	   Temp2->SetMarkerStyle(25);
-	   Temp2->SetMarkerColor(1);
-	   Temp2->SetMarkerSize(0.9);
-	   leg->AddEntry(Temp2,"Data","l P");
+	   Temp2->SetLineColor(LineColors[ndx]);
+	   Temp2->SetLineStyle(1);
+	   Temp2->SetLineWidth(2);
+	   //Temp2->SetMarkerStyle(21);
+	   //Temp2->SetMarkerColor(LineColors[ndx]);
+	   //Temp2->SetMarkerSize(1.0);
+	   Temp2->Draw("same Hist");
+
+	   TH1F* Temp3=(TH1F*)Data->Get("pileup");
+	   Temp3->Scale(1/(Temp3->Integral()));
+	   Temp3->SetLineColor(1);
+	   Temp3->SetLineWidth(1);
+	   Temp3->SetMarkerStyle(20);
+	   Temp3->SetMarkerColor(1);
+	   Temp3->SetMarkerSize(0.9);
+	   Temp3->Draw("same E");
+
+	   leg->AddEntry(Temp2,Names[ndx]+" w/o reweighting","l P");
+	   leg->AddEntry(Temp1,Names[ndx]+" w reweighting","l P");
+	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
-	   leg->Draw("box");
+	   leg->Draw();
 	   c1->SaveAs(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx]+".pdf");
 	 }
      }
