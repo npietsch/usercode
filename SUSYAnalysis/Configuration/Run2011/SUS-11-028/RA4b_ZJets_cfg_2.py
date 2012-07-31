@@ -1,8 +1,24 @@
+#----------------------------------------------------
+# To run on the NAF, type:
+#
+# export NJS_QUEUE=1 
+# nafJobSplitter.pl 227 RA4b_ZJets_cfg_2.py
+#----------------------------------------------------
+
 from BjetsPAT_cfg import *
 
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
-process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
-process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
+#process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
+#process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
+#process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
+
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_ZJets.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_ZJets.root"
+process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_ZJets.root"
+process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 #process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/ZJets.root"
 #process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/ZJets.root"
@@ -237,7 +253,5 @@ process.source = cms.Source("PoolSource",
 '/store/user/schettle/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_212_1_Lsk.root',
 '/store/user/schettle/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_213_1_LTg.root',
 '/store/user/schettle/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_250_1_lKh.root'
-
-
 )
 )
