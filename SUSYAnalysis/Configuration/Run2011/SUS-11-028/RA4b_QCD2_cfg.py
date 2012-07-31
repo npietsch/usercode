@@ -2,7 +2,7 @@
 # To run on the NAF, type:
 #
 # xport NJS_QUEUE=1 
-# nafJobSplitter.pl 16 RA4b_LM13_cfg.py
+# nafJobSplitter.pl 231 RA4b_QCD2_cfg.py
 #-------------------------------------------
 
 from BjetsPAT_cfg import *
@@ -12,9 +12,18 @@ process.weightProducer.XS = 2.213E+10
 process.weightProducer.NumberEvts = 10715600
 process.weightProducer.Lumi = 1000 ## Lumi in 1/pb
 
-process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
-process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
-process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
+#process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
+#process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
+#process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/MC_PUDist_Summer11_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6.root"
+
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_QCD.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_QCD.root"
+process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
+
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_QCD.root"
+process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 #process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/QCD.root"
 #process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/QCD.root"
@@ -252,8 +261,6 @@ process.source = cms.Source("PoolSource",
 '/store/user/dhorton/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/SUSYPAT2/d81d81f7c5973c60c0add93b95511b5f/Summer11_313_1_019.root',
 '/store/user/dhorton/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/SUSYPAT2/d81d81f7c5973c60c0add93b95511b5f/Summer11_161_1_hsn.root',
 '/store/user/dhorton/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/SUSYPAT2/d81d81f7c5973c60c0add93b95511b5f/Summer11_162_1_uSb.root',
-'/store/user/dhorton/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/SUSYPAT2/d81d81f7c5973c60c0add93b95511b5f/Summer11_327_1_DHG.root'
-    
-
-  )
+'/store/user/dhorton/QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6/SUSYPAT2/d81d81f7c5973c60c0add93b95511b5f/Summer11_327_1_DHG.root'    
+)
 )
