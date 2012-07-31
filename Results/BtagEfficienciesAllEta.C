@@ -79,9 +79,9 @@ int BtagEfficienciesAllEta()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "t#bar{t}+Jets",           kRed,     20, 1.1, 7);
-  addSample(SingleTop, "Single Top",              kBlue,    21, 0.9, 7);
-  addSample(WJetsHT,   "W(#rightarrowl#nu)+Jets", kGreen+2, 22, 1.2, 7);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed,     20, 1.1, 7);
+  addSample(SingleTop, "Single Top",    kBlue,    21, 0.9, 7);
+  addSample(WJetsHT,   "W+Jets",        kGreen+2, 22, 1.2, 7);
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
 //   addSample(LM8,  "LM8",  kBlue,    21, 0.9, 7);

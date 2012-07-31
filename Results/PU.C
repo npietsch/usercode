@@ -64,19 +64,17 @@ int PU()
   TFile* LM8            = new TFile("LM8.root",            "READ");
   TFile* LM13           = new TFile("LM13.root",           "READ");
 
-  TFile* Data = new TFile("Run2011_PU_bin70.root", "Read"); 
+  TFile* Data = new TFile("Data_PUDist_sysNo_68000_2011Full.root", "Read"); 
 
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-//   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
-  //addSample(TTJetsFall11,   "T#bar{T}+Jets",   1, kRed,      0, 0);
-  //addSample(SingleTop,      "Single Top",      1, kBlue,     0, 0);
-  addSample(ZJets,          "DY+Jets",         1, kYellow,   0, 0);
-//   addSample(WJets,          "W+Jets",          1, kYellow,   0, 0);
-  //addSample(WJetsHT,        "W+Jets",          1, kGreen+2,  0, 0);
-  //addSample(QCD,            "QCD",             1, kRed+2,    0, 0);
+  addSample(TTJetsFall11,   "t#bar{t}+Jets",    1, kRed,      0, 0);
+  addSample(SingleTop,      "Single Top",       1, kBlue,     0, 0);
+  addSample(ZJets,          "Z/#gamma*+Jets",   1, kYellow,   0, 0);
+  addSample(WJetsHT,        "W+Jets",           1, kGreen+2,  0, 0);
+  addSample(QCD,            "QCD",              1, kRed+2,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -179,7 +177,7 @@ int PU()
 	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
 	   leg->Draw();
-	   c1->SaveAs("PU_"+Names[ndx]+".pdf");
+	   c1->SaveAs("PU_"+Names[ndx]+".eps");
 	 }
      }
 }
