@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1.2.4 $'),
-    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1.2.1 $'),
+    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_St2_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 #-- Message Logger ------------------------------------------------------------
@@ -92,12 +92,13 @@ if options.addKeep:
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0001/A641AE44-46AB-E111-930E-003048F02CBA.root'
-    #'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428_R2-PU50-DESIGN42_V17S-v1/00002/FECBD54C-49D7-E111-AD5C-002618943901.root'
-    #"/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428-PU50-DESIGN42_V17S-v2/0002/FED1A35B-97C9-E111-A11D-002618943939.root"
-    #"root://eoscms.cern.ch//eos/cms/store/mc/Summer12/DYToMuMu_M_20_TuneZ2star_14TeV_pythia6/GEN-SIM-DIGI-RECO/UpgradeHCAL_PixelPhase1_DR428-PU50-DESIGN42_V17S-v1/0002/FE6A3DDB-A3C9-E111-8DB9-003048678B86.root"
-    #"root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0000/A6A3B8DE-A9AA-E111-936F-003048D3C880.root"
-    #"/store/mc/Summer11/TTJets_TuneZ2_7TeV-madgraph-tauola/AODSIM/PU_S4_START42_V11-v1/0000/FEEE3638-F297-E011-AAF8-00304867BEC0.root"
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0000/A6A3B8DE-A9AA-E111-936F-003048D3C880.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0001/3896BFE4-5DAB-E111-AE51-003048C693E8.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0001/E0F6254D-4AAB-E111-B615-003048D43642.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0001/721F99F7-44AB-E111-A82F-002481E0D448.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0000/5A489130-D6AA-E111-BC35-0030487D5E81.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0001/DA4E91B0-9CAB-E111-9DF7-0030487F1665.root',
+    'root://eoscms.cern.ch//eos/cms/store/mc/Summer12/PYTHIA6_Tauola_TTbar_TuneZ2star_14TeV/GEN-SIM-DIGI-RECO/UpgradeStdGeom2_DR428-PU50-DESIGN42_V17S-v1/0000/02B22D00-B3AA-E111-ACC7-003048D43788.root',
     )
                             )
 
@@ -140,14 +141,28 @@ process.ak5JetID = cms.EDProducer("JetIDProducer",
     src = cms.InputTag("ak5CaloJets")
 )
 '''
+
+# load the PU JetID sequence
+from CMGTools.External.pujetidsequence_cff import *
+
+process.puJetIdPF=puJetId.clone(jets = cms.InputTag("selectedPatJetsPF"))
+process.puJetMvaPF=puJetMva.clone(jets = cms.InputTag("selectedPatJetsPF"),
+                                  jetids = cms.InputTag("puJetIdPF"))
+    
+process.puJetIdAK5PF=puJetId.clone(jets = cms.InputTag("selectedPatJetsAK5PF"))
+process.puJetMvaAK5PF=puJetMva.clone(jets = cms.InputTag("selectedPatJetsAK5PF"),
+                                     jetids = cms.InputTag("puJetIdAK5PF"))
+
+process.puJetIdSequence=cms.Sequence(process.puJetIdPF*process.puJetMvaPF*process.puJetIdAK5PF*process.puJetMvaAK5PF)
+
 process.outpath = cms.EndPath(process.out)
 
 ############################## end of Custome options for the Upgrade  ####################################
 
 #-- Execution path ------------------------------------------------------------
 # Full path
-process.p = cms.Path( process.genJetMET*process.susyPatDefaultSequence )
-#process.p = cms.Path( process.genJetMET*process.ak5JetID*process.susyPatDefaultSequence )
+process.p = cms.Path( process.genJetMET*process.susyPatDefaultSequence * process.puJetIdSequence)
+#process.p = cms.Path( process.genJetMET*process.ak5JetID*process.susyPatDefaultSequence * process.puJetIdSequence )
 process.p.remove(process.daVertices)
 #-- Dump config ------------------------------------------------------------
 file = open('SusyPAT_cfg.py','w')
