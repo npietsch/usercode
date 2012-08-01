@@ -24,5 +24,7 @@ RA4bEventContent = [
     'keep *_selectedPatMuons_*_*',
     'keep *_selectedPatMuonsPF_*_*',
     'keep *_generalTracks_*_*',
+    "keep *_puJetId*_*_*", # input variables
+    "keep *_puJetMva*_*_*", # final MVAs and working point flags   
     'keep LHEEventProduct_source_*_*'
 ]
