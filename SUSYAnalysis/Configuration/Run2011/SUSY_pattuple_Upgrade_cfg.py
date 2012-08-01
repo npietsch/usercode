@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1.2.4 $'),
+    version = cms.untracked.string('$Revision: 1.1.2.5 $'),
     name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Attic/SUSY_pattuple_Upgrade_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -111,7 +111,7 @@ process.maxEvents.input = 10
 
 from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
 process.out.outputCommands += RA4bEventContent
-process.out.fileName="Summer11.root"
+process.out.fileName="Upgrade.root"
 
 process.load("Configuration.StandardSequences.Generator_cff")# import genJetMET
 #process.load("RecoJets.JetProducers.ak5JetID_cfi")# load ak5JetID
@@ -126,7 +126,7 @@ process.patJetsAK5PF.addJetID = cms.bool(True)
 #process.patJets.jetSource = cms.InputTag("ak5CaloJets")
 process.patJets.addJetID = cms.bool(True)
 process.load("SLHCUpgradeSimulations.Geometry.Phase1_cmsSimIdealGeometryXML_cfi")
-'''
+
 process.ak5JetID = cms.EDProducer("JetIDProducer",
     eeRecHitsColl = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
     hbheRecHitsColl = cms.InputTag("hbhereco"),
@@ -137,15 +137,15 @@ process.ak5JetID = cms.EDProducer("JetIDProducer",
     useRecHits = cms.bool(True),
     src = cms.InputTag("ak5CaloJets")
 )
-'''
+
 process.outpath = cms.EndPath(process.out)
 
 ############################## end of Custome options for the Upgrade  ####################################
 
 #-- Execution path ------------------------------------------------------------
 # Full path
-process.p = cms.Path( process.genJetMET*process.susyPatDefaultSequence )
-#process.p = cms.Path( process.genJetMET*process.ak5JetID*process.susyPatDefaultSequence )
+#process.p = cms.Path( process.genJetMET*process.susyPatDefaultSequence )
+process.p = cms.Path( process.genJetMET*process.ak5JetID*process.susyPatDefaultSequence )
 process.p.remove(process.daVertices)
 #-- Dump config ------------------------------------------------------------
 file = open('SusyPAT_cfg.py','w')
