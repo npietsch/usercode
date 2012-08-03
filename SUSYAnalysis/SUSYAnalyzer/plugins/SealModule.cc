@@ -26,3 +26,6 @@ DEFINE_FWK_MODULE(Out);
 
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/GluinoAnalyzer.h"
 DEFINE_FWK_MODULE(GluinoAnalyzer);
+
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/HCalAnalyzer.h"
+DEFINE_FWK_MODULE(HCalAnalyzer);
