@@ -37,91 +37,108 @@ class HCalAnalyzer : public edm::EDAnalyzer {
   edm::InputTag caloMet_;
   edm::InputTag jets_;
   edm::InputTag caloJets_;
-  edm::InputTag lightJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
 
-  edm::InputTag PUWeight_;
-  edm::InputTag RA2Weight_;
-  edm::InputTag BtagEventWeights_;
-  edm::InputTag BtagJetWeights_;
-  int btagBin_;
-  int inclusiveBtagBin_; 
-
-  bool useEventWgt_;
-  bool useBtagEventWgt_;
-  bool useInclusiveBtagEventWgt_;
-
-  edm::InputTag TriggerWeight_;
-  bool useTriggerEvtWgt_;
-
-  double HT0_, HT1_, HT2_;
-  double Y0_,  Y1_,  Y2_;
+  bool useJetID_;
+  bool usePileUp_;
 
   // Dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
-  // Event weighting
-  TH1F* btagWeights_noWgt_;
-  TH1F* btagWeights_PUWgt_;
-  TH1F* nPU_noWgt_;
+  // PU and PV
   TH1F* nPU_;
-  TH1F* nPV_noWgt_;       
   TH1F* nPV_;
   
   // Basic kinematics
  
-  TH2F* PFJetEt_Eta_;
-  TH2F* CaloJetEt_Eta_;
-  TH2F* GenJetEt_Eta_;
-  TH2F* HOEnergy_Eta_;
-  TH2F* PFMET_Eta_;
-  TH2F* PFMET_Phi_;
-  TH2F* CaloMET_Eta_;
-  TH2F* CaloMET_Phi_;
+  //Jets 1D
 
-  TH2F* EleIso_NPV_;
-  TH1F* EleHOverEM_;
-  TH2F* EleHOverEM_NPV_;
+  TH1F* nJets_;
+  TH1F* nCaloJets_;
+  TH1F* jetsEt_;
+  TH1F* jetsEta_;
+  TH1F* caloJetsEt_;
+  TH1F* caloJetsEta_;
+  TH1F* genJetsEt_;
+  TH1F* genJetsEta_;
+  std::vector<TH1F*> jetEt_;
+  std::vector<TH1F*> jetEta_;
 
-  TH2F* MuIso_NPV_;
-  TH1F* MuHCal_;
-  TH2F* MuHCal_NPV_;
-  TH1F* MuHO_;
-  TH2F* MuHO_NPV_;
-
-  TH1F* PFJetEt_;
-  TH1F* CaloJetEt_;
-  TH1F* GenJetEt_;
   TH1F* HOEnergy_;
-  TH1F* PFMET_;
-  TH1F* CaloMET_;
-
-  TH1F* MuPt_;
-  TH1F* ElePt_;
-  TH1F* YMET_;
-  TH1F* HT_;
-  TH1F* MHT_;
-  TH1F* MuIso_;
-  TH1F* EleIso_;
-
-  TH1F* chargeEMFractionPF_;
-  TH1F* neutralEMFractionPF_;
+  TH1F* chargeEMFraction_;
+  TH1F* neutralEMFraction_;
   TH1F* EMFractionCalo_;
   //TH1F* neutralEMFractionCalo_;
 
-  TH1F* PFJetRelErr_;
-  //TH1F* CaloJetRelErr_;
+  TH1F* jetsRelErr_;
+  TH1F* caloJetsRelErr_;
 
-  TH1F* PFMETRelErr_;
-  //TH1F* CaloMETRelErr_;
+  TH1F* METRelErr_;
+  TH1F* caloMETRelErr_;
 
-  TH1F* PFCSV_;
-  TH1F* CaloCSV_;
+  //Jets 2D
+
+  TH2F* jetsEt_Eta_;
+  TH2F* caloJetsEt_Eta_;
+  TH2F* genJetsEt_Eta_;
+  TH2F* HOEnergy_Eta_;
+
+  //bJets
+
+  TH1F* nBjets_;
+  TH1F* CSV_;
+  TH1F* caloCSV_;
+  TH1F* bJetsEt_;
+  TH1F* bJetsEta_;
+  std::vector<TH1F*> bJetEt_;
+  std::vector<TH1F*> bJetEta_;
+
+  TH1I* partonFlavour_;
+  TH1F* correctlyBtaggedJetsEt_;
+  TH1F* mistaggedBjetsEt_;
+  TH1F* allPartonMatchedJetsEt_;
+  TH1F* trueBjetsEt_;
+  TH1F* trueLightJetsEt_;
+
+  //Muon
+
+  TH1F* muPt_;
+  TH1F* muIso_;
+  TH2F* muIso_NPV_;
+  TH2F* muIso_NPU_;
+  TH1F* muHCal_;
+  TH2F* muHCal_NPV_;
+  TH2F* muHCal_NPU_;
+  TH1F* muHO_;
+  TH2F* muHO_NPV_;
+  TH2F* muHO_NPU_;
+
+  //Electron
+
+  TH1F* elePt_;
+  TH1F* eleIso_;
+  TH2F* eleIso_NPV_;
+  TH2F* eleIso_NPU_;
+  TH1F* eleHOverEM_;
+  TH2F* eleHOverEM_NPV_;
+  TH2F* eleHOverEM_NPU_;
+
+  //Composite
+  
+  TH1F* HT_;
+  TH1F* MHT_;
+  TH1F* MET_;
+  TH1F* YMET_;
+  TH1F* caloMET_;
+  TH2F* MET_Eta_;
+  TH2F* MET_Phi_;
+  TH2F* caloMET_Eta_;
+  TH2F* caloMET_Phi_;
 
 };  
 
