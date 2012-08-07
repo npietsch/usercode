@@ -2,7 +2,7 @@
 
 rm *root
 
-cp naf_RA4b_TTJets_cfg/$1 ./TTJetsSummer11.root
+#cp naf_RA4b_TTJets_cfg/$1 ./TTJetsSummer11.root
 
 hadd TTJetsFall11.root naf_RA4b_Fall11_TTJets?_cfg/$1
 
@@ -16,7 +16,7 @@ hadd WJetsHT300.root naf_RA4b_WJets_HT300*/$1
 
 hadd WJetsHT.root naf_RA4b_WJets_HT*/$1
 
-hadd WJets.root naf_RA4b_WJets_cfg_*/$1
+#hadd WJets.root naf_RA4b_WJets_cfg_*/$1
 
 hadd ZJets.root naf_RA4b_ZJets_cfg_*/$1
 
