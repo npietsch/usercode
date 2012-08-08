@@ -86,15 +86,15 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   }
   
 
-  HOEnergy_            = fs->make<TH1F>("HOEnergy",            "HOEnergy",              100, 0.,  10.);
-  chargeEMFraction_  = fs->make<TH1F>("chargeEMFraction",  "charge EM fraction",  100, 0.,   1.);
-  neutralEMFraction_ = fs->make<TH1F>("neutralEMFraction", "neutral EM fraction", 100, 0.,   1.);
-  EMFractionCalo_      = fs->make<TH1F>("EMFractionCalo",      "EM fractionCalo",       100, 0.,   1.);
+  HOEnergy_          = fs->make<TH1F>("HOEnergy",          "HOEnergy",            100, 0., 10.);
+  chargeEMFraction_  = fs->make<TH1F>("chargeEMFraction",  "charge EM fraction",  100, 0.,  1.);
+  neutralEMFraction_ = fs->make<TH1F>("neutralEMFraction", "neutral EM fraction", 100, 0.,  1.);
+  EMFractionCalo_    = fs->make<TH1F>("EMFractionCalo",    "EM fractionCalo",     100, 0.,  1.);
 
-  jetsRelErr_     = fs->make<TH1F>("PFJetRelErr",   "jetsRelErr",   300, -3., 3.);
-  caloJetsRelErr_ = fs->make<TH1F>("CaloJetRelErr", "CaloJetRelErr", 300, -3., 3.);
-  METRelErr_     = fs->make<TH1F>("METRelErr",     "METRelErr",     300, -3., 3.);
-  caloMETRelErr_ = fs->make<TH1F>("METRelErr",     "METRelErr",     300, -3., 3.);
+  jetsRelErr_     = fs->make<TH1F>("jetsRelErr",    "jetsRelErr",     300, -3., 3.);
+  caloJetsRelErr_ = fs->make<TH1F>("caloJetRelErr", "caloJetsRelErr", 300, -3., 3.);
+  METRelErr_      = fs->make<TH1F>("METRelErr",     "METRelErr",      300, -3., 3.);
+  caloMETRelErr_  = fs->make<TH1F>("caloMETRelErr", "caloMETRelErr",  300, -3., 3.);
 
 
   //Jets 2D
@@ -106,9 +106,9 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
 
   //bJets
 
-  nBjets_  = fs->make<TH1F>("nbJets",  "nbJets",    16, -0.5,  15.5);
-  CSV_     = fs->make<TH1F>("CSV",   "CSV",    80,  -2.,     2);
-  caloCSV_ = fs->make<TH1F>("CaloCSV", "Calo CSV",  80,  -2.,     2);
+  nBjets_   = fs->make<TH1F>("nbJets",  "nbJets",    16, -0.5,  15.5);
+  CSV_      = fs->make<TH1F>("CSV",     "CSV",       80,  -2.,     2);
+  caloCSV_  = fs->make<TH1F>("caloCSV", "calo CSV",  80,  -2.,     2);
   bJetsEt_  = fs->make<TH1F>("bJetEt",  "bJetEt",   100,   0., 1000.);
   bJetsEta_ = fs->make<TH1F>("bJetEta", "bJetEta",  100, -2.5,   2.5);
 
@@ -132,7 +132,7 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   muPt_       = fs->make<TH1F>("muPt",       "mu Pt",      100,   0., 300.);
   muIso_      = fs->make<TH1F>("muIso",      "muIso",       48,   0.,  1.2);
   muIso_NPV_  = fs->make<TH2F>("muIso_NPV",  "muIso NPV",   81, -0.5,  80.5,  50, 0.,   1.);
-  muIso_NPU_  = fs->make<TH2F>("muIso_NPU",  "muIso NPV",   81, -0.5 , 80.5,  50, 0.,   1.);
+  muIso_NPU_  = fs->make<TH2F>("muIso_NPU",  "muIso NPU",   81, -0.5 , 80.5,  50, 0.,   1.);
   muHCal_     = fs->make<TH1F>("muHCal",     "muHCal",     100,   0., 100.);
   muHCal_NPV_ = fs->make<TH2F>("muHCal_NPV", "muHCal NPV",  81, -0.5,  80.5, 100, 0., 100.);
   muHCal_NPU_ = fs->make<TH2F>("muHCal_NPU", "muHCal NPU",  81, -0.5,  80.5, 100, 0., 100.);
@@ -153,7 +153,7 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   //Composite
 
   HT_          = fs->make<TH1F>("HT",          "HT",           40, 0., 2000.);
-  MHT_         = fs->make<TH1F>("MET",         "MET",         100, 0., 1000.);
+  MHT_         = fs->make<TH1F>("MHT",         "MHT",         100, 0., 1000.);
   MET_         = fs->make<TH1F>("MET",         "MET",         100, 0., 1000.);
   YMET_        = fs->make<TH1F>("YMET",        "YMET",         80, 0., 20.);
   caloMET_     = fs->make<TH1F>("caloMET",     "caloMET",     100, 0., 1000.);
@@ -180,57 +180,11 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   edm::Handle<std::vector<pat::MET> > caloMet;
   evt.getByLabel(caloMet_, caloMet);
   edm::Handle<edm::View<pat::Jet> > jets;
-  evt.getByLabel(jets_, jetsTmp);
-  if (useJetID_) {
-    edm::Handle<edm::ValueMap<float> > puJetIdMVA;
-    evt.getByLabel("puJetMvaAK5PF","fullDiscriminant", puJetIdMVA);
-    
-    edm::Handle<edm::ValueMap<int> > puJetIdFlag;
-    evt.getByLabel("puJetMvaAK5PF","fullId", puJetIdFlag);
- 
-    for ( unsigned int i=0; i<jetsTmp->size(); ++i ) {
-      const pat::Jet & patjet = jetsTmp->at(i);
-      float mva   = (*puJetIdMVA)[jetsTmp->refAt(i)];
-      int    idflag = (*puJetIdFlag)[jetsTmp->refAt(i)];
-      cout << "jet " << i << " pt " << patjet.pt() << " eta " << patjet.eta() << " PU JetID MVA " << mva; 
-      if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose )) {
-	cout << " pass loose wp";
-      }
-      if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium )) {
-	cout << " pass medium wp";
-	jets.push_back(jetsTmp->at(i));
-      }
-      if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight )) {
-	cout << " pass tight wp";
-      }
-      cout << endl;
-    }
-  }
-    
-  else {
-    for ( unsigned int i=0; i<jetsTmp->size(); ++i ) {
-      jets.push_back(jetsTmp->at(i));
-    }
-  }
-
+  evt.getByLabel(jets_, jets);
   edm::Handle<std::vector<pat::Jet> > caloJets;
   evt.getByLabel(caloJets_, caloJets);
-
-  std::vector<pat::Jet> bjets;
-  if (useJetID_) {
-    for ( unsigned int i=0; i<jets.size(); ++i ) {
-      if (jets[i].bDiscriminator("combinedSecondaryVertexBJetTags") > 0.679) {
-	bjets.push_back(jets.at(i));
-      }
-    }
-  }
-  else {
-    edm::Handle<std::vector<pat::Jet> > bjetsTmp;
-    for ( unsigned int i=0; i<bjetsTmp->size(); ++i ) {
-      bjets.push_back(bjetsTmp->at(i));
-    }
-  }
-
+  edm::Handle<std::vector<pat::Jet> > bjets;
+  evt.getByLabel(bjets_, bjets);
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
@@ -241,8 +195,6 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
   // PU and PV
   //-------------------------------------------------
-  
-   std::cout<<"here pu"<<std::endl;
 
   double nvtx=-1;
   double weight=1.;
@@ -270,7 +222,6 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //-------------------------------------------------
 
   //Jets
-  std::cout<<"here jets"<<std::endl;
   if(met->size()==0) return;
 
   double relErr;
@@ -278,87 +229,77 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HTx=0;
   double HTy=0;
 
-  for(int i=0; i<(int)jets.size(); ++i) {
+  for(int i=0; i<(int)jets->size(); ++i) {
 
-      nJets_      ->Fill( jets.size(),            weight);
-      jetsEt_     ->Fill(jets[i].et(),            weight);
-      jetsEta_    ->Fill(jets[i].eta(),            weight);
-      jetsEt_Eta_ ->Fill(jets[i].et(),  jets[i].eta(), weight);
-
-      if (i<4) {
-	jetEt_[i]   ->Fill(jets[i].et(),            weight);
-	jetEta_[i]   ->Fill(jets[i].eta(),            weight);
+    nJets_      ->Fill( jets->size(),            weight);
+    jetsEt_     ->Fill((*jets)[i].et(),            weight);
+    jetsEta_    ->Fill((*jets)[i].eta(),            weight);
+    jetsEt_Eta_ ->Fill((*jets)[i].et(),  (*jets)[i].eta(), weight);
+    
+    if (i<4) {
+      jetEt_[i]   ->Fill((*jets)[i].et(),            weight);
+      jetEta_[i]   ->Fill((*jets)[i].eta(),            weight);
+    }
+    
+    chargeEMFraction_ ->Fill((*jets)[i].chargedEmEnergyFraction(), weight);
+    neutralEMFraction_ ->Fill((*jets)[i].neutralEmEnergyFraction(), weight);
+    
+    if ( (*jets)[i].genJet() ) {
+      if ( (*jets)[i].genJet()->et() > 0. ) {
+	
+	genJetsEt_->Fill((*jets)[i].genJet()->et(),  weight);
+	genJetsEta_->Fill((*jets)[i].genJet()->eta(),  weight);
+	genJetsEt_Eta_->Fill((*jets)[i].genJet()->et(),  (*jets)[i].genJet()->eta(), weight);
+	
+	relErr = ((*jets)[i].et()/(*jets)[i].genJet()->et())-1.;
+	jetsRelErr_->Fill(relErr, weight);
       }
-
-      chargeEMFraction_ ->Fill(jets[i].chargedEmEnergyFraction(), weight);
-      neutralEMFraction_ ->Fill(jets[i].neutralEmEnergyFraction(), weight);
-
-      if ( jets[i].genJet() ) {
-	if ( jets[i].genJet()->et() > 0. ) {
-	  
-	  genJetsEt_->Fill(jets[i].genJet()->et(),  weight);
-	  genJetsEta_->Fill(jets[i].genJet()->eta(),  weight);
-	  genJetsEt_Eta_->Fill(jets[i].genJet()->et(),  jets[i].genJet()->eta(), weight);
-
-	  relErr = (jets[i].et()/jets[i].genJet()->et())-1.;
-	  jetsRelErr_->Fill(relErr, weight);
-	}
-      }
-
-      CSV_  ->Fill(jets[i].bDiscriminator("combinedSecondaryVertexBJetTags"), weight);
-
-      HT+=jets[i].et();
-      HTx+=jets[i].px();
-      HTy+=jets[i].py();
-
-      int flavour=jets[i].partonFlavour();
-      float pt=jets[i].pt();
-      partonFlavour_ ->Fill(flavour, weight);
-      if (flavour == 0) continue;
-      allPartonMatchedJetsEt_->Fill(pt, weight);
-      if (abs(flavour) == 5){
-	trueBjetsEt_->Fill(pt, weight);
-	if (jets[i].bDiscriminator("combinedSecondaryVertexBJetTags") > 0.679) correctlyBtaggedJetsEt_->Fill(pt, weight);
-      }
-      else{
-	trueLightJetsEt_->Fill(pt, weight);
-	if (jets[i].bDiscriminator("combinedSecondaryVertexBJetTags") > 0.679) mistaggedBjetsEt_->Fill(pt, weight);
-      }
+    }
+    
+    CSV_  ->Fill((*jets)[i].bDiscriminator("combinedSecondaryVertexBJetTags"), weight);
+    
+    HT+=(*jets)[i].et();
+    HTx+=(*jets)[i].px();
+    HTy+=(*jets)[i].py();
+    
+    int flavour=(*jets)[i].partonFlavour();
+    float pt=(*jets)[i].pt();
+    partonFlavour_ ->Fill(flavour, weight);
+    if (flavour == 0) continue;
+    allPartonMatchedJetsEt_->Fill(pt, weight);
+    if (abs(flavour) == 5){
+      trueBjetsEt_->Fill(pt, weight);
+      if ((*jets)[i].bDiscriminator("combinedSecondaryVertexBJetTags") > 0.679) correctlyBtaggedJetsEt_->Fill(pt, weight);
+    }
+    else{
+      trueLightJetsEt_->Fill(pt, weight);
+      if ((*jets)[i].bDiscriminator("combinedSecondaryVertexBJetTags") > 0.679) mistaggedBjetsEt_->Fill(pt, weight);
+    }
   }
   
-  std::cout<<"composit"<<std::endl;
   if (HT > 0.) {
-    std::cout<<"YMET"<<std::endl;
     double YMET=((*met)[0].et())/(sqrt(HT));
-    std::cout<<"YMET FIll"<<std::endl;
     YMET_->Fill(YMET, weight);
-     std::cout<<"HT fill"<<std::endl;
     HT_ ->Fill(HT, weight);
-     std::cout<<"MHT fill"<<std::endl;
     MHT_->Fill(sqrt(HTx*HTx + HTy*HTy),weight);
   }
 
-  std::cout<<"met"<<std::endl;
   MET_->Fill((*met)[0].et(), weight); 
   MET_Eta_->Fill((*met)[0].et(), (*met)[0].eta(), weight); 
   MET_Phi_->Fill((*met)[0].et(), (*met)[0].phi(), weight);
 
-  std::cout<<"calo met"<<std::endl;
   if (caloMet->size()>0) {
 
     caloMET_->Fill((*caloMet)[0].et(), weight);
     caloMET_Eta_->Fill((*caloMet)[0].et(), (*caloMet)[0].eta(), weight); 
     caloMET_Phi_->Fill((*caloMet)[0].et(), (*caloMet)[0].phi(), weight);
-    /*
+    
     if ( (*caloMet)[0].genMET()->et() > 0. ) {
       relErr = ((*caloMet)[0].et()/(*caloMet)[0].genMET()->et())-1.;
-      CaloMETRelErr_->Fill(relErr, weight);
-      }*/
+      caloMETRelErr_->Fill(relErr, weight);
+      }
   }
   
-  
-  std::cout<<"here gen met"<<std::endl;
-
   if ( (*met)[0].genMET() ) {
     if ( (*met)[0].genMET()->et() > 0. ) {
       relErr = ((*met)[0].et()/(*met)[0].genMET()->et())-1.;
@@ -367,8 +308,6 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   }
 
   //calo jets
-
-   std::cout<<"here calo jets"<<std::endl;
 
   for(int i=0; i<(int)caloJets->size(); ++i)
     {
@@ -383,12 +322,12 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       EMFractionCalo_ ->Fill((*caloJets)[i].emEnergyFraction(), weight);
       
 
-      /*if ( (*caloJets)[i].genJet() ) {
+      if ( (*caloJets)[i].genJet() ) {
 	if ( (*caloJets)[i].genJet()->et() > 0. ) {
 	  relErr = ((*caloJets)[i].et()/(*caloJets)[i].genJet()->et())-1.;
 	  caloJetsRelErr_->Fill(relErr, weight);
 	}
-	}*/
+	}
 
       caloCSV_  ->Fill((*caloJets)[i].bDiscriminator("combinedSecondaryVertexBJetTags"), weight);
 
@@ -396,18 +335,16 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //bJets
 
-   std::cout<<"here b jets"<<std::endl;
-
-  for(int i=0; i<(int)bjets.size(); ++i)
+  for(int i=0; i<(int)bjets->size(); ++i)
     {
     
-      nBjets_   ->Fill(bjets.size(),            weight);
-      bJetsEt_   ->Fill(bjets[i].et(),            weight);
-      bJetsEta_   ->Fill(bjets[i].eta(),            weight);
+      nBjets_   ->Fill(bjets->size(),            weight);
+      bJetsEt_   ->Fill((*bjets)[i].et(),            weight);
+      bJetsEta_   ->Fill((*bjets)[i].eta(),            weight);
 
       if (i<4) {
-	bJetEt_[i]   ->Fill(bjets[i].et(),            weight);
-	bJetEta_[i]   ->Fill(bjets[i].eta(),            weight);
+	bJetEt_[i]   ->Fill((*bjets)[i].et(),            weight);
+	bJetEta_[i]   ->Fill((*bjets)[i].eta(),            weight);
       }
     }
 
