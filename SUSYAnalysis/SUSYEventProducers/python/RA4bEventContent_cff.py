@@ -11,6 +11,7 @@ RA4bEventContent = [
     'keep *_TriggerResults_*_*',
     'keep *_selectedPatElectrons_*_*',
     'keep *_selectedPatElectronsPF_*_*',
+    'keep *_selectedPatJets_*_*',
     'keep *_selectedPatJetsPF_*_*',
     'keep *_selectedPatJetsAK5PF_*_*',
     'keep *_cleanPatJetsAK5Calo_*_*',
