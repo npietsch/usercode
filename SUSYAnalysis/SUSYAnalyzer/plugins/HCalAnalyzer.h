@@ -35,7 +35,9 @@ class HCalAnalyzer : public edm::EDAnalyzer {
            	
   edm::InputTag met_;
   edm::InputTag caloMet_;
+  edm::InputTag genMet_;
   edm::InputTag jets_;
+  edm::InputTag genJets_;
   edm::InputTag caloJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
@@ -60,12 +62,16 @@ class HCalAnalyzer : public edm::EDAnalyzer {
 
   TH1F* nJets_;
   TH1F* nCaloJets_;
+  TH1F* nGenJetsNoMatch_;
+  TH1F* nGenJets_;
   TH1F* jetsEt_;
   TH1F* jetsEta_;
   TH1F* caloJetsEt_;
   TH1F* caloJetsEta_;
   TH1F* genJetsEt_;
   TH1F* genJetsEta_;
+  TH1F* genJetsEtNoMatch_;
+  TH1F* genJetsEtaNoMatch_;
   std::vector<TH1F*> jetEt_;
   std::vector<TH1F*> jetEta_;
 
@@ -77,9 +83,6 @@ class HCalAnalyzer : public edm::EDAnalyzer {
 
   TH1F* jetsRelErr_;
   TH1F* caloJetsRelErr_;
-
-  TH1F* METRelErr_;
-  TH1F* caloMETRelErr_;
 
   //Jets 2D
 
@@ -131,14 +134,24 @@ class HCalAnalyzer : public edm::EDAnalyzer {
   //Composite
   
   TH1F* HT_;
+  TH1F* genHT_;
+  TH1F* genHTNoMatch_;
+  TH1F* HTRelErr_;
+  TH1F* HTRelErrNoMatch_;
   TH1F* MHT_;
+  TH1F* genMHT_;
+  TH1F* genMHTNoMatch_;
+  TH1F* MHTRelErr_;
+  TH1F* MHTRelErrNoMatch_;
   TH1F* MET_;
   TH1F* YMET_;
   TH1F* caloMET_;
-  TH2F* MET_Eta_;
   TH2F* MET_Phi_;
-  TH2F* caloMET_Eta_;
   TH2F* caloMET_Phi_;
+  TH1F* METRelErr_;
+  TH1F* caloMETRelErr_;
+
+
 
 };  
 

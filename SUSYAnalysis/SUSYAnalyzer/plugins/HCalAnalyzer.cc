@@ -30,7 +30,9 @@ using namespace std;
 HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   met_               (cfg.getParameter<edm::InputTag>("met") ),
   caloMet_           (cfg.getParameter<edm::InputTag>("caloMet") ),
-  jets_              (cfg.getParameter<edm::InputTag>("jets") ),  
+  genMet_            (cfg.getParameter<edm::InputTag>("genMet") ),
+  jets_              (cfg.getParameter<edm::InputTag>("jets") ),
+  genJets_           (cfg.getParameter<edm::InputTag>("genJets") ),  
   caloJets_          (cfg.getParameter<edm::InputTag>("caloJets") ),
   bjets_             (cfg.getParameter<edm::InputTag>("bjets") ),
   muons_             (cfg.getParameter<edm::InputTag>("muons") ),
@@ -69,12 +71,16 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
 
   nJets_      = fs->make<TH1F>("nJets",       "nJets",       16, -0.5,  15.5);
   nCaloJets_  = fs->make<TH1F>("nCaloJets",   "nCaloJets",   16, -0.5,  15.5);
+  nGenJets_   = fs->make<TH1F>("nGenJets",    "nGenJets",    16, -0.5,  15.5);
+  nGenJetsNoMatch_ = fs->make<TH1F>("nGenJetsNoMatch", "nGenJetsNoMatch", 16, -0.5,  15.5);
   jetsEt_     = fs->make<TH1F>("jetsEt",      "jetsEt",     100,   0., 1000.);
   jetsEta_    = fs->make<TH1F>("jetsEta",     "jetsEta",    100, -2.5,   2.5);
   caloJetsEt_ = fs->make<TH1F>("caloJetsEt",  "caloJetsEt", 100,   0.,  1000);
   caloJetsEta_= fs->make<TH1F>("caloJetsEta", "caloJetsEta",100, -2.5,   2.5);
   genJetsEt_  = fs->make<TH1F>("genJetsEt",   "genJetsEt",  100,   0.,  100.);
   genJetsEta_ = fs->make<TH1F>("genJetsEta",  "genJetsEta", 100, -2.5,   2.5);
+  genJetsEtNoMatch_  = fs->make<TH1F>("genJetsEtNoMatch",   "genJetsEtNoMatch",  100,   0.,  100.);
+  genJetsEtaNoMatch_ = fs->make<TH1F>("genJetsEtaNoMatch",  "genJetsEtaNoMatch", 100, -2.5,   2.5);
 
   TString histoname;
   for(int idx=0; idx<4; ++idx) {
@@ -152,15 +158,21 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
 
   //Composite
 
-  HT_          = fs->make<TH1F>("HT",          "HT",           40, 0., 2000.);
-  MHT_         = fs->make<TH1F>("MHT",         "MHT",         100, 0., 1000.);
-  MET_         = fs->make<TH1F>("MET",         "MET",         100, 0., 1000.);
-  YMET_        = fs->make<TH1F>("YMET",        "YMET",         80, 0., 20.);
-  caloMET_     = fs->make<TH1F>("caloMET",     "caloMET",     100, 0., 1000.);
-  MET_Eta_     = fs->make<TH2F>("MET_Eta",     "MET Eta",     100, 0.,  1000., 100, -3., 3);
-  MET_Phi_     = fs->make<TH2F>("MET_Phi",     "MET Phi",     100, 0.,  1000., 100, -1*TMath::Pi(), TMath::Pi());
-  caloMET_Eta_ = fs->make<TH2F>("caloMET_Eta", "caloMET Eta", 100, 0.,  1000., 100, -3., 3);
-  caloMET_Phi_ = fs->make<TH2F>("caloMET_Phi", "caloMET Phi", 100, 0.,  1000., 100, -1*TMath::Pi(), TMath::Pi());
+  HT_           = fs->make<TH1F>("HT",           "HT",            40,  0., 2000.);
+  genHT_        = fs->make<TH1F>("genHT",        "genHT",         40,  0., 2000.);
+  genHTNoMatch_ = fs->make<TH1F>("genHTNoMatch", "genHTNoMatch",  40,  0., 2000.);
+  HTRelErr_     = fs->make<TH1F>("HTRelErr",     "HTRelErr",     300, -3.,    3.);
+  HTRelErrNoMatch_= fs->make<TH1F>("HTRelErrNoMatch", "HTRelErrNoMatch", 300, -3.,    3.);
+  MHT_          = fs->make<TH1F>("MHT",          "MHT",          100,  0., 1000.);
+  genMHT_       = fs->make<TH1F>("genMHT",       "genMHT",        40,  0., 2000.);
+  genMHTNoMatch_= fs->make<TH1F>("genMHTNoMatch","genMHTNoMatch", 40,  0., 2000.);
+  MHTRelErr_    = fs->make<TH1F>("MHTRelErr",    "MHTRelErr",    300, -3.,    3.);
+  MHTRelErrNoMatch_= fs->make<TH1F>("MHTRelErrNoMatch","MHTRelErrNoMatch", 300, -3.,    3.);
+  MET_          = fs->make<TH1F>("MET",          "MET",          100,  0., 1000.);
+  YMET_         = fs->make<TH1F>("YMET",         "YMET",          80,  0.,   20.);
+  caloMET_      = fs->make<TH1F>("caloMET",      "caloMET",      100,  0., 1000.);
+  MET_Phi_      = fs->make<TH2F>("MET_Phi",      "MET Phi",      100,  0., 1000., 100, -1*TMath::Pi(), TMath::Pi());
+  caloMET_Phi_  = fs->make<TH2F>("caloMET_Phi",  "caloMET Phi",  100,  0., 1000., 100, -1*TMath::Pi(), TMath::Pi());
 
 }
 
@@ -179,8 +191,12 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(met_, met);
   edm::Handle<std::vector<pat::MET> > caloMet;
   evt.getByLabel(caloMet_, caloMet);
+  edm::Handle<std::vector<reco::GenMET> > genMet;
+  evt.getByLabel(genMet_, genMet);
   edm::Handle<edm::View<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
+  edm::Handle<edm::View<reco::GenJet> > genJets;
+  evt.getByLabel(genJets_, genJets);
   edm::Handle<std::vector<pat::Jet> > caloJets;
   evt.getByLabel(caloJets_, caloJets);
   edm::Handle<std::vector<pat::Jet> > bjets;
@@ -229,7 +245,18 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HTx=0;
   double HTy=0;
 
+  int nGenJets=0;
+  double genHT=0;
+  double genHTx=0;
+  double genHTy=0;
+
+  double genHTNoMatch=0;
+  double genHTxNoMatch=0;
+  double genHTyNoMatch=0;
+
   for(int i=0; i<(int)jets->size(); ++i) {
+
+    // Jets
 
     nJets_      ->Fill( jets->size(),            weight);
     jetsEt_     ->Fill((*jets)[i].et(),            weight);
@@ -246,13 +273,19 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     
     if ( (*jets)[i].genJet() ) {
       if ( (*jets)[i].genJet()->et() > 0. ) {
-	
+
+	nGenJets++;
 	genJetsEt_->Fill((*jets)[i].genJet()->et(),  weight);
 	genJetsEta_->Fill((*jets)[i].genJet()->eta(),  weight);
 	genJetsEt_Eta_->Fill((*jets)[i].genJet()->et(),  (*jets)[i].genJet()->eta(), weight);
 	
 	relErr = ((*jets)[i].et()/(*jets)[i].genJet()->et())-1.;
 	jetsRelErr_->Fill(relErr, weight);
+
+	genHT+=(*jets)[i].genJet()->et();
+	genHTx+=(*jets)[i].genJet()->px();
+	genHTy+=(*jets)[i].genJet()->py();
+
       }
     }
     
@@ -277,36 +310,53 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     }
   }
   
+  float MHT=sqrt(HTx*HTx + HTy*HTy);
   if (HT > 0.) {
     double YMET=((*met)[0].et())/(sqrt(HT));
     YMET_->Fill(YMET, weight);
     HT_ ->Fill(HT, weight);
-    MHT_->Fill(sqrt(HTx*HTx + HTy*HTy),weight);
+    MHT_->Fill( MHT,weight);
   }
 
-  MET_->Fill((*met)[0].et(), weight); 
-  MET_Eta_->Fill((*met)[0].et(), (*met)[0].eta(), weight); 
-  MET_Phi_->Fill((*met)[0].et(), (*met)[0].phi(), weight);
+  // Matched Gen Jets
 
-  if (caloMet->size()>0) {
+  nGenJets_->Fill( nGenJets, weight);
+  float genMHT=sqrt(genHTx*genHTx + genHTy*genHTy);
+  genHT_ ->Fill(genHT, weight);
+  genMHT_->Fill( genMHT,weight);
+  if (genHT > 0.) {
+    relErr = (HT/genHT)-1.;
+    HTRelErr_ ->Fill(relErr, weight);
+  }
+  if (genMHT > 0.) {
+    relErr = (MHT/genMHT)-1.;
+    MHTRelErr_ ->Fill(relErr, weight);
+  }
 
-    caloMET_->Fill((*caloMet)[0].et(), weight);
-    caloMET_Eta_->Fill((*caloMet)[0].et(), (*caloMet)[0].eta(), weight); 
-    caloMET_Phi_->Fill((*caloMet)[0].et(), (*caloMet)[0].phi(), weight);
-    
-    if ( (*caloMet)[0].genMET()->et() > 0. ) {
-      relErr = ((*caloMet)[0].et()/(*caloMet)[0].genMET()->et())-1.;
-      caloMETRelErr_->Fill(relErr, weight);
-      }
+  // Gen Jets No Match
+
+  for(int i=0; i<(int)genJets->size(); ++i) {
+    nGenJetsNoMatch_->Fill( genJets->size(), weight);
+    genJetsEtNoMatch_->Fill((*genJets)[i].et(), weight);
+    genJetsEtaNoMatch_->Fill((*genJets)[i].eta(), weight);
+
+    genHTNoMatch+=(*genJets)[i].et();
+    genHTxNoMatch+=(*genJets)[i].px();
+    genHTyNoMatch+=(*genJets)[i].py();
+  }
+
+  float genMHTNoMatch=sqrt(genHTxNoMatch*genHTxNoMatch + genHTyNoMatch*genHTyNoMatch);
+  genHTNoMatch_ ->Fill( genHTNoMatch, weight);
+  genMHTNoMatch_->Fill( genMHTNoMatch,weight);
+  if (genHTNoMatch > 0.) {
+    relErr = (HT/genHTNoMatch)-1.;
+    HTRelErrNoMatch_ ->Fill(relErr, weight);
+  }
+  if (genMHTNoMatch > 0.) {
+    relErr = (MHT/genMHTNoMatch)-1.;
+    MHTRelErrNoMatch_ ->Fill(relErr, weight);
   }
   
-  if ( (*met)[0].genMET() ) {
-    if ( (*met)[0].genMET()->et() > 0. ) {
-      relErr = ((*met)[0].et()/(*met)[0].genMET()->et())-1.;
-      METRelErr_->Fill(relErr, weight);
-    }
-  }
-
   //calo jets
 
   for(int i=0; i<(int)caloJets->size(); ++i)
@@ -321,14 +371,13 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       HOEnergy_Eta_->Fill((*caloJets)[i].hadEnergyInHO(), (*caloJets)[i].eta(), weight);
       EMFractionCalo_ ->Fill((*caloJets)[i].emEnergyFraction(), weight);
       
-
-      if ( (*caloJets)[i].genJet() ) {
+      /*if ( (*caloJets)[i].genJet() ) {
 	if ( (*caloJets)[i].genJet()->et() > 0. ) {
 	  relErr = ((*caloJets)[i].et()/(*caloJets)[i].genJet()->et())-1.;
 	  caloJetsRelErr_->Fill(relErr, weight);
 	}
-	}
-
+      }*/
+      
       caloCSV_  ->Fill((*caloJets)[i].bDiscriminator("combinedSecondaryVertexBJetTags"), weight);
 
     }
@@ -347,6 +396,27 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	bJetEta_[i]   ->Fill((*bjets)[i].eta(),            weight);
       }
     }
+
+  // MET
+
+  MET_->Fill((*met)[0].et(), weight); 
+  MET_Phi_->Fill((*met)[0].et(), (*met)[0].phi(), weight);
+
+  if (caloMet->size()>0) {
+
+    caloMET_->Fill((*caloMet)[0].et(), weight);
+    caloMET_Phi_->Fill((*caloMet)[0].et(), (*caloMet)[0].phi(), weight);
+    
+    if ( (*caloMet)[0].genMET()->et() > 0. ) {
+      relErr = ((*caloMet)[0].et()/(*caloMet)[0].genMET()->et())-1.;
+      caloMETRelErr_->Fill(relErr, weight);
+      }
+  }
+  
+  if ( (*genMet)[0].et() > 0. ) {
+    relErr = ((*met)[0].et()/(*genMet)[0].et())-1.;
+    METRelErr_->Fill(relErr, weight);
+  }
 
   //muon
 
