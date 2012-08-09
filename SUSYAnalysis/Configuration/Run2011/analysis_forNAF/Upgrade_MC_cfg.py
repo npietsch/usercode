@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("TDR12") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -39,21 +39,26 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 # load and configure module to smear jet energy
-from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
-process.scaledJetEnergy = scaledJetEnergy.clone()
-process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
-process.scaledJetEnergy.inputMETs = "patMETsPF"
-process.scaledJetEnergy.doJetSmearing = True
+#from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
+#process.scaledJetEnergy = scaledJetEnergy.clone()
+#process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
+#process.scaledJetEnergy.inputMETs = "patMETsPF"
+#process.scaledJetEnergy.doJetSmearing = True
 
 # define source for goodJets producer
-process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
-process.goodMETs.src = "scaledJetEnergy:patMETsPF"
+#process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+#process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 #--------------------------
 # selection paths
 #--------------------------
 
-process.createObjects = cms.Path(process.scaledJetEnergy *
+
+from SUSYAnalysis.SUSYEventProducers.PileUpJetIDjetsProducer_cfi import *
+process.JetID=PileUpJetID.clone()
+
+process.createObjects = cms.Path(#process.scaledJetEnergy *
+                                 process.JetID *
                                  process.makeObjects
                                  )
 
@@ -64,26 +69,29 @@ process.createObjects = cms.Path(process.scaledJetEnergy *
 from SUSYAnalysis.SUSYAnalyzer.HCalUpgrade_cfi import *
 
 analyzeHCal.jets = "goodJets"
-analyzeHCal.muons = "goodMuons"
+analyzeHCal.muons = "goodNotIsoMuons"
 analyzeHCal.electrons = "goodElectrons"
 
 process.analyzeHCal1m_noCuts = analyzeHCal.clone()
-process.analyzeHCal1m_noCuts.muons = "goodNotIsoMuons"
 process.analyzeHCal1m_lepton = analyzeHCal.clone()
 process.analyzeHCal1m_jet    = analyzeHCal.clone()
 process.analyzeHCal1m_HT     = analyzeHCal.clone()
 process.analyzeHCal1m_met    = analyzeHCal.clone()
+analyzeHCal.muons = "goodMuons"
+process.analyzeHCal1m_iso    = analyzeHCal.clone()
 process.analyzeHCal1m_1b     = analyzeHCal.clone()
 process.analyzeHCal1m_2b     = analyzeHCal.clone()
 process.analyzeHCal1m_3b     = analyzeHCal.clone()
 process.analyzeHCal1m_mt     = analyzeHCal.clone()
+
+
 
 process.cutFlow1bMuPF = cms.Path(process.analyzeHCal1m_noCuts *
                                  
                                  process.preselectionMuHTMC2 *
                                  
                                  process.MuHadSelection *
-                                 process.muonSelection*
+                                 process.muonSelectionNoIso*
                                  process.analyzeHCal1m_lepton *
                                  
                                  process.jetSelection *
@@ -95,6 +103,9 @@ process.cutFlow1bMuPF = cms.Path(process.analyzeHCal1m_noCuts *
                                  process.metSelection *
                                  process.analyzeHCal1m_met *
 
+                                 process.muonSelection *
+                                 process.analyzeHCal1m_iso *
+                                 
                                  process.oneMediumCSVBjet *
                                  process.analyzeHCal1m_1b *
                                  

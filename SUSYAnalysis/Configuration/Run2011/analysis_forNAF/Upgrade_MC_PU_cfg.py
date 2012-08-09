@@ -69,16 +69,17 @@ process.createObjects = cms.Path(#process.scaledJetEnergy *
 from SUSYAnalysis.SUSYAnalyzer.HCalUpgrade_cfi import *
 
 analyzeHCal.jets = "goodJets"
-analyzeHCal.muons = "goodMuons"
+analyzeHCal.muons = "goodNotIsoMuons"
 analyzeHCal.electrons = "goodElectrons"
 analyzeHCal.usePileUp = cms.bool(True)
 
 process.analyzeHCal1m_noCuts = analyzeHCal.clone()
-process.analyzeHCal1m_noCuts.muons = "goodNotIsoMuons"
 process.analyzeHCal1m_lepton = analyzeHCal.clone()
 process.analyzeHCal1m_jet    = analyzeHCal.clone()
 process.analyzeHCal1m_HT     = analyzeHCal.clone()
 process.analyzeHCal1m_met    = analyzeHCal.clone()
+analyzeHCal.muons = "goodMuons"
+process.analyzeHCal1m_iso    = analyzeHCal.clone()
 process.analyzeHCal1m_1b     = analyzeHCal.clone()
 process.analyzeHCal1m_2b     = analyzeHCal.clone()
 process.analyzeHCal1m_3b     = analyzeHCal.clone()
@@ -91,7 +92,7 @@ process.cutFlow1bMuPF = cms.Path(process.analyzeHCal1m_noCuts *
                                  process.preselectionMuHTMC2 *
                                  
                                  process.MuHadSelection *
-                                 process.muonSelection*
+                                 process.muonSelectionNoIso*
                                  process.analyzeHCal1m_lepton *
                                  
                                  process.jetSelection *
@@ -103,6 +104,9 @@ process.cutFlow1bMuPF = cms.Path(process.analyzeHCal1m_noCuts *
                                  process.metSelection *
                                  process.analyzeHCal1m_met *
 
+                                 process.muonSelection *
+                                 process.analyzeHCal1m_iso *
+                                 
                                  process.oneMediumCSVBjet *
                                  process.analyzeHCal1m_1b *
                                  
