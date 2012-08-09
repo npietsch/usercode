@@ -3,6 +3,7 @@
 <use   name="CommonTools/UtilAlgos"/>
 <use   name="AnalysisDataFormats/TopObjects"/>
 <use   name="SUSYAnalysis/SUSYObjects"/>
+<use   name="CMGTools/External"/>
 <library   file="*.cc" name="SUSYAnalysisSUSYAnalyzerPlugins">
   <flags   EDM_PLUGIN="1"/>
 </library>
