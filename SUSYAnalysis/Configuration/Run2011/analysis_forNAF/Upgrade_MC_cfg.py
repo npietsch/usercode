@@ -90,7 +90,7 @@ process.cutFlow1bMuPF = cms.Path(process.analyzeHCal1m_noCuts *
                                  
                                  process.preselectionMuHTMC2 *
                                  
-                                 process.MuHadSelection *
+                                 #process.MuHadSelection *
                                  process.muonSelectionNoIso*
                                  process.analyzeHCal1m_lepton *
                                  
@@ -144,7 +144,7 @@ process.cutFlow1bElPF = cms.Path(process.analyzeHCal1e_noCuts *
                                  
                                  process.preselectionElHTMC2 *
                                  
-                                 process.ElHadSelection *
+                                 #process.ElHadSelection *
                                  process.electronSelection*
                                  process.analyzeHCal1e_lepton *
                                  
