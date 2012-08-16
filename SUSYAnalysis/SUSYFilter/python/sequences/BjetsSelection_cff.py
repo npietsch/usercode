@@ -697,6 +697,12 @@ oneGoodLepton.muonSource = "goodMuons"
 oneGoodLepton.minNumber = 1
 oneGoodLepton.maxNumber = 1
 
+oneVetoLepton = countPatLeptons.clone()
+oneVetoLepton.electronSource = "vetoElectrons"
+oneVetoLepton.muonSource = "vetoMuons"                           
+oneVetoLepton.minNumber = 1
+oneVetoLepton.maxNumber = 1
+
 atLeastOneGoodLepton = countPatLeptons.clone()
 atLeastOneGoodLepton.electronSource = "goodElectrons"
 atLeastOneGoodLepton.muonSource = "goodMuons"                           
@@ -779,7 +785,8 @@ electronSelection = cms.Sequence(oneGoodElectron *
                                  noVetoMuon
                                  )
 
-leptonSelection = cms.Sequence(oneGoodLepton
+leptonSelection = cms.Sequence(oneGoodLepton *
+                               oneVetoLepton
                                )
 
 jetSelection = cms.Sequence(fourGoodJets)

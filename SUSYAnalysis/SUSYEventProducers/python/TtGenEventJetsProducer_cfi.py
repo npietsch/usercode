@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
-produceTtGenEventJets = cms.EDProducer("JetCollectionProducer",
+produceTtGenEventJets = cms.EDProducer("TtGenEventJetsProducer",
                                        genEvent = cms.InputTag("genEvt"),
-                                       inputJets = cms.InputTag("selectedPatJetsAK5PF")
+                                       inputRecoJets = cms.InputTag("selectedPatJetsAK5PF"),
+                                       inputGenJets = cms.InputTag("selectedPatJetsAK5PF:genJets"),
                                        )

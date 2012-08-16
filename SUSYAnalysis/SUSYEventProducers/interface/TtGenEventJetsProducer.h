@@ -3,7 +3,7 @@
 
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
-
+#include "DataFormats/JetReco/interface/GenJet.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "TH1.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
@@ -26,8 +26,9 @@ class TtGenEventJetsProducer : public edm::EDProducer {
  private:
   /// input tags
   edm::InputTag inputGenEvent_;
-  edm::InputTag inputJets_;
- 
+  edm::InputTag inputRecoJets_;
+  edm::InputTag inputGenJets_;
+
   // histograms
   //...
 };
