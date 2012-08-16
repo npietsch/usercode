@@ -84,11 +84,15 @@ process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
+process.decaySubset.fillMode = "kME"
+
 #-----------------------------------------------------------------
 # load modules to produce TtGenEventJet collection
 #-----------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYEventPorducers.TtGenEventJetsProducer_cfi")
+process.load("SUSYAnalysis.SUSYEventProducers.TtGenEventJetsProducer_cfi")
+
+process.produceTtGenEventJets.inputRecoJets = "goodJets"
 
 #-----------------------------------------------------------------
 # load modules for preselection
@@ -140,6 +144,7 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  process.makeGenEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
+                                 process.produceTtGenEventJets *
                                  ## filter and analyzer sequences
                                  process.analyzeTtGenEvent_noCuts_1l *
                                  
