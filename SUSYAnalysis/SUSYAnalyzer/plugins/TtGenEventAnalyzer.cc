@@ -32,24 +32,24 @@ TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
   LepPt_ = fs->make<TH1F>("LepPt", "lepton pt"  , 50, 0., 1000.);
   mT_    = fs->make<TH1F>("mT",    "mT"         , 40, 0,   200.);
 
-  qScale_MET_    = fs->make<TH2F>("qScale_MET",   "qScale vs. MET",    50, 0., 1000., 50, 0.,  1000.);
-  qScale_HT_     = fs->make<TH2F>("qScale_HT",    "qScale vs. HT",     50, 0., 1000., 50, 0.,  1000.);
-  PDFScale_MET_  = fs->make<TH2F>("PDFScale_MET", "PDFScale vs. MET",  50, 0., 1000., 50, 0.,  1000.);
-  PDFScale_HT_   = fs->make<TH2F>("PDFScale_HT",  "PDFScale vs. HT",   50, 0., 1000., 50, 0.,  1000.);
-  ttbarMass_MET_ = fs->make<TH2F>("ttbarMass_MET","m(ttbar)vs. MET",   50, 0., 1000., 50, 0.,  1000.);
-  ttbarMass_HT_  = fs->make<TH2F>("ttbarMass_HT", "m(ttbar)vs. HT",    50, 0., 1000., 50, 0.,  1000.);
+  qScale_MET_    = fs->make<TH2F>("qScale_MET",   "qScale vs. MET",    50, 0., 2000., 50, 0.,  1000.);
+  qScale_HT_     = fs->make<TH2F>("qScale_HT",    "qScale vs. HT",     50, 0., 2000., 50, 0.,  2000.);
+  PDFScale_MET_  = fs->make<TH2F>("PDFScale_MET", "PDFScale vs. MET",  50, 0., 2000., 50, 0.,  1000.);
+  PDFScale_HT_   = fs->make<TH2F>("PDFScale_HT",  "PDFScale vs. HT",   50, 0., 2000., 50, 0.,  2000.);
+  ttbarMass_MET_ = fs->make<TH2F>("ttbarMass_MET","m(ttbar)vs. MET",   50, 0., 2000., 50, 0.,  1000.);
+  ttbarMass_HT_  = fs->make<TH2F>("ttbarMass_HT", "m(ttbar)vs. HT",    50, 0., 2000., 50, 0.,  2000.);
 
-  HT_MET_      = fs->make<TH2F>("HT_MET",      "HT vs. MET",           50, 0., 1000., 50, 0.,  1000.);
-  HT_LepPt_    = fs->make<TH2F>("HT_LepPt",    "HT vs. lepton pt",     50, 0., 1000., 50, 0.,  1000.);
-  HT_YMET_     = fs->make<TH2F>("HT_YMET",     "HT vs. YMET",          50, 0., 1000., 50, 0.,    25.);
-  HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig", "HT vs. lepton pt sig", 50, 0., 1000., 50, 0.,    25.);
-  HT_mT_       = fs->make<TH2F>("HT_mT",       "HT vs. mT",            50, 0., 1000., 40, 0.,   200.);
+  HT_MET_      = fs->make<TH2F>("HT_MET",      "HT vs. MET",           50, 0., 2000., 50, 0.,  1000.);
+  HT_LepPt_    = fs->make<TH2F>("HT_LepPt",    "HT vs. lepton pt",     50, 0., 2000., 50, 0.,  1000.);
+  HT_YMET_     = fs->make<TH2F>("HT_YMET",     "HT vs. YMET",          50, 0., 2000., 50, 0.,    25.);
+  HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig", "HT vs. lepton pt sig", 50, 0., 2000., 50, 0.,    25.);
+  HT_mT_       = fs->make<TH2F>("HT_mT",       "HT vs. mT",            50, 0., 2000., 80, 0.,   400.);
 
-  HT_MET_acceptance_      = fs->make<TH2F>("HT_MET_acceptance",     "HT vs. MET",          50, 0., 1000., 50, 0.,  1000.);
-  HT_LepPt_acceptance_    = fs->make<TH2F>("HT_LepPt_acceptance",   "HT vs. lepton pt",    50, 0., 1000., 50, 0.,  1000.);
-  HT_YMET_acceptance_     = fs->make<TH2F>("HT_YMET_acceptance",    "HT vs. YMET",          50, 0., 1000., 50, 0.,   25.);
-  HT_LepPtSig_acceptance_ = fs->make<TH2F>("HT_LepPtSig_acceptance","HT vs. lepton pt sig", 50, 0., 1000., 50, 0.,   25.);
-  HT_mT_acceptance_       = fs->make<TH2F>("HT_mT_acceptance", "     HT vs. mT",            50, 0., 1000., 40, 0.,  200.);
+  HT_MET_acceptance_      = fs->make<TH2F>("HT_MET_acceptance",     "HT vs. MET",          50, 0., 2000., 50, 0.,  1000.);
+  HT_LepPt_acceptance_    = fs->make<TH2F>("HT_LepPt_acceptance",   "HT vs. lepton pt",    50, 0., 2000., 50, 0.,  1000.);
+  HT_YMET_acceptance_     = fs->make<TH2F>("HT_YMET_acceptance",    "HT vs. YMET",          50, 0., 2000., 50, 0.,   25.);
+  HT_LepPtSig_acceptance_ = fs->make<TH2F>("HT_LepPtSig_acceptance","HT vs. lepton pt sig", 50, 0., 2000., 50, 0.,   25.);
+  HT_mT_acceptance_       = fs->make<TH2F>("HT_mT_acceptance", "     HT vs. mT",            50, 0., 2000., 40, 0.,  200.);
 
 }
 

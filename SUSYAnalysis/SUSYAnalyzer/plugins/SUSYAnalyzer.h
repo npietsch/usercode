@@ -116,23 +116,30 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* Bjets_Et_;
   TH1F* Bjets_Eta_;
 
-  // Ymet
+  //-------------------------------------------------
+  // YMET and met significance
+  //-------------------------------------------------
+
   TH1F* YMET_;
-
-  TH2F* HT_YMET_;
-  TH2F* HT_YMET_noWgt_;
-  TH2F* HT_MET_;
-
-  // MET significance
   TH1F* METSig_;
 
+  //-------------------------------------------------
+  // Correlation plots
+  //-------------------------------------------------
+
+  TH2F* HT_MET_;
+  TH2F* HT_LepPt_;
+  
+  TH2F* HT_YMET_;
+  TH2F* HT_YMET_noWgt_;
   TH2F* HT_METSig_;
   TH2F* HT_METSig_noWgt_;
+  TH2F* HT_LepPtSig_;
+  
+  TH2F* HT_mT_;
 
   TH2F* METSig_YMET_;
-
-  // Correlation between HT and YMET / MET significance
-  TH2F* HT_LepPtSig_;
+  
   TH2F* HT_LepPtSig_smeared_;
   TH1F* LepPtSig_smearFactor_;
   TH2F* HT_METSig_unweighted_;

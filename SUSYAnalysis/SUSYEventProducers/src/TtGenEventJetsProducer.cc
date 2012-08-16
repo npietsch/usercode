@@ -69,8 +69,8 @@ TtGenEventJetsProducer::produce(edm::Event& event, const edm::EventSetup& setup)
 // 		 }
 // 	     }
 	   
-	 } 
-     }
+// 	 } 
+//      }
 
   // loop over reco jets
    for(std::vector<pat::Jet>::const_iterator jet=recoJets->begin(); jet!=recoJets->end(); ++jet)

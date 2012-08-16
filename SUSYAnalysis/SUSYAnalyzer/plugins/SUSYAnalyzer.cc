@@ -154,31 +154,29 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Eta_ = fs->make<TH1F>("Bjets_Eta", "Bjets_Eta", 60,  -3.,     3.);
 
   //-------------------------------------------------
-  // Ymet
+  // YMET and met significance
   //-------------------------------------------------
 
-  YMET_= fs->make<TH1F>("YMET","YMET", 40, 0., 40);
-
-  HT_YMET_       = fs->make<TH2F>("HT_YMET",       "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
-  HT_YMET_noWgt_ = fs->make<TH2F>("HT_YMET_noWgt", "HT vs. YMET", 80,   0., 2000., 80, 0.,  20.);
-  HT_MET_        = fs->make<TH2F>("HT_MET",        "HT vs. MET",  78, 220., 1000., 30, 0., 300.);
+  YMET_            = fs->make<TH1F>("YMET",            "YMET",        25, 0., 50);
+  METSig_          = fs->make<TH1F>("METSig",          "METSig",      25, 0., 50);
 
   //-------------------------------------------------
-  // MET significance
+  // Correlation plots
   //-------------------------------------------------
 
-  METSig_ = fs->make<TH1F>("METSig","METSig", 40, 0., 40);
+  HT_MET_          = fs->make<TH2F>("HT_MET",          "HT vs. MET",      50, 0., 2000., 50, 0., 1000.);
+  HT_LepPt_        = fs->make<TH2F>("HT_LepPt",        "HT vs. MET",      50, 0., 2000., 50, 0., 1000.);
+  
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50, 0.,   25.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50, 0.,   25.);
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50, 0.,   25.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50, 0.,   25.);
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50, 0.,   25.);
 
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig", 80,   0., 2000., 80, 0.,  20.);
+  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80, 0.,   400.);
 
-  METSig_YMET_ = fs->make<TH2F>("METSig_YMET", "METSig_YMET", 80,  0., 20., 80, 0.,  20.);
+  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50, 0.,   25.);
 
-  //----------------------------------------------------
-  // Correlation between HT and YMET / MET significance
-  //----------------------------------------------------
-
-  HT_LepPtSig_ = fs->make<TH2F>("HT_LepPtSig","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
   HT_METSig_unweighted_ = fs->make<TH2F>("HT_METSig_unweighted","HT vs. METSig unweighted", 80, 0., 2000., 80, 0., 20. );
@@ -535,9 +533,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   YMET_->Fill(YMET, weight);
 
   // YMET vs. HT
-  HT_YMET_       ->Fill(HT, YMET,           weight);
-  HT_YMET_noWgt_ ->Fill(HT, YMET,               1.);
-  HT_MET_        ->Fill(HT, (*met)[0].et(), weight);
+  HT_YMET_       ->Fill(HT, YMET,               weight);
+  HT_YMET_noWgt_ ->Fill(HT, YMET,                   1.);
+  HT_MET_        ->Fill(HT, (*met)[0].et(),     weight);
+  HT_MET_        ->Fill(HT, singleLepton->et(), weight);
 
   //-------------------------------------------------
   // MET significance
