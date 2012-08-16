@@ -128,15 +128,17 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
       HT_LepPtSig_->Fill(HT, LepPt/(sqrt(HT)));
       HT_mT_   ->Fill(HT, mT);
 
-      // correlations histograms for finit detectro acceptance
-      if(abs(genEvent->hadronicDecayB()->eta())<2.4 && abs(genEvent->leptonicDecayB()->eta())<2.4 &&
-	 abs(genEvent->singleLepton()->eta())<2.5 )
+      // correlations histograms for finit detector acceptance
+      if(abs(genEvent->hadronicDecayB()->eta())<2.4 && abs(genEvent->hadronicDecayB()->pt())>20 &&
+	 abs(genEvent->leptonicDecayB()->eta())<2.4 && abs(genEvent->leptonicDecayB()->pt())>20 &&
+	 abs(genEvent->singleLepton()->eta())<2.5 && abs(genEvent->singleLepton()->pt())>10)
 	{
 	  double HT_acceptance=genEvent->hadronicDecayB()->pt()+genEvent->leptonicDecayB()->pt();
 	  
 	  for(int ddx=0; ddx<(int)genEvent->hadronicDecayW()->numberOfDaughters(); ++ddx)
 	    {
-	      if(abs(genEvent->hadronicDecayW()->daughter(ddx)->eta())>2.4) return;
+	      if(abs(genEvent->hadronicDecayW()->daughter(ddx)->eta())>2.4 ||
+		 abs(genEvent->hadronicDecayW()->daughter(ddx)->pt())<10 ) return;
 	      HT_acceptance=HT_acceptance+genEvent->hadronicDecayW()->daughter(ddx)->pt();
 	    }
 	  HT_MET_acceptance_   ->Fill(HT, NuPt );
