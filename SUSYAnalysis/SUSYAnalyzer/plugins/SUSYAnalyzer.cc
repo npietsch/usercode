@@ -123,6 +123,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,  6.5);
   nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5, 12.5);
 
+  mT_          = fs->make<TH1F>("MT","MT", 80, 0., 400.);
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
   //-------------------------------------------------
@@ -164,16 +165,18 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Correlation plots
   //-------------------------------------------------
 
-  HT_MET_          = fs->make<TH2F>("HT_MET",          "HT vs. MET",      50, 0., 2000., 50, 0., 1000.);
-  HT_LepPt_        = fs->make<TH2F>("HT_LepPt",        "HT vs. MET",      50, 0., 2000., 50, 0., 1000.);
+  HT_MET_          = fs->make<TH2F>("HT_MET",          "HT vs. MET",      50, 0., 2000., 50,   0., 1000.);
+  HT_LepPt_        = fs->make<TH2F>("HT_LepPt",        "HT vs. MET",      50, 0., 2000., 50,   0., 1000.);
   
-  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50, 0.,   25.);
-  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50, 0.,   25.);
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50, 0.,   25.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50, 0.,   25.);
-  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50, 0.,   25.);
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50,   0.,   25.);
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80, 0.,   400.);
+  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80,   0.,  400.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,       "mT vs. nJets",    80, 0.,  400., 16, -0.5,  15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",      "YMET vs. nJets",  25, 0.,   50., 16, -0.5,  15.5);
 
   METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50, 0.,   25.);
 
@@ -485,9 +488,59 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   MT_->Fill(MT, weight);
   
   const reco::LeafCandidate * singleLepton = 0;
-  if(muons->size()==1) singleLepton = &(*muons)[0];
-  else if(electrons->size()==1) singleLepton = &(*electrons)[0];
 
+  // mT
+  double mT=0;
+  if(muons->size()==1)
+    {
+      singleLepton = &(*muons)[0];
+      
+      mT=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
+//       eta=(*muons)[0].eta();
+//       mW2=sqrt(2*(((*met)[0].et())*((*muons)[0].energy())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
+//       eta=(*muons)[0].eta();
+//       lepCharge=(*muons)[0].charge();
+
+//       reco::Particle::LorentzVector LepP4=(*muons)[0].p4();
+//       for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+// 	{
+// 	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*muons)[0].eta(),(*muons)[0].phi()));
+// 	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+// 	 if(dRLepBjet < dRLepBjetMin)
+// 	   {
+// 	     dRLepBjetMin=dRLepBjet;
+// 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+// 	   }
+// 	}
+      mT_       ->Fill(mT,               weight);
+      HT_mT_    ->Fill(HT, mT,           weight);
+      mT_nJets_ ->Fill(mT, jets->size(), weight);
+    }  
+  else if(electrons->size()==1)
+    {
+      singleLepton = &(*electrons)[0];
+
+      mT=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+//       mW2=sqrt(2*(((*met)[0].et())*((*electrons)[0].energy())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+//       eta=(*electrons)[0].eta();
+//       lepCharge=(*electrons)[0].charge();
+
+//       reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
+//       for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+// 	{
+// 	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
+// 	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+// 	 if(dRLepBjet < dRLepBjetMin)
+// 	   {
+// 	     dRLepBjetMin=dRLepBjet;
+// 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+// 	   }
+// 	}
+      mT_       ->Fill(mT,               weight);
+      HT_mT_    ->Fill(HT, mT,           weight);
+      mT_nJets_ ->Fill(mT, jets->size(), weight);
+    }
+  
   //-------------------------------------------------
   // Btagging
   //-------------------------------------------------
@@ -532,12 +585,17 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double YMET=((*met)[0].et())/(sqrt(HT));  
   YMET_->Fill(YMET, weight);
 
-  // YMET vs. HT
-  HT_YMET_       ->Fill(HT, YMET,               weight);
-  HT_YMET_noWgt_ ->Fill(HT, YMET,                   1.);
-  HT_MET_        ->Fill(HT, (*met)[0].et(),     weight);
-  HT_MET_        ->Fill(HT, singleLepton->et(), weight);
+  // YMET vs. HT and nJets
+  HT_YMET_       ->Fill(HT,   YMET,           weight);
+  HT_YMET_noWgt_ ->Fill(HT,   YMET,               1.);
+  HT_MET_        ->Fill(HT,   (*met)[0].et(), weight);
+  YMET_nJets_    ->Fill(YMET, jets->size(),   weight);
 
+  if(singleLepton != 0)
+    {
+      HT_LepPt_        ->Fill(HT, singleLepton->et(), weight);
+    }
+  
   //-------------------------------------------------
   // MET significance
   //-------------------------------------------------

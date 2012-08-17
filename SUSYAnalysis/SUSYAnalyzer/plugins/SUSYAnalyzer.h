@@ -97,6 +97,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nElectrons_;
   TH1F* nLeptons_;
 
+  TH1F* mT_;
   TH1F* MT_;
 
   // Btagging
@@ -137,6 +138,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* HT_LepPtSig_;
   
   TH2F* HT_mT_;
+  TH2F* mT_nJets_;
+  TH2F* YMET_nJets_;
 
   TH2F* METSig_YMET_;
   
