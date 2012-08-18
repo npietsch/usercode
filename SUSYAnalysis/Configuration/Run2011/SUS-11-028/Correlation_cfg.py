@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -87,6 +87,14 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 process.decaySubset.fillMode = "kME"
 
 #-----------------------------------------------------------------
+# load modules to filter on member functions of TtGenEvent
+#-----------------------------------------------------------------
+
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+
+process.semilepTtGenEventFilter = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
+
+#-----------------------------------------------------------------
 # load modules to produce TtGenEventJet collection
 #-----------------------------------------------------------------
 
@@ -105,6 +113,11 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.fourMatchedGoodJets = countPatJets.clone(src = 'produceTtGenEventJets:MatchedRecoJets',
+                                                 minNumber = 4
+                                                 )
 
 #-----------------------------------------------------------------
 # load and configure module to smear jet energy
@@ -145,12 +158,30 @@ process.analyzeSUSY.electrons = "goodElectrons"
 process.analyzeSUSY.met = "scaledJetEnergy:patMETsPF"
 process.analyzeSUSY.useEventWeight = True
 
-process.analyzSUSY_noCuts_1l          = process.analyzeSUSY.clone()
-process.analyzSUSY_preselection_1l    = process.analyzeSUSY.clone()
-process.analyzSUSY_leptonSelection_1l = process.analyzeSUSY.clone()
-process.analyzSUSY_jetSelection_1l    = process.analyzeSUSY.clone()
-process.analyzSUSY_HTSelection_1l     = process.analyzeSUSY.clone()
-process.analyzSUSY_metSelection_1l    = process.analyzeSUSY.clone()
+process.analyzeSUSY_noCuts_1l          = process.analyzeSUSY.clone()
+process.analyzeSUSY_preselection_1l    = process.analyzeSUSY.clone()
+process.analyzeSUSY_leptonSelection_1l = process.analyzeSUSY.clone()
+process.analyzeSUSY_jetSelection_1l    = process.analyzeSUSY.clone()
+process.analyzeSUSY_HTSelection_1l     = process.analyzeSUSY.clone()
+process.analyzeSUSY_metSelection_1l    = process.analyzeSUSY.clone()
+
+process.analyzeSUSY_noCuts_1l_match           = process.analyzeSUSY.clone()
+process.analyzeSUSY_noCuts_1l_match.jets      = "produceTtGenEventJets:MatchedRecoJets"
+
+process.analyzeSUSY_preselection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_leptonSelection_1l_match  = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_jetSelection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_HTSelection_1l_match      = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_metSelection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+
+process.analyzeSUSY_noCuts_1l_match2          = process.analyzeSUSY.clone()
+process.analyzeSUSY_noCuts_1l_match2.jets     = "produceTtGenEventJets:MatchedRecoJets"
+
+process.analyzeSUSY_preselection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_leptonSelection_1l_match2 = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_jetSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_HTSelection_1l_match2     = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_metSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
 
 #-----------------------------------------------------------------
 # muon selection paths
@@ -165,27 +196,57 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  process.weightProducer *
                                  process.produceTtGenEventJets *
                                  ## filter and analyzer sequences
+                                 process.semilepTtGenEventFilter *
                                  process.analyzeTtGenEvent_noCuts_1l *
-                                 process.analyzSUSY_noCuts_1l *
+                                 process.analyzeSUSY_noCuts_1l *
+                                 process.analyzeSUSY_noCuts_1l_match *
                                  
                                  process.preselectionMuHTMC2 *
                                  #process.LepHadSelection *
                                  process.analyzeTtGenEvent_preselection_1l *
-                                 process.analyzSUSY_preselection_1l *
-                                 
+                                 process.analyzeSUSY_preselection_1l *
+                                 process.analyzeSUSY_preselection_1l_match *
+
                                  process.leptonSelection*
                                  process.analyzeTtGenEvent_leptonSelection_1l *
-                                 process.analyzSUSY_leptonSelection_1l *
+                                 process.analyzeSUSY_leptonSelection_1l *
+                                 process.analyzeSUSY_leptonSelection_1l_match *
                                  
                                  process.jetSelection*
                                  process.analyzeTtGenEvent_jetSelection_1l *
-                                 process.analyzSUSY_jetSelection_1l *
+                                 process.analyzeSUSY_jetSelection_1l *
+                                 process.analyzeSUSY_jetSelection_1l_match *
                                  
                                  process.HTSelection *
                                  process.analyzeTtGenEvent_HTSelection_1l *
-                                 process.analyzSUSY_HTSelection_1l *
+                                 process.analyzeSUSY_HTSelection_1l *
+                                 process.analyzeSUSY_HTSelection_1l_match *
                                  
                                  process.metSelection *
                                  process.analyzeTtGenEvent_metSelection_1l *
-                                 process.analyzSUSY_metSelection_1l
+                                 process.analyzeSUSY_metSelection_1l *
+                                 process.analyzeSUSY_metSelection_1l_match
                                  )
+
+
+process.Selection0b1l_2 = cms.Path(## filter and analyzer sequences
+                                   process.semilepTtGenEventFilter *
+                                   process.fourMatchedGoodJets *
+                                   process.analyzeSUSY_noCuts_1l_match2 *
+                                   
+                                   process.preselectionMuHTMC2 *
+                                   #process.LepHadSelection *
+                                   process.analyzeSUSY_preselection_1l_match2 *
+                                   
+                                   process.leptonSelection*
+                                   process.analyzeSUSY_leptonSelection_1l_match2 *
+                                   
+                                   process.jetSelection *
+                                   process.analyzeSUSY_jetSelection_1l_match2 *
+                                   
+                                   process.HTSelection *
+                                   process.analyzeSUSY_HTSelection_1l_match2 *
+                                   
+                                   process.metSelection *
+                                   process.analyzeSUSY_metSelection_1l_match2
+                                   )
