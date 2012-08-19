@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -62,7 +62,6 @@ process.source = cms.Source("PoolSource",
 #-----------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 
 #-----------------------------------------------------------------
 # load and configure module for PU re-weighting
@@ -78,116 +77,9 @@ process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_64600.ro
 process.eventWeightPUDown = process.eventWeightPU.clone()
 process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.root"
 
-#-----------------------------------------------------------------
-# load modules to create SUSY- and ttGenEvent
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-
-#-----------------------------------------------------------------
-# load modules for preselection
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
-
-#-----------------------------------------------------------------
-# load modules to create objects and filter events on reco level
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-
-#-----------------------------------------------------------------
-# load and configure module to smear jet energy
-#-----------------------------------------------------------------
-
-from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
-process.scaledJetEnergy = scaledJetEnergy.clone()
-process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
-process.scaledJetEnergy.inputMETs = "patMETsPF"
-process.scaledJetEnergy.doJetSmearing = True
-
-# define source for goodJets producer
-process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
-process.goodMETs.src = "scaledJetEnergy:patMETsPF"
-
-#-----------------------------------------------------------------
-# load and configure modules for analysis on generator level,
-# level of matched objects and reco-level
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
-
-process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
-process.analyzeSUSY1b1m_4.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.analyzeSUSY1b1m_4.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
-
-process.analyzeSUSY1b1m_6.useBtagEventWeight = True
-process.analyzeSUSY1b1m_6.btagBin = 1
-process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.monitorBtagWeightingMu                  = process.analyzeSUSY1b1m_6.clone()
-process.monitorBtagWeightingMu.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.monitorBtagWeightingMu.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
-
-process.analyzeSUSY2b1m_6.useBtagEventWeight = True
-process.analyzeSUSY2b1m_6.btagBin = 2
-process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY2b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.analyzeSUSY3b1m_6.useBtagEventWeight = True
-process.analyzeSUSY3b1m_6.btagBin = 3
-process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY3b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.analyzeSUSY1b1e_4.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1b1e_4.inclusiveBtagBin = 1
-process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1e_4.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.analyzeSUSY1b1e_6.useBtagEventWeight = True
-process.analyzeSUSY1b1e_6.btagBin = 1
-process.analyzeSUSY1b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.monitorBtagWeightingEl                  = process.analyzeSUSY1b1m_6.clone()
-process.monitorBtagWeightingEl.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.monitorBtagWeightingEl.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
-
-process.analyzeSUSY2b1e_6.useBtagEventWeight = True
-process.analyzeSUSY2b1e_6.btagBin = 2
-process.analyzeSUSY2b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY2b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.analyzeSUSY3b1e_6.useBtagEventWeight = True
-process.analyzeSUSY3b1e_6.btagBin = 3
-process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-#-----------------------------------------------------------------
-# load and configure module for analysis based on ttGenEvent
-#-----------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi")
-
-process.analyzeTtGenEvent_noCuts_1m          = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_preselection_1m    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_leptonSelection_1m = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_jetSelection_1m    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_HTSelection_1m     = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_metSelection_1m    = process.analyzeTtGenEvent.clone()
-
-process.analyzeTtGenEvent_noCuts_1e          = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_preselection_1e    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_leptonSelection_1e = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_jetSelection_1e    = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_HTSelection_1e     = process.analyzeTtGenEvent.clone()
-process.analyzeTtGenEvent_metSelection_1e    = process.analyzeTtGenEvent.clone()
-
-#-----------------------------------------------------------------
+#------------------------------------------------------------
 # load and configure modules for b-tag efficiency weighting
-#-----------------------------------------------------------------
+#------------------------------------------------------------
 
 process.load("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
 process.load("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
@@ -209,32 +101,175 @@ process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
 process.btagEventWeightElJER.jets            = "goodJets"
 
 #-----------------------------------------------------------------
+# load modules to create SUSY- and ttGenEvent
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+
+process.decaySubset.fillMode = "kME"
+
+#-----------------------------------------------------------------
+# load modules to filter on member functions of TtGenEvent
+#-----------------------------------------------------------------
+
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+
+process.semilepTtGenEventFilter = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
+
+#-----------------------------------------------------------------
+# load modules to produce TtGenEventJet collection
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYEventProducers.TtGenEventJetsProducer_cfi")
+
+process.produceTtGenEventJets.inputRecoJets = "goodJets"
+
+#-----------------------------------------------------------------
+# load modules for preselection
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+
+#-----------------------------------------------------------------
+# load modules to create objects and filter events on reco level
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.fourMatchedGoodJets = countPatJets.clone(src = 'produceTtGenEventJets:MatchedRecoJets',
+                                                 minNumber = 4
+                                                 )
+
+#-----------------------------------------------------------------
+# load and configure module to smear jet energy
+#-----------------------------------------------------------------
+
+from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
+process.scaledJetEnergy = scaledJetEnergy.clone()
+process.scaledJetEnergy.inputJets = "selectedPatJetsAK5PF"
+process.scaledJetEnergy.inputMETs = "patMETsPF"
+process.scaledJetEnergy.doJetSmearing = True
+
+# define source for goodJets producer
+process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+process.goodMETs.src = "scaledJetEnergy:patMETsPF"
+
+#-----------------------------------------------------------------
+# load and configure module for analysis based on ttGenEvent
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi")
+
+process.analyzeTtGenEvent_noCuts_1l          = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_preselection_1l    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_leptonSelection_1l = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_jetSelection_1l    = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_HTSelection_1l     = process.analyzeTtGenEvent.clone()
+process.analyzeTtGenEvent_metSelection_1l    = process.analyzeTtGenEvent.clone()
+
+#-----------------------------------------------------------------
+# load and configure  modules for analysis on reco-level
+#-----------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
+
+process.analyzeSUSY.jets = "goodJets"
+process.analyzeSUSY.muons = "goodMuons"
+process.analyzeSUSY.electrons = "goodElectrons"
+process.analyzeSUSY.met = "scaledJetEnergy:patMETsPF"
+process.analyzeSUSY.useEventWeight = True
+
+process.analyzeSUSY_noCuts_1l          = process.analyzeSUSY.clone()
+process.analyzeSUSY_preselection_1l    = process.analyzeSUSY.clone()
+process.analyzeSUSY_leptonSelection_1l = process.analyzeSUSY.clone()
+process.analyzeSUSY_jetSelection_1l    = process.analyzeSUSY.clone()
+process.analyzeSUSY_HTSelection_1l     = process.analyzeSUSY.clone()
+process.analyzeSUSY_metSelection_1l    = process.analyzeSUSY.clone()
+
+process.analyzeSUSY_noCuts_1l_match           = process.analyzeSUSY.clone()
+process.analyzeSUSY_noCuts_1l_match.jets      = "produceTtGenEventJets:MatchedRecoJets"
+
+process.analyzeSUSY_preselection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_leptonSelection_1l_match  = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_jetSelection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_HTSelection_1l_match      = process.analyzeSUSY_noCuts_1l_match.clone()
+process.analyzeSUSY_metSelection_1l_match     = process.analyzeSUSY_noCuts_1l_match.clone()
+
+process.analyzeSUSY_noCuts_1l_match2          = process.analyzeSUSY.clone()
+process.analyzeSUSY_noCuts_1l_match2.jets     = "produceTtGenEventJets:MatchedRecoJets"
+
+process.analyzeSUSY_preselection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_leptonSelection_1l_match2 = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_jetSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_HTSelection_1l_match2     = process.analyzeSUSY_noCuts_1l_match2.clone()
+process.analyzeSUSY_metSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
+
+#-----------------------------------------------------------------
 # muon selection paths
 #-----------------------------------------------------------------
 
-process.Selection0b1m_1 = cms.Path(## producer sequences
-                                   process.scaledJetEnergy *
-                                   process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.makeGenEvt *
-                                   process.eventWeightPU *
-                                   process.weightProducer *
-                                   ## filter and analyzer sequences
-                                   process.analyzeSUSY1m_noCuts *
-                                   process.analyzeTtGenEvent_noCuts_1m *
+process.Selection0b1l = cms.Path(## producer sequences
+                                 process.scaledJetEnergy *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.makeGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 process.produceTtGenEventJets *
+                                 ## filter and analyzer sequences
+                                 process.semilepTtGenEventFilter *
+                                 process.analyzeTtGenEvent_noCuts_1l *
+                                 process.analyzeSUSY_noCuts_1l *
+                                 process.analyzeSUSY_noCuts_1l_match *
+                                 
+                                 process.preselectionMuHTMC2 *
+                                 #process.LepHadSelection *
+                                 process.analyzeTtGenEvent_preselection_1l *
+                                 process.analyzeSUSY_preselection_1l *
+                                 process.analyzeSUSY_preselection_1l_match *
+
+                                 process.leptonSelection*
+                                 process.analyzeTtGenEvent_leptonSelection_1l *
+                                 process.analyzeSUSY_leptonSelection_1l *
+                                 process.analyzeSUSY_leptonSelection_1l_match *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeTtGenEvent_jetSelection_1l *
+                                 process.analyzeSUSY_jetSelection_1l *
+                                 process.analyzeSUSY_jetSelection_1l_match *
+                                 
+                                 process.HTSelection *
+                                 process.analyzeTtGenEvent_HTSelection_1l *
+                                 process.analyzeSUSY_HTSelection_1l *
+                                 process.analyzeSUSY_HTSelection_1l_match *
+                                 
+                                 process.metSelection *
+                                 process.analyzeTtGenEvent_metSelection_1l *
+                                 process.analyzeSUSY_metSelection_1l *
+                                 process.analyzeSUSY_metSelection_1l_match
+                                 )
+
+
+process.Selection0b1l_2 = cms.Path(## filter and analyzer sequences
+                                   process.semilepTtGenEventFilter *
+                                   process.fourMatchedGoodJets *
+                                   process.analyzeSUSY_noCuts_1l_match2 *
+                                   
                                    process.preselectionMuHTMC2 *
-                                   process.analyzeSUSY1m_preselection *
-                                   process.analyzeTtGenEvent_preselection_1m *
-                                   process.muonSelection*
-                                   process.analyzeSUSY1m_leptonSelection *
-                                   process.analyzeTtGenEvent_leptonSelection_1m *
-                                   process.jetSelection*
-                                   process.analyzeSUSY1m_jetSelection *
-                                   process.analyzeTtGenEvent_jetSelection_1m *
+                                   #process.LepHadSelection *
+                                   process.analyzeSUSY_preselection_1l_match2 *
+                                   
+                                   process.leptonSelection*
+                                   process.analyzeSUSY_leptonSelection_1l_match2 *
+                                   
+                                   process.jetSelection *
+                                   process.analyzeSUSY_jetSelection_1l_match2 *
+                                   
                                    process.HTSelection *
-                                   process.analyzeSUSY1m_HTSelection *
-                                   process.analyzeTtGenEvent_HTSelection_1m *
+                                   process.analyzeSUSY_HTSelection_1l_match2 *
+                                   
                                    process.metSelection *
-                                   process.analyzeSUSY1m_metSelection *
-                                   process.analyzeTtGenEvent_metSelection_1m
+                                   process.analyzeSUSY_metSelection_1l_match2
                                    )

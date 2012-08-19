@@ -77,6 +77,29 @@ process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_64600.ro
 process.eventWeightPUDown = process.eventWeightPU.clone()
 process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.root"
 
+#------------------------------------------------------------
+# load and configure modules for b-tag efficiency weighting
+#------------------------------------------------------------
+
+process.load("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
+
+## common default settings (similar for muon and electron channel)
+process.btagEventWeight           = process.btagEventWeight.clone()
+process.btagEventWeight.bTagAlgo  = "TCHEM"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsSummer11.root"
+
+## create weights for muon selection
+process.btagEventWeightMuJER                 = process.btagEventWeight.clone()
+process.btagEventWeightMuJER.rootDir         = "RA4bMuTCHEM"
+process.btagEventWeightMuJER.jets            = "goodJets"
+
+## create weights for electron selection
+process.btagEventWeightElJER                 = process.btagEventWeight.clone()
+process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
+process.btagEventWeightElJER.jets            = "goodJets"
+
 #-----------------------------------------------------------------
 # load modules to create SUSY- and ttGenEvent
 #-----------------------------------------------------------------
