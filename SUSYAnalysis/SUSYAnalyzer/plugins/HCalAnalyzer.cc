@@ -32,6 +32,7 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   caloMet_           (cfg.getParameter<edm::InputTag>("caloMet") ),
   genMet_            (cfg.getParameter<edm::InputTag>("genMet") ),
   jets_              (cfg.getParameter<edm::InputTag>("jets") ),
+  jetsMHT_           (cfg.getParameter<edm::InputTag>("jetsMHT") ),
   genJets_           (cfg.getParameter<edm::InputTag>("genJets") ),  
   caloJets_          (cfg.getParameter<edm::InputTag>("caloJets") ),
   bjets_             (cfg.getParameter<edm::InputTag>("bjets") ),
@@ -74,21 +75,25 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   nGenJets_   = fs->make<TH1F>("nGenJets",    "nGenJets",    16, -0.5,  15.5);
   nGenJetsNoMatch_ = fs->make<TH1F>("nGenJetsNoMatch", "nGenJetsNoMatch", 16, -0.5,  15.5);
   jetsEt_     = fs->make<TH1F>("jetsEt",      "jetsEt",     100,   0., 1000.);
-  jetsEta_    = fs->make<TH1F>("jetsEta",     "jetsEta",    100, -2.5,   2.5);
+  jetsEta_    = fs->make<TH1F>("jetsEta",     "jetsEta",    400,  -5.,    5.);
   caloJetsEt_ = fs->make<TH1F>("caloJetsEt",  "caloJetsEt", 100,   0.,  1000);
-  caloJetsEta_= fs->make<TH1F>("caloJetsEta", "caloJetsEta",100, -2.5,   2.5);
+  caloJetsEta_= fs->make<TH1F>("caloJetsEta", "caloJetsEta",400,  -5.,    5.);
   genJetsEt_  = fs->make<TH1F>("genJetsEt",   "genJetsEt",  100,   0.,  100.);
-  genJetsEta_ = fs->make<TH1F>("genJetsEta",  "genJetsEta", 100, -2.5,   2.5);
+  genJetsEta_ = fs->make<TH1F>("genJetsEta",  "genJetsEta", 400,  -5.,    5.);
   genJetsEtNoMatch_  = fs->make<TH1F>("genJetsEtNoMatch",   "genJetsEtNoMatch",  100,   0.,  100.);
-  genJetsEtaNoMatch_ = fs->make<TH1F>("genJetsEtaNoMatch",  "genJetsEtaNoMatch", 100, -2.5,   2.5);
+  genJetsEtaNoMatch_ = fs->make<TH1F>("genJetsEtaNoMatch",  "genJetsEtaNoMatch", 400,  -5.,    5.);
 
   TString histoname;
   for(int idx=0; idx<4; ++idx) {
     histoname="jet"; histoname+=idx+1; histoname+="Et";
-    jetEt_.push_back(fs->make<TH1F>(histoname,histoname, 100, 0., 1000.));
-
+    jetEt_.push_back(fs->make<TH1F>(histoname,histoname, 100, 0., 1000.));   
     histoname+="a";
-    jetEta_.push_back(fs->make<TH1F>(histoname,histoname, 100, -2.5, 2.5));
+    jetEta_.push_back(fs->make<TH1F>(histoname,histoname, 400, -5, 5));
+    
+    histoname="genJet"; histoname+=idx+1; histoname+="Et";
+    genJetEt_.push_back(fs->make<TH1F>(histoname,histoname, 100, 0., 1000.));
+    histoname+="a";
+    genJetEta_.push_back(fs->make<TH1F>(histoname,histoname, 400, -5, 5));
   }
   
 
@@ -105,10 +110,10 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
 
   //Jets 2D
 
-  jetsEt_Eta_     = fs->make<TH2F>("jetEt_Eta",     "jetEt Eta",     100, 0., 1000., 100, -3., 3);
-  caloJetsEt_Eta_ = fs->make<TH2F>("caloJetEt_Eta", "caloJetEt Eta", 100, 0., 1000., 100, -3., 3);
-  genJetsEt_Eta_  = fs->make<TH2F>("genJetEt_Eta",  "genJetEt Eta",  100, 0., 1000., 100, -3., 3);
-  HOEnergy_Eta_   = fs->make<TH2F>("HOEnergy_Eta",  "HOEnergy Eta",  100, 0.,   10., 100, -3., 3);
+  jetsEt_Eta_     = fs->make<TH2F>("jetEt_Eta",     "jetEt Eta",     100, 0., 1000., 200, -5., 5);
+  caloJetsEt_Eta_ = fs->make<TH2F>("caloJetEt_Eta", "caloJetEt Eta", 100, 0., 1000., 200, -5., 5);
+  genJetsEt_Eta_  = fs->make<TH2F>("genJetEt_Eta",  "genJetEt Eta",  100, 0., 1000., 200, -5., 5);
+  HOEnergy_Eta_   = fs->make<TH2F>("HOEnergy_Eta",  "HOEnergy Eta",  100, 0.,   10., 200, -5., 5);
 
   //bJets
 
@@ -116,14 +121,14 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   CSV_      = fs->make<TH1F>("CSV",     "CSV",       80,  -2.,     2);
   caloCSV_  = fs->make<TH1F>("caloCSV", "calo CSV",  80,  -2.,     2);
   bJetsEt_  = fs->make<TH1F>("bJetEt",  "bJetEt",   100,   0., 1000.);
-  bJetsEta_ = fs->make<TH1F>("bJetEta", "bJetEta",  100, -2.5,   2.5);
+  bJetsEta_ = fs->make<TH1F>("bJetEta", "bJetEta",  400, -5.,   5.);
 
   for(int idx=0; idx<4; ++idx) {
     histoname="bJet"; histoname+=idx+1; histoname+="Et";
     bJetEt_.push_back(fs->make<TH1F>(histoname,histoname, 100, 0., 1000.));
 
     histoname+="a";
-    bJetEta_.push_back(fs->make<TH1F>(histoname,histoname, 100, -2.5, 2.5));
+    bJetEta_.push_back(fs->make<TH1F>(histoname,histoname, 400, -5., 5.));
   }
 
   partonFlavour_          = fs->make<TH1I>("partonFlavour",          "partonFlavour",           27, -5.5, 21.5);
@@ -163,12 +168,22 @@ HCalAnalyzer::HCalAnalyzer(const edm::ParameterSet& cfg):
   genHTNoMatch_ = fs->make<TH1F>("genHTNoMatch", "genHTNoMatch",  40,  0., 2000.);
   HTRelErr_     = fs->make<TH1F>("HTRelErr",     "HTRelErr",     300, -3.,    3.);
   HTRelErrNoMatch_= fs->make<TH1F>("HTRelErrNoMatch", "HTRelErrNoMatch", 300, -3.,    3.);
+
   MHT_          = fs->make<TH1F>("MHT",          "MHT",          100,  0., 1000.);
-  genMHT_       = fs->make<TH1F>("genMHT",       "genMHT",        40,  0., 2000.);
-  genMHTNoMatch_= fs->make<TH1F>("genMHTNoMatch","genMHTNoMatch", 40,  0., 2000.);
+  genMHT_       = fs->make<TH1F>("genMHT",       "genMHT",       100,  0., 1000.);
+  genMHTNoMatch_= fs->make<TH1F>("genMHTNoMatch","genMHTNoMatch",100,  0., 1000.);
   MHTRelErr_    = fs->make<TH1F>("MHTRelErr",    "MHTRelErr",    300, -3.,    3.);
   MHTRelErrNoMatch_= fs->make<TH1F>("MHTRelErrNoMatch","MHTRelErrNoMatch", 300, -3.,    3.);
+
+  MHT5Eta_          = fs->make<TH1F>("MHT5Eta",          "MHT5Eta",          100,  0., 1000.);
+  /*genMHT5Eta_       = fs->make<TH1F>("genMHT5Eta",       "genMHT5Eta",       100,  0., 1000.);
+  genMHT5EtaNoMatch_= fs->make<TH1F>("genMHT5EtaNoMatch","genMHT5EtaNoMatch",100,  0., 1000.);
+  MHT5EtaRelErr_    = fs->make<TH1F>("MHT5EtaRelErr",    "MHT5EtaRelErr",    300, -3.,    3.);
+  MHT5EtaRelErrNoMatch_= fs->make<TH1F>("MHT5EtaRelErrNoMatch","MHT5EtaRelErrNoMatch", 300, -3.,    3.);*/
+
   MET_          = fs->make<TH1F>("MET",          "MET",          100,  0., 1000.);
+  genMET_       = fs->make<TH1F>("genMET",    "genMET",          100,  0., 1000.);
+  METAbsErr_    = fs->make<TH1F>("METAbsErr","METAbsErr",        200,  0., 500.);
   YMET_         = fs->make<TH1F>("YMET",         "YMET",          80,  0.,   20.);
   caloMET_      = fs->make<TH1F>("caloMET",      "caloMET",      100,  0., 1000.);
   MET_Phi_      = fs->make<TH2F>("MET_Phi",      "MET Phi",      100,  0., 1000., 100, -1*TMath::Pi(), TMath::Pi());
@@ -195,6 +210,8 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(genMet_, genMet);
   edm::Handle<edm::View<pat::Jet> > jets;
   evt.getByLabel(jets_, jets);
+  edm::Handle<edm::View<pat::Jet> > jetsMHT;
+  evt.getByLabel(jetsMHT_, jetsMHT);
   edm::Handle<edm::View<reco::GenJet> > genJets;
   evt.getByLabel(genJets_, genJets);
   edm::Handle<std::vector<pat::Jet> > caloJets;
@@ -245,6 +262,9 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HTx=0;
   double HTy=0;
 
+  double HT5Etax=0;
+  double HT5Etay=0;
+
   int nGenJets=0;
   double genHT=0;
   double genHTx=0;
@@ -264,7 +284,7 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     jetsEt_Eta_ ->Fill((*jets)[i].et(),  (*jets)[i].eta(), weight);
     
     if (i<4) {
-      jetEt_[i]   ->Fill((*jets)[i].et(),            weight);
+      jetEt_[i]   ->Fill((*jets)[i].et(),            weight);      
       jetEta_[i]   ->Fill((*jets)[i].eta(),            weight);
     }
     
@@ -276,6 +296,11 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
 	nGenJets++;
 	genJetsEt_->Fill((*jets)[i].genJet()->et(),  weight);
+	if (i<4) {
+	  genJetEt_[i]  ->Fill((*jets)[i].et(),  weight);      
+	  genJetEta_[i] ->Fill((*jets)[i].eta(), weight);
+	}
+
 	genJetsEta_->Fill((*jets)[i].genJet()->eta(),  weight);
 	genJetsEt_Eta_->Fill((*jets)[i].genJet()->et(),  (*jets)[i].genJet()->eta(), weight);
 	
@@ -317,6 +342,14 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     HT_ ->Fill(HT, weight);
     MHT_->Fill( MHT,weight);
   }
+
+  for(int i=0; i<(int)jetsMHT->size(); ++i) {
+    HT5Etax+=(*jetsMHT)[i].px();
+    HT5Etay+=(*jetsMHT)[i].py();
+  }
+
+  float MHT5Eta=sqrt(HT5Etax*HT5Etax + HT5Etay*HT5Etay);
+  MHT5Eta_->Fill( MHT5Eta,weight);
 
   // Matched Gen Jets
 
@@ -414,6 +447,9 @@ HCalAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   }
   
   if ( (*genMet)[0].et() > 0. ) {
+    genMET_ ->Fill((*genMet)[0].et());
+    float absErr = abs((*met)[0].et()-(*genMet)[0].et());
+    METAbsErr_ ->Fill(absErr);
     relErr = ((*met)[0].et()/(*genMet)[0].et())-1.;
     METRelErr_->Fill(relErr, weight);
   }

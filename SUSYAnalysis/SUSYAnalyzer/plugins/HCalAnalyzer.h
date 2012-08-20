@@ -37,6 +37,7 @@ class HCalAnalyzer : public edm::EDAnalyzer {
   edm::InputTag caloMet_;
   edm::InputTag genMet_;
   edm::InputTag jets_;
+  edm::InputTag jetsMHT_;
   edm::InputTag genJets_;
   edm::InputTag caloJets_;
   edm::InputTag bjets_;
@@ -74,6 +75,8 @@ class HCalAnalyzer : public edm::EDAnalyzer {
   TH1F* genJetsEtaNoMatch_;
   std::vector<TH1F*> jetEt_;
   std::vector<TH1F*> jetEta_;
+  std::vector<TH1F*> genJetEt_; 
+  std::vector<TH1F*> genJetEta_;
 
   TH1F* HOEnergy_;
   TH1F* chargeEMFraction_;
@@ -143,7 +146,16 @@ class HCalAnalyzer : public edm::EDAnalyzer {
   TH1F* genMHTNoMatch_;
   TH1F* MHTRelErr_;
   TH1F* MHTRelErrNoMatch_;
+  
+  TH1F* MHT5Eta_;
+  /*TH1F* genMHT5Eta_;
+  TH1F* genMHT5EtaNoMatch_;
+  TH1F* MHT5EtaRelErr_;
+  TH1F* MHT5EtaRelErrNoMatch_;*/
+
   TH1F* MET_;
+  TH1F* genMET_;
+  TH1F* METAbsErr_;
   TH1F* YMET_;
   TH1F* caloMET_;
   TH2F* MET_Phi_;
