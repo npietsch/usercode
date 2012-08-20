@@ -154,6 +154,14 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Et_  = fs->make<TH1F>("Bjets_Et",  "Bjets_Et",  90,   0.,   900.);
   Bjets_Eta_ = fs->make<TH1F>("Bjets_Eta", "Bjets_Eta", 60,  -3.,     3.);
 
+
+  //-------------------------------------------------
+  // mjj plots
+  //-------------------------------------------------
+
+  minj3_ = fs->make<TH1F>("minj3", "minj3", 100, 0., 1000.);
+
+
   //-------------------------------------------------
   // YMET and met significance
   //-------------------------------------------------
@@ -574,6 +582,29 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	}
       Bjets_Et_  ->Fill((*bjets)[bdx].et(),  weight);
       Bjets_Eta_ ->Fill((*bjets)[bdx].eta(), weight);
+    }
+  
+  //-------------------------------------------------
+  // mjj variabels
+  //-------------------------------------------------
+  
+  // Example how to use member function of SUSYGenEvent
+  //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
+  
+  if(jets->size() >= 3)
+    {
+      // define four-vectors
+      reco::Particle::LorentzVector Jet1 = (*jets)[0].p4();
+      reco::Particle::LorentzVector Jet2 = (*jets)[1].p4();
+      reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
+      
+      // define invariant dijet masses   
+      double m13=sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
+      double m23=sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
+     
+      double minj3 = min(m13,m23);
+      minj3_->Fill(minj3, weight);
+
     }
 
   //-------------------------------------------------
