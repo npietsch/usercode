@@ -107,8 +107,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nLeptons_;
   TH1F* LepPt_;
 
-  TH1F* mT_;
   TH1F* MT_;
+
+  TH1F* mT_;
+  TH1F* mlb_;
+  TH1F* mLepTop_;
 
   TH1F* YMET_;
   TH1F* METSig_;
@@ -195,6 +198,11 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* HT_mT_;
   TH2F* mT_nJets_;
   TH2F* YMET_nJets_;
+  TH2F* HT_mLepTop_;
+  TH2F* HT_mlb_;
+  TH2F* mLepTop_nJets_;
+  TH2F* mlb_nJets_;
+
 
   //-----------------------
   // ABCD method

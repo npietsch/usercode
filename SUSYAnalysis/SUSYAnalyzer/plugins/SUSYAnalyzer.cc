@@ -124,7 +124,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,  12.5);
 
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
-  mT_          = fs->make<TH1F>("MT","MT", 80, 0., 400.);
+
+  mT_       = fs->make<TH1F>("mT",      "mT",      80, 0., 400.);
+  mlb_      = fs->make<TH1F>("mlb",     "mlb",     80, 0., 400.);
+  mLepTop_  = fs->make<TH1F>("mLepTop", "mLepTop", 80, 0., 400.);
 
   YMET_     = fs->make<TH1F>("YMET", "YMET", 50, 0., 25);
   METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
@@ -216,9 +219,15 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Others
   //-------------------------------------------------
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80,   0.,  400.);
-  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,       "mT vs. nJets",    80, 0.,  400., 16, -0.5,  15.5);
-  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",      "YMET vs. nJets",  50, 0.,   25., 16, -0.5,  15.5);
+  HT_mT_           = fs->make<TH2F>("HT_mT",       "HT vs. mT",         50, 0., 2000., 80,   0.,  400.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,   "mT vs. nJets",      80, 0.,  400., 16, -0.5,  15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",  "YMET vs. nJets",    50, 0.,   25., 16, -0.5,  15.5);
+
+  HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 80,   0.,  400.);
+  HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 80,   0.,  400.);
+  
+  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 50, 0., 2000., 16, -0.5,  15.5);
+  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     50, 0., 2000., 16, -0.5,  15.5);
 
   //-------------------------------------------------
   // ABCD method
@@ -506,50 +515,58 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   // mT
   double mT=0;
+  double mLepTop=0;
+  double mlb=0;
   if(muons->size()==1)
     {
       singleLepton = &(*muons)[0];
       
       mT=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
-//       eta=(*muons)[0].eta();
-//       mW2=sqrt(2*(((*met)[0].et())*((*muons)[0].energy())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
-//       eta=(*muons)[0].eta();
-//       lepCharge=(*muons)[0].charge();
-
-//       reco::Particle::LorentzVector LepP4=(*muons)[0].p4();
-//       for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
-// 	{
-// 	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*muons)[0].eta(),(*muons)[0].phi()));
-// 	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
-// 	 if(dRLepBjet < dRLepBjetMin)
-// 	   {
-// 	     dRLepBjetMin=dRLepBjet;
-// 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
-// 	   }
-// 	}
-
+      reco::Particle::LorentzVector LepP4=(*muons)[0].p4();
+      reco::Particle::LorentzVector METP4=(*met)[0].p4();
+      double dRLepBjetMin=9;
+      
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*muons)[0].eta(),(*muons)[0].phi()));
+	  reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+	  if(dRLepBjet < dRLepBjetMin)
+	   {
+	     dRLepBjetMin=dRLepBjet;
+	     mlb=sqrt((LepP4+BjetP4).Dot(LepP4+BjetP4));
+	     mLepTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+	   }
+	  mlb_    ->Fill(mlb,     weight);
+	  mLepTop_->Fill(mLepTop, weight);
+	}
+      
+      mT_ ->Fill(mT, weight); 
     }  
   else if(electrons->size()==1)
     {
       singleLepton = &(*electrons)[0];
-
+      
       mT=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
-//       mW2=sqrt(2*(((*met)[0].et())*((*electrons)[0].energy())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
-//       eta=(*electrons)[0].eta();
-//       lepCharge=(*electrons)[0].charge();
 
-//       reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
-//       for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
-// 	{
-// 	 double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
-// 	 reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
-// 	 if(dRLepBjet < dRLepBjetMin)
-// 	   {
-// 	     dRLepBjetMin=dRLepBjet;
-// 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
-// 	   }
-// 	}
-      mT_       ->Fill(mT,               weight);
+      reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
+      reco::Particle::LorentzVector METP4=(*met)[0].p4();
+      double dRLepBjetMin=9;
+
+      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+	{
+	  double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
+	  reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+	  if(dRLepBjet < dRLepBjetMin)
+	    {
+	      dRLepBjetMin=dRLepBjet;
+	      mlb=sqrt((LepP4+BjetP4).Dot(LepP4+BjetP4));
+	      mLepTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+	    }
+	  mlb_    ->Fill(mlb,     weight);
+	  mLepTop_->Fill(mLepTop, weight);
+	}
+      
+      mT_ ->Fill(mT, weight);
     }
   
   // YMET
@@ -711,8 +728,17 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       mT_nJets_ ->Fill(mT, jets->size(), weight);
     }
 
-  YMET_nJets_    ->Fill(YMET, jets->size(),   weight);
+  YMET_nJets_ ->Fill(YMET, jets->size(), weight);
 
+  if(mlb > 0)
+    {
+      HT_mLepTop_   ->Fill(HT, mLepTop, weight);
+      HT_mlb_       ->Fill(HT, mlb,     weight);
+
+      mLepTop_nJets_->Fill(jets->size(), mLepTop, weight);
+      mlb_nJets_    ->Fill(jets->size(), mlb,     weight);
+    }
+  
   //-------------------------------------------------
   // ABCD method
   //-------------------------------------------------
