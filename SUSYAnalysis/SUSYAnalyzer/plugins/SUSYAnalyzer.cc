@@ -166,8 +166,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
-  HT_MET_          = fs->make<TH2F>("HT_MET",          "HT vs. MET",      50, 0., 2000., 50,   0., 1000.);
-  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 25,   0.,   50.);
+  HT_MET_   = fs->make<TH2F>("HT_MET",   "HT vs. MET",   50, 0., 2000., 50, 0., 1000.);
+  HT_LepPt_ = fs->make<TH2F>("HT_LepPt", "HT vs. LepPt", 50, 0., 2000., 25, 0.,   50.);
 
   //-------------------------------------------------------
   // YMET, MET significnace, Lepton pt significance vs HT
@@ -180,6 +180,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
   
   METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50,   0.,   25.);
+
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 25,   0.,   50.);
 
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
@@ -542,7 +544,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       
       mT_ ->Fill(mT, weight); 
     }  
-  else if(electrons->size()==1)
+  if(electrons->size()==1)
     {
       singleLepton = &(*electrons)[0];
       
@@ -628,13 +630,21 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
+  //std::cout << "Test8" << std::endl;
+
   HT_MET_ ->Fill(HT, (*met)[0].et(), weight);
-  if(singleLepton != 0) HT_LepPt_->Fill(HT, singleLepton->et(), weight);
- 
+  if(singleLepton != 0)
+    {
+      //std::cout << "Single lepton" << std::endl;
+      
+      HT_LepPt_->Fill(HT, singleLepton->et(), weight);
+    } 
 
   //-------------------------------------------------------
   // YMET, MET significnace, Lepton pt significance vs HT
   //-------------------------------------------------------
+
+  //std::cout << "Test9" << std::endl;
 
   HT_YMET_       ->Fill(HT,   YMET,  weight);
   HT_YMET_noWgt_ ->Fill(HT,   YMET,      1.);
@@ -643,6 +653,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   HT_METSig_noWgt_->Fill(HT, METSig,     1.);
 
   METSig_YMET_ ->Fill(METSig, YMET,  weight);
+
+  //std::cout << "Test10" << std::endl;
 
   if(singleLepton != 0 && HT > 0. && jets->size()>=4)
     {
@@ -692,6 +704,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       }    
     } 
   
+  //std::cout << "Test11" << std::endl;
+
   //-------------------------------------------------
   // mjj variables
   //-------------------------------------------------
@@ -718,6 +732,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       HT_minj3_    -> Fill(HT,    minj3,        weight);
     }
 
+  //std::cout << "Test12" << std::endl;
+
   //-------------------------------------------------
   // Others
   //-------------------------------------------------
@@ -739,11 +755,11 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       mlb_nJets_    ->Fill(jets->size(), mlb,     weight);
     }
   
+  //std::cout << "Test13" << std::endl;
+
   //-------------------------------------------------
   // ABCD method
   //-------------------------------------------------
-
-  //std::cout << "Test11" << std::endl;
 
   bool ATight = HT >= HT0_ && HT < HT1_ && YMET >= Y0_ && YMET < Y1_;
   bool BTight = HT >= HT2_ && YMET >= Y0_ && YMET < Y1_;
