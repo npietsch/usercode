@@ -119,12 +119,17 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       Electron_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
 
-  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,  6.5);
-  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,  6.5);
-  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5, 12.5);
+  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,   6.5);
+  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,   6.5);
+  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,  12.5);
 
-  mT_          = fs->make<TH1F>("MT","MT", 80, 0., 400.);
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
+  mT_          = fs->make<TH1F>("MT","MT", 80, 0., 400.);
+
+  YMET_     = fs->make<TH1F>("YMET", "YMET", 50, 0., 25);
+  METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
+  LepPt_    = fs->make<TH1F>("LepPt",      "LEpton Pt",  50,   0., 1000.);
+  LepPtSig_ = fs->make<TH1F>("LepPtSig", "LepPtSig", 50, 0., 25);
 
   //-------------------------------------------------
   // Btagging
@@ -154,39 +159,24 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Et_  = fs->make<TH1F>("Bjets_Et",  "Bjets_Et",  90,   0.,   900.);
   Bjets_Eta_ = fs->make<TH1F>("Bjets_Eta", "Bjets_Eta", 60,  -3.,     3.);
 
-
   //-------------------------------------------------
-  // mjj plots
-  //-------------------------------------------------
-
-  minj3_ = fs->make<TH1F>("minj3", "minj3", 100, 0., 1000.);
-
-
-  //-------------------------------------------------
-  // YMET and met significance
-  //-------------------------------------------------
-
-  YMET_            = fs->make<TH1F>("YMET",            "YMET",        50, 0., 25);
-  METSig_          = fs->make<TH1F>("METSig",          "METSig",      50, 0., 25);
-
-  //-------------------------------------------------
-  // Correlation plots
+  // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
   HT_MET_          = fs->make<TH2F>("HT_MET",          "HT vs. MET",      50, 0., 2000., 50,   0., 1000.);
-  HT_LepPt_        = fs->make<TH2F>("HT_LepPt",        "HT vs. MET",      50, 0., 2000., 50,   0., 1000.);
-  
-  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
-  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
   HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 25,   0.,   50.);
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80,   0.,  400.);
-  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,       "mT vs. nJets",    80, 0.,  400., 16, -0.5,  15.5);
-  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",      "YMET vs. nJets",  50, 0.,   25., 16, -0.5,  15.5);
+  //-------------------------------------------------------
+  // YMET, MET significnace, Lepton pt significance vs HT
+  //-------------------------------------------------------
 
-  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50, 0.,     25.);
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
+
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
+  
+  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50,   0.,   25.);
 
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
@@ -203,15 +193,32 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT_LepPtSig_PT20_MET40_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   HT_LepPtSig_PT20_MET60_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
 		
-  HT_LepPtSig_PT20_MET20_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET40_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
-  HT_LepPtSig_PT20_MET60_smeared_       = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET20_smeared_ = fs->make<TH2F>("HT_LepPtSig_PT20_MET20_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET40_smeared_ = fs->make<TH2F>("HT_LepPtSig_PT20_MET40_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
+  HT_LepPtSig_PT20_MET60_smeared_ = fs->make<TH2F>("HT_LepPtSig_PT20_MET60_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
 	     
   HT_significance_PT20_MET20_ = fs->make<TH2F>("HT_significance_PT20_MET20","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT20_MET40_ = fs->make<TH2F>("HT_significance_PT20_MET40","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT20_MET60_ = fs->make<TH2F>("HT_significance_PT20_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT40_MET60_ = fs->make<TH2F>("HT_significance_PT40_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
   HT_significance_PT60_MET60_ = fs->make<TH2F>("HT_significance_PT60_MET60","HT vs. significance", 80, 0., 2000., 80, 0., 20.);
+
+  //-------------------------------------------------
+  // mjj variables
+  //-------------------------------------------------
+
+  minj3_ = fs->make<TH1F>("minj3", "minj3", 100, 0., 1000.);
+
+  minj3_nJets_ = fs->make<TH2F>("minj3_nJets", "minj3 vs. nJets", 100, 0., 1000.,   16, -0.5,  15.5);
+  HT_minj3_    = fs->make<TH2F>("HT_minj3",    "HT vs. minj3",     50, 0., 2000., 100.,   0., 1000.);
+
+  //-------------------------------------------------
+  // Others
+  //-------------------------------------------------
+
+  HT_mT_           = fs->make<TH2F>("HT_mT",           "HT vs. mT",       50, 0., 2000., 80,   0.,  400.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,       "mT vs. nJets",    80, 0.,  400., 16, -0.5,  15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",      "YMET vs. nJets",  50, 0.,   25., 16, -0.5,  15.5);
 
   //-------------------------------------------------
   // ABCD method
@@ -520,9 +527,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 // 	     mTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
 // 	   }
 // 	}
-      mT_       ->Fill(mT,               weight);
-      HT_mT_    ->Fill(HT, mT,           weight);
-      mT_nJets_ ->Fill(mT, jets->size(), weight);
+
     }  
   else if(electrons->size()==1)
     {
@@ -545,10 +550,28 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 // 	   }
 // 	}
       mT_       ->Fill(mT,               weight);
-      HT_mT_    ->Fill(HT, mT,           weight);
-      mT_nJets_ ->Fill(mT, jets->size(), weight);
     }
   
+  // YMET
+  double YMET=((*met)[0].et())/(sqrt(HT));  
+  YMET_->Fill(YMET, weight);
+
+  // MET significance
+  double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
+  double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
+  double METSig  = 0;
+  if(sigmaX2<1.e10 && sigmaY2<1.e10) METSig = (*met)[0].significance();
+  // Use the sqrt of the significance
+  if (METSig > 0.) METSig = sqrt(METSig);
+  METSig_->Fill(METSig, weight);
+
+  // Lepton pt significance
+  if(singleLepton != 0)
+    {
+      LepPt_   ->Fill(singleLepton->et());
+      LepPtSig_->Fill(singleLepton->et()/sqrt(HT), weight);
+    }
+
   //-------------------------------------------------
   // Btagging
   //-------------------------------------------------
@@ -585,79 +608,24 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     }
   
   //-------------------------------------------------
-  // mjj variabels
-  //-------------------------------------------------
-  
-  // Example how to use member function of SUSYGenEvent
-  //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
-  
-  if(jets->size() >= 3)
-    {
-      // define four-vectors
-      reco::Particle::LorentzVector Jet1 = (*jets)[0].p4();
-      reco::Particle::LorentzVector Jet2 = (*jets)[1].p4();
-      reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
-      
-      // define invariant dijet masses   
-      double m13=sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
-      double m23=sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
-     
-      double minj3 = min(m13,m23);
-      minj3_->Fill(minj3, weight);
-
-    }
-
-  //-------------------------------------------------
-  // YMET
+  // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
-  //std::cout << "Test8" << std::endl;
+  HT_MET_ ->Fill(HT, (*met)[0].et(), weight);
+  if(singleLepton != 0) HT_LepPt_->Fill(HT, singleLepton->et(), weight);
+ 
 
-  double YMET=((*met)[0].et())/(sqrt(HT));  
-  YMET_->Fill(YMET, weight);
+  //-------------------------------------------------------
+  // YMET, MET significnace, Lepton pt significance vs HT
+  //-------------------------------------------------------
 
-  // YMET vs. HT and nJets
-  HT_YMET_       ->Fill(HT,   YMET,           weight);
-  HT_YMET_noWgt_ ->Fill(HT,   YMET,               1.);
-  HT_MET_        ->Fill(HT,   (*met)[0].et(), weight);
-  YMET_nJets_    ->Fill(YMET, jets->size(),   weight);
+  HT_YMET_       ->Fill(HT,   YMET,  weight);
+  HT_YMET_noWgt_ ->Fill(HT,   YMET,      1.);
 
-  if(singleLepton != 0)
-    {
-      HT_LepPt_        ->Fill(HT, singleLepton->et(), weight);
-    }
-  
-  //-------------------------------------------------
-  // MET significance
-  //-------------------------------------------------
-
-  //std::cout << "Test9" << std::endl;
-
-  double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
-  double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
-  double METSig  = 0;
-  if(sigmaX2<1.e10 && sigmaY2<1.e10) METSig = (*met)[0].significance();
-  // Use the sqrt of the significance
-  if (METSig > 0.) METSig = sqrt(METSig);
-
-  //std::cout << "Test92" << std::endl;
-
-  METSig_->Fill(METSig, weight);
-
-  // METSig vs. HT
   HT_METSig_      ->Fill(HT, METSig, weight);
   HT_METSig_noWgt_->Fill(HT, METSig,     1.);
 
-  //std::cout << "Test93" << std::endl;
-
-  // METSig vs. YMET
-  METSig_YMET_ ->Fill(METSig, YMET, weight);
-
-  //-----------------------------------------------------------
-  // Study Correlation between HT and YMET / MET significnace
-  //----------------------------------------------------------
-
-  //std::cout << "Test10" << std::endl;
+  METSig_YMET_ ->Fill(METSig, YMET,  weight);
 
   if(singleLepton != 0 && HT > 0. && jets->size()>=4)
     {
@@ -707,6 +675,44 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       }    
     } 
   
+  //-------------------------------------------------
+  // mjj variables
+  //-------------------------------------------------
+  
+  // Example how to use member function of SUSYGenEvent
+  //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
+  
+  double minj3 =0 ;
+  if(jets->size() >= 3)
+    {
+      // define four-vectors
+      reco::Particle::LorentzVector Jet1 = (*jets)[0].p4();
+      reco::Particle::LorentzVector Jet2 = (*jets)[1].p4();
+      reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
+      
+      // define invariant dijet masses   
+      double m13=sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
+      double m23=sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
+     
+      minj3 = min(m13,m23);
+      minj3_->Fill(minj3, weight);
+
+      minj3_nJets_ -> Fill(minj3, jets->size(), weight);
+      HT_minj3_    -> Fill(HT,    minj3,        weight);
+    }
+
+  //-------------------------------------------------
+  // Others
+  //-------------------------------------------------
+
+  if(mT > 0)
+    {
+      HT_mT_    ->Fill(HT, mT,           weight);
+      mT_nJets_ ->Fill(mT, jets->size(), weight);
+    }
+
+  YMET_nJets_    ->Fill(YMET, jets->size(),   weight);
+
   //-------------------------------------------------
   // ABCD method
   //-------------------------------------------------

@@ -59,11 +59,17 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   double HT0_, HT1_, HT2_;
   double Y0_,  Y1_,  Y2_;
 
+  //-----------------------
   // Dummy histograms
+  //-----------------------
+
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
+  //-----------------------
   // Event weighting
+  //-----------------------
+
   TH1F* btagWeights_noWgt_;
   TH1F* btagWeights_PUWgt_;
   TH1F* nPU_noWgt_;
@@ -77,7 +83,10 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* WeightBtagEff_;
   TH1F* WeightTrigger_;
 
+  //-----------------------
   // Basic kinematics
+  //-----------------------
+
   std::vector<TH1F*> Jet_Et_;
   std::vector<TH1F*> Jet_Eta_;
 
@@ -96,11 +105,19 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nMuons_;
   TH1F* nElectrons_;
   TH1F* nLeptons_;
+  TH1F* LepPt_;
 
   TH1F* mT_;
   TH1F* MT_;
 
+  TH1F* YMET_;
+  TH1F* METSig_;
+  TH1F* LepPtSig_;
+
+  //-----------------------
   // Btagging
+  //-----------------------
+
   TH1F* TCHE_;
   TH1F* TCHP_;
   TH1F* SSVHE_;
@@ -117,41 +134,27 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* Bjets_Et_;
   TH1F* Bjets_Eta_;
 
-  //-------------------------------------------------
-  // mjj variabels
-  //-------------------------------------------------
-
-  TH1F* minj3_;
-
-  TH2F*  minj3_nJets_;
-  TH2F* HT_minj3_;
-    
-  //-------------------------------------------------
-  // YMET and met significance
-  //-------------------------------------------------
-
-  TH1F* YMET_;
-  TH1F* METSig_;
-
-  //-------------------------------------------------
-  // Correlation plots
-  //-------------------------------------------------
+  //-----------------------
+  // MET, Lepton pt vs. HT
+  //-----------------------
 
   TH2F* HT_MET_;
   TH2F* HT_LepPt_;
-  
+
+  //-------------------------------------------------------
+  // YMET, MET significnace, Lepton pt significance vs HT
+  //-------------------------------------------------------
+
   TH2F* HT_YMET_;
   TH2F* HT_YMET_noWgt_;
+
   TH2F* HT_METSig_;
   TH2F* HT_METSig_noWgt_;
-  TH2F* HT_LepPtSig_;
-  
-  TH2F* HT_mT_;
-  TH2F* mT_nJets_;
-  TH2F* YMET_nJets_;
 
   TH2F* METSig_YMET_;
-  
+
+  TH2F* HT_LepPtSig_;
+
   TH2F* HT_LepPtSig_smeared_;
   TH1F* LepPtSig_smearFactor_;
   TH2F* HT_METSig_unweighted_;
@@ -176,7 +179,27 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* HT_significance_PT40_MET60_;
   TH2F* HT_significance_PT60_MET60_;
 
+  //-----------------------
+  // mjj variabels
+  //-----------------------
+
+  TH1F* minj3_;
+
+  TH2F* minj3_nJets_;
+  TH2F* HT_minj3_;
+
+  //-----------------------
+  // Others
+  //-----------------------
+
+  TH2F* HT_mT_;
+  TH2F* mT_nJets_;
+  TH2F* YMET_nJets_;
+
+  //-----------------------
   // ABCD method
+  //-----------------------
+
   TH1F* MET_A_;
   TH1F* MET_B_;
   TH1F* MET_C_;
