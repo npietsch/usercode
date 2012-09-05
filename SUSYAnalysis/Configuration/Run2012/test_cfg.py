@@ -285,29 +285,128 @@ process.out = cms.OutputModule("PoolOutputModule",
 )
 
 #------------------------------------------------------------------------------
-# Import modules for preselection
+# Import modules for preselection (trigger, vertex selection, event cleaning)
 #------------------------------------------------------------------------------
 
+## NP: Leave this out for the moment
+
+# process.load("...")
 
 #------------------------------------------------------------------------------
 # Configure modules for selection of good objects (to be outsourced later) 
 #------------------------------------------------------------------------------
 
+## NP: Leave out cut on distance to the primary vertex for the moment
+
+## configure module to produce collection of good muons
+from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
+process.goodMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+                                           cut =
+                                           'isGood("GlobalMuonPromptTight") &'
+                                           'isGood("AllTrackerMuons") &'
+                                           'pt >= 20. &'
+                                           'abs(eta) <= 2.1 &'
+                                           '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
+                                           'abs(dB) < 0.02 &'
+                                           'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
+                                           'numberOfMatches() > 1 &'
+                                           'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
+                                           '(globalTrack.ptError)/(pt*pt) < 0.001'
+                                           )
+
+## configure module to produce collection of good electrons
+from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
+process.goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                                   cut =
+                                                   'pt >= 20. &'
+                                                   'abs(eta) <= 2.5 &'
+                                                   'electronID(\"simpleEleId80relIso\")=7 &'
+                                                   '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                                   'abs(dB) < 0.02 '
+                                                   )
+
+## configure module to produce collection of good jets
+from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
+process.goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+                                      preselection =
+                                      'abs(eta) < 2.4 &'
+                                      'pt > 40. &'
+                                      'chargedHadronEnergyFraction > 0.0  &'
+                                      'neutralHadronEnergyFraction < 0.99 &'
+                                      'chargedEmEnergyFraction     < 0.99 &'
+                                      'neutralEmEnergyFraction     < 0.99 &'
+                                      'chargedMultiplicity > 0            &'
+                                      'nConstituents > 1'
+                                      )
+
+## reject jets close to selected leptons
+process.goodJets.checkOverlaps = cms.PSet(
+    muons = cms.PSet(
+    src       = cms.InputTag("goodMuons"),
+    algorithm = cms.string("byDeltaR"),
+    preselection        = cms.string(""),
+    deltaR              = cms.double(0.3),
+    checkRecoComponents = cms.bool(False),
+    pairCut             = cms.string(""),
+    requireNoOverlaps   = cms.bool(True),
+    ),
+    electrons = cms.PSet(
+    src       = cms.InputTag("goodElectrons"),
+    algorithm = cms.string("byDeltaR"),
+    preselection        = cms.string(""),
+    deltaR              = cms.double(0.3),
+    checkRecoComponents = cms.bool(False),
+    pairCut             = cms.string(""),
+    requireNoOverlaps   = cms.bool(True),
+)
+)
 
 #------------------------------------------------------------------------------
 # Configure modules for selection of events (to be outsourced later) 
 #------------------------------------------------------------------------------
 
+## select events with at least one loose muon
+from PhysicsTools.PatAlgos.selectionLayer1.muonCountFilter_cfi import *
+process.muonSelection = countPatMuons.clone(src = 'goodMuons',
+                                            minNumber = 1
+                                            )
+
+## select events with at least one loose electron
+from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *
+process.electronSelection = countPatElectrons.clone(src = 'goodElectrons',
+                                                    minNumber = 1
+                                                    )
+
+## select events with at least 1 loose jet
+from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
+process.jetSelection = countPatJets.clone(src = 'goodJets',
+                                          minNumber = 4
+                                          )
 
 #------------------------------------------------------------------------------
 # Import and configure modules for trigger study 
 #------------------------------------------------------------------------------
+
+## What do we need?
+
+
+# import and configure trigger layer 1 modules
+#------------------------------------------------------------------------------
+process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
+
+# example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
+
+
+# import and configure 
+#------------------------------------------------------------------------------
+
 
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
 #------------------------------------------------------------------------------
 
+## NP: Disregard this for the moment
 
 #-- VarParsing ----------------------------------------------------------------
 import FWCore.ParameterSet.VarParsing as VarParsing
@@ -322,7 +421,7 @@ options.jetCorrections.append('L3Absolute')
 options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
-options.register('jetTypes', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
+options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
 options.register('hltSelection', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "hlTriggers (OR) used to filter events")
 options.register('doValidation', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Include the validation histograms from SusyDQM (needs extra tags)")
 options.register('doExtensiveMatching', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "Matching to simtracks (needs extra tags)")
@@ -346,6 +445,13 @@ addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,
 # Execution path
 #------------------------------------------------------------------------------
 
-process.p = cms.Path(process.susyPatDefaultSequence
+process.p = cms.Path(# execute producer modules
+                     process.susyPatDefaultSequence *
+                     process.goodMuons *
+                     process.goodElectrons *
+                     process.goodJets *
+                     # execute filter modules
+                     process.muonSelection *
+                     process.jetSelection
                      )
 
