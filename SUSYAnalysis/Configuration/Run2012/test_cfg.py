@@ -261,7 +261,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(500),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -397,10 +397,15 @@ process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 # example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
 
 
-# import and configure 
+# import and configure test analyzer
 #------------------------------------------------------------------------------
+from StopAnalysis.Analyzer.TestAnalyzer_cfi import *
 
+# clone analyzer module named testAnalysis
+process.test = testAnalysis.clone()
 
+# configure module test, e.g.
+process.test.jets = "goodJets"
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
@@ -450,7 +455,8 @@ process.p = cms.Path(# execute producer modules
                      process.goodMuons *
                      process.goodElectrons *
                      process.goodJets *
-                     # execute filter modules
+                     # execute analyzer and filter modules
+                     process.test *
                      process.muonSelection *
                      process.jetSelection
                      )
