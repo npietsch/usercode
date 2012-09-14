@@ -1,5 +1,5 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "StopAnalysis/Analyzer/plugins/TestAnalyzer.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/TestAnalyzer.h"
 
 using namespace std;
  
