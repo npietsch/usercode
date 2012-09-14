@@ -407,7 +407,7 @@ process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 
 # import and configure test analyzer
 #------------------------------------------------------------------------------
-from StopAnalysis.Analyzer.TestAnalyzer_cfi import *
+from SUSYAnalysis.SUSYAnalyzer.TestAnalyzer_cfi import *
 
 # clone analyzer module named testAnalysis
 process.test = testAnalysis.clone()
