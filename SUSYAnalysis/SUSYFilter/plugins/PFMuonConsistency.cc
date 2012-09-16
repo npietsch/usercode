@@ -37,7 +37,7 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
       for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
 	{
 	  double dR=abs(deltaR((*muons)[0].eta(),(*muons)[0].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
-	  if(dR < dRmin)
+	  if(dR < dRmin && (*pfMuons)[jdx].pt() > 10)
 	    {
 	      dRmin=dR;
 	      pf_pt=(*pfMuons)[jdx].pt();
@@ -45,9 +45,9 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
 	}
     }
   
-  if(reco_pt>0 && pf_pt>0) 
+  if(reco_pt > 0 && pf_pt > 0) 
     {
-      if((fabs(reco_pt-pf_pt)/reco_pt) >= 0.2) return false;
+      if(fabs(reco_pt - pf_pt) > 5) return false;
       else return true;
     }
   else return false;

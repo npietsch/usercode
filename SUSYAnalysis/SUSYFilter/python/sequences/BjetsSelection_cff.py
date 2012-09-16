@@ -14,40 +14,46 @@ from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 
 ## configure module to produce collection of good muons
-goodMuons = selectedPatMuons.clone(src = "selectedPatMuons",
-                                   cut =
-                                   'isGlobalMuon() &'
-                                   'isPFMuon() &'
-                                   'pt >= 20. &'
-                                   'abs(eta) <= 2.4 &'
-                                   '(pfIsolationR03().sumChargedHadronPt+'
-                                   'max(0., pfIsolationR03().sumNeutralHadronEt+'
-                                   'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
-                                   'pt()<0.12 &'
-                                   'globalTrack().chi2()/globalTrack().ndof() < 11 &'
-                                   'globalTrack().hitPattern().numberOfValidMuonHits > 0 &'
-                                   'numberOfMatchedStations() &'
-                                   'innerTrack().hitPattern().numberOfValidPixelHits() > 0 &'
-                                   'track().hitPattern().trackerLayersWithMeasurement() > 5 '
-                                   ## fabs(muon->innerTrack()->dxy(vertexPosition)) < 0.2
-                                   ## fabs(muon->innerTrack()->dz(vertexPosition)) < 0.5
-                                   ## fabs(muon->pt() - (*ipfMu).pt())
-                                   )
+muons = selectedPatMuons.clone(src = "selectedPatMuons",
+                               cut =
+                               'isGlobalMuon() &'
+                               'isPFMuon() &'
+                               'pt >= 20. &'
+                               'abs(eta) <= 2.4 &'
+                               '(pfIsolationR03().sumChargedHadronPt+'
+                               'max(0., pfIsolationR03().sumNeutralHadronEt+'
+                               'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
+                               'pt()<0.12 &'
+                               'globalTrack().chi2()/globalTrack().ndof() < 11 &'
+                               'globalTrack().hitPattern().numberOfValidMuonHits > 0 &'
+                               'numberOfMatchedStations() &'
+                               'innerTrack().hitPattern().numberOfValidPixelHits() > 0 &'
+                               'track().hitPattern().trackerLayersWithMeasurement() > 5 '
+                               )
 
+goodMuons = vertexSelectedMuons.clone(src = "muons",
+                                      cutValue = 0.5#,
+                                      #dxy_cut = True
+                                      )
+          
 ## configure module to produce collection of veto muons
-vetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
-                                   cut =
-                                   'isGlobalMuon() || isTrackerMuon() &'
-                                   'isPFMuon() &'
-                                   'pt >= 15. &'
-                                   'abs(eta) <= 2.5 &'
-                                   '(pfIsolationR03().sumChargedHadronPt+'
-                                   'max(0., pfIsolationR03().sumNeutralHadronEt+'
-                                   'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
-                                   'pt()<0.2 '
-                                   ## fabs(muon->innerTrack()->dxy(vertexPosition)) < 0.2
-                                   ## fabs(muon->innerTrack()->dz(vertexPosition)) < 0.5
-                                   )
+looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+                                    cut =
+                                    'isGlobalMuon() || isTrackerMuon() &'
+                                    'isPFMuon() &'
+                                    'pt >= 15. &'
+                                    'abs(eta) <= 2.5 &'
+                                    '(pfIsolationR03().sumChargedHadronPt+'
+                                    'max(0., pfIsolationR03().sumNeutralHadronEt+'
+                                    'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
+                                    'pt()<0.2 '
+                                    )
+
+vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
+                                      cutValue = 0.5#,
+                                      #dxy_cut = True,
+                                      #dxy = 0.2
+                                      )
 
 ## configure module to produce collection of good electrons
 goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
@@ -212,7 +218,9 @@ filterMT.electrons = "goodElectrons"
 # Define producer and filter sequences
 #------------------------------------------------------------------------------
 
-createObjects = cms.Sequence(goodMuons *
+createObjects = cms.Sequence(muons *
+                             goodMuons *
+                             looseMuons *
                              vetoMuons *
                              goodElectrons *
                              vetoElectrons *
