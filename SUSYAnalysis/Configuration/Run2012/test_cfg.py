@@ -289,9 +289,7 @@ process.out = cms.OutputModule("PoolOutputModule",
 # Import modules for preselection (trigger, vertex selection, event cleaning)
 #------------------------------------------------------------------------------
 
-## NP: Leave this out for the moment
-
-# process.load("...")
+process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 #------------------------------------------------------------------------------
 # Import modules and sequences for selection of objects and events
@@ -302,9 +300,6 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 #------------------------------------------------------------------------------
 # Import and configure modules for trigger study 
 #------------------------------------------------------------------------------
-
-## What do we need?
-
 
 # import and configure trigger layer 1 modules
 #------------------------------------------------------------------------------
@@ -361,7 +356,6 @@ from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getS
 addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,options.mcVersion,options.jetTypes,options.doValidation,options.doExtensiveMatching,options.doSusyTopProjection)
 
 
-
 #------------------------------------------------------------------------------
 # Execution path
 #------------------------------------------------------------------------------
@@ -370,6 +364,7 @@ process.p = cms.Path(# execute producer modules
                      process.susyPatDefaultSequence *
                      process.createObjects *
                      # execute analyzer and filter modules
+                     process.preselection *
                      process.test *
                      process.muonSelection *
                      process.jetSelection *
