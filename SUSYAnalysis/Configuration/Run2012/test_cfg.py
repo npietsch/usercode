@@ -398,6 +398,7 @@ process.p = cms.Path(# execute producer modules
                      process.pfMEtSysShiftCorrSequence *
                      process.producePFMETCorrections *
                      process.patPFMETsTypeIcorrected *
+                     
                      process.createObjects *
                      # execute analyzer and filter modules
                      process.preselection *

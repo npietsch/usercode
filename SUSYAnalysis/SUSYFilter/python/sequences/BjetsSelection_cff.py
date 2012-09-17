@@ -122,7 +122,7 @@ goodJets.checkOverlaps = cms.PSet(
     )
 )
 ## configure module to produce collection of good METs
-goodMETs = selectedPatMET.clone(src = 'patMETsPF',
+goodMETs = selectedPatMET.clone(src = 'patPFMETsTypeIcorrected',
                                 cut =
                                 'et > 100.'
                                 )
