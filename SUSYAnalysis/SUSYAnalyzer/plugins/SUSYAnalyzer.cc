@@ -751,8 +751,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       HT_mLepTop_   ->Fill(HT, mLepTop, weight);
       HT_mlb_       ->Fill(HT, mlb,     weight);
 
-      mLepTop_nJets_->Fill(jets->size(), mLepTop, weight);
-      mlb_nJets_    ->Fill(jets->size(), mlb,     weight);
+      mLepTop_nJets_->Fill(mLepTop, jets->size(), weight);
+      mlb_nJets_    ->Fill(mlb,     jets->size(), weight);
     }
   
   //std::cout << "Test13" << std::endl;
