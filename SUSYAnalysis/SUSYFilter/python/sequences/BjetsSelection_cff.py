@@ -28,7 +28,8 @@ muons = selectedPatMuons.clone(src = "selectedPatMuons",
                                'globalTrack().hitPattern().numberOfValidMuonHits > 0 &'
                                'numberOfMatchedStations() &'
                                'innerTrack().hitPattern().numberOfValidPixelHits() > 0 &'
-                               'track().hitPattern().trackerLayersWithMeasurement() > 5 '
+                               'track().hitPattern().trackerLayersWithMeasurement() > 5 &'
+                               'abs(dB(\"PV2D\")) < 0.02'
                                )
 
 goodMuons = vertexSelectedMuons.clone(src = "muons",
@@ -47,6 +48,7 @@ looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     'max(0., pfIsolationR03().sumNeutralHadronEt+'
                                     'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
                                     'pt()<0.2 '
+                                    'abs(dB(\"PV2D\")) < 0.2'
                                     )
 
 vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
