@@ -47,7 +47,7 @@ looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     '(pfIsolationR03().sumChargedHadronPt+'
                                     'max(0., pfIsolationR03().sumNeutralHadronEt+'
                                     'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
-                                    'pt()<0.2 '
+                                    'pt()<0.2 &'
                                     'abs(dB(\"PV2D\")) < 0.2'
                                     )
 

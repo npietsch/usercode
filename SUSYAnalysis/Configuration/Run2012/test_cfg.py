@@ -355,6 +355,38 @@ from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getS
 
 addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,options.mcVersion,options.jetTypes,options.doValidation,options.doExtensiveMatching,options.doSusyTopProjection)
 
+#------------------------------------------------------------------------------
+# Type-1 MET corrections
+#------------------------------------------------------------------------------
+
+process.load("JetMETCorrections.Type1MET.pfMETCorrections_cff")
+process.load("JetMETCorrections.Type1MET.pfMETsysShiftCorrections_cfi")
+## if isMC:
+##   process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3"
+##   process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_mc
+## else:
+process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3Residual"
+process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_data
+
+process.patPFMETs = process.patMETs.clone(
+             metSource = cms.InputTag('pfMet'),
+             addMuonCorrections = cms.bool(False),
+             #genMETSource = cms.InputTag('genMetTrue'),
+             #addGenMET = cms.bool(True)
+             )
+process.pfType1CorrectedMet.applyType0Corrections = cms.bool(False)
+process.pfType1CorrectedMet.srcType1Corrections = cms.VInputTag(
+    cms.InputTag('pfJetMETcorr', 'type1') ,
+    cms.InputTag('pfMEtSysShiftCorr')  
+)
+process.patPFMETsTypeIcorrected = process.patPFMETs.clone(
+             metSource = cms.InputTag('pfType1CorrectedMet'),
+             )
+
+## process.p += process.pfMEtSysShiftCorrSequence
+## process.p += process.producePFMETCorrections
+## process.p += process.patPFMETsTypeIcorrected
+
 
 #------------------------------------------------------------------------------
 # Execution path
@@ -362,6 +394,10 @@ addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,
 
 process.p = cms.Path(# execute producer modules
                      process.susyPatDefaultSequence *
+
+                     process.pfMEtSysShiftCorrSequence *
+                     process.producePFMETCorrections *
+                     process.patPFMETsTypeIcorrected *
                      process.createObjects *
                      # execute analyzer and filter modules
                      process.preselection *
