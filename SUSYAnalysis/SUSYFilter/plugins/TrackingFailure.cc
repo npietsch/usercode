@@ -8,12 +8,12 @@
 #include "DataFormats/JetReco/interface/Jet.h"
 
 
-class TrackingFailureFilter : public edm::EDFilter {
+class TrackingFailure : public edm::EDFilter {
 
   public:
 
-    explicit TrackingFailureFilter(const edm::ParameterSet & iConfig);
-    ~TrackingFailureFilter() {}
+    explicit TrackingFailure(const edm::ParameterSet & iConfig);
+    ~TrackingFailure() {}
 
   private:
 
@@ -26,7 +26,7 @@ class TrackingFailureFilter : public edm::EDFilter {
 };
 
 
-TrackingFailureFilter::TrackingFailureFilter(const edm::ParameterSet & iConfig) {
+TrackingFailure::TrackingFailure(const edm::ParameterSet & iConfig) {
   jetSrc_         = iConfig.getParameter<edm::InputTag>("JetSource");
   trackSrc_       = iConfig.getParameter<edm::InputTag>("TrackSource");
   vertexSrc_      = iConfig.getParameter<edm::InputTag>("VertexSource");
@@ -36,7 +36,7 @@ TrackingFailureFilter::TrackingFailureFilter(const edm::ParameterSet & iConfig) 
 }
 
 
-bool TrackingFailureFilter::filter(edm::Event & iEvent, const edm::EventSetup & iSetup) {
+bool TrackingFailure::filter(edm::Event & iEvent, const edm::EventSetup & iSetup) {
 
   edm::Handle<edm::View<reco::Jet> > jets;
   iEvent.getByLabel(jetSrc_, jets);
