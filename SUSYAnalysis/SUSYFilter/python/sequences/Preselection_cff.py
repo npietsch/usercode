@@ -49,9 +49,9 @@ preselection = cms.Sequence(
     scrapingVeto *
     #primaryVertexFilter*
     selectedVertices *
-    oneGoodVertex *
+    #oneGoodVertex *
     HBHENoiseFilter *
-    trackingFailure *
+    #trackingFailure *
     hcalLaserEventFilter *
     CSCTightHaloFilter *
     eeBadScFilter *
