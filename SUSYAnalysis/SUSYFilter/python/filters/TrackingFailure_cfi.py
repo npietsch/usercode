@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 trackingFailureFilter = cms.EDFilter(
-  "TrackingFailureFilter",
+  "TrackingFailure",
   JetSource = cms.InputTag('selectedPatJetsAK5PF'),
   TrackSource = cms.InputTag('generalTracks'),
   VertexSource = cms.InputTag('goodVertices'),
