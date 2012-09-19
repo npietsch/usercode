@@ -22,13 +22,10 @@ hcalLaserEventFilter.vetoByHBHEOccupancy=cms.untracked.bool(True)
 from RecoMET.METFilters.eeBadScFilter_cfi import *
 from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 from RecoMET.METFilters.EcalDeadCellTriggerPrimitiveFilter_cfi import *
-#from RecoMET.METFilters.trackingFailureFilter_cfi import *
+from RecoMET.METFilters.trackingFailureFilter_cfi import *
 
-from SUSYAnalysis.SUSYFilter.filters.TrackingFailure_cfi import *
-
-trackingFailure.JetSource = "selectedPatJetsAK5PF"
-trackingFailure.VertexSource  = "selectedVertices" 
-
+trackingFailureFilter.JetSource = "selectedPatJetsAK5PF"
+trackingFailureFilter.VertexSource  = "selectedVertices" 
 
 selectedVertices = cms.EDFilter(
     "VertexSelector",
@@ -49,9 +46,9 @@ preselection = cms.Sequence(
     scrapingVeto *
     #primaryVertexFilter*
     selectedVertices *
-    #oneGoodVertex *
+    oneGoodVertex *
     HBHENoiseFilter *
-    #trackingFailure *
+    trackingFailureFilter *
     hcalLaserEventFilter *
     CSCTightHaloFilter *
     eeBadScFilter *

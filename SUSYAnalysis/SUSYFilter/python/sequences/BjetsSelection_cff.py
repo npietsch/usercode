@@ -33,8 +33,7 @@ muons = selectedPatMuons.clone(src = "selectedPatMuons",
                                )
 
 goodMuons = vertexSelectedMuons.clone(src = "muons",
-                                      cutValue = 0.5#,
-                                      #dxy_cut = True
+                                      cutValue = 0.5
                                       )
           
 ## configure module to produce collection of veto muons
@@ -52,9 +51,7 @@ looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     )
 
 vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
-                                      cutValue = 0.5#,
-                                      #dxy_cut = True,
-                                      #dxy = 0.2
+                                      cutValue = 0.5
                                       )
 
 ## configure module to produce collection of good electrons
@@ -62,6 +59,10 @@ goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                            cut =
                                            'pt >= 20. &'
                                            'abs(eta) <= 2.5 &'
+                                           
+
+
+                                           
                                            '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
 ##                                            'electronID(\"simpleEleId80relIso\")=7 &'
 ##                                            'fbrem() > 0.15 | (fbrem() < 0.15 & abs(eta) < 1 & eSuperClusterOverP() > 0.95) &'
