@@ -170,6 +170,21 @@ fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
 
+## configure module to select events with at least one good jet
+oneGoodJet = countPatJets.clone(src = 'goodJets',
+                                minNumber = 1
+                                )
+
+## configure module to select events with at least two good jets
+twoGoodJets = countPatJets.clone(src = 'goodJets',
+                                 minNumber = 2
+                                 )
+
+## configure module to select events with at least three good jets
+threeGoodJets = countPatJets.clone(src = 'goodJets',
+                                   minNumber = 3
+                                   )
+
 ## configure module to select events with at least one good Muons
 oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                minNumber = 1
@@ -220,7 +235,7 @@ from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 pfMuonConsistency.muons = "goodMuons"
 
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
-                             #pfMuonConsistency *
+                             pfMuonConsistency *
                              noGoodElectron *
                              exactlyOneVetoMuon *
                              exactlyOneVetoLepton

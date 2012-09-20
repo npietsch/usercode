@@ -11,7 +11,8 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 # Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    '/store/mc/Summer12_DR53X/TTJets_MassiveBinDECAY_TuneZ2star_8TeV-madgraph-tauola/AODSIM/PU_S10_START53_V7A-v1/0000/ECDEFDB7-AAE1-E111-B576-003048C68A88.root'  
+    'file:ECDEFDB7-AAE1-E111-B576-003048C68A88.root'
+    #'/store/mc/Summer12_DR53X/TTJets_MassiveBinDECAY_TuneZ2star_8TeV-madgraph-tauola/AODSIM/PU_S10_START53_V7A-v1/0000/ECDEFDB7-AAE1-E111-B576-003048C68A88.root'  
     )
 )
 
