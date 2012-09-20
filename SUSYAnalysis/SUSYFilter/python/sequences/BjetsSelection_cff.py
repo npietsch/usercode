@@ -51,41 +51,25 @@ looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     )
 
 vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
-                                      cutValue = 0.5
+                                      cutValue = 0.5,
+                                      primaryVertex = "selectedVertices"
                                       )
 
+from SUSYAnalysis.SUSYEventProducers.RA4ElectronProducer_cfi import *
+produceRA4Electrons.primaryVertexInputTag = "selectedVertices"
+
 ## configure module to produce collection of good electrons
-goodElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumElectrons',
                                            cut =
                                            'pt >= 20. &'
-                                           'abs(eta) <= 2.5 &'
-                                           
-
-
-                                           
                                            '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
-##                                            'electronID(\"simpleEleId80relIso\")=7 &'
-##                                            'fbrem() > 0.15 | (fbrem() < 0.15 & abs(eta) < 1 & eSuperClusterOverP() > 0.95) &'
-##                                            'abs(dB) < 0.02 &'
-##                                            'abs(track().dz()) < 0.1 &'
-##                                            #'(dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 '
-##                                            '((dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) > 1.479) | ((dr03TkSumPt() + max(0, dr03EcalRecHitSumEt()-1) + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) < 1.479) '
                                            )
 
 ## configure module to produce collection of veto electrons
-vetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+vetoElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4VetoElectrons',
                                            cut =
-                                           'pt >= 20. &'
-                                           'abs(eta) <= 2.5 &'
-                                           '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
- ##                                          'electronID(\"simpleEleId80relIso\")=7 &'
-##                                            'fbrem() > 0.15 | (fbrem() < 0.15 & abs(eta) < 1 & eSuperClusterOverP() > 0.95) &'
-##                                            'abs(dB) < 0.02 &'
-##                                            'abs(track().dz()) < 0.1 &'
-##                                            #'(dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 '
-##                                            '((dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) > 1.479) | ((dr03TkSumPt() + max(0, dr03EcalRecHitSumEt()-1) + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) < 1.479) '
+                                           'pt >= 15.'
                                            )
-
 
 ## configure module to produce collection of good jets
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
@@ -225,6 +209,7 @@ createObjects = cms.Sequence(muons *
                              goodMuons *
                              looseMuons *
                              vetoMuons *
+                             produceRA4Electrons *
                              goodElectrons *
                              vetoElectrons *
                              goodJets *

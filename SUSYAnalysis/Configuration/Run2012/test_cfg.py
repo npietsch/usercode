@@ -197,10 +197,11 @@ process.p = cms.Path(# execute producer modules
                      process.producePFMETCorrections *
                      process.patPFMETsTypeIcorrected *
                      process.kt6PFJetsForIsolation2011 *
+
+                     process.preselection *
                      
                      process.createObjects *
                      # execute analyzer and filter modules
-                     process.preselection *
                      process.test *
                      process.muonSelection *
                      process.jetSelection *

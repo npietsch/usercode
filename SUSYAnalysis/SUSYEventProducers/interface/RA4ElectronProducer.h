@@ -50,7 +50,7 @@ class RA4ElectronProducer : public edm::EDProducer {
   edm::InputTag beamSpotInputTag_;
   edm::InputTag rhoIsoInputTag_;
   edm::InputTag primaryVertexInputTag_;
-  std::vector<edm::InputTag> isoValInputTags_;
+/*   std::vector<edm::InputTag> isoValInputTags_; */
 
   // histograms
   //...
