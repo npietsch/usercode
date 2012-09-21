@@ -233,6 +233,7 @@ createObjects = cms.Sequence(muons *
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 pfMuonConsistency.muons = "goodMuons"
+pfMuonConsistency.pfMuons = "pfMuonsPF"
 
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              pfMuonConsistency *

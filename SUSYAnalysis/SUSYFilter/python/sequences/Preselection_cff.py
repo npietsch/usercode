@@ -1,4 +1,4 @@
-import FWCore.ParameterSet.Config as cms
+Theimport FWCore.ParameterSet.Config as cms
 
 scrapingVeto = cms.EDFilter("FilterOutScraping",
                             applyfilter = cms.untracked.bool(True),
