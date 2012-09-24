@@ -24,7 +24,7 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
 {       
   edm::Handle<std::vector<pat::Muon> > muons;
   event.getByLabel(muons_, muons);
-  edm::Handle<std::vector<pat::Muon> > pfMuons;
+  edm::Handle<std::vector<reco::PFCandidate> > pfMuons;
   event.getByLabel(pfMuons_, pfMuons);
 
   double dRmin=10;

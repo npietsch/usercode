@@ -52,11 +52,11 @@ looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
 
 vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
                                       cutValue = 0.5,
-                                      primaryVertex = "selectedVertices"
+                                      primaryVertex = "goodVertices"
                                       )
 
 from SUSYAnalysis.SUSYEventProducers.RA4ElectronProducer_cfi import *
-produceRA4Electrons.primaryVertexInputTag = "selectedVertices"
+produceRA4Electrons.primaryVertexInputTag = "goodVertices"
 
 ## configure module to produce collection of good electrons
 goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumElectrons',
@@ -233,8 +233,8 @@ createObjects = cms.Sequence(muons *
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 pfMuonConsistency.muons = "goodMuons"
-pfMuonConsistency.pfMuons = "pfMuonsPF"
-
+pfMuonConsistency.pfMuons = "pfAllMuonsPF"
+                             
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              pfMuonConsistency *
                              noGoodElectron *
