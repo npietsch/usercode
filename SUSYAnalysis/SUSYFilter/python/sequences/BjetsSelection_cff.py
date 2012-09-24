@@ -242,7 +242,12 @@ muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              exactlyOneVetoLepton
                              )
 
+from SUSYAnalysis.SUSYFilter.filters.PFElectronConsistency_cfi import *
+pfMuonConsistency.muons = "goodElectrons"
+pfMuonConsistency.pfMuons = "pfAllElectronsPF"
+
 electronSelection = cms.Sequence(exactlyOneGoodElectron *
+                                 pfElectronConsistency *
                                  noGoodMuon *
                                  exactlyOneVetoElectron *
                                  exactlyOneVetoLepton

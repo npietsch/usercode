@@ -43,14 +43,8 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
 	      pf_pt=(*pfMuons)[jdx].pt();
 	    }
 	}
-    }
-  
-  if(reco_pt > 0 && pf_pt > 0) 
-    {
-      if(fabs(reco_pt - pf_pt) > 5) return false;
-      else return true;
+      if(fabs(reco_pt - pf_pt) < 5) return true;
+      else return false;
     }
   else return false;
 }
-
-
