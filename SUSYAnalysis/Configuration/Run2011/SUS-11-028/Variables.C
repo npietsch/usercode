@@ -18,16 +18,14 @@ vector<TString> Labels;
 vector<unsigned int> LineColors;
 vector<TString> Histograms;
 vector<TString> XLabels;
-vector<TString> YLabels;
 
 // add  histogram
-void addHistogram(TString name, TString xLabel, TString yLabel);
+void addHistogram(TString name, TString xLabel);
 
-void addHistogram(TString name, TString xLabel, TString yLabel)
+void addHistogram(TString name, TString xLabel)
 {
   Histograms.push_back(name);
   XLabels.push_back(xLabel);
-  YLabels.push_back(yLabel);
 }
 
 // add  selection step
@@ -41,7 +39,7 @@ void addSelectionStep(TString step, TString label, int lc)
 }
 
 // main function
-int TtGenEventAnalyzer()
+int Variables()
 {
 
   //--------------------------------------------------------------
@@ -54,34 +52,11 @@ int TtGenEventAnalyzer()
   // addHistogram
   //--------------------------------------------------------------
 
-  //addHistogram("HT_MET",      "HT [GeV]",  "<MET> [GeV]");
-  //addHistogram("HT_LepPt",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-  //addHistogram("HT_YMET",     "HT [GeV]",         "<YMET> [GeV^{1/2}]");
-  //addHistogram("HT_LepPtSig", "HT [GeV]",         "<Lepton p_{T} sig> [GeV^{1/2}]");
-  addHistogram("HT_mT",       "HT [GeV]",         "<m_{T}> [GeV]");
-  //addHistogram("YMET_nJets",  "YMET [GeV^{1/2}]", "nJets");
-  //addHistogram("minj3_nJets",   "minj3 [GeV]",     "nJets");
-  //addHistogram("mlb_nJets",     "mlb [GeV]",       "nJets");
-  //addHistogram("HT_mlb",        "HT [GeV]",       "mlb [GeV]");
-  //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
-
-  //addHistogram("mlb_nJets",        "mlb [GeV]",      "nJets");
-  //addHistogram("mLepTop_nJets",    "mLepTop [GeV]",  "nJets");
-
-  //addHistogram("HT_MET_acceptance",      "HT [GeV]",  "<MET> [GeV]");
-  //addHistogram("HT_LepPt_acceptance",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-  //addHistogram("HT_YMET_acceptance",     "HT [GeV]",  "<YMET> [GeV^{1/2}]");
-  //addHistogram("HT_LepPtSig_acceptance", "HT [GeV]",  "<Lepton p_{T} sig> [GeV^{1/2}]");
-  //addHistogram("HT_mT_acceptance",       "HT [GeV]",  "<m_{T}> [GeV]");
-
-//    addHistogram("qScale_MET", "genEvtInfoHandle->qScale()",  "<MET> [GeV]");
-//    addHistogram("qScale_HT", "genEvtInfoHandle->qScale()",  "<HT> [GeV]");
-
-//    addHistogram("PDFScale_MET", "genEvtInfoHandle->pdf()->scalePDF",  "<MET> [GeV]");
-//    addHistogram("PDFScale_HT", "genEvtInfoHandle->pdf()->scalePDF",  "<HT> [GeV]");
-
-//    addHistogram("ttbarMass_MET", "m_{t#bar{t}} [GeV]",  "<MET> [GeV]");
-//    addHistogram("ttbarMass_HT",  "m_{t#bar{t}} [GeV]",  "<HT> [GeV]");
+  //addHistogram("YMET",    "Y_{MET} [GeV^{1/2}]");
+  addHistogram("mT",      "m_{T} [GeV]");
+  addHistogram("mlb",     "m_{l,b} [GeV]");
+  //addHistogram("mLepTop", "m_{3,lep} [GeV]");
+  //addHistogram("minj3",   "minj3 [GeV]");
 
   //--------------------------------------------------------------
   // addSelectionStep
@@ -115,41 +90,56 @@ int TtGenEventAnalyzer()
     {
       std::cout << "\nDraw " << Histograms[hdx] << std::endl;
       std::cout << "--------------------------" << std::endl;
-
+      
       TCanvas *canvas = new TCanvas(Histograms[hdx],Histograms[hdx],1);
-
-      TLegend *leg = new TLegend(.64,.18,.91,.45);
+      
+      TLegend *leg = new TLegend(.64,.62,.91,.89);
       leg->SetTextFont(42);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
-	      leg->SetShadowColor(0);
+      leg->SetShadowColor(0);
       
+      double max=0;
+
       for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	{
 	  std::cout << "Draw " << Selections[sdx]+"/"+Histograms[hdx] << std::endl;
- 
-	  // create profile
-	  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
-	  TProfile2D* Profile = (TProfile2D*)Hist->ProfileX();
-
-	  // edit profile
-	  Profile->SetTitle("");
-	  Profile->GetXaxis()->SetTitle(XLabels[hdx]);
-	  Profile->GetXaxis()->SetTitleOffset(1.4);
-	  Profile->GetXaxis()->SetRangeUser(0,1000.);
-	  Profile->GetYaxis()->SetTitle(YLabels[hdx]);
-	  Profile->SetMinimum(0);
-	  Profile->SetMaximum(100);
-	  Profile->SetLineColor(LineColors[sdx]);
-	  Profile->SetLineWidth(2);
-	  leg->AddEntry(Profile->Clone(),Labels[sdx],"l P");
-
-	  if(sdx == 0) Profile->DrawCopy();
-	  else Profile->DrawCopy("same");
+	  
+	  // create histogram
+	  TH1F* Hist = (TH1F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
+	  
+	  // edit histogram
+	  Hist->SetTitle("");
+	  Hist->GetXaxis()->SetTitle(XLabels[hdx]);
+	  Hist->GetXaxis()->SetTitleOffset(1.4);
+	  Hist->GetXaxis()->SetRangeUser(0,400.);
+	  Hist->GetYaxis()->SetTitle("# events");
+	  Hist->GetYaxis()->SetTitleOffset(1.4);
+	  //Hist->SetMinimum(0);
+	  //Hist->SetMaximum(50);
+	  Hist->SetLineColor(LineColors[sdx]);
+	  Hist->SetLineWidth(2);
+	    leg->AddEntry(Hist->Clone(),Labels[sdx],"l P");
+	  
+	  if(sdx == 0)
+	    {
+	      Hist->DrawCopy();
+	      max=Hist->GetMaximum();
+	    }
+	  else Hist->DrawCopy("same");
 	}
+      
+      // TLine
+      TLine * line = new TLine(80, 0, 80, 1.1*max);
+      line->SetLineWidth(1);
+      line->SetLineStyle(7);
+      line->SetLineColor(1);
+      line->Draw("same");
+
 
       leg->Draw();
-
+      //canvas->SetLogy();
+      
       canvas->SaveAs(Histograms[hdx]+"_reco.pdf");
       
     }  
