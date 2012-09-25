@@ -56,17 +56,19 @@ int TtGenEventAnalyzer()
 
   //addHistogram("HT_MET",      "HT [GeV]",  "<MET> [GeV]");
   //addHistogram("HT_LepPt",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-  //addHistogram("HT_YMET",     "HT [GeV]",         "<YMET> [GeV^{1/2}]");
+  addHistogram("HT_YMET",     "HT [GeV]",         "<YMET> [GeV^{1/2}]");
   //addHistogram("HT_LepPtSig", "HT [GeV]",         "<Lepton p_{T} sig> [GeV^{1/2}]");
-  addHistogram("HT_mT",       "HT [GeV]",         "<m_{T}> [GeV]");
-  //addHistogram("YMET_nJets",  "YMET [GeV^{1/2}]", "nJets");
-  //addHistogram("minj3_nJets",   "minj3 [GeV]",     "nJets");
-  //addHistogram("mlb_nJets",     "mlb [GeV]",       "nJets");
+  //addHistogram("HT_mT",       "HT [GeV]",         "<m_{T}> [GeV]");
+  //addHistogram("YMET_nJets",  "YMET [GeV^{1/2}]", "<nJets>");
+  //addHistogram("mT_nJets",   "m_{T} [GeV]",     "<nJets>");
+  //addHistogram("minj3_nJets",   "minj3 [GeV]",     "<nJets>");
+  //addHistogram("mlb_nJets",     "mlb [GeV]",       "<nJets>");
   //addHistogram("HT_mlb",        "HT [GeV]",       "mlb [GeV]");
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
+  //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  //addHistogram("mlb_nJets",        "mlb [GeV]",      "nJets");
-  //addHistogram("mLepTop_nJets",    "mLepTop [GeV]",  "nJets");
+  //addHistogram("mlb_nJets",        "mlb [GeV]",      "<nJets>");
+  //addHistogram("mLepTop_nJets",    "mLepTop [GeV]",  "<nJets>");
 
   //addHistogram("HT_MET_acceptance",      "HT [GeV]",  "<MET> [GeV]");
   //addHistogram("HT_LepPt_acceptance",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
@@ -122,7 +124,7 @@ int TtGenEventAnalyzer()
       leg->SetTextFont(42);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
-	      leg->SetShadowColor(0);
+      leg->SetShadowColor(0);
       
       for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	{
@@ -139,7 +141,7 @@ int TtGenEventAnalyzer()
 	  Profile->GetXaxis()->SetRangeUser(0,1000.);
 	  Profile->GetYaxis()->SetTitle(YLabels[hdx]);
 	  Profile->SetMinimum(0);
-	  Profile->SetMaximum(100);
+	  Profile->SetMaximum(9);
 	  Profile->SetLineColor(LineColors[sdx]);
 	  Profile->SetLineWidth(2);
 	  leg->AddEntry(Profile->Clone(),Labels[sdx],"l P");

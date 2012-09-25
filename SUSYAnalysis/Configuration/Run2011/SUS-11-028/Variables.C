@@ -46,17 +46,18 @@ int Variables()
   // Sample
   //--------------------------------------------------------------
 
-  TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  //TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  TFile* TTJets = new TFile("temp.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
   //--------------------------------------------------------------
 
   //addHistogram("YMET",    "Y_{MET} [GeV^{1/2}]");
-  addHistogram("mT",      "m_{T} [GeV]");
-  addHistogram("mlb",     "m_{l,b} [GeV]");
+  //addHistogram("mT",      "m_{T} [GeV]");
+  //addHistogram("mlb",     "m_{l,b} [GeV]");
   //addHistogram("mLepTop", "m_{3,lep} [GeV]");
-  //addHistogram("minj3",   "minj3 [GeV]");
+  addHistogram("minj3",   "minj3 [GeV]");
 
   //--------------------------------------------------------------
   // addSelectionStep
@@ -130,11 +131,11 @@ int Variables()
 	}
       
       // TLine
-      TLine * line = new TLine(80, 0, 80, 1.1*max);
+      TLine * line = new TLine(173, 0, 173, 1.05*max);
       line->SetLineWidth(1);
       line->SetLineStyle(7);
       line->SetLineColor(1);
-      line->Draw("same");
+      //line->Draw("same");
 
 
       leg->Draw();
