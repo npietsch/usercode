@@ -173,6 +173,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // YMET, MET significnace, Lepton pt significance vs HT
   //-------------------------------------------------------
 
+  // NP: Original binning for HT_YMET: 0-2000 80 bins, 0-20 80
+
   HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
   HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
 
@@ -221,15 +223,15 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Others
   //-------------------------------------------------
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",       "HT vs. mT",         50, 0., 2000., 80,   0.,  400.);
-  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,   "mT vs. nJets",      80, 0.,  400., 16, -0.5,  15.5);
+  HT_mT_           = fs->make<TH2F>("HT_mT",       "HT vs. mT",         50, 0., 2000., 60,   0.,  600.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,   "mT vs. nJets",      60, 0.,  600., 16, -0.5,  15.5);
   YMET_nJets_      = fs->make<TH2F>("YMET_nJets",  "YMET vs. nJets",    50, 0.,   25., 16, -0.5,  15.5);
 
-  HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 80,   0.,  400.);
-  HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 80,   0.,  400.);
+  HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 60,   0.,  600.);
+  HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 60,   0.,  600.);
   
-  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 50, 0., 2000., 16, -0.5,  15.5);
-  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     50, 0., 2000., 16, -0.5,  15.5);
+  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 60, 0., 600., 16, -0.5,  15.5);
+  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     60, 0., 600., 16, -0.5,  15.5);
 
   //-------------------------------------------------
   // ABCD method

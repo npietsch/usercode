@@ -286,7 +286,7 @@ looseMETs = selectedPatMET.clone(src = 'patMETsPF',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
-                                'et > 60.'
+                                'et > 100.'
                                 )
 ## create MET collection
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
@@ -659,7 +659,7 @@ filterLooseHT.Cut = 300
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 350
+filterMediumHT.Cut = 300
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"

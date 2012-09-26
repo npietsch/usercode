@@ -53,11 +53,11 @@ int Variables()
   // addHistogram
   //--------------------------------------------------------------
 
-  //addHistogram("YMET",    "Y_{MET} [GeV^{1/2}]");
+  addHistogram("YMET",    "Y_{MET} [GeV^{1/2}]");
   //addHistogram("mT",      "m_{T} [GeV]");
   //addHistogram("mlb",     "m_{l,b} [GeV]");
   //addHistogram("mLepTop", "m_{3,lep} [GeV]");
-  addHistogram("minj3",   "minj3 [GeV]");
+  //addHistogram("minj3",   "minj3 [GeV]");
 
   //--------------------------------------------------------------
   // addSelectionStep
@@ -113,7 +113,7 @@ int Variables()
 	  Hist->SetTitle("");
 	  Hist->GetXaxis()->SetTitle(XLabels[hdx]);
 	  Hist->GetXaxis()->SetTitleOffset(1.4);
-	  Hist->GetXaxis()->SetRangeUser(0,400.);
+	  Hist->GetXaxis()->SetRangeUser(0,25.);
 	  Hist->GetYaxis()->SetTitle("# events");
 	  Hist->GetYaxis()->SetTitleOffset(1.4);
 	  //Hist->SetMinimum(0);
@@ -139,9 +139,9 @@ int Variables()
 
 
       leg->Draw();
-      //canvas->SetLogy();
+      canvas->SetLogy();
       
-      canvas->SaveAs(Histograms[hdx]+"_reco.pdf");
+      canvas->SaveAs(Histograms[hdx]+"_reco_log.pdf");
       
     }  
 }
