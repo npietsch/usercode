@@ -235,7 +235,7 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  process.analyzeSUSY_leptonSelection_1l *
                                  process.analyzeSUSY_leptonSelection_1l_match *
                                  
-                                 process.jetSelection*
+                                 #process.jetSelection*
                                  process.analyzeTtGenEvent_jetSelection_1l *
                                  process.analyzeSUSY_jetSelection_1l *
                                  process.analyzeSUSY_jetSelection_1l_match *
@@ -264,7 +264,7 @@ process.Selection0b1l_2 = cms.Path(## filter and analyzer sequences
                                    process.leptonSelection*
                                    process.analyzeSUSY_leptonSelection_1l_match2 *
                                    
-                                   process.jetSelection *
+                                   #process.jetSelection *
                                    process.analyzeSUSY_jetSelection_1l_match2 *
                                    
                                    process.HTSelection *
