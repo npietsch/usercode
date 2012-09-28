@@ -28,8 +28,6 @@
 
 using namespace std;
 
-
-
 class TestAnalyzer : public edm::EDAnalyzer {
   
   public:
@@ -43,31 +41,25 @@ class TestAnalyzer : public edm::EDAnalyzer {
     virtual void analyze(const edm::Event&, const edm::EventSetup&);
     virtual void endJob();
     virtual void init();
-
-
     
     // Input tags
     edm::InputTag muons_;
     edm::InputTag electrons_;
     edm::InputTag jets_;
     
-    // Histograms
-    TH1F* JetsEt_;
-    TH1F* JetsEta_;
+    TH1F* nElectrons_;
     TH1F* nJets_;
-    TH1F* nelectrons_;
     TH1F* nMuons_;
-    TH1F* nLeptons_;
-    
-    TH1F* MuMuMass_;
 
+    //myTree
     TTree* myTree;
-
-    double diMuMass;
+    
+    vector<int> elCharge;
     double eventWeight;
     vector<math::XYZTLorentzVector> goodElectrons;
     vector<math::XYZTLorentzVector> goodJets;
     vector<math::XYZTLorentzVector> goodMuons;
+    vector<int> muCharge;
     int nLeptons;
 
 
