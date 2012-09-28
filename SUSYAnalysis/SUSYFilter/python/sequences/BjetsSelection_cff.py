@@ -19,7 +19,7 @@ muons = selectedPatMuons.clone(src = "selectedPatMuons",
                                'isGlobalMuon() &'
                                'isPFMuon() &'
                                'pt >= 20. &'
-                               'abs(eta) <= 2.4 &'
+                               'abs(eta) <= 2.4 &' ## 2.4 only for synch., for analysis use 2.1
                                '(pfIsolationR03().sumChargedHadronPt+'
                                'max(0., pfIsolationR03().sumNeutralHadronEt+'
                                'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
@@ -243,8 +243,8 @@ muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              )
 
 from SUSYAnalysis.SUSYFilter.filters.PFElectronConsistency_cfi import *
-pfMuonConsistency.muons = "goodElectrons"
-pfMuonConsistency.pfMuons = "pfAllElectronsPF"
+pfElectronConsistency.electrons = "goodElectrons"
+pfElectronConsistency.pfElectrons = "pfAllElectronsPF"
 
 electronSelection = cms.Sequence(exactlyOneGoodElectron *
                                  pfElectronConsistency *
