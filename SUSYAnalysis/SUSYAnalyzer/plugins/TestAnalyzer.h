@@ -42,6 +42,9 @@ class TestAnalyzer : public edm::EDAnalyzer {
     virtual void beginJob() ;
     virtual void analyze(const edm::Event&, const edm::EventSetup&);
     virtual void endJob();
+    virtual void init();
+
+
     
     // Input tags
     edm::InputTag muons_;
@@ -61,11 +64,19 @@ class TestAnalyzer : public edm::EDAnalyzer {
     TTree* myTree;
 
     double diMuMass;
+    double eventWeight;
+    vector<math::XYZTLorentzVector> goodElectrons;
+    vector<math::XYZTLorentzVector> goodJets;
+    vector<math::XYZTLorentzVector> goodMuons;
     int nLeptons;
+
+
+
+
     
     //std::vector<LorentzV> *goodMuon; 
     //vector<LorentzVector> goodMuon;
-    vector<math::XYZTLorentzVector> goodMuon;
+
 
 
 

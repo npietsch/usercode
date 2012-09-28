@@ -18,19 +18,16 @@ jets_         (cfg.getParameter<edm::InputTag>("jets"))
   nLeptons_   = fs->make<TH1F>("nLeptons"  ,"nLeptons",   16, -0.5, 15.5);
   MuMuMass_   = fs->make<TH1F>("MuMuMass_" ,"MuMuMass_",  200, 0., 500.);
 
-
-
   myTree = 0;
   myTree = new TTree("myTree","myTree");
 
+  //Set branches to save into the tree
   myTree->Branch("diMuMass", &diMuMass, "diMuMass/D");
+  myTree->Branch("eventWeight", &eventWeight, "eventWeight/D");
+  myTree->Branch("goodElectrons", &goodElectrons);
+  myTree->Branch("goodJets", &goodJets);
+  myTree->Branch("goodMuons", &goodMuons);
   myTree->Branch("nLeptons", &nLeptons, "nLeptons/I");
-  myTree->Branch("goodMuon", &goodMuon);
-  
-
-
-
-
 
 }
 
@@ -38,10 +35,14 @@ TestAnalyzer::~TestAnalyzer()
 {
 }
 
-void
-TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
-  diMuMass = 0.;
-  nLeptons = 0;
+void TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
+  //initialize some variables
+  diMuMass    = 0.;
+  eventWeight = 1.;
+  goodElectron.clear();
+  goodMuon.clear();
+  goodElectron.clear();
+  nLeptons    = 0;
 
   //-------------------------------------------------
   // Handles
@@ -57,32 +58,26 @@ TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(electrons_, electrons);
   
   //-------------------------------------------------
-  // event weight
-  //-------------------------------------------------
-  
-  double weight=1;
-  
-  //-------------------------------------------------
   // Basic kinematics
   //-------------------------------------------------
   
   // Jets
   for(int idx=0; idx<(int)jets->size(); ++idx){
-    JetsEt_->Fill((*jets)[idx].et(),weight);
-    JetsEta_->Fill((*jets)[idx].eta(),weight);
+    JetsEt_->Fill((*jets)[idx].et(),eventWeight);
+    JetsEta_->Fill((*jets)[idx].eta(),eventWeight);
   }
-  nJets_->Fill(jets->size(),weight);
+  nJets_->Fill(jets->size(),eventWeight);
   
-  nelectrons_->Fill(electrons->size(),weight);
-  nMuons_->Fill(muons->size(),weight);
-  nLeptons_->Fill(muons->size() + electrons->size(),weight);
+  nelectrons_->Fill(electrons->size(),eventWeight);
+  nMuons_->Fill(muons->size(),eventWeight);
+  nLeptons_->Fill(muons->size() + electrons->size(),eventWeight);
   
   for(Int_t i=0,N=muons->size();i<N-1; ++i){
     for(Int_t j=i+1; j<N; ++j){
       //if(muons[i]->charge==muons[j]->charge()) continue;
       if((*muons)[i].charge()==(*muons)[j].charge()) continue;
       double mass = ((*muons)[i].p4() + (*muons)[j].p4()).mass();
-      MuMuMass_->Fill(mass, weight);
+      MuMuMass_->Fill(mass, eventWeight);
       diMuMass=mass;
       //cout<<"mass = " << mass << endl;
       
@@ -106,22 +101,38 @@ TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
 
   myTree->Fill();
-
-
 }
 
 
 
 
-void TestAnalyzer::beginJob()
-{  
+void TestAnalyzer::beginJob(){  
 } 
 
-void TestAnalyzer::endJob()
-{
-  myTree->Write();
-
+void TestAnalyzer::endJob(){
+  //myTree->Write();
 }
+
+void TestAnalyzer::init(){  
+
+
+
+
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 DEFINE_FWK_MODULE(TestAnalyzer);
 
