@@ -129,5 +129,3 @@ RA4ElectronProducer::produce(edm::Event& event, const edm::EventSetup& setup)
   event.put(ra4MediumElectrons, "RA4MediumElectrons");
   event.put(ra4TightElectrons,  "RA4TightElectrons");
 }
-
-DEFINE_FWK_MODULE(RA4ElectronProducer);
