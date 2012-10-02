@@ -317,9 +317,9 @@ process.muTriggerStudy = testAnalysis.clone()
 
 
 # configure module test, e.g.
-process.muTriggerStudy.jets      = "goodJets"
-process.muTriggerStudy.muons     = "goodMuons"
-process.muTriggerStudy.electrons = "goodElectrons"
+#process.muTriggerStudy.jets      = "goodJets"
+#process.muTriggerStudy.muons     = "goodMuons"
+#process.muTriggerStudy.electrons = "goodElectrons"
 
 process.elTriggerStudy  = process.muTriggerStudy.clone()
 process.hadTriggerStudy = process.muTriggerStudy.clone()
@@ -416,40 +416,44 @@ process.selectedTriggers = hltHighLevel.clone(HLTPaths = ['HLT_IsoMu17_eta2p1_Tr
 
 
 
-
+from RecoJets.JetProducers.kt4PFJets_cfi import *
+process.kt6PFJetsForIsolation2011 = kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
+process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 
 
 #------------------------------------------------------------------------------
 # Execution path
 #------------------------------------------------------------------------------
 # write ntuple (tree) for muon trigger study
-process.p = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
+#process.p = cms.Path(# execute producer modules
+                     #process.susyPatDefaultSequence *
+                     #process.pfMEtSysShiftCorrSequence *
+                     #process.producePFMETCorrections *
+                     #process.patPFMETsTypeIcorrected *
+                     #process.kt6PFJetsForIsolation2011 *
                      
-                     process.createObjects *
-                     # execute analyzer and filter modules
-                     process.preselection *
-                     process.twoGoodMuons *
-                     process.muTriggerStudy
-                     )
+                     #process.createObjects *
+                     ## execute analyzer and filter modules
+                     #process.preselection *
+                     #process.twoGoodMuons *
+                     #process.muTriggerStudy
+                     #)
 
 
-# write ntuple (tree) for electron trigger study
-process.p2 = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
+## write ntuple (tree) for electron trigger study
+#process.p2 = cms.Path(# execute producer modules
+                     #process.susyPatDefaultSequence *
+                     #process.pfMEtSysShiftCorrSequence *
+                     #process.producePFMETCorrections *
+                     #process.patPFMETsTypeIcorrected *
+                     #process.kt6PFJetsForIsolation2011 *
                      
-                     process.createObjects *
-                     # execute analyzer and filter modules
-                     process.preselection *
-                     process.twoGoodElectrons *
-                     process.elTriggerStudy
-                     )
+                     #process.createObjects *
+                     ## execute analyzer and filter modules
+                     #process.preselection *
+                     #process.twoGoodElectrons *
+                     #process.elTriggerStudy
+                     #)
 
 
 # write ntuple (tree) for hadron trigger study
@@ -458,6 +462,7 @@ process.p3 = cms.Path(# execute producer modules
                      process.pfMEtSysShiftCorrSequence *
                      process.producePFMETCorrections *
                      process.patPFMETsTypeIcorrected *
+                     process.kt6PFJetsForIsolation2011 *
                      
                      process.createObjects *
                      # execute analyzer and filter modules
