@@ -9,9 +9,8 @@ from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 
-from TopAnalysis.TopFilter.sequences.MuonVertexDistanceSelector_cfi import *
-from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
-
+from SUSYAnalysis.SUSYEventProducers.VertexSelectedMuonProducer_cfi import *
+from SUSYAnalysis.SUSYEventProducers.VertexSelectedElectronProducer_cfi import *
 
 ## configure module to produce collection of good muons
 muons = selectedPatMuons.clone(src = "selectedPatMuons",
@@ -26,33 +25,37 @@ muons = selectedPatMuons.clone(src = "selectedPatMuons",
                                'pt()<0.12 &'
                                'globalTrack().chi2()/globalTrack().ndof() < 11 &'
                                'globalTrack().hitPattern().numberOfValidMuonHits > 0 &'
-                               'numberOfMatchedStations() > 1 &'
+                               'numberOfMatchedStations() &'
                                'innerTrack().hitPattern().numberOfValidPixelHits() > 0 &'
-                               'track().hitPattern().trackerLayersWithMeasurement() > 5 &'
-                               'abs(dB(\"PV2D\")) < 0.02'
+                               'track().hitPattern().trackerLayersWithMeasurement() > 5'
+                               #'abs(dB(\"PV2D\")) < 0.02'
                                )
 
 goodMuons = vertexSelectedMuons.clone(src = "muons",
-                                      cutValue = 0.5
+                                      primaryVertex = "goodVertices",
+                                      dxyCut = True,
+                                      dzCut = True,
+                                      dxyCutValue = 0.02,
+                                      dzCutValue = 0.5
                                       )
           
 ## configure module to produce collection of veto muons
 looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     cut =
-                                    'isGlobalMuon() || isTrackerMuon() &'
+                                    'isGlobalMuon()&'
                                     'isPFMuon() &'
                                     'pt >= 15. &'
                                     'abs(eta) <= 2.5 &'
-                                    '(pfIsolationR03().sumChargedHadronPt+'
-                                    'max(0., pfIsolationR03().sumNeutralHadronEt+'
-                                    'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
-                                    'pt()<0.2 &'
-                                    'abs(dB(\"PV2D\")) < 0.2'
+                                    '(pfIsolationR03().sumChargedHadronPt+max(0., pfIsolationR03().sumNeutralHadronEt+pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/pt()<0.2'
+                                    #'abs(dB(\"PV2D\")) < 0.2'
                                     )
 
 vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
-                                      cutValue = 0.5,
-                                      primaryVertex = "goodVertices"
+                                      primaryVertex = "goodVertices",
+                                      dxyCut = True,
+                                      dzCut = True,
+                                      dxyCutValue = 0.2,
+                                      dzCutValue = 0.5
                                       )
 
 from SUSYAnalysis.SUSYEventProducers.RA4ElectronProducer_cfi import *
@@ -62,22 +65,8 @@ produceRA4Electrons.primaryVertexInputTag = "goodVertices"
 goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumElectrons',
                                            cut =
                                            'pt >= 20. &'
-<<<<<<< BjetsSelection_cff.py
-                                           'abs(eta) <= 2.5 &'
-                                           '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & '
-                                            'electronID(\"simpleEleId80relIso\")=7 &'
-                                            'fbrem() > 0.15 | (fbrem() < 0.15 & abs(eta) < 1 & eSuperClusterOverP() > 0.95) &'
-                                            'abs(dB) < 0.02 &'
-                                            'abs(track().dz()) < 0.1 &'
-                                            #'(dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 '
-                                            '((dr03TkSumPt() + dr03EcalRecHitSumEt() + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) > 1.479) | ((dr03TkSumPt() + max(0, dr03EcalRecHitSumEt()-1) + dr03HcalTowerSumEt())/pt < 0.15 & abs(eta) < 1.479) '
-=======
                                            '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
->>>>>>> 1.83.4.2.6.12
                                            )
-                                           
-                                           
-                                           
 
 ## configure module to produce collection of veto electrons
 vetoElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4VetoElectrons',
@@ -98,7 +87,6 @@ goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                               'chargedEmEnergyFraction     < 0.99 &'
                               '(chargedMultiplicity + neutralMultiplicity + muonMultiplicity) > 1'
                               )
-
 
 ## reject jets close to selected leptons
 goodJets.checkOverlaps = cms.PSet(
@@ -121,9 +109,6 @@ goodJets.checkOverlaps = cms.PSet(
     requireNoOverlaps   = cms.bool(True),
     )
 )
-
-
-
 ## configure module to produce collection of good METs
 goodMETs = selectedPatMET.clone(src = 'patPFMETsTypeIcorrected',
                                 cut =
@@ -146,12 +131,6 @@ exactlyOneGoodMuon = countPatMuons.clone(src = 'goodMuons',
                                          maxNumber = 1
                                          )
 
-## configure module to select events with at least two good muon 
-twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
-                                   minNumber = 2
-                                   )
-
-
 ## configure module to select events with no one good muon 
 noGoodMuon = countPatMuons.clone(src = 'goodMuons',
                                  minNumber = 0,
@@ -170,12 +149,6 @@ exactlyOneGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
                                                  maxNumber = 1
                                                  )
 
-## configure module to select events with at least two good electron 
-twoGoodElectrons = countPatElectrons.clone(src = 'goodElectrons',
-                                           minNumber = 2
-                                           )
-
-
 ## configure module to select events with exactly no good electron 
 noGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
                                          minNumber = 0,
@@ -188,6 +161,17 @@ exactlyOneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                                  maxNumber = 1
                                                  )
 
+## configure module to select events with at least two good muon
+twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
+                                   minNumber = 2
+                                   )
+
+
+## configure module to select events with at least two good electron
+twoGoodElectrons = countPatElectrons.clone(src = 'goodElectrons',
+                                           minNumber = 2
+                                           )
+
 ## configure module to select events with maximal one veto lepton
 exactlyOneVetoLepton = countPatLeptons.clone()
 exactlyOneVetoLepton.electronSource = "vetoElectrons"
@@ -195,18 +179,6 @@ exactlyOneVetoLepton.muonSource = "vetoMuons"
 exactlyOneVetoLepton.minNumber = 1
 exactlyOneVetoLepton.maxNumber = 1
 
-## configure module to select events with at least four good jets
-fourGoodJets = countPatJets.clone(src = 'goodJets',
-                                  minNumber = 4
-                                  )
-
-<<<<<<< BjetsSelection_cff.py
-## configure module to select events with at least three good jets
-threeGoodJets = countPatJets.clone(src = 'goodJets',
-                                  minNumber = 3
-                                  )
-
-=======
 ## configure module to select events with at least one good jet
 oneGoodJet = countPatJets.clone(src = 'goodJets',
                                 minNumber = 1
@@ -222,7 +194,11 @@ threeGoodJets = countPatJets.clone(src = 'goodJets',
                                    minNumber = 3
                                    )
 
->>>>>>> 1.83.4.2.6.12
+## configure module to select events with at least four good jets
+fourGoodJets = countPatJets.clone(src = 'goodJets',
+                                  minNumber = 4
+                                  )
+
 ## configure module to select events with at least one good Muons
 oneGoodMET = countPatMET.clone(src = 'goodMETs',
                                minNumber = 1

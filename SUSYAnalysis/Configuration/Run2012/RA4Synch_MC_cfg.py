@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Trigger")
+process = cms.Process("Synch")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -12,12 +12,11 @@ process.MessageLogger.categories.append('ParticleListDrawer')
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
     'file:ECDEFDB7-AAE1-E111-B576-003048C68A88.root'
-    #'/store/mc/Summer12_DR53X/TTJets_MassiveBinDECAY_TuneZ2star_8TeV-madgraph-tauola/AODSIM/PU_S10_START53_V7A-v1/0000/ECDEFDB7-AAE1-E111-B576-003048C68A88.root'  
     )
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(-1),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -26,7 +25,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Trigger.root')
+                                   fileName = cms.string('Synch.root')
                                    )
 
 process.load("Configuration.Geometry.GeometryIdeal_cff")
@@ -71,7 +70,9 @@ from SUSYAnalysis.SUSYAnalyzer.TestAnalyzer_cfi import *
 process.test = testAnalysis.clone()
 
 # configure module test, e.g.
-process.test.jets = "goodJets"
+process.test.jets      = "goodJets"
+process.test.electrons = "vetoElectrons"
+process.test.muons     = "vetoMuons"
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
@@ -84,7 +85,7 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "START53_V7A::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('GlobalTag', "START53_V7F::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
@@ -117,11 +118,11 @@ addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,
 process.load("JetMETCorrections.Type1MET.pfMETCorrections_cff")
 process.load("JetMETCorrections.Type1MET.pfMETsysShiftCorrections_cfi")
 ## if isMC:
-process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3"
-process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_mc
+##   process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3"
+##   process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_mc
 ## else:
-## process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3Residual"
-## process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_data
+process.pfJetMETcorr.jetCorrLabel = "ak5PFL1FastL2L3Residual"
+process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runAvsNvtx_data
 
 process.patPFMETs = process.patMETs.clone(
              metSource = cms.InputTag('pfMet'),
@@ -142,24 +143,62 @@ process.patPFMETsTypeIcorrected = process.patPFMETs.clone(
 ## process.p += process.producePFMETCorrections
 ## process.p += process.patPFMETsTypeIcorrected
 
+from RecoJets.JetProducers.kt4PFJets_cfi import *
+process.kt6PFJetsForIsolation2011 = kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
+process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 
 #------------------------------------------------------------------------------
 # Execution path
 #------------------------------------------------------------------------------
 
-process.p = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
+process.p1 = cms.Path(# execute producer modules
+                      process.susyPatDefaultSequence *
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.test *
+                      process.oneGoodJet *
+                      process.twoGoodJets *
+                      process.threeGoodJets *
+                      process.jetSelection *
+                      process.muonSelection *
+                      process.HTSelection *
+                      process.metSelection
+                      )
 
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
-                     
-                     process.createObjects *
-                     # execute analyzer and filter modules
-                     process.preselection *
-                     process.test *
-                     process.muonSelection *
-                     process.jetSelection *
-                     process.HTSelection *
-                     process.metSelection
-                     )
+process.p2 = cms.Path(#execute producer modules
+                      process.susyPatDefaultSequence *
+
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.test *
+                      process.muonSelection 
+                      )
+
+process.p3 = cms.Path(# execute producer modules
+                      process.susyPatDefaultSequence *
+                      
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.electronSelection 
+                      )

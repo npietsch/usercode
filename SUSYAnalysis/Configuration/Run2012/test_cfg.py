@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("Trigger")
+process = cms.Process("Test")
 
 ## configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -69,7 +69,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Trigger.root')
+                                   fileName = cms.string('Test.root')
                                    )
 
 process.load("Configuration.Geometry.GeometryIdeal_cff")
@@ -114,7 +114,9 @@ from SUSYAnalysis.SUSYAnalyzer.TestAnalyzer_cfi import *
 process.test = testAnalysis.clone()
 
 # configure module test, e.g.
-process.test.jets = "goodJets"
+process.test.jets      = "goodJets"
+process.test.electrons = "vetoElectrons"
+process.test.muons     = "vetoMuons"
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
@@ -127,12 +129,12 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
 
 #  for SusyPAT configuration
-options.register('GlobalTag', "GR_P_V41_AN1::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
+options.register('GlobalTag', "START53_V7F::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
-options.jetCorrections.append('L2L3Residual')
+#options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
 options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
@@ -193,24 +195,54 @@ process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 # Execution path
 #------------------------------------------------------------------------------
 
-process.p = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
+process.p1 = cms.Path(# execute producer modules
+                      process.susyPatDefaultSequence *
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.test *
+                      process.oneGoodJet *
+                      process.twoGoodJets *
+                      process.threeGoodJets *
+                      process.jetSelection *
+                      process.muonSelection *
+                      process.HTSelection *
+                      process.metSelection
+                      )
 
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
-                     process.kt6PFJetsForIsolation2011 *
+process.p2 = cms.Path(#execute producer modules
+                      process.susyPatDefaultSequence *
 
-                     process.preselection *
-                     
-                     process.createObjects *
-                     # execute analyzer and filter modules
-                     process.test *
-                     process.oneGoodJet *
-                     process.twoGoodJets *
-                     process.threeGoodJets *
-                     process.jetSelection *
-                     process.muonSelection *
-                     process.HTSelection *
-                     process.metSelection
-                     )
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.test *
+                      process.muonSelection 
+                      )
+
+process.p3 = cms.Path(# execute producer modules
+                      process.susyPatDefaultSequence *
+                      
+                      process.pfMEtSysShiftCorrSequence *
+                      process.producePFMETCorrections *
+                      process.patPFMETsTypeIcorrected *
+                      process.kt6PFJetsForIsolation2011 *
+                      
+                      process.preselection *
+                      
+                      process.createObjects *
+                      # execute analyzer and filter modules
+                      process.electronSelection 
+                      )
