@@ -19,7 +19,11 @@ class VertexSelectedElectronProducer : public edm::EDProducer {
  private:
   edm::InputTag src_;
   edm::InputTag primaryVertex_;
-
+  
+  bool dxyCut_;
+  bool dzCut_;
+  double dxyCutValue_;
+  double dzCutValue_;
 };
 
 #endif
