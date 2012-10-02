@@ -7,9 +7,10 @@
 VertexSelectedMuonProducer::VertexSelectedMuonProducer(const edm::ParameterSet& cfg):
   src_          (cfg.getParameter<edm::InputTag>("src")),
   primaryVertex_(cfg.getParameter<edm::InputTag>("primaryVertex")),
-  cutValue_     (cfg.getParameter<double>       ("cutValue")),
-  dxy_cut_      (cfg.getParameter<bool>         ("dxy_cut")),
-  dxy_          (cfg.getParameter<double>       ("dxy"))
+  dxyCut_       (cfg.getParameter<bool>         ("dxyCut")),
+  dzCut_        (cfg.getParameter<double>       ("dzCut")),
+  dxyCutValue_  (cfg.getParameter<bool>         ("dxyCutValue")),
+  dzCutValue_   (cfg.getParameter<double>       ("dzCutValue"))
 
 {
   produces<std::vector<pat::Muon> >();
@@ -24,26 +25,18 @@ VertexSelectedMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setu
   edm::Handle<reco::VertexCollection> primaryVertex;
   evt.getByLabel(primaryVertex_, primaryVertex);
 
-//  for(reco::VertexCollection::const_iterator vtx=primaryVertex->begin(); vtx!=primaryVertex->end(); ++vtx) {
-//    std::cout << "vtx->isFake:ndof:z:rho : "
-//	      << vtx->isFake() << ":"
-//	      << vtx->ndof() << ":"
-//	      << vtx->z() << ":"
-//	      << vtx->position().Rho() << std::endl;
-//  }
-
   std::auto_ptr<std::vector<pat::Muon> > selectedMuons(new std::vector<pat::Muon>());
   for(std::vector<pat::Muon>::const_iterator muon=src->begin(); muon!=src->end(); ++muon)
     {
-      if(std::abs(muon->vertex().z() - primaryVertex->begin()->z()) < cutValue_)
+      if(std::abs(muon->vertex().z() - primaryVertex->begin()->z()) < dzCutValue_)
 	{
-	  if(dxy_cut_ == true)
+	  if(dxyCut_ == true)
 	    {
 	      double dx  = muon->vertex().x() - primaryVertex->begin()->x();
 	      double dy  = muon->vertex().y() - primaryVertex->begin()->y();
 	      double dxy = sqrt(dx*dx+dy*dy);
 
-	      if(dxy < dxy_) selectedMuons->push_back(*muon);
+	      if(dxy < dxyCutValue_) selectedMuons->push_back(*muon);
 	    }
 	  else selectedMuons->push_back(*muon);
 	}
