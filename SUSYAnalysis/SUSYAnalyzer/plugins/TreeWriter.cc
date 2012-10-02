@@ -1,5 +1,5 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "SUSYAnalysis/SUSYAnalyzer/plugins/TestAnalyzer.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/TreeWriter.h"
 // #include "DataFormats/Common/interface/TriggerResults.h"
 // #include "FWCore/Common/interface/TriggerNames.h"
 // #include "DataFormats/Luminosity/interface/LumiSummary.h"
@@ -9,7 +9,7 @@
 using namespace std;
 
 //============================================================ Constructor
-TestAnalyzer::TestAnalyzer(const edm::ParameterSet& cfg):
+TreeWriter::TreeWriter(const edm::ParameterSet& cfg):
 muons_        (cfg.getParameter<edm::InputTag>("muons")),
 electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
 // triggered_    (cfg.getParameter<edm::InputTag>("triggered_")),
@@ -38,12 +38,12 @@ jets_         (cfg.getParameter<edm::InputTag>("jets"))
 }
 
 //============================================================ Destructor
-TestAnalyzer::~TestAnalyzer()
+TreeWriter::~TreeWriter()
 {
 }
 
 //============================================================ Loop
-void TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){   
+void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){   
 // edm::Handle<edm::TriggerResults> trigResults; //our trigger result object
 // edm::InputTag trigResultsTag("TriggerResults","","HLT"); //make sure have correct process on MC
 // //data process=HLT, MC depends, Spring11 is REDIGI311X
@@ -137,21 +137,21 @@ void TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
 
 //============================================================ beginJob
-void TestAnalyzer::beginJob(){  
+void TreeWriter::beginJob(){  
 } 
 
 
 //============================================================ endJob
-void TestAnalyzer::endJob(){
+void TreeWriter::endJob(){
   //tree->Write();
 }
 
 //============================================================ init
-void TestAnalyzer::init(){  
+void TreeWriter::init(){  
 } 
 
 
 
 
-DEFINE_FWK_MODULE(TestAnalyzer);
+DEFINE_FWK_MODULE(TreeWriter);
 
