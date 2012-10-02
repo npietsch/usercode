@@ -9,6 +9,9 @@ DEFINE_FWK_MODULE(TransverseMassFilter);
 #include "SUSYAnalysis/SUSYFilter/plugins/PFMuonConsistency.h"
 DEFINE_FWK_MODULE(PFMuonConsistency);
 
+#include "SUSYAnalysis/SUSYFilter/plugins/PFElectronConsistency.h"
+DEFINE_FWK_MODULE(PFElectronConsistency);
+
 #include "SUSYAnalysis/SUSYFilter/plugins/MHTFilter.h"
 DEFINE_FWK_MODULE(MHTFilter);
 

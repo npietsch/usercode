@@ -22,3 +22,9 @@ DEFINE_FWK_MODULE(SUSYGenEvtFilter);
 #include "SUSYAnalysis/SUSYEventProducers/interface/RA4ElectronProducer.h"
 
 DEFINE_FWK_MODULE(RA4ElectronProducer);
+
+#include "SUSYAnalysis/SUSYEventProducers/interface/VertexSelectedMuonProducer.h"
+DEFINE_FWK_MODULE(VertexSelectedMuonProducer);
+
+#include "SUSYAnalysis/SUSYEventProducers/interface/VertexSelectedElectronProducer.h"
+DEFINE_FWK_MODULE(VertexSelectedElectronProducer);

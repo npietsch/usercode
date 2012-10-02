@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-vertexSelectedMuons = cms.EDProducer("MuonVertexDistanceSelector",
-  src           = cms.InputTag("selectedPatMuons"),
-  primaryVertex = cms.InputTag("offlinePrimaryVertices"),
-  cutValue      = cms.double(1.),
-
-  dxy_cut       = cms.bool(False),
-  dxy           = cms.double(0.02)                                   
-)
+vertexSelectedMuons = cms.EDProducer("VertexSelectedMuonProducer",
+                                     src           = cms.InputTag("selectedPatMuons"),
+                                     primaryVertex = cms.InputTag("offlinePrimaryVertices"),
+                                     dxyCut        = cms.bool(True),
+                                     dzCut         = cms.bool(True),                                   
+                                     dxyCutValue   = cms.double(0.2),
+                                     dzCutValue    = cms.double(0.5)                                 
+                                     )
