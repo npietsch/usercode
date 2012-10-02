@@ -46,31 +46,29 @@ class TestAnalyzer : public edm::EDAnalyzer {
     edm::InputTag muons_;
     edm::InputTag electrons_;
     edm::InputTag jets_;
+    //edm::InputTag trigResultsTag; //make sure have correct process on MC
+    
+    
     
     TH1F* nElectrons_;
     TH1F* nJets_;
     TH1F* nMuons_;
 
-    //myTree
-    TTree* myTree;
+    //tree for saving the nTuple
+    TTree* tree;
     
+    //variables to save -> thats what the nTuple will consist of
     vector<int> elCharge;
+    int event;
     double eventWeight;
     vector<math::XYZTLorentzVector> goodElectrons;
     vector<math::XYZTLorentzVector> goodJets;
     vector<math::XYZTLorentzVector> goodMuons;
+    int lumiSection;
     vector<int> muCharge;
     int nLeptons;
-
-
-
-
+    int run;
     
-    //std::vector<LorentzV> *goodMuon; 
-    //vector<LorentzVector> goodMuon;
-
-
-
 
 };
 

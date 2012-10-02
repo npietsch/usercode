@@ -5,4 +5,6 @@ testAnalysis = cms.EDAnalyzer("TestAnalyzer",
                               muons     = cms.InputTag("selectedPatMuons"),
                               electrons = cms.InputTag("selectedPatElectrons"),
                               jets      = cms.InputTag("selectedPatJetsAK5PF")
+                              #TriggerResults = cms.InputTag("TriggerResults","","HLT")
                               )
+

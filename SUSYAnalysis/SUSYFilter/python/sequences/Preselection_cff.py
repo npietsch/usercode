@@ -9,9 +9,10 @@ scrapingVeto = cms.EDFilter("FilterOutScraping",
 
 primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
                                    vertexCollection = cms.InputTag('offlinePrimaryVertices'),
-                                   minimumNDOF = cms.uint32(4) ,
+                                   minimumNDOF = cms.uint32(4),
                                    maxAbsZ = cms.double(24),
-                                   maxd0 = cms.double(2))
+                                   maxd0 = cms.double(2)
+                                   )
 
 from CommonTools.RecoAlgos.HBHENoiseFilter_cfi import *
 goodVertices = cms.EDFilter(
@@ -35,9 +36,9 @@ from RecoMET.METFilters.trackingFailureFilter_cfi import *
 preselection = cms.Sequence(
     #hltFilter *
     scrapingVeto *
-    primaryVertexFilter*
+    #primaryVertexFilter*
     HBHENoiseFilter*
-    trackingFailureFilter*
+    #trackingFailureFilter*
     hcalLaserEventFilter*
     CSCTightHaloFilter*
     eeBadScFilter*

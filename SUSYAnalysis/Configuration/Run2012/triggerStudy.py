@@ -262,7 +262,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(200),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -314,6 +314,7 @@ from SUSYAnalysis.SUSYAnalyzer.TestAnalyzer_cfi import *
 
 # clone analyzer module named testAnalysis
 process.muTriggerStudy = testAnalysis.clone()
+
 
 # configure module test, e.g.
 process.muTriggerStudy.jets      = "goodJets"
@@ -384,7 +385,7 @@ process.patPFMETs = process.patMETs.clone(
              )
 process.pfType1CorrectedMet.applyType0Corrections = cms.bool(False)
 process.pfType1CorrectedMet.srcType1Corrections = cms.VInputTag(
-    cms.InputTag('pfJetMETcorr', 'type1') ,
+    cms.InputTag('pfJetMETcorr', 'type1'),
     cms.InputTag('pfMEtSysShiftCorr')  
 )
 process.patPFMETsTypeIcorrected = process.patPFMETs.clone(
@@ -394,6 +395,28 @@ process.patPFMETsTypeIcorrected = process.patPFMETs.clone(
 ## process.p += process.pfMEtSysShiftCorrSequence
 ## process.p += process.producePFMETCorrections
 ## process.p += process.patPFMETsTypeIcorrected
+
+
+
+# add trigger information to the configuration
+#---------------------------------------------------------------- --------------
+#from PhysicsTools.PatAlgos.tools.trigTools import *
+#switchOnTrigger( process )
+from HLTrigger.HLTfilters.hltHighLevel_cfi import *
+process.selectedTriggers = hltHighLevel.clone(HLTPaths = ['HLT_IsoMu17_eta2p1_TriCentralPFJet30*','HLT_IsoMu20_eta2p1_TriCentralPFJet30*','HLT_IsoMu20_eta2p1_TriCentralPFNoPUJet30*','HLT_Mu20_eta2p1_TriCentralPFJet30*','HLT_Mu20_eta2p1_TriCentralPFJet30*','HLT_Mu20_eta2p1_TriCentralPFNoPUJet30*'],
+                                                      throw = False)
+
+
+
+#process.selectedTriggers = hltHighLevel.clone(HLTPaths =
+#                                           'HLT_Mu15_HT200_v* &'
+#                                           'HLT_HT250_Mu15_PFMHT20_v*',
+#                                           throw = False)
+
+
+
+
+
 
 
 #------------------------------------------------------------------------------
@@ -439,7 +462,9 @@ process.p3 = cms.Path(# execute producer modules
                      process.createObjects *
                      # execute analyzer and filter modules
                      process.preselection *
-                     process.hadTriggerStudy
+                     #process.threeGoodJets *
+                     process.hadTriggerStudy *
+                     process.selectedTriggers
                      )
 
 
