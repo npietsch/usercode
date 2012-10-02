@@ -12,6 +12,7 @@ using namespace std;
 TestAnalyzer::TestAnalyzer(const edm::ParameterSet& cfg):
 muons_        (cfg.getParameter<edm::InputTag>("muons")),
 electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
+// triggered_    (cfg.getParameter<edm::InputTag>("triggered_")),
 //trigResultsTag(cfg.getParameter<edm::InputTag>("TriggerResults")),
 jets_         (cfg.getParameter<edm::InputTag>("jets"))
 { 
@@ -89,8 +90,9 @@ void TestAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //using pat::Electron;
   //using pat::Jet;
 
-  //edm::Handle<std::map<std::string,bool> > triggered;
-  //evt.getByLabel(triggered_, triggered);
+//   edm::Handle<std::map<std::string,bool> > triggered;
+//   evt.getByLabel(triggered_, triggered);
+    
 
   //--------------------- Handles
   edm::Handle<std::vector<pat::Electron> > electrons;

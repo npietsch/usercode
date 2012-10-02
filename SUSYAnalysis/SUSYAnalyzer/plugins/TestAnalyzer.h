@@ -46,6 +46,7 @@ class TestAnalyzer : public edm::EDAnalyzer {
     edm::InputTag muons_;
     edm::InputTag electrons_;
     edm::InputTag jets_;
+//     edm::InputTag triggered_;
     //edm::InputTag trigResultsTag; //make sure have correct process on MC
     
     
