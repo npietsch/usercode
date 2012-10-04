@@ -28,22 +28,29 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
   event.getByLabel(pfMuons_, pfMuons);
 
   double dRmin=10;
-  double reco_pt=0;
-  double pf_pt=0;
+  double recoPt=0;
+  double pfPt=0;
   
+  // require exactly one reco muon
   if(muons->size()==1)
     {
-      reco_pt=(*muons)[0].pt();
-      for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
+      recoPt=(*muons)[0].pt();
+
+      // loop over pf muons
+      for(int idx=0; idx<(int)pfMuons->size(); ++idx)
 	{
-	  double dR=abs(deltaR((*muons)[0].eta(),(*muons)[0].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
-	  if(dR < dRmin && (*pfMuons)[jdx].pt() > 10)
+	  double dR=abs(deltaR((*muons)[0].eta(),(*muons)[0].phi(),(*pfMuons)[idx].eta(),(*pfMuons)[idx].phi()));
+	  // if pf muon pt is larger than 10
+	  if((*pfMuons)[idx].pt() > 10)
 	    {
-	      dRmin=dR;
-	      pf_pt=(*pfMuons)[jdx].pt();
+	      if(dR < dRmin)
+		{
+		  dRmin=dR;
+		  pfPt=(*pfMuons)[idx].pt();
+		}
 	    }
 	}
-      if(fabs(reco_pt - pf_pt) < 5) return true;
+      if(fabs(recoPt - pfPt) < 5) return true;
       else return false;
     }
   else return false;
