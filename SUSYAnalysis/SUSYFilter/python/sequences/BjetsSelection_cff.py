@@ -13,19 +13,18 @@ from SUSYAnalysis.SUSYEventProducers.VertexSelectedMuonProducer_cfi import *
 from SUSYAnalysis.SUSYEventProducers.VertexSelectedElectronProducer_cfi import *
 
 ## configure module to produce collection of good muons
-muons = selectedPatMuons.clone(src = "selectedPatMuons",
+muons = selectedPatMuons.clone(src = "cleanPatMuons",
                                cut =
                                'isGlobalMuon() &'
                                'isPFMuon() &'
                                'pt >= 20. &'
                                'abs(eta) <= 2.4 &' ## 2.4 only for synch., for analysis use 2.1
-                               '(pfIsolationR03().sumChargedHadronPt+'
+                               '((pfIsolationR03().sumChargedHadronPt+'
                                'max(0., pfIsolationR03().sumNeutralHadronEt+'
-                               'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/'
-                               'pt()<0.12 &'
+                               'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/pt())<0.12 &'
                                'globalTrack().chi2()/globalTrack().ndof() < 11 &'
                                'globalTrack().hitPattern().numberOfValidMuonHits > 0 &'
-                               'numberOfMatchedStations() &'
+                               'numberOfMatchedStations() > 1 &'
                                'innerTrack().hitPattern().numberOfValidPixelHits() > 0 &'
                                'track().hitPattern().trackerLayersWithMeasurement() > 5'
                                #'abs(dB(\"PV2D\")) < 0.02'
@@ -40,13 +39,15 @@ goodMuons = vertexSelectedMuons.clone(src = "muons",
                                       )
           
 ## configure module to produce collection of veto muons
-looseMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+looseMuons = selectedPatMuons.clone(src = "cleanPatMuons",
                                     cut =
-                                    'isGlobalMuon()&'
+                                    'isGlobalMuon()||isTrackerMuon()&'
                                     'isPFMuon() &'
                                     'pt >= 15. &'
                                     'abs(eta) <= 2.5 &'
-                                    '(pfIsolationR03().sumChargedHadronPt+max(0., pfIsolationR03().sumNeutralHadronEt+pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/pt()<0.2'
+                                    '((pfIsolationR03().sumChargedHadronPt+'
+                                    'max(0., pfIsolationR03().sumNeutralHadronEt+'
+                                    'pfIsolationR03().sumPhotonEt - 0.5*pfIsolationR03().sumPUPt))/pt()) < 0.2'
                                     #'abs(dB(\"PV2D\")) < 0.2'
                                     )
 
@@ -65,26 +66,28 @@ produceRA4Electrons.primaryVertexInputTag = "goodVertices"
 goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumElectrons',
                                            cut =
                                            'pt >= 20. &'
-                                           '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
+                                           'isEB() || isEE() &'
+                                           'abs(superCluster.eta) <= 2.5' 
+                                           #'(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
                                            )
 
 ## configure module to produce collection of veto electrons
 vetoElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4VetoElectrons',
                                            cut =
-                                           'pt >= 15.'
+                                           'pt >= 15. &'
+                                           'isEB() || isEE()'
                                            )
 
 ## configure module to produce collection of good jets
-goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
+goodJets = cleanPatJets.clone(src = 'cleanPatJetsAK5PF',
                               preselection =
                               'pt > 40. &'
                               'abs(eta) < 2.4 &'
-                              'neutralHadronEnergyFraction < 0.99 &'
-                              'neutralEmEnergyFraction     < 0.99 &'
-                              'nConstituents               > 1 &'
-                              'chargedHadronEnergyFraction > 0.0 &'
-                              'chargedMultiplicity         > 0 &'
-                              'chargedEmEnergyFraction     < 0.99 &'
+                              'neutralEmEnergy/energy < 0.99 &'
+                              'chargedEmEnergy/energy < 0.99 &'
+                              'neutralHadronEnergy/energy < 0.99 &'
+                              'chargedHadronEnergy/energy > 0 &'
+                              'chargedMultiplicity > 0 &'
                               '(chargedMultiplicity + neutralMultiplicity + muonMultiplicity) > 1'
                               )
 
@@ -247,7 +250,7 @@ createObjects = cms.Sequence(muons *
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 pfMuonConsistency.muons = "goodMuons"
-pfMuonConsistency.pfMuons = "pfAllMuonsPF"
+pfMuonConsistency.pfMuons = "patAllMuonsPF"
                              
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              pfMuonConsistency *
@@ -258,7 +261,7 @@ muonSelection = cms.Sequence(exactlyOneGoodMuon *
 
 from SUSYAnalysis.SUSYFilter.filters.PFElectronConsistency_cfi import *
 pfElectronConsistency.electrons = "goodElectrons"
-pfElectronConsistency.pfElectrons = "pfAllElectronsPF"
+pfElectronConsistency.pfElectrons = "patAllElectronsPF"
 
 electronSelection = cms.Sequence(exactlyOneGoodElectron *
                                  pfElectronConsistency *

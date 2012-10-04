@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 vertexSelectedElectrons = cms.EDProducer("VertexSelectedElectronProducer",
-                                         src           = cms.InputTag("selectedPatElectrons"),
+                                         src           = cms.InputTag("cleanPatElectrons"),
                                          primaryVertex = cms.InputTag("offlinePrimaryVertices"),
                                          dxyCut        = cms.bool(False),
                                          dzCut         = cms.bool(False),                                   
