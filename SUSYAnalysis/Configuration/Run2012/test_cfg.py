@@ -60,7 +60,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(500),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -246,3 +246,33 @@ process.p3 = cms.Path(# execute producer modules
                       # execute analyzer and filter modules
                       process.electronSelection 
                       )
+
+## #-------------------------------------------------
+## # Create patTuple
+## #-------------------------------------------------
+
+## process.EventSelection = cms.PSet(
+##     SelectEvents = cms.untracked.PSet(
+##     SelectEvents = cms.vstring('p1'
+##                                )
+##     )
+##     )
+
+## process.out = cms.OutputModule("PoolOutputModule",
+##                                process.EventSelection,
+##                                #outputCommands = cms.untracked.vstring('drop *'),
+##                                #dropMetaData = cms.untracked.string('DROPPED'),
+##                                fileName = cms.untracked.string('Summer12.root')
+##                                )
+
+## # Specify what to keep in the event content
+
+## #from PhysicsTools.PatAlgos.patEventContent_cff import *
+## #process.out.outputCommands += patEventContentNoCleaning
+## #process.out.outputCommands += patExtraAodEventConten
+
+## ## from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
+## ## process.out.outputCommands += RA4bEventContent
+
+## process.outpath = cms.EndPath(process.out)
+

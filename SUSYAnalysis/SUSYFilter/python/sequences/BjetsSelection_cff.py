@@ -169,7 +169,6 @@ twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
                                    minNumber = 2
                                    )
 
-
 ## configure module to select events with at least two good electron
 twoGoodElectrons = countPatElectrons.clone(src = 'goodElectrons',
                                            minNumber = 2
@@ -250,7 +249,7 @@ createObjects = cms.Sequence(muons *
 
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 pfMuonConsistency.muons = "goodMuons"
-pfMuonConsistency.pfMuons = "patAllMuonsPF"
+pfMuonConsistency.pfCandidates = "particleFlow"
                              
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
                              pfMuonConsistency *
@@ -261,7 +260,7 @@ muonSelection = cms.Sequence(exactlyOneGoodMuon *
 
 from SUSYAnalysis.SUSYFilter.filters.PFElectronConsistency_cfi import *
 pfElectronConsistency.electrons = "goodElectrons"
-pfElectronConsistency.pfElectrons = "patAllElectronsPF"
+pfElectronConsistency.pfCandidates = "particleFlow"
 
 electronSelection = cms.Sequence(exactlyOneGoodElectron *
                                  pfElectronConsistency *

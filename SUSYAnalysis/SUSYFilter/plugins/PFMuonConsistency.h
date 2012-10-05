@@ -24,7 +24,7 @@ class PFMuonConsistency : public edm::EDFilter {
  private:
   /// muon collections label
   edm::InputTag muons_;
-  edm::InputTag pfMuons_;
+  edm::InputTag pfCandidates_;
 };  
 
 #endif

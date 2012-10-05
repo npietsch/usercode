@@ -5,8 +5,8 @@
 
 /// default constructor 
 PFElectronConsistency::PFElectronConsistency(const edm::ParameterSet& cfg):
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-  pfElectrons_  (cfg.getParameter<edm::InputTag>("pfElectrons"))
+  electrons_         (cfg.getParameter<edm::InputTag>("electrons")),
+  pfCandidates_  (cfg.getParameter<edm::InputTag>("pfCandidates"))
 {
 }
 
@@ -24,27 +24,35 @@ PFElectronConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
 {       
   edm::Handle<std::vector<pat::Electron> > electrons;
   event.getByLabel(electrons_, electrons);
-  edm::Handle<std::vector<reco::PFCandidate> > pfElectrons;
-  event.getByLabel(pfElectrons_, pfElectrons);
+  edm::Handle<std::vector<reco::PFCandidate> > pfCandidates;
+  event.getByLabel(pfCandidates_, pfCandidates);
 
   double dRmin=10;
-  double reco_pt=0;
-  double pf_pt=0;
+  double recoPt=0;
+  double pfPt=0;
   
+  // require exactly one reco electron
   if(electrons->size()==1)
     {
-      reco_pt=(*electrons)[0].pt();
-      for(int jdx=0; jdx<(int)pfElectrons->size(); ++jdx)
+      recoPt=(*electrons)[0].pt();
+
+      // loop over pf candidates
+      for(int idx=0; idx<(int)pfCandidates->size(); ++idx)
 	{
-	  double dR=abs(deltaR((*electrons)[0].eta(),(*electrons)[0].phi(),(*pfElectrons)[jdx].eta(),(*pfElectrons)[jdx].phi()));
-	  if(dR < dRmin && (*pfElectrons)[jdx].pt() > 10)
+
+	  // if pf candidate is electron and pt is larger than 10
+	  if((*pfCandidates)[idx].particleId() == reco::PFCandidate::e && (*pfCandidates)[idx].pt() > 10.)
 	    {
-	      dRmin=dR;
-	      pf_pt=(*pfElectrons)[jdx].pt();
+	      double dR=abs(deltaR((*electrons)[0].eta(),(*electrons)[0].phi(),(*pfCandidates)[idx].eta(),(*pfCandidates)[idx].phi()));
+
+	      if(dR < dRmin)
+		{
+		  dRmin=dR;
+		  pfPt=(*pfCandidates)[idx].pt();
+		}
 	    }
 	}
-      
-      if(fabs(reco_pt - pf_pt) < 10) return true;
+      if(fabs(recoPt - pfPt) < 10) return true;
       else return false;
     }
   else return false;

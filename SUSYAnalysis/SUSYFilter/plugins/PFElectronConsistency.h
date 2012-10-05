@@ -24,7 +24,7 @@ class PFElectronConsistency : public edm::EDFilter {
  private:
   /// electron collections label
   edm::InputTag electrons_;
-  edm::InputTag pfElectrons_;
+  edm::InputTag pfCandidates_;
 };  
 
 #endif
