@@ -41,7 +41,7 @@ goodMuons = vertexSelectedMuons.clone(src = "muons",
 ## configure module to produce collection of veto muons
 looseMuons = selectedPatMuons.clone(src = "cleanPatMuons",
                                     cut =
-                                    'isGlobalMuon() || isTrackerMuon()&'
+                                    '(isGlobalMuon() || isTrackerMuon())&'
                                     'isPFMuon() &'
                                     'pt >= 15. &'
                                     'abs(eta) <= 2.5 &'
@@ -108,7 +108,7 @@ produceRA4Electrons.primaryVertexInputTag = "goodVertices"
 goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumElectrons',
                                            cut =
                                            'pt >= 20. &'
-                                           'isEB() || isEE() &'
+                                           '(isEB() || isEE()) &'
                                            'abs(superCluster.eta) <= 2.5' 
                                            #'(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566)'
                                            )
@@ -117,7 +117,7 @@ goodElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4MediumE
 vetoElectrons = selectedPatElectrons.clone(src = 'produceRA4Electrons:RA4VetoElectrons',
                                            cut =
                                            'pt >= 15. &'
-                                           'isEB() || isEE()'
+                                           '(isEB() || isEE())'
                                            )
 
 ## configure module to produce collection of good jets
