@@ -82,7 +82,7 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   eta_                           = fs->make<TH1F>("eta",                           "eta",                           60 , -3.,   3.);
   isGlobalMuon_                  = fs->make<TH1F>("isGlobalMuon",                  "isGlobalMuon",                   2 ,  0.,   2.);
   isTrackerMuon_                 = fs->make<TH1F>("isTrackerMuon",                 "isTrackerMuon",                  2 ,  0.,   2.);
-  isGlobalTrackerMuon_           = fs->make<TH2F>("isGlobalTrackerMuon",           "isGlobalTrackerMuon",  2, 0, 2,  2 ,  0.,   2.);
+  isGlobalTrackerMuon_           = fs->make<TH2F>("isGlobalTrackerMuon",           "isGlobalTrackerMuon", 2, 0., 2., 2 ,  0.,   2.);
   isPFMuon_                      = fs->make<TH1F>("isPFMuon",                      "isPFMuon",                       2 ,  0.,   2.);
   pfIso_                         = fs->make<TH1F>("pfIso",                         "pfIso",                         50 ,  0.,   1.);
   normChi2_                      = fs->make<TH1F>("normChi2",                      "normChi2",                      20 ,  0.,  20.);
@@ -233,7 +233,7 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  nTrackerLayersWithMeasurement_->Fill((*muons)[idx].track()->hitPattern().trackerLayersWithMeasurement(),      weight);
 	}
     }
-
+  nMuons_->Fill(muons->size(), weight);
 }
 
 void RA4MuonAnalyzer::beginJob()

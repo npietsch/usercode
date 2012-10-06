@@ -61,12 +61,14 @@ vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
 
 looseTrackerMuons = selectedPatMuons.clone(src = "looseMuons",
                                            cut =
-                                           '!isGlobalMuon()'
+                                           '!isGlobalMuon() &'
+                                           'isTrackerMuon()'
                                            )
 
 looseGlobalMuons = selectedPatMuons.clone(src = "looseMuons",
-                                           cut =
-                                           'isGlobalMuon() && isTrackerMuon()'
+                                          cut =
+                                          'isGlobalMuon() &'
+                                          'isTrackerMuon()'
                                            )
 
 vetoTrackerMuons = vertexSelectedMuons.clone(src = "looseTrackerMuons",
