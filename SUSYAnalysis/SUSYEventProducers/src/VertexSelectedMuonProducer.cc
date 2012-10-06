@@ -32,27 +32,26 @@ VertexSelectedMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setu
   edm::Handle<reco::VertexCollection> primaryVertex;
   evt.getByLabel(primaryVertex_, primaryVertex);
 
-  bool dxy = false;
-  bool dz = false;
-
+  //bool dxy = false;
+  //bool dz = false;
 
   std::auto_ptr<std::vector<pat::Muon> > selectedMuons(new std::vector<pat::Muon>());
   for(std::vector<pat::Muon>::const_iterator muon=src->begin(); muon!=src->end(); ++muon)
     {
-      if(std::abs(muon->innerTrack()->dxy(primaryVertex->begin()->position())) < dxyCutValue_)
+      dxy_->Fill(std::abs(muon->innerTrack()->dxy(primaryVertex->begin()->position())));
+      dz_->Fill(std::abs(muon->innerTrack()->dxy(primaryVertex->begin()->position())));
+      
+      if(std::abs(muon->innerTrack()->dxy(primaryVertex->begin()->position())) < dxyCutValue_ &&
+	 std::abs(muon->innerTrack()->dz(primaryVertex->begin()->position())) < dzCutValue_)
 	{
-	  dxy = true;	  
+	  selectedMuons->push_back(*muon);
 	}
-      if(std::abs(muon->innerTrack()->dz(primaryVertex->begin()->position())) < dzCutValue_)
-	{
-	  dz = true;
-	}
+      
       if(muon->isTrackerMuon() == true && muon->isGlobalMuon() == false)
 	{
 	  std::cout << muon->innerTrack()->dxy(primaryVertex->begin()->position()) << std::endl;
-	}
-      
-      if(dxy == true && dz == true) selectedMuons->push_back(*muon);  
+	}      
     }
+  
   evt.put(selectedMuons);
 }
