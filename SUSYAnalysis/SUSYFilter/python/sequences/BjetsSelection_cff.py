@@ -41,7 +41,7 @@ goodMuons = vertexSelectedMuons.clone(src = "muons",
 ## configure module to produce collection of veto muons
 looseMuons = selectedPatMuons.clone(src = "cleanPatMuons",
                                     cut =
-                                    'isGlobalMuon()||isTrackerMuon()&'
+                                    'isGlobalMuon() || isTrackerMuon()&'
                                     'isPFMuon() &'
                                     'pt >= 15. &'
                                     'abs(eta) <= 2.5 &'
@@ -68,8 +68,14 @@ looseTrackerMuons = selectedPatMuons.clone(src = "looseMuons",
 looseGlobalMuons = selectedPatMuons.clone(src = "looseMuons",
                                           cut =
                                           'isGlobalMuon() &'
-                                          'isTrackerMuon()'
+                                          '!isTrackerMuon()'
                                            )
+
+looseGlobalTrackerMuons = selectedPatMuons.clone(src = "looseMuons",
+                                                 cut =
+                                                 'isGlobalMuon() &'
+                                                 'isTrackerMuon()'
+                                                 )
 
 vetoTrackerMuons = vertexSelectedMuons.clone(src = "looseTrackerMuons",
                                              primaryVertex = "goodVertices",
@@ -86,6 +92,14 @@ vetoGlobalMuons = vertexSelectedMuons.clone(src = "looseGlobalMuons",
                                             dxyCutValue = 0.2,
                                             dzCutValue = 0.5
                                             )
+
+vetoGlobalTrackerMuons = vertexSelectedMuons.clone(src = "looseGlobalTrackerMuons",
+                                                   primaryVertex = "goodVertices",
+                                                   dxyCut = True,
+                                                   dzCut = True,
+                                                   dxyCutValue = 0.2,
+                                                   dzCutValue = 0.5
+                                                   )
 
 from SUSYAnalysis.SUSYEventProducers.RA4ElectronProducer_cfi import *
 produceRA4Electrons.primaryVertexInputTag = "goodVertices"
@@ -270,8 +284,10 @@ createObjects = cms.Sequence(muons *
                              vetoMuons *
                              looseTrackerMuons *
                              looseGlobalMuons *
+                             looseGlobalTrackerMuons *
                              vetoTrackerMuons *
                              vetoGlobalMuons *
+                             vetoGlobalTrackerMuons *
                              produceRA4Electrons *
                              goodElectrons *
                              vetoElectrons *

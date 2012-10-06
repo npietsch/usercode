@@ -72,6 +72,9 @@ process.analyzeRA4VetoTrackerMuons.muons = "vetoTrackerMuons"
 process.analyzeRA4VetoGlobalMuons       = analyzeRA4Muons.clone()
 process.analyzeRA4VetoGlobalMuons.muons = "vetoGlobalMuons"
 
+process.analyzeRA4VetoGlobalTrackerMuons       = analyzeRA4Muons.clone()
+process.analyzeRA4VetoGlobalTrackerMuons.muons = "vetoGlobalTrackerMuons"
+
 process.analyzeRA4VetoMuons       = analyzeRA4Muons.clone()
 process.analyzeRA4VetoMuons.muons = "vetoMuons"
 
@@ -187,11 +190,16 @@ process.p2 = cms.Path(#execute producer modules
                       
                       process.createObjects *
                       # execute analyzer and filter modules
+                      process.exactlyOneGoodMuon *
+                      process.noGoodElectron *
                       process.analyzeRA4VetoGlobalMuons *
                       process.analyzeRA4VetoTrackerMuons *
                       process.analyzeRA4VetoMuons *
                       process.analyzeRA4GoodMuons *
-                      process.muonSelection 
+                      process.analyzeRA4VetoGlobalTrackerMuons *
+                      process.exactlyOneVetoMuon *
+                      process.exactlyOneVetoLepton
+                      #process.muonSelection 
                       )
 
 process.p3 = cms.Path(# execute producer modules
