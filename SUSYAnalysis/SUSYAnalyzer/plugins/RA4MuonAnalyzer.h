@@ -89,6 +89,7 @@ class RA4MuonAnalyzer : public edm::EDAnalyzer {
   TH1F* eta_;
   TH1F* isGlobalMuon_;
   TH1F* isTrackerMuon_;
+  TH2F* isGlobalTrackerMuon_;
   TH1F* isPFMuon_;
   TH1F* pfIso_;
   TH1F* normChi2_;
@@ -96,6 +97,7 @@ class RA4MuonAnalyzer : public edm::EDAnalyzer {
   TH1F* nMatchedStations_;
   TH1F* nPixelHits_;
   TH1F* nTrackerLayersWithMeasurement_;
+  TH1F* nMuons_;
 };  
 
 #endif  

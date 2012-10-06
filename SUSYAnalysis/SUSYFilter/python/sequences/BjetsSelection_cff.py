@@ -37,7 +37,7 @@ goodMuons = vertexSelectedMuons.clone(src = "muons",
                                       dxyCutValue = 0.02,
                                       dzCutValue = 0.5
                                       )
-          
+
 ## configure module to produce collection of veto muons
 looseMuons = selectedPatMuons.clone(src = "cleanPatMuons",
                                     cut =
@@ -58,6 +58,32 @@ vetoMuons = vertexSelectedMuons.clone(src = "looseMuons",
                                       dxyCutValue = 0.2,
                                       dzCutValue = 0.5
                                       )
+
+looseTrackerMuons = selectedPatMuons.clone(src = "looseMuons",
+                                           cut =
+                                           '!isGlobalMuon()'
+                                           )
+
+looseGlobalMuons = selectedPatMuons.clone(src = "looseMuons",
+                                           cut =
+                                           'isGlobalMuon() && isTrackerMuon()'
+                                           )
+
+vetoTrackerMuons = vertexSelectedMuons.clone(src = "looseTrackerMuons",
+                                             primaryVertex = "goodVertices",
+                                             dxyCut = True,
+                                             dzCut = True,
+                                             dxyCutValue = 0.2,
+                                             dzCutValue = 0.5
+                                             )
+
+vetoGlobalMuons = vertexSelectedMuons.clone(src = "looseGlobalMuons",
+                                            primaryVertex = "goodVertices",
+                                            dxyCut = True,
+                                            dzCut = True,
+                                            dxyCutValue = 0.2,
+                                            dzCutValue = 0.5
+                                            )
 
 from SUSYAnalysis.SUSYEventProducers.RA4ElectronProducer_cfi import *
 produceRA4Electrons.primaryVertexInputTag = "goodVertices"
@@ -240,6 +266,10 @@ createObjects = cms.Sequence(muons *
                              goodMuons *
                              looseMuons *
                              vetoMuons *
+                             looseTrackerMuons *
+                             looseGlobalMuons *
+                             vetoTrackerMuons *
+                             vetoGlobalMuons *
                              produceRA4Electrons *
                              goodElectrons *
                              vetoElectrons *
@@ -252,7 +282,7 @@ pfMuonConsistency.muons = "goodMuons"
 pfMuonConsistency.pfCandidates = "particleFlow"
                              
 muonSelection = cms.Sequence(exactlyOneGoodMuon *
-                             pfMuonConsistency *
+                             #pfMuonConsistency *
                              noGoodElectron *
                              exactlyOneVetoMuon *
                              exactlyOneVetoLepton
@@ -263,7 +293,7 @@ pfElectronConsistency.electrons = "goodElectrons"
 pfElectronConsistency.pfCandidates = "particleFlow"
 
 electronSelection = cms.Sequence(exactlyOneGoodElectron *
-                                 pfElectronConsistency *
+                                 #pfElectronConsistency *
                                  noGoodMuon *
                                  exactlyOneVetoElectron *
                                  exactlyOneVetoLepton

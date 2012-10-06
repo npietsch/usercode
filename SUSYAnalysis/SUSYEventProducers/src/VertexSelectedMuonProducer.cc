@@ -16,12 +16,17 @@ VertexSelectedMuonProducer::VertexSelectedMuonProducer(const edm::ParameterSet& 
 
 {
   produces<std::vector<pat::Muon> >();
-}
+
+  edm::Service<TFileService> fs;
+
+  dxy_  = fs->make<TH1F>("dxy", "dxy", 50, 0., 1.);
+  dz_   = fs->make<TH1F>("dz",  "dz",  50, 0., 1.);
+}  
 
 void
 VertexSelectedMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
 {
-  edm::Handle<std::vector<pat::Muon> > src; 
+  edm::Handle<std::vector<pat::Muon> > src;
   evt.getByLabel(src_, src);
 
   edm::Handle<reco::VertexCollection> primaryVertex;
@@ -36,12 +41,15 @@ VertexSelectedMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setu
     {
       if(std::abs(muon->innerTrack()->dxy(primaryVertex->begin()->position())) < dxyCutValue_)
 	{
-	  dxy = true;
-	  
+	  dxy = true;	  
 	}
       if(std::abs(muon->innerTrack()->dz(primaryVertex->begin()->position())) < dzCutValue_)
 	{
 	  dz = true;
+	}
+      if(muon->isTrackerMuon() == true && muon->isGlobalMuon() == false)
+	{
+	  std::cout << muon->innerTrack()->dxy(primaryVertex->begin()->position()) << std::endl;
 	}
       
       if(dxy == true && dz == true) selectedMuons->push_back(*muon);  

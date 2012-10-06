@@ -82,6 +82,7 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   eta_                           = fs->make<TH1F>("eta",                           "eta",                           60 , -3.,   3.);
   isGlobalMuon_                  = fs->make<TH1F>("isGlobalMuon",                  "isGlobalMuon",                   2 ,  0.,   2.);
   isTrackerMuon_                 = fs->make<TH1F>("isTrackerMuon",                 "isTrackerMuon",                  2 ,  0.,   2.);
+  isGlobalTrackerMuon_           = fs->make<TH2F>("isGlobalTrackerMuon",           "isGlobalTrackerMuon",  2, 0, 2,  2 ,  0.,   2.);
   isPFMuon_                      = fs->make<TH1F>("isPFMuon",                      "isPFMuon",                       2 ,  0.,   2.);
   pfIso_                         = fs->make<TH1F>("pfIso",                         "pfIso",                         50 ,  0.,   1.);
   normChi2_                      = fs->make<TH1F>("normChi2",                      "normChi2",                      20 ,  0.,  20.);
@@ -89,7 +90,7 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   nMatchedStations_              = fs->make<TH1F>("nMatchedStations",              "nMatchedStations",              10 ,  0.,  10.);
   nPixelHits_                    = fs->make<TH1F>("nPixelHits",                    "nPixelHits",                    20 ,  0.,  20.);
   nTrackerLayersWithMeasurement_ = fs->make<TH1F>("nTrackerLayersWithMeasurement", "nTrackerLayersWithMeasurement", 10 ,  0.,  10.);
-
+  nMuons_                        = fs->make<TH1F>("nMuons",                        "nMuons",                         4 ,  0.,   4.);
 }
 
 RA4MuonAnalyzer::~RA4MuonAnalyzer()
@@ -214,20 +215,23 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   for(int idx=0; idx<(int)muons->size(); ++idx)
     {
-      pt_           ->Fill((*muons)[idx].pt(),            weight);
-      eta_          ->Fill((*muons)[idx].eta(),           weight);
-      isGlobalMuon_ ->Fill((*muons)[idx].isGlobalMuon(),  weight);
-      isTrackerMuon_->Fill((*muons)[idx].isTrackerMuon(), weight);
-      isPFMuon_     ->Fill((*muons)[idx].isPFMuon(),      weight);
+      pt_                ->Fill((*muons)[idx].pt(),            weight);
+      eta_               ->Fill((*muons)[idx].eta(),           weight);
+      isGlobalMuon_      ->Fill((*muons)[idx].isGlobalMuon(),  weight);
+      isTrackerMuon_      ->Fill((*muons)[idx].isTrackerMuon(), weight);
+      isPFMuon_           ->Fill((*muons)[idx].isPFMuon(),      weight);
+      isGlobalTrackerMuon_->Fill((*muons)[idx].isGlobalMuon(), (*muons)[idx].isTrackerMuon(), weight);
 
       pfIso_->Fill(((*muons)[idx].pfIsolationR03().sumChargedHadronPt + max(0., (*muons)[idx].pfIsolationR03().sumNeutralHadronEt + (*muons)[idx].pfIsolationR03().sumPhotonEt - 0.5*(*muons)[idx].pfIsolationR03().sumPUPt))/(*muons)[idx].pt(), weight);
 
-      normChi2_                     ->Fill((*muons)[idx].globalTrack()->chi2()/(*muons)[idx].globalTrack()->ndof(), weight);
-      nValidMuonHits_               ->Fill((*muons)[idx].globalTrack()->hitPattern().numberOfValidMuonHits(),      weight);
-      nMatchedStations_             ->Fill((*muons)[idx].numberOfMatchedStations(),                               weight);
-      nPixelHits_                   ->Fill((*muons)[idx].innerTrack()->hitPattern().numberOfValidPixelHits(),      weight);
-      nTrackerLayersWithMeasurement_->Fill((*muons)[idx].track()->hitPattern().trackerLayersWithMeasurement(),     weight);
-
+      if((*muons)[idx].isGlobalMuon())
+	{
+	  normChi2_                    ->Fill((*muons)[idx].globalTrack()->chi2()/(*muons)[idx].globalTrack()->ndof(), weight);
+	  nValidMuonHits_               ->Fill((*muons)[idx].globalTrack()->hitPattern().numberOfValidMuonHits(),       weight);
+	  nMatchedStations_             ->Fill((*muons)[idx].numberOfMatchedStations(),                                 weight);
+	  nPixelHits_                   ->Fill((*muons)[idx].innerTrack()->hitPattern().numberOfValidPixelHits(),       weight);
+	  nTrackerLayersWithMeasurement_->Fill((*muons)[idx].track()->hitPattern().trackerLayersWithMeasurement(),      weight);
+	}
     }
 
 }

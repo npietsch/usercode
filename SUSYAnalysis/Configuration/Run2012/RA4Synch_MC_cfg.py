@@ -62,17 +62,21 @@ process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 # example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
 
 
-# import and configure test analyzer
+# import and configure analyzer
 #------------------------------------------------------------------------------
-from SUSYAnalysis.SUSYAnalyzer.TestAnalyzer_cfi import *
+from SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi import *
 
-# clone analyzer module named testAnalysis
-process.test = testAnalysis.clone()
+process.analyzeRA4VetoTrackerMuons       = analyzeRA4Muons.clone()
+process.analyzeRA4VetoTrackerMuons.muons = "vetoTrackerMuons"
 
-# configure module test, e.g.
-process.test.jets      = "goodJets"
-process.test.electrons = "vetoElectrons"
-process.test.muons     = "vetoMuons"
+process.analyzeRA4VetoGlobalMuons       = analyzeRA4Muons.clone()
+process.analyzeRA4VetoGlobalMuons.muons = "vetoGlobalMuons"
+
+process.analyzeRA4VetoMuons       = analyzeRA4Muons.clone()
+process.analyzeRA4VetoMuons.muons = "vetoMuons"
+
+process.analyzeRA4GoodMuons       = analyzeRA4Muons.clone()
+process.analyzeRA4GoodMuons.muons = "goodMuons"
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
@@ -162,7 +166,6 @@ process.p1 = cms.Path(# execute producer modules
                       
                       process.createObjects *
                       # execute analyzer and filter modules
-                      process.test *
                       process.oneGoodJet *
                       process.twoGoodJets *
                       process.threeGoodJets *
@@ -184,7 +187,10 @@ process.p2 = cms.Path(#execute producer modules
                       
                       process.createObjects *
                       # execute analyzer and filter modules
-                      process.test *
+                      process.analyzeRA4VetoGlobalMuons *
+                      process.analyzeRA4VetoTrackerMuons *
+                      process.analyzeRA4VetoMuons *
+                      process.analyzeRA4GoodMuons *
                       process.muonSelection 
                       )
 
