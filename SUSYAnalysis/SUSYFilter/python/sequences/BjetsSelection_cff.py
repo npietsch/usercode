@@ -23,7 +23,7 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     )
 
 goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
-                                        )
+                                      )
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -45,8 +45,7 @@ goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                     cut =
                                     'pt > 10. &'
-                                    'abs(eta) < 2.5 &'
-                                    '((trackIso+hcalIso+ecalIso)/pt) < 0.2'
+                                    'abs(eta) < 2.5'
                                     )
 
 ## create collection of loose electrons
@@ -67,7 +66,7 @@ trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                         )
 
 vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
-                                            )
+                                      )
 
 ## create collection of veto electrons
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
@@ -284,9 +283,9 @@ twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
 
 ## select events with exactly one veto muon
 exactlyOneVetoMuon = countPatElectrons.clone(src = 'vetoMuons',
-                                      minNumber = 1,
-                                      maxNumber = 1
-                                      )
+                                             minNumber = 1,
+                                             maxNumber = 1
+                                             )
 
 ## select events with no veto muon
 noVetoMuon = countPatElectrons.clone(src = 'vetoMuons',
@@ -368,12 +367,12 @@ oneGoodJet = countPatJets.clone(src = 'goodJets',
 
 ## select events with 2 good jets
 twoGoodJets = countPatJets.clone(src = 'goodJets',
-                                  minNumber = 2
-                                  )
+                                 minNumber = 2
+                                 )
 ## select events with 3 good jets
 threeGoodJets = countPatJets.clone(src = 'goodJets',
-                                  minNumber = 3
-                                  )
+                                   minNumber = 3
+                                   )
 ## select events with 4 good jets
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
@@ -427,19 +426,19 @@ fourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets'
                                                  )
 ## select events with exactly 1 medium TCHE bjet
 exactlyOneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                    minNumber = 1,
-                                                    maxNumber = 1
-                                                    )
+                                                      minNumber = 1,
+                                                      maxNumber = 1
+                                                      )
 ## select events with exactly 2 medium TCHE bjets
 exactlyTwoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                     minNumber = 2,
-                                                     maxNumber = 2
-                                                     )
+                                                       minNumber = 2,
+                                                       maxNumber = 2
+                                                       )
 ## select events with exactly 3 medium TCHE bjets
 exactlyThreeMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                       minNumber = 3,
-                                                       maxNumber = 3
-                                                       )
+                                                         minNumber = 3,
+                                                         maxNumber = 3
+                                                         )
 ## select events with exactly 4 medium TCHE bjets
 exactlyFourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
                                                         minNumber = 4,
