@@ -194,3 +194,41 @@ process.Selection3b1m_1 = cms.Path(# execute filter and b-tag analyzer and b-tag
                                    # execute analyzer modules
                                    process.analyzeSUSYBjets3b1m_1
                                    )
+
+## exactly one muon and exactly 0 btags
+process.Selection0b1m_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
+
+                                   # execute analyzer modules
+                                   process.monitorBtagWeightingMu *
+                                   process.analyzeSUSYBjets0b1m_2
+                                   )
+
+## exactly one muon and exactly 1 btag
+process.Selection1b1m_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
+
+                                   # execute analyzer modules
+                                   process.monitorBtagWeightingMu *
+                                   process.analyzeSUSYBjets1b1m_2
+                                   )
+
+## exactly one muon and exactly 2 btags
+process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
+
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets2b1m_2
+                                   )
