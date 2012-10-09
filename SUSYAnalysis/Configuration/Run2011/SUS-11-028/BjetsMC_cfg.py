@@ -75,58 +75,14 @@ process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
 #------------------------------------------------------------------
-# load analyzer modules
+# Load analyzer modules
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
 
-process.analyzeSUSY1b1m_4.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1b1m_4.inclusiveBtagBin = 1
-process.analyzeSUSY1b1m_4.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-process.analyzeSUSY1b1m_4.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
-
-process.analyzeSUSY1b1m_6.useBtagEventWeight = True
-process.analyzeSUSY1b1m_6.btagBin = 1
-process.analyzeSUSY1b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.monitorBtagWeightingMu                  = process.analyzeSUSY1b1m_6.clone()
+process.monitorBtagWeightingMu                  = process.analyzeSUSY1b1m_1.clone()
 process.monitorBtagWeightingMu.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
 process.monitorBtagWeightingMu.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
-
-process.analyzeSUSY2b1m_6.useBtagEventWeight = True
-process.analyzeSUSY2b1m_6.btagBin = 2
-process.analyzeSUSY2b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY2b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.analyzeSUSY3b1m_6.useBtagEventWeight = True
-process.analyzeSUSY3b1m_6.btagBin = 3
-process.analyzeSUSY3b1m_6.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
-process.analyzeSUSY3b1m_6.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
-
-process.analyzeSUSY1b1e_4.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1b1e_4.inclusiveBtagBin = 1
-process.analyzeSUSY1b1e_4.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1e_4.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.analyzeSUSY1b1e_6.useBtagEventWeight = True
-process.analyzeSUSY1b1e_6.btagBin = 1
-process.analyzeSUSY1b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY1b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.monitorBtagWeightingEl                  = process.analyzeSUSY1b1m_6.clone()
-process.monitorBtagWeightingEl.BtagEventWeights = "btagEventWeightElJER:RA4bEventWeights"
-process.monitorBtagWeightingEl.BtagJetWeights   = "btagEventWeightElJER:RA4bJetWeights"
-
-process.analyzeSUSY2b1e_6.useBtagEventWeight = True
-process.analyzeSUSY2b1e_6.btagBin = 2
-process.analyzeSUSY2b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY2b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
-
-process.analyzeSUSY3b1e_6.useBtagEventWeight = True
-process.analyzeSUSY3b1e_6.btagBin = 3
-process.analyzeSUSY3b1e_6.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
-process.analyzeSUSY3b1e_6.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 #------------------------------------------------------------------
 # Load and configure modules to estimate b-tag efficiency
@@ -179,213 +135,62 @@ process.btagEventWeightElJER.jets            = "goodJets"
 # muon selection paths
 #--------------------------
 
-## no btag
-process.Selection1m = cms.Path(# execute producer modules
-                               process.scaledJetEnergy *
-                               process.makeObjects *
-                               process.makeSUSYGenEvt *
-                               process.eventWeightPU *
-                               process.weightProducer *
+## exactly 1 muon and at least 0 b-tags
+process.Selection0b1m_1 = cms.Path(# execute producer modules
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   
+                                   # execute filter and analyzer modules
+                                   process.analyzeSUSYBjets1m_noCuts *
+                                   
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.analyzeSUSYBjets1m_preselection *
+                                   
+                                   process.muonSelection*
+                                   process.analyzeSUSYBjets1m_leptonSelection *
+                                   
+                                   process.jetSelection*
+                                   process.analyzeSUSYBjets1m_jetSelection
+                                   )
 
-                               # execute filter and analyzer modules
-                               process.analyzeSUSYBjets1m_noCuts *
-                               
-                               process.preselectionMuHTMC2 *
-                               process.MuHadSelection *
-                               process.analyzeSUSYBjets1m_preselection *
-                               
-                               process.muonSelection*
-                               process.analyzeSUSYBjets1m_leptonSelection *
-                               
-                               process.jetSelection*
-                               process.analyzeSUSYBjets1m_jetSelection
-                               )
+## exactly one muon and at least 1 btag
+process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
 
+                                   # execute analyzer modules
+                                   process.monitorBtagWeightingMu *
+                                   process.analyzeSUSYBjets1b1m_1
+                                   )
 
-################################################################################################
-################################################################################################
+## exactly one muon and at least 2 btag
+process.Selection2b1m_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightMuJER *
 
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets2b1m_1
+                                   )
 
-## ## at least 1 btag
-## process.Selection1b1m_1 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionMuHTMC2 *
-##                                    process.MuHadSelection *
-##                                    process.muonSelection*
-##                                    process.jetSelection *
-##                                    process.bTagEffRA4bMuTCHEM *
-##                                    process.btagEventWeightMuJER *
-##                                    process.monitorBtagWeightingMu *
-##                                    #process.oneMediumTrackHighEffBjet *
-##                                    process.analyzeSUSYBjets1b1m_4
-##                                    )
-
-## ## exactly 1 btag
-## process.Selection1b1m_2 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionMuHTMC2 *
-##                                    process.MuHadSelection *
-##                                    process.muonSelection*
-##                                    process.jetSelection *
-##                                    process.btagEventWeightMuJER *
-##                                    #process.exactlyOneMediumTrackHighEffBjet *
-##                                    #process.analyzeSUSYBjets1b1m_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets1b1m_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets1b1m_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets1b1m_1
-##                                    )
-## ## exactly 2 btags
-## process.Selection2b1m_2 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionMuHTMC2 *
-##                                    process.MuHadSelection *
-##                                    process.muonSelection*
-##                                    process.jetSelection *
-##                                    process.btagEventWeightMuJER *
-##                                    #process.exactlyTwoMediumTrackHighEffBjets *
-##                                    process.analyzeSUSYBjets2b1m_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets2b1m_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets2b1m_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets2b1m_1
-##                                    )
-## ## at least 3 btags
-## process.Selection3b1m_1 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionMuHTMC2 *
-##                                    process.MuHadSelection *
-##                                    process.muonSelection*
-##                                    process.jetSelection *
-##                                    process.btagEventWeightMuJER *
-##                                    #process.threeMediumTrackHighEffBjets *
-##                                    process.analyzeSUSYBjets3b1m_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets3b1m_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets3b1m_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets3b1m_1
-##                                    )
-
-## #--------------------------
-## # electron selection paths
-## #--------------------------
-
-## ## no btag
-## process.Selection1e = cms.Path(process.scaledJetEnergy *
-##                                process.makeObjects *
-##                                process.makeSUSYGenEvt *
-##                                process.eventWeightPU *
-##                                process.weightProducer *
-##                                process.analyzeSUSYBjets1e_noCuts *
-##                                process.preselectionElHTMC2 *
-##                                process.ElHadSelection *
-##                                process.analyzeSUSYBjets1e_preselection *
-##                                process.electronSelection*
-##                                process.analyzeSUSYBjets1e_leptonSelection *
-##                                process.jetSelection*
-##                                process.analyzeSUSYBjets1e_jetSelection *
-##                                process.HTSelection *
-##                                process.analyzeSUSYBjets1e_HTSelection *
-##                                process.metSelection *
-##                                process.analyzeSUSYBjets1e_metSelection #*
-##                                #process.mTSelection *
-##                                #process.analyzeSUSYBjets1e_mTSelection
-##                                )
-
-## ## at least 1 btag
-## process.Selection1b1e_1 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionElHTMC2 *
-##                                    process.ElHadSelection *
-##                                    process.electronSelection*
-##                                    process.jetSelection *
-##                                    process.bTagEffRA4bElTCHEM*
-##                                    process.btagEventWeightElJER *
-##                                    process.monitorBtagWeightingEl *
-##                                    #process.oneMediumTrackHighEffBjet *
-##                                    process.analyzeSUSYBjets1b1e_4
-##                                    )
-
-## ## exactly 1 btag
-## process.Selection1b1e_2 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionElHTMC2 *
-##                                    process.ElHadSelection *
-##                                    process.electronSelection*
-##                                    process.jetSelection *
-##                                    process.btagEventWeightElJER *
-##                                    #process.exactlyOneMediumTrackHighEffBjet *
-##                                    #process.analyzeSUSYBjets1b1e_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets1b1e_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets1b1e_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets1b1e_1
-##                                    )
-
-## ## exactly 2 btags
-## process.Selection2b1e_2 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionElHTMC2 *
-##                                    process.ElHadSelection *
-##                                    process.electronSelection*
-##                                    process.jetSelection *
-##                                    process.btagEventWeightElJER *
-##                                    #process.exactlyTwoMediumTrackHighEffBjets *
-##                                    process.analyzeSUSYBjets2b1e_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets2b1e_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets2b1e_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets2b1e_1
-##                                    )
-
-## ## at least 3 btags
-## process.Selection3b1e_1 = cms.Path(process.scaledJetEnergy *
-##                                    process.makeObjects *
-##                                    process.makeSUSYGenEvt *
-##                                    process.eventWeightPU *
-##                                    process.weightProducer *
-##                                    process.preselectionElHTMC2 *
-##                                    process.ElHadSelection *
-##                                    process.electronSelection *
-##                                    process.jetSelection *
-##                                    process.btagEventWeightElJER *
-##                                    #process.threeMediumTrackHighEffBjets *
-##                                    process.analyzeSUSYBjets3b1e_4 *
-##                                    process.HTSelection *
-##                                    process.analyzeSUSYBjets3b1e_5 *
-##                                    process.metSelection *
-##                                    process.analyzeSUSYBjets3b1e_6 #*
-##                                    #process.mTSelection *
-##                                    #process.analyzeSUSYBjets3b1e_1
-##                                    )
+## exactly 1 muon and at least 3 b-tags
+process.Selection3b1m_1 = cms.Path(# execute filter and b-tag analyzer and b-tag producer modules
+                                   process.preselectionMuHTMC2 *
+                                   process.MuHadSelection *
+                                   process.muonSelection*
+                                   process.jetSelection *
+                                   process.bTagEffRA4bMuTCHEM *
+                                   process.btagEventWeightMuJER *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets3b1m_1
+                                   )
