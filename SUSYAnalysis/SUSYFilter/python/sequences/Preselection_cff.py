@@ -100,6 +100,7 @@ scrapingVeto = cms.EDFilter("FilterOutScraping",
 
 
 from SUSYAnalysis.SUSYFilter.filters.TrackingFailureFilter_cfi import *
+trackingFailureFilter.VertexSource = "goodVertices"
 
 from RecoMET.METAnalyzers.CSCHaloFilter_cfi import *
 

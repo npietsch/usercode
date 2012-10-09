@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -138,6 +138,7 @@ process.btagEventWeightElJER.jets            = "goodJets"
 ## exactly 1 muon and at least 0 b-tags
 process.Selection0b1m_1 = cms.Path(# execute producer modules
                                    process.scaledJetEnergy *
+                                   process.preselectionMuHTMC2 *
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
                                    process.eventWeightPU *
@@ -146,7 +147,6 @@ process.Selection0b1m_1 = cms.Path(# execute producer modules
                                    # execute filter and analyzer modules
                                    process.analyzeSUSYBjets1m_noCuts *
                                    
-                                   process.preselectionMuHTMC2 *
                                    process.MuHadSelection *
                                    process.analyzeSUSYBjets1m_preselection *
                                    
@@ -232,3 +232,23 @@ process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
                                    # execute analyzer modules
                                    process.analyzeSUSYBjets2b1m_2
                                    )
+
+#-------------------------------------------------
+# Create patTuple
+#-------------------------------------------------
+
+process.EventSelection = cms.PSet(
+    SelectEvents = cms.untracked.PSet(
+    SelectEvents = cms.vstring('Selection0b1m_1'
+                               )
+    )
+    )
+
+process.out = cms.OutputModule("PoolOutputModule",
+                               process.EventSelection,
+                               #outputCommands = cms.untracked.vstring('drop *'),
+                               #dropMetaData = cms.untracked.string('DROPPED'),
+                               fileName = cms.untracked.string('Fall11.root')
+                               )
+
+process.outpath = cms.EndPath(process.out)

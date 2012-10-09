@@ -22,7 +22,8 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
 
-goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
+goodMuons = vertexSelectedMuons.clone(src = "trackMuons",
+                                      primaryVertex = "goodVertices"
                                       )
 
 ## create collection of good electrons
@@ -38,7 +39,8 @@ isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                'abs(dB) < 0.02 '
                                                )
 
-goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
+goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons",
+                                              primaryVertex = "goodVertices"
                                               )
 
 ## create collection of loose muons
@@ -65,7 +67,8 @@ trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                         'abs(dB) < 0.1'
                                         )
 
-vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
+vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons",
+                                      primaryVertex = "goodVertices"
                                       )
 
 ## create collection of veto electrons
@@ -78,9 +81,9 @@ looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 'abs(dB) < 0.1'
                                                 )
 
-vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons"
+vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons",
+                                              primaryVertex = "goodVertices"
                                               )
-
 
 #------------------------------------------------------------------------------
 # Configure modules to produce collections of jets
