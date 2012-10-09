@@ -115,11 +115,12 @@ int TtGenEventAnalyzer_ProjectionX()
 //   addSelectionStep("analyzeTtGenEvent_HTSelection_1l",    "HT selection",      2);
 //   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
   
-  addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
+  //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
   addSelectionStep("analyzeSUSY_leptonSelection_1l", "lepton selection");
-  addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
+  //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
   addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
   addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
+  addSelectionStep("analyzeSUSY_metSelection_1l_noHT",    "MET selection");
 
 //   addSelectionStep("analyzeSUSY_noCuts_1l_match2",          "no Cuts",           1);
 //   addSelectionStep("analyzeSUSY_leptonSelection_1l_match2", "lepton selection",  4);
@@ -184,8 +185,8 @@ int TtGenEventAnalyzer_ProjectionX()
 	      else Projection->DrawCopy("same");
 	    }
 	  leg->Draw();
-	  //canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_reco.pdf");
+	  canvas->SetLogy();
+	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_reco_log.pdf");
 	}
     }
 

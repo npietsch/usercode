@@ -156,6 +156,7 @@ goodJets.checkOverlaps = cms.PSet(
 )
 
 ## create collection of medium jets
+from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumJets = selectedPatJets.clone(src = 'goodJets',
                                    cut =
                                    'pt > 50.'
@@ -282,15 +283,15 @@ twoGoodMuons = countPatMuons.clone(src = 'goodMuons',
                                    )
 
 ## select events with exactly one veto muon
-exactlyOneVetoMuon = countPatElectrons.clone(src = 'vetoMuons',
-                                             minNumber = 1,
-                                             maxNumber = 1
-                                             )
+exactlyOneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
+                                         minNumber = 1,
+                                         maxNumber = 1
+                                         )
 
 ## select events with no veto muon
-noVetoMuon = countPatElectrons.clone(src = 'vetoMuons',
-                                     maxNumber = 0
-                                     )
+noVetoMuon = countPatMuons.clone(src = 'vetoMuons',
+                                 maxNumber = 0
+                                 )
 
 ## select events with at least one loose electron
 from PhysicsTools.PatAlgos.selectionLayer1.electronCountFilter_cfi import *

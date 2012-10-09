@@ -206,6 +206,11 @@ process.analyzeSUSY_jetSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_ma
 process.analyzeSUSY_HTSelection_1l_match2     = process.analyzeSUSY_noCuts_1l_match2.clone()
 process.analyzeSUSY_metSelection_1l_match2    = process.analyzeSUSY_noCuts_1l_match2.clone()
 
+# analyzer modules for event selection w/o HT cut
+process.analyzeTtGenEvent_metSelection_1l_noHT  = process.analyzeTtGenEvent.clone()
+process.analyzeSUSY_metSelection_1l_noHT        = process.analyzeSUSY_metSelection_1l.clone()
+process.analyzeSUSY_metSelection_1l_match_noHT  = process.analyzeSUSY_metSelection_1l_match.clone()
+
 #-----------------------------------------------------------------
 # muon selection paths
 #-----------------------------------------------------------------
@@ -251,8 +256,29 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  process.analyzeSUSY_metSelection_1l_match
                                  )
 
+process.Selection0b1l_2 = cms.Path(## producer sequences
+                                   process.scaledJetEnergy *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.makeGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer *
+                                   process.produceTtGenEventJets *
+                                   ## filter and analyzer sequences
+                                   process.semilepTtGenEventFilter *
+                                   
+                                   process.preselectionMuHTMC2 *
+                                   
+                                   process.leptonSelection*
+                                   
+                                   process.metSelection *
+                                   
+                                   process.analyzeTtGenEvent_metSelection_1l_noHT *
+                                   process.analyzeSUSY_metSelection_1l_noHT *
+                                   process.analyzeSUSY_metSelection_1l_match_noHT
+                                   )
 
-process.Selection0b1l_2 = cms.Path(## filter and analyzer sequences
+process.Selection0b1l_3 = cms.Path(## filter and analyzer sequences
                                    process.semilepTtGenEventFilter *
                                    process.fourMatchedGoodJets *
                                    process.analyzeSUSY_noCuts_1l_match2 *

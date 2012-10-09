@@ -68,6 +68,7 @@ int TtGenEventAnalyzer_ProjectionY()
   //--------------------------------------------------------------
 
   TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  //TFile* TTJets = new TFile("TTJetsFall11_back.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -115,12 +116,13 @@ int TtGenEventAnalyzer_ProjectionY()
 //   addSelectionStep("analyzeTtGenEvent_HTSelection_1l",    "HT selection",      2);
 //   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
   
-  addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
+  //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
   addSelectionStep("analyzeSUSY_leptonSelection_1l", "lepton selection");
-  addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
+  //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
   addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
   addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
-
+  addSelectionStep("analyzeSUSY_metSelection_1l_noHT","MET selection");
+ 
 //   addSelectionStep("analyzeSUSY_noCuts_1l_match2",          "no Cuts",           1);
 //   addSelectionStep("analyzeSUSY_leptonSelection_1l_match2", "lepton selection",  4);
 //   addSelectionStep("analyzeSUSY_jetSelection_1l_match2",    "jet selection",     8);
@@ -131,21 +133,21 @@ int TtGenEventAnalyzer_ProjectionY()
   // addBin
   //--------------------------------------------------------------
 
-  addBin(5, 10,  "2 <= Y_{MET} < 5",  4, 22);
+  addBin(7, 10,  "3 <= Y_{MET} < 5",  4, 22);
   addBin(11, 20, "5 <= Y_{MET} < 10", 1, 23);
   addBin(21, -1, "Y_{MET} > 10",      2, 20);
 
-//   addBin(1,  10, "m_{T} < 50 GeV",       2, 22);
-//   addBin(11, 20, "50 < m_{T} < 100 GeV", 4, 23);
-//   addBin(21, -1, "m_{T} > 100",          1, 20);
+//   addBin(1,  5, "m_{T} < 50 GeV",       2, 22);
+//   addBin(6, 10, "50 < m_{T} < 100 GeV", 4, 23);
+//   addBin(11, -1, "m_{T} > 100",          1, 20);
 
-//   addBin(1,  2, "m_{l,b} < 80 GeV",       2, 22);
-//   addBin(3, 4, "80 < m_{l,b} < 160 GeV",  4, 23);
-//   addBin(5, -1, "m_{l,b} > 160",          1, 20);
+//   addBin(1,  8, "m_{l,b} < 80 GeV",       2, 22);
+//   addBin(9, 16, "80 < m_{l,b} < 160 GeV",  4, 23);
+//   addBin(17, -1, "m_{l,b} > 160",          1, 20);
 
-//   addBin(1,  2, "m_{3,lep} < 120 GeV",        2, 22);
-//   addBin(4,  5, "120 < m_{3,lep} < 200 GeV",  4, 23);
-//   addBin(6, -1, "m_{3,lep} > 200",            1, 20);
+//   addBin(1,  12, "m_{3,lep} < 120 GeV",        2, 22);
+//   addBin(13, 20, "120 < m_{3,lep} < 200 GeV",  4, 23);
+//   addBin(21, -1, "m_{3,lep} > 200",            1, 20);
 
   //------------
   // set style 
