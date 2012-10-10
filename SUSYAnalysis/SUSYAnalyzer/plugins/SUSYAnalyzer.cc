@@ -354,6 +354,13 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //std::cout << "Test1" << std::endl;
 
+
+  int run   = evt.id().run();
+  int lumi  = evt.id().luminosityBlock();
+  int event = evt.id().event();
+
+  std::cout << "Run, lumi, event: " << run << ":" << lumi << ":" << event << std::endl;
+
   // declare and initialize different weights
   double weight=1;
   double weightPU=1;
@@ -384,6 +391,11 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	    {
 	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
 	      
+	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[0]): " << (*BtagEventWeightsHandle)[0] <<std::endl;
+	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[1]): " << (*BtagEventWeightsHandle)[1] <<std::endl;
+	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[2]): " << (*BtagEventWeightsHandle)[2] <<std::endl;
+	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[3]): " << (*BtagEventWeightsHandle)[3] <<std::endl;
+
 	      btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
 	      btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
 	      btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
