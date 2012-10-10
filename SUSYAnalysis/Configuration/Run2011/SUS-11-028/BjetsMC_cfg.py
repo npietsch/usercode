@@ -169,6 +169,7 @@ process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
+                                   process.bTagEffRA4bMuTCHEM *
                                    process.btagEventWeightMuJER *
 
                                    # execute analyzer modules
@@ -270,6 +271,7 @@ process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
+                                   process.bTagEffRA4bElTCHEM *
                                    process.btagEventWeightElJER *
 
                                    # execute analyzer modules
