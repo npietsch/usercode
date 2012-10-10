@@ -56,6 +56,51 @@ analyzeSUSY2b1m_2.btagBin = 2
 analyzeSUSY2b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
 analyzeSUSY2b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
 
+## clone modules for electron channel
+analyzeSUSY1e_noCuts = analyzeSUSY.clone()
+analyzeSUSY1e_preselection = analyzeSUSY.clone()
+analyzeSUSY1e_leptonSelection = analyzeSUSY.clone()
+analyzeSUSY1e_jetSelection = analyzeSUSY.clone()
+
+analyzeSUSY1b1e_1 = analyzeSUSY.clone()
+analyzeSUSY2b1e_1 = analyzeSUSY.clone()
+analyzeSUSY3b1e_1 = analyzeSUSY.clone()
+
+analyzeSUSY0b1e_2 = analyzeSUSY.clone()
+analyzeSUSY1b1e_2 = analyzeSUSY.clone()
+analyzeSUSY2b1e_2 = analyzeSUSY.clone()
+
+## configure modules electron muon channel
+analyzeSUSY1b1e_1.useInclusiveBtagEventWeight = True
+analyzeSUSY1b1e_1.inclusiveBtagBin = 1
+analyzeSUSY1b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY1b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
+analyzeSUSY2b1e_1.useInclusiveBtagEventWeight = True
+analyzeSUSY2b1e_1.inclusiveBtagBin = 2
+analyzeSUSY2b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY2b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
+analyzeSUSY3b1e_1.useInclusiveBtagEventWeight = True
+analyzeSUSY3b1e_1.inclusiveBtagBin = 3
+analyzeSUSY3b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY3b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
+analyzeSUSY0b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY0b1e_2.btagBin = 0
+analyzeSUSY0b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY0b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
+analyzeSUSY1b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY1b1e_2.btagBin = 1
+analyzeSUSY1b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY1b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
+analyzeSUSY2b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY2b1e_2.btagBin = 2
+analyzeSUSY2b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
+analyzeSUSY2b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+
 #----------------------------------------------------
 # Clone and configure SUSYGenEventAnalyzer modules
 #----------------------------------------------------
@@ -71,7 +116,7 @@ analyzeSUSYGenEvent.matchedqjets     = "matchedLightJets"
 analyzeSUSYGenEvent.matchedmuons     = "goodMuons"
 analyzeSUSYGenEvent.matchedelectrons = "goodElectrons"
 
-## clone modules 
+## clone modules for muon channel
 analyzeSUSYGenEvent1m_noCuts = analyzeSUSYGenEvent.clone()
 analyzeSUSYGenEvent1m_preselection = analyzeSUSYGenEvent.clone()
 analyzeSUSYGenEvent1m_leptonSelection = analyzeSUSYGenEvent.clone()
@@ -84,6 +129,20 @@ analyzeSUSYGenEvent3b1m_1 = analyzeSUSYGenEvent.clone()
 analyzeSUSYGenEvent0b1m_2 = analyzeSUSYGenEvent.clone()
 analyzeSUSYGenEvent1b1m_2 = analyzeSUSYGenEvent.clone()
 analyzeSUSYGenEvent2b1m_2 = analyzeSUSYGenEvent.clone()
+
+## clone modules for electron channel
+analyzeSUSYGenEvent1e_noCuts = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent1e_preselection = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent1e_leptonSelection = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent1e_jetSelection = analyzeSUSYGenEvent.clone()
+
+analyzeSUSYGenEvent1b1e_1 = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent2b1e_1 = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent3b1e_1 = analyzeSUSYGenEvent.clone()
+
+analyzeSUSYGenEvent0b1e_2 = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent1b1e_2 = analyzeSUSYGenEvent.clone()
+analyzeSUSYGenEvent2b1e_2 = analyzeSUSYGenEvent.clone()
 
 #----------------------------------------------------
 # Define analyzer sequences
@@ -127,4 +186,46 @@ analyzeSUSYBjets1b1m_2 = cms.Sequence(analyzeSUSY1b1m_2 *
 
 analyzeSUSYBjets2b1m_2 = cms.Sequence(analyzeSUSY2b1m_2 *
                                       analyzeSUSYGenEvent2b1m_2
+                                      )
+
+
+
+analyzeSUSYBjets1e_noCuts = cms.Sequence(analyzeSUSY1e_noCuts *
+                                         analyzeSUSYGenEvent1e_noCuts
+                                         )
+
+analyzeSUSYBjets1e_preselection = cms.Sequence(analyzeSUSY1e_preselection *
+                                               analyzeSUSYGenEvent1e_preselection
+                                               )
+
+analyzeSUSYBjets1e_leptonSelection = cms.Sequence(analyzeSUSY1e_leptonSelection *
+                                                  analyzeSUSYGenEvent1e_leptonSelection
+                                                  )
+
+analyzeSUSYBjets1e_jetSelection = cms.Sequence(analyzeSUSY1e_jetSelection *
+                                               analyzeSUSYGenEvent1e_jetSelection
+                                               )
+
+analyzeSUSYBjets1b1e_1 = cms.Sequence(analyzeSUSY1b1e_1 *
+                                      analyzeSUSYGenEvent1b1e_1
+                                      )
+
+analyzeSUSYBjets2b1e_1 = cms.Sequence(analyzeSUSY2b1e_1 *
+                                      analyzeSUSYGenEvent2b1e_1
+                                      )
+
+analyzeSUSYBjets3b1e_1 = cms.Sequence(analyzeSUSY3b1e_1 *
+                                      analyzeSUSYGenEvent3b1e_1
+                                      )
+
+analyzeSUSYBjets0b1e_2 = cms.Sequence(analyzeSUSY0b1e_2 *
+                                      analyzeSUSYGenEvent0b1e_2
+                                      )
+
+analyzeSUSYBjets1b1e_2 = cms.Sequence(analyzeSUSY1b1e_2 *
+                                      analyzeSUSYGenEvent1b1e_2
+                                      )
+
+analyzeSUSYBjets2b1e_2 = cms.Sequence(analyzeSUSY2b1e_2 *
+                                      analyzeSUSYGenEvent2b1e_2
                                       )

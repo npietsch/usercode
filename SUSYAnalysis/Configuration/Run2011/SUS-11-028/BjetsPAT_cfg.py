@@ -85,6 +85,11 @@ process.monitorBtagWeightingMu.useBtagEventWeight = True
 process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEventWeights"
 process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
 
+process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingEl.useBtagEventWeight = True
+process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEventWeights"
+process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
+
 #------------------------------------------------------------------
 # Load and configure modules to estimate b-tag efficiency
 #------------------------------------------------------------------
@@ -232,22 +237,105 @@ process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
 ##                                    process.analyzeSUSYBjets2b1m_2
 ##                                    )
 
-## #-------------------------------------------------
-## # Create patTuple
-## #-------------------------------------------------
 
-## process.EventSelection = cms.PSet(
-##     SelectEvents = cms.untracked.PSet(
-##     SelectEvents = cms.vstring('Selection0b1m_1'
-##                                )
-##     )
-##     )
+#--------------------------
+# electron selection paths
+#--------------------------
 
-## process.out = cms.OutputModule("PoolOutputModule",
-##                                process.EventSelection,
-##                                #outputCommands = cms.untracked.vstring('drop *'),
-##                                #dropMetaData = cms.untracked.string('DROPPED'),
-##                                fileName = cms.untracked.string('Fall11.root')
-##                                )
+## ## exactly 1 electron and at least 0 b-tags
+process.Selection0b1e_1 = cms.Path(# execute producer modules
+                                   process.scaledJetEnergy *
+                                   process.preselectionElHTMC2 *
+                                   process.makeObjects *
+                                   process.makeSUSYGenEvt *
+                                   process.eventWeightPU *
+                                   process.weightProducer #*
+                                   
+##                                    # execute filter and analyzer modules
+##                                    process.analyzeSUSYBjets1e_noCuts *
+                                   
+##                                    process.ElHadSelection *
+##                                    process.analyzeSUSYBjets1e_preselection *
+                                   
+##                                    process.electronSelection*
+##                                    process.analyzeSUSYBjets1e_leptonSelection *
+                                   
+##                                    process.jetSelection*
+##                                    process.analyzeSUSYBjets1e_jetSelection
+                                   )
 
-## process.outpath = cms.EndPath(process.out)
+## exactly one electron and at least 1 btag
+process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionElHTMC2 *
+                                   process.ElHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.btagEventWeightElJER *
+
+                                   # execute analyzer modules
+                                   process.monitorBtagWeightingEl #*
+                                   #process.analyzeSUSYBjets1b1e_1
+                                   )
+
+## ## exactly one electron and at least 2 btag
+
+
+## process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
+##                                    process.preselectionElHTMC2 *
+##                                    process.ElHadSelection *
+##                                    process.electronSelection*
+##                                    process.jetSelection *
+##                                    process.btagEventWeightElJER *
+
+##                                    # execute analyzer modules
+##                                    process.analyzeSUSYBjets2b1e_1
+##                                    )
+
+## ## exactly 1 electron and at least 3 b-tags
+## process.Selection3b1e_1 = cms.Path(# execute filter and b-tag analyzer and b-tag producer modules
+##                                    process.preselectionElHTMC2 *
+##                                    process.ElHadSelection *
+##                                    process.electronSelection*
+##                                    process.jetSelection *
+##                                    process.bTagEffRA4bElTCHEM *
+##                                    process.btagEventWeightElJER *
+                                   
+##                                    # execute analyzer modules
+##                                    process.analyzeSUSYBjets3b1e_1
+##                                    )
+
+## ## exactly one electron and exactly 0 btags
+## process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
+##                                    process.preselectionElHTMC2 *
+##                                    process.ElHadSelection *
+##                                    process.electronSelection*
+##                                    process.jetSelection *
+##                                    process.btagEventWeightElJER *
+
+##                                    # execute analyzer modules
+##                                    process.analyzeSUSYBjets0b1e_2
+##                                    )
+
+## ## exactly one electron and exactly 1 btag
+## process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
+##                                    process.preselectionElHTMC2 *
+##                                    process.ElHadSelection *
+##                                    process.electronSelection*
+##                                    process.jetSelection *
+##                                    process.btagEventWeightElJER *
+
+##                                    # execute analyzer modules
+##                                    process.analyzeSUSYBjets1b1e_2
+##                                    )
+
+## ## exactly one electron and exactly 2 btags
+## process.Selection2b1e_2 = cms.Path(# execute filter and b-tag producer modules
+##                                    process.preselectionElHTMC2 *
+##                                    process.ElHadSelection *
+##                                    process.electronSelection*
+##                                    process.jetSelection *
+##                                    process.btagEventWeightElJER *
+
+##                                    # execute analyzer modules
+##                                    process.analyzeSUSYBjets2b1e_2
+##                                    )

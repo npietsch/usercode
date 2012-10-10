@@ -85,6 +85,11 @@ process.monitorBtagWeightingMu.useBtagEventWeight = True
 process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEventWeights"
 process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
 
+process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingEl.useBtagEventWeight = True
+process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEventWeights"
+process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
+
 #------------------------------------------------------------------
 # Load and configure modules to estimate b-tag efficiency
 #------------------------------------------------------------------
