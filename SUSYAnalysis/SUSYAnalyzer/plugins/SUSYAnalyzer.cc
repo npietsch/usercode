@@ -391,10 +391,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	    {
 	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
 	      
-	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[0]): " << (*BtagEventWeightsHandle)[0] <<std::endl;
-	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[1]): " << (*BtagEventWeightsHandle)[1] <<std::endl;
-	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[2]): " << (*BtagEventWeightsHandle)[2] <<std::endl;
-	      std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[3]): " << (*BtagEventWeightsHandle)[3] <<std::endl;
+	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[0]): " << (*BtagEventWeightsHandle)[0] <<std::endl;
+	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[1]): " << (*BtagEventWeightsHandle)[1] <<std::endl;
+	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[2]): " << (*BtagEventWeightsHandle)[2] <<std::endl;
+	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[3]): " << (*BtagEventWeightsHandle)[3] <<std::endl;
 
 	      btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
 	      btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);

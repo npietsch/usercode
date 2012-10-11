@@ -102,10 +102,10 @@ class JetEnergy : public edm::EDProducer {
   /// allowed scaleTypes
   std::vector<std::string> allowedTypes_;
 
-  // histograms
-  TH1F *JetPt_;
-  TH1F *SmearedJetPt_;
-  TH1F *DeltaJetPt_;
+/*   // histograms */
+/*   TH1F *JetPt_; */
+/*   TH1F *SmearedJetPt_; */
+/*   TH1F *DeltaJetPt_; */
 };
 
 #endif
