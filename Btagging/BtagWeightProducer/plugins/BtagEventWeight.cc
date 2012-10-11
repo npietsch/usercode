@@ -30,7 +30,7 @@ BtagEventWeight::BtagEventWeight(const edm::ParameterSet& cfg):
   produces< std::vector<std::vector<double> > > ("RA4bEventWeightsGridMistag");
 
   // set the edges of the last histo bin
-  maxPt_ = 500.;
+  maxPt_ = 670.;
   maxEta_= 2.4;
   
   // load TFile Service
@@ -140,8 +140,14 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
       pt  = jet->pt();
       eta = std::abs(jet->eta());
 
+
       if(jet->partonFlavour() == 5 || jet->partonFlavour() == -5)
-	{	
+	{
+	  //std::cout << "\nParton Flavor: " << abs(jet->partonFlavour()) << std::endl;
+	  //std::cout << "Pt: " <<  pt << std::endl;
+	  //std::cout << "Eta: " << eta << std::endl;
+	  //std::cout << "oneMinusBEffies: " << (1.- effBTag(pt, eta)) << std::endl;
+	  
 	  BEffies.push_back(effBTag(pt, eta));
 	  BEffies_scaled.push_back(effBTag(pt, eta)*(effBTagSF(pt, eta,1)+shift_) );
 	  oneMinusBEffies.push_back(1.- effBTag(pt, eta));
@@ -149,19 +155,28 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	}     
       else if(jet->partonFlavour() == 4 || jet->partonFlavour() == -4)
 	{
+	  //std::cout << "\nParton Flavor: " << abs(jet->partonFlavour()) << std::endl;
+	  //std::cout << "Pt: " <<  pt << std::endl;
+	  //std::cout << "Eta: " << eta << std::endl;
+	  //std::cout << "oneMinusBMistags: " << (1.-effBTagCjet(pt, eta)) << std::endl;
+
 	  BEffies.push_back(effBTagCjet(pt, eta));
 	  BEffies_scaled.push_back(effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)) );
 	  oneMinusBMistags.push_back(1.- effBTagCjet(pt, eta));
-	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)) );
+	  oneMinusBMistags_scaled.push_back(1.-effBTagCjet(pt, eta)*(effBTagSF(pt, eta,2)));
 	}
       else
 	{ 
+	  //std::cout << "\nParton Flavor: " << abs(jet->partonFlavour()) << std::endl;
+	  //std::cout << "Pt: " <<  pt << std::endl;
+	  //std::cout << "Eta: " << eta << std::endl;
+	  //std::cout << "oneMinusBMistags: " << (1.-effMisTag(pt, eta)) << std::endl;
+
 	  BEffies.push_back(effMisTag(pt, eta));
 	  BEffies_scaled.push_back(effMisTag(pt, eta)*effMisTagSF(pt, eta));
 	  oneMinusBMistags               .push_back(1.- effMisTag(pt, eta));
 	  oneMinusBMistags_scaled        .push_back(1.-(effMisTag(pt, eta) * effMisTagSF(pt, eta)));
 	}
-
     }
 
   // collection of jet weights
@@ -169,20 +184,20 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   *RA4bJetWeights = BEffies; 
   evt.put(RA4bJetWeights,"RA4bJetWeights");
 
-  // collection of jet weights with scale factors applied
-  std::auto_ptr<std::vector<double> > RA4bSFJetWeights( new std::vector<double> );
-  *RA4bSFJetWeights = BEffies_scaled; 
-  evt.put(RA4bSFJetWeights,"RA4bSFJetWeights");
+//   // collection of jet weights with scale factors applied
+//   std::auto_ptr<std::vector<double> > RA4bSFJetWeights( new std::vector<double> );
+//   *RA4bSFJetWeights = BEffies_scaled; 
+//   evt.put(RA4bSFJetWeights,"RA4bSFJetWeights");
 
   // collection of event weights
   std::auto_ptr<std::vector<double> > RA4bEventWeights( new std::vector<double> );
   *RA4bEventWeights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1); 
   evt.put(RA4bEventWeights,"RA4bEventWeights");
 
-  // collection of event weights with scale factors applied
-  std::auto_ptr<std::vector<double> > RA4bSFEventWeights( new std::vector<double> );
-  *RA4bSFEventWeights = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1); 
-  evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
+//   // collection of event weights with scale factors applied
+//   std::auto_ptr<std::vector<double> > RA4bSFEventWeights( new std::vector<double> );
+//   *RA4bSFEventWeights = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1); 
+//   evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
 
   //=======================================================================================
   //=================================== BAUSTELLE =========================================
@@ -218,10 +233,10 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 	  BtagEffSFShiftGrid.push_back(BtagEffSFShiftVec);
 	}
       
-      // grid of jet weights with scale factors applied
-      std::auto_ptr<std::vector<std::vector<double> > >  RA4bJetWeightsGrid( new std::vector<std::vector<double> >);
-      *RA4bJetWeightsGrid = BtagEffSFShiftGrid ; 
-      evt.put(RA4bJetWeightsGrid,"RA4bJetWeightsGrid");
+//       // grid of jet weights with scale factors applied
+//       std::auto_ptr<std::vector<std::vector<double> > >  RA4bJetWeightsGrid( new std::vector<std::vector<double> >);
+//       *RA4bJetWeightsGrid = BtagEffSFShiftGrid ; 
+//       evt.put(RA4bJetWeightsGrid,"RA4bJetWeightsGrid");
     }
 
   //=======================================================================================
@@ -257,13 +272,13 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 		  oneMinusBMis_scaled.push_back(1.-(effMisTag(JetPt, JetEta)*effMisTagSF(JetPt, JetEta)));
 		}
 	    }
-	  BtagEffSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
+// 	  BtagEffSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
 	}
        
-      // grid of event weights with scale factors applied
-      std::auto_ptr<std::vector<std::vector<double> > >  RA4bEventWeightsGrid( new std::vector<std::vector<double> >);
-      *RA4bEventWeightsGrid = BtagEffSFShiftGrid; 
-      evt.put(RA4bEventWeightsGrid,"RA4bEventWeightsGrid");
+//       // grid of event weights with scale factors applied
+//       std::auto_ptr<std::vector<std::vector<double> > >  RA4bEventWeightsGrid( new std::vector<std::vector<double> >);
+//       *RA4bEventWeightsGrid = BtagEffSFShiftGrid; 
+//       evt.put(RA4bEventWeightsGrid,"RA4bEventWeightsGrid");
     }
   
   if(scaleEventMistagSF_==true)
@@ -295,13 +310,13 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
 		  oneMinusBMis_scaled.push_back(1.-(effMisTag(JetPt, JetEta)*(effMisTagSF(JetPt, JetEta)+SFShift)));
 		}
 	    }
-	  MistagSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
+// 	  MistagSFShiftGrid.push_back(effBTagEvent0123(oneMinusBEff_scaled, oneMinusBMis_scaled, 1, 1) );
 	}
        
       // grid of event weights with scale factors applied
       std::auto_ptr<std::vector<std::vector<double> > > RA4bEventWeightsGridMistag( new std::vector<std::vector<double> >);
-      *RA4bEventWeightsGridMistag = MistagSFShiftGrid; 
-      evt.put(RA4bEventWeightsGridMistag,"RA4bEventWeightsGridMistag");
+//       *RA4bEventWeightsGridMistag = MistagSFShiftGrid; 
+//       evt.put(RA4bEventWeightsGridMistag,"RA4bEventWeightsGridMistag");
     }
 
   //=======================================================================================
@@ -309,28 +324,28 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   //=======================================================================================
 
 
-  // systematic study on the influence of different eff and mis 
-  double points[]={0.8, 0.9, 0.95, 1, 1.05, 1.1, 1.2};
-  unsigned N=sizeof(points)/sizeof(double);
-  std::auto_ptr< std::vector<double>  >effBTagEventGrid( new std::vector<double>  );
+//   // systematic study on the influence of different eff and mis 
+//   double points[]={0.8, 0.9, 0.95, 1, 1.05, 1.1, 1.2};
+//   unsigned N=sizeof(points)/sizeof(double);
+//   std::auto_ptr< std::vector<double>  >effBTagEventGrid( new std::vector<double>  );
 
-  unsigned M=0;
-  for(unsigned i=0;i<N;i++) for(unsigned j=0;j<N;j++){
-  	std::vector<double> weights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, points[i], points[j]) ;
-  	M=weights.size();
-  	for(unsigned k=0;k<M;k++) effBTagEventGrid->push_back( weights[k] );
-  }
-  if(verbose_>=2)
-    {
-      for(unsigned i=0;i<N;i++)
-	for(unsigned j=0;j<N;j++){
-	  std::cout<<"(fac_eff="<<points[i]<<", fac_mis="<<points[j]<<") : ";
-	  for(unsigned k=0;k<M;k++)
-	    std::cout<<(*effBTagEventGrid)[k+j*M+i*N*M]<<" ";
-	  std::cout<<std::endl;
-	}
-    }
-  evt.put( effBTagEventGrid ,"effBTagEventGrid");
+//   unsigned M=0;
+//   for(unsigned i=0;i<N;i++) for(unsigned j=0;j<N;j++){
+//   	std::vector<double> weights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, points[i], points[j]) ;
+//   	M=weights.size();
+//   	for(unsigned k=0;k<M;k++) effBTagEventGrid->push_back( weights[k] );
+//   }
+//   if(verbose_>=2)
+//     {
+//       for(unsigned i=0;i<N;i++)
+// 	for(unsigned j=0;j<N;j++){
+// 	  std::cout<<"(fac_eff="<<points[i]<<", fac_mis="<<points[j]<<") : ";
+// 	  for(unsigned k=0;k<M;k++)
+// 	    std::cout<<(*effBTagEventGrid)[k+j*M+i*N*M]<<" ";
+// 	  std::cout<<std::endl;
+// 	}
+//     }
+//   evt.put( effBTagEventGrid ,"effBTagEventGrid");
 }
 
 
@@ -341,6 +356,9 @@ double BtagEventWeight::effBTag(double jetPt, double jetEta)
   // if histo file exists, take value from there; else return a default value
   if(filename_!="") {
     TH2F* his = effHists_.find("EffBJetsTaggedPtEta")->second;
+
+    //std::cout << "his->GetBinContent(his->FindBin(maxPt_-0.1, jetEta))" << his->GetBinContent(his->FindBin(maxPt_-0.1, jetEta)) << std::endl;
+
     if(jetPt >= maxPt_)       result = his->GetBinContent(his->FindBin(maxPt_-0.1, jetEta));
     else if(jetEta >= maxEta_)result = his->GetBinContent(his->FindBin(jetPt, maxEta_-0.01));
     else                      result = his->GetBinContent( his->FindBin(jetPt, jetEta) );
@@ -516,48 +534,111 @@ double BtagEventWeight::effMisTagSF(double jetPt, double jetEta)
 }
 
 // we produce a vector of weights 
-std::vector<double> BtagEventWeight::effBTagEvent0123(std::vector<double> oneMinusBEffies, 
-						      std::vector<double> oneMinusBMistags,
-						      double scl_eff, double scl_mis){
- 
- 	// include scaling for grid - oneMinusBEffies and oneMinusBMistags are local copies
-	for(unsigned i=0;i<oneMinusBEffies.size();i++)  oneMinusBEffies[i] =1-(1-oneMinusBEffies[i]) *scl_eff;
-	for(unsigned i=0;i<oneMinusBMistags.size();i++) oneMinusBMistags[i]=1-(1-oneMinusBMistags[i])*scl_mis;
+std::vector<double> BtagEventWeight::effBTagEvent0123(std::vector<double> oneMinusBEffies,std::vector<double> oneMinusBMistags, double scl_eff, double scl_mis)
+{
+  std::vector<double> oneMinusEffies; 
+  std::vector<double> weights;
+  
+  for(int idx=0; idx<(int)oneMinusBEffies.size(); ++idx)
+    {
+      oneMinusEffies.push_back(oneMinusBEffies[idx]);
+    }
+  for(int idx=0; idx<(int)oneMinusBMistags.size(); ++idx)
+    {
+      oneMinusEffies.push_back(oneMinusBMistags[idx]);
+    }
 
-	std::vector<double> weights;
+  //std::cout << "oneMinusBEffies.size(): " << oneMinusBEffies.size() << std::endl;
+  //std::cout << "oneMinusBMistags.size(): " << oneMinusBMistags.size() << std::endl;
+  //std::cout << "oneMinusEffies.size(): " << oneMinusEffies.size() << std::endl;
 
-	double E0 = 1;
-	double E1 = 0;
-	for(unsigned i=0;i<oneMinusBEffies.size();i++){
-		E0*=oneMinusBEffies[i];//E=\prod_{i=1}^b \eps(b-quark)_i
-		E1+=(1-oneMinusBEffies[i])/oneMinusBEffies[i];// E2=\sum_{i=1}^b \eps(b-quark)_i / (1-\eps(b-quark)_i)
+  // 0-bin
+  double W0=1;
+  for(int idx=0; idx<(int)oneMinusEffies.size(); ++idx)
+    {
+      //std::cout << "oneMinusEffies[idx]: " << oneMinusEffies[idx] << std::endl;
+      W0=W0*oneMinusEffies[idx];
+    }
+
+  // 1-bin
+  double W1=0;
+  for(int idx=0; idx<(int)oneMinusEffies.size(); ++idx)
+    {
+      double W1idx=(1-oneMinusEffies[idx]);
+
+      for(int jdx=0; jdx<(int)oneMinusEffies.size(); ++jdx)
+	{
+	  if(idx != jdx) W1idx=W1idx*oneMinusEffies[jdx];
 	}
+      W1=W1+W1idx;
+    }
 
-	double M0 = 1;
-	double M1 = 0;
-	for(unsigned i=0;i<oneMinusBMistags.size();i++){
-		M0*=oneMinusBMistags[i];//M=\prod_{i=1}^l \eps(light)_i
-		M1+=(1-oneMinusBMistags[i])/oneMinusBMistags[i];// M2=\sum_{i=1}^l \eps(light)_i / (1-\eps(light)_i)
-	}
+  // 2-bin
+  double W2=0;
+  for(int idx=0; idx<(int)oneMinusEffies.size(); ++idx)
+    {
+      for(int jdx=idx; jdx<(int)oneMinusEffies.size(); ++jdx)
+	{
+	  // if idx != jdx
+	  if(idx != jdx)
+	    {
+	      // idx and jdx get b-tagged
+	      double W2jdx=(1-oneMinusEffies[idx])*(1-oneMinusEffies[jdx]);
+	      std::cout << "idx: " << idx << ", jdx: " << jdx << ", W2jdx" << W2jdx << std::endl;	      
 
-	double E2 = 0;
-	if(oneMinusBEffies.size()>=2)
-		for(unsigned i=0;i<oneMinusBEffies.size()-1;i++)
-			for(unsigned j=i+1;j<oneMinusBEffies.size();j++){
-				E2+=(1-oneMinusBEffies[i])*(1-oneMinusBEffies[j])/oneMinusBEffies[i]/oneMinusBEffies[j];
+	      for(int kdx=0; kdx<(int)oneMinusEffies.size(); ++kdx)
+		{
+		  // if idx != kdx and jdx != kdx
+		  if(idx != kdx && jdx != kdx) W2jdx=W2jdx*oneMinusEffies[kdx];
+		}
+	      W2=W2+W2jdx;
+	    }
 	}
-	double M2 = 0;
-	if(oneMinusBMistags.size()>=2)
-		for(unsigned i=0;i<oneMinusBMistags.size()-1;i++)
-			for(unsigned j=i+1;j<oneMinusBMistags.size();j++){
-				M2+=(1-oneMinusBMistags[i])*(1-oneMinusBMistags[j])/oneMinusBMistags[i]/oneMinusBMistags[j];
-	}
+    }
 
-	weights.push_back(E0*M0);
-	weights.push_back(M0*E0*(E1+M1));
-	weights.push_back(E0*M0*(E2+M2+E1*M1));
-	weights.push_back(1-weights[0]-weights[1]-weights[2]);
-	return weights;
+  //3-bin
+  double W3=1-W0-W1-W2;
+
+//   double E0 = 1;
+//   double E1 = 0;
+//   for(unsigned i=0;i<oneMinusBEffies.size();i++){
+//     std::cout << "BtagEventWeight.cc oneMinusBEffies " << i << ": " << oneMinusBEffies[i] << std::endl;
+//     E0*=oneMinusBEffies[i];//E=\prod_{i=1}^b \eps(b-quark)_i
+//     E1+=(1-oneMinusBEffies[i])/oneMinusBEffies[i];// E2=\sum_{i=1}^b \eps(b-quark)_i / (1-\eps(b-quark)_i)
+//   }
+  
+//   double M0 = 1;
+//   double M1 = 0;
+//   for(unsigned i=0;i<oneMinusBMistags.size();i++){
+//     std::cout << "BtagEventWeight.cc oneMinusBMistags " << i << ": " << oneMinusBMistags[i] << std::endl;
+//     M0*=oneMinusBMistags[i];//M=\prod_{i=1}^l \eps(light)_i
+//     M1+=(1-oneMinusBMistags[i])/oneMinusBMistags[i];// M2=\sum_{i=1}^l \eps(light)_i / (1-\eps(light)_i)
+//   }
+  
+//   double E2 = 0;
+//   if(oneMinusBEffies.size()>=2)
+//     for(unsigned i=0;i<oneMinusBEffies.size()-1;i++)
+//       for(unsigned j=i+1;j<oneMinusBEffies.size();j++){
+// 	E2+=(1-oneMinusBEffies[i])*(1-oneMinusBEffies[j])/oneMinusBEffies[i]/oneMinusBEffies[j];
+//       }
+//   double M2 = 0;
+//   if(oneMinusBMistags.size()>=2)
+//     for(unsigned i=0;i<oneMinusBMistags.size()-1;i++)
+//       for(unsigned j=i+1;j<oneMinusBMistags.size();j++){
+// 	M2+=(1-oneMinusBMistags[i])*(1-oneMinusBMistags[j])/oneMinusBMistags[i]/oneMinusBMistags[j];
+//       }
+  
+  weights.push_back(W0);
+  weights.push_back(W1);
+  weights.push_back(W2);
+  weights.push_back(W3);
+
+  //std::cout << "BtagEventWeight.cc weights[0]: " << weights[0] << std::endl;
+  //std::cout << "BtagEventWeight.cc weights[1]: " << weights[1] << std::endl;
+  //std::cout << "BtagEventWeight.cc weights[2]: " << weights[2] << std::endl;
+  //std::cout << "BtagEventWeight.cc weights[3]: " << weights[3] << std::endl;
+
+  return weights;
 }
 
 
@@ -608,7 +689,5 @@ double BtagEventWeight::SFL_0024_max(double x){
 	return (1.22691*((1+(0.00211682*x))+(-2.07959e-05*(x*x))))+(1.72938e-07*(x*(x*(x/(1+(0.00658853*x))))));
 }
 
-
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE( BtagEventWeight );
-
+DEFINE_FWK_MODULE(BtagEventWeight);
