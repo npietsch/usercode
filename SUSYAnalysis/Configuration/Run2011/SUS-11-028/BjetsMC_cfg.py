@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -105,7 +105,6 @@ process.analyzeBTagEfficiency.binsEtaL    =  0.,0.8,1.6,2.4,3.0
 #process.analyzeBTagEfficiency.binsPtB     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
 #process.analyzeBTagEfficiency.binsPtL     =  0.,20.,30.,40.,50.,60.,70.,80.,100.,120.,160.,210.,260.,320.,400.,500.,670.
 
-
 process.bTagEffRA4bMuTCHEM = process.analyzeBTagEfficiency.clone()
 process.bTagEffRA4bMuTCHEM.bTagAlgo = "trackCountingHighEffBJetTags"
 process.bTagEffRA4bMuTCHEM.bTagDiscrCut = 3.3
@@ -170,11 +169,11 @@ process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.muonSelection*
                                    process.jetSelection *
                                    process.bTagEffRA4bMuTCHEM *
-                                   process.btagEventWeightMuJER #*
+                                   process.btagEventWeightMuJER *
 
                                    # execute analyzer modules
-                                   #process.monitorBtagWeightingMu #*
-                                   #process.analyzeSUSYBjets1b1m_1
+                                   process.monitorBtagWeightingMu *
+                                   process.analyzeSUSYBjets1b1m_1
                                    )
 
 ## ## exactly one muon and at least 2 btag
@@ -272,11 +271,11 @@ process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.bTagEffRA4bElTCHEM *
-                                   process.btagEventWeightElJER #*
+                                   process.btagEventWeightElJER *
 
                                    # execute analyzer modules
-                                   #process.monitorBtagWeightingEl #*
-                                   #process.analyzeSUSYBjets1b1e_1
+                                   process.monitorBtagWeightingEl *
+                                   process.analyzeSUSYBjets1b1e_1
                                    )
 
 ## ## exactly one electron and at least 2 btag

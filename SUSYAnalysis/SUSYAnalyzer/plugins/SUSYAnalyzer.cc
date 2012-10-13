@@ -359,7 +359,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   int lumi  = evt.id().luminosityBlock();
   int event = evt.id().event();
 
-  std::cout << "Run, lumi, event: " << run << ":" << lumi << ":" << event << std::endl;
+  //std::cout << "Run, lumi, event: " << run << ":" << lumi << ":" << event << std::endl;
 
   // declare and initialize different weights
   double weight=1;

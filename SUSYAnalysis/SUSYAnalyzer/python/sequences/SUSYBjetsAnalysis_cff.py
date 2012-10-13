@@ -28,33 +28,33 @@ analyzeSUSY2b1m_2 = analyzeSUSY.clone()
 ## configure modules for muon channel
 analyzeSUSY1b1m_1.useInclusiveBtagEventWeight = True
 analyzeSUSY1b1m_1.inclusiveBtagBin = 1
-analyzeSUSY1b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY1b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY1b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY1b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 analyzeSUSY2b1m_1.useInclusiveBtagEventWeight = True
 analyzeSUSY2b1m_1.inclusiveBtagBin = 2
-analyzeSUSY2b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY2b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY2b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY2b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 analyzeSUSY3b1m_1.useInclusiveBtagEventWeight = True
 analyzeSUSY3b1m_1.inclusiveBtagBin = 3
-analyzeSUSY3b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY3b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY3b1m_1.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY3b1m_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
-analyzeSUSY0b1m_2.useInclusiveBtagEventWeight = True
+analyzeSUSY0b1m_2.useBtagEventWeight = True
 analyzeSUSY0b1m_2.btagBin = 0
-analyzeSUSY0b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY0b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY0b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY0b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
-analyzeSUSY1b1m_2.useInclusiveBtagEventWeight = True
+analyzeSUSY1b1m_2.useBtagEventWeight = True
 analyzeSUSY1b1m_2.btagBin = 1
-analyzeSUSY1b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY1b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY1b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY1b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
-analyzeSUSY2b1m_2.useInclusiveBtagEventWeight = True
+analyzeSUSY2b1m_2.useBtagEventWeight = True
 analyzeSUSY2b1m_2.btagBin = 2
-analyzeSUSY2b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY2b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY2b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeSUSY2b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 ## clone modules for electron channel
 analyzeSUSY1e_noCuts = analyzeSUSY.clone()
@@ -73,33 +73,33 @@ analyzeSUSY2b1e_2 = analyzeSUSY.clone()
 ## configure modules electron muon channel
 analyzeSUSY1b1e_1.useInclusiveBtagEventWeight = True
 analyzeSUSY1b1e_1.inclusiveBtagBin = 1
-analyzeSUSY1b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY1b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY1b1e_1.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY1b1e_1.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 analyzeSUSY2b1e_1.useInclusiveBtagEventWeight = True
 analyzeSUSY2b1e_1.inclusiveBtagBin = 2
-analyzeSUSY2b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY2b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY2b1e_1.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY2b1e_1.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 analyzeSUSY3b1e_1.useInclusiveBtagEventWeight = True
 analyzeSUSY3b1e_1.inclusiveBtagBin = 3
-analyzeSUSY3b1e_1.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY3b1e_1.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY3b1e_1.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY3b1e_1.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
-analyzeSUSY0b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY0b1e_2.useBtagEventWeight = True
 analyzeSUSY0b1e_2.btagBin = 0
-analyzeSUSY0b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY0b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY0b1e_2.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY0b1e_2.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
-analyzeSUSY1b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY1b1e_2.useBtagEventWeight = True
 analyzeSUSY1b1e_2.btagBin = 1
-analyzeSUSY1b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY1b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY1b1e_2.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY1b1e_2.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
-analyzeSUSY2b1e_2.useInclusiveBtagEventWeight = True
+analyzeSUSY2b1e_2.useBtagEventWeight = True
 analyzeSUSY2b1e_2.btagBin = 2
-analyzeSUSY2b1e_2.BtagEventWeights = "btagEventWeightMuJER:RA4bEventWeights"
-analyzeSUSY2b1e_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bJetWeights"
+analyzeSUSY2b1e_2.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
+analyzeSUSY2b1e_2.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
 
 #----------------------------------------------------
 # Clone and configure SUSYGenEventAnalyzer modules

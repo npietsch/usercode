@@ -184,20 +184,20 @@ BtagEventWeight::produce(edm::Event& evt, const edm::EventSetup& setup)
   *RA4bJetWeights = BEffies; 
   evt.put(RA4bJetWeights,"RA4bJetWeights");
 
-//   // collection of jet weights with scale factors applied
-//   std::auto_ptr<std::vector<double> > RA4bSFJetWeights( new std::vector<double> );
-//   *RA4bSFJetWeights = BEffies_scaled; 
-//   evt.put(RA4bSFJetWeights,"RA4bSFJetWeights");
-
+  // collection of jet weights with scale factors applied
+  std::auto_ptr<std::vector<double> > RA4bSFJetWeights( new std::vector<double> );
+  *RA4bSFJetWeights = BEffies_scaled; 
+  evt.put(RA4bSFJetWeights,"RA4bSFJetWeights");
+  
   // collection of event weights
   std::auto_ptr<std::vector<double> > RA4bEventWeights( new std::vector<double> );
   *RA4bEventWeights = effBTagEvent0123(oneMinusBEffies, oneMinusBMistags, 1, 1); 
   evt.put(RA4bEventWeights,"RA4bEventWeights");
 
-//   // collection of event weights with scale factors applied
-//   std::auto_ptr<std::vector<double> > RA4bSFEventWeights( new std::vector<double> );
-//   *RA4bSFEventWeights = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1); 
-//   evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
+  // collection of event weights with scale factors applied
+  std::auto_ptr<std::vector<double> > RA4bSFEventWeights( new std::vector<double> );
+  *RA4bSFEventWeights = effBTagEvent0123(oneMinusBEffies_scaled, oneMinusBMistags_scaled, 1, 1); 
+  evt.put(RA4bSFEventWeights,"RA4bSFEventWeights");
 
   //=======================================================================================
   //=================================== BAUSTELLE =========================================
@@ -584,7 +584,7 @@ std::vector<double> BtagEventWeight::effBTagEvent0123(std::vector<double> oneMin
 	    {
 	      // idx and jdx get b-tagged
 	      double W2jdx=(1-oneMinusEffies[idx])*(1-oneMinusEffies[jdx]);
-	      std::cout << "idx: " << idx << ", jdx: " << jdx << ", W2jdx" << W2jdx << std::endl;	      
+	      //std::cout << "idx: " << idx << ", jdx: " << jdx << ", W2jdx" << W2jdx << std::endl;	      
 
 	      for(int kdx=0; kdx<(int)oneMinusEffies.size(); ++kdx)
 		{
