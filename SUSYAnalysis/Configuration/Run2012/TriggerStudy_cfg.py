@@ -57,7 +57,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(200),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -103,6 +103,17 @@ process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 # example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
 
 
+
+
+
+
+
+
+
+
+
+
+
 # import and configure test analyzer
 #------------------------------------------------------------------------------
 from SUSYAnalysis.SUSYAnalyzer.TreeWriter_cfi import *
@@ -116,6 +127,55 @@ process.muTriggerStudy.electrons = "goodElectrons"
 
 process.elTriggerStudy  = process.muTriggerStudy.clone()
 process.hadTriggerStudy = process.muTriggerStudy.clone()
+
+
+
+
+
+
+# define a trigger matcher
+from PhysicsTools.PatAlgos.triggerLayer1.triggerMatcher_cfi import cleanMuonTriggerMatchHLTMu20
+process.myMatcher = cleanMuonTriggerMatchHLTMu20.clone()
+# load the PAT trigger Python tools
+from PhysicsTools.PatAlgos.tools.trigTools import *
+# switch on the trigger matching
+#switchOnTriggerMatching( process, myMatcher)
+
+
+## ---
+## PAT trigger matching
+## --
+process.muonTriggerMatchHLTMuons = cms.EDProducer(
+  # matching in DeltaR, sorting by best DeltaR
+  "PATTriggerMatcherDRLessByR"
+  # matcher input collections
+, src     = cms.InputTag( 'goodMuons' )
+, matched = cms.InputTag( 'patTrigger' )
+  # selections of trigger objects
+, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_IsoMu24_eta2p1_v*" )' )
+  # selection of matches
+, maxDPtRel   = cms.double( 0.5 ) # no effect here
+, maxDeltaR   = cms.double( 0.5 )
+, maxDeltaEta = cms.double( 0.2 ) # no effect here
+  # definition of matcher output
+, resolveAmbiguities    = cms.bool( True )
+, resolveByMatchQuality = cms.bool( True )
+)
+
+
+
+#process.selectedPatMuonsTriggerMatch = cms.EDProducer(
+#"PATTriggerMatchElectronEmbedder",
+      #src     = cms.InputTag( "selectedPatElectrons" ),
+      #matches = cms.VInputTag( "muonTriggerMatchHLTMuons" )
+      #)
+
+#process.triggerFireElectrons = selectedPatElectrons.clone(
+            #src = 'selectedPatMuonsTriggerMatch',
+            #cut = 'triggerObjectMatches.size > 0'       
+            #)
+       
+
 
 #------------------------------------------------------------------------------
 # From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
@@ -235,8 +295,10 @@ process.p3 = cms.Path(# execute producer modules
                      process.createObjects *
                      # execute analyzer and filter modules
                      process.preselection *
+                     process.muonTriggerMatchHLTMuons *
                      #process.threeGoodJets *
                      process.hadTriggerStudy##  *
+                     #process.muonTriggerMatchHLTMuons
 ##                      process.selectedTriggers
                      )
 
