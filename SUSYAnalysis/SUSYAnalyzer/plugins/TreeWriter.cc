@@ -104,22 +104,26 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   
-
+  cout<<"No. of Jets | Muons | electrons: " << jets->size() << " | " << muons->size() << " | " << electrons->size() << endl;
+  
   //--------------------- A few control plots
   nElectrons_->Fill(electrons->size(),eventWeight);
   nJets_     ->Fill(jets->size(),eventWeight);
   nMuons_    ->Fill(muons->size(),eventWeight);
-
-
-  //cout<<"jets.size() = " << jets->size() << endl;
-
 
   //--------------------- Fill branches
   //Eletrons
   for(int i=0,N=(int)electrons->size(); i<N; ++i){
     goodElectrons.push_back((*electrons)[i].p4());
     elCharge.push_back((*electrons)[i].charge());
+    cout<<"elCharge.back() " << elCharge.back() << endl;
+    cout <<"electrons->at(i).triggerObjectMatches().size() = " << electrons->at(i).triggerObjectMatches().size() << endl;
+    if(electrons->at(i).triggerObjectMatches().size() ==1){
+    }
+    //       electrons->at(i).setMatchedTrig(electrons->at(i).triggerObjectMatches().begin()->pathNames());
   }
+    
+  
   //Jets
   for(int i=0,N=(int)jets->size(); i<N; ++i){
     goodJets.push_back((*jets)[i].p4());
@@ -128,7 +132,25 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   for(int i=0,N=(int)muons->size(); i<N; ++i){
     goodMuons.push_back((*muons)[i].p4());
     muCharge.push_back((*muons)[i].charge());
+    cout<<"i                                          = " << i << endl;
+    cout<<"muCharge.back()                            = " << muCharge.back() << endl;
+    //cout<<"muCharge[i].p4()                           = " << muCharge[i].pt() << endl;
+    cout<<"muons->at(i).p4()                          = " << muons->at(i).p4() << endl;
+    cout<<"muons->at(i).triggerObjectMatches().size() = " << muons->at(i).triggerObjectMatches().size() << endl;
+    cout<<endl;
   }
+  
+//   for(std::vector<pat::Muon >::const_iterator muon=muons->begin(); muon<muons->end() ; ++muon){
+//     cout<<"muons->at(i).p4()                   = " << muon->p4() << endl;
+//     cout<<"muon->triggerObjectMatches().size() = " << muon->triggerObjectMatches().size() << endl;
+//     cout<<endl;
+//   }
+  
+    
+    
+    
+    
+    
   nLeptons = electrons->size() + muons->size();
 
   //--------------------- Fill Tree
@@ -137,8 +159,8 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
 
 //============================================================ beginJob
-void TreeWriter::beginJob(){  
-} 
+void TreeWriter::beginJob(){
+}
 
 
 //============================================================ endJob

@@ -109,9 +109,63 @@ process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 
 
 
+# define a trigger matcher
+#from PhysicsTools.PatAlgos.triggerLayer1.triggerMatcher_cfi import cleanMuonTriggerMatchHLTMu20
+#process.myMatcher = cleanMuonTriggerMatchHLTMu20.clone()
+# load the PAT trigger Python tools
+from PhysicsTools.PatAlgos.tools.trigTools import *
+# switch on the trigger matching
+#switchOnTriggerMatching( process, myMatcher)
 
+#process.load( "PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff" )
+### change triggerProcessName, e.g. to HLT or REDIGIXXXX
+#process.patTrigger.processName      = triggerProcessName
+#process.patTriggerEvent.processName = triggerProcessName
+### inpu tag for selectedPatMuons/Electrons
+#if(leptonTypeId == 11):
+    #selectedPatLeptons = "selectedPatElectrons"
+#elif(leptonTypeId == 13):
+    #selectedPatLeptons = "selectedPatMuons" 
 
+#switchOnTrigger( process )
+process.patTriggerSequence = cms.Sequence(process.patTrigger)
+#switchOnTrigger( process, HLT, patTrigger, patTriggerEvent, patDefaultSequence, out )
 
+## ---
+## PAT trigger matching
+## --
+process.muonTriggerMatchHLTMuons = cms.EDProducer(
+  "PATTriggerMatcherDRLessByR"
+  #"PATTriggerMatcherDRDPtLessByR"
+#, src     = cms.InputTag( 'patMuons' )
+, src     = cms.InputTag( 'cleanPatMuons' )
+, matched = cms.InputTag( 'patTrigger' )
+  # selections of trigger objects
+#, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_IsoMu24_eta2p1_v*" )' )
+#, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_Mu*" )' )
+, matchedCuts = cms.string('path("*")')
+, maxDeltaR   = cms.double( 0.5 )
+#, maxDPtRel   = cms.double( 0.5 )
+, resolveAmbiguities    = cms.bool( True )
+, resolveByMatchQuality = cms.bool( True )
+)
+
+process.electronTriggerMatchHLTElectrons = process.muonTriggerMatchHLTMuons.clone()
+#process.electronTriggerMatchHLTElectrons.src = 'patElectrons'
+process.electronTriggerMatchHLTElectrons.src = 'cleanPatElectrons'
+#process.electronTriggerMatchHLTElectrons.matchedCuts = 'type( "TriggerElectron" ) && path( "HLT_Ele*" )'
+
+process.muonTriggerMatchHLTMuonsEmbedder = cms.EDProducer(
+  "PATTriggerMatchMuonEmbedder",
+  src = cms.InputTag("cleanPatMuons"),
+  matches = cms.VInputTag("muonTriggerMatchHLTMuons")
+)
+
+process.electronTriggerMatchHLTElectronsEmbedder = cms.EDProducer(
+  "PATTriggerMatchElectronEmbedder",
+  src = cms.InputTag("cleanPatElectrons"),
+  matches = cms.VInputTag("electronTriggerMatchHLTElectrons")
+)
 
 
 # import and configure test analyzer
@@ -122,7 +176,9 @@ from SUSYAnalysis.SUSYAnalyzer.TreeWriter_cfi import *
 process.muTriggerStudy = writeTrees.clone()
 
 process.muTriggerStudy.jets      = "goodJets"
-process.muTriggerStudy.muons     = "goodMuons"
+#process.muTriggerStudy.muons     = "goodMuons"
+#process.muTriggerStudy.muons     = "patMuons"
+process.muTriggerStudy.muons     = "cleanPatMuons"
 process.muTriggerStudy.electrons = "goodElectrons"
 
 process.elTriggerStudy  = process.muTriggerStudy.clone()
@@ -130,37 +186,6 @@ process.hadTriggerStudy = process.muTriggerStudy.clone()
 
 
 
-
-
-
-# define a trigger matcher
-from PhysicsTools.PatAlgos.triggerLayer1.triggerMatcher_cfi import cleanMuonTriggerMatchHLTMu20
-process.myMatcher = cleanMuonTriggerMatchHLTMu20.clone()
-# load the PAT trigger Python tools
-from PhysicsTools.PatAlgos.tools.trigTools import *
-# switch on the trigger matching
-#switchOnTriggerMatching( process, myMatcher)
-
-
-## ---
-## PAT trigger matching
-## --
-process.muonTriggerMatchHLTMuons = cms.EDProducer(
-  # matching in DeltaR, sorting by best DeltaR
-  "PATTriggerMatcherDRLessByR"
-  # matcher input collections
-, src     = cms.InputTag( 'goodMuons' )
-, matched = cms.InputTag( 'patTrigger' )
-  # selections of trigger objects
-, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_IsoMu24_eta2p1_v*" )' )
-  # selection of matches
-, maxDPtRel   = cms.double( 0.5 ) # no effect here
-, maxDeltaR   = cms.double( 0.5 )
-, maxDeltaEta = cms.double( 0.2 ) # no effect here
-  # definition of matcher output
-, resolveAmbiguities    = cms.bool( True )
-, resolveByMatchQuality = cms.bool( True )
-)
 
 
 
@@ -208,11 +233,11 @@ options.register('addKeep', '', VarParsing.VarParsing.multiplicity.list, VarPars
 if options.GlobalTag:
     process.GlobalTag.globaltag = options.GlobalTag
 
-
 #-- import SUSY PAT sequence --------------------------------------------------
 from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getSUSY_pattuple_outputCommands
 
 addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,options.mcVersion,options.jetTypes,options.doValidation,options.doExtensiveMatching,options.doSusyTopProjection)
+
 
 #------------------------------------------------------------------------------
 # Type-1 MET corrections
@@ -235,8 +260,8 @@ process.patPFMETs = process.patMETs.clone(
              )
 process.pfType1CorrectedMet.applyType0Corrections = cms.bool(False)
 process.pfType1CorrectedMet.srcType1Corrections = cms.VInputTag(
-    cms.InputTag('pfJetMETcorr', 'type1') ,
-    cms.InputTag('pfMEtSysShiftCorr')  
+    cms.InputTag('pfJetMETcorr', 'type1'),
+    cms.InputTag('pfMEtSysShiftCorr')
 )
 process.patPFMETsTypeIcorrected = process.patPFMETs.clone(
              metSource = cms.InputTag('pfType1CorrectedMet'),
@@ -250,10 +275,15 @@ from RecoJets.JetProducers.kt4PFJets_cfi import *
 process.kt6PFJetsForIsolation2011 = kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
 process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 
+
+switchOnTrigger( process )
+switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
+process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" , "electronTriggerMatchHLTElectrons" ]
+
+
 #------------------------------------------------------------------------------
 # Execution path
 #------------------------------------------------------------------------------
-
 # write ntuple (tree) for muon trigger study
 process.p = cms.Path(# execute producer modules
                      process.susyPatDefaultSequence *
@@ -295,10 +325,30 @@ process.p3 = cms.Path(# execute producer modules
                      process.createObjects *
                      # execute analyzer and filter modules
                      process.preselection *
+                     process.patTriggerSequence *
                      process.muonTriggerMatchHLTMuons *
+                     process.muonTriggerMatchHLTMuonsEmbedder *
+                     process.electronTriggerMatchHLTElectrons *
+                     process.electronTriggerMatchHLTElectronsEmbedder *
                      #process.threeGoodJets *
                      process.hadTriggerStudy##  *
                      #process.muonTriggerMatchHLTMuons
 ##                      process.selectedTriggers
-                     )
+)
+
+
+                              
+                              
+#from PhysicsTools.PatAlgos.tools.trigTools import *
+#switchOnTrigger( process )
+#switchOnTrigger( process )
+#switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
+#process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" ]
+#removeCleaningFromTriggerMatching( process )
+
+
+
+
+
+
 

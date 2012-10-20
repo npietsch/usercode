@@ -70,6 +70,9 @@ class TreeWriter : public edm::EDAnalyzer {
     int nLeptons;
     int run;
     
+    std::vector<std::string> matchedTrig_;
+    void setMatchedTrig(std::vector<std::string> MatchedTrig){matchedTrig_=MatchedTrig;}
+    
 
 };
 
