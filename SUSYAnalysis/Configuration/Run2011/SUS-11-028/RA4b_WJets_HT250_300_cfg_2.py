@@ -14,8 +14,8 @@ process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
 process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT250.root"
 process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
-process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJetsHT.root"
-process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/WJetsHT.root"
+process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_WJetsHT.root"
+process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_WJetsHT.root"
 
 #Choose input files
 process.source = cms.Source("PoolSource",
