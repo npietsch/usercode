@@ -19,7 +19,8 @@ process.configurationMetadata = cms.untracked.PSet(
 #-- Message Logger ------------------------------------------------------------
 process.MessageLogger.categories.append('PATSummaryTables')
 process.MessageLogger.cerr.PATSummaryTables = cms.untracked.PSet(
-    limit = cms.untracked.int32(-1),
+    limit = cms.untracked.int32(1000
+                                ),
     reportEvery = cms.untracked.int32(1)
     )
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
