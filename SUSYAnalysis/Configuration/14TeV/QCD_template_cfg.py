@@ -23,7 +23,7 @@ process.load('FastSimulation.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000)
+    input = cms.untracked.int32(5000)
 )
 
 process.RandomNumberGeneratorService.generator.initialSeed = ___RND___
@@ -37,9 +37,9 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('\\$Revision: 1.2 $'),
+    version = cms.untracked.string('\\$Revision: 1.3.2.1 $'),
     annotation = cms.untracked.string('14TeV sample with PYTHIA6: QCD dijet production, pThat = 15 .. 3000 GeV, weighted, TuneZ2'),
-    name = cms.untracked.string('\\$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/QCD_Pt15to3000Flat_Pythia_14TeV_cff.py,v $')
+    name = cms.untracked.string('\\$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/QCD_template_cfg.py,v $')
 )
 
 # Output definition
