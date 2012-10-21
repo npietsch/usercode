@@ -49,30 +49,30 @@ int BtagEff()
   // Samples
   //--------------------------------------------------------------
 
-//   TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
-//   TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
-//   TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
-//   TFile* ZJets          = new TFile("ZJets.root",          "READ");
-//   TFile* WJets          = new TFile("WJets.root",          "READ");
-//   TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  //TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
+  TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
+  TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
+  //TFile* WJets          = new TFile("WJets.root",          "READ");
+  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  TFile* ZJets          = new TFile("ZJets.root",          "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
-//   TFile* LM3            = new TFile("LM3.root",            "READ");
-//   TFile* LM8            = new TFile("LM8.root",            "READ");
-//   TFile* LM13           = new TFile("LM13.root",           "READ");
-
+  //TFile* LM3            = new TFile("LM3.root",            "READ");
+  //TFile* LM8            = new TFile("LM8.root",            "READ");
+  //TFile* LM13           = new TFile("LM13.root",           "READ");
+  
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
 //   addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed+2,   0, 0);
-//   addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed+2,   0, 0);
-//   addSample(SingleTop,      "SingleTop",      1, kRed,     0, 0);
-//   addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
+  addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed+2,   0, 0);
+  addSample(SingleTop,      "SingleTop",      1, kRed,     0, 0);
 //   addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-//   addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
+  addSample(WJetsHT,        "WJetsHT",        1, 1,        0, 0);
+  addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
   addSample(QCD,            "QCD",            1, kBlue,    0, 0);
-					    
+  
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
 //   addSample(LM13,      "LM13",        1, kBlue,    0, 0);

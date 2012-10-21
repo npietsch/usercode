@@ -85,10 +85,14 @@ process.monitorBtagWeightingMu.useBtagEventWeight = True
 process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEventWeights"
 process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
 
+process.monitorBtagWeightingMu_2 = process.monitorBtagWeightingMu.clone()
+
 process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
 process.monitorBtagWeightingEl.useBtagEventWeight = True
 process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEventWeights"
 process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
+
+process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
 
 #------------------------------------------------------------------
 # Load and configure modules to estimate b-tag efficiency
@@ -165,15 +169,21 @@ process.Selection0b1m_1 = cms.Path(# execute producer modules
 ## exactly one muon and at least 1 btag
 process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
+                                   #process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
                                    process.bTagEffRA4bMuTCHEM *
                                    process.btagEventWeightMuJER *
 
+                                   process.HTSelection *
+
                                    # execute analyzer modules
                                    process.monitorBtagWeightingMu *
-                                   process.analyzeSUSYBjets1b1m_1
+                                   process.analyzeSUSYBjets1b1m_1*
+
+                                   process.metSelection *
+                                   process.monitorBtagWeightingMu_2
+                                   
                                    )
 
 ## ## exactly one muon and at least 2 btag
@@ -267,15 +277,20 @@ process.Selection0b1e_1 = cms.Path(# execute producer modules
 ## exactly one electron and at least 1 btag
 process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
+                                   #process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.bTagEffRA4bElTCHEM *
                                    process.btagEventWeightElJER *
 
+                                   process.HTSelection *
+
                                    # execute analyzer modules
                                    process.monitorBtagWeightingEl *
-                                   process.analyzeSUSYBjets1b1e_1
+                                   process.analyzeSUSYBjets1b1e_1 *
+
+                                   process.metSelection *
+                                   process.monitorBtagWeightingEl_2
                                    )
 
 ## ## exactly one electron and at least 2 btag
