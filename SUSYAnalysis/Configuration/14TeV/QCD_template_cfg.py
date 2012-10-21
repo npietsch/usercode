@@ -23,7 +23,7 @@ process.load('FastSimulation.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5000)
+    input = cms.untracked.int32(50000)
 )
 
 process.RandomNumberGeneratorService.generator.initialSeed = ___RND___
@@ -37,7 +37,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('\\$Revision: 1.3.2.1 $'),
+    version = cms.untracked.string('\\$Revision: 1.3.2.2 $'),
     annotation = cms.untracked.string('14TeV sample with PYTHIA6: QCD dijet production, pThat = 15 .. 3000 GeV, weighted, TuneZ2'),
     name = cms.untracked.string('\\$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/QCD_template_cfg.py,v $')
 )
@@ -47,7 +47,7 @@ process.configurationMetadata = cms.untracked.PSet(
 process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('QCD_Pt15to3000Flat_Pythia_14TeV_cff_py_GEN_FASTSIM_HLT.root'),
+    fileName = cms.untracked.string('QCD_Pythia_14TeV.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO-DIGI')
