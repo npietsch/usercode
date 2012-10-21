@@ -1,4 +1,4 @@
-l#!/bin/zsh
+#!/bin/zsh
 
 ini autoproxy
 
