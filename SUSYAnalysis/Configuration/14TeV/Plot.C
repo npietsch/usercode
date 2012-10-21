@@ -49,15 +49,25 @@ int Plot()
   // Samples
   //--------------------------------------------------------------
 
-  TFile* FullHadTTJets = new TFile("naf_FullHadTTJets_cfg/Ruediger.root","READ");
-  TFile* SemiLepTTJets = new TFile("naf_SemiLepTTJets_cfg/Ruediger.root","READ");
-  TFile* ZJets         = new TFile("naf_ZJets_cfg/Ruediger.root","READ");
-  TFile* WJets         = new TFile("naf_WJets_cfg/Ruediger.root","READ");
-  TFile* QCD           = new TFile("naf_QCD_cfg/Ruediger.root","READ");
+//   TFile* FullHadTTJets = new TFile("naf_FullHadTTJets_cfg/Ruediger.root","READ");
+//   TFile* SemiLepTTJets = new TFile("naf_SemiLepTTJets_cfg/Ruediger.root","READ");
+//   TFile* ZJets         = new TFile("naf_ZJets_cfg/Ruediger.root","READ");
+//   TFile* WJets         = new TFile("naf_WJets_cfg/Ruediger.root","READ");
+//   TFile* QCD           = new TFile("naf_QCD_cfg/Ruediger.root","READ");
+  
+//   TFile* A1            = new TFile("naf_A1_cfg/Ruediger.root","READ");
+//   TFile* B1            = new TFile("naf_B1_cfg/Ruediger.root","READ");
+//   TFile* C1            = new TFile("naf_C1_cfg/Ruediger.root","READ");
 
-  TFile* A1            = new TFile("naf_A1_cfg/Ruediger.root","READ");
-  TFile* B1            = new TFile("naf_B1_cfg/Ruediger.root","READ");
-  TFile* C1            = new TFile("naf_C1_cfg/Ruediger.root","READ");
+  TFile* FullHadTTJets = new TFile("FullHad.root","READ");
+  TFile* SemiLepTTJets = new TFile("SemiLep.root","READ");
+  TFile* ZJets         = new TFile("ZJets.root","READ");
+  TFile* WJets         = new TFile("WJets.root","READ");
+  TFile* QCD           = new TFile("QCD.root","READ");
+  
+  TFile* A1            = new TFile("A1.root","READ");
+  TFile* B1            = new TFile("B1.root","READ");
+  TFile* C1            = new TFile("C1.root","READ");
 
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
@@ -65,11 +75,10 @@ int Plot()
 
   addSample(FullHadTTJets, "Fullhad t#bar{t}", 1, kRed+2,   kRed+2,   1101);
   addSample(SemiLepTTJets, "Semilep t#bar{t}", 1, kRed,     kRed,     1101);
-  addSample(ZJets,         "Z->vv + Jets",     3, kGreen+2, kGreen+2, 1101);
-  addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
-  addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
-  //addSample(QCD,           "QCD",              1, kBlue-7,  0,  0);
-
+  //addSample(ZJets,         "Z->vv + Jets",     3, kGreen+2, kGreen+2, 1101);
+  //addSample(WJets,         "W->lv + Jets",     1, kYellow,  kYellow,  1101);
+  //addSample(QCD,           "QCD",              1, kBlue-7,  kBlue-7,  1101);
+  
   addSample(A1,            "A1",               1, kRed+2,     0,        0   );
   addSample(B1,            "B1",               1, 1,          0,        0   );
   addSample(C1,            "C1",               1, kBlue,      0,        0   );
@@ -83,11 +92,20 @@ int Plot()
 
   Selections.push_back("analyzeGoodJets");
 
-  //Selections.push_back("analyzeBino1");
-  //Selections.push_back("analyzeBino2");
-  //Selections.push_back("analyzeBino3");
+  
+  //Selections.push_back("analyzeBino245");
+  
+  //Selections.push_back("analyzeBino44");
+  //Selections.push_back("analyzeBino45");
   //Selections.push_back("analyzeBino445");
-  //Selections.push_back("analyzeBino5");
+  //Selections.push_back("analyzeBino446");
+  //Selections.push_back("analyzeBino456");
+  
+  //Selections.push_back("analyzeBino54");
+  //Selections.push_back("analyzeBino55");
+  //Selections.push_back("analyzeBino545");
+  //Selections.push_back("analyzeBino546");
+  //Selections.push_back("analyzeBino556");
 
   //Selections.push_back("analyzeWino1");
   //Selections.push_back("analyzeWino2");
@@ -106,6 +124,8 @@ int Plot()
   //addHistogram("Jet1_Pt");
   //addHistogram("Jet2_Pt");
   //addHistogram("Jet3_Pt");
+  //addHistogram("Jet4_Pt");
+  //addHistogram("Jet5_Pt");
   //addHistogram("YMET");
   //addHistogram("METSig");
   //addHistogram("nJets");
@@ -116,15 +136,15 @@ int Plot()
   //addHistogram("DeltaPhi_MET_Jet0");
   //addHistogram("DeltaPhi_MET_Jet1");
   //addHistogram("DeltaPhi_MET_Jet2");
-  //addHistogram("min123");
+  addHistogram("min123");
   //addHistogram("nLeptons");
 
-  addHistogram("nJets70");
-  addHistogram("nJets80");
-  addHistogram("nJets100");
-  addHistogram("nJets120");
-  addHistogram("nJets150");
-  addHistogram("nJets");
+  //addHistogram("nJets70");
+  //addHistogram("nJets80");
+  //addHistogram("nJets100");
+  //addHistogram("nJets120");
+  //addHistogram("nJets150");
+  //addHistogram("nJets200");
 
   //--------
   // Plot
@@ -149,6 +169,6 @@ int Plot()
 	    }      
 	}
     }
-  //plots.printAll("");
-  plots.printAll("ylog");
+  plots.printAll("");
+  //plots.printAll("ylog");
 }

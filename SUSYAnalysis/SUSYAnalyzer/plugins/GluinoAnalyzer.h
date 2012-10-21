@@ -107,6 +107,13 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH2F* DeltaPtSum_MHT_;
   TH2F* HT_MHT_; 
 
+  TH1F* nJets70_;
+  TH1F* nJets80_;
+  TH1F* nJets100_;
+  TH1F* nJets120_;
+  TH1F* nJets150_;
+  TH1F* nJets200_;
+
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;
 

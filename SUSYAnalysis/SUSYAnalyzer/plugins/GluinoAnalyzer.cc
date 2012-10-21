@@ -129,6 +129,13 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
   DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
 
+  nJets70_   = fs->make<TH1F>("nJets70",  "nJets70",    16, -0.5,  15.5);
+  nJets80_   = fs->make<TH1F>("nJets80",  "nJets80",    16, -0.5,  15.5);
+  nJets100_  = fs->make<TH1F>("nJets100", "nJets100",   16, -0.5,  15.5);
+  nJets120_  = fs->make<TH1F>("nJets120", "nJets120",   16, -0.5,  15.5);
+  nJets150_  = fs->make<TH1F>("nJets150", "nJets150",   16, -0.5,  15.5);
+  nJets200_  = fs->make<TH1F>("nJets200", "nJets200",   16, -0.5,  15.5);
+
   DeltaPtSum_MHT_ = fs->make<TH2F>("DeltaPtSum_MHT", "DeltaPtSum_MHT", 50, 0.,  500., 50, 0,  500);
   HT_MHT_         = fs->make<TH2F>("HT_MHT",         "HT_MHT",         80, 0., 4000., 50, 0, 2000);
 
@@ -368,6 +375,13 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HT=0;
   double DeltaPtSum=0;
 
+  int nJets70=0;
+  int nJets80=0;
+  int nJets100=0;
+  int nJets120=0;
+  int nJets150=0;
+  int nJets200=0;
+
   //std::cout << "GluinoAnalyzer: nJets=" << jets->size() << std::endl;
 
   if(jets->size()>0)
@@ -414,6 +428,13 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  Jets_Theta_ ->Fill((*jets)[i].theta(), weight);
 	  HT=HT+(*jets)[i].pt();
 	  if((*jets)[i].partonFlavour() == 21) GluonJets_Pt_->Fill((*jets)[i].pt(),  weight);
+	  
+	  if((*jets)[i].pt()>70) nJets70=nJets70+1;
+	  if((*jets)[i].pt()>80) nJets80=nJets70+1;
+	  if((*jets)[i].pt()>100) nJets100=nJets70+1;
+	  if((*jets)[i].pt()>120) nJets120=nJets70+1;
+	  if((*jets)[i].pt()>150) nJets150=nJets70+1;
+	  if((*jets)[i].pt()>200) nJets150=nJets70+1;
 	}
     }
 
@@ -433,6 +454,13 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   DeltaPtSum_->Fill(DeltaPtSum, weight);
   DeltaPtSum_MHT_->Fill(DeltaPtSum, MHT, weight);
   HT_MHT_->Fill(HT, MHT, weight);
+
+  nJets70_->Fill(nJets70, weight);
+  nJets80_->Fill(nJets80, weight);
+  nJets100_->Fill(nJets100, weight);
+  nJets120_->Fill(nJets120, weight);
+  nJets150_->Fill(nJets150, weight);
+  nJets200_->Fill(nJets200, weight);
 
   int nLeptons=0;
   int nMuons=0;

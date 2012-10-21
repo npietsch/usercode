@@ -122,7 +122,7 @@ looseJets.checkOverlaps = cms.PSet(
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsPF',
                                preselection =
                                'abs(eta) < 2.5 &'
-                               'pt > 50. &'
+                               'pt > 80. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'
@@ -321,14 +321,22 @@ fourGoodJets = countPatJets.clone(src = 'goodJets',
 maxFourGoodJets = countPatJets.clone(src = 'goodJets',
                                      maxNumber = 4
                                      )
+## select events with 5 good jets
+fiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                  minNumber = 5
+                                  )
 ## select events with max. 5 good jets
 maxFiveGoodJets = countPatJets.clone(src = 'goodJets',
                                      maxNumber = 5
                                      )
-## select events with 4 good jets
+## select events with 6 good jets
 sixGoodJets = countPatJets.clone(src = 'goodJets',
                                  minNumber = 6
                                  )
+## select events with max. 6 good jets
+maxSixGoodJets = countPatJets.clone(src = 'goodJets',
+                                    maxNumber = 6
+                                    )
 
 #------------------------------
 # MET countFilter
