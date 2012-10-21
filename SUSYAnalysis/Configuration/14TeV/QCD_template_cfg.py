@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.341.2.2 
 # Source: /local/reps/CMSSW.admin/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
-# with command line options: QCD_Pythia_14TeV_cff.py --step GEN,FASTSIM,HLT --pileup=NoPileUp --conditions auto:mc --pileup NoPileUp --datatier=GEN-SIM-RECO-DIGI --eventcontent AODSIM -n 5000 --no_exec
+# with command line options: QCD_Pt15to3000Flat_Pythia_14TeV_cff.py --step GEN,FASTSIM,HLT --pileup=NoPileUp --conditions auto:mc --pileup NoPileUp --datatier=GEN-SIM-RECO-DIGI --eventcontent AODSIM -n 50000 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -37,9 +37,9 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.2 $'),
-    annotation = cms.untracked.string('QCD_Pythia_14TeV_cff.py nevts:5000'),
-    name = cms.untracked.string('PyReleaseValidation')
+    version = cms.untracked.string('\\$Revision: 1.2 $'),
+    annotation = cms.untracked.string('14TeV sample with PYTHIA6: QCD dijet production, pThat = 15 .. 3000 GeV, weighted, TuneZ2'),
+    name = cms.untracked.string('\\$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/QCD_Pt15to3000Flat_Pythia_14TeV_cff.py,v $')
 )
 
 # Output definition
@@ -47,7 +47,7 @@ process.configurationMetadata = cms.untracked.PSet(
 process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('QCD_Pythia_14TeV.root'),
+    fileName = cms.untracked.string('QCD_Pt15to3000Flat_Pythia_14TeV_cff_py_GEN_FASTSIM_HLT.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO-DIGI')
@@ -71,10 +71,10 @@ process.GlobalTag.globaltag = 'MC_44_V7::All'
 
 process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     pythiaPylistVerbosity = cms.untracked.int32(0),
-    filterEfficiency = cms.untracked.double(1.0),
+    filterEfficiency = cms.untracked.double(1),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     comEnergy = cms.double(14000.0),
-    crossSection = cms.untracked.double(106200000000.0),	 
+    crossSection = cms.untracked.double(106200000000.0),
     maxEventsToPrint = cms.untracked.int32(0),
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
@@ -98,14 +98,14 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
             'PARP(93)=10.0  ! primordial kT-max', 
             'MSTP(81)=21    ! multiple parton interactions 1 is Pythia default', 
             'MSTP(82)=4     ! Defines the multi-parton model'),
-        processParameters = cms.vstring('MSEL=1                ! QCD hight pT processes', 
-            'CKIN(3)=15.           ! minimum pt hat for hard interactions', 
-            'CKIN(4)=3000.         ! maximum pt hat for hard interactions', 
-            'MSTP(142)=2           ! Turns on the PYWEVT Pt reweighting routine'),
+        processParameters = cms.vstring('MSEL = 1        ! QCD hight pT processes', 
+            'CKIN(3) = 15    ! minimum pt hat for hard interactions', 
+            'CKIN(4) = 3000  ! maximum pt hat for hard interactions', 
+            'MSTP(142) = 2   ! Turns on the PYWEVT Pt reweighting routine'),
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'CSAParameters'),
-        CSAParameters = cms.vstring('CSAMODE = 7     ! towards a "flat" QCD spectrum', 
+        CSAParameters = cms.vstring('CSAMODE = 7     ! towards a flat QCD spectrum', 
             'PTPOWER = 4.5   ! reweighting of the pt spectrum')
     )
 )
