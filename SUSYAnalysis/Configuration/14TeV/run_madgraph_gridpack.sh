@@ -42,7 +42,7 @@ echo "%MSG-MG5 random seed used for the run = $rnum"
 
 # retrieve the wanted gridpack from the official repository 
 
-#wget --no-check-certificate http://cms-project-generators.web.cern.ch/cms-project-generators/${repo}/${name}_gridpack.tar.gz 
+wget --no-check-certificate http://cms-project-generators.web.cern.ch/cms-project-generators/${repo}/${name}_gridpack.tar.gz 
 
 # force the f77 compiler to be the CMS defined one
 
@@ -95,6 +95,8 @@ else
         exit 1
 fi
 
+echo Test1
+
 #_______________________________________________________________________________________
 # post-process the LHE file.
 
@@ -110,6 +112,8 @@ if [ "${decay}" == true ] ; then
 		madevent/bin/decay < decay_$i\.in
 	done
 fi
+
+echo Test2
 
 #__________________________________________
 # REPLACE process
@@ -134,6 +138,8 @@ if [ ${replace} == true ] ; then
 	perl madevent/bin/replace.pl ${file}_in.lhe ${file}.lhe < replace_card1.dat
 fi	
 
+echo Test3
+
 #__________________________________________
 # wjets/zjets
 if [[ ${process} == wjets || ${process} == zjets ]] ; then
@@ -151,8 +157,11 @@ fi
 if [ ${process} == ttbar ] ; then
 	echo "%MSG-MG5 process ttbar"
 	python madevent/bin/mgPostProcv2.py -o ${file}_qcut${qcut}_mgPostv2.lhe  -m -w -t -j ${maxjetflavor} -q ${qcut} -e 5 -s ${file}.lhe
+	echo Test3A
 	sed -i -e '/Rnd seed/d'  -e '/MC partial width/d' -e '/Number of Events/d' -e '/Max wgt/d' -e '/Average wgt/d'   -e '/Integrated weight/d' ${file}_qcut${qcut}_mgPostv2.lhe
 fi
+
+echo Test4
 
 #__________________________________________
 # If you have HT binned samples min/max jets might be different from file to file. 

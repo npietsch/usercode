@@ -35,7 +35,11 @@ ln -s `which gfortran` f77
 ln -s `which gfortran` g77
 export PATH=`pwd`:${PATH}
 
-cp ${SOURCE} . ; tar xzf ${SOURCE} ; rm -f `basename ${SOURCE}` ; mv MG5v1.3.30 ${name}_gridpack ; cd ${name}_gridpack
+cp ${SOURCE} .
+tar xzf ${SOURCE}
+rm -f `basename ${SOURCE}`
+mv MG5v1.3.30 ${name}_gridpack
+cd ${name}_gridpack
 
 # set the run cards with the appropriate initial seed
 
