@@ -289,6 +289,7 @@ process.Bino45 = cms.Path(# producer sequneces
                           process.makeObjects *
                           process.makeSUSYGenEvt *
                           # filter and analyzer sequences
+                                                    
                           process.analyzeSignal1 *
                           
                           process.filterMediumHT *

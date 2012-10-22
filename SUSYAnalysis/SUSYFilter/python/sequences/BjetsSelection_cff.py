@@ -520,7 +520,7 @@ oneNoSignalMET = countPatMET.clone(src = 'noSignalMETs',
 from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
 filterLooseHT = filterHT.clone()
-filterLooseHT.jets = "goodJets"
+filterLooseHT.jets = "looseJets"
 filterLooseHT.Cut = 700
 
 filterMediumHT = filterHT.clone()
@@ -668,6 +668,6 @@ electronVeto = cms.Sequence(exactlyOneVetoElectron *
                             noVetoMuon
                             )
 
-QCDPreselection =  = cms.Sequence(filterLooseHT *
-                                  oneLooseMET
-                                  )
+QCDPreselection = cms.Sequence(filterLooseHT *
+                               oneLooseMET
+                               )
