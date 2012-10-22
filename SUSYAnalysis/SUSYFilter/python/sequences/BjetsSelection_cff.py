@@ -128,7 +128,7 @@ looseJets.checkOverlaps = cms.PSet(
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 40. &'
+                               'pt > 50. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'
@@ -348,17 +348,14 @@ from PhysicsTools.PatAlgos.selectionLayer1.jetCountFilter_cfi import *
 oneLooseJet = countPatJets.clone(src = 'looseJets',
                                  minNumber = 1
                                  )
-
 ## select events with at least 2 loose jets
 twoLooseJets = countPatJets.clone(src = 'looseJets',
                                   minNumber = 2
                                   )
-
 ## select events with at least 3 loose jets
 threeLooseJets = countPatJets.clone(src = 'looseJets',
                                     minNumber = 3
                                     )
-
 ## select events with at least 4 loose jets
 fourLooseJets = countPatJets.clone(src = 'looseJets',
                                    minNumber = 4
@@ -368,7 +365,6 @@ fourLooseJets = countPatJets.clone(src = 'looseJets',
 oneGoodJet = countPatJets.clone(src = 'goodJets',
                                 minNumber = 1
                                 )
-
 ## select events with 2 good jets
 twoGoodJets = countPatJets.clone(src = 'goodJets',
                                  minNumber = 2
@@ -377,10 +373,30 @@ twoGoodJets = countPatJets.clone(src = 'goodJets',
 threeGoodJets = countPatJets.clone(src = 'goodJets',
                                    minNumber = 3
                                    )
+## select events with max 4 good jets
+maxFourGoodJets = countPatJets.clone(src = 'goodJets',
+                                     maxNumber = 4
+                                     )
 ## select events with 4 good jets
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
+## select events with max 5 good jets
+maxFiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                     maxNumber = 5
+                                     )
+## select events with 5 good jets
+fiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                  minNumber = 5
+                                  )
+## select events with max 6 good jets
+maxSixGoodJets = countPatJets.clone(src = 'goodJets',
+                                     maxNumber = 6
+                                     )
+## select events with  6 good jets
+sixGoodJets = countPatJets.clone(src = 'goodJets',
+                                 minNumber = 6
+                                 )
 
 ## select events with 2 medium jets
 twoMediumJets = countPatJets.clone(src = 'mediumJets',
@@ -525,11 +541,11 @@ filterLooseHT.Cut = 700
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 375
+filterMediumHT.Cut = 700
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
-filterTightHT.Cut = 400
+filterTightHT.Cut = 800
 
 ## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
@@ -545,6 +561,11 @@ oneLooseLepton = countPatLeptons.clone()
 oneLooseLepton.electronSource = "looseElectrons"
 oneLooseLepton.muonSource = "looseMuons"  
 oneLooseLepton.minNumber = 1
+
+oneGoodLepton = countPatLeptons.clone()
+oneGoodLepton.electronSource = "goodElectrons"
+oneGoodLepton.muonSource = "goodMuons"                           
+oneGoodLepton.minNumber = 1
 
 exactlyOneGoodLepton = countPatLeptons.clone()
 exactlyOneGoodLepton.electronSource = "goodElectrons"

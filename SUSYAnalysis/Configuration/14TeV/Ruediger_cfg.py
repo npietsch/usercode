@@ -59,7 +59,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Load modules to create objects and filter events on reco level
 #-----------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYFilter.sequences.JetSelection_cff")
+process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 #-----------------------------------------------------------------
 # load and configure modules to smear jet energy
@@ -67,15 +67,6 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.JetSelection_cff")
 
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
 process.scaledJetEnergy = scaledJetEnergy.clone()
-
-# Define sources for jets and met producer modules
-#process.looseJets.src  = "scaledJetEnergy:selectedPatJetsAK5PF"
-#process.goodJets.src   = "scaledJetEnergy:selectedPatJetsAK5PF"
-
-#process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
-#process.mediumMETs.src = "scaledJetEnergy:patMETsPF"
-#process.tightMETs.src  = "scaledJetEnergy:patMETsPF"
-#process.looseMETs.src  = "scaledJetEnergy:patMETsPF"
 
 process.scaledJetEnergyJECUp                     = scaledJetEnergy.clone()
 process.scaledJetEnergyJECUp.scaleType           = "jes:up"
@@ -289,7 +280,6 @@ process.Bino45 = cms.Path(# producer sequneces
                           process.makeObjects *
                           process.makeSUSYGenEvt *
                           # filter and analyzer sequences
-                                                    
                           process.analyzeSignal1 *
                           
                           process.filterMediumHT *
