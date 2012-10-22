@@ -136,7 +136,7 @@ int BtagEff()
 	   Temp1->SetTitle(Names[ndx]);
 	   Temp1->GetXaxis()->SetTitle("Number of bjets");
 	   Temp1->GetXaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitle("# events after basline selection");
+	   Temp1->GetYaxis()->SetTitle("# events after basline selection w/o MET cut");
 	   Temp1->GetYaxis()->CenterTitle();
 	   Temp1->GetYaxis()->SetTitleOffset(1.3);
 	   Temp1->SetLineColor(LineColors[ndx]);

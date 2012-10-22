@@ -86,6 +86,7 @@ process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEv
 process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
 
 process.monitorBtagWeightingMu_2 = process.monitorBtagWeightingMu.clone()
+process.monitorBtagWeightingMu_3 = process.monitorBtagWeightingMu.clone()
 
 process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
 process.monitorBtagWeightingEl.useBtagEventWeight = True
@@ -93,6 +94,7 @@ process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEv
 process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
 
 process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
+process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
 
 #------------------------------------------------------------------
 # Load and configure modules to estimate b-tag efficiency
@@ -113,9 +115,15 @@ process.bTagEffRA4bMuTCHEM = process.analyzeBTagEfficiency.clone()
 process.bTagEffRA4bMuTCHEM.bTagAlgo = "trackCountingHighEffBJetTags"
 process.bTagEffRA4bMuTCHEM.bTagDiscrCut = 3.3
 
+process.bTagEffRA4bMuTCHEM_2 = process.bTagEffRA4bMuTCHEM.clone()
+process.bTagEffRA4bMuTCHEM_3 = process.bTagEffRA4bMuTCHEM.clone()
+
 process.bTagEffRA4bElTCHEM = process.analyzeBTagEfficiency.clone()
 process.bTagEffRA4bElTCHEM.bTagAlgo = "trackCountingHighEffBJetTags"
 process.bTagEffRA4bElTCHEM.bTagDiscrCut = 3.3
+
+process.bTagEffRA4bElTCHEM_2 = process.bTagEffRA4bElTCHEM.clone()
+process.bTagEffRA4bElTCHEM_3 = process.bTagEffRA4bElTCHEM.clone()
 
 #------------------------------------------------------------------
 # Load and configure modules for b-tag efficiency weighting
@@ -144,7 +152,7 @@ process.btagEventWeightElJER.jets            = "goodJets"
 # muon selection paths
 #--------------------------
 
-## ## exactly 1 muon and at least 0 b-tags
+## exactly 1 muon and at least 0 b-tags
 process.Selection0b1m_1 = cms.Path(# execute producer modules
                                    process.scaledJetEnergy *
                                    process.preselectionMuHTMC2 *
@@ -172,18 +180,21 @@ process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
                                    #process.MuHadSelection *
                                    process.muonSelection*
                                    process.jetSelection *
-                                   process.bTagEffRA4bMuTCHEM *
                                    process.btagEventWeightMuJER *
-
-                                   process.HTSelection *
-
-                                   # execute analyzer modules
+                                   
+                                   process.bTagEffRA4bMuTCHEM *
                                    process.monitorBtagWeightingMu *
-                                   process.analyzeSUSYBjets1b1m_1*
+                                   
+                                   process.HTSelection *
+                                   
+                                   process.bTagEffRA4bMuTCHEM_2 *
+                                   process.monitorBtagWeightingMu_2 *
+                                   #process.analyzeSUSYBjets1b1m_1*
 
                                    process.metSelection *
-                                   process.monitorBtagWeightingMu_2
-                                   
+
+                                   process.bTagEffRA4bMuTCHEM_3 *
+                                   process.monitorBtagWeightingMu_3
                                    )
 
 ## ## exactly one muon and at least 2 btag
@@ -280,17 +291,21 @@ process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    #process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
-                                   process.bTagEffRA4bElTCHEM *
                                    process.btagEventWeightElJER *
-
-                                   process.HTSelection *
-
-                                   # execute analyzer modules
+                                   
+                                   process.bTagEffRA4bElTCHEM *
                                    process.monitorBtagWeightingEl *
-                                   process.analyzeSUSYBjets1b1e_1 *
+                                   
+                                   process.HTSelection *
+                                   
+                                   process.bTagEffRA4bElTCHEM_2 *
+                                   process.monitorBtagWeightingEl_2 *
+                                   #process.analyzeSUSYBjets1b1m_1*
 
                                    process.metSelection *
-                                   process.monitorBtagWeightingEl_2
+
+                                   process.bTagEffRA4bElTCHEM_3 *
+                                   process.monitorBtagWeightingEl_3
                                    )
 
 ## ## exactly one electron and at least 2 btag
