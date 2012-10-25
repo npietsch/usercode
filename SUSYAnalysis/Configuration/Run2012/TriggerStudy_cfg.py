@@ -278,6 +278,10 @@ process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 
 switchOnTrigger( process )
 switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
+switchOnTriggerMatchEmbedding( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
+
+
+
 process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" , "electronTriggerMatchHLTElectrons" ]
 
 
