@@ -35,12 +35,20 @@ class TreeWriter : public edm::EDAnalyzer {
     explicit TreeWriter(const edm::ParameterSet&);
     ~TreeWriter();
     
+
+    
   private:
     
     virtual void beginJob() ;
     virtual void analyze(const edm::Event&, const edm::EventSetup&);
     virtual void endJob();
     virtual void init();
+    
+  template <typename T>
+  void printVector(TString name, vector<T> v, Int_t length=40, ostream& os=cout);
+  template <typename T>
+  void printVectorSize(TString name, vector<T> v, Int_t length=40, ostream& os=cout); 
+    
     
     // Input tags
     edm::InputTag muons_;

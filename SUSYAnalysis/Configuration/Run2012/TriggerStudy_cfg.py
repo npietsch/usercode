@@ -129,6 +129,10 @@ from PhysicsTools.PatAlgos.tools.trigTools import *
 
 #switchOnTrigger( process )
 process.patTriggerSequence = cms.Sequence(process.patTrigger)
+#process.p = cms.Path(
+  #process.patTriggerSequence
+#)
+
 #switchOnTrigger( process, HLT, patTrigger, patTriggerEvent, patDefaultSequence, out )
 
 ## ---
@@ -178,7 +182,7 @@ process.muTriggerStudy = writeTrees.clone()
 process.muTriggerStudy.jets      = "goodJets"
 #process.muTriggerStudy.muons     = "goodMuons"
 #process.muTriggerStudy.muons     = "patMuons"
-process.muTriggerStudy.muons     = "cleanPatMuons"
+process.muTriggerStudy.muons     = "muonTriggerMatchHLTMuonsEmbedder"
 process.muTriggerStudy.electrons = "goodElectrons"
 
 process.elTriggerStudy  = process.muTriggerStudy.clone()
@@ -279,7 +283,8 @@ process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 switchOnTrigger( process )
 switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
 switchOnTriggerMatchEmbedding( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
-
+#switchOnTriggerMatchEmbedding( process, triggerMatchers = [ 'muonTriggerMatchHLTMuonsEmbedder' , 'electronTriggerMatchHLTElectronsEmbedder' ] )
+#removeCleaningFromTriggerMatching( process )
 
 
 process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" , "electronTriggerMatchHLTElectrons" ]
@@ -289,34 +294,34 @@ process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" , "elec
 # Execution path
 #------------------------------------------------------------------------------
 # write ntuple (tree) for muon trigger study
-process.p = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
-                     process.kt6PFJetsForIsolation2011 *
+#process.p = cms.Path(# execute producer modules
+                     #process.susyPatDefaultSequence *
+                     #process.pfMEtSysShiftCorrSequence *
+                     #process.producePFMETCorrections *
+                     #process.patPFMETsTypeIcorrected *
+                     #process.kt6PFJetsForIsolation2011 *
                      
-                     process.createObjects *
-                     # execute analyzer and filter modules
-                     process.preselection *
-                     process.twoGoodMuons *
-                     process.muTriggerStudy
-                     )
+                     #process.createObjects *
+                     ## execute analyzer and filter modules
+                     #process.preselection *
+                     #process.twoGoodMuons *
+                     #process.muTriggerStudy
+                     #)
 
 # write ntuple (tree) for electron trigger study
-process.p2 = cms.Path(# execute producer modules
-                     process.susyPatDefaultSequence *
-                     process.pfMEtSysShiftCorrSequence *
-                     process.producePFMETCorrections *
-                     process.patPFMETsTypeIcorrected *
-                     process.kt6PFJetsForIsolation2011 *
+#process.p2 = cms.Path(# execute producer modules
+                     #process.susyPatDefaultSequence *
+                     #process.pfMEtSysShiftCorrSequence *
+                     #process.producePFMETCorrections *
+                     #process.patPFMETsTypeIcorrected *
+                     #process.kt6PFJetsForIsolation2011 *
                      
-                     process.createObjects *
-                     #execute analyzer and filter modules
-                     process.preselection *
-                     process.twoGoodElectrons *
-                     process.elTriggerStudy
-                     )
+                     #process.createObjects *
+                     ##execute analyzer and filter modules
+                     #process.preselection *
+                     #process.twoGoodElectrons *
+                     #process.elTriggerStudy
+                     #)
 
 # write ntuple (tree) for hadron trigger study
 process.p3 = cms.Path(# execute producer modules
@@ -335,7 +340,7 @@ process.p3 = cms.Path(# execute producer modules
                      process.electronTriggerMatchHLTElectrons *
                      process.electronTriggerMatchHLTElectronsEmbedder *
                      #process.threeGoodJets *
-                     process.hadTriggerStudy##  *
+                     process.hadTriggerStudy
                      #process.muonTriggerMatchHLTMuons
 ##                      process.selectedTriggers
 )

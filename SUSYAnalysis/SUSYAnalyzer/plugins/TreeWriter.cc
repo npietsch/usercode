@@ -5,6 +5,12 @@
 // #include "DataFormats/Luminosity/interface/LumiSummary.h"
 // #include "FWCore/Framework/interface/LuminosityBlock.h"
 
+// #include "TString.h"
+
+// #include <fstream>
+// #include <iostream>
+// #include <iomanip>
+// #include <sstream>
 
 using namespace std;
 
@@ -104,6 +110,9 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   
+//   edm::Handle< TriggerEvent > triggerEvent;
+//   iEvent.getByLabel( triggerEvent_, triggerEvent );
+  
   cout<<"No. of Jets | Muons | electrons: " << jets->size() << " | " << muons->size() << " | " << electrons->size() << endl;
   
   //--------------------- A few control plots
@@ -116,6 +125,12 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   for(int i=0,N=(int)electrons->size(); i<N; ++i){
     goodElectrons.push_back((*electrons)[i].p4());
     elCharge.push_back((*electrons)[i].charge());
+
+//     vector<string> test;
+//     test.push_back("asdf");
+//     electrons->at(i).triggerObjectMatches().push_back("asf");
+    
+    
     cout<<"elCharge.back() " << elCharge.back() << endl;
     cout <<"electrons->at(i).triggerObjectMatches().size() = " << electrons->at(i).triggerObjectMatches().size() << endl;
     if(electrons->at(i).triggerObjectMatches().size() ==1){
@@ -137,6 +152,37 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     //cout<<"muCharge[i].p4()                           = " << muCharge[i].pt() << endl;
     cout<<"muons->at(i).p4()                          = " << muons->at(i).p4() << endl;
     cout<<"muons->at(i).triggerObjectMatches().size() = " << muons->at(i).triggerObjectMatches().size() << endl;
+//     cout<<"muons->at(i).triggerObjectMatches().begin()->size() = " << muons->at(i).triggerObjectMatches().begin()->pathNames() << endl;
+
+    if(muons->at(i).triggerObjectMatches().size() ==1){
+      cout<<"muons->at(i).triggerObjectMatches().begin()->p4()                        = " << (*muons)[i].triggerObjectMatches().begin()->p4() << endl;
+      cout<<"muons->at(i).triggerObjectMatches().begin()->collection()                = " << (*muons)[i].triggerObjectMatches().begin()->collection() << endl;      
+      cout<<"muons->at(i).triggerObjectMatches().begin()->conditionNames().size()     = " << (*muons)[i].triggerObjectMatches().begin()->conditionNames().size() << endl;
+      cout<<"muons->at(i).triggerObjectMatches().begin()->filterLabels().size()       = " << (*muons)[i].triggerObjectMatches().begin()->filterLabels().size() << endl;
+      cout<<"muons->at(i).triggerObjectMatches().begin()->pathNames().size()          = " << (*muons)[i].triggerObjectMatches().begin()->pathNames().size() << endl;
+      cout<<"muons->at(i).triggerObjectMatches().begin()->triggerObjectTypes().size() = " << (*muons)[i].triggerObjectMatches().begin()->triggerObjectTypes().size() << endl;
+
+      printVector<string>("conditionNames", (*muons)[i].triggerObjectMatches().begin()->conditionNames());
+      printVector<string>("filterLabels", (*muons)[i].triggerObjectMatches().begin()->filterLabels());
+      printVector<string>("pathNames", (*muons)[i].triggerObjectMatches().begin()->pathNames());
+      printVector<int>("triggerObjectTypes", (*muons)[i].triggerObjectMatches().begin()->triggerObjectTypes());      
+      
+    }
+    
+    
+//      for(std::vector<pat::TriggerObjectStandAlone>::iterator it=(muons->at(i).triggerObjectMatches()).begin(); it!=(muons->at(i).triggerObjectMatches()).end(); ++it){
+//        cout<<"it->size()                          = " << it->size() << endl;
+//        
+//      }
+    
+    
+//     if(electron->triggerObjectMatches().size() ==1){ // no ambiguities
+// 	   tempelec.setMatchedTrig(electron->triggerObjectMatches().begin()->pathNames());
+	   
+	   
+    
+    
+    
     cout<<endl;
   }
   
@@ -156,6 +202,33 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //--------------------- Fill Tree
   tree->Fill();
 }
+
+
+//================================================================================= printVector
+template <typename T>
+void TreeWriter::printVector(TString name, vector<T> v, Int_t length, ostream& os){
+  printVectorSize(name,v);
+  if(v.size()>0){
+    for(Int_t i=0,N=v.size(); i<N; ++i){
+      TString temp_name = name;
+      temp_name += "[";
+      temp_name += i;
+      temp_name += "] = ";
+      os << setw(length) << temp_name << v[i] << endl;
+    }
+    os<<endl;
+  }
+}
+
+
+//================================================================================= printVectorSize
+template <typename T>
+void TreeWriter::printVectorSize(TString name, vector<T> v, Int_t length, ostream& os){
+  name += ".size() = ";
+  os << setw(length) << name << v.size();
+  os << endl;
+}
+
 
 
 //============================================================ beginJob
