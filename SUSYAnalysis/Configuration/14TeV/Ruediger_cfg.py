@@ -67,7 +67,7 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
 process.scaledJetEnergy = scaledJetEnergy.clone()
-
+         
 process.scaledJetEnergyJECUp                     = scaledJetEnergy.clone()
 process.scaledJetEnergyJECUp.scaleType           = "jes:up"
 
@@ -277,6 +277,7 @@ process.Bino45 = cms.Path(# producer sequneces
                           process.scaledJetEnergyJECDown *
                           process.scaledJetEnergyJERUp *
                           process.scaledJetEnergyJERDown *
+                          process.preselection14TeV *
                           process.makeObjects *
                           process.makeSUSYGenEvt *
                           # filter and analyzer sequences

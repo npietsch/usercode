@@ -111,7 +111,7 @@ looseJets.checkOverlaps = cms.PSet(
     deltaR              = cms.double(0.3),
     checkRecoComponents = cms.bool(False),
     pairCut             = cms.string(""),
-    requireNoOverlaps   = cms.bool(True),
+    requireNoOverlaps   = cms.bool(False),
     ),
     electrons = cms.PSet(
     src       = cms.InputTag("goodElectrons"),
@@ -120,7 +120,7 @@ looseJets.checkOverlaps = cms.PSet(
     deltaR              = cms.double(0.3),
     checkRecoComponents = cms.bool(False),
     pairCut             = cms.string(""),
-    requireNoOverlaps   = cms.bool(True),
+    requireNoOverlaps   = cms.bool(False),
     )
 )
 
@@ -169,6 +169,23 @@ tightJets = selectedPatJets.clone(src = 'goodJets',
                                   cut =
                                   'pt > 100.'
                                   )
+
+## create collection of good Jets with scaled up jet energy corrections
+goodJetsJECUp = goodJets.clone()
+goodJetsJECUp.src = "scaledJetEnergyJECUp:selectedPatJetsAK5PF"
+
+## create collection of good Jets with scaled down jet energy corrections
+goodJetsJECDown = goodJets.clone()
+goodJetsJECDown.src = "scaledJetEnergyJECDown:selectedPatJetsAK5PF"
+
+## create collection of good Jets with scaled up jet energy resolution
+goodJetsJERUp = goodJets.clone()
+goodJetsJERUp.src = "scaledJetEnergyJERUp:selectedPatJetsAK5PF"
+
+## create collection of good Jets with scaled down jet energy resolution
+goodJetsJERDown = goodJets.clone()
+goodJetsJERDown.src = "scaledJetEnergyJERDown:selectedPatJetsAK5PF"
+
 
 #------------------------------------------------------------------------------
 # Configure modules to produce collections of b-jets
@@ -226,7 +243,7 @@ matchedLightJets = selectedPatJets.clone(src = 'goodJets',
 from PhysicsTools.PatAlgos.selectionLayer1.metSelector_cfi import *
 looseMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 100.'
+                                 'et > 50.'
                                  )
 
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
@@ -537,7 +554,7 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "looseJets"
-filterLooseHT.Cut = 700
+filterLooseHT.Cut = 400
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
@@ -612,6 +629,10 @@ goodObjects = cms.Sequence(## loose leptons
                            mediumJets *
                            tightJets *
                            lightJets *
+                           goodJetsJECUp *
+                           goodJetsJECDown *
+                           goodJetsJERUp *
+                           goodJetsJERDown *
                            ## METs
                            looseMETs *
                            goodMETs *
@@ -689,6 +710,17 @@ electronVeto = cms.Sequence(exactlyOneVetoElectron *
                             noVetoMuon
                             )
 
-QCDPreselection = cms.Sequence(filterLooseHT *
+QCDPreselection = cms.Sequence(## ## produce good muons
+##                                trackMuons *
+##                                goodMuons *
+##                                ## produce good electrons
+##                                isolatedElectrons *
+##                                goodElectrons *
+                               ## produce good jets
+                               looseJets *
+                               ## produce good METs
+                               looseMETs *
+                               ## preselection
+                               filterLooseHT *
                                oneLooseMET
                                )

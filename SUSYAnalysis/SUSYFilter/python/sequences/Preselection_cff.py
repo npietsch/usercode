@@ -161,9 +161,9 @@ preselectionElHTMC2 = cms.Sequence(goodVertices *
                                    )
 
 preselection14TeV = cms.Sequence(goodVertices *
-                                 oneGoodVertex *
+                                 oneGoodVertex #*
                                  #HBHENoiseFilter *
-                                 scrapingVeto
+                                 #scrapingVeto
                                  )
 
 ##-------------------------------------

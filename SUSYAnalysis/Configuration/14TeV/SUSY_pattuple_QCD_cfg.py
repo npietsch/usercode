@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.4 $'),
-    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1.2.1 $'),
+    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/Attic/SUSY_pattuple_QCD_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -106,7 +106,6 @@ if options.hltSelection:
 #process.metJESCorAK5PFTypeI.corrector = cms.string('ak5PFL2L3')
 
 process.p = cms.Path(process.susyPatDefaultSequence *
-                     process.makeObjects *
                      process.QCDPreselection
                      )
 
@@ -114,7 +113,6 @@ process.p = cms.Path(process.susyPatDefaultSequence *
 #-- Output module configuration -----------------------------------------------
 
 process.PATTuple = cms.Path(process.susyPatDefaultSequence *
-                            process.makeObjects *
                             process.QCDPreselection
                             )
 
