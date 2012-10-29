@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.3 $'),
+    version = cms.untracked.string('$Revision: 1.4 $'),
     name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/14TeV/SUSY_pattuple_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
@@ -29,7 +29,7 @@ process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
     #'file:PointA1.root'
     #'file:QCD_Pt_30_7TeV_herwigpp_cff_py_GEN_FASTSIM_HLT.root'
-    'file:QCD_Pythia_14TeV.root'
+    'file:Madgraph_14TeV_cff_py_GEN_FASTSIM_HLT.root'
     )
 )
 
