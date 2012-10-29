@@ -312,6 +312,7 @@ process.Bino45 = cms.Path(# producer sequneces
                           )
 
 process.Bino4 = cms.Path(# filter and analyzer sequences
+                         process.preselection14TeV *
                          process.filterMediumHT *
                          process.oneLooseMET *
                                                 
@@ -334,6 +335,7 @@ process.Bino4 = cms.Path(# filter and analyzer sequences
                          )
 
 process.Bino5 = cms.Path(# filter and analyzer sequences
+                         process.preselection14TeV *
                          process.filterMediumHT *
                          process.oneLooseMET *
                                                 
@@ -356,6 +358,7 @@ process.Bino5 = cms.Path(# filter and analyzer sequences
                          )
 
 process.Bino46 = cms.Path(# filter and analyzer sequences
+                          process.preselection14TeV *
                           process.filterMediumHT *
                           process.oneLooseMET *
                           
@@ -378,6 +381,7 @@ process.Bino46 = cms.Path(# filter and analyzer sequences
                          )
 
 process.Bino56 = cms.Path(# filter and analyzer sequences
+                          process.preselection14TeV *
                           process.filterMediumHT *
                           process.oneLooseMET *
                           
@@ -404,6 +408,7 @@ process.Bino56 = cms.Path(# filter and analyzer sequences
 ##------------------------------
 
 process.Wino = cms.Path(# filter and analyzer sequences
+                        process.preselection14TeV *
                         process.filterMediumHT *
                         process.oneLooseMET *
 

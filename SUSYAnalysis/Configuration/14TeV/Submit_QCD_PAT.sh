@@ -4,7 +4,7 @@ export JOBID=`echo $PBS_JOBID | cut -d. -f1`
 export RUNDIR=/tmp/pbs.${JOBID}
 export VO_CMS_SW_DIR=/afs/naf.desy.de/group/cms/sw
 
-for i in {401..500}
+for i in {501..800}
 do
 cat PAT.sh | sed "s/___JOB___/$i/g" > PAT_"$i".sh
 chmod +x PAT_"$i".sh
