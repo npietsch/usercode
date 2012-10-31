@@ -53,7 +53,7 @@ int BtagEff()
   TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
   TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
   //TFile* WJets          = new TFile("WJets.root",          "READ");
-  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  //TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
   TFile* ZJets          = new TFile("ZJets.root",          "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
@@ -69,7 +69,7 @@ int BtagEff()
   addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed+2,   0, 0);
   addSample(SingleTop,      "SingleTop",      1, kRed,     0, 0);
 //   addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-  addSample(WJetsHT,        "WJetsHT",        1, 1,        0, 0);
+//   addSample(WJetsHT,        "WJetsHT",        1, 1,        0, 0);
   addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
   addSample(QCD,            "QCD",            1, kBlue,    0, 0);
   
@@ -92,7 +92,11 @@ int BtagEff()
   //Selections.push_back("analyzeSUSY3b1e_6");
 
   Selections.push_back("monitorBtagWeightingMu");
+  Selections.push_back("monitorBtagWeightingMu_2");
+  Selections.push_back("monitorBtagWeightingMu_3");
   Selections.push_back("monitorBtagWeightingEl");
+  Selections.push_back("monitorBtagWeightingEl_2");
+  Selections.push_back("monitorBtagWeightingEl_3");
 
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
@@ -136,7 +140,7 @@ int BtagEff()
 	   Temp1->SetTitle(Names[ndx]);
 	   Temp1->GetXaxis()->SetTitle("Number of bjets");
 	   Temp1->GetXaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitle("# events after basline selection w/o MET cut");
+	   Temp1->GetYaxis()->SetTitle("# events after basline selection");
 	   Temp1->GetYaxis()->CenterTitle();
 	   Temp1->GetYaxis()->SetTitleOffset(1.3);
 	   Temp1->SetLineColor(LineColors[ndx]);
