@@ -412,10 +412,11 @@ threeLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
 fourLooseTrackHighEffBjets = countPatJets.clone(src = 'looseTrackHighEffBjets',
                                                 minNumber = 4
                                                 )
+
 ## select events with 1 medium TCHE bjet
-oneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                               minNumber = 1
-                                               )
+oneMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                minNumber = 1
+                                                )
 ## select events with 2 medium TCHE bjets
 twoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
                                                 minNumber = 2
@@ -428,11 +429,16 @@ threeMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets
 fourMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
                                                  minNumber = 4
                                                  )
+## select events with exactly 0 medium TCHE bjet
+exactlyZeroMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                        minNumber = 0,
+                                                        maxNumber = 0
+                                                        )
 ## select events with exactly 1 medium TCHE bjet
-exactlyOneMediumTrackHighEffBjet = countPatJets.clone(src = 'mediumTrackHighEffBjets',
-                                                      minNumber = 1,
-                                                      maxNumber = 1
-                                                      )
+exactlyOneMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
+                                                       minNumber = 1,
+                                                       maxNumber = 1
+                                                       )
 ## select events with exactly 2 medium TCHE bjets
 exactlyTwoMediumTrackHighEffBjets = countPatJets.clone(src = 'mediumTrackHighEffBjets',
                                                        minNumber = 2,
