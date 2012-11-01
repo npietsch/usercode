@@ -82,9 +82,9 @@ int BtagEfficienciesAllEta()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   20, 1.3, 7);
-  addSample(SingleTop, "Single Top",    kRed,     21, 1.1, 7);
-  addSample(WJetsHT,   "W+Jets",        1,        22, 1.4, 7);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
+  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
+  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
 
   //addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
   //addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7);
@@ -104,8 +104,8 @@ int BtagEfficienciesAllEta()
   //-----------------------------------------------------
 
   Flavors.push_back("B");
-  Flavors.push_back("C");
-  Flavors.push_back("L");
+  //Flavors.push_back("C");
+  //Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -135,36 +135,39 @@ int BtagEfficienciesAllEta()
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.5,.18,.91,.42);
+	      TLegend *leg = new TLegend(.50,.18,.90,.42);
 	      leg->SetTextFont(42);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
-	      
-	      TPaveText *label = new TPaveText(0.16,0.85,0.58,0.93,"NDC");
+	      leg->SetShadowColor(0);
+	      leg->SetLineColor(0);
+      
+	      TPaveText *label = new TPaveText(0.16,0.85,0.85,0.93,"NDC");
 	      label->SetFillColor(0);
 	      label->SetTextFont(42);
+	      label->SetTextSize(0.042);
 	      label->SetBorderSize(0);
-	      TText *text=label->AddText("Simulation, #sqrt{s}=7 TeV");
-	      text->SetTextAlign(22);
+	      label->SetTextAlign(12);
+	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+
 	      
 	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
 	      label2->SetFillColor(0);
 	      label2->SetTextFont(62);
 	      label2->SetBorderSize(0);
 	      TText *text2=label2->AddText("0 < |#eta| < 2.4");
-	      text2->SetTextAlign(22);
-
+	      
 	      // declare Maximum and ybin
 	      double Maximum=0;
 
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //Pt_->Add(Pt2_);
 
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TaggedPt_->Add(TaggedPt2_);
 
@@ -272,12 +275,11 @@ int BtagEfficienciesAllEta()
 	      std::cout << "Maximum: " << Maximum << std::endl;
 	      std::cout << "==============================" << std::endl;
 	      
-	      leg->SetShadowColor(0);
-	      //leg->Draw();
+	      leg->Draw();
 	      label->Draw();
 	      //label2->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.pdf");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_Mu.eps");
 	    }
 	}
     }
