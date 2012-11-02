@@ -135,8 +135,9 @@ int BtagEfficienciesAllEta()
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.50,.18,.90,.42);
+	      TLegend *leg = new TLegend(.56,.18,.90,.42);
 	      leg->SetTextFont(42);
+	      leg->SetTextSize(0.06);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
 	      leg->SetShadowColor(0);

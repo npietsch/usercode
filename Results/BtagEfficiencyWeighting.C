@@ -19,6 +19,7 @@ vector<unsigned int> SampleColors;
 vector<unsigned int> MarkerStyles;
 vector<double> MarkerSizes;
 vector<unsigned int> FitStyles;
+vector<TString> Names;
 
 vector<TString> Steps;
 vector<unsigned int> LineColors;
@@ -27,9 +28,9 @@ vector<TString> SelectionNames;
 vector<TH1F*> Histograms;
 
 // function addSample
-void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
+void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs, TString Name);
 
-void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs)
+void addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs, TString Name)
 {
   Files.push_back(sample);
   Labels.push_back(label);
@@ -37,6 +38,7 @@ void addSample(TFile* sample, TString label, int lc, int ms, double msize, int f
   MarkerStyles.push_back(ms);
   MarkerSizes.push_back(msize);
   FitStyles.push_back(fs);
+  Names.push_back(Name);
 }
 
 int BtagEfficiencyWeighting()
@@ -60,12 +62,12 @@ int BtagEfficiencyWeighting()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
-  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
-  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
+  //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
+  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7, "SingleTop");
+  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
 
-  addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
-  addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7);
+  addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7, "ZJets");
+  addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7, "QCD");
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
 //   addSample(LM8,  "LM8",  kBlue,    21, 0.9, 7);
@@ -89,32 +91,61 @@ int BtagEfficiencyWeighting()
       // Define canvas, legend and labels
       TCanvas *canvas =new TCanvas(Labels[f],Labels[f],1);
       
-      TLegend *leg = new TLegend(.50,.18,.90,.42);
+      TLegend *leg = new TLegend(.57,.66,.90,.90);
       leg->SetTextFont(42);
+      leg->SetTextSize(0.06);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
       leg->SetShadowColor(0);
       leg->SetLineColor(0);
-      
-      TPaveText *label = new TPaveText(0.16,0.85,0.85,0.93,"NDC");
+      leg->AddEntry((TObject*)0, Labels[f], "");
+
+      TPaveText *label = new TPaveText(0.22,0.94,0.99,1.,"NDC");
       label->SetFillColor(0);
       label->SetTextFont(42);
-      label->SetTextSize(0.042);
+      label->SetTextSize(0.043);
       label->SetBorderSize(0);
       label->SetTextAlign(12);
       TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
       
-      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
-      label2->SetFillColor(0);
-      label2->SetTextFont(62);
-      label2->SetBorderSize(0);
-      TText *text2=label2->AddText("0 < |#eta| < 2.4");
+      //--------------------------------------
+      // Define and draw b-tags histogram
+      //--------------------------------------
+
+      TH1F* cuts_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/nBjets_noWgt");
+
+      // define hisogram
+      cuts_->SetLineColor(4);
+      //cuts_->SetLineColor(SampleColors[f]);
+      cuts_->SetLineWidth(1);
+      cuts_->SetLineStyle(1);
+      cuts_->GetXaxis()->SetTitle("Number of b-jets");
+      cuts_->GetYaxis()->SetTitle("# events");
+      cuts_->SetTitleSize(0.05, "XYZ");
+      cuts_->GetXaxis()->SetTitleOffset(1.2); 
+      cuts_->GetYaxis()->SetTitleOffset(1.55);
+      cuts_->SetTitle("");
+      cuts_->SetNdivisions(5, "X");
+      cuts_->SetNdivisions(505, "Y");
+
+      // define marker
+      cuts_->SetMarkerStyle(22);
+      cuts_->SetMarkerColor(4);
+      //cuts_->SetMarkerColor(SampleColors[f]);
+      cuts_->SetMarkerSize(1.4);
+      leg->AddEntry(cuts_, "w/ cuts" ,"l P");    
+
+      // draw histogram
+      cuts_->Draw("l P");
+
+      //--------------------------------------
+      // Define and weights histogram
+      //--------------------------------------
       
       TH1F* weights_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/btagWeights_noWgt");
-      TH1F* cuts_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/nbjets");
       
       // define shifts of markers in x direction
-      double shift_=0.05;
+      double shift_=0.12;
       
       // define int nBins and array xbins and xbins2
       Int_t nBins=weights_->GetNbinsX();
@@ -126,39 +157,17 @@ int BtagEfficiencyWeighting()
       xbins[0] =xbin0;
       xbins2[0]=xbin0;
 
-      std::cout << "Test1" << std::endl;
-
       double ibinX=0;
       for(int xbin=1; xbin<weights_->GetNbinsX(); ++xbin)
 	{
-	  std::cout << "Test2" << xbin << std::endl;
-
 	  ibinX=ibinX+1;
 	  
 	  xbins[xbin] =ibinX;
 	  xbins2[xbin]=ibinX+shift_;
-
-	  std::cout << xbins[xbin] << std::endl;
-	  std::cout << xbins2[xbin] << std::endl;
 	}
-      //std::cout << weights_->GetNbinsX()+1 << std::endl;
-      //std::cout << weights_->GetBinLowEdge(weights_->GetNbinsX()+1) << std::endl;
 
       xbins[4]=4;
       xbins2[4]=4;
-      
-//       std::cout << "Test3" << std::endl;
-
-//       std::cout << xbins[0] << std::endl;
-//       std::cout << xbins[1] << std::endl;
-//       std::cout << xbins[2] << std::endl;
-//       std::cout << xbins[3] << std::endl;
-//       std::cout << xbins[4] << std::endl;
-//       std::cout << xbins2[0] << std::endl;
-//       std::cout << xbins2[1] << std::endl;
-//       std::cout << xbins2[2] << std::endl;
-//       std::cout << xbins2[3] << std::endl;
-//       std::cout << xbins2[4] << std::endl;
 
       // define new histograms Tmp_ and Tmp2_
       char Tmp [70];
@@ -167,53 +176,40 @@ int BtagEfficiencyWeighting()
       sprintf(Tmp2,"%i_2", f);
       TH1F* Tmp_ =new TH1F(Tmp,  Tmp,  nBins, xbins );
       TH1F* Tmp2_=new TH1F(Tmp2, Tmp2, nBins, xbins2);
-      
-      std::cout << "Test4" << std::endl;
 
       // fill histogramw Tmp_ and Tmp2_
       for(int xbin=0; xbin<Tmp_->GetNbinsX()+1; ++xbin)
-	{
+	{	  
 	  Tmp_->SetBinContent(xbin,weights_->GetBinContent(xbin));
-	  Tmp_->SetBinError(xbin,weights_->GetBinError(xbin));
-	  
+	  Tmp_->SetBinError(xbin,0.0000001);
+
 	  Tmp2_->SetBinContent(xbin,weights_->GetBinContent(xbin));
-	  Tmp2_->SetBinError(xbin,0.0000001);
-	  
+	  Tmp2_->SetBinError(xbin,weights_->GetBinError(xbin));
 	}
       
-      //--------------------------------------
-      // Define and draw histograms
-      //--------------------------------------
-      
       // Draw x-errors
-      Tmp2_->SetTitle("");
-     
-      Tmp2_->SetMinimum(0);
-      Tmp2_->GetXaxis()->SetTitle("No. of b-jets");
-      Tmp2_->GetYaxis()->SetTitle("# events");
+      Tmp_->SetLineColor(2);
+      //Tmp_->SetLineColor(SampleColors[f]);
+      Tmp_->SetLineWidth(1);
+      Tmp_->SetLineStyle(2);
+      Tmp_->Draw("same");
       
-//       Tmp2_->GetXaxis()->SetTitleOffset(1.2); 
-//       Tmp2_->GetYaxis()->SetTitleOffset(1.4);
-      
-//       Tmp2_->SetLineColor(SampleColors[f]);
-//       Tmp2_->SetLineWidth(1);
-//       if(f==0) Tmp2_->Draw("");
-//       else Tmp2_->Draw("same");
-      
-//       // Draw markers
-//       Tmp_->SetLineColor(SampleColors[f]);
-//       Tmp_->SetLineWidth(1);
-//       Tmp_->SetMarkerStyle(MarkerStyles[f]);
-//       Tmp_->SetMarkerColor(SampleColors[f]);
-//       Tmp_->SetMarkerSize(MarkerSizes[f]);
-//       Tmp_->Draw("same E x0");
-      
-      //leg->AddEntry(Tmp_,Labels[f],"l P");
+      // Draw markers
+      Tmp2_->SetLineColor(2);
+      //Tmp2_->SetLineColor(SampleColors[f]);
+      Tmp2_->SetLineWidth(1);
+      Tmp2_->SetLineStyle(2);
+      Tmp2_->SetMarkerStyle(21);
+      Tmp2_->SetMarkerColor(2);
+      //Tmp2_->SetMarkerColor(SampleColors[f]);
+      Tmp2_->SetMarkerSize(1.1);
+      Tmp2_->Draw("same E x0");
+      leg->AddEntry(Tmp2_, "w/ weights" ,"l P");
 
-  leg->Draw();
-  label->Draw();
+      leg->Draw();
+      label->Draw();
   
-//   canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_Mu.eps");
+      canvas->SaveAs("BtagEfficiencyWeighting_"+Names[f]+"_Mu.pdf");
     }
 
 
