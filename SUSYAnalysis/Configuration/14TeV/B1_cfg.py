@@ -9,8 +9,8 @@ process.weightProducer.Lumi = 300000
 process.source = cms.Source("PoolSource",
                             duplicateCheckMode = cms.untracked.string('noDuplicateCheck'),
                             fileNames = cms.untracked.vstring(
-    'file:../../../../../../Storage/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointB1_PAT_1.root',
-    'file:../../../../../../Storage/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointB1_PAT_2.root'
+    'file:../../../../../../SignalSamples/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointB1_PAT_1.root',
+    'file:../../../../../../SignalSamples/MSSM_14TeV_herwigpp_cff_py_GEN_FASTSIM_HLT_PointB1_PAT_2.root'
     )
 )
 

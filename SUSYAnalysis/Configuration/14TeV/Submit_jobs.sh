@@ -6,7 +6,8 @@ nafJobSplitter.pl -q 1 2 C1_cfg.py
 nafJobSplitter.pl -q 1 2 D1_cfg.py
 
 nafJobSplitter.pl -q 1 1 SemiLepTTJets_cfg.py
-nafJobSplitter.pl -q 1 1 FullHadTTJets_cfg.py
+nafJobSplitter.pl -q 1 1 DiLepTTJets_cfg.py
+nafJobSplitter.pl -q 1 2 FullHadTTJets_cfg.py
 
 nafJobSplitter.pl -q 1 3 ZJets_cfg.py
 nafJobSplitter.pl -q 1 3 WJets_cfg.py
