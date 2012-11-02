@@ -142,10 +142,10 @@ int BtagEfficienciesAllEta()
 	      leg->SetShadowColor(0);
 	      leg->SetLineColor(0);
       
-	      TPaveText *label = new TPaveText(0.16,0.85,0.85,0.93,"NDC");
+	      TPaveText *label = new TPaveText(0.11,0.93,0.85,0.99,"NDC");
 	      label->SetFillColor(0);
 	      label->SetTextFont(42);
-	      label->SetTextSize(0.042);
+	      label->SetTextSize(0.043);
 	      label->SetBorderSize(0);
 	      label->SetTextAlign(12);
 	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
