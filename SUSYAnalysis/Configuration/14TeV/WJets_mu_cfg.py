@@ -9,7 +9,8 @@ process.weightProducer.Lumi = 300000  ##  Lumi in 1/pb
 process.source = cms.Source("PoolSource",
                             duplicateCheckMode = cms.untracked.string('noDuplicateCheck'),
                             fileNames = cms.untracked.vstring(
-    'file:../../../../../../Storage/WJets_HT700_MET100_14TeV_lvjjj_mu_PAT.root',
-    'file:../../../../../../Storage/WJets_HT700_MET100_14TeV_lvjjj_mu_PAT_2.root'
+    'file:../../../../../../BackgroundSamples/WJets_HT700_MET100_14TeV_lvjjj_mu_PAT_1.root',
+    'file:../../../../../../BackgroundSamples/WJets_HT700_MET100_14TeV_lvjjj_mu_PAT_2.root',
+    'file:../../../../../../BackgroundSamples/WJets_HT700_MET100_14TeV_lvjjj_mu_PAT_3.root'
     )
 )
