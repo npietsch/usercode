@@ -104,8 +104,8 @@ int BtagEfficienciesAllEta()
   //-----------------------------------------------------
 
   Flavors.push_back("B");
-  //Flavors.push_back("C");
-  //Flavors.push_back("L");
+  Flavors.push_back("C");
+  Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -143,15 +143,14 @@ int BtagEfficienciesAllEta()
 	      leg->SetShadowColor(0);
 	      leg->SetLineColor(0);
       
-	      TPaveText *label = new TPaveText(0.11,0.93,0.85,0.99,"NDC");
+	      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
 	      label->SetFillColor(0);
 	      label->SetTextFont(42);
 	      label->SetTextSize(0.043);
 	      label->SetBorderSize(0);
 	      label->SetTextAlign(12);
-	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, electron channel");
 
-	      
 	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
 	      label2->SetFillColor(0);
 	      label2->SetTextFont(62);
@@ -164,11 +163,11 @@ int BtagEfficienciesAllEta()
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //Pt_->Add(Pt2_);
 
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TaggedPt_->Add(TaggedPt2_);
 
@@ -233,21 +232,21 @@ int BtagEfficienciesAllEta()
 
 		  if(Flavors[flv]=="B")
 		    {
-		      Tmp2_->SetMaximum(1.05*1);
+		      Tmp2_->SetMaximum(1);
 		      Tmp2_->SetMinimum(0);
 		      Tmp2_->GetXaxis()->SetTitle("b-jet p_{T} [GeV]");
 		      Tmp2_->GetYaxis()->SetTitle("b-tag efficiency");
 		    }
 		  if(Flavors[flv]=="C")
 		    {
-		      Tmp2_->SetMaximum(1.05*0.45);
+		      Tmp2_->SetMaximum(0.45);
 		      Tmp2_->SetMinimum(0);
 		      Tmp2_->GetXaxis()->SetTitle("c-jet p_{T} [GeV]");
 		      Tmp2_->GetYaxis()->SetTitle("mistag efficiency");
 		    }
 		  if(Flavors[flv]=="L")
 		    {
-		      Tmp2_->SetMaximum(1.05*0.12);
+		      Tmp2_->SetMaximum(0.12);
 		      Tmp2_->SetMinimum(0);
 		      Tmp2_->GetXaxis()->SetTitle("light quark/gluon jet p_{T} [GeV]");
 		      Tmp2_->GetYaxis()->SetTitle("mistag efficiency");
@@ -276,11 +275,11 @@ int BtagEfficienciesAllEta()
 	      std::cout << "Maximum: " << Maximum << std::endl;
 	      std::cout << "==============================" << std::endl;
 	      
-	      leg->Draw();
+	      //leg->Draw();
 	      label->Draw();
 	      //label2->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_Mu.eps");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.eps");
 	    }
 	}
     }
