@@ -1,6 +1,7 @@
 #include <TROOT.h>
 #include "TFile.h"
 #include "TH1.h"
+#include "TH2.h"
 #include "TTree.h"
 #include "TKey.h"
 #include "TF1.h"
@@ -9,402 +10,420 @@
 #include <sstream>
 #include <Plot.h>
 
-vector<TFile*> Files;
-vector<string> Names;
+// MC samples
+vector<TFile*> MCFiles;
+vector<TString> MCNames;
+vector<double> MCMuWeights;
+vector<double> MCElWeights;
+vector<unsigned int> MCLineColors;
+vector<unsigned int> MCFillColors;
+vector<unsigned int> MCFillStyles;
+
+// Muon data samples
+vector<TFile*> MuFiles;
+vector<TString> MuNames;
+vector<unsigned int> MuLineColors;
+vector<unsigned int> MuFillColors;
+vector<unsigned int> MuFillStyles;
+
+// Electron data samples
+vector<TFile*> ElFiles;
+vector<TString> ElNames;
+vector<unsigned int> ElLineColors;
+vector<unsigned int> ElFillColors;
+vector<unsigned int> ElFillStyles;
+
+// MC histograms
+vector<TString> MCHistograms;
+vector<double> MCXminN;
+vector<double> MCXmaxN;
+vector<double> MCXminR;
+vector<double> MCXmaxR;
+
+// Data histograms
+vector<TString> DataHistograms;
+vector<double> DataXminN;
+vector<double> DataXmaxN;
+vector<double> DataXminR;
+vector<double> DataXmaxR;
+
+// Selections
+vector<TString> MCMuSelections;
+vector<TString> MCElSelections;
+vector<TString> DataMuSelections;
+vector<TString> DataElSelections;
+
+// Scales vector
 vector<double> Scales;
-vector<unsigned int> Colors;
-vector<unsigned int> FillColors;
-vector<unsigned int> Styles;
-vector<TString> selection;
 
-int EventSelection()
+// add MC sample
+void addMCSample(TFile* sample, TString name, double MuWeight, double ElWeight,  int lc, int fc, int fs);
+
+void addMCSample(TFile* sample, TString name, double MuWeight, double ElWeight,  int lc, int fc, int fs)
 {
-  //Files.push_back (new TFile("Bjets_QCDMu.root", "READ"));
-  //Files.push_back (new TFile("Bjets_Zjets.root", "READ"));
-  //Files.push_back (new TFile("Bjets_Wjets.root", "READ"));
-  Files.push_back (new TFile("TTJets.root", "READ"));
-  //Files.push_back (new TFile("Bjets_TTJetsSemiMuon.root", "READ"));
-  //Files.push_back (new TFile("Bjets_Mu.root", "READ"));
-  //Files.push_back (new TFile("Bjets_LM1.root", "READ"));
-  Files.push_back (new TFile("LM3.root", "READ"));
-  Files.push_back (new TFile("LM3.root", "READ"));
+  MCFiles.push_back(sample);
+  MCNames.push_back(name);
+  MCMuWeights.push_back(MuWeight);
+  MCElWeights.push_back(ElWeight);
+  MCLineColors.push_back(lc);
+  MCFillColors.push_back(fc);
+  MCFillStyles.push_back(fs);
+}
 
-  //Files.push_back (new TFile("Bjets_LM8.root", "READ"));
-  //Files.push_back (new TFile("Bjets_LM7.root", "READ"));
-  //Files.push_back (new TFile("Bjets_LM9.root", "READ"));
-  //Files.push_back (new TFile("Bjets_LM12.root", "READ"));
-  //Files.push_back (new TFile("Bjets_Mu.root", "READ"));
-  //Files.push_back (new TFile("Bjets_tbGluinoOSET400.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET450.root", "READ"));
-  //Files.push_back (new TFile("Bjets_tbGluinoOSET500.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET550.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET600.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET650.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET700.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET750.root", "READ"));
-  //Files.push_back (new TFile("Bjets_GluinoOSET800.root", "READ"));
+// add Muon data samples
+void addMuSample(TFile* sample, TString name, int lc, int fc, int fs);
+
+void addMuSample(TFile* sample, TString name, int lc, int fc, int fs)
+{
+  MuFiles.push_back(sample);
+  MuNames.push_back(name);
+  MuLineColors.push_back(lc);
+  MuFillColors.push_back(fc);
+  MuFillStyles.push_back(fs);
+}
+
+// add Electron data sample
+void addElSample(TFile* sample, TString name, int lc, int fc, int fs);
+
+void addElSample(TFile* sample, TString name, int lc, int fc, int fs)
+{
+  ElFiles.push_back(sample);
+  ElNames.push_back(name);
+  ElLineColors.push_back(lc);
+  ElFillColors.push_back(fc);
+  ElFillStyles.push_back(fs);
+}
+
+// add MC histogram
+void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+
+void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+{
+  MCHistograms.push_back(name);
+  MCXminN.push_back(xminN);
+  MCXmaxN.push_back(xmaxN);
+  MCXminR.push_back(xminR);
+  MCXmaxR.push_back(xmaxR);
+}
+
+// add data histogram
+void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+
+void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
+{
+  DataHistograms.push_back(name);
+  DataXminN.push_back(xminN);
+  DataXmaxN.push_back(xmaxN);
+  DataXminR.push_back(xminR);
+  DataXmaxR.push_back(xmaxR);
+}
+
+// main function
+int Btagging()
+{
+
+  // Normalize background to data? -1: No histogram normalized, 0: only specified normalized, +1: all normalized
+  int Normalize=0;
   
-  int f=Files.size();
+  // Initialize scale factors
+  double MuSF=1;
+  double ElSF=1;
+
+  //--------------------------------------------------------------
+  // Samples and luminosity
+  //--------------------------------------------------------------
+
+  TFile* TTJets    = new TFile("TTJetsFall11.root", "READ");
+  TFile* SingleTop = new TFile("SingleTop.root",    "READ");
+  TFile* WJets     = new TFile("WJets.root",        "READ");
+  TFile* ZJets     = new TFile("ZJets.root",        "READ");
+  TFile* QCD       = new TFile("QCD.root",          "READ");
+
+  TFile* LM3       = new TFile("LM3.root",          "READ");
+  TFile* LM6       = new TFile("LM6.root",          "READ");
+  TFile* LM8       = new TFile("LM8.root",          "READ");
+  TFile* LM13      = new TFile("LM13.root",         "READ");
+
+  TFile* MuHad     = new TFile("MuHad.root",        "READ");
+  TFile* ElHad     = new TFile("ElHad.root",        "READ");
+
+  // Luminosity for MuHad in fb^-1
+  Double_t MuLumi=4.98;
+
+  // Luminosity for ElHad in fb^-1
+  Double_t ElLumi=4.08;
+
+  //-------------------------------------------------------------------------------------------------------------------
+  // addMCSample (TFile* sample, TString name, double weight, int lc, int fc, int fs)
+  //-------------------------------------------------------------------------------------------------------------------
+
+  addMCSample(QCD,       "QCD",           MuLumi, ElLumi, kBlue,    kBlue,    1101);
+  addMCSample(ZJets,     "DY+Jets",       MuLumi, ElLumi, kGreen+2, kGreen+2, 1101);
+  addMCSample(WJets,     "W+Jets",        MuLumi, ElLumi, kYellow,  kYellow,  1101);
+  addMCSample(SingleTop, "Single Top",    MuLumi, ElLumi, kRed,     kRed,     1101);
+  addMCSample(TTJets,    "T#bar{T}+Jets", MuLumi, ElLumi, kRed+2,   kRed+2,   1101);
   
-  //Names.push_back("QCD #mu");
-  //Names.push_back("Z+Jets");
-  //Names.push_back("W+Jets");
-  Names.push_back("t#bar{t}");
-  Names.push_back("all");
-  //Names.push_back("t#bar{t} semilep. #mu");
-  //Names.push_back("2011 Data");
-  //Names.push_back("LM1");
-  Names.push_back("LM3");
-  //Names.push_back("LM8");
-  //Names.push_back("LM7");
-  //Names.push_back("LM9");
-  //Names.push_back("LM12");
-  //Names.push_back("G400LSP10");
-  //Names.push_back("G450LSP40");
-  //Names.push_back("G500LSP140");
-  //Names.push_back("G550LSP10");
-  //Names.push_back("G600LSP190");
-  //Names.push_back("G650LSP290");
-  //Names.push_back("G700LSP10");
-  //Names.push_back("G750LSP340");
-  //Names.push_back("G800LSP440");
+  addMCSample(LM8,       "LM8",           MuLumi, ElLumi, kBlue+2,  0,     0   );
+  addMCSample(LM13,      "LM13",          MuLumi, ElLumi, 15,  0,     0   );
 
-  // lumi in fb-1
-  //double lumi=0.0359;
-  //double lumi=0.25;
-  //double lumi=0.181;
-  double lumi=0.5;
+  //-------------------------------------------------------------------------------------------------------------------
+  // addMuSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+  //-------------------------------------------------------------------------------------------------------------------
 
-  // cross-sections
-  double xsecQCDMu=296900000*0.00037;
-  double xsecZjets=3048;
-  double xsecWjets=31314;
-  double xsecTTJets=158;
-  double xsecLM1=4.888;
-  double xsecLM3=3.438;
-  double xsecLM8=0.73;
-  double xsecLM7=1.209;
-  double xsecLM9=7.134;
-  double xsecLM12=4.414;
-  double xsecG400=19.3944;
-  double xsecG450=8.31098;
-  double xsecG500=1.86744;
-  double xsecG550=0.967942;
-  double xsecG600=0.507335;
-  double xsecG650=0.28241;
-  double xsecG700=0.157907;
-  double xsecG750=0.0902996;
-  double xsecG800=0.0526242;
+  addMuSample(MuHad, "MuHad", 1, 0, 0);
 
-  // number of events
-  double nQCD=29034562;
-  double nZjets=2543706;
-  double nWjets=10822996;
-  double nTTJets=1285653;
-  double nLM1=219190;
-  double nLM3=209787;
-  double nLM8=220000;
-  double nLM7=220000;
-  double nLM9=220000;
-  double nLM12=219595;
-  double nG400=10000;
-  double nG450=10000;
-  double nG500=10000;
-  double nG550=10000;
-  double nG600=10000;
-  double nG650=10000;
-  double nG700=10000;
-  double nG750=10000;
-  double nG800=10000;
+  //-------------------------------------------------------------------------------------------------------------------
+  // addElSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+  //-------------------------------------------------------------------------------------------------------------------
 
-  // weights
-  double sQCDMu=lumi*1000*xsecQCDMu/(nQCD);  //3.72322;
-  double sZjets=lumi*1000*xsecZjets/(nZjets);  //1.19824;
-  double sWjets=lumi*1000*xsecWjets/(nWjets);  //2.11502;
-  double sTTJets=lumi*1000*xsecTTJets/(nTTJets);  //0.13623;
-  double sLM1=lumi*1000*xsecLM1/(nLM1);  //0.02230;
-  double sLM3=lumi*1000*xsecLM3/(nLM3);  //0.01563;
-  double sLM8=lumi*1000*xsecLM8/(nLM8);  //0.00332;
-  double sLM7=lumi*1000*xsecLM7/(nLM7);
-  double sLM9=lumi*1000*xsecLM9/(nLM9);
-  double sLM12=lumi*1000*xsecLM12/(nLM12);
-  double sData=1;
-  double sG400=lumi*1000*xsecG400/(nG400);  //0.02230;
-  double sG450=lumi*1000*xsecG450/(nG450);  //0.02230;
-  double sG500=lumi*1000*xsecG500/(nG500);  //0.01563;
-  double sG550=lumi*1000*xsecG550/(nG550);  //0.02230;
-  double sG600=lumi*1000*xsecG600/(nG600);  //0.02230;
-  double sG650=lumi*1000*xsecG650/(nG650);  //0.01563;
-  double sG700=lumi*1000*xsecG700/(nG700);  //0.02230;
-  double sG750=lumi*1000*xsecG750/(nG750);  //0.02230;
-  double sG800=lumi*1000*xsecG800/(nG800);  //0.01563;
+  addElSample(ElHad, "ElHad", 1, 0, 0);
 
-  //Scales.push_back(sQCDMu);
-  //Scales.push_back(sZjets);
-  //Scales.push_back(sWjets);
-  //Scales.push_back(sTTJets);
-  Scales.push_back(sTTJets);
-  Scales.push_back(sLM3);
-  //Scales.push_back(sData);
-  //Scales.push_back(sLM1);  
-  Scales.push_back(sLM3);
-  //Scales.push_back(sLM8);
-  //Scales.push_back(sLM7);  
-  //Scales.push_back(sLM9);
-  //Scales.push_back(sLM12);
-  //Scales.push_back(sData);
-  //Scales.push_back(sG400);  
-  //Scales.push_back(sG450);
-  //Scales.push_back(sG500);
-  //Scales.push_back(sG550);  
-  //Scales.push_back(sG600);
-  //Scales.push_back(sG650);
-  //Scales.push_back(sG700);  
-  //Scales.push_back(sG750);
-  //Scales.push_back(sG800);
+  //-------------------------------------------------------------------------------------------------
+  // push back selection step to vector<TString> Selections and DataSelection;
+  //-------------------------------------------------------------------------------------------------
 
-  //Colors.push_back(38);
-  //Colors.push_back(10);
-  //Colors.push_back(45);
-  //Colors.push_back(42);
-  //Colors.push_back(42);
-  //Colors.push_back(42);
-  //Colors.push_back(42);
-  //Colors.push_back(17);
-  //Colors.push_back(7);
-  //Colors.push_back(48);
-  //Colors.push_back(3);
-  //Colors.push_back(38);
-  //Colors.push_back(1);
-  Colors.push_back(4);
-  Colors.push_back(2);
-  Colors.push_back(1);
+  std::cout << "Test1" << std::endl;
 
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  //Styles.push_back(1101);
-  Styles.push_back(1101);
-  Styles.push_back(1101);
-  Styles.push_back(0);
-  Styles.push_back(0);
+  //MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3noSF");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   MCMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  //MCMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  
+  //DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsRA4bMuTCHEM3");
+//   DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  //DataMuSelections.push_back("analyzeBtagsMuTCHEM3highPtdilep");
+  
+  MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3noSF");
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   MCElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   MCElSelections.push_back("analyzeBtagsElTCHEM3lowPtdilep");
+  //MCElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  
+  DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsRA4bElTCHEM3");
+//   DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
+  //DataElSelections.push_back("analyzeBtagsElTCHEM3highPtdilep");
 
-  //FillColors.push_back(38);
-  //FillColors.push_back(10);
-  //FillColors.push_back(45);
-  //FillColors.push_back(42);
-  //FillColors.push_back(42);
-  //FillColors.push_back(42);
-  //FillColors.push_back(17);
-  //FillColors.push_back(7);
-  //FillColors.push_back(48);
-  //FillColors.push_back(3);
-  //FillColors.push_back(38);
-  FillColors.push_back(4);
-  FillColors.push_back(2);
-  FillColors.push_back(0);
-  FillColors.push_back(0);
+  //-------------------------------------------------------------------------------------------------
+  // push back histogram to vector<int> Histograms and DataHistograms;
+  //-------------------------------------------------------------------------------------------------
 
-  //selection.push_back("1l_noCuts");
-  //selection.push_back("1l_preselection");
-  //selection.push_back("1l_oneGoodMuon");
-  //selection.push_back("1l_fourGoodJets");
-  //selection.push_back("1l_oneTightJet");
-  //selection.push_back("1l_twoMediumJets");
-  //selection.push_back("1l_HTSelection");
-  //selection.push_back("1l_metSelection");
+  std::cout << "Test2" << std::endl;
+
+  // MC
+
+//   addMCHistogram("MET_0b", 1, 1, 1, 1);
+//   addMCHistogram("MET_1b", 1, 1, 1, 1);
+//   addMCHistogram("MET_2b", 1, 1, 1, 1);
+//   addMCHistogram("MET_3b", 1, 1, 1, 1);
+
+//   addMCHistogram("nBtags", 1, 1, 1, 1);
+//   addMCHistogram("btagWeights", 1, 1, 1, 1);
+
+   //addMCHistogram("TCHE", 1, 1, 1, 1); 
+  //addMCHistogram("BtagsPt", 1, 1, 1, 1);
+  //addMCHistogram("BtagsPt_btagWeight", 1, 1, 1, 1);
+
+   addMCHistogram("NrBtags",  1, 1, 1, 1);
+   addMCHistogram("TCHE",  1, 1, 1, 1);
+//   addMCHistogram("NrLowPtBtags",  1, 1, 1, 1);
+  //addMCHistogram("NrHighPtBtags",  1, 1, 1, 1);
+  
+//   addMCHistogram("NrJets",  1, 1, 1, 1);
+//   addMCHistogram("NrLowPtJets",  1, 1, 1, 1);
+//   addMCHistogram("NrHighPtJets",  1, 1, 1, 1);
+
+  // data
+
+//   addDataHistogram("MET_0b", 1, 1, 1, 1);
+//   addDataHistogram("MET_1b", 1, 1, 1, 1);
+//   addDataHistogram("MET_2b", 1, 1, 1, 1);
+//   addDataHistogram("MET_3b", 1, 1, 1, 1);
+
+//   addDataHistogram("nBtags", 1, 1, 1, 1);
+//   addDataHistogram("nBtags", 1, 1, 1, 1);
+  
+  //addDataHistogram("TCHE", 1, 1, 1, 1);
+  //addDataHistogram("BtagsPt", 1, 1, 1, 1);
+//   addDataHistogram("BtagsPt", 1, 1, 1, 1);
+
+  addDataHistogram("NrBtags",  1, 1, 1, 1);
+  addDataHistogram("TCHE",  1, 1, 1, 1);
+//   addDataHistogram("NrLowPtBtags",  1, 1, 1, 1);
+  //addDataHistogram("NrHighPtBtags",  1, 1, 1, 1);
+  
+//   addDataHistogram("NrJets",  1, 1, 1, 1);
+//   addDataHistogram("NrLowPtJets",  1, 1, 1, 1);
+//   addDataHistogram("NrHighPtJets",  1, 1, 1, 1);
+
+  //===========================================================================
+  //================================ BAUSTELLE ================================
+  //===========================================================================
+
+//   std::cout << "Test3" << std::endl;
+
+//   // muon channel
+//   TH1F* MCMuHist1=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagsPt_btagWeight");
+//   TH1F* MCMuHist2=(TH1F*)SM->Get(MCMuSelections[0]+"/BtagPtBins_btagWeight");
+
+//   std::cout << "MCMuHist1->Integral(5,24): " << MCMuHist1->Integral(5,24)<< std::endl;
+//   std::cout << "MCMuHist2->Integral(1,1): " << MCMuHist2->Integral(1,1)<< std::endl;
+
+//   double MCMuInt=MuLumi*MCMuHist1->Integral(5,24);
+//   double MCMuIntErr=MuLumi*MCMuHist2->GetBinError(1);
+ 
+//   TH1F* DataMuHist=(TH1F*)MuHad->Get(DataMuSelections[0]+"/BtagsPt");
+//   double DataMuInt=DataMuHist->Integral(5,24);
+//   double DataMuIntErr=sqrt(DataMuInt);
+  
+//   MuSF=DataMuInt/MCMuInt;
+  
+//   double MuSFErr=sqrt(pow(DataMuIntErr/MCMuInt,2) + pow(DataMuInt*MCMuIntErr/(MCMuInt*MCMuInt),2));
+  
+//   std::cout << "Muon scale factor: " << MuSF << " +- " << MuSFErr << std::endl;
+
+//   //-------------------------------------------------------
+
+//   double MCMuRatio=MuSF*MuLumi*(MCMuHist1->Integral(25,49));
+//   double MCMuRatioErr=sqrt(pow(MuSF*MuLumi*(MCMuHist2->GetBinError(2)),2)+ pow(MuSFErr*MuLumi*(MCMuHist1->Integral(25,49)),2));
+
+//   std::cout << MCMuRatioErr << std::endl;
+
+//   double DataMuRatio=DataMuHist->Integral(25,49);
+//   double DataMuRatioErr=sqrt(DataMuRatio);
+
+//   std::cout << DataMuRatioErr << std::endl;
+
+//   double MuRatio=DataMuRatio/MCMuRatio;
+
+//   double MuRatioErr=sqrt(pow(DataMuRatioErr/MCMuRatio,2) + pow(DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio),2));
+
+//   std::cout << DataMuRatioErr/MCMuRatio << std::endl;
+//   std::cout << DataMuRatio*MCMuRatioErr/(MCMuRatio*MCMuRatio)  << std::endl;
+//   std::cout << " " << std::endl;
+  
+//   std::cout << "Muon ratio: " << MuRatio << " +- " << MuRatioErr << std::endl  << std::endl;
 
 
-  //selection.push_back("1l");
-  //selection.push_back("1b1l");
-  //selection.push_back("2b1l");
-  //selection.push_back("3b1l");
-  //selection.push_back("4b1l");
-  //selection.push_back("2l");
-  //selection.push_back("1b2l");
-  //selection.push_back("2b2l");
-  //selection.push_back("3b2l");
-  //selection.push_back("4b2l");
+  //============================================================================================================
 
-  int s=selection.size();
+//   // electron channel
+//   TH1F* MCElHist1=(TH1F*)SM->Get(MCElSelections[0]+"/BtagsPt_btagWeight");
+//   TH1F* MCElHist2=(TH1F*)SM->Get(MCElSelections[0]+"/BtagPtBins_btagWeight");
 
-  //--------------------
-  // Create histograms
-  //--------------------
+//   std::cout << "MCElHist1->Integral(5,24): " << MCElHist1->Integral(5,24)<< std::endl;
+//   std::cout << "MCElHist2->Integral(1,1): " << MCElHist2->Integral(1,1)<< std::endl;
+
+//   double MCElInt=ElLumi*MCElHist1->Integral(5,24);
+//   double MCElIntErr=ElLumi*MCElHist2->GetBinError(1);
+ 
+//   TH1F* DataElHist=(TH1F*)ElHad->Get(DataElSelections[0]+"/BtagsPt");
+//   double DataElInt=DataElHist->Integral(5,24);
+//   double DataElIntErr=sqrt(DataElInt);
+  
+//   ElSF=DataElInt/MCElInt;
+  
+//   double ElSFErr=sqrt(pow(DataElIntErr/MCElInt,2) + pow(DataElInt*MCElIntErr/(MCElInt*MCElInt),2));
+  
+//   std::cout << ElSF << " +- " << ElSFErr << std::endl;
+
+  //-------------------------------------------------------
+
+//   double MCElRatio=ElSF*ElLumi*(MCElHist1->Integral(25,49));
+//   double MCElRatioErr=sqrt(pow(ElSF*ElLumi*(MCElHist2->GetBinError(2)),2)+ pow(ElSFErr*ElLumi*(MCElHist1->Integral(25,49)),2));
+
+//   std::cout << MCElRatioErr << std::endl;
+
+//   double DataElRatio=DataElHist->Integral(25,49);
+//   double DataElRatioErr=sqrt(DataElRatio);
+
+//   std::cout << DataElRatioErr << std::endl;
+
+//   double ElRatio=DataElRatio/MCElRatio;
+
+//   double ElRatioErr=sqrt(pow(DataElRatioErr/MCElRatio,2) + pow(DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio),2));
+
+//   std::cout << DataElRatioErr/MCElRatio << std::endl;
+//   std::cout << DataElRatio*MCElRatioErr/(MCElRatio*MCElRatio)  << std::endl;
+//   std::cout << " " << std::endl;
+  
+//   std::cout << ElRatio << " +- " << ElRatioErr << std::endl  << std::endl;
+
+
+//   //=======================================================
+
+
+//   double CombinedRatio=(DataMuRatio+DataMuRatio)/(MCMuRatio+MCElRatio);
+  
+//   double CombinedRatioErr=sqrt(pow(DataMuRatioErr/(MCMuRatio+MCElRatio),2) + pow(DataElRatioErr/(MCMuRatio+MCElRatio),2) + pow((DataMuRatio+DataElRatio)*MCMuRatioErr/((MCMuRatio+MCElRatio)*(MCMuRatio+MCElRatio)),2) + pow((DataMuRatio+DataElRatio)*MCElRatioErr/((MCMuRatio+MCElRatio)*(MCMuRatio+MCElRatio)),2));
+
+//   std::cout << "Combined ratio: " << CombinedRatio << " +- " << CombinedRatioErr << std::endl;									      
+//   ElSF=1;
+//   MuSF=1;
+
+  //--------
+  // Plot
+  //--------
 
   plotSet plots("Name");
 
-  for(int j=0; j<1; ++j)
+  // Loop over muon selections
+  for(int sdx=0; sdx<(int)MCMuSelections.size(); ++sdx)
     {
-      std::cout << "Start creating histograms" << std::endl;
-
-      for(int i=0; i<f; ++i)
-	{
-	  // Event Selection
-	  //------------------
-
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/Jet1_Et_2BQuarks"),Names[i],"Jet1_Et_2BQuarks",Scales[i],Colors[i],Styles[i],FillColors[i]);
+      std::cout << MCMuSelections[sdx] << std::endl;
 	  
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/Jet1_Et_2Bjets_1"),Names[i],"Jet1_Et_2Bjets_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
- 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_metSelection/Jet0_Et"),Names[i],"Jet0_Et",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhib1b2"),Names[i],"DeltaPhib1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_0"),Names[i],"DeltaPhi_0",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_1"),Names[i],"DeltaPhi_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/DeltaPhi_2"),Names[i],"DeltaPhi_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhib12MET"),Names[i],"DeltaPhib12MET",Scales[i],Colors[i],Styles[i],FillColors[i]);
+      // Loop over histogram
+      for(int h=0; h<(int)MCHistograms.size(); ++h)
+	{ 
+	  std::cout << MCHistograms[h] << std::endl;
 	  
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaEtb1b2"),Names[i],"DeltaEtb1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/angleb1b2"),Names[i],"angleb1b2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/DeltaPhiLepMET"),Names[i],"DeltaPhiLepMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_0"),Names[i],"BtagEt_0_0",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_1"),Names[i],"BtagEt_0_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_2"),Names[i],"BtagEt_0_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_3"),Names[i],"BtagEt_0_3",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_4"),Names[i],"BtagEt_0_4",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_metSelection/BtagEt_0_5"),Names[i],"BtagEt_0_5",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_HTSelection/MET"),Names[i],"MET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_HTSelection/HT"),Names[i],"HT",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/sphericity_bjetsMET"),Names[i],"sphericity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/aplanarity_bjetsMET"),Names[i],"aplanarity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/circularity_bjetsMET"),Names[i],"circularity_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSYGenEvt1l_metSelection/isotropy_bjetsMET"),Names[i],"isotropy_bjetsMET",Scales[i],Colors[i],Styles[i],FillColors[i]);
-
-	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_preselection/nMuons"),Names[i],"nMuons_1l_preselection",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMuons_1l_preselection","Number of isolated Muons", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_oneGoodMuon/nMuons"),Names[i],"nMuons_1l_oneGoodMuon",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMuons_1l_oneGoodMuon","Number of isolated Muons", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_oneGoodMuon/nJets"),Names[i],"nJets_1l_oneGoodMuon",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nJets_1l_oneGoodMuon","Number of good Jets", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_fourGoodJets/nJets"),Names[i],"nJets_1l_fourGoodJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nJets_1l_fourGoodJets","Number of good Jets", "");
-
-	 //  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_fourGoodJets/Jet0_Et"),Names[i],"Jet0_Et_1l_fourGoodJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet0_Et_1l_fourGoodJets","E_{T} leading Jet [GeV]", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_oneTightJet/Jet0_Et"),Names[i],"Jet0_Et_1l_oneTightJet",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet0_Et_1l_oneTightJet","E_{T} leading Jet [GeV]", "");
-
-	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_fourGoodJets/Jet1_Et"),Names[i],"Jet1_Et_1l_fourGoodJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet1_Et_1l_fourGoodJets","E_{T} 2^{nd} leading Jet [GeV]", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_oneTightJet/Jet1_Et"),Names[i],"Jet1_Et_1l_oneTightJet",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet1_Et_1l_oneTightJet","E_{T} 2^{nd} leading Jet [GeV]", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_twoMediumJets/Jet1_Et"),Names[i],"Jet1_Et_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet1_Et_1l_twoMediumJets","E_{T} 2^{nd} leading Jet [GeV]", "");
-
- // 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1b1l_1/Jet0_Et"),Names[i],"Jet0_Et_analyzeSUSY1b1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-//  	  plots.SetAxesTitles("Jet0_Et_analyzeSUSY1b1l_1","E_{T} leading Jet [GeV]", "");
-//  	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1b1l_1/Jet1_Et"),Names[i],"Jet1_Et_analyzeSUSY1b1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-//  	  plots.SetAxesTitles("Jet1_Et_analyzeSUSY1b1l_1","E_{T} 2^{nd} leading Jet [GeV]", "");
-
-	 //  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nLooseBjetsTrackHighPur"),Names[i],"nLooseBjetsTrackHighPur_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighPur_1l_twoMediumJets","#Jets with bdisc > 1.19 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nMediumBjetsTrackHighPur"),Names[i],"nMediumBjetsTrackHighPur_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighPur_1l_twoMediumJets","#Jets with bdisc > 1.93 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nTightBjetsTrackHighPur"),Names[i],"nTightBjetsTrackHighPur_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighPur_1l_twoMediumJets","#Jets with bdisc > 3.41 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nLooseBjetsTrackHighEff"),Names[i],"nLooseBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 1.7 (TrackCountingHighEff)", "");
-	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nMediumBjetsTrackHighEff"),Names[i],"nMediumBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 3.3 (TrackCountingHighEff)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_twoMediumJets/nTightBjetsTrackHighEff"),Names[i],"nTightBjetsTrackHighEff_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighEff_1l_twoMediumJets","#Jets with bdisc > 10.21 (TrackCountingHighEff)", "");
-
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_twoMediumJets/HT"),Names[i],"HT_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("HT_1l_twoMediumJets","HT [GeV]", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_twoMediumJets/MET"),Names[i],"MET_1l_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("MET_1l_twoMediumJets","MET [GeV]", "");
-	  // plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1b1l_1/MET"),Names[i],"MET_analyzeSUSY1b1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("MET_analyzeSUSY1b1l_1","MET [GeV]", "");
-// plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1b1l_1/HT"),Names[i],"HT_analyzeSUSY1b1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("HT_analyzeSUSY1b1l_1","HT [GeV]", "");
-
-
-//  	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_1/HT"),Names[i],"HT_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-//  	  plots.SetAxesTitles("HT_1l_1","HT [GeV]", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nLooseBjetsTrackHighPur"),Names[i],"nLooseBjetsTrackHighPur_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighPur_1l_1","#Jets with bdisc > 1.19 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nMediumBjetsTrackHighPur"),Names[i],"nMediumBjetsTrackHighPur_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighPur_1l_1","#Jets with bdisc > 1.93 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nTightBjetsTrackHighPur"),Names[i],"nTightBjetsTrackHighPur_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighPur_1l_1","#Jets with bdisc > 3.41 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nLooseBjetsTrackHighEff"),Names[i],"nLooseBjetsTrackHighEff_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighEff_1l_1","#Jets with bdisc > 1.7 (TrackCountingHighEff)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nMediumBjetsTrackHighEff"),Names[i],"nMediumBjetsTrackHighEff_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighEff_1l_1","#Jets with bdisc > 3.3 (TrackCountingHighEff)", "");
-	 //  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_1/nTightBjetsTrackHighEff"),Names[i],"nTightBjetsTrackHighEff_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighEff_1l_1","#Jets with bdisc > 10.21 (TrackCountingHighEff)", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_1/MET"),Names[i],"MET_1l_1",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("MET_1l_1","MET [GeV]", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_2/MET"),Names[i],"MET_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("MET_1l_2","MET[GeV]", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nLooseBjetsTrackHighPur"),Names[i],"nLooseBjetsTrackHighPur_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighPur_1l_2","#Jets with bdisc > 1.19 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nMediumBjetsTrackHighPur"),Names[i],"nMediumBjetsTrackHighPur_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighPur_1l_2","#Jets with bdisc > 1.93 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nTightBjetsTrackHighPur"),Names[i],"nTightBjetsTrackHighPur_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighPur_1l_2","#Jets with bdisc > 3.41 (TrackCountingHighPur)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nLooseBjetsTrackHighEff"),Names[i],"nLooseBjetsTrackHighEff_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nLooseBjetsTrackHighEff_1l_2","#Jets with bdisc > 1.7 (TrackCountingHighEff)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nMediumBjetsTrackHighEff"),Names[i],"nMediumBjetsTrackHighEff_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMediumBjetsTrackHighEff_1l_2","#Jets with bdisc > 3.3 (TrackCountingHighEff)", "");
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeBjets1l_2/nTightBjetsTrackHighEff"),Names[i],"nTightBjetsTrackHighEff_1l_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nTightBjetsTrackHighEff_1l_2","#Jets with bdisc > 10.21 (TrackCountingHighEff)", "");
-
-
-
-	  // n-1 Plots
-	  //------------------
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_oneGoodMuon/nMuons"),Names[i],"nMuons_1lnminus1_oneGoodMuon",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nMuons_1lnminus1_oneGoodMuon","Number of isolated Muons", "");
+	  // Loop over MC samples
+	  for(int i=0; i<(int)MCFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)MCFiles[i]->Get(MCMuSelections[sdx]+"/"+MCHistograms[h]),MCNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],MuSF*MCMuWeights[i],MCLineColors[i],MCFillStyles[i],MCFillColors[i]);
+	    }      
 	  
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_fourGoodJets/nJets"),Names[i],"nJets_1lnminus1_fourGoodJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("nJets_1nminus1l_fourGoodJets","Number of good Jets", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_oneTightJet/Jet0_Et"),Names[i],"Jet0_Et_1lnminus1_oneTightJet",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet0_Et_1lnminus1_oneTightJet","E_{T} leading Jet [GeV]", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_twoMediumJets/Jet1_Et"),Names[i],"Jet1_Et_1lnminus1_twoMediumJets",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("Jet1_Et_1nminus1l_twoMediumJets","E_{T} 2^{nd} leading Jet [GeV]", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_HTSelection/HT"),Names[i],"HT_1lnminus1_HTSelection",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("HT_1lnminus1_HTSelection","HT [GeV]", "");
-
-// 	  plots.addPlot((TH1F*)Files[i]->Get("analyzeSUSY1l_nminus1_2/MET"),Names[i],"MET_1lnminus1_2",Scales[i],Colors[i],Styles[i],FillColors[i]);
-// 	  plots.SetAxesTitles("MET_1lnminus1_2","MET [GeV]", "");
-
+	  // loop over muon data samples
+	  for(int i=0; i<(int)MuFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)MuFiles[i]->Get(DataMuSelections[sdx]+"/"+DataHistograms[h]),MuNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],1,MuLineColors[i],MuFillStyles[i],MuFillColors[i]);
+	    }
+	  
 	}
     }
-  plots.printAll("ylog");  
+  
+  // Loop over electron selections
+  for(int sdx=0; sdx<(int)MCElSelections.size(); ++sdx)
+    {
+      std::cout << MCElSelections[sdx] << std::endl;
+	  
+      // Loop over histogram
+      for(int h=0; h<(int)MCHistograms.size(); ++h)
+	{ 
+	  std::cout << MCHistograms[h] << std::endl;
+	  
+	  // Loop over MC samples
+	  for(int i=0; i<(int)MCFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)MCFiles[i]->Get(MCElSelections[sdx]+"/"+MCHistograms[h]),MCNames[i],MCHistograms[h]+"_"+MCElSelections[sdx],ElSF*MCElWeights[i],MCLineColors[i],MCFillStyles[i],MCFillColors[i]);
+	    }      
+	  
+	  // loop over muon data samples
+	  for(int i=0; i<(int)ElFiles.size(); ++i)
+	    {
+	      plots.addPlot((TH1F*)ElFiles[i]->Get(DataElSelections[sdx]+"/"+DataHistograms[h]),ElNames[i],MCHistograms[h]+"_"+MCElSelections[sdx],1,ElLineColors[i],ElFillStyles[i],ElFillColors[i]);
+	    }
+	  
+	}
+    }
+
+  plots.printAll("ylog");
 }
