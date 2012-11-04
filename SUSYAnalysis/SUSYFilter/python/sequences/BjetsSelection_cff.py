@@ -22,9 +22,26 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
 
+noIsoTrackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
+                                         cut =
+                                         'isGood("GlobalMuonPromptTight") &'
+                                         'isGood("AllTrackerMuons") &'
+                                         'pt >= 20. &'
+                                         'abs(eta) <= 2.1 &'
+                                         'abs(dB) < 0.02 &'
+                                         'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
+                                         'numberOfMatches() > 1 &'
+                                         'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
+                                         '((globalTrack.ptError)/(pt*pt)) < 0.001'
+                                         )
+
 goodMuons = vertexSelectedMuons.clone(src = "trackMuons",
                                       primaryVertex = "goodVertices"
                                       )
+
+noIsoGoodMuons = vertexSelectedMuons.clone(src = "noIsorackMuons",
+                                           primaryVertex = "goodVertices"
+                                           )
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -39,9 +56,22 @@ isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                'abs(dB) < 0.02 '
                                                )
 
+noIsoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
+                                            cut =
+                                            'pt >= 20. &'
+                                            'electronID(\"simpleEleId80cIso\")=5 &'
+                                            'abs(superCluster.eta) <= 2.5 &'
+                                            '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
+                                            'abs(dB) < 0.02 '
+                                            )
+
 goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons",
                                               primaryVertex = "goodVertices"
                                               )
+
+noIsoGoodElectrons = vertexSelectedElectrons.clone(src = "noIsoElectrons",
+                                                   primaryVertex = "goodVertices"
+                                                   )
 
 ## create collection of loose muons
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
@@ -584,11 +614,15 @@ goodObjects = cms.Sequence(## loose leptons
                            ## muons
                            trackMuons *
                            goodMuons *
+                           noIsoTrackMuons *
+                           noIsoGoodMuons *
                            trackVetoMuons *
                            vetoMuons *
                            ## electrons
                            isolatedElectrons *
                            goodElectrons*
+                           noIsoElectrons *
+                           noIsoGoodElectrons*
                            looseVetoElectrons *
                            vetoElectrons *
                            ## jets
