@@ -176,37 +176,45 @@ preselectionData2PAT = cms.Sequence(AOD2PATTrigger *
                                     )
 
 ## Data
-preselectionMuHTData = cms.Sequence(Mu_BEfilterSequence *
+preselectionMuHTData = cms.Sequence(goodVertices *
+                                    Mu_BEfilterSequence *
                                     MuHTTriggerData
                                     )
 
-preselectionElHTData = cms.Sequence(Electron_BEfilterSequence *
+preselectionElHTData = cms.Sequence(goodVertices *
+                                    Electron_BEfilterSequence *
                                     ElHTTriggerData
                                     )
 
 ## Data2
-preselectionMuHTData2 = cms.Sequence(Mu_BEfilterSequence *
+preselectionMuHTData2 = cms.Sequence(goodVertices *
+                                     Mu_BEfilterSequence *
                                      MuHTTriggerData2
                                      )
 
-preselectionElHTData2 = cms.Sequence(Electron_BEfilterSequence *
+preselectionElHTData2 = cms.Sequence(goodVertices *
+                                     Electron_BEfilterSequence *
                                      ElHTTriggerData2
                                      )
 
 ## Data3
-preselectionMuHTData3 = cms.Sequence(Mu_BEfilterSequence *
+preselectionMuHTData3 = cms.Sequence(goodVertices *
+                                     Mu_BEfilterSequence *
                                      MuHTTriggerData3
                                      )
 
-preselectionElHTData3 = cms.Sequence(Electron_BEfilterSequence *
+preselectionElHTData3 = cms.Sequence(goodVertices *
+                                     Electron_BEfilterSequence *
                                      ElHTTriggerData3
                                      )
 
 ## All Data
-preselectionMuHTAllData = cms.Sequence(Mu_BEfilterSequence *
+preselectionMuHTAllData = cms.Sequence(goodVertices *
+                                       Mu_BEfilterSequence *
                                        MuHTTriggerAllData
                                        )
 
-preselectionElHTAllData = cms.Sequence(Electron_BEfilterSequence *
+preselectionElHTAllData = cms.Sequence(goodVertices *
+                                       Electron_BEfilterSequence *
                                        ElHTTriggerAllData
                                        )

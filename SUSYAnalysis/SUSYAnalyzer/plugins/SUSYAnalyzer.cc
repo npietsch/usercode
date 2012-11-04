@@ -143,10 +143,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   SSVHE_ = fs->make<TH1F>("SSVHE", "SSVHE", 120,  -2, 10);
   SSVHP_ = fs->make<TH1F>("SSVHP", "SSVHP", 120,  -2, 10);
 
-  nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, 0, 4);
-  nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, 0, 8);
-  nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
-  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, 0, 8);
+  nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, -0.5, 3.5);
+  nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, -0.5, 7.5);
+  nBjets_          = fs->make<TH1F>("nBjets",          "nBjets",        4, -0.5, 3.5);
+  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, -0.5, 7.5);
 
   for(int idx=0; idx<4; ++idx)
     {
