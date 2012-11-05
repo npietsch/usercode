@@ -122,6 +122,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,   6.5);
   nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,   6.5);
   nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,  12.5);
+  LeptonPt_    = fs->make<TH1F>("LeptonPt",   "Lepton Pt",  60,   0.,  600.);
+  LeptonEta_   = fs->make<TH1F>("LeptonEta",  "Lepton Eta", 60,   -3,    3.);
 
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
@@ -131,7 +133,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   YMET_     = fs->make<TH1F>("YMET", "YMET", 50, 0., 25);
   METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
-  LepPt_    = fs->make<TH1F>("LepPt",      "LEpton Pt",  50,   0., 1000.);
+  LepPt_    = fs->make<TH1F>("LepPt",      "Lepton Pt",  50,   0., 1000.);
   LepPtSig_ = fs->make<TH1F>("LepPtSig", "LepPtSig", 50, 0., 25);
 
   //-------------------------------------------------
@@ -500,6 +502,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nMuons=nMuons+1;
       nLeptons=nLeptons+1;
       LepHT=LepHT+(*muons)[i].pt();
+      LeptonPt_->Fill((*muons)[i].pt());
+      LeptonPt_->Fill((*muons)[i].eta());
     }
 
   //std::cout << "Test4" << std::endl;
@@ -515,6 +519,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       nElectrons=nElectrons+1;
       nLeptons=nLeptons+1;
       LepHT=LepHT+(*electrons)[i].pt();
+      LeptonPt_->Fill((*electrons)[i].pt());
+      LeptonPt_->Fill((*electrons)[i].eta());
     }
 
   nMuons_    ->Fill(nMuons,     weight);

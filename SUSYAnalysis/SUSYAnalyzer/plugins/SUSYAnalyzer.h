@@ -105,7 +105,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nMuons_;
   TH1F* nElectrons_;
   TH1F* nLeptons_;
-  TH1F* LepPt_;
+  TH1F* LeptonPt_;
+  TH1F* LeptonEta_;
 
   TH1F* MT_;
 
@@ -115,6 +116,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
 
   TH1F* YMET_;
   TH1F* METSig_;
+  TH1F* LepPt_;
   TH1F* LepPtSig_;
 
   //-----------------------
