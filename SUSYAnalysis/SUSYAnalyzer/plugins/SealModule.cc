@@ -26,3 +26,6 @@ DEFINE_FWK_MODULE(Out);
 
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/GluinoAnalyzer.h"
 DEFINE_FWK_MODULE(GluinoAnalyzer);
+
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/RA4MuonAnalyzer.h"
+DEFINE_FWK_MODULE(RA4MuonAnalyzer);

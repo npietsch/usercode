@@ -39,7 +39,7 @@ goodMuons = vertexSelectedMuons.clone(src = "trackMuons",
                                       primaryVertex = "goodVertices"
                                       )
 
-noIsoGoodMuons = vertexSelectedMuons.clone(src = "noIsorackMuons",
+noIsoGoodMuons = vertexSelectedMuons.clone(src = "noIsoTrackMuons",
                                            primaryVertex = "goodVertices"
                                            )
 
