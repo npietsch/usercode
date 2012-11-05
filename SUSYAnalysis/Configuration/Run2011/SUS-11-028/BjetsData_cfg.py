@@ -52,6 +52,15 @@ process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
 process.analyzeRA4Muons.PVSrc          = "goodVertices"
 process.analyzeRA4Muons.useTriggerEventWeight = True
 
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4ElectronAnalyzer_cfi")
+
+process.analyzeRA4Electrons.jets           = "goodJets"
+process.analyzeRA4Electrons.muons          = "goodMuons"
+process.analyzeRA4Electrons.electrons      = "looseElectrons"
+process.analyzeRA4Electrons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Electrons.PVSrc          = "goodVertices"
+process.analyzeRA4Electrons.useTriggerEventWeight = True
+
 #------------------------------------------------------------------
 # Load modules for trigger weighting
 #------------------------------------------------------------------
@@ -154,4 +163,100 @@ process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
                                    
                                    # execute analyzer modules
                                    process.analyzeSUSYBjets2b1m_2
+                                   )
+
+#--------------------------
+# electron selection paths
+#--------------------------
+
+## exactly 1 electron and at least 0 b-tags
+process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.makeObjects *
+                                   process.TriggerWeightProducer *
+                                   
+                                   # execute filter and analyzer modules
+                                   process.analyzeSUSYBjets1e_noCuts *
+                                   
+                                   process.MuHadSelection *
+                                   process.analyzeSUSYBjets1e_preselection *
+                                   process.analyzeRA4Electrons *
+                                   
+                                   process.electronSelection*
+                                   process.analyzeSUSYBjets1e_leptonSelection *
+                                   
+                                   process.jetSelection*
+                                   process.analyzeSUSYBjets1e_jetSelection
+                                   )
+
+## exactly one electron and at least 1 btag
+process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.oneMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets1b1e_1
+                                   )
+
+## exactly one electron and at least 2 btag
+process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.twoMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets2b1e_1
+                                   )
+
+## exactly 1 electron and at least 3 b-tags
+process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.threeMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets3b1e_1
+                                   )
+
+## exactly one electron and exactly 0 btags
+process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.exactlyZeroMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets0b1e_2
+                                   )
+
+## exactly one electron and exactly 1 btag
+process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.exactlyOneMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets1b1e_2
+                                   )
+
+## exactly one electron and exactly 2 btags
+process.Selection2b1e_2 = cms.Path(# execute filter and b-tag producer modules
+                                   process.preselectionMuHTAllData *
+                                   process.MuHadSelection *
+                                   process.electronSelection*
+                                   process.jetSelection *
+                                   process.exactlyTwoMediumTrackHighEffBjets *
+                                   
+                                   # execute analyzer modules
+                                   process.analyzeSUSYBjets2b1e_2
                                    )
