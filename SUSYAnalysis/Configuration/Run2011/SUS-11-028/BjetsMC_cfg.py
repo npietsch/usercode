@@ -99,7 +99,7 @@ process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
 process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
 
 process.analyzeRA4Muons.jets           = "goodJets"
-process.analyzeRA4Muons.muons          = "goodMuons"
+process.analyzeRA4Muons.muons          = "looseMuons"
 process.analyzeRA4Muons.electrons      = "goodElectrons"
 process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
 process.analyzeRA4Muons.PVSrc          = "goodVertices"

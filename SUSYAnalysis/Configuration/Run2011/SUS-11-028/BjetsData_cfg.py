@@ -43,6 +43,15 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_Data_cff")
 
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
+
+process.analyzeRA4Muons.jets           = "goodJets"
+process.analyzeRA4Muons.muons          = "looseMuons"
+process.analyzeRA4Muons.electrons      = "goodElectrons"
+process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Muons.PVSrc          = "goodVertices"
+process.analyzeRA4Muons.useTriggerEventWeight = True
+
 #------------------------------------------------------------------
 # Load modules for trigger weighting
 #------------------------------------------------------------------
@@ -66,6 +75,7 @@ process.Selection0b1m_1 = cms.Path(# execute preselection and producer modules
                                    
                                    process.MuHadSelection *
                                    process.analyzeSUSYBjets1m_preselection *
+                                   process.analyzeRA4Muons *
                                    
                                    process.muonSelection*
                                    process.analyzeSUSYBjets1m_leptonSelection *

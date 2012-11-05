@@ -96,6 +96,7 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
 
   // isolation
   relIso_                       = fs->make<TH1F>("relIso",                      "relIso",                         50 ,  0.,   1.);
+  relIso_Nminus1_               = fs->make<TH1F>("relIso_Nminus1",              "relIso Nminus1",                 50 ,  0.,   1.);
 
   // quality criteria
   normChi2_                     = fs->make<TH1F>("normChi2",                    "normChi2",                       20 ,  0.,  20.);
@@ -264,8 +265,23 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       dz_                    ->Fill(Dz,                          weight);
       nMatches_              ->Fill(NMatches,                    weight);
 
-      relIso_               ->Fill(RelIso,                        weight);
+      relIso_                ->Fill(RelIso,                      weight);
  
+      double dRmin=10;
+      double ptPf=0;
+      
+      for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
+	{
+	  double dR=abs(deltaR((*muons)[idx].eta(),(*muons)[idx].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
+	  if(dR < dRmin)
+	    {
+	      dRmin=dR;
+	      ptPf=(*pfMuons)[jdx].pt();
+	    }
+	}
+      if(ptPf > 0) pfConsistency_->Fill(fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt());
+      else pfConsistency_->Fill(0.99);
+      
       // quality criteria
       if((*muons)[idx].isGlobalMuon())
 	{
@@ -281,24 +297,25 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  nTrackerHits_                ->Fill(NTrackerHits,                 weight);
 	  nPixelLayersWithMeasurement_ ->Fill(NPixelLayersWithMeasurement , weight);
 	  ptError_                     ->Fill(PtError,                      weight);
-	}
 
-      double dRmin=10;
-      double ptPf=0;
-
-      for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
-	{
-	  double dR=abs(deltaR((*muons)[idx].eta(),(*muons)[idx].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
-	  if(dR < dRmin)
+	  // N-1 plots
+	  if(GlobalMuonPromptTight == true &&
+	     AllTrackerMuons == true &&
+	     DB < 0.02 &&
+	     Dz < 0.1 &&
+	     NMatches > 1 &&
+	     fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt() < 0.2 &&
+	     ptPf > 0 &&
+	     NTrackerHits > 10 &&
+	     NPixelLayersWithMeasurement >=1 &&
+	     PtError < 0.001
+	     )
 	    {
-	      dRmin=dR;
-	      ptPf=(*pfMuons)[jdx].pt();
+	      relIso_Nminus1_->Fill(RelIso, weight);
 	    }
 	}
-      if(ptPf > 0) pfConsistency_->Fill(fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt());
-      else pfConsistency_->Fill(0.99);
     }
-
+  
   // number of muons
   nMuons_->Fill(muons->size(), weight);
 }

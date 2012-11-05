@@ -102,6 +102,7 @@ class RA4MuonAnalyzer : public edm::EDAnalyzer {
 
   // isolation
   TH1F* relIso_;
+  TH1F* relIso_Nminus1_;
 
   // quality criteria
   TH1F* normChi2_;
