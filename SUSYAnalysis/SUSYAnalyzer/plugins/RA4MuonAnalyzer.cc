@@ -90,7 +90,7 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   isGlobalMuon_                 = fs->make<TH1F>("isGlobalMuon",               "isGlobalMuon",                     2 ,  0.,   2.);
   isTrackerMuon_                = fs->make<TH1F>("isTrackerMuon",              "isTrackerMuon",                    2 ,  0.,   2.);
   isGlobalTrackerMuon_          = fs->make<TH2F>("isGlobalTrackerMuon",        "isGlobalTrackerMuon",   2, 0., 2., 2 ,  0.,   2.);
-  dB_                           = fs->make<TH1F>("dB",                         "dB",                              20 ,  0.,   1.);
+  dB_                           = fs->make<TH1F>("dB",                         "dB",                              20 ,  0., 0.2.);
   dz_                           = fs->make<TH1F>("dz",                         "dz",                              20 ,  0.,   1.);
   nMatches_                     = fs->make<TH1F>("nMatches",                   "nMatches",                        10 ,  0.,  10.);
 

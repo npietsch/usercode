@@ -96,14 +96,14 @@ process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJe
 process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
 process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
 
-process.load("SUSYAnalysis.SUSYAnalyzer.python.RA4MuonAnalyzer_cfi")
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
 
-analyzeRA4Muons.jets           = "goodJets"
-analyzeRA4Muons.muons          = "goodMuons"
-analyzeRA4Muons.electrons      = "goodElectrons"
-analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
-analyzeRA4Muons.PVSrc          = "goodVertices"
-analyzeRA4Muons.useEventWeight = True
+process.analyzeRA4Muons.jets           = "goodJets"
+process.analyzeRA4Muons.muons          = "goodMuons"
+process.analyzeRA4Muons.electrons      = "goodElectrons"
+process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Muons.PVSrc          = "goodVertices"
+process.analyzeRA4Muons.useEventWeight = True
 
 #------------------------------------------------------------------
 # Load and configure modules for b-tag efficiency weighting

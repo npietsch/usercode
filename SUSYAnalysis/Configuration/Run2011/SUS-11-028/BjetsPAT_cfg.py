@@ -40,7 +40,6 @@ process.scaledJetEnergy.doJetSmearing = True
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-process.load("SUSYAnalysis.SUSYFilter.sequences.MuonID_cff")
 
 # define source for goodJets producer
 process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
@@ -97,6 +96,15 @@ process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJe
 process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
 process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
 
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
+
+process.analyzeRA4Muons.jets           = "goodJets"
+process.analyzeRA4Muons.muons          = "goodMuons"
+process.analyzeRA4Muons.electrons      = "goodElectrons"
+process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Muons.PVSrc          = "goodVertices"
+process.analyzeRA4Muons.useEventWeight = True
+
 #------------------------------------------------------------------
 # Load and configure modules for b-tag efficiency weighting
 #------------------------------------------------------------------
@@ -138,6 +146,7 @@ process.Selection0b1m_1 = cms.Path(# execute producer and preselection modules
                                    
                                    process.MuHadSelection *
                                    process.analyzeSUSYBjets1m_preselection *
+                                   process.analyzeRA4Muons *
                                    
                                    process.muonSelection*
                                    process.analyzeSUSYBjets1m_leptonSelection *
