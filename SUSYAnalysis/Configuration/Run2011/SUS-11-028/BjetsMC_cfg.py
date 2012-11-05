@@ -105,6 +105,15 @@ process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
 process.analyzeRA4Muons.PVSrc          = "goodVertices"
 process.analyzeRA4Muons.useEventWeight = True
 
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4ElectronAnalyzer_cfi")
+
+process.analyzeRA4Electrons.jets           = "goodJets"
+process.analyzeRA4Electrons.muons          = "goodMuons"
+process.analyzeRA4Electrons.electrons      = "looseElectrons"
+process.analyzeRA4Electrons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Electrons.PVSrc          = "goodVertices"
+process.analyzeRA4Electrons.useEventWeight = True
+
 #------------------------------------------------------------------
 # Load and configure modules for b-tag efficiency weighting
 #------------------------------------------------------------------
@@ -246,6 +255,7 @@ process.Selection0b1e_1 = cms.Path(# execute producer and preselection modules
                                    
                                    process.ElHadSelection *
                                    process.analyzeSUSYBjets1e_preselection *
+                                   process.analyzeRA4Electrons *
                                    
                                    process.electronSelection*
                                    process.analyzeSUSYBjets1e_leptonSelection *

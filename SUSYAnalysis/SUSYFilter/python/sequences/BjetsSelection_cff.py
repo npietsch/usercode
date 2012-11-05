@@ -54,7 +54,8 @@ looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             cut =
                                             'pt > 20. &'
-                                            'abs(superCluster.eta) <= 2.5'
+                                            'abs(superCluster.eta) <= 2.5 &'
+                                            '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566)'
                                             )
 
 ## create collection of veto muons

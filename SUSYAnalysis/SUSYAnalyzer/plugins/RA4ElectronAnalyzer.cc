@@ -2,7 +2,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
-#include "SUSYAnalysis/SUSYAnalyzer/plugins/RA4MuonAnalyzer.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/RA4ElectronAnalyzer.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtSemiLeptonicEvent.h"
 #include  <stdio.h>
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
@@ -15,12 +15,10 @@
 
 using namespace std;
  
-RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
+RA4ElectronAnalyzer::RA4ElectronAnalyzer(const edm::ParameterSet& cfg):
   met_               (cfg.getParameter<edm::InputTag>("met") ),
   jets_              (cfg.getParameter<edm::InputTag>("jets") ),
   muons_             (cfg.getParameter<edm::InputTag>("muons") ),
-  pfMuons_           (cfg.getParameter<edm::InputTag>("pfMuons")),
-
   electrons_         (cfg.getParameter<edm::InputTag>("electrons") ),
   PVSrc_             (cfg.getParameter<edm::InputTag>("PVSrc") ),
   PUInfo_            (cfg.getParameter<edm::InputTag>("PUInfo") ),
@@ -77,47 +75,27 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   WeightTrigger_ = fs->make<TH1F>("WeightTrigger", "WeightTrigger", 50 , 0.,   10. );
 
   //-------------------------------------------------
-  // Muon kinematics and ID
+  // Electron kinematics and ID
   //-------------------------------------------------
   
   // pt and eta
-  pt_                           = fs->make<TH1F>("pt",                          "pt",                             60 ,  0., 600.);
-  eta_                          = fs->make<TH1F>("eta",                         "eta",                            60 , -3.,   3.);
+  pt_                           = fs->make<TH1F>("pt",                         "pt",                             60 ,  0., 600.);
+  eta_                          = fs->make<TH1F>("eta",                        "eta",                            60 , -3.,   3.);
 
-  // ID
-  globalMuonPromptTight_        = fs->make<TH1F>("globalMuonPromptTight",      "globalMuonPromptTight",            2 ,  0.,   2.);
-  allTrackerMuons_              = fs->make<TH1F>("allTrackerMuons",            "allTrackerMuons",                  2 ,  0.,   2.);
-  isGlobalMuon_                 = fs->make<TH1F>("isGlobalMuon",               "isGlobalMuon",                     2 ,  0.,   2.);
-  isTrackerMuon_                = fs->make<TH1F>("isTrackerMuon",              "isTrackerMuon",                    2 ,  0.,   2.);
-  isGlobalTrackerMuon_          = fs->make<TH2F>("isGlobalTrackerMuon",        "isGlobalTrackerMuon",   2, 0., 2., 2 ,  0.,   2.);
-  dB_                           = fs->make<TH1F>("dB",                         "dB",                              20 ,  0.,  0.2);
-  dz_                           = fs->make<TH1F>("dz",                         "dz",                              20 ,  0.,   1.);
-  nMatches_                     = fs->make<TH1F>("nMatches",                   "nMatches",                        10 ,  0.,  10.);
+  dB_                           = fs->make<TH1F>("dB",                         "dB",                             20 ,  0.,  0.2);
+  dz_                           = fs->make<TH1F>("dz",                         "dz",                             20 ,  0.,   1.);
 
-  // isolation
-  relIso_                       = fs->make<TH1F>("relIso",                      "relIso",                         50 ,  0.,   1.);
-  relIso_Nminus1_               = fs->make<TH1F>("relIso_Nminus1",              "relIso Nminus1",                 50 ,  0.,   1.);
+  ID_                           = fs->make<TH1F>("ID",                         "ID",                             8 , -0.5,  7.5);
 
-  // quality criteria
-  normChi2_                     = fs->make<TH1F>("normChi2",                    "normChi2",                       20 ,  0.,  20.);
-  nValidMuonHits_               = fs->make<TH1F>("nValidMuonHits",              "nValidMuonHits",                 10 ,  0.,  10.);
-  
-  nTrackerHits_                 = fs->make<TH1F>("nTrackerHits",                "nTrackerHits",                   20 ,  0.,  20.);
-  nPixelLayersWithMeasurement_  = fs->make<TH1F>("nPixelLayersWithMeasurement", "nPixelLayersWithMeasurement",    10 ,  0.,  10.);
-  ptError_                      = fs->make<TH1F>("ptError",                     "ptError",                        20 ,  0., 0.01);
-  
-  //pf consistency
-  pfConsistency_                = fs->make<TH1F>("pfConsistency",                "pfConsistency",                 20 ,  0.,   1.);
-
-  nMuons_                       = fs->make<TH1F>("nMuons",                       "nMuons",                        4 ,  0.,   4.);
+  nElectrons_                   = fs->make<TH1F>("nElectrons",                 "nElectrons",                      4 ,  0.,   4.);
 }
 
-RA4MuonAnalyzer::~RA4MuonAnalyzer()
+RA4ElectronAnalyzer::~RA4ElectronAnalyzer()
 {
 }
 
 void
-RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
+RA4ElectronAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //--------------------------------------------------
   // Handles
@@ -129,8 +107,6 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(jets_, jets);
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
-  edm::Handle<std::vector<pat::Muon> > pfMuons;
-  evt.getByLabel(pfMuons_, pfMuons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
@@ -231,99 +207,41 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nPV_->Fill(PVSrc->size(),weightPU);
 
   //-------------------------------------------------
-  // Muon variables
+  // Electron variables
   //-------------------------------------------------
 
-  for(int idx=0; idx<(int)muons->size(); ++idx)
+  for(int idx=0; idx<(int)electrons->size(); ++idx)
     {
       // pt and eta
-      double Pt                  = (*muons)[idx].pt();
-      double Eta                 = (*muons)[idx].eta();
+      double Pt  = (*electrons)[idx].pt();
+      double Eta = (*electrons)[idx].superCluster()->eta();
+
+      // dB abd dz
+      double DB  = abs((*electrons)[idx].dB());
+      double Dz  = abs((*electrons)[idx].vertex().z() - PVSrc->begin()->z());
 
       // ID
-      bool GlobalMuonPromptTight = (*muons)[idx].isGood("GlobalMuonPromptTight"); // chi2<10 AND N hits in Muonsystem > 0 AND isGlobal
-      bool AllTrackerMuons       = (*muons)[idx].isGood("AllTrackerMuons");
-      bool IsGlobalMuon          = (*muons)[idx].isGlobalMuon();
-      bool IsTrackerMuon         = (*muons)[idx].isTrackerMuon();
-      double DB                  = abs((*muons)[idx].dB());
-      double Dz                  = abs((*muons)[idx].vertex().z() - PVSrc->begin()->z());
-      int NMatches               = (*muons)[idx].numberOfMatches();
+      int ID     = (*electrons)[idx].electronID("simpleEleId80cIso");
 
-      // isolation
-      double RelIso             = ((*muons)[idx].trackIso()+(*muons)[idx].hcalIso()+(*muons)[idx].ecalIso())/(*muons)[idx].pt();
+      // Fill histos
+      pt_  ->Fill(Pt,   weight);
+      eta_ ->Fill(Eta,  weight);
 
-      // fill histos
-      pt_                     ->Fill(Pt,                         weight);
-      eta_                    ->Fill(Eta,                        weight);
+      dB_  ->Fill(DB,   weight);
+      dz_  ->Fill(Dz,   weight);
 
-      globalMuonPromptTight_ ->Fill(GlobalMuonPromptTight,       weight);
-      allTrackerMuons_       ->Fill(AllTrackerMuons,             weight); 
-      isGlobalMuon_          ->Fill(IsGlobalMuon,                weight);
-      isTrackerMuon_         ->Fill(IsTrackerMuon,               weight);
-      isGlobalTrackerMuon_   ->Fill(IsGlobalMuon, IsTrackerMuon, weight);
-      dB_                    ->Fill(DB,                          weight);
-      dz_                    ->Fill(Dz,                          weight);
-      nMatches_              ->Fill(NMatches,                    weight);
+      ID_  ->Fill(ID,   weight);
 
-      relIso_                ->Fill(RelIso,                      weight);
- 
-      double dRmin=10;
-      double ptPf=0;
-      
-      for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
-	{
-	  double dR=abs(deltaR((*muons)[idx].eta(),(*muons)[idx].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
-	  if(dR < dRmin)
-	    {
-	      dRmin=dR;
-	      ptPf=(*pfMuons)[jdx].pt();
-	    }
-	}
-      if(ptPf > 0) pfConsistency_->Fill(fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt());
-      else pfConsistency_->Fill(0.99);
-      
-      // quality criteria
-      if((*muons)[idx].isGlobalMuon())
-	{
-	  double NormChi2           = (*muons)[idx].globalTrack()->chi2()/(*muons)[idx].globalTrack()->ndof();
-	  int NValidMuonHits        = (*muons)[idx].globalTrack()->hitPattern().numberOfValidMuonHits();
-	  
-	  int NTrackerHits                = (*muons)[idx].globalTrack()->hitPattern().numberOfValidTrackerHits();
-	  int NPixelLayersWithMeasurement = (*muons)[idx].innerTrack()->hitPattern().pixelLayersWithMeasurement();
-	  double PtError                  = ((*muons)[idx].globalTrack()->ptError())/((*muons)[idx].pt()*(*muons)[idx].pt());
-
-	  normChi2_                    ->Fill(NormChi2,                     weight);
-	  nValidMuonHits_              ->Fill(NValidMuonHits,               weight);
-	  nTrackerHits_                ->Fill(NTrackerHits,                 weight);
-	  nPixelLayersWithMeasurement_ ->Fill(NPixelLayersWithMeasurement , weight);
-	  ptError_                     ->Fill(PtError,                      weight);
-
-	  // N-1 plots
-	  if(GlobalMuonPromptTight == true &&
-	     AllTrackerMuons == true &&
-	     DB < 0.02 &&
-	     Dz < 0.1 &&
-	     NMatches > 1 &&
-	     fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt() < 0.2 &&
-	     ptPf > 0 &&
-	     NTrackerHits > 10 &&
-	     NPixelLayersWithMeasurement >=1 &&
-	     PtError < 0.001
-	     )
-	    {
-	      relIso_Nminus1_->Fill(RelIso, weight);
-	    }
-	}
     }
   
-  // number of muons
-  nMuons_->Fill(muons->size(), weight);
+  // number of electrons
+  nElectrons_->Fill(electrons->size(), weight);
 }
 
-void RA4MuonAnalyzer::beginJob()
+void RA4ElectronAnalyzer::beginJob()
 {  
 } 
 
-void RA4MuonAnalyzer::endJob()
+void RA4ElectronAnalyzer::endJob()
 {
 }

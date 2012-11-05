@@ -1,5 +1,5 @@
-#ifndef RA4MuonAnalyzer_h  
-#define RA4MuonAnalyzer_h
+#ifndef RA4ElectronAnalyzer_h  
+#define RA4ElectronAnalyzer_h
 
 #include "TH1.h"
 #include "TH2.h"
@@ -20,12 +20,12 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
-class RA4MuonAnalyzer : public edm::EDAnalyzer {
+class RA4ElectronAnalyzer : public edm::EDAnalyzer {
 
  public:
   
-  explicit RA4MuonAnalyzer(const edm::ParameterSet&);
-  ~RA4MuonAnalyzer();
+  explicit RA4ElectronAnalyzer(const edm::ParameterSet&);
+  ~RA4ElectronAnalyzer();
 
  private:
 
@@ -36,7 +36,6 @@ class RA4MuonAnalyzer : public edm::EDAnalyzer {
   edm::InputTag met_;
   edm::InputTag jets_;
   edm::InputTag muons_;
-  edm::InputTag pfMuons_;
   edm::InputTag electrons_;
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
@@ -90,33 +89,13 @@ class RA4MuonAnalyzer : public edm::EDAnalyzer {
   TH1F* pt_;
   TH1F* eta_;
 
-  // ID
-  TH1F* globalMuonPromptTight_;
-  TH1F* allTrackerMuons_;
-  TH1F* isGlobalMuon_;
-  TH1F* isTrackerMuon_;
-  TH2F* isGlobalTrackerMuon_;
   TH1F* dB_;
   TH1F* dz_;
-  TH1F* nMatches_;
 
-  // isolation
-  TH1F* relIso_;
-  TH1F* relIso_Nminus1_;
-
-  // quality criteria
-  TH1F* normChi2_;
-  TH1F* nValidMuonHits_;
-  
-  TH1F* nTrackerHits_;
-  TH1F* nPixelLayersWithMeasurement_;
-  TH1F* ptError_;
-
-  // pf consistency
-  TH1F* pfConsistency_;
+  TH1F* ID_;
 
   // nMuons
-  TH1F* nMuons_;
+  TH1F* nElectrons_;
 };  
 
-#endif  
+#endif
