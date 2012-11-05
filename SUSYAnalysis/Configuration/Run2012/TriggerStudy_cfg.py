@@ -57,7 +57,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200),
+    input = cms.untracked.int32(100),
     skipEvents = cms.untracked.uint32(1)
 )
 
@@ -98,15 +98,8 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
 # import and configure trigger layer 1 modules
 #------------------------------------------------------------------------------
-process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
-
 # example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
-
-
-
-
-
-
+process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
 
 
 # define a trigger matcher
@@ -147,7 +140,21 @@ process.muonTriggerMatchHLTMuons = cms.EDProducer(
   # selections of trigger objects
 #, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_IsoMu24_eta2p1_v*" )' )
 #, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_Mu*" )' )
-, matchedCuts = cms.string('path("*")')
+#, matchedCuts = cms.string('type( "TriggerMuon" ) && path("*")')
+#, matchedCuts = cms.string('path("*")')
+#, matchedCuts = cms.string('path("HLT_IsoMu17_eta2p1_TriCentralPFJet30_v5",0)')
+#, matchedCuts = cms.string('filter("*")')
+#, matchedCuts = cms.string('filter("hltMu17Eta2p1IsoCenJetL3crIsoRhoFiltered0p15")')
+
+, matchedCuts = cms.string('filter("*") && (type( "TriggerMuon" ) || type( "TriggerL1Mu" ))')
+#, matchedCuts = cms.string('filter("L1_SingleMu14_Eta2p1*")')
+
+#hltL1sMu16Eta2p1
+
+#, matchedCuts = cms.string( 'type( "TriggerL1Mu" ) || type( "TriggerMuon" )' )
+#, matchedCuts = cms.string('filter("*Muon*")')
+#, matchedCuts = cms.string('filter("*IsoMu17_eta2p1*")')
+
 , maxDeltaR   = cms.double( 0.5 )
 #, maxDPtRel   = cms.double( 0.5 )
 , resolveAmbiguities    = cms.bool( True )
@@ -172,18 +179,23 @@ process.electronTriggerMatchHLTElectronsEmbedder = cms.EDProducer(
 )
 
 
+
+
 # import and configure test analyzer
 #------------------------------------------------------------------------------
-from SUSYAnalysis.SUSYAnalyzer.TreeWriter_cfi import *
+#from SUSYAnalysis.SUSYAnalyzer.TreeWriter_cfi import *
+from SUSYAnalysis.SUSYAnalyzer.TreeWriterProducer_cfi import *
 
 # clone analyzer module named testAnalysis
 process.muTriggerStudy = writeTrees.clone()
 
-process.muTriggerStudy.jets      = "goodJets"
+#process.muTriggerStudy.jets      = "goodJets"
+process.muTriggerStudy.jets      = "cleanPatJetsAK5PF"
+
 #process.muTriggerStudy.muons     = "goodMuons"
 #process.muTriggerStudy.muons     = "patMuons"
 process.muTriggerStudy.muons     = "muonTriggerMatchHLTMuonsEmbedder"
-process.muTriggerStudy.electrons = "goodElectrons"
+process.muTriggerStudy.electrons = "electronTriggerMatchHLTElectronsEmbedder"
 
 process.elTriggerStudy  = process.muTriggerStudy.clone()
 process.hadTriggerStudy = process.muTriggerStudy.clone()
