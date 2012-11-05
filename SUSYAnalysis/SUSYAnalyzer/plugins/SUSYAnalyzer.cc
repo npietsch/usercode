@@ -229,6 +229,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mT_nJets_        = fs->make<TH2F>("mT_nJets" ,   "mT vs. nJets",      60, 0.,  600., 16, -0.5,  15.5);
   YMET_nJets_      = fs->make<TH2F>("YMET_nJets",  "YMET vs. nJets",    50, 0.,   25., 16, -0.5,  15.5);
 
+  mlb_YMET_        = fs->make<TH2F>("mlb_YMET",    "YMET vs. mlb",      60, 0., 600.,  50,    0,    25);
+
   HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 60,   0.,  600.);
   HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 60,   0.,  600.);
   
@@ -773,6 +775,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
       mLepTop_nJets_->Fill(mLepTop, jets->size(), weight);
       mlb_nJets_    ->Fill(mlb,     jets->size(), weight);
+      mlb_YMET_     ->Fill(mlb,     YMET        , weight);
     }
   
   //std::cout << "Test13" << std::endl;
