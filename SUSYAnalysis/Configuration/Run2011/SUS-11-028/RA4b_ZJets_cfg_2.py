@@ -7,9 +7,10 @@
 
 from BjetsPAT_cfg import *
 
-#process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
-#process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
-#process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_DYJetsToLL_TuneZ2_M_50_7TeV_madgraph_tauola.root"
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 3048
+process.weightProducer.NumberEvts = 36058014
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_ZJets.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
