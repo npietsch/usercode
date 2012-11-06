@@ -4,4 +4,3 @@ PFConsistentMuons = cms.EDProducer("PFConsistentMuonProducer",
                                    muons   = cms.InputTag("selectedPatMuons"),
                                    pfMuons = cms.InputTag("selectedPatMuonsPF")
                                    )
-x

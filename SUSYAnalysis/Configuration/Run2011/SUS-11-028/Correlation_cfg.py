@@ -216,6 +216,7 @@ process.analyzeSUSY_metSelection_1l_match_noHT  = process.analyzeSUSY_metSelecti
 #-----------------------------------------------------------------
 
 process.Selection0b1l = cms.Path(## producer sequences
+                                 process.preselectionMuHTMC2 *
                                  process.scaledJetEnergy *
                                  process.makeObjects *
                                  process.makeSUSYGenEvt *
@@ -228,8 +229,7 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  process.analyzeTtGenEvent_noCuts_1l *
                                  process.analyzeSUSY_noCuts_1l *
                                  process.analyzeSUSY_noCuts_1l_match *
-                                 
-                                 process.preselectionMuHTMC2 *
+                                                                  
                                  #process.LepHadSelection *
                                  process.analyzeTtGenEvent_preselection_1l *
                                  process.analyzeSUSY_preselection_1l *
@@ -257,6 +257,7 @@ process.Selection0b1l = cms.Path(## producer sequences
                                  )
 
 process.Selection0b1l_2 = cms.Path(## producer sequences
+                                   process.preselectionMuHTMC2 *
                                    process.scaledJetEnergy *
                                    process.makeObjects *
                                    process.makeSUSYGenEvt *
@@ -279,6 +280,7 @@ process.Selection0b1l_2 = cms.Path(## producer sequences
                                    )
 
 process.Selection0b1l_3 = cms.Path(## filter and analyzer sequences
+                                   process.preselectionMuHTMC2  *
                                    process.semilepTtGenEventFilter *
                                    process.fourMatchedGoodJets *
                                    process.analyzeSUSY_noCuts_1l_match2 *

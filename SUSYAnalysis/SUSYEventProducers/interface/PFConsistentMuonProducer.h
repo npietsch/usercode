@@ -12,7 +12,7 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "DataFormats/Math/interface/deltaR.h"
 
-class PFConsistentProducer : public edm::EDProducer {
+class PFConsistentMuonProducer : public edm::EDProducer {
 
  public:
   explicit PFConsistentMuonProducer(const edm::ParameterSet&);

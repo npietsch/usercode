@@ -138,201 +138,73 @@ process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
 process.btagEventWeightElJER.jets            = "goodJets"
 
 #--------------------------
-# muon selection paths
+# Selection paths
 #--------------------------
 
-## exactly 1 muon and at least 0 b-tags
-process.Selection0b1m_1 = cms.Path(# execute producer and preselection modules
-                                   process.scaledJetEnergy *
-                                   process.preselectionMuHTMC2 *
-                                   process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.eventWeightPU *
-                                   process.weightProducer *
-                                   
-                                   # execute filter and analyzer modules
-                                   process.analyzeSUSYBjets1m_noCuts *
-                                   
-                                   process.MuHadSelection *
-                                   process.analyzeSUSYBjets1m_preselection *
-                                   process.analyzeRA4Muons *
-                                   
-                                   process.muonSelection*
-                                   process.analyzeSUSYBjets1m_leptonSelection *
-                                   
-                                   process.jetSelection*
-                                   process.analyzeSUSYBjets1m_jetSelection
-                                   )
+## muon selection path
+process.MuonSelection = cms.Path(# execute producer and preselection modules
+                                 process.scaledJetEnergy *
+                                 process.preselectionMuHTMC2 *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 
+                                 # execute filter and analyzer modules
+                                 process.analyzeSUSYBjets1m_noCuts *
+                                 
+                                 process.MuHadSelection *
+                                 process.analyzeSUSYBjets1m_preselection *
+                                 process.analyzeRA4Muons *
+                                 
+                                 process.muonSelection*
+                                 process.analyzeSUSYBjets1m_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1m_jetSelection *
+                                 
+                                 # execute b-tag producer modules and analyzer modules
+                                 process.btagEventWeightMuJER *
+                                 
+                                 process.monitorBtagWeightingMu *
+                                 process.analyzeSUSYBjets1b1m_1 *
+                                 process.analyzeSUSYBjets2b1m_1 *
+                                 process.analyzeSUSYBjets3b1m_1 *
+                                 process.analyzeSUSYBjets0b1m_2 *
+                                 process.analyzeSUSYBjets1b1m_2 *
+                                 process.analyzeSUSYBjets2b1m_2                                   
+                                 )
 
-## exactly one muon and at least 1 btag
-process.Selection1b1m_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-
-                                   # execute analyzer modules
-                                   process.monitorBtagWeightingMu *
-                                   process.analyzeSUSYBjets1b1m_1
-                                   )
-
-## exactly one muon and at least 2 btag
-process.Selection2b1m_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets2b1m_1
-                                   )
-
-## exactly 1 muon and at least 3 b-tags
-process.Selection3b1m_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-                                   
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets3b1m_1
-                                   )
-
-## exactly one muon and exactly 0 btags
-process.Selection0b1m_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets0b1m_2
-                                   )
-
-## exactly one muon and exactly 1 btag
-process.Selection1b1m_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets1b1m_2
-                                   )
-
-## exactly one muon and exactly 2 btags
-process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTMC2 *
-                                   process.MuHadSelection *
-                                   process.muonSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightMuJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets2b1m_2
-                                   )
-
-#--------------------------
-# electron selection paths
-#--------------------------
-
-## exactly 1 electron and at least 0 b-tags
-process.Selection0b1e_1 = cms.Path(# execute producer and preselection modules
-                                   process.scaledJetEnergy *
-                                   process.preselectionElHTMC2 *
-                                   process.makeObjects *
-                                   process.makeSUSYGenEvt *
-                                   process.eventWeightPU *
-                                   process.weightProducer *
-                                   
-                                   # execute filter and analyzer modules
-                                   process.analyzeSUSYBjets1e_noCuts *
-                                   
-                                   process.ElHadSelection *
-                                   process.analyzeSUSYBjets1e_preselection *
-                                   process.analyzeRA4Electrons *
-                                   
-                                   process.electronSelection*
-                                   process.analyzeSUSYBjets1e_leptonSelection *
-                                   
-                                   process.jetSelection*
-                                   process.analyzeSUSYBjets1e_jetSelection
-                                   )
-
-## exactly one electron and at least 1 btag
-process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-
-                                   # execute analyzer modules
-                                   process.monitorBtagWeightingEl *
-                                   process.analyzeSUSYBjets1b1e_1
-                                   )
-
-## exactly one electron and at least 2 btag
-process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets2b1e_1
-                                   )
-
-## exactly 1 electron and at least 3 b-tags
-process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-                                   
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets3b1e_1
-                                   )
-
-## exactly one electron and exactly 0 btags
-process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets0b1e_2
-                                   )
-
-## exactly one electron and exactly 1 btag
-process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets1b1e_2
-                                   )
-
-## exactly one electron and exactly 2 btags
-process.Selection2b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionElHTMC2 *
-                                   process.ElHadSelection *
-                                   process.electronSelection*
-                                   process.jetSelection *
-                                   process.btagEventWeightElJER *
-
-                                   # execute analyzer modules
-                                   process.analyzeSUSYBjets2b1e_2
-                                   )
+## electron selection path
+process.ElectronSelection = cms.Path(# execute producer and preselection modules
+                                 process.scaledJetEnergy *
+                                 process.preselectionElHTMC2 *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 
+                                 # execute filter and analyzer modules
+                                 process.analyzeSUSYBjets1e_noCuts *
+                                 
+                                 process.ElHadSelection *
+                                 process.analyzeSUSYBjets1e_preselection *
+                                 process.analyzeRA4Electrons *
+                                 
+                                 process.electronSelection*
+                                 process.analyzeSUSYBjets1e_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1e_jetSelection *
+                                 
+                                 # execute b-tag producer modules and analyzer modules
+                                 process.btagEventWeightElJER *
+                                 
+                                 process.monitorBtagWeightingEl *
+                                 process.analyzeSUSYBjets1b1e_1 *
+                                 process.analyzeSUSYBjets2b1e_1 *
+                                 process.analyzeSUSYBjets3b1e_1 *
+                                 process.analyzeSUSYBjets0b1e_2 *
+                                 process.analyzeSUSYBjets1b1e_2 *
+                                 process.analyzeSUSYBjets2b1e_2                                   
+                                 )

@@ -7,6 +7,7 @@ import FWCore.ParameterSet.Config as cms
 ## create collection of good muons
 from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 from TopAnalysis.TopFilter.sequences.MuonVertexDistanceSelector_cfi import *
+from SUSYAnalysis.SUSYEventProducers.PFConsistentMuonProducer_cfi import *
 
 trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     cut =
@@ -22,9 +23,12 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
 
-goodMuons = vertexSelectedMuons.clone(src = "trackMuons",
-                                      primaryVertex = "goodVertices"
-                                      )
+vertexSelectedTrackMuons = vertexSelectedMuons.clone(src = "trackMuons",
+                                                     primaryVertex = "goodVertices"
+                                                     )
+
+goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedTrackMuons"
+                                    )
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -584,6 +588,7 @@ goodObjects = cms.Sequence(## loose leptons
                            looseElectrons *
                            ## muons
                            trackMuons *
+                           vertexSelectedTrackMuons *
                            goodMuons *
                            trackVetoMuons *
                            vetoMuons *
@@ -619,12 +624,11 @@ makeObjects = cms.Sequence(goodObjects *
                            matchedGoodObjects
                            )
 
-from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
-pfMuonConsistency.muons = "goodMuons"
+#from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
-                             pfMuonConsistency *
+                             #pfMuonConsistency *
                              noGoodElectron *
                              exactlyOneVetoMuon *
                              noVetoElectron
@@ -674,4 +678,3 @@ muonVeto = cms.Sequence(exactlyOneVetoMuon *
 electronVeto = cms.Sequence(exactlyOneVetoElectron *
                             noVetoMuon
                             )
-
