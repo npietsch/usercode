@@ -12,6 +12,10 @@ PFConsistentMuonProducer::PFConsistentMuonProducer(const edm::ParameterSet& cfg)
 
 {
   produces<std::vector<pat::Muon> >();
+
+  edm::Service<TFileService> fs;
+
+  PFConsistency_  = fs->make<TH1F>("PFConsistency", "PFConsistency", 40, 0., 2.);
 }  
 
 void
@@ -38,9 +42,9 @@ PFConsistentMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
 	      dR=dRmin;
 	      PtPf=(*pfMuons)[pdx].pt();
 	    }
+	  PFConsistency_ ->Fill((muon->pt() - PtPF) / muon->pt());
 	}
-      if(PtPF > 0 && ( ((muon->pt() - PtPF) / muon->pt()) < 0.2)
-	  PFConsistentMuons->push_back(*muon);
+      if(PtPF > 0 && ( ((muon->pt() - PtPF) / muon->pt()) < 0.2) PFConsistentMuons->push_back(*muon);
 	 }
     }
 }

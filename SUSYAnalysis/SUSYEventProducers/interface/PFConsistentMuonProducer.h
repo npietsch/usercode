@@ -12,7 +12,6 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "DataFormats/Math/interface/deltaR.h"
 
-
 class PFConsistentProducer : public edm::EDProducer {
 
  public:
@@ -26,6 +25,8 @@ class PFConsistentProducer : public edm::EDProducer {
   /// muon collections label
   edm::InputTag muons_;
   edm::InputTag pfMuons_;
+
+  TH1F* PFConsistency_;
 };
 
 #endif
