@@ -3,6 +3,7 @@
 
 #include "TH1.h"
 #include "TH2.h"
+#include "TH3.h"
 #include "TRandom3.h"
 
 #include "FWCore/Framework/interface/EDAnalyzer.h"
@@ -82,6 +83,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* WeightRA2_;
   TH1F* WeightBtagEff_;
   TH1F* WeightTrigger_;
+
+  TH1F* NumEvents_;
 
   //-----------------------
   // Basic kinematics
@@ -205,6 +208,18 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* HT_mlb_;
   TH2F* mLepTop_nJets_;
   TH2F* mlb_nJets_;
+
+  TH3F* mlb_YMET_nJets_;
+
+  TH2F* YMET_nJets_0_;
+  TH2F* YMET_nJets_100_;
+  TH2F* YMET_nJets_200_;
+
+  TH2F* mlb_nJets_0_;
+  TH2F* mlb_nJets_5_;
+  TH2F* mlb_nJets_10_;
+  TH2F* mlb_nJets_15_;
+  TH2F* mlb_nJets_20_;
 
   //-----------------------
   // ABCD method

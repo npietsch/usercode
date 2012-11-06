@@ -76,6 +76,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   WeightBtagEff_ = fs->make<TH1F>("WeightBtagEff", "WeightBtagEff", 50 , 0.,   10. );
   WeightTrigger_ = fs->make<TH1F>("WeightTrigger", "WeightTrigger", 50 , 0.,   10. );
 
+  NumEvents_     = fs->make<TH1F>("NumEvents",     "NumEvents",      1 , 0.,    1. );
+
   //-------------------------------------------------
   // Basic kinematics
   //-------------------------------------------------
@@ -225,17 +227,29 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Others
   //-------------------------------------------------
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",       "HT vs. mT",         50, 0., 2000., 60,   0.,  600.);
-  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,   "mT vs. nJets",      60, 0.,  600., 16, -0.5,  15.5);
-  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",  "YMET vs. nJets",    50, 0.,   25., 16, -0.5,  15.5);
+  HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,   0.,  600.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16, -0.5,  15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
 
-  mlb_YMET_        = fs->make<TH2F>("mlb_YMET",    "YMET vs. mlb",      60, 0., 600.,  50,    0,    25);
+  mlb_YMET_        = fs->make<TH2F>("mlb_YMET",       "YMET vs. mlb",   60, 0., 600.,  50,    0,    25);
 
   HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 60,   0.,  600.);
   HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 60,   0.,  600.);
   
-  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 60, 0., 600., 16, -0.5,  15.5);
-  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     60, 0., 600., 16, -0.5,  15.5);
+  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     60, 0., 600., 16, -0.5,   15.5);
+
+  mlb_YMET_nJets_  = fs->make<TH3F>("mlb_YMET_nJets", "mlb_YMET_nJets", 60, 0., 600.,  50,    0,    25,  16, -0.5,  15.5);
+  
+  YMET_nJets_0_    = fs->make<TH2F>("YMET_nJets_0",   "YMET vs. nJets",  50, 0.,   25., 16, -0.5,  15.5);
+  YMET_nJets_100_  = fs->make<TH2F>("YMET_nJets_100", "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
+  YMET_nJets_200_  = fs->make<TH2F>("YMET_nJets_200", "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
+
+  mlb_nJets_0_     = fs->make<TH2F>("mlb_nJets_0",    "mlb vs. HT_0",   60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_5_     = fs->make<TH2F>("mlb_nJets_5",    "mlb vs. HT_5",   60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_10_    = fs->make<TH2F>("mlb_nJets_10",   "mlb vs. HT_10",  60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_15_    = fs->make<TH2F>("mlb_nJets_15",   "mlb vs. HT_15",  60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_20_    = fs->make<TH2F>("mlb_nJets_20",   "mlb vs. HT_20",  60, 0., 600., 16, -0.5,   15.5);
 
   //-------------------------------------------------
   // ABCD method
@@ -776,8 +790,22 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       mLepTop_nJets_->Fill(mLepTop, jets->size(), weight);
       mlb_nJets_    ->Fill(mlb,     jets->size(), weight);
       mlb_YMET_     ->Fill(mlb,     YMET        , weight);
+
+      mlb_YMET_nJets_->Fill(mlb, YMET, jets->size(), weight);
+
+      if(mlb < 100)       YMET_nJets_0_   ->Fill(YMET, jets->size(), weight);
+      else if (mlb < 200) YMET_nJets_100_ ->Fill(YMET, jets->size(), weight);
+      else                YMET_nJets_200_ ->Fill(YMET, jets->size(), weight);
+
+      if(YMET < 5)       mlb_nJets_0_  ->Fill(mlb, jets->size(), weight);
+      else if(YMET < 10) mlb_nJets_5_  ->Fill(mlb, jets->size(), weight);
+      else if(YMET < 15) mlb_nJets_10_ ->Fill(mlb, jets->size(), weight);
+      else if(YMET < 20) mlb_nJets_15_ ->Fill(mlb, jets->size(), weight);
+      else               mlb_nJets_20_ ->Fill(mlb, jets->size(), weight);
     }
   
+
+
   //std::cout << "Test13" << std::endl;
 
   //-------------------------------------------------
