@@ -60,6 +60,9 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   double HT0_, HT1_, HT2_;
   double Y0_,  Y1_,  Y2_;
 
+  bool TTJets_;
+  edm::InputTag TtGenEvent_;
+
   //-----------------------
   // Dummy histograms
   //-----------------------
@@ -220,6 +223,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* mlb_nJets_10_;
   TH2F* mlb_nJets_15_;
   TH2F* mlb_nJets_20_;
+
+  TH2F* pv_nJets_;
 
   //-----------------------
   // ABCD method

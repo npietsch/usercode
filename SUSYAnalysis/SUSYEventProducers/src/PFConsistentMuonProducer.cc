@@ -44,6 +44,8 @@ PFConsistentMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
 	    }
 	  PFConsistency_ ->Fill((muon->pt() - PtPF) / muon->pt());
 	}
-      if(PtPF > 0 && ( ((muon->pt() - PtPF) / muon->pt()) < 0.2)) PFConsistentMuons->push_back(*muon);
+      if(PtPF > 0 && ( fabs((muon->pt() - PtPF) / muon->pt()) < 0.2)) PFConsistentMuons->push_back(*muon);
     }
+
+  evt.put(PFConsistentMuons);
 }

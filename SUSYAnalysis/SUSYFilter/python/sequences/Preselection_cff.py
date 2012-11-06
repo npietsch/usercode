@@ -150,15 +150,30 @@ preselectionMC2PAT = cms.Sequence(goodVertices *
 ## MC Summer11
 preselectionMuHTMC2 = cms.Sequence(goodVertices *
                                    oneGoodVertex *
-                                   totalKinematicsFilter *
                                    scrapingVeto
                                    )
 
 preselectionElHTMC2 = cms.Sequence(goodVertices *
                                    oneGoodVertex *
-                                   totalKinematicsFilter *
                                    scrapingVeto
                                    )
+
+preselectionLepHTMC2 = cms.Sequence(goodVertices *
+                                    oneGoodVertex *
+                                    scrapingVeto
+                                    )
+
+preselectionMuHTMC2ZJets = cms.Sequence(goodVertices *
+                                        oneGoodVertex *
+                                        totalKinematicsFilter *
+                                        scrapingVeto
+                                        )
+
+preselectionElHTMC2ZJets = cms.Sequence(goodVertices *
+                                        oneGoodVertex *
+                                        totalKinematicsFilter *
+                                        scrapingVeto
+                                        )
 
 ##-------------------------------------
 ## Define data preselection sequences

@@ -32,6 +32,9 @@ analyzeSUSY = cms.EDAnalyzer("SUSYAnalyzer",
                              HT2 = cms.double(650),   
                              Y0 = cms.double(3.25),
                              Y1 = cms.double(5.5),
-                             Y2 = cms.double(5.5)
+                             Y2 = cms.double(5.5),
+
+                             TTJets = cms.bool(False),
+                             TtGenEvent = cms.InputTag("genEvt")
                              )
                 

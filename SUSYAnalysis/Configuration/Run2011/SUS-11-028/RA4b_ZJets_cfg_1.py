@@ -7,6 +7,8 @@
 
 from BjetsPAT_cfg import *
 
+process.preselectionElHTMC2 = process.preselectionElHTMC2ZJets
+
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 3048
 process.weightProducer.NumberEvts = 36058014

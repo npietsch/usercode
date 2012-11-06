@@ -44,7 +44,10 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   HT2_               (cfg.getParameter<double>("HT2") ),
   Y0_                (cfg.getParameter<double>("Y0") ),
   Y1_                (cfg.getParameter<double>("Y1") ),
-  Y2_                (cfg.getParameter<double>("Y2") )
+  Y2_                (cfg.getParameter<double>("Y2") ),
+
+  TTJets_            (cfg.getParameter<bool>("TTJets") ),
+  TtGenEvent_        (cfg.getParameter<edm::InputTag>("TtGenEvent"))
 
 { 
   edm::Service<TFileService> fs;
@@ -227,29 +230,35 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Others
   //-------------------------------------------------
 
-  HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,   0.,  600.);
-  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16, -0.5,  15.5);
-  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
-
-  mlb_YMET_        = fs->make<TH2F>("mlb_YMET",       "YMET vs. mlb",   60, 0., 600.,  50,    0,    25);
-
-  HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 60,   0.,  600.);
-  HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 60,   0.,  600.);
+  HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,    0.,   600.);
+  mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16,  -0.5,   15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 50, 0.,   25., 16,  -0.5,   15.5);
+ 
+  mlb_YMET_        = fs->make<TH2F>("mlb_YMET",       "YMET vs. mlb",   60, 0., 600.,  50,    0,      25);
+ 
+  HT_mLepTop_      = fs->make<TH2F>("HT_mLepTop",     "mLepTop vs. HT", 50, 0., 2000., 60,    0.,   600.);
+  HT_mlb_          = fs->make<TH2F>("HT_mlb",         "mlb vs. HT",     50, 0., 2000., 60,    0.,   600.);
   
-  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 60, 0., 600., 16, -0.5,   15.5);
-  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     60, 0., 600., 16, -0.5,   15.5);
+  mLepTop_nJets_   = fs->make<TH2F>("mLepTop_nJets",  "mLepTop vs. HT", 60, 0., 600.,  16,  -0.5,   15.5);
+  mlb_nJets_       = fs->make<TH2F>("mlb_nJets",      "mlb vs. HT",     60, 0., 600.,  16,  -0.5,   15.5);
 
-  mlb_YMET_nJets_  = fs->make<TH3F>("mlb_YMET_nJets", "mlb_YMET_nJets", 60, 0., 600.,  50,    0,    25,  16, -0.5,  15.5);
+  mlb_YMET_nJets_  = fs->make<TH3F>("mlb_YMET_nJets", "mlb_YMET_nJets", 60, 0., 600.,  50,     0,     25,  16, -0.5,  15.5);
   
-  YMET_nJets_0_    = fs->make<TH2F>("YMET_nJets_0",   "YMET vs. nJets",  50, 0.,   25., 16, -0.5,  15.5);
-  YMET_nJets_100_  = fs->make<TH2F>("YMET_nJets_100", "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
-  YMET_nJets_200_  = fs->make<TH2F>("YMET_nJets_200", "YMET vs. nJets", 50, 0.,   25., 16, -0.5,  15.5);
+  YMET_nJets_0_    = fs->make<TH2F>("YMET_nJets_0",   "YMET vs. nJets", 50, 0.,  25.,  16,  -0.5,   15.5);
+  YMET_nJets_100_  = fs->make<TH2F>("YMET_nJets_100", "YMET vs. nJets", 50, 0.,  25.,  16,  -0.5,   15.5);
+  YMET_nJets_200_  = fs->make<TH2F>("YMET_nJets_200", "YMET vs. nJets", 50, 0.,  25.,  16,  -0.5,   15.5);
 
-  mlb_nJets_0_     = fs->make<TH2F>("mlb_nJets_0",    "mlb vs. HT_0",   60, 0., 600., 16, -0.5,   15.5);
-  mlb_nJets_5_     = fs->make<TH2F>("mlb_nJets_5",    "mlb vs. HT_5",   60, 0., 600., 16, -0.5,   15.5);
-  mlb_nJets_10_    = fs->make<TH2F>("mlb_nJets_10",   "mlb vs. HT_10",  60, 0., 600., 16, -0.5,   15.5);
-  mlb_nJets_15_    = fs->make<TH2F>("mlb_nJets_15",   "mlb vs. HT_15",  60, 0., 600., 16, -0.5,   15.5);
-  mlb_nJets_20_    = fs->make<TH2F>("mlb_nJets_20",   "mlb vs. HT_20",  60, 0., 600., 16, -0.5,   15.5);
+  mlb_nJets_0_     = fs->make<TH2F>("mlb_nJets_0",    "mlb vs. HT_0",   60, 0., 600.,  16,  -0.5,   15.5);
+  mlb_nJets_5_     = fs->make<TH2F>("mlb_nJets_5",    "mlb vs. HT_5",   60, 0., 600.,  16,  -0.5,   15.5);
+  mlb_nJets_10_    = fs->make<TH2F>("mlb_nJets_10",   "mlb vs. HT_10",  60, 0., 600.,  16,  -0.5,   15.5);
+  mlb_nJets_15_    = fs->make<TH2F>("mlb_nJets_15",   "mlb vs. HT_15",  60, 0., 600.,  16,  -0.5,   15.5);
+  mlb_nJets_20_    = fs->make<TH2F>("mlb_nJets_20",   "mlb vs. HT_20",  60, 0., 600.,  16,  -0.5,   15.5);
+
+  //-------------------------------------------------
+  // Only when TTJets is set to true in cfg file
+  //-------------------------------------------------
+
+  pv_nJets_        = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",   50, 0., 1000,  16,  -0.5,   15.5);
 
   //-------------------------------------------------
   // ABCD method
@@ -804,7 +813,17 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       else               mlb_nJets_20_ ->Fill(mlb, jets->size(), weight);
     }
   
-
+  if(TTJets_ == true)
+    {
+      edm::Handle<TtGenEvent> genEvent;
+      evt.getByLabel(TtGenEvent_, genEvent);
+      
+      if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+	{      
+	  pv_nJets_ -> Fill(genEvent->singleNeutrino()->pt(), jets->size(), weight);
+	}
+    }
+  
 
   //std::cout << "Test13" << std::endl;
 
