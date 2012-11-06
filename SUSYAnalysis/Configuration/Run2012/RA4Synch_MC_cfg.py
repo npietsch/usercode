@@ -158,61 +158,104 @@ process.kt6PFJetsForIsolation2011.Rho_EtaMax = cms.double(2.5)
 # Execution path
 #------------------------------------------------------------------------------
 
-process.p1 = cms.Path(# execute producer modules
-                      process.susyPatDefaultSequence *
-                      process.pfMEtSysShiftCorrSequence *
-                      process.producePFMETCorrections *
-                      process.patPFMETsTypeIcorrected *
-                      process.kt6PFJetsForIsolation2011 *
-                      
-                      process.preselection *
-                      
-                      process.createObjects *
-                      # execute analyzer and filter modules
-                      process.oneGoodJet *
-                      process.twoGoodJets *
-                      process.threeGoodJets *
-                      process.jetSelection *
-                      process.muonSelection *
-                      process.HTSelection *
-                      process.metSelection
-                      )
+process.PATTuple = cms.Path(# execute producer modules
+                            process.susyPatDefaultSequence *
+                            process.pfMEtSysShiftCorrSequence *
+                            process.producePFMETCorrections *
+                            process.patPFMETsTypeIcorrected *
+                            process.kt6PFJetsForIsolation2011 *
+                            process.preselection
+                            )
 
-process.p2 = cms.Path(#execute producer modules
-                      process.susyPatDefaultSequence *
 
-                      process.pfMEtSysShiftCorrSequence *
-                      process.producePFMETCorrections *
-                      process.patPFMETsTypeIcorrected *
-                      process.kt6PFJetsForIsolation2011 *
-                      
-                      process.preselection *
-                      
-                      process.createObjects *
-                      # execute analyzer and filter modules
-                      process.exactlyOneGoodMuon *
-                      process.noGoodElectron *
-                      process.analyzeRA4VetoGlobalMuons *
-                      process.analyzeRA4VetoTrackerMuons *
-                      process.analyzeRA4VetoMuons *
-                      process.analyzeRA4GoodMuons *
-                      process.analyzeRA4VetoGlobalTrackerMuons *
-                      process.exactlyOneVetoMuon *
-                      process.exactlyOneVetoLepton
-                      #process.muonSelection 
-                      )
 
-process.p3 = cms.Path(# execute producer modules
-                      process.susyPatDefaultSequence *
+## process.p1 = cms.Path(# execute producer modules
+##                       process.susyPatDefaultSequence *
+##                       process.pfMEtSysShiftCorrSequence *
+##                       process.producePFMETCorrections *
+##                       process.patPFMETsTypeIcorrected *
+##                       process.kt6PFJetsForIsolation2011 *
                       
-                      process.pfMEtSysShiftCorrSequence *
-                      process.producePFMETCorrections *
-                      process.patPFMETsTypeIcorrected *
-                      process.kt6PFJetsForIsolation2011 *
+##                       process.preselection *
                       
-                      process.preselection *
+##                       process.createObjects *
+##                       # execute analyzer and filter modules
+##                       process.oneGoodJet *
+##                       process.twoGoodJets *
+##                       process.threeGoodJets *
+##                       process.jetSelection *
+##                       process.muonSelection *
+##                       process.HTSelection *
+##                       process.metSelection
+##                       )
+
+## process.p2 = cms.Path(#execute producer modules
+##                       process.susyPatDefaultSequence *
+
+##                       process.pfMEtSysShiftCorrSequence *
+##                       process.producePFMETCorrections *
+##                       process.patPFMETsTypeIcorrected *
+##                       process.kt6PFJetsForIsolation2011 *
                       
-                      process.createObjects *
-                      # execute analyzer and filter modules
-                      process.electronSelection 
-                      )
+##                       process.preselection *
+                      
+##                       process.createObjects *
+##                       # execute analyzer and filter modules
+##                       process.exactlyOneGoodMuon *
+##                       process.noGoodElectron *
+##                       process.analyzeRA4VetoGlobalMuons *
+##                       process.analyzeRA4VetoTrackerMuons *
+##                       process.analyzeRA4VetoMuons *
+##                       process.analyzeRA4GoodMuons *
+##                       process.analyzeRA4VetoGlobalTrackerMuons *
+##                       process.exactlyOneVetoMuon *
+##                       process.exactlyOneVetoLepton
+##                       #process.muonSelection 
+##                       )
+
+## process.p3 = cms.Path(# execute producer modules
+##                       process.susyPatDefaultSequence *
+                      
+##                       process.pfMEtSysShiftCorrSequence *
+##                       process.producePFMETCorrections *
+##                       process.patPFMETsTypeIcorrected *
+##                       process.kt6PFJetsForIsolation2011 *
+                      
+##                       process.preselection *
+                      
+##                       process.createObjects *
+##                       # execute analyzer and filter modules
+##                       process.electronSelection 
+##                       )
+
+
+#------------------------------------------------------------------------------
+# Output module configuration
+#------------------------------------------------------------------------------
+
+process.PATTuple = cms.Path(process.susyPatDefaultSequence)
+
+process.EventSelection = cms.PSet(
+    SelectEvents = cms.untracked.PSet(
+    SelectEvents = cms.vstring('PATTuple'
+                               )
+    )
+    )
+
+process.out = cms.OutputModule("PoolOutputModule",
+                               process.EventSelection,
+                               outputCommands = cms.untracked.vstring('drop *'),
+                               dropMetaData = cms.untracked.string('DROPPED'),
+                               fileName = cms.untracked.string('SUSYPAT.root')
+                               )
+
+# Specify what to keep in the event content
+
+from PhysicsTools.PatAlgos.patEventContent_cff import *
+process.out.outputCommands += patEventContentNoCleaning
+process.out.outputCommands += patExtraAodEventContent
+
+from SUSYAnalysis.SUSYEventProducers.RA4bEventContent_cff import *
+process.out.outputCommands += RA4bEventContent
+
+process.outpath = cms.EndPath(process.out)
