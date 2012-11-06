@@ -2,7 +2,7 @@ from Ruediger_cfg import *
 
 process.weightProducer.Method = "PtHat"
 process.weightProducer.XS = 10.62E+10 #2317000000
-process.weightProducer.NumberEvts = 93350000
+process.weightProducer.NumberEvts = 66200000
 process.weightProducer.Lumi = 300000  ## Lumi in 1/pb
 
 # Choose input files

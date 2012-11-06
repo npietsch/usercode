@@ -14,9 +14,7 @@ nafJobSplitter.pl -q 1 3 WJets_el_cfg.py
 nafJobSplitter.pl -q 1 2 WJets_mu_cfg.py
 nafJobSplitter.pl -q 1 2 WJets_tau_cfg.py
 
-nafJobSplitter.pl -q 1 197 QCD_1_cfg.py
-nafJobSplitter.pl -q 1 200 QCD_2_cfg.py
-nafJobSplitter.pl -q 1 200 QCD_3_cfg.py
-nafJobSplitter.pl -q 1 174 QCD_4_cfg.py
-nafJobSplitter.pl -q 1 200 QCD_5_cfg.py
-nafJobSplitter.pl -q 1 96 QCD_6_cfg.py
+nafJobSplitter.pl -q 1 200 QCD1_1_cfg.py
+nafJobSplitter.pl -q 1 197 QCD1_2_cfg.py
+nafJobSplitter.pl -q 1 200 QCD2_1_cfg.py
+nafJobSplitter.pl -q 1 174 QCD2_2_cfg.py
