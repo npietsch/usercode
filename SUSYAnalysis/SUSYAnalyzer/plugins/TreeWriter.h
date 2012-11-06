@@ -19,6 +19,11 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
+#ifdef __MAKECINT__
+#pragma link C++ class std::vector<std::vector<std::string> >+;
+#endif 
+
+
 //#ifdef __MAKECINT__
 //#pragma link C++ class ROOT::Math::PtEtaPhiM4D<float>+;
 //#endif
@@ -44,17 +49,17 @@ class TreeWriter : public edm::EDAnalyzer {
     virtual void endJob();
     virtual void init();
     
-  template <typename T>
-  void printVector(TString name, vector<T> v, Int_t length=40, ostream& os=cout);
-  template <typename T>
-  void printVectorSize(TString name, vector<T> v, Int_t length=40, ostream& os=cout); 
+    template <typename T>
+    void printVector(TString name, vector<T> v, Int_t length=30, ostream& os=cout);
+    template <typename T>
+    void printVectorSize(TString name, vector<T> v, Int_t length=30, ostream& os=cout); 
     
     
     // Input tags
     edm::InputTag muons_;
     edm::InputTag electrons_;
     edm::InputTag jets_;
-//     edm::InputTag triggered_;
+    //     edm::InputTag triggered_;
     //edm::InputTag trigResultsTag; //make sure have correct process on MC
     
     
@@ -82,6 +87,8 @@ class TreeWriter : public edm::EDAnalyzer {
     void setMatchedTrig(std::vector<std::string> MatchedTrig){matchedTrig_=MatchedTrig;}
     
 
+    std::vector<std::vector<std::string> > muFilterLabels;
+    
 };
 
 

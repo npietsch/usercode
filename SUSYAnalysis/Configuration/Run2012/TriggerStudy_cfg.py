@@ -3,12 +3,12 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("Trigger")
 
-## configure message logger
+#--------------------------------------------- configure message logger
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
-# Choose input files
+#--------------------------------------------- Choose input files
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
     '/store/data/Run2012B/MuHad/AOD/PromptReco-v1/000/193/752/3C0A66AC-789B-E111-94AB-003048CF99BA.root',
@@ -73,98 +73,43 @@ process.load("Configuration.Geometry.GeometryIdeal_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 
-## dummy output module
+#--------------------------------------------- dummy output module
 process.out = cms.OutputModule("PoolOutputModule",
     outputCommands = cms.untracked.vstring('drop *'),
     dropMetaData = cms.untracked.string("DROPPED"),                                     
     fileName = cms.untracked.string('Summer12.root')
 )
 
-#------------------------------------------------------------------------------
-# Import modules for preselection (trigger, vertex selection, event cleaning)
-#------------------------------------------------------------------------------
-
+#--------------------------------------------- Import modules for preselection (trigger, vertex selection, event cleaning)
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-#------------------------------------------------------------------------------
-# Import modules and sequences for selection of objects and events
-#------------------------------------------------------------------------------
-
+#--------------------------------------------- Import modules and sequences for selection of objects and events
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-#------------------------------------------------------------------------------
-# Import and configure modules for trigger study 
-#------------------------------------------------------------------------------
-
-# import and configure trigger layer 1 modules
-#------------------------------------------------------------------------------
+#--------------------------------------------- Import and configure modules for trigger study 
+#--------------------------------------------- import and configure trigger layer 1 modules
 # example given at http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/Trigger_cfg.py?hideattic=0&revision=1.3&view=markup
 process.load("PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff")
-
-
-# define a trigger matcher
-#from PhysicsTools.PatAlgos.triggerLayer1.triggerMatcher_cfi import cleanMuonTriggerMatchHLTMu20
-#process.myMatcher = cleanMuonTriggerMatchHLTMu20.clone()
-# load the PAT trigger Python tools
 from PhysicsTools.PatAlgos.tools.trigTools import *
-# switch on the trigger matching
-#switchOnTriggerMatching( process, myMatcher)
-
-#process.load( "PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff" )
-### change triggerProcessName, e.g. to HLT or REDIGIXXXX
-#process.patTrigger.processName      = triggerProcessName
-#process.patTriggerEvent.processName = triggerProcessName
-### inpu tag for selectedPatMuons/Electrons
-#if(leptonTypeId == 11):
-    #selectedPatLeptons = "selectedPatElectrons"
-#elif(leptonTypeId == 13):
-    #selectedPatLeptons = "selectedPatMuons" 
-
-#switchOnTrigger( process )
 process.patTriggerSequence = cms.Sequence(process.patTrigger)
-#process.p = cms.Path(
-  #process.patTriggerSequence
-#)
 
-#switchOnTrigger( process, HLT, patTrigger, patTriggerEvent, patDefaultSequence, out )
-
-## ---
-## PAT trigger matching
-## --
+#--------------------------------------------- PAT trigger matching
 process.muonTriggerMatchHLTMuons = cms.EDProducer(
   "PATTriggerMatcherDRLessByR"
-  #"PATTriggerMatcherDRDPtLessByR"
-#, src     = cms.InputTag( 'patMuons' )
-, src     = cms.InputTag( 'cleanPatMuons' )
-, matched = cms.InputTag( 'patTrigger' )
-  # selections of trigger objects
-#, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_IsoMu24_eta2p1_v*" )' )
-#, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path( "HLT_Mu*" )' )
-#, matchedCuts = cms.string('type( "TriggerMuon" ) && path("*")')
-#, matchedCuts = cms.string('path("*")')
-#, matchedCuts = cms.string('path("HLT_IsoMu17_eta2p1_TriCentralPFJet30_v5",0)')
-#, matchedCuts = cms.string('filter("*")')
-#, matchedCuts = cms.string('filter("hltMu17Eta2p1IsoCenJetL3crIsoRhoFiltered0p15")')
-
-, matchedCuts = cms.string('filter("*") && (type( "TriggerMuon" ) || type( "TriggerL1Mu" ))')
-#, matchedCuts = cms.string('filter("L1_SingleMu14_Eta2p1*")')
-
-#hltL1sMu16Eta2p1
-
-#, matchedCuts = cms.string( 'type( "TriggerL1Mu" ) || type( "TriggerMuon" )' )
-#, matchedCuts = cms.string('filter("*Muon*")')
-#, matchedCuts = cms.string('filter("*IsoMu17_eta2p1*")')
-
-, maxDeltaR   = cms.double( 0.5 )
-#, maxDPtRel   = cms.double( 0.5 )
-, resolveAmbiguities    = cms.bool( True )
-, resolveByMatchQuality = cms.bool( True )
+  , src     = cms.InputTag( 'cleanPatMuons' )
+  , matched = cms.InputTag( 'patTrigger' )
+  , matchedCuts = cms.string('filter("*") && (type( "TriggerMuon" ) || type( "TriggerL1Mu" ))')
+  #, matchedCuts = cms.string('path("*")')
+  #, matchedCuts = cms.string('path("HLT_IsoMu17_eta2p1_TriCentralPFJet30_v5",0)')
+  #hltL1sMu16Eta2p1
+  , maxDeltaR   = cms.double( 0.5 )
+  , resolveAmbiguities    = cms.bool( True )
+  , resolveByMatchQuality = cms.bool( True )
 )
 
 process.electronTriggerMatchHLTElectrons = process.muonTriggerMatchHLTMuons.clone()
-#process.electronTriggerMatchHLTElectrons.src = 'patElectrons'
 process.electronTriggerMatchHLTElectrons.src = 'cleanPatElectrons'
-#process.electronTriggerMatchHLTElectrons.matchedCuts = 'type( "TriggerElectron" ) && path( "HLT_Ele*" )'
+process.electronTriggerMatchHLTElectrons.matchedCuts = 'filter("*") && (type("TriggerElectron") || type("TriggerL1IsoEG"))'
 
 process.muonTriggerMatchHLTMuonsEmbedder = cms.EDProducer(
   "PATTriggerMatchMuonEmbedder",
@@ -179,62 +124,28 @@ process.electronTriggerMatchHLTElectronsEmbedder = cms.EDProducer(
 )
 
 
-
-
-# import and configure test analyzer
-#------------------------------------------------------------------------------
-#from SUSYAnalysis.SUSYAnalyzer.TreeWriter_cfi import *
+#---------------------------------------------  import and configure producer
 from SUSYAnalysis.SUSYAnalyzer.TreeWriterProducer_cfi import *
 
-# clone analyzer module named testAnalysis
 process.muTriggerStudy = writeTrees.clone()
-
-#process.muTriggerStudy.jets      = "goodJets"
-process.muTriggerStudy.jets      = "cleanPatJetsAK5PF"
-
-#process.muTriggerStudy.muons     = "goodMuons"
-#process.muTriggerStudy.muons     = "patMuons"
 process.muTriggerStudy.muons     = "muonTriggerMatchHLTMuonsEmbedder"
 process.muTriggerStudy.electrons = "electronTriggerMatchHLTElectronsEmbedder"
-
 process.elTriggerStudy  = process.muTriggerStudy.clone()
 process.hadTriggerStudy = process.muTriggerStudy.clone()
 
 
-
-
-
-
-#process.selectedPatMuonsTriggerMatch = cms.EDProducer(
-#"PATTriggerMatchElectronEmbedder",
-      #src     = cms.InputTag( "selectedPatElectrons" ),
-      #matches = cms.VInputTag( "muonTriggerMatchHLTMuons" )
-      #)
-
-#process.triggerFireElectrons = selectedPatElectrons.clone(
-            #src = 'selectedPatMuonsTriggerMatch',
-            #cut = 'triggerObjectMatches.size > 0'       
-            #)
-       
-
-
-#------------------------------------------------------------------------------
-# From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
-#------------------------------------------------------------------------------
-
-## NP: Disregard this for the moment
-
-#-- VarParsing ----------------------------------------------------------------
+#--------------------------------------------- From PhysicsTools/Configuration/test/SUSY_pattuple_cfg.py
+#--------------------------------------------- NP: Disregard this for the moment
+#--------------------------------------------- VarParsing
 import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('standard')
-
-#  for SusyPAT configuration
+#--------------------------------------------- for SusyPAT configuration
 options.register('GlobalTag', "START53_V7F::All", VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "GlobalTag to use (if empty default Pat GT is used)")
 options.register('mcInfo', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "process MonteCarlo data")
 options.register('jetCorrections', 'L1FastJet', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Level of jet corrections to use: Note the factors are read from DB via GlobalTag")
 options.jetCorrections.append('L2Relative')
 options.jetCorrections.append('L3Absolute')
-#options.jetCorrections.append('L2L3Residual')
+#--------------------------------------------- options.jetCorrections.append('L2L3Residual')
 options.register('hltName', 'HLT', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "HLT menu to use for trigger matching")
 options.register('mcVersion', '', VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.string, "Currently not needed and supported")
 options.register('jetTypes', 'AK5PF', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional jet types that will be produced (AK5Calo and AK5PF, cross cleaned in PF2PAT, are included anyway)")
@@ -245,20 +156,16 @@ options.register('doSusyTopProjection', False, VarParsing.VarParsing.multiplicit
 options.register('addKeep', '', VarParsing.VarParsing.multiplicity.list, VarParsing.VarParsing.varType.string, "Additional keep and drop statements to trim the event content")
 
 
-#-- Calibration tag -----------------------------------------------------------
+#--------------------------------------------- Calibration tag
 if options.GlobalTag:
     process.GlobalTag.globaltag = options.GlobalTag
 
-#-- import SUSY PAT sequence --------------------------------------------------
+#--------------------------------------------- import SUSY PAT sequence
 from PhysicsTools.Configuration.SUSY_pattuple_cff import addDefaultSUSYPAT, getSUSY_pattuple_outputCommands
-
 addDefaultSUSYPAT(process,options.mcInfo,options.hltName,options.jetCorrections,options.mcVersion,options.jetTypes,options.doValidation,options.doExtensiveMatching,options.doSusyTopProjection)
 
 
-#------------------------------------------------------------------------------
-# Type-1 MET corrections
-#------------------------------------------------------------------------------
-
+#--------------------------------------------- Type-1 MET corrections
 process.load("JetMETCorrections.Type1MET.pfMETCorrections_cff")
 process.load("JetMETCorrections.Type1MET.pfMETsysShiftCorrections_cfi")
 ## if isMC:
@@ -297,46 +204,12 @@ switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons'
 switchOnTriggerMatchEmbedding( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
 #switchOnTriggerMatchEmbedding( process, triggerMatchers = [ 'muonTriggerMatchHLTMuonsEmbedder' , 'electronTriggerMatchHLTElectronsEmbedder' ] )
 #removeCleaningFromTriggerMatching( process )
-
-
 process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" , "electronTriggerMatchHLTElectrons" ]
 
 
-#------------------------------------------------------------------------------
-# Execution path
-#------------------------------------------------------------------------------
-# write ntuple (tree) for muon trigger study
-#process.p = cms.Path(# execute producer modules
-                     #process.susyPatDefaultSequence *
-                     #process.pfMEtSysShiftCorrSequence *
-                     #process.producePFMETCorrections *
-                     #process.patPFMETsTypeIcorrected *
-                     #process.kt6PFJetsForIsolation2011 *
-                     
-                     #process.createObjects *
-                     ## execute analyzer and filter modules
-                     #process.preselection *
-                     #process.twoGoodMuons *
-                     #process.muTriggerStudy
-                     #)
-
-# write ntuple (tree) for electron trigger study
-#process.p2 = cms.Path(# execute producer modules
-                     #process.susyPatDefaultSequence *
-                     #process.pfMEtSysShiftCorrSequence *
-                     #process.producePFMETCorrections *
-                     #process.patPFMETsTypeIcorrected *
-                     #process.kt6PFJetsForIsolation2011 *
-                     
-                     #process.createObjects *
-                     ##execute analyzer and filter modules
-                     #process.preselection *
-                     #process.twoGoodElectrons *
-                     #process.elTriggerStudy
-                     #)
-
-# write ntuple (tree) for hadron trigger study
-process.p3 = cms.Path(# execute producer modules
+#--------------------------------------------- Execution path
+#--------------------------------------------- write ntuple (tree) for muon trigger study
+process.p = cms.Path(# execute producer modules
                      process.susyPatDefaultSequence *
                      process.pfMEtSysShiftCorrSequence *
                      process.producePFMETCorrections *
@@ -351,21 +224,33 @@ process.p3 = cms.Path(# execute producer modules
                      process.muonTriggerMatchHLTMuonsEmbedder *
                      process.electronTriggerMatchHLTElectrons *
                      process.electronTriggerMatchHLTElectronsEmbedder *
-                     #process.threeGoodJets *
-                     process.hadTriggerStudy
-                     #process.muonTriggerMatchHLTMuons
-##                      process.selectedTriggers
-)
+                     #process.twoGoodMuons *
+                     process.muTriggerStudy
+                     )
+                     
+                     
+
+#--------------------------------------------- write ntuple (tree) for electron trigger study
+#process.p2 = cms.Path(# execute producer modules
+                     #process.susyPatDefaultSequence *
+                     #process.pfMEtSysShiftCorrSequence *
+                     #process.producePFMETCorrections *
+                     #process.patPFMETsTypeIcorrected *
+                     #process.kt6PFJetsForIsolation2011 *
+                     
+                     #process.createObjects *
+                     ##execute analyzer and filter modules
+                     #process.preselection *
+                     #process.twoGoodElectrons *
+                     #process.elTriggerStudy
+                     #)
 
 
-                              
-                              
-#from PhysicsTools.PatAlgos.tools.trigTools import *
-#switchOnTrigger( process )
-#switchOnTrigger( process )
-#switchOnTriggerMatching( process, triggerMatchers = [ 'muonTriggerMatchHLTMuons' , 'electronTriggerMatchHLTElectrons' ] )
-#process.patTriggerEvent.patTriggerMatches = [ "muonTriggerMatchHLTMuons" ]
-#removeCleaningFromTriggerMatching( process )
+
+
+
+
+
 
 
 

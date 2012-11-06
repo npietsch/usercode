@@ -1,5 +1,5 @@
 <lcgdict>   
-  <class name="std::vector<std::string>"/>
+<!--   <class name="std::vector<std::string>"/> -->
   <class name="edm::Wrapper<std::vector<std::vector<std::string> > >"/>
 </lcgdict>
 

@@ -12,6 +12,7 @@
 // #include <iomanip>
 // #include <sstream>
 
+
 using namespace std;
 
 //============================================================ Constructor
@@ -39,6 +40,7 @@ jets_         (cfg.getParameter<edm::InputTag>("jets"))
   tree->Branch("goodMuons", &goodMuons);
   tree->Branch("lumiSection", &lumiSection, "lumiSection/I");
   tree->Branch("muCharge", &muCharge);
+  tree->Branch("muFilterLabels", &muFilterLabels);
   tree->Branch("nLeptons", &nLeptons, "nLeptons/I");
   tree->Branch("run", &run, "run/I");
 }
@@ -85,6 +87,7 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   goodJets     .clear();
   goodMuons    .clear();
   muCharge     .clear();
+  muFilterLabels.clear();
   nLeptons     = 0;
 
   event       = evt.id().event();
@@ -113,89 +116,116 @@ void TreeWriter::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 //   edm::Handle< TriggerEvent > triggerEvent;
 //   iEvent.getByLabel( triggerEvent_, triggerEvent );
   
+  cout<<endl;
+  cout<<"//////////////////////////////////////////////////////////////////////////////"<<endl;
   cout<<"No. of Jets | Muons | electrons: " << jets->size() << " | " << muons->size() << " | " << electrons->size() << endl;
-  
+  cout<<"//////////////////////////////////////////////////////////////////////////////"<<endl;
+  cout<<endl;
   //--------------------- A few control plots
   nElectrons_->Fill(electrons->size(),eventWeight);
   nJets_     ->Fill(jets->size(),eventWeight);
   nMuons_    ->Fill(muons->size(),eventWeight);
 
   //--------------------- Fill branches
-  //Eletrons
+  //--------------------- Eletrons
+  if(electrons->size()) cout<<"==================================================================== electrons: " << electrons->size() << endl;
   for(int i=0,N=(int)electrons->size(); i<N; ++i){
-    goodElectrons.push_back((*electrons)[i].p4());
-    elCharge.push_back((*electrons)[i].charge());
-
-//     vector<string> test;
-//     test.push_back("asdf");
-//     electrons->at(i).triggerObjectMatches().push_back("asf");
-    
-    
-    cout<<"elCharge.back() " << elCharge.back() << endl;
-    cout <<"electrons->at(i).triggerObjectMatches().size() = " << electrons->at(i).triggerObjectMatches().size() << endl;
+    cout<<"------------------------------ electron no: " << i << endl;
+    goodElectrons.push_back(electrons->at(i).p4());
+    elCharge.push_back(electrons->at(i).charge());
+    cout<<"electrons->at("<<i<<").charge()                      = " << electrons->at(i).charge() << endl;
+    cout<<"electrons->at("<<i<<").p4()                          = " << electrons->at(i).p4();
+    if(electrons->at(i).triggerObjectMatches().size() ==1) cout << " <--> " << electrons->at(i).triggerObjectMatches().begin()->p4();
+    cout<<endl;    
+    cout<<"electrons->at("<<i<<").triggerObjectMatches().size() = " << electrons->at(i).triggerObjectMatches().size() << endl;
     if(electrons->at(i).triggerObjectMatches().size() ==1){
+      cout<<"electrons->at("<<i<<").triggerObjectMatches().begin():" << endl;
+      cout<<setw(35)<<"p4() |"
+      <<setw(35)<<"collection() |"
+      <<setw(20)<<"conditionNames |"
+      <<setw(15)<<"filterLabels |"
+      <<setw(15)<<"pathNames"
+      <<endl;
+      cout<< electrons->at(i).triggerObjectMatches().begin()->p4()<<setw(35)
+      <<setw(35)<< electrons->at(i).triggerObjectMatches().begin()->collection()
+      <<setw(20)<< electrons->at(i).triggerObjectMatches().begin()->conditionNames().size()
+      <<setw(15)<<electrons->at(i).triggerObjectMatches().begin()->filterLabels().size()
+      <<setw(15)<<electrons->at(i).triggerObjectMatches().begin()->pathNames().size()
+      <<endl
+      <<endl;
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->p4()                        = " << electrons->at(i).triggerObjectMatches().begin()->p4() << endl;
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->collection()                = " << electrons->at(i).triggerObjectMatches().begin()->collection() << endl;      
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->conditionNames().size()     = " << electrons->at(i).triggerObjectMatches().begin()->conditionNames().size() << endl;
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->filterLabels().size()       = " << electrons->at(i).triggerObjectMatches().begin()->filterLabels().size() << endl;
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->pathNames().size()          = " << electrons->at(i).triggerObjectMatches().begin()->pathNames().size() << endl;
+//       cout<<"electrons->at("<<i<<").triggerObjectMatches().begin()->triggerObjectTypes().size() = " << electrons->at(i).triggerObjectMatches().begin()->triggerObjectTypes().size() << endl;
+      printVector<string>("conditionNames", electrons->at(i).triggerObjectMatches().begin()->conditionNames());
+      printVector<string>("filterLabels", electrons->at(i).triggerObjectMatches().begin()->filterLabels());
+      printVector<string>("pathNames", electrons->at(i).triggerObjectMatches().begin()->pathNames());
+      printVector<int>("triggerObjectTypes", electrons->at(i).triggerObjectMatches().begin()->triggerObjectTypes());
     }
-    //       electrons->at(i).setMatchedTrig(electrons->at(i).triggerObjectMatches().begin()->pathNames());
   }
-    
   
-  //Jets
+  //--------------------- Jets
   for(int i=0,N=(int)jets->size(); i<N; ++i){
     goodJets.push_back((*jets)[i].p4());
   }
-  //Muons
+  //--------------------- Muons
+  
+
+  
+  if(muons->size()) cout<<"==================================================================== muons: " << muons->size() << endl;
   for(int i=0,N=(int)muons->size(); i<N; ++i){
-    goodMuons.push_back((*muons)[i].p4());
-    muCharge.push_back((*muons)[i].charge());
-    cout<<"i                                          = " << i << endl;
-    cout<<"muCharge.back()                            = " << muCharge.back() << endl;
-    //cout<<"muCharge[i].p4()                           = " << muCharge[i].pt() << endl;
-    cout<<"muons->at(i).p4()                          = " << muons->at(i).p4() << endl;
-    cout<<"muons->at(i).triggerObjectMatches().size() = " << muons->at(i).triggerObjectMatches().size() << endl;
-//     cout<<"muons->at(i).triggerObjectMatches().begin()->size() = " << muons->at(i).triggerObjectMatches().begin()->pathNames() << endl;
-
-    if(muons->at(i).triggerObjectMatches().size() ==1){
-      cout<<"muons->at(i).triggerObjectMatches().begin()->p4()                        = " << (*muons)[i].triggerObjectMatches().begin()->p4() << endl;
-      cout<<"muons->at(i).triggerObjectMatches().begin()->collection()                = " << (*muons)[i].triggerObjectMatches().begin()->collection() << endl;      
-      cout<<"muons->at(i).triggerObjectMatches().begin()->conditionNames().size()     = " << (*muons)[i].triggerObjectMatches().begin()->conditionNames().size() << endl;
-      cout<<"muons->at(i).triggerObjectMatches().begin()->filterLabels().size()       = " << (*muons)[i].triggerObjectMatches().begin()->filterLabels().size() << endl;
-      cout<<"muons->at(i).triggerObjectMatches().begin()->pathNames().size()          = " << (*muons)[i].triggerObjectMatches().begin()->pathNames().size() << endl;
-      cout<<"muons->at(i).triggerObjectMatches().begin()->triggerObjectTypes().size() = " << (*muons)[i].triggerObjectMatches().begin()->triggerObjectTypes().size() << endl;
-
-      printVector<string>("conditionNames", (*muons)[i].triggerObjectMatches().begin()->conditionNames());
-      printVector<string>("filterLabels", (*muons)[i].triggerObjectMatches().begin()->filterLabels());
-      printVector<string>("pathNames", (*muons)[i].triggerObjectMatches().begin()->pathNames());
-      printVector<int>("triggerObjectTypes", (*muons)[i].triggerObjectMatches().begin()->triggerObjectTypes());      
-      
-    }
-    
-    
-//      for(std::vector<pat::TriggerObjectStandAlone>::iterator it=(muons->at(i).triggerObjectMatches()).begin(); it!=(muons->at(i).triggerObjectMatches()).end(); ++it){
-//        cout<<"it->size()                          = " << it->size() << endl;
-//        
-//      }
-    
-    
-//     if(electron->triggerObjectMatches().size() ==1){ // no ambiguities
-// 	   tempelec.setMatchedTrig(electron->triggerObjectMatches().begin()->pathNames());
-	   
-	   
-    
-    
-    
+    std::vector<std::string> muFilterLabelsTemp;
+    cout<<"------------------------------ muon no: " << i << endl;
+    goodMuons.push_back(muons->at(i).p4());
+    muCharge.push_back(muons->at(i).charge());
+    cout<<"muons->at("<<i<<").charge()                      = " << muons->at(i).charge() << endl;
+    cout<<"muons->at("<<i<<").p4()                          = " << muons->at(i).p4();
+    if(muons->at(i).triggerObjectMatches().size() ==1) cout << " <--> " <<muons->at(i).triggerObjectMatches().begin()->p4();
     cout<<endl;
+    cout<<"muons->at("<<i<<").triggerObjectMatches().size() = " << muons->at(i).triggerObjectMatches().size() << endl;
+    if(muons->at(i).triggerObjectMatches().size() ==1){
+      cout<<"muons->at("<<i<<").triggerObjectMatches().begin():" << endl;
+      cout<<setw(35)<<"p4() |"
+      <<setw(35)<<"collection() |"
+      <<setw(20)<<"conditionNames |"
+      <<setw(15)<<"filterLabels |"
+      <<setw(15)<<"pathNames"
+      <<endl;
+      cout<< muons->at(i).triggerObjectMatches().begin()->p4()<<setw(35)
+      <<setw(35)<< muons->at(i).triggerObjectMatches().begin()->collection()
+      <<setw(20)<< muons->at(i).triggerObjectMatches().begin()->conditionNames().size()
+      <<setw(15)<<muons->at(i).triggerObjectMatches().begin()->filterLabels().size()
+      <<setw(15)<<muons->at(i).triggerObjectMatches().begin()->pathNames().size()
+      <<endl
+      <<endl;
+//       cout<<"muons->at("<<i<<").triggerObjectMatches().begin()->p4()                        = " << muons->at(i).triggerObjectMatches().begin()->p4() << endl;
+//       cout<<"muons->at("<<i<<").triggerObjectMatches().begin()->collection()                = " << muons->at(i).triggerObjectMatches().begin()->collection() << endl;      
+//       cout<<"muons->at("<<i<<").triggerObjectMatches().begin()->conditionNames().size()     = " << muons->at(i).triggerObjectMatches().begin()->conditionNames().size() << endl;
+//       cout<<"muons->at("<<i<<").triggerObjectMatches().begin()->filterLabels().size()       = " << muons->at(i).triggerObjectMatches().begin()->filterLabels().size() << endl;
+//       cout<<"muons->at("<<i<<").triggerObjectMatches().begin()->pathNames().size()          = " << muons->at(i).triggerObjectMatches().begin()->pathNames().size() << endl;
+      printVector<string>("conditionNames", muons->at(i).triggerObjectMatches().begin()->conditionNames());
+      printVector<string>("filterLabels", muons->at(i).triggerObjectMatches().begin()->filterLabels());
+      
+      
+      if(!muons->at(i).triggerObjectMatchesByFilter("hltL1sMu16Eta2p1").empty()) cout<<"yeahhh!!!" << endl;
+      
+      
+      
+      printVector<string>("pathNames", muons->at(i).triggerObjectMatches().begin()->pathNames());
+      printVector<int>("triggerObjectTypes", muons->at(i).triggerObjectMatches().begin()->triggerObjectTypes());      
+      
+      muFilterLabelsTemp = muons->at(i).triggerObjectMatches().begin()->filterLabels();
+    }
+    cout<<endl;
+    muFilterLabels.push_back(muFilterLabelsTemp);
   }
   
-//   for(std::vector<pat::Muon >::const_iterator muon=muons->begin(); muon<muons->end() ; ++muon){
-//     cout<<"muons->at(i).p4()                   = " << muon->p4() << endl;
-//     cout<<"muon->triggerObjectMatches().size() = " << muon->triggerObjectMatches().size() << endl;
-//     cout<<endl;
-//   }
   
-    
-    
-    
-    
+//   if(!negElec->triggerObjectMatchesByFilter("hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter").empty())
+//    {negElecMatchedTightEle8Leg = true;}
+   
     
   nLeptons = electrons->size() + muons->size();
 

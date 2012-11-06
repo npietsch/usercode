@@ -5,37 +5,25 @@
 // #include "DataFormats/Luminosity/interface/LumiSummary.h"
 // #include "FWCore/Framework/interface/LuminosityBlock.h"
 
-// #include "TString.h"
-// #include <fstream>
-// #include <iostream>
-// #include <iomanip>
-// #include <sstream>
-
 using namespace std;
-
-
-
-
 
 //============================================================ Constructor
 TreeWriterProducer::TreeWriterProducer(const edm::ParameterSet& cfg):
 muons_        (cfg.getParameter<edm::InputTag>("muons")),
-electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-jets_         (cfg.getParameter<edm::InputTag>("jets"))
+electrons_    (cfg.getParameter<edm::InputTag>("electrons"))
 {
   edm::Service<TFileService> fs;
   //Set branches to save into the tree
   tree=fs->make<TTree>("tree", "tree");
-//   tree->Branch("event", &event, "event/I");
-//   tree->Branch("muFilterLabels", &muFilterLabels);
-
-//     produces<std::vector<std::vector<std::string> > >("muFilterLabels");
-//   produces<std::int>( Prefix + "event"  + Suffix );
-//   produces<int>("event");
+  //   tree->Branch("event", &event, "event/I");
+  //   tree->Branch("muFilterLabels", &muFilterLabels);
+  
   produces<int>("Mytest");
   produces <std::vector<float> > ( "MyTestVector");
-//   produces<std::vector<std::vector<std::string> > >("MyTestVectorVector");
-  
+  //   produces<std::vector<std::vector<std::string> > >("MyTestVectorVector");
+  //   produces<std::vector<std::vector<std::string> > >("muFilterLabels");
+  //   produces<std::int>( Prefix + "event"  + Suffix );
+  //   produces<int>("event");
 }
 
 //============================================================ Destructor
@@ -45,20 +33,18 @@ TreeWriterProducer::~TreeWriterProducer()
 
 //============================================================ Loop
 void TreeWriterProducer::produce(edm::Event& evt, const edm::EventSetup& setup){   
-  std::auto_ptr<int>                               mytest ( new int(0) );
+  std::auto_ptr<int>                 mytest (new int(0));
   *mytest.get() = 1;
   evt.put(mytest,"Mytest");
 
-  std::auto_ptr<std::vector<float> > myTestVector   ( new std::vector<float>() );
+  std::auto_ptr<std::vector<float> > myTestVector   (new std::vector<float>());
   myTestVector->push_back(1.2);
-  evt.put( myTestVector  , "MyTestVector"      );
+  evt.put(myTestVector, "MyTestVector");
   
-//   std::auto_ptr<std::vector<std::vector<string> > > myTestVectorVector   ( new std::vector<std::vector<string> >() );
-//   vector<string> v;
-//   myTestVectorVector->push_back(v);
-//   evt.put( myTestVectorVector  , "MyTestVectorVector"      );
-  
-  
+  //   std::auto_ptr<std::vector<std::vector<string> > > myTestVectorVector   ( new std::vector<std::vector<string> >() );
+  //   vector<string> v;
+  //   myTestVectorVector->push_back(v);
+  //   evt.put( myTestVectorVector  , "MyTestVectorVector"      );
   
   
   
@@ -70,15 +56,12 @@ void TreeWriterProducer::produce(edm::Event& evt, const edm::EventSetup& setup){
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
 
-  edm::Handle<std::vector<pat::Jet> > jets;
-  evt.getByLabel(jets_, jets);
-  
   edm::Handle<std::vector<pat::Muon> > muons;
   evt.getByLabel(muons_, muons);
   
   cout<<endl;
   cout<<"//////////////////////////////////////////////////////////////////////////////"<<endl;
-  cout<<"No. of Jets | Muons | electrons: " << jets->size() << " | " << muons->size() << " | " << electrons->size() << endl;
+  cout<<"No. of Muons | electrons: " << muons->size() << " | " << electrons->size() << endl;
   cout<<"//////////////////////////////////////////////////////////////////////////////"<<endl;
   cout<<endl;
   //--------------------- Fill branches
@@ -119,12 +102,7 @@ void TreeWriterProducer::produce(edm::Event& evt, const edm::EventSetup& setup){
     }
   }
   
-  //--------------------- Jets
-//   for(int i=0,N=(int)jets->size(); i<N; ++i){
-//     goodJets.push_back((*jets)[i].p4());
-//   }
   //--------------------- Muons
-  
   if(muons->size()) cout<<"==================================================================== muons: " << muons->size() << endl;
   for(int i=0,N=(int)muons->size(); i<N; ++i){
     std::vector<std::string> muFilterLabelsTemp;
@@ -169,15 +147,10 @@ void TreeWriterProducer::produce(edm::Event& evt, const edm::EventSetup& setup){
 
   //--------------------- Fill Tree
   tree->Fill();
-//   evt.put(muFilterLabels,"muFilterLabels");
-//   std::auto_ptr<int>                               handleValid ( new bool(false) );
-  
-
-    
-//   evt.put(event,"event");
-//   evt.put(muFilterLabels,"muFilterLabels");
-  
-  
+  //   std::auto_ptr<int>                               handleValid ( new bool(false) );
+  //   evt.put(muFilterLabels,"muFilterLabels");
+  //   evt.put(event,"event");
+  //   evt.put(muFilterLabels,"muFilterLabels");
 }
 
 

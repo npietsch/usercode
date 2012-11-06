@@ -13,7 +13,6 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
-#include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 
@@ -35,7 +34,6 @@ class TreeWriterProducer : public edm::EDProducer {
     
   private:
     virtual void beginJob() ;
-    //virtual void produce(const edm::Event&, const edm::EventSetup&);
     virtual void produce(edm::Event&, const edm::EventSetup&);
     virtual void endJob();
     
@@ -47,9 +45,6 @@ class TreeWriterProducer : public edm::EDProducer {
     // Input tags
     edm::InputTag muons_;
     edm::InputTag electrons_;
-    edm::InputTag jets_;
-    //     edm::InputTag triggered_;
-    //edm::InputTag trigResultsTag; //make sure have correct process on MC
     
     //tree for saving the nTuple
     TTree* tree;
