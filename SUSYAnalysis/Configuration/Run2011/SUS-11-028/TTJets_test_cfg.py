@@ -5,7 +5,7 @@
 # nafJobSplitter.pl 50 RA4b_Fall11_TTJets1_cfg.py
 #----------------------------------------------------
 
-from TTJets_cfg import *
+from SemiLep_TTJets_cfg import *
 
 process.weightProducer.Method = "Constant"
 process.weightProducer.XS = 157.5
