@@ -28,29 +28,29 @@ PFMuonConsistency::filter(edm::Event& event, const edm::EventSetup& setup)
   event.getByLabel(pfMuons_, pfMuons);
 
   double dRmin=10;
-  double reco_pt=0;
-  double pf_pt=0;
+  double PtPF=0;
   
   if(muons->size()==1)
     {
-      reco_pt=(*muons)[0].pt();
       for(int jdx=0; jdx<(int)pfMuons->size(); ++jdx)
 	{
 	  double dR=abs(deltaR((*muons)[0].eta(),(*muons)[0].phi(),(*pfMuons)[jdx].eta(),(*pfMuons)[jdx].phi()));
 	  if(dR < dRmin)
 	    {
 	      dRmin=dR;
-	      pf_pt=(*pfMuons)[jdx].pt();
+	      PtPF=(*pfMuons)[jdx].pt();
 	    }
 	}
     }
   
-  if(reco_pt>0 && pf_pt>0) 
+  if(muons->size()==1 && PtPF>0 && (fabs((*muons)[0].pt() - PtPF))/(*muons)[0].pt() < 0.2 ) return true;
+  else
     {
-      if((fabs(reco_pt-pf_pt)/reco_pt) >= 0.2) return false;
-      else return true;
+//       std::cout << "F=================================" << std::endl;
+//       std::cout << "F (*muons)[0].pt(): " << (*muons)[0].pt() << std::endl;
+//       std::cout << "F PtPF: " << PtPF << std::endl;
+//       std::cout << "F=================================" << std::endl;
+      return false;
     }
-  else return false;
 }
-
 

@@ -145,6 +145,13 @@ analyzeSUSY1e_preselection_Tau        = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_leptonSelection_Tau     = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_jetSelection_Tau        = analyzeSUSY_TTJets.clone()
 
+analyzeSUSY1l_noCuts_TTJets           = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_preselection_TTJets     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_leptonSelection_TTJets  = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_jetSelection_TTJets     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_HTSelection_TTJets      = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_METSelection_TTJets     = analyzeSUSY_TTJets.clone()
+
 #----------------------------------------------------
 # Clone and configure SUSYGenEventAnalyzer modules
 #----------------------------------------------------
@@ -273,3 +280,17 @@ analyzeSUSYBjets1b1e_2 = cms.Sequence(analyzeSUSY1b1e_2 *
 analyzeSUSYBjets2b1e_2 = cms.Sequence(analyzeSUSY2b1e_2 *
                                       analyzeSUSYGenEvent2b1e_2
                                       )
+
+
+#----------------------------------------------------
+# Clone and configure TtGenEventAnalyzer modules
+#----------------------------------------------------
+
+from SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi import *
+
+analyzeTtGenEvent1l_noCuts_TTJets          = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_preselection_TTJets    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_leptonSelection_TTJets = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_jetSelection_TTJets    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_HTSelection_TTJets     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_METSelection_TTJets    = analyzeTtGenEvent.clone()

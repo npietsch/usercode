@@ -23,16 +23,14 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
 
-## vertexSelectedTrackMuons = vertexSelectedMuons.clone(src = "trackMuons",
-##                                                      primaryVertex = "goodVertices"
-##                                                      )
+vertexSelectedGoodMuons = vertexSelectedMuons.clone(src = "trackMuons",
+                                                    primaryVertex = "goodVertices"
+                                                    )
 
-goodMuons = vertexSelectedMuons.clone(src = "trackMuons",
-                                      primaryVertex = "goodVertices"
-                                      )
+goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuons"
+                                    )
 
-## goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedTrackMuons"
-##                                     )
+
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -269,19 +267,20 @@ oneLooseMuon = countPatMuons.clone(src = 'looseMuons',
                                    minNumber = 1
                                    )
 
-## select events with at least one vertex muon
-oneVertexMuon = countPatMuons.clone(src = 'vertexMuons',
-                                    minNumber = 1
-                                    )
-## select events with exactly one vertex muon 
-exactlyOneVertexSelectedTrackMuon = countPatMuons.clone(src = 'vertexSelectedTrackMuons',
-                                                        minNumber = 1,
-                                                        maxNumber = 1
-                                                        )
-## select events with at least one good muon
+## select events with at least one vertex selected good muon 
+oneVertexSelectedGoodMuon = countPatMuons.clone(src = 'vertexSelectedGoodMuons',
+                                                minNumber = 1
+                                                )
+## select events with at least one vertex selectedgood muon
 oneGoodMuon = countPatMuons.clone(src = 'goodMuons',
                                   minNumber = 1
                                   )
+
+## select events with exactly one no PF consistent good muon 
+exactlyOneVertexSelectedGoodMuon = countPatMuons.clone(src = 'vertexSelectedGoodMuons',
+                                                       minNumber = 1,
+                                                       maxNumber = 1
+                                                       )
 
 ## select events with exactly one good muon
 exactlyOneGoodMuon = countPatMuons.clone(src = 'goodMuons',
@@ -540,11 +539,15 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 
 filterLooseHT = filterHT.clone()
 filterLooseHT.jets = "goodJets"
-filterLooseHT.Cut = 300
+filterLooseHT.Cut = 100
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 375
+filterMediumHT.Cut = 300
+
+filterGoodHT = filterHT.clone()
+filterGoodHT.jets = "goodJets"
+filterGoodHT.Cut = 375
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
@@ -596,7 +599,7 @@ goodObjects = cms.Sequence(## loose leptons
                            looseElectrons *
                            ## muons
                            trackMuons *
-                           #vertexSelectedTrackMuons *
+                           vertexSelectedGoodMuons *
                            goodMuons *
                            trackVetoMuons *
                            vetoMuons *
@@ -632,23 +635,21 @@ makeObjects = cms.Sequence(goodObjects *
                            matchedGoodObjects
                            )
 
-from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
-pfMuonConsistency.muons = "goodMuons"
+#from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
+#pfMuonConsistency.muons = "vertexSelectedGoodMuons"
 
-muonSelection = cms.Sequence(#oneGoodMuon *
-                             #exactlyOneVertexSelectedTrackMuon *
+muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
-                             pfMuonConsistency *
                              exactlyOneVetoMuon *
-                             noGoodElectron *
-                             noVetoElectron
+                             noVetoElectron *
+                             noGoodElectron
                              )
 
 electronSelection = cms.Sequence(oneGoodElectron *
                                  exactlyOneGoodElectron *
-                                 noGoodMuon *
                                  exactlyOneVetoElectron *
-                                 noVetoMuon
+                                 noVetoMuon *
+                                 noGoodMuon
                                  )
 
 leptonSelection = cms.Sequence(exactlyOneGoodLepton *
@@ -662,21 +663,21 @@ mTSelection = cms.Sequence(filterMT)
 metSelection = cms.Sequence(oneGoodMET
                             )
 
-HTSelection = cms.Sequence(filterMediumHT)
+HTSelection = cms.Sequence(filterGoodHT)
 
 tightHTSelection = cms.Sequence(filterTightHT)
 
-MuHadSelection = cms.Sequence(#filterMediumHT *
-                              #oneGoodMET *
+MuHadSelection = cms.Sequence(filterGoodHT *
+                              oneGoodMET *
                               oneLooseMuon
                               )
 
-ElHadSelection = cms.Sequence(filterMediumHT *
+ElHadSelection = cms.Sequence(filterGoodHT *
                               oneGoodMET *
                               oneLooseElectron
                               )
 
-LepHadSelection = cms.Sequence(filterMediumHT *
+LepHadSelection = cms.Sequence(filterGoodHT *
                                oneGoodMET *
                                oneLooseLepton
                                )

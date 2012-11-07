@@ -1,13 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("RA4b") 
+process = cms.Process("Debug") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Bjets.root')
+                                   fileName = cms.string('Debug.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -141,70 +141,73 @@ process.btagEventWeightElJER.jets            = "goodJets"
 # Selection paths
 #--------------------------
 
-## muon selection path
-process.MuonSelection = cms.Path(# execute producer and preselection modules
-                                 process.scaledJetEnergy *
-                                 process.preselectionMuHTMC2 *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 process.eventWeightPU *
-                                 process.weightProducer *
-                                 
-                                 # execute filter and analyzer modules
-                                 process.analyzeSUSYBjets1m_noCuts *
-                                 
-                                 process.MuHadSelection *
-                                 process.analyzeSUSYBjets1m_preselection *
-                                 process.analyzeRA4Muons *
-                                 
-                                 process.muonSelection*
-                                 process.analyzeSUSYBjets1m_leptonSelection *
-                                 
-                                 process.jetSelection*
-                                 process.analyzeSUSYBjets1m_jetSelection *
-                                 
-                                 # execute b-tag producer modules and analyzer modules
-                                 process.btagEventWeightMuJER *
-                                 
-                                 process.monitorBtagWeightingMu *
-                                 process.analyzeSUSYBjets1b1m_1 *
-                                 process.analyzeSUSYBjets2b1m_1 *
-                                 process.analyzeSUSYBjets3b1m_1 *
-                                 process.analyzeSUSYBjets0b1m_2 *
-                                 process.analyzeSUSYBjets1b1m_2 *
-                                 process.analyzeSUSYBjets2b1m_2                                   
-                                 )
+process.MuonSelection1 = cms.Path(# execute producer and preselection modules
+                                  process.scaledJetEnergy *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.makeSUSYGenEvt *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  
+                                  # execute filter and analyzer modules
+                                  process.trackMuons *
+                                  process.vertexSelectedGoodMuons *
+                                  process.exactlyOneVertexSelectedGoodMuon *
+                                  process.goodMuons *
+                                  process.exactlyOneGoodMuon *
+                                  process.exactlyOneVetoMuon *
+                                  process.noVetoElectron *
+                                  process.noGoodElectron
+                                  )
 
-## electron selection path
-process.ElectronSelection = cms.Path(# execute producer and preselection modules
-                                 process.scaledJetEnergy *
-                                 process.preselectionElHTMC2 *
-                                 process.makeObjects *
-                                 process.makeSUSYGenEvt *
-                                 process.eventWeightPU *
-                                 process.weightProducer *
-                                 
-                                 # execute filter and analyzer modules
-                                 process.analyzeSUSYBjets1e_noCuts *
-                                 
-                                 process.ElHadSelection *
-                                 process.analyzeSUSYBjets1e_preselection *
-                                 process.analyzeRA4Electrons *
-                                 
-                                 process.electronSelection*
-                                 process.analyzeSUSYBjets1e_leptonSelection *
-                                 
-                                 process.jetSelection*
-                                 process.analyzeSUSYBjets1e_jetSelection *
-                                 
-                                 # execute b-tag producer modules and analyzer modules
-                                 process.btagEventWeightElJER *
-                                 
-                                 process.monitorBtagWeightingEl *
-                                 process.analyzeSUSYBjets1b1e_1 *
-                                 process.analyzeSUSYBjets2b1e_1 *
-                                 process.analyzeSUSYBjets3b1e_1 *
-                                 process.analyzeSUSYBjets0b1e_2 *
-                                 process.analyzeSUSYBjets1b1e_2 *
-                                 process.analyzeSUSYBjets2b1e_2                                   
-                                 )
+process.MuonSelection2 = cms.Path(# execute producer and preselection modules
+                                  process.scaledJetEnergy *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.makeSUSYGenEvt *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  
+                                  # execute filter and analyzer modules
+                                  process.trackMuons *
+                                  process.vertexSelectedGoodMuons *
+                                  process.exactlyOneVertexSelectedGoodMuon *
+                                  process.pfMuonConsistency *
+                                  process.exactlyOneVetoMuon *
+                                  process.noVetoElectron *
+                                  process.noGoodElectron
+                                  )
+
+
+process.MuonSelection3 = cms.Path(# execute producer and preselection modules
+                                  process.scaledJetEnergy *
+                                  process.preselectionMuHTMC2 *
+                                  process.makeObjects *
+                                  process.makeSUSYGenEvt *
+                                  process.eventWeightPU *
+                                  process.weightProducer *
+                                  
+                                  # execute filter and analyzer modules
+                                  process.oneGoodMuon *
+                                  process.exactlyOneVetoMuon *
+                                  process.exactlyOneGoodMuon *
+                                  process.noVetoElectron *
+                                  process.noGoodElectron
+                                  )
+
+## electron selection paths
+process.ElectronSelection1 = cms.Path(# execute producer and preselection modules
+                                      process.scaledJetEnergy *
+                                      process.preselectionElHTMC2 *
+                                      process.makeObjects *
+                                      process.makeSUSYGenEvt *
+                                      process.eventWeightPU *
+                                      process.weightProducer *
+                                      
+                                      # execute filter and analyzer modules
+                                      process.oneGoodElectron *
+                                      process.exactlyOneVetoElectron *
+                                      process.exactlyOneGoodElectron *
+                                      process.noVetoMuon *
+                                      process.noGoodMuon                           
+                                      )

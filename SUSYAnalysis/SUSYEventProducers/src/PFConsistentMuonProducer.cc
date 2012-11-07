@@ -26,7 +26,7 @@ PFConsistentMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
   
   edm::Handle<std::vector<pat::Muon> > pfMuons;
   evt.getByLabel(pfMuons_, pfMuons);
-
+  
   std::auto_ptr<std::vector<pat::Muon> > PFConsistentMuons(new std::vector<pat::Muon>());
 
   for(std::vector<pat::Muon>::const_iterator muon=muons->begin(); muon!=muons->end(); ++muon)
@@ -39,12 +39,23 @@ PFConsistentMuonProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
 	  double dR=abs(deltaR(muon->eta(),muon->phi(),(*pfMuons)[pdx].eta(),(*pfMuons)[pdx].phi()));
 	  if(dR < dRmin)
 	    {
-	      dR=dRmin;
+	      dRmin=dR;
 	      PtPF=(*pfMuons)[pdx].pt();
 	    }
 	  PFConsistency_ ->Fill((muon->pt() - PtPF) / muon->pt());
 	}
-      if(PtPF > 0 && ( fabs((muon->pt() - PtPF) / muon->pt()) < 0.2)) PFConsistentMuons->push_back(*muon);
+
+      if(PtPF > 0 && ((fabs(muon->pt() - PtPF))/muon->pt()) < 0.2)
+	{
+	  PFConsistentMuons->push_back(*muon);
+	}
+      else
+	{
+// 	  std::cout << "P=================================" << std::endl;
+// 	  std::cout << "P muon->pt(): " << muon->pt() << std::endl;
+// 	  std::cout << "P PtPF: " << PtPF << std::endl;
+// 	  std::cout << "P=================================" << std::endl;
+	}
     }
 
   evt.put(PFConsistentMuons);

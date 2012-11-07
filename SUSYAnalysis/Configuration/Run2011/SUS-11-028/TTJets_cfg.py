@@ -55,7 +55,7 @@ process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 # load and configure module to create TtGenEvent
 #---------------------------------------------------------------------------
 
-process.laod("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 process.decaySubset.fillMode = "kME"
 
 #---------------------------------------------------------------------------
@@ -64,10 +64,10 @@ process.decaySubset.fillMode = "kME"
 
 process.load("TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi")
 
-process.SemiLepTtGenEventFilter = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
-process.DiLepTtGenEventFilter   = ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
-process.FullHadTtGenEventFilter = ttGenEventFilter.clone(cut="isFullHadronic()")
-process.TauTtGenEventFilter     = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
+process.SemiLepTtGenEventFilter = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
+process.DiLepTtGenEventFilter   = process.ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
+process.FullHadTtGenEventFilter = process.ttGenEventFilter.clone(cut="isFullHadronic()")
+process.TauTtGenEventFilter     = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
 
 #------------------------------------------------------------------
 # Load and configure modules for event weighting
@@ -276,3 +276,191 @@ process.ElectronSelection_SemiLep = cms.Path(# execute producer and preselection
                                              process.jetSelection*
                                              process.analyzeSUSY1e_jetSelection_SemiLep
                                              )
+
+
+## muon selection path for DiLep TTJets
+process.MuonSelection_DiLep = cms.Path(# execute producer and preselection modules
+                                       process.makeGenEvt *
+                                       process.DiLepTtGenEventFilter *
+                                       process.scaledJetEnergy *
+                                       process.preselectionMuHTMC2 *
+                                       process.makeObjects *
+                                       process.makeSUSYGenEvt *
+                                       process.eventWeightPU *
+                                       process.weightProducer *
+                                       
+                                       # execute filter and analyzer modules
+                                       process.analyzeSUSY1m_noCuts_DiLep *
+                                       
+                                       process.MuHadSelection *
+                                       process.analyzeSUSY1m_preselection_DiLep *
+                                       process.analyzeRA4Muons *
+                                       
+                                       process.muonSelection*
+                                       process.analyzeSUSY1m_leptonSelection_DiLep *
+                                       
+                                       process.jetSelection*
+                                       process.analyzeSUSY1m_jetSelection_DiLep
+                                       )
+
+## electron selection path for DiLep TTJets
+process.ElectronSelection_DiLep = cms.Path(# execute producer and preselection modules
+                                           process.makeGenEvt *
+                                           process.DiLepTtGenEventFilter *
+                                           process.scaledJetEnergy *
+                                           process.preselectionElHTMC2 *
+                                           process.makeObjects *
+                                           process.makeSUSYGenEvt *
+                                           process.eventWeightPU *
+                                           process.weightProducer *
+                                           
+                                           # execute filter and analyzer modules
+                                           process.analyzeSUSY1e_noCuts_DiLep *
+                                           
+                                           process.ElHadSelection *
+                                           process.analyzeSUSY1e_preselection_DiLep *
+                                           process.analyzeRA4Electrons *
+                                           
+                                           process.electronSelection*
+                                           process.analyzeSUSY1e_leptonSelection_DiLep *
+                                           
+                                           process.jetSelection*
+                                           process.analyzeSUSY1e_jetSelection_DiLep
+                                           )
+
+
+## muon selection path for FullHad TTJets
+process.MuonSelection_FullHad = cms.Path(# execute producer and preselection modules
+                                         process.makeGenEvt *
+                                         process.FullHadTtGenEventFilter *
+                                         process.scaledJetEnergy *
+                                         process.preselectionMuHTMC2 *
+                                         process.makeObjects *
+                                         process.makeSUSYGenEvt *
+                                         process.eventWeightPU *
+                                         process.weightProducer *
+                                         
+                                         # execute filter and analyzer modules
+                                         process.analyzeSUSY1m_noCuts_FullHad *
+                                 
+                                         process.MuHadSelection *
+                                         process.analyzeSUSY1m_preselection_FullHad *
+                                         process.analyzeRA4Muons *
+                                         
+                                         process.muonSelection*
+                                         process.analyzeSUSY1m_leptonSelection_FullHad *
+                                         
+                                         process.jetSelection*
+                                         process.analyzeSUSY1m_jetSelection_FullHad
+                                         )
+
+## electron selection path for FullHad TTJets
+process.ElectronSelection_FullHad = cms.Path(# execute producer and preselection modules
+                                             process.makeGenEvt *
+                                             process.FullHadTtGenEventFilter *
+                                             process.scaledJetEnergy *
+                                             process.preselectionElHTMC2 *
+                                             process.makeObjects *
+                                             process.makeSUSYGenEvt *
+                                             process.eventWeightPU *
+                                             process.weightProducer *
+                                             
+                                             # execute filter and analyzer modules
+                                             process.analyzeSUSY1e_noCuts_FullHad *
+                                             
+                                             process.ElHadSelection *
+                                             process.analyzeSUSY1e_preselection_FullHad *
+                                             process.analyzeRA4Electrons *
+                                             
+                                             process.electronSelection*
+                                             process.analyzeSUSY1e_leptonSelection_FullHad *
+                                             
+                                             process.jetSelection*
+                                             process.analyzeSUSY1e_jetSelection_FullHad
+                                             )
+
+
+## muon selection path for Tau TTJets
+process.MuonSelection_Tau = cms.Path(# execute producer and preselection modules
+                                     process.makeGenEvt *
+                                     process.TauTtGenEventFilter *
+                                     process.scaledJetEnergy *
+                                     process.preselectionMuHTMC2 *
+                                     process.makeObjects *
+                                     process.makeSUSYGenEvt *
+                                     process.eventWeightPU *
+                                     process.weightProducer *
+                                     
+                                     # execute filter and analyzer modules
+                                     process.analyzeSUSY1m_noCuts_Tau *
+                                     
+                                     process.MuHadSelection *
+                                     process.analyzeSUSY1m_preselection_Tau *
+                                     process.analyzeRA4Muons *
+                                     
+                                     process.muonSelection*
+                                     process.analyzeSUSY1m_leptonSelection_Tau *
+                                     
+                                     process.jetSelection*
+                                     process.analyzeSUSY1m_jetSelection_Tau
+                                     )
+
+## electron selection path for Tau TTJets
+process.ElectronSelection_Tau = cms.Path(# execute producer and preselection modules
+                                         process.makeGenEvt *
+                                         process.TauTtGenEventFilter *
+                                         process.scaledJetEnergy *
+                                         process.preselectionElHTMC2 *
+                                         process.makeObjects *
+                                         process.makeSUSYGenEvt *
+                                         process.eventWeightPU *
+                                         process.weightProducer *
+                                         
+                                         # execute filter and analyzer modules
+                                         process.analyzeSUSY1e_noCuts_Tau *
+                                         
+                                         process.ElHadSelection *
+                                         process.analyzeSUSY1e_preselection_Tau *
+                                         process.analyzeRA4Electrons *
+                                         
+                                         process.electronSelection*
+                                         process.analyzeSUSY1e_leptonSelection_Tau *
+                                         
+                                         process.jetSelection*
+                                         process.analyzeSUSY1e_jetSelection_Tau
+                                         )
+
+## lepton selection path for 8TeV TTJets
+process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
+                                          process.makeGenEvt *
+                                          process.scaledJetEnergy *
+                                          process.preselectionLepHTMC2 *
+                                          process.makeObjects *
+                                          process.makeSUSYGenEvt *
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          
+                                          # execute filter and analyzer modules
+                                          process.analyzeSUSY1l_noCuts_TTJets *
+                                          process.analyzeTtGenEvent1l_noCuts_TTJets *
+
+                                          ##process.LepHadSelection *
+                                          process.analyzeSUSY1l_preselection_TTJets *
+                                          process.analyzeTtGenEvent1l_preselection_TTJets *
+                                                                                    
+                                          process.leptonSelection *
+                                          process.analyzeSUSY1l_leptonSelection_TTJets *
+                                          process.analyzeTtGenEvent1l_leptonSelection_TTJets *
+                                          
+                                          process.jetSelection *
+                                          process.analyzeSUSY1l_jetSelection_TTJets *
+                                          process.analyzeTtGenEvent1l_jetSelection_TTJets *
+                                          
+                                          process.filterMediumHT *
+                                          process.analyzeSUSY1l_HTSelection_TTJets *
+                                          process.analyzeTtGenEvent1l_HTSelection_TTJets *
+                                          
+                                          process.oneMediumMET *
+                                          process.analyzeSUSY1l_METSelection_TTJets *
+                                          process.analyzeTtGenEvent1l_METSelection_TTJets
+                                          )
