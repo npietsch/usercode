@@ -83,12 +83,14 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
   //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
   //addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 200);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
 
-  //addHistogram("pv_nJets",      "m_{T} [GeV]",      0, 600);
+  addHistogram("pv_nJets",        "p_{#nu}  [GeV]",      0, 600);
+  addHistogram("mlv_nJets_gen",   "m_{l#nu} [GeV]",      0, 200);
+  addHistogram("mlv_nJets_reco",  "p_{l#nu} [GeV]",      0, 200);
 
   //addHistogram("minj3_nJets",   "minj3 [GeV]");
 
@@ -118,7 +120,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
   
   //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
-  addSelectionStep("analyzeSUSY1m_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY1l_leptonSelection_TTJets", "lepton selection");
+  addSelectionStep("analyzeSUSY1l_jetSelection_TTJets"   , "lepton selection");
   //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
   //addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
   //addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
@@ -178,7 +181,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	      Projection->GetYaxis()->SetTitle("# events");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
-	      Projection->Scale(1/Projection->Integral(7,-1));
+	      Projection->Scale(1/Projection->Integral(5,-1));
 	      Projection->SetMarkerStyle(MarkerStyles[bin]);
 	      Projection->SetMarkerColor(BinColors[bin]);
 	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");

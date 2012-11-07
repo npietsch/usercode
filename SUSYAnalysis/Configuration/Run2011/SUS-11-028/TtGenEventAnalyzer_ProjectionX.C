@@ -80,8 +80,8 @@ int TtGenEventAnalyzer_ProjectionX()
   // addSelectionStep
   //--------------------------------------------------------------
 
-  addSelectionStep("analyzeSUSY1m_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeSUSY1m_jetSelection",    "jet selection");
+  addSelectionStep("analyzeSUSY1l_leptonSelection_TTJets", "lepton selection");
+  addSelectionStep("analyzeSUSY1l_jetSelection_TTJets",    "jet selection");
 
   //--------------------------------------------------------------
   // addBin

@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -481,6 +481,7 @@ process.ElectronSelection_Tau = cms.Path(# execute producer and preselection mod
 ## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
+                                          process.SemiLepTtGenEventFilter *
                                           process.scaledJetEnergy *
                                           process.preselectionLepHTMC2 *
                                           process.makeObjects *
