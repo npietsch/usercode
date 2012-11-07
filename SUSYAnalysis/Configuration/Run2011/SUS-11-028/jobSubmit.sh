@@ -11,16 +11,11 @@ nafJobSplitter.pl -q 1 27 RA4b_LM6_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM13_noPFCheck_cfg.py
 
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets1_cfg.py
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets2_cfg.py
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets3_cfg.py
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets4_cfg.py
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets5_cfg.py
-nafJobSplitter.pl -q 1 50 RA4b_Fall11_TTJets6_cfg.py
-nafJobSplitter.pl -q 1 124 RA4b_Fall11_TTJets7_cfg.py
-nafJobSplitter.pl -q 1 123 RA4b_Fall11_TTJets8_cfg.py
-nafJobSplitter.pl -q 1 123 RA4b_Fall11_TTJets9_cfg.py
-nafJobSplitter.pl -q 1 123 RA4b_Fall11_TTJets10_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets1_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets2_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets3_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets4_cfg.py
+nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets5_cfg.py
 
 nafJobSplitter.pl -q 1 40 RA4b_Tbar_tW_cfg.py
 nafJobSplitter.pl -q 1 8 RA4b_Tbar_sChannel_cfg.py
