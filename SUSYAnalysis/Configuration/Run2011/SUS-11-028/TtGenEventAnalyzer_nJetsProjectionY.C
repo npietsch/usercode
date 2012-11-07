@@ -60,7 +60,7 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 }
 
 // main function
-int TtGenEventAnalyzer_ProjectionX()
+int TtGenEventAnalyzer_nJetsProjectionY()
 {
 
   //--------------------------------------------------------------
@@ -68,6 +68,7 @@ int TtGenEventAnalyzer_ProjectionX()
   //--------------------------------------------------------------
 
   TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  //TFile* TTJets = new TFile("TTJetsFall11_back.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -83,12 +84,10 @@ int TtGenEventAnalyzer_ProjectionX()
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
   //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  //addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 200);
-  //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
-  //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
-
-  //addHistogram("pv_nJets",      "m_{T} [GeV]",      0, 600);
+  addHistogram("YMET_nJets",    "nJets", 0, 12);
+  //addHistogram("mT_nJets",        "nJets",      0, 12);
+  //addHistogram("mlb_nJets",     "nJets",        0, 12);
+  //addHistogram("mLepTop_nJets", "nJets",    0, 400);
 
   //addHistogram("minj3_nJets",   "minj3 [GeV]");
 
@@ -118,12 +117,12 @@ int TtGenEventAnalyzer_ProjectionX()
 //   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
   
   //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
-  addSelectionStep("analyzeSUSY1m_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY_leptonSelection_1l", "lepton selection");
   //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
-  //addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
-  //addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
-  //addSelectionStep("analyzeSUSY_metSelection_1l_noHT",    "MET selection");
-
+  addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
+  addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
+  addSelectionStep("analyzeSUSY_metSelection_1l_noHT","MET selection");
+ 
 //   addSelectionStep("analyzeSUSY_noCuts_1l_match2",          "no Cuts",           1);
 //   addSelectionStep("analyzeSUSY_leptonSelection_1l_match2", "lepton selection",  4);
 //   addSelectionStep("analyzeSUSY_jetSelection_1l_match2",    "jet selection",     8);
@@ -134,9 +133,21 @@ int TtGenEventAnalyzer_ProjectionX()
   // addBin
   //--------------------------------------------------------------
 
-  addBin(4, 5,  "3-4 Jets", 2, 22);
-  addBin(6, 7,  "5-6 Jets", 4, 23);
-  addBin(8, -1, "> 7 Jets", 1, 20);
+  addBin(7, 10,  "3 <= Y_{MET} < 5",  4, 22);
+  addBin(11, 20, "5 <= Y_{MET} < 10", 1, 23);
+  addBin(21, -1, "Y_{MET} > 10",      2, 20);
+
+//   addBin(1,  5, "m_{T} < 50 GeV",       2, 22);
+//   addBin(6, 10, "50 < m_{T} < 100 GeV", 4, 23);
+//   addBin(11, -1, "m_{T} > 100",          1, 20);
+
+//   addBin(1,  8, "m_{l,b} < 80 GeV",       2, 22);
+//   addBin(9, 16, "80 < m_{l,b} < 160 GeV",  4, 23);
+//   addBin(17, -1, "m_{l,b} > 160",          1, 20);
+
+//   addBin(1,  12, "m_{3,lep} < 120 GeV",        2, 22);
+//   addBin(13, 20, "120 < m_{3,lep} < 200 GeV",  4, 23);
+//   addBin(21, -1, "m_{3,lep} > 200",            1, 20);
 
   //------------
   // set style 
@@ -154,7 +165,7 @@ int TtGenEventAnalyzer_ProjectionX()
 	  std::cout << Selections[sdx] << "_" << Histograms[hdx] << std::endl;
 	  
 	  TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx], 1);
-
+ 
 	  TLegend *leg = new TLegend(.64,.62,.91,.89);
 	  leg->SetTextFont(42);
 	  leg->SetFillColor(0);
@@ -168,7 +179,7 @@ int TtGenEventAnalyzer_ProjectionX()
 	      std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
 
 	      // create projection
-	      TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+	      TH1F* Projection = (TH1F*)Hist->ProjectionY(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
 	      
 	      // edit projection
 	      Projection->SetTitle("");
@@ -178,27 +189,27 @@ int TtGenEventAnalyzer_ProjectionX()
 	      Projection->GetYaxis()->SetTitle("# events");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
-	      Projection->Scale(1/Projection->Integral(7,-1));
+	      Projection->Scale(1/Projection->Integral(4,-1));
 	      Projection->SetMarkerStyle(MarkerStyles[bin]);
 	      Projection->SetMarkerColor(BinColors[bin]);
 	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
 
-	      if(bin == 0) Projection->DrawCopy();
+	      if(bin == 0)
+		{
+		  Projection->SetMaximum(1.2*(Projection->GetMaximum()));
+		  Projection->DrawCopy("");
+		}
 	      else Projection->DrawCopy("same");
 	    }
 	  leg->Draw();
-	  canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_reco_log.pdf");
+	  //canvas->SetLogy();
+
+	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_Y.pdf");
 	}
     }
 
 // 	  TCanvas *canvas = new TCanvas(Histograms[hdx],Histograms[hdx],1);
-	  
-// 	  TLegend *leg = new TLegend(.64,.18,.91,.45);
-// 	  leg->SetTextFont(42);
-// 	  leg->SetFillColor(0);
-// 	  leg->SetLineColor(1);
-// 	  leg->SetShadowColor(0);
+
 	  
 // 	  for(int bin=0; bin<(int)bins.size(); ++bin)
 // 	    {

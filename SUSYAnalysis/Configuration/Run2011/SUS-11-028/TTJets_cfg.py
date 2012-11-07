@@ -241,15 +241,21 @@ process.MuonSelection_SemiLep = cms.Path(# execute producer and preselection mod
                                          # execute filter and analyzer modules
                                          process.analyzeSUSY1m_noCuts_SemiLep *
                                  
-                                         process.MuHadSelection *
+                                         #process.MuHadSelection *
                                          process.analyzeSUSY1m_preselection_SemiLep *
                                          process.analyzeRA4Muons *
                                          
                                          process.muonSelection*
                                          process.analyzeSUSY1m_leptonSelection_SemiLep *
                                          
-                                         process.jetSelection*
-                                         process.analyzeSUSY1m_jetSelection_SemiLep
+                                         process.threeGoodJets*
+                                         process.analyzeSUSY1m_jetSelection_SemiLep *
+                                         
+                                         process.filterMediumHT *
+                                         process.analyzeSUSY1m_HTSelection_SemiLep *
+                                                                                   
+                                         process.oneMediumMET *
+                                         process.analyzeSUSY1m_METSelection_SemiLep
                                          )
 
 ## electron selection path for SemiLep TTJets
@@ -266,15 +272,21 @@ process.ElectronSelection_SemiLep = cms.Path(# execute producer and preselection
                                              # execute filter and analyzer modules
                                              process.analyzeSUSY1e_noCuts_SemiLep *
                                              
-                                             process.ElHadSelection *
+                                             #process.ElHadSelection *
                                              process.analyzeSUSY1e_preselection_SemiLep *
                                              process.analyzeRA4Electrons *
                                              
                                              process.electronSelection*
                                              process.analyzeSUSY1e_leptonSelection_SemiLep *
                                              
-                                             process.jetSelection*
-                                             process.analyzeSUSY1e_jetSelection_SemiLep
+                                             process.threeGoodJets*
+                                             process.analyzeSUSY1e_jetSelection_SemiLep *
+                                             
+                                             process.filterMediumHT *
+                                             process.analyzeSUSY1e_HTSelection_SemiLep *
+                                             
+                                             process.oneMediumMET *
+                                             process.analyzeSUSY1e_METSelection_SemiLep
                                              )
 
 
@@ -292,15 +304,21 @@ process.MuonSelection_DiLep = cms.Path(# execute producer and preselection modul
                                        # execute filter and analyzer modules
                                        process.analyzeSUSY1m_noCuts_DiLep *
                                        
-                                       process.MuHadSelection *
+                                       #process.MuHadSelection *
                                        process.analyzeSUSY1m_preselection_DiLep *
                                        process.analyzeRA4Muons *
                                        
                                        process.muonSelection*
                                        process.analyzeSUSY1m_leptonSelection_DiLep *
                                        
-                                       process.jetSelection*
-                                       process.analyzeSUSY1m_jetSelection_DiLep
+                                       process.threeGoodJets*
+                                       process.analyzeSUSY1m_jetSelection_DiLep *
+                                          
+                                       process.filterMediumHT *
+                                       process.analyzeSUSY1m_HTSelection_DiLep *
+                                       
+                                       process.oneMediumMET *
+                                       process.analyzeSUSY1m_METSelection_DiLep
                                        )
 
 ## electron selection path for DiLep TTJets
@@ -317,15 +335,21 @@ process.ElectronSelection_DiLep = cms.Path(# execute producer and preselection m
                                            # execute filter and analyzer modules
                                            process.analyzeSUSY1e_noCuts_DiLep *
                                            
-                                           process.ElHadSelection *
+                                           #process.ElHadSelection *
                                            process.analyzeSUSY1e_preselection_DiLep *
                                            process.analyzeRA4Electrons *
                                            
                                            process.electronSelection*
                                            process.analyzeSUSY1e_leptonSelection_DiLep *
                                            
-                                           process.jetSelection*
-                                           process.analyzeSUSY1e_jetSelection_DiLep
+                                           process.threeGoodJets*
+                                           process.analyzeSUSY1e_jetSelection_DiLep *
+                                          
+                                           process.filterMediumHT *
+                                           process.analyzeSUSY1e_HTSelection_DiLep *
+                                           
+                                           process.oneMediumMET *
+                                           process.analyzeSUSY1e_METSelection_DiLep
                                            )
 
 
@@ -343,15 +367,21 @@ process.MuonSelection_FullHad = cms.Path(# execute producer and preselection mod
                                          # execute filter and analyzer modules
                                          process.analyzeSUSY1m_noCuts_FullHad *
                                  
-                                         process.MuHadSelection *
+                                         #process.MuHadSelection *
                                          process.analyzeSUSY1m_preselection_FullHad *
                                          process.analyzeRA4Muons *
                                          
                                          process.muonSelection*
                                          process.analyzeSUSY1m_leptonSelection_FullHad *
                                          
-                                         process.jetSelection*
-                                         process.analyzeSUSY1m_jetSelection_FullHad
+                                         process.threeGoodJets*
+                                         process.analyzeSUSY1m_jetSelection_FullHad *
+                                         
+                                         process.filterMediumHT *
+                                         process.analyzeSUSY1m_HTSelection_FullHad *
+                                         
+                                         process.oneMediumMET *
+                                         process.analyzeSUSY1m_METSelection_FullHad
                                          )
 
 ## electron selection path for FullHad TTJets
@@ -368,15 +398,21 @@ process.ElectronSelection_FullHad = cms.Path(# execute producer and preselection
                                              # execute filter and analyzer modules
                                              process.analyzeSUSY1e_noCuts_FullHad *
                                              
-                                             process.ElHadSelection *
+                                             #process.ElHadSelection *
                                              process.analyzeSUSY1e_preselection_FullHad *
                                              process.analyzeRA4Electrons *
                                              
                                              process.electronSelection*
                                              process.analyzeSUSY1e_leptonSelection_FullHad *
                                              
-                                             process.jetSelection*
-                                             process.analyzeSUSY1e_jetSelection_FullHad
+                                             process.threeGoodJets*
+                                             process.analyzeSUSY1e_jetSelection_FullHad *
+                                          
+                                             process.filterMediumHT *
+                                             process.analyzeSUSY1e_HTSelection_FullHad *
+                                             
+                                             process.oneMediumMET *
+                                             process.analyzeSUSY1e_METSelection_FullHad
                                              )
 
 
@@ -394,15 +430,21 @@ process.MuonSelection_Tau = cms.Path(# execute producer and preselection modules
                                      # execute filter and analyzer modules
                                      process.analyzeSUSY1m_noCuts_Tau *
                                      
-                                     process.MuHadSelection *
+                                     #process.MuHadSelection *
                                      process.analyzeSUSY1m_preselection_Tau *
                                      process.analyzeRA4Muons *
                                      
                                      process.muonSelection*
                                      process.analyzeSUSY1m_leptonSelection_Tau *
                                      
-                                     process.jetSelection*
-                                     process.analyzeSUSY1m_jetSelection_Tau
+                                     process.threeGoodJets*
+                                     process.analyzeSUSY1m_jetSelection_Tau *
+                                     
+                                     process.filterMediumHT *
+                                     process.analyzeSUSY1m_HTSelection_Tau *
+                                     
+                                     process.oneMediumMET *
+                                     process.analyzeSUSY1m_METSelection_Tau
                                      )
 
 ## electron selection path for Tau TTJets
@@ -419,18 +461,24 @@ process.ElectronSelection_Tau = cms.Path(# execute producer and preselection mod
                                          # execute filter and analyzer modules
                                          process.analyzeSUSY1e_noCuts_Tau *
                                          
-                                         process.ElHadSelection *
+                                         #process.ElHadSelection *
                                          process.analyzeSUSY1e_preselection_Tau *
                                          process.analyzeRA4Electrons *
                                          
                                          process.electronSelection*
                                          process.analyzeSUSY1e_leptonSelection_Tau *
                                          
-                                         process.jetSelection*
-                                         process.analyzeSUSY1e_jetSelection_Tau
+                                         process.threeGoodJets*
+                                         process.analyzeSUSY1e_jetSelection_Tau *
+                                          
+                                         process.filterMediumHT *
+                                         process.analyzeSUSY1e_HTSelection_Tau *
+                                         
+                                         process.oneMediumMET *
+                                         process.analyzeSUSY1e_METSelection_Tau
                                          )
 
-## lepton selection path for 8TeV TTJets
+## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
                                           process.scaledJetEnergy *
@@ -452,7 +500,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           process.analyzeSUSY1l_leptonSelection_TTJets *
                                           process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
-                                          process.jetSelection *
+                                          process.threeGoodJets *
                                           process.analyzeSUSY1l_jetSelection_TTJets *
                                           process.analyzeTtGenEvent1l_jetSelection_TTJets *
                                           

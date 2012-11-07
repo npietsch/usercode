@@ -60,7 +60,7 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 }
 
 // main function
-int TtGenEventAnalyzer_ProjectionX()
+int TtGenEventAnalyzer_nJetsProjectionX()
 {
 
   //--------------------------------------------------------------
