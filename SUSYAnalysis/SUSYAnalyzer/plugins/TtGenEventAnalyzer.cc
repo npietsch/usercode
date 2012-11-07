@@ -29,8 +29,9 @@ TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
 
   // fill only in the case of semileptonic ttbar decays with muon or electron
   NuPt_  = fs->make<TH1F>("NuPt",  "neutrino pt", 50, 0., 1000.);
-  LepPt_ = fs->make<TH1F>("LepPt", "lepton pt"  , 50, 0., 1000.);
-  mT_    = fs->make<TH1F>("mT",    "mT"         , 40, 0,   200.);
+  LepPt_ = fs->make<TH1F>("LepPt", "lepton pt",   50, 0., 1000.);
+  mT_    = fs->make<TH1F>("mT",    "mT",          40, 0,   200.);
+  mlb_   = fs->make<TH1F>("mlb",   "mlb",         40, 0,   200.);
 
   qScale_MET_    = fs->make<TH2F>("qScale_MET",   "qScale vs. MET",    50, 0., 2000., 50, 0.,  1000.);
   qScale_HT_     = fs->make<TH2F>("qScale_HT",    "qScale vs. HT",     50, 0., 2000., 50, 0.,  2000.);
@@ -89,20 +90,25 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   // fill histograms only in th case of semi leptonic ttbar decays with muon or electron
   if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
     {
-      double NuPt =genEvent->singleNeutrino()->pt();
-      double LepPt=genEvent->singleLepton()->pt();
+      double NuPt = genEvent->singleNeutrino()->pt();
+      double NuPx = genEvent->singleNeutrino()->px();
+      double NuPy = genEvent->singleNeutrino()->py();
 
-      double NuPx =genEvent->singleNeutrino()->px();
-      double LepPx=genEvent->singleLepton()->px();
+      double LepPt = genEvent->singleLepton()->pt();
+      double LepPx = genEvent->singleLepton()->px();
+      double LepPy = genEvent->singleLepton()->py();
+      
+      double LepBQuarkPt = genEvent->leptonicDecayB()->pt();
+      double LepBQuarkPx = genEvent->leptonicDecayB()->px();
+      double LepBQuarkPy = genEvent->leptonicDecayB()->py();
 
-      double NuPy =genEvent->singleNeutrino()->py();
-      double LepPy=genEvent->singleLepton()->py();
-
-      double mT=sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
+      double mT  = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
+      double mlb = sqrt(2*(LepPt*LepBQuarkPt-LepPx*LepBQuarkPx-LepPy*LepBQuarkPy));
 
       NuPt_ ->Fill(NuPt);
       LepPt_->Fill(LepPt);
       mT_->Fill(mT);
+      mlb_->Fill(mlb);
 
       // correlations histograms
       double HT=genEvent->hadronicDecayB()->pt()+genEvent->leptonicDecayB()->pt();

@@ -1,4 +1,3 @@
-
 #----------------------------------------------------
 # Clone and configure SUSYAnalyzer modules
 #----------------------------------------------------
@@ -109,41 +108,57 @@ analyzeSUSY1m_noCuts_SemiLep          = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_preselection_SemiLep    = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_leptonSelection_SemiLep = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_jetSelection_SemiLep    = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_HTSelection_SemiLep     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_METSelection_SemiLep    = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1m_noCuts_DiLep            = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_preselection_DiLep      = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_leptonSelection_DiLep   = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_jetSelection_DiLep      = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_HTSelection_DiLep       = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_METSelection_DiLep      = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1m_noCuts_FullHad          = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_preselection_FullHad    = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_leptonSelection_FullHad = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_jetSelection_FullHad    = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_HTSelection_FullHad     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_METSelection_FullHad    = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1m_noCuts_Tau              = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_preselection_Tau        = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_leptonSelection_Tau     = analyzeSUSY_TTJets.clone()
 analyzeSUSY1m_jetSelection_Tau        = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_HTSelection_Tau         = analyzeSUSY_TTJets.clone()
+analyzeSUSY1m_METSelection_Tau        = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1e_noCuts_SemiLep          = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_preselection_SemiLep    = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_leptonSelection_SemiLep = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_jetSelection_SemiLep    = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_HTSelection_SemiLep     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_METSelection_SemiLep    = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1e_noCuts_DiLep            = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_preselection_DiLep      = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_leptonSelection_DiLep   = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_jetSelection_DiLep      = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_HTSelection_DiLep       = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_METSelection_DiLep      = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1e_noCuts_FullHad          = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_preselection_FullHad    = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_leptonSelection_FullHad = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_jetSelection_FullHad    = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_HTSelection_FullHad     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_METSelection_FullHad    = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1e_noCuts_Tau              = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_preselection_Tau        = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_leptonSelection_Tau     = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_jetSelection_Tau        = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_HTSelection_Tau         = analyzeSUSY_TTJets.clone()
+analyzeSUSY1e_METSelection_Tau        = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1l_noCuts_TTJets           = analyzeSUSY_TTJets.clone()
 analyzeSUSY1l_preselection_TTJets     = analyzeSUSY_TTJets.clone()

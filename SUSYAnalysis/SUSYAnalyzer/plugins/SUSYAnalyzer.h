@@ -225,6 +225,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH2F* mlb_nJets_20_;
 
   TH2F* pv_nJets_;
+  TH2F* mlv_nJets_gen_;
+  TH2F* mlv_nJets_reco_;
 
   //-----------------------
   // ABCD method

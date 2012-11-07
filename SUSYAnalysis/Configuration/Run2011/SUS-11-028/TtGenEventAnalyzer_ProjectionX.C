@@ -73,70 +73,23 @@ int TtGenEventAnalyzer_ProjectionX()
   // addHistogram
   //--------------------------------------------------------------
 
-  //addHistogram("HT_MET",      "HT [GeV]",  "<MET> [GeV]");
-  //addHistogram("HT_LepPt",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-
-  //addHistogram("HT_YMET",     "HT [GeV]",         "<YMET> [GeV^{1/2}]");
-  //addHistogram("HT_LepPtSig", "HT [GeV]",         "<Lepton p_{T} sig> [GeV^{1/2}]");
-  //addHistogram("HT_mT",       "HT [GeV]",         "<m_{T}> [GeV]");
-  //addHistogram("HT_mlb",        "HT [GeV]",       "mlb [GeV]");
-  //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
-  //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
-
-  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  //addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 200);
-  //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
-  //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
-
-  //addHistogram("pv_nJets",      "m_{T} [GeV]",      0, 600);
-
-  //addHistogram("minj3_nJets",   "minj3 [GeV]");
-
-  //addHistogram("HT_MET_acceptance",      "HT [GeV]",  "<MET> [GeV]");
-  //addHistogram("HT_LepPt_acceptance",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-  //addHistogram("HT_YMET_acceptance",     "HT [GeV]",  "<YMET> [GeV^{1/2}]");
-  //addHistogram("HT_LepPtSig_acceptance", "HT [GeV]",  "<Lepton p_{T} sig> [GeV^{1/2}]");
-  //addHistogram("HT_mT_acceptance",       "HT [GeV]",  "<m_{T}> [GeV]");
-
-//    addHistogram("qScale_MET", "genEvtInfoHandle->qScale()",  "<MET> [GeV]");
-//    addHistogram("qScale_HT", "genEvtInfoHandle->qScale()",  "<HT> [GeV]");
-
-//    addHistogram("PDFScale_MET", "genEvtInfoHandle->pdf()->scalePDF",  "<MET> [GeV]");
-//    addHistogram("PDFScale_HT", "genEvtInfoHandle->pdf()->scalePDF",  "<HT> [GeV]");
-
-//    addHistogram("ttbarMass_MET", "m_{t#bar{t}} [GeV]",  "<MET> [GeV]");
-//    addHistogram("ttbarMass_HT",  "m_{t#bar{t}} [GeV]",  "<HT> [GeV]");
+  addHistogram("mlb_YMET",    "m_{lb} [GeV]", 0, 600);
+  
 
   //--------------------------------------------------------------
   // addSelectionStep
   //--------------------------------------------------------------
 
-//   addSelectionStep("analyzeTtGenEvent_noCuts_1l",          "no Cuts",           1);
-//   addSelectionStep("analyzeTtGenEvent_leptonSelection_1l", "lepton selection",  4);
-//   addSelectionStep("analyzeTtGenEvent_jetSelection_1l",    "jet selection",     8);
-//   addSelectionStep("analyzeTtGenEvent_HTSelection_1l",    "HT selection",      2);
-//   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
-  
-  //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
   addSelectionStep("analyzeSUSY1m_leptonSelection", "lepton selection");
-  //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
-  //addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
-  //addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
-  //addSelectionStep("analyzeSUSY_metSelection_1l_noHT",    "MET selection");
-
-//   addSelectionStep("analyzeSUSY_noCuts_1l_match2",          "no Cuts",           1);
-//   addSelectionStep("analyzeSUSY_leptonSelection_1l_match2", "lepton selection",  4);
-//   addSelectionStep("analyzeSUSY_jetSelection_1l_match2",    "jet selection",     8);
-//   addSelectionStep("analyzeSUSY_HTSelection_1l_match2",    "HT selection",      2);
-//   addSelectionStep("analyzeSUSY_metSelection_1l_match2",     "MET selection",     kRed+2);
+  addSelectionStep("analyzeSUSY1m_jetSelection",    "jet selection");
 
   //--------------------------------------------------------------
   // addBin
   //--------------------------------------------------------------
 
-  addBin(4, 5,  "3-4 Jets", 2, 22);
-  addBin(6, 7,  "5-6 Jets", 4, 23);
-  addBin(8, -1, "> 7 Jets", 1, 20);
+  addBin(9,  12, "4 <  Y_{MET} < 6", 2, 22);
+  addBin(13, 20, "6 < Y_{MET} < 10", 4, 23);
+  addBin(21, -1, "Y_{MET} > 10 ",    1, 20);
 
   //------------
   // set style 
@@ -178,7 +131,7 @@ int TtGenEventAnalyzer_ProjectionX()
 	      Projection->GetYaxis()->SetTitle("# events");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
-	      Projection->Scale(1/Projection->Integral(7,-1));
+	      Projection->Scale(1/Projection->Integral(5,-1));
 	      Projection->SetMarkerStyle(MarkerStyles[bin]);
 	      Projection->SetMarkerColor(BinColors[bin]);
 	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
