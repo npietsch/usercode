@@ -175,6 +175,30 @@ preselectionElHTMC2ZJets = cms.Sequence(goodVertices *
                                         scrapingVeto
                                         )
 
+from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
+
+StopPairFilter     = SUSYGenEventFilter.clone(cut='StopStopDecay = True')
+GluinoSquarkFilter = SUSYGenEventFilter.clone(cut='GluinoSquarkDecay = True')
+SquarkSquarkFilter = SUSYGenEventFilter.clone(cut='SquarkSquarkDecay = True')
+
+preselectionStopPair = cms.Sequence(goodVertices *
+                                    oneGoodVertex *
+                                    scrapingVeto *
+                                    StopPairFilter
+                                    )
+
+preselectionGluinoSquark = cms.Sequence(goodVertices *
+                                        oneGoodVertex *
+                                        scrapingVeto *
+                                        GluinoSquarkFilter
+                                        )
+preselectionSquarkSquark = cms.Sequence(goodVertices *
+                                        oneGoodVertex *
+                                        scrapingVeto *
+                                        SquarkSquarkFilter
+                                        )
+
+
 ##-------------------------------------
 ## Define data preselection sequences
 ##-------------------------------------

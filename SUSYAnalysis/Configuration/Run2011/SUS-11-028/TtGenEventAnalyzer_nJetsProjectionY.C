@@ -80,67 +80,51 @@ int TtGenEventAnalyzer_nJetsProjectionY()
   //addHistogram("HT_YMET",     "HT [GeV]",         "<YMET> [GeV^{1/2}]");
   //addHistogram("HT_LepPtSig", "HT [GeV]",         "<Lepton p_{T} sig> [GeV^{1/2}]");
   //addHistogram("HT_mT",       "HT [GeV]",         "<m_{T}> [GeV]");
+  //addHistogram(ls
   //addHistogram("HT_mlb",        "HT [GeV]",       "mlb [GeV]");
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
   //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  addHistogram("YMET_nJets",    "nJets", 0, 12);
-  //addHistogram("mT_nJets",        "nJets",      0, 12);
-  //addHistogram("mlb_nJets",     "nJets",        0, 12);
-  //addHistogram("mLepTop_nJets", "nJets",    0, 400);
+  //addHistogram("YMET_nJets",    "nJets", 0, 12);
 
-  //addHistogram("minj3_nJets",   "minj3 [GeV]");
-
-  //addHistogram("HT_MET_acceptance",      "HT [GeV]",  "<MET> [GeV]");
-  //addHistogram("HT_LepPt_acceptance",    "HT [GeV]",  "<Lepton p_{T}> [GeV]");
-  //addHistogram("HT_YMET_acceptance",     "HT [GeV]",  "<YMET> [GeV^{1/2}]");
-  //addHistogram("HT_LepPtSig_acceptance", "HT [GeV]",  "<Lepton p_{T} sig> [GeV^{1/2}]");
-  //addHistogram("HT_mT_acceptance",       "HT [GeV]",  "<m_{T}> [GeV]");
-
-//    addHistogram("qScale_MET", "genEvtInfoHandle->qScale()",  "<MET> [GeV]");
-//    addHistogram("qScale_HT", "genEvtInfoHandle->qScale()",  "<HT> [GeV]");
-
-//    addHistogram("PDFScale_MET", "genEvtInfoHandle->pdf()->scalePDF",  "<MET> [GeV]");
-//    addHistogram("PDFScale_HT", "genEvtInfoHandle->pdf()->scalePDF",  "<HT> [GeV]");
-
-//    addHistogram("ttbarMass_MET", "m_{t#bar{t}} [GeV]",  "<MET> [GeV]");
-//    addHistogram("ttbarMass_HT",  "m_{t#bar{t}} [GeV]",  "<HT> [GeV]");
+  addHistogram("mT_nJets",       "nJets", 0, 12 );
+  //addHistogram("pv_nJets",       "nJets", 0, 12 );
+  //addHistogram("mlv_nJets_gen",  "nJets", 0, 12 );
+  //addHistogram("mlv_nJets_reco", "nJets", 0, 12 );
 
   //--------------------------------------------------------------
   // addSelectionStep
   //--------------------------------------------------------------
 
-//   addSelectionStep("analyzeTtGenEvent_noCuts_1l",          "no Cuts",           1);
-//   addSelectionStep("analyzeTtGenEvent_leptonSelection_1l", "lepton selection",  4);
-//   addSelectionStep("analyzeTtGenEvent_jetSelection_1l",    "jet selection",     8);
-//   addSelectionStep("analyzeTtGenEvent_HTSelection_1l",    "HT selection",      2);
-//   addSelectionStep("analyzeTtGenEvent_metSelection_1l",     "MET selection",     kRed+2);
-  
-  //addSelectionStep("analyzeSUSY_noCuts_1l",          "no Cuts");
-  addSelectionStep("analyzeSUSY_leptonSelection_1l", "lepton selection");
-  //addSelectionStep("analyzeSUSY_jetSelection_1l",    "jet selection");
-  addSelectionStep("analyzeSUSY_HTSelection_1l",     "HT selection");
-  addSelectionStep("analyzeSUSY_metSelection_1l",    "MET selection");
-  addSelectionStep("analyzeSUSY_metSelection_1l_noHT","MET selection");
- 
-//   addSelectionStep("analyzeSUSY_noCuts_1l_match2",          "no Cuts",           1);
-//   addSelectionStep("analyzeSUSY_leptonSelection_1l_match2", "lepton selection",  4);
-//   addSelectionStep("analyzeSUSY_jetSelection_1l_match2",    "jet selection",     8);
-//   addSelectionStep("analyzeSUSY_HTSelection_1l_match2",    "HT selection",      2);
-//   addSelectionStep("analyzeSUSY_metSelection_1l_match2",     "MET selection",     kRed+2);
+  addSelectionStep("analyzeSUSY1l_leptonSelection_TTJets", "lepton selection");
+  //addSelectionStep("analyzeSUSY1l_jetSelection_TTJets",    "jet selection");
+  addSelectionStep("analyzeSUSY1l_HTSelection_TTJets",     "HT selection");
+  addSelectionStep("analyzeSUSY1l_METSelection_TTJets",    "MET selection");
 
   //--------------------------------------------------------------
   // addBin
   //--------------------------------------------------------------
 
-  addBin(7, 10,  "3 <= Y_{MET} < 5",  4, 22);
-  addBin(11, 20, "5 <= Y_{MET} < 10", 1, 23);
-  addBin(21, -1, "Y_{MET} > 10",      2, 20);
+//   addBin(7, 10,  "3 <= Y_{MET} < 5",  4, 22);
+//   addBin(11, 20, "5 <= Y_{MET} < 10", 1, 23);
+//   addBin(21, -1, "Y_{MET} > 10",      2, 20);
 
-//   addBin(1,  5, "m_{T} < 50 GeV",       2, 22);
-//   addBin(6, 10, "50 < m_{T} < 100 GeV", 4, 23);
-//   addBin(11, -1, "m_{T} > 100",          1, 20);
+  addBin(1,  5,  "m_{T} < 50 GeV",       2, 22);
+  addBin(6, 10,  "50 < m_{T} < 100 GeV", 4, 23);
+  addBin(11, -1, "m_{T} > 100",          1, 20);
+  
+//   addBin(1,  5,  "m_{lv} < 50 GeV",       2, 22);
+//   addBin(6, 10,  "50 < m_{lv} < 100 GeV", 4, 23);
+//   addBin(11, -1, "m_{lv} > 100",          1, 20);
+  
+//   addBin(1,  5,  "m_{lv} < 50 GeV",       2, 22);
+//   addBin(6, 10,  "50 < m_{lv} < 100 GeV", 4, 23);
+//   addBin(11, -1, "m_{lv} > 100",          1, 20);
 
+//   addBin(1,  5,  "p_{v} < 50 GeV",       2, 22);
+//   addBin(6, 10,  "50 < p_{v} < 100 GeV", 4, 23);
+//   addBin(11, -1, "p_{v} > 100",          1, 20);
+  
 //   addBin(1,  8, "m_{l,b} < 80 GeV",       2, 22);
 //   addBin(9, 16, "80 < m_{l,b} < 160 GeV",  4, 23);
 //   addBin(17, -1, "m_{l,b} > 160",          1, 20);
@@ -202,9 +186,9 @@ int TtGenEventAnalyzer_nJetsProjectionY()
 	      else Projection->DrawCopy("same");
 	    }
 	  leg->Draw();
-	  //canvas->SetLogy();
+	  canvas->SetLogy();
 
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_Y.pdf");
+	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY.pdf");
 	}
     }
 

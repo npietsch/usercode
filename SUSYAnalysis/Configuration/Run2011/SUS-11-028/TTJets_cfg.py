@@ -161,10 +161,10 @@ process.btagEventWeightElJER.jets            = "goodJets"
 
 ## muon selection path
 process.MuonSelection = cms.Path(# execute producer and preselection modules
+                                 process.makeSUSYGenEvt *
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *
-                                 process.makeSUSYGenEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
@@ -173,7 +173,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.MuHadSelection *
                                  process.analyzeSUSYBjets1m_preselection *
-                                 process.analyzeRA4Muons *
+                                 #process.analyzeRA4uons *
                                  
                                  process.muonSelection*
                                  process.analyzeSUSYBjets1m_leptonSelection *
@@ -195,10 +195,10 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
 
 ## electron selection path
 process.ElectronSelection = cms.Path(# execute producer and preselection modules
+                                     process.makeSUSYGenEvt *
                                      process.scaledJetEnergy *
                                      process.preselectionElHTMC2 *
                                      process.makeObjects *
-                                     process.makeSUSYGenEvt *
                                      process.eventWeightPU *
                                      process.weightProducer *
                                      
@@ -230,11 +230,11 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
 ## muon selection path for SemiLep TTJets
 process.MuonSelection_SemiLep = cms.Path(# execute producer and preselection modules
                                          process.makeGenEvt *
+                                         process.makeSUSYGenEvt *
                                          process.SemiLepTtGenEventFilter *
                                          process.scaledJetEnergy *
                                          process.preselectionMuHTMC2 *
                                          process.makeObjects *
-                                         process.makeSUSYGenEvt *
                                          process.eventWeightPU *
                                          process.weightProducer *
                                          
@@ -243,7 +243,7 @@ process.MuonSelection_SemiLep = cms.Path(# execute producer and preselection mod
                                  
                                          #process.MuHadSelection *
                                          process.analyzeSUSY1m_preselection_SemiLep *
-                                         process.analyzeRA4Muons *
+                                         #process.analyzeRA4Muons *
                                          
                                          process.muonSelection*
                                          process.analyzeSUSY1m_leptonSelection_SemiLep *
@@ -261,11 +261,11 @@ process.MuonSelection_SemiLep = cms.Path(# execute producer and preselection mod
 ## electron selection path for SemiLep TTJets
 process.ElectronSelection_SemiLep = cms.Path(# execute producer and preselection modules
                                              process.makeGenEvt *
+                                             process.makeSUSYGenEvt *
                                              process.SemiLepTtGenEventFilter *
                                              process.scaledJetEnergy *
                                              process.preselectionElHTMC2 *
                                              process.makeObjects *
-                                             process.makeSUSYGenEvt *
                                              process.eventWeightPU *
                                              process.weightProducer *
                                              
@@ -293,11 +293,11 @@ process.ElectronSelection_SemiLep = cms.Path(# execute producer and preselection
 ## muon selection path for DiLep TTJets
 process.MuonSelection_DiLep = cms.Path(# execute producer and preselection modules
                                        process.makeGenEvt *
+                                       process.makeSUSYGenEvt *
                                        process.DiLepTtGenEventFilter *
                                        process.scaledJetEnergy *
                                        process.preselectionMuHTMC2 *
                                        process.makeObjects *
-                                       process.makeSUSYGenEvt *
                                        process.eventWeightPU *
                                        process.weightProducer *
                                        
@@ -306,7 +306,7 @@ process.MuonSelection_DiLep = cms.Path(# execute producer and preselection modul
                                        
                                        #process.MuHadSelection *
                                        process.analyzeSUSY1m_preselection_DiLep *
-                                       process.analyzeRA4Muons *
+                                       #process.analyzeRA4Muons *
                                        
                                        process.muonSelection*
                                        process.analyzeSUSY1m_leptonSelection_DiLep *
@@ -324,11 +324,11 @@ process.MuonSelection_DiLep = cms.Path(# execute producer and preselection modul
 ## electron selection path for DiLep TTJets
 process.ElectronSelection_DiLep = cms.Path(# execute producer and preselection modules
                                            process.makeGenEvt *
+                                           process.makeSUSYGenEvt *
                                            process.DiLepTtGenEventFilter *
                                            process.scaledJetEnergy *
                                            process.preselectionElHTMC2 *
                                            process.makeObjects *
-                                           process.makeSUSYGenEvt *
                                            process.eventWeightPU *
                                            process.weightProducer *
                                            
@@ -356,11 +356,11 @@ process.ElectronSelection_DiLep = cms.Path(# execute producer and preselection m
 ## muon selection path for FullHad TTJets
 process.MuonSelection_FullHad = cms.Path(# execute producer and preselection modules
                                          process.makeGenEvt *
+                                         process.makeSUSYGenEvt *
                                          process.FullHadTtGenEventFilter *
                                          process.scaledJetEnergy *
                                          process.preselectionMuHTMC2 *
                                          process.makeObjects *
-                                         process.makeSUSYGenEvt *
                                          process.eventWeightPU *
                                          process.weightProducer *
                                          
@@ -369,7 +369,7 @@ process.MuonSelection_FullHad = cms.Path(# execute producer and preselection mod
                                  
                                          #process.MuHadSelection *
                                          process.analyzeSUSY1m_preselection_FullHad *
-                                         process.analyzeRA4Muons *
+                                         #process.analyzeRA4uons *
                                          
                                          process.muonSelection*
                                          process.analyzeSUSY1m_leptonSelection_FullHad *
@@ -387,11 +387,11 @@ process.MuonSelection_FullHad = cms.Path(# execute producer and preselection mod
 ## electron selection path for FullHad TTJets
 process.ElectronSelection_FullHad = cms.Path(# execute producer and preselection modules
                                              process.makeGenEvt *
+                                             process.makeSUSYGenEvt *
                                              process.FullHadTtGenEventFilter *
                                              process.scaledJetEnergy *
                                              process.preselectionElHTMC2 *
                                              process.makeObjects *
-                                             process.makeSUSYGenEvt *
                                              process.eventWeightPU *
                                              process.weightProducer *
                                              
@@ -419,11 +419,11 @@ process.ElectronSelection_FullHad = cms.Path(# execute producer and preselection
 ## muon selection path for Tau TTJets
 process.MuonSelection_Tau = cms.Path(# execute producer and preselection modules
                                      process.makeGenEvt *
+                                     process.makeSUSYGenEvt *
                                      process.TauTtGenEventFilter *
                                      process.scaledJetEnergy *
                                      process.preselectionMuHTMC2 *
                                      process.makeObjects *
-                                     process.makeSUSYGenEvt *
                                      process.eventWeightPU *
                                      process.weightProducer *
                                      
@@ -432,7 +432,7 @@ process.MuonSelection_Tau = cms.Path(# execute producer and preselection modules
                                      
                                      #process.MuHadSelection *
                                      process.analyzeSUSY1m_preselection_Tau *
-                                     process.analyzeRA4Muons *
+                                     #process.analyzeRA4uons *
                                      
                                      process.muonSelection*
                                      process.analyzeSUSY1m_leptonSelection_Tau *
@@ -450,11 +450,11 @@ process.MuonSelection_Tau = cms.Path(# execute producer and preselection modules
 ## electron selection path for Tau TTJets
 process.ElectronSelection_Tau = cms.Path(# execute producer and preselection modules
                                          process.makeGenEvt *
+                                         process.makeSUSYGenEvt *
                                          process.TauTtGenEventFilter *
                                          process.scaledJetEnergy *
                                          process.preselectionElHTMC2 *
                                          process.makeObjects *
-                                         process.makeSUSYGenEvt *
                                          process.eventWeightPU *
                                          process.weightProducer *
                                          
@@ -481,11 +481,11 @@ process.ElectronSelection_Tau = cms.Path(# execute producer and preselection mod
 ## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
+                                          process.makeSUSYGenEvt *
                                           process.SemiLepTtGenEventFilter *
                                           process.scaledJetEnergy *
                                           process.preselectionLepHTMC2 *
                                           process.makeObjects *
-                                          process.makeSUSYGenEvt *
                                           process.eventWeightPU *
                                           process.weightProducer *
                                           
