@@ -478,11 +478,46 @@ process.ElectronSelection_Tau = cms.Path(# execute producer and preselection mod
                                          process.analyzeSUSY1e_METSelection_Tau
                                          )
 
+## lepton selection path for all SemiLep TTJets
+process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection modules
+                                          process.makeGenEvt *
+                                          process.makeSUSYGenEvt *
+                                          process.SemiLepTtGenEventFilter *
+                                          process.scaledJetEnergy *
+                                          process.preselectionLepHTMC2 *
+                                          process.makeObjects *
+                                          process.eventWeightPU *
+                                          process.weightProducer *
+                                          
+                                          # execute filter and analyzer modules
+                                          process.analyzeSUSY1l_noCuts_SemiLep *
+                                          process.analyzeTtGenEvent1l_noCuts_SemiLep *
+
+                                          ##process.LepHadSelection *
+                                          process.analyzeSUSY1l_preselection_SemiLep *
+                                          process.analyzeTtGenEvent1l_preselection_SemiLep *
+                                                                                    
+                                          process.leptonSelection *
+                                          process.analyzeSUSY1l_leptonSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
+                                          
+                                          process.threeGoodJets *
+                                          process.analyzeSUSY1l_jetSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_jetSelection_SemiLep *
+                                          
+                                          process.filterMediumHT *
+                                          process.analyzeSUSY1l_HTSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_HTSelection_SemiLep *
+                                          
+                                          process.oneMediumMET *
+                                          process.analyzeSUSY1l_METSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_METSelection_SemiLep
+                                          )
+
 ## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
                                           process.makeSUSYGenEvt *
-                                          process.SemiLepTtGenEventFilter *
                                           process.scaledJetEnergy *
                                           process.preselectionLepHTMC2 *
                                           process.makeObjects *

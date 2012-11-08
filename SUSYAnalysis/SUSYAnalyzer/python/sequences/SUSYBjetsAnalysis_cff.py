@@ -160,6 +160,13 @@ analyzeSUSY1e_jetSelection_Tau        = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_HTSelection_Tau         = analyzeSUSY_TTJets.clone()
 analyzeSUSY1e_METSelection_Tau        = analyzeSUSY_TTJets.clone()
 
+analyzeSUSY1l_noCuts_SemiLep           = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_preselection_SemiLep     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_leptonSelection_SemiLep  = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_jetSelection_SemiLep     = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_HTSelection_SemiLep      = analyzeSUSY_TTJets.clone()
+analyzeSUSY1l_METSelection_SemiLep     = analyzeSUSY_TTJets.clone()
+
 analyzeSUSY1l_noCuts_TTJets           = analyzeSUSY_TTJets.clone()
 analyzeSUSY1l_preselection_TTJets     = analyzeSUSY_TTJets.clone()
 analyzeSUSY1l_leptonSelection_TTJets  = analyzeSUSY_TTJets.clone()
@@ -303,9 +310,16 @@ analyzeSUSYBjets2b1e_2 = cms.Sequence(analyzeSUSY2b1e_2 *
 
 from SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi import *
 
-analyzeTtGenEvent1l_noCuts_TTJets          = analyzeTtGenEvent.clone()
-analyzeTtGenEvent1l_preselection_TTJets    = analyzeTtGenEvent.clone()
-analyzeTtGenEvent1l_leptonSelection_TTJets = analyzeTtGenEvent.clone()
-analyzeTtGenEvent1l_jetSelection_TTJets    = analyzeTtGenEvent.clone()
-analyzeTtGenEvent1l_HTSelection_TTJets     = analyzeTtGenEvent.clone()
-analyzeTtGenEvent1l_METSelection_TTJets    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_noCuts_TTJets           = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_preselection_TTJets     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_leptonSelection_TTJets  = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_jetSelection_TTJets     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_HTSelection_TTJets      = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_METSelection_TTJets     = analyzeTtGenEvent.clone()
+
+analyzeTtGenEvent1l_noCuts_SemiLep          = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_preselection_SemiLep    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_leptonSelection_SemiLep = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_jetSelection_SemiLep    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_HTSelection_SemiLep     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_METSelection_SemiLep    = analyzeTtGenEvent.clone()
