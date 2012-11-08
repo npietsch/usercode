@@ -169,8 +169,8 @@ analyzeSUSY1l_METSelection_SemiLep     = analyzeSUSY_TTJets.clone()
 
 analyzeSUSY1l_noCuts_TTJets           = analyzeSUSY.clone()
 analyzeSUSY1l_preselection_TTJets     = analyzeSUSY.clone()
-analyzeSUSY1l_leptonSelection_TTJets  = analyzeSUSY.cone()
-analyzeSUSY1l_jetSelection_TTJets     = analyzeSUSY.cone()
+analyzeSUSY1l_leptonSelection_TTJets  = analyzeSUSY.clone()
+analyzeSUSY1l_jetSelection_TTJets     = analyzeSUSY.clone()
 analyzeSUSY1l_HTSelection_TTJets      = analyzeSUSY.clone()
 analyzeSUSY1l_METSelection_TTJets     = analyzeSUSY.clone()
 
