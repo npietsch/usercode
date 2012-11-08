@@ -1,4 +1,4 @@
-#-------------------------------------------------
+ark#-------------------------------------------------
 # To run on the NAF, type:
 #
 # xport NJS_QUEUE=1 
@@ -18,7 +18,6 @@ process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
-
 
 process.goodMuons = process.vertexSelectedGoodMuons.clone()
 
