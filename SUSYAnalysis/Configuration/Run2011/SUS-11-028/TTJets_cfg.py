@@ -526,25 +526,25 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           
                                           # execute filter and analyzer modules
                                           process.analyzeSUSY1l_noCuts_TTJets *
-                                          process.analyzeTtGenEvent1l_noCuts_TTJets *
+                                          #process.analyzeTtGenEvent1l_noCuts_TTJets *
 
                                           ##process.LepHadSelection *
                                           process.analyzeSUSY1l_preselection_TTJets *
-                                          process.analyzeTtGenEvent1l_preselection_TTJets *
+                                          #process.analyzeTtGenEvent1l_preselection_TTJets *
                                                                                     
                                           process.leptonSelection *
                                           process.analyzeSUSY1l_leptonSelection_TTJets *
-                                          process.analyzeTtGenEvent1l_leptonSelection_TTJets *
+                                          #process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
                                           process.threeGoodJets *
                                           process.analyzeSUSY1l_jetSelection_TTJets *
-                                          process.analyzeTtGenEvent1l_jetSelection_TTJets *
+                                          #process.analyzeTtGenEvent1l_jetSelection_TTJets *
                                           
                                           process.filterMediumHT *
                                           process.analyzeSUSY1l_HTSelection_TTJets *
-                                          process.analyzeTtGenEvent1l_HTSelection_TTJets *
+                                          #process.analyzeTtGenEvent1l_HTSelection_TTJets *
                                           
                                           process.oneMediumMET *
-                                          process.analyzeSUSY1l_METSelection_TTJets *
-                                          process.analyzeTtGenEvent1l_METSelection_TTJets
+                                          process.analyzeSUSY1l_METSelection_TTJets #*
+                                          #process.analyzeTtGenEvent1l_METSelection_TTJets
                                           )
