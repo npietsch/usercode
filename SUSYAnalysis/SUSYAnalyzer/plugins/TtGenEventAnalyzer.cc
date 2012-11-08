@@ -15,17 +15,18 @@ TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
   Dummy2_->SetDefaultSumw2(true);
 
   // fill for all events
-  nLep_      = fs->make<TH1F>("nLep",      "N(Lepton)",     5,   0.,    5.);
-  topPt_     = fs->make<TH1F>("topPt",     "pt (top)",    100,   0.,  500.);
-  topEta_    = fs->make<TH1F>("topEta",    "eta(top)",     40,  -5.,    5.);
-  topPhi_    = fs->make<TH1F>("topPhi",    "phi(top)",     60, -3.5,   3.5);
-  topBarPt_  = fs->make<TH1F>("topBarPt",  "pt (topBar)", 100,   0.,  500.);
-  topBarEta_ = fs->make<TH1F>("topBarEta", "eta(topBar)",  40,  -5.,    5.);
-  topBarPhi_ = fs->make<TH1F>("topBarPhi", "phi(topBar)",  60, -3.5,   3.5);
-  ttbarPt_   = fs->make<TH1F>("ttbarPt",   "pt (ttbar)",  100,   0.,  500.);
-  ttbarEta_  = fs->make<TH1F>("ttbarEta",  "eta(ttbar)",   40,  -5.,    5.);
-  ttbarPhi_  = fs->make<TH1F>("ttbarPhi",  "phi(ttbar)",   60, -3.5,   3.5);
-  ttbarMass_ = fs->make<TH1F>("ttbarMass", "m(ttbar)",    100,    0., 1000);
+  DecayChannel_ = fs->make<TH1F>("DecayChannel", "decay",         6,   0.,    6.);
+  nLep_         = fs->make<TH1F>("nLep",         "N(Lepton)",     5,   0.,    5.);
+  topPt_        = fs->make<TH1F>("topPt",        "pt (top)",    100,   0.,  500.);
+  topEta_       = fs->make<TH1F>("topEta",       "eta(top)",     40,  -5.,    5.);
+  topPhi_       = fs->make<TH1F>("topPhi",       "phi(top)",     60, -3.5,   3.5);
+  topBarPt_     = fs->make<TH1F>("topBarPt",     "pt (topBar)", 100,   0.,  500.);
+  topBarEta_    = fs->make<TH1F>("topBarEta",    "eta(topBar)",  40,  -5.,    5.);
+  topBarPhi_    = fs->make<TH1F>("topBarPhi",    "phi(topBar)",  60, -3.5,   3.5);
+  ttbarPt_      = fs->make<TH1F>("ttbarPt",      "pt (ttbar)",  100,   0.,  500.);
+  ttbarEta_     = fs->make<TH1F>("ttbarEta",     "eta(ttbar)",   40,  -5.,    5.);
+  ttbarPhi_     = fs->make<TH1F>("ttbarPhi",     "phi(ttbar)",   60, -3.5,   3.5);
+  ttbarMass_    = fs->make<TH1F>("ttbarMass",    "m(ttbar)",    100,    0., 1000);
 
   // fill only in the case of semileptonic ttbar decays with muon or electron
   NuPt_  = fs->make<TH1F>("NuPt",  "neutrino pt", 50, 0., 1000.);
@@ -66,6 +67,21 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
   edm::Handle<GenEventInfoProduct> genEvtInfoHandle;
   evt.getByLabel(genEvtInfoHandle_, genEvtInfoHandle);
+  
+  // Fill decay channels
+  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+    DecayChannel_ ->Fill(0);
+  else if(genEvent->isSemiLeptonic(WDecay::kTau))
+    DecayChannel_ ->Fill(1); 
+  else if(genEvent->isFullHadronic())
+    DecayChannel_ ->Fill(2);
+  else if(genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kMuon) || genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kElec) ||
+	  genEvent->isFullLeptonic(WDecay::kElec,WDecay::kElec) )
+    DecayChannel_ ->Fill(3);
+  else if(genEvent->isFullLeptonic(WDecay::kTau,WDecay::kTau))
+    DecayChannel_ ->Fill(4);
+  else
+    DecayChannel_ ->Fill(5);
 
   // fill BR's
   nLep_  ->Fill(genEvent->numberOfLeptons());

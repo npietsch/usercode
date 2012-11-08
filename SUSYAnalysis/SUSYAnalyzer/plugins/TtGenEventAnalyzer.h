@@ -33,6 +33,7 @@ class TtGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
+  TH1F* DecayChannel_;
   TH1F *nLep_;
   TH1F *topPt_;
   TH1F *topEta_;
