@@ -518,23 +518,23 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
 # temp
 #--------------------------
 
-process.analyzeSUSY1l_noCuts_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_noCuts_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_noCuts_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_noCuts_TTJets.inclusiveBtagBin = 2
 
-process.analyzeSUSY1l_preselection_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_preselection_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_preselection_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_preselection_TTJets.inclusiveBtagBin = 2
 
-process.analyzeSUSY1l_leptonSelection_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_leptonSelection_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_leptonSelection_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_leptonSelection_TTJets.inclusiveBtagBin = 2
 
-process.analyzeSUSY1l_jetSelection_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_jetSelection_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_jetSelection_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_jetSelection_TTJets.inclusiveBtagBin = 2
 
-process.analyzeSUSY1l_HTSelection_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_HTSelection_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_HTSelection_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_HTSelection_TTJets.inclusiveBtagBin = 2
 
-process.analyzeSUSY1l_METSelection_TTJets.useInclusiveBtagEventWeight = True
-process.analyzeSUSY1l_METSelection_TTJets.inclusiveBtagBin = 2
+## process.analyzeSUSY1l_METSelection_TTJets.useInclusiveBtagEventWeight = True
+## process.analyzeSUSY1l_METSelection_TTJets.inclusiveBtagBin = 2
 
 ## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
@@ -545,7 +545,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           process.makeObjects *
                                           process.eventWeightPU *
                                           process.weightProducer *
-                                          
+                                                                                    
                                           # execute filter and analyzer modules
                                           process.analyzeSUSY1l_noCuts_TTJets *
                                           #process.analyzeTtGenEvent1l_noCuts_TTJets *
