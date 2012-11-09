@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -513,6 +513,28 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeSUSY1l_METSelection_SemiLep *
                                           process.analyzeTtGenEvent1l_METSelection_SemiLep
                                           )
+
+#--------------------------
+# temp
+#--------------------------
+
+process.analyzeSUSY1l_noCuts_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_noCuts_TTJets.inclusiveBtagBin = 2
+
+process.analyzeSUSY1l_preselection_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_preselection_TTJets.inclusiveBtagBin = 2
+
+process.analyzeSUSY1l_leptonSelection_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_leptonSelection_TTJets.inclusiveBtagBin = 2
+
+process.analyzeSUSY1l_jetSelection_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_jetSelection_TTJets.inclusiveBtagBin = 2
+
+process.analyzeSUSY1l_HTSelection_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_HTSelection_TTJets.inclusiveBtagBin = 2
+
+process.analyzeSUSY1l_METSelection_TTJets.useInclusiveBtagEventWeight = True
+process.analyzeSUSY1l_METSelection_TTJets.inclusiveBtagBin = 2
 
 ## lepton selection path for all TTJets
 process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
