@@ -182,15 +182,15 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   // NP: Original binning for HT_YMET: 0-2000 80 bins, 0-20 80
 
-  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
-  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 25,   0.,   50.);
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
 
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 25,   0.,   50.);
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
   
   METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50,   0.,   25.);
 
-  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 25,   0.,   50.);
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50,   0.,   25.);
 
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
@@ -232,7 +232,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,    0.,   600.);
   mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16,  -0.5,   15.5);
-  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 50, 0.,   25., 16,  -0.5,   15.5);
+  YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 25, 0.,   25., 16,  -0.5,   15.5);
  
   mlb_YMET_        = fs->make<TH2F>("mlb_YMET",       "YMET vs. mlb",   60, 0., 600.,  50,    0,      25);
  

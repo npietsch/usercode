@@ -548,7 +548,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                                                                     
                                           # execute filter and analyzer modules
                                           process.analyzeSUSY1l_noCuts_TTJets *
-                                          #process.analyzeTtGenEvent1l_noCuts_TTJets *
+                                          process.analyzeTtGenEvent1l_noCuts_TTJets *
 
                                           ##process.LepHadSelection *
                                           process.analyzeSUSY1l_preselection_TTJets *

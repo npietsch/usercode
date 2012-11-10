@@ -3,7 +3,9 @@
  
 TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
   inputGenEvent_    (cfg.getParameter<edm::InputTag>("genEvent")),
-  genEvtInfoHandle_ (cfg.getParameter<edm::InputTag>("genEvtInfoHandle"))
+  genEvtInfoHandle_ (cfg.getParameter<edm::InputTag>("genEvtInfoHandle")),
+  genParticles_     (cfg.getParameter<edm::InputTag>("genParticles" ))
+
 { 
   edm::Service<TFileService> fs;
 
@@ -68,13 +70,30 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   edm::Handle<GenEventInfoProduct> genEvtInfoHandle;
   evt.getByLabel(genEvtInfoHandle_, genEvtInfoHandle);
   
+  edm::Handle<reco::GenParticleCollection> genParticles;
+  evt.getByLabel(genParticles_, genParticles);
+
+
   // Fill decay channels
   if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
     DecayChannel_ ->Fill(0);
   else if(genEvent->isSemiLeptonic(WDecay::kTau))
-    DecayChannel_ ->Fill(1); 
-  else if(genEvent->isFullHadronic())
-    DecayChannel_ ->Fill(2);
+    {
+      DecayChannel_ ->Fill(1);
+      
+      for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
+	{
+	  if(abs(t->pdgId())==15)
+	    {
+	      const reco::GenParticle* Tau;
+	      if(t->pdgId()==15 && genEvent->lepton()->pdgId()==15)
+		{	
+		  Tau=genEvent->lepton();
+		}
+	    }
+	}
+    }
+  else if(genEvent->isFullHadronic()) DecayChannel_ ->Fill(2);
   else if(genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kMuon) || genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kElec) ||
 	  genEvent->isFullLeptonic(WDecay::kElec,WDecay::kElec) )
     DecayChannel_ ->Fill(3);

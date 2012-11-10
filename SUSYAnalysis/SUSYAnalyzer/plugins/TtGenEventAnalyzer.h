@@ -27,6 +27,7 @@ class TtGenEventAnalyzer : public edm::EDAnalyzer {
            	
   edm::InputTag inputGenEvent_;
   edm::InputTag genEvtInfoHandle_;
+  edm::InputTag genParticles_;
 
   //edm::InputTag recoJets_;
 

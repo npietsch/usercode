@@ -5,5 +5,6 @@ import FWCore.ParameterSet.Config as cms
 #
 analyzeTtGenEvent = cms.EDAnalyzer("TtGenEventAnalyzer",
                                    genEvent = cms.InputTag("genEvt"),
-                                   genEvtInfoHandle = cms.InputTag("generator")
+                                   genEvtInfoHandle = cms.InputTag("generator"),
+                                   genParticles = cms.InputTag("genParticles"),
                                    )
