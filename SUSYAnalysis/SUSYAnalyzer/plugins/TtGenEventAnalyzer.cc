@@ -17,7 +17,7 @@ TtGenEventAnalyzer::TtGenEventAnalyzer(const edm::ParameterSet& cfg):
   Dummy2_->SetDefaultSumw2(true);
 
   // fill for all events
-  DecayChannel_ = fs->make<TH1F>("DecayChannel", "decay",        13,   0.,   13.);
+  DecayChannel_ = fs->make<TH1F>("DecayChannel", "decay",        14,   0.,   14.);
   nLep_         = fs->make<TH1F>("nLep",         "N(Lepton)",     5,   0.,    5.);
   topPt_        = fs->make<TH1F>("topPt",        "pt (top)",    100,   0.,  500.);
   topEta_       = fs->make<TH1F>("topEta",       "eta(top)",     40,  -5.,    5.);
@@ -75,13 +75,14 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 
 
   // Fill decay channels
-  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+  if(genEvent->isFullHadronic())
     DecayChannel_ ->Fill(0);
+  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+    DecayChannel_ ->Fill(1);
   else if(genEvent->isSemiLeptonic(WDecay::kTau))
     {
-      DecayChannel_ ->Fill(1);
-      bool MuonDecay     = false;
-      bool ElectronDecay = false;
+      DecayChannel_ ->Fill(2);
+      bool LeptonicDecay = false;
       reco::GenParticleCollection::const_iterator Tau;
       for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
 	{
@@ -103,36 +104,28 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	  for(reco::GenParticle::const_iterator daughter=tdx->begin(); daughter!=tdx->end(); ++daughter)
 	    {
 	      //std::cout << "daughter->pdgId(): " << daughter->pdgId() << std::endl;
-	      if(abs(daughter->pdgId())==11) MuonDecay     = true;
-	      if(abs(daughter->pdgId())==13) ElectronDecay = true;
+	      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecay = true;
 	      if(abs(daughter->pdgId())==24)
 		{
 		  for(reco::GenParticle::const_iterator Wdaughter=daughter->begin(); Wdaughter!=daughter->end(); ++Wdaughter)
 		    {
-		      if(abs(Wdaughter->pdgId())==11) MuonDecay     = true;
-		      if(abs(Wdaughter->pdgId())==13) ElectronDecay = true;
-			      
+		      if(abs(Wdaughter->pdgId())==11 || abs(Wdaughter->pdgId())==13) LeptonicDecay = true;
 		    }
 		}
 	    }
 	}
-      if(MuonDecay == true)
-	DecayChannel_ ->Fill(2);
-      else if (ElectronDecay == true)
+      if(LeptonicDecay == true)
 	DecayChannel_ ->Fill(3);
       else
 	DecayChannel_ ->Fill(4);
     }
-  else if(genEvent->isFullHadronic())
-    DecayChannel_ ->Fill(5);
   else if(genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kMuon) || genEvent->isFullLeptonic(WDecay::kMuon,WDecay::kElec) ||
 	  genEvent->isFullLeptonic(WDecay::kElec,WDecay::kElec) )
-    DecayChannel_ ->Fill(6);
+    DecayChannel_ ->Fill(5);
   else if(genEvent->isFullLeptonic(WDecay::kTau,WDecay::kMuon) || genEvent->isFullLeptonic(WDecay::kTau,WDecay::kElec))
     {
-      DecayChannel_ ->Fill(7);
-      bool MuonDecay     = false;
-      bool ElectronDecay = false;
+      DecayChannel_ ->Fill(6);
+      bool LeptonicDecay = false;
       reco::GenParticleCollection::const_iterator Tau;
       for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
 	{
@@ -154,30 +147,82 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
 	  for(reco::GenParticle::const_iterator daughter=tdx->begin(); daughter!=tdx->end(); ++daughter)
 	    {
 	      //std::cout << "daughter->pdgId(): " << daughter->pdgId() << std::endl;
-	      if(abs(daughter->pdgId())==11) MuonDecay     = true;
-	      if(abs(daughter->pdgId())==13) ElectronDecay = true;
+	      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecay = true;
 	      if(abs(daughter->pdgId())==24)
 		{
 		  for(reco::GenParticle::const_iterator Wdaughter=daughter->begin(); Wdaughter!=daughter->end(); ++Wdaughter)
 		    {
-		      if(abs(Wdaughter->pdgId())==11) MuonDecay     = true;
-		      if(abs(Wdaughter->pdgId())==13) ElectronDecay = true;
-		      
+		      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecay = true; 
 		    }
 		}
 	    }
 	}
-      if(MuonDecay == true)
-	DecayChannel_ ->Fill(8);
-      else if (ElectronDecay == true)
-	DecayChannel_ ->Fill(9);
+      if(LeptonicDecay == true)
+	DecayChannel_ ->Fill(7);
       else
-	DecayChannel_ ->Fill(10);
+	DecayChannel_ ->Fill(8);
     }
   else if(genEvent->isFullLeptonic(WDecay::kTau,WDecay::kTau))
-    DecayChannel_ ->Fill(11);
+    {
+      DecayChannel_ ->Fill(9);
+      bool LeptonicDecay    = false;
+      bool LeptonicDecayBar = false;
+      reco::GenParticleCollection::const_iterator Tau;
+      reco::GenParticleCollection::const_iterator TauBar;
+      for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
+	{
+	  if(abs(t->pdgId())==15)
+	    {
+	      if(t->pdgId()==15 && genEvent->lepton())
+		{	
+		  if(t->pt()==genEvent->lepton()->pt()) Tau=t;
+		}
+	      
+	      if(t->pdgId()==-15 && genEvent->leptonBar())
+		{	
+		  if(t->pt()==genEvent->leptonBar()->pt()) TauBar=t;
+		}
+	    }
+	}
+      for(reco::GenParticle::const_iterator tdx=Tau->begin(); tdx!=Tau->end(); ++tdx)
+	{
+	  for(reco::GenParticle::const_iterator daughter=tdx->begin(); daughter!=tdx->end(); ++daughter)
+	    {
+	      //std::cout << "daughter->pdgId(): " << daughter->pdgId() << std::endl;
+	      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecay = true;
+	      if(abs(daughter->pdgId())==24)
+		{
+		  for(reco::GenParticle::const_iterator Wdaughter=daughter->begin(); Wdaughter!=daughter->end(); ++Wdaughter)
+		    {
+		      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecay = true; 
+		    }
+		}
+	    }
+	}
+      for(reco::GenParticle::const_iterator tdx=TauBar->begin(); tdx!=TauBar->end(); ++tdx)
+	{
+	  for(reco::GenParticle::const_iterator daughter=tdx->begin(); daughter!=tdx->end(); ++daughter)
+	    {
+	      //std::cout << "daughter->pdgId(): " << daughter->pdgId() << std::endl;
+	      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecayBar = true;
+	      if(abs(daughter->pdgId())==24)
+		{
+		  for(reco::GenParticle::const_iterator Wdaughter=daughter->begin(); Wdaughter!=daughter->end(); ++Wdaughter)
+		    {
+		      if(abs(daughter->pdgId())==11 || abs(daughter->pdgId())==13) LeptonicDecayBar = true; 
+		    }
+		}
+	    }
+	}
+      if(LeptonicDecay == true && LeptonicDecayBar == true)
+	DecayChannel_ ->Fill(10);
+      else if ( (LeptonicDecay == true && LeptonicDecayBar == false) || (LeptonicDecay == false && LeptonicDecayBar == true) )
+	DecayChannel_ ->Fill(11);
+      else
+	DecayChannel_ ->Fill(12);	  
+    }
   else
-    DecayChannel_ ->Fill(12);
+    DecayChannel_ ->Fill(13);
 
   // fill BR's
   nLep_  ->Fill(genEvent->numberOfLeptons());

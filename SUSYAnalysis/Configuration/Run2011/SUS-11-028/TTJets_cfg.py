@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -548,7 +548,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                                                                     
                                           # execute filter and analyzer modules
                                           process.analyzeSUSY1l_noCuts_TTJets *
-                                          process.analyzeTtGenEvent1l_noCuts_TTJets *
+                                          #process.analyzeTtGenEvent1l_noCuts_TTJets *
 
                                           ##process.LepHadSelection *
                                           process.analyzeSUSY1l_preselection_TTJets *
@@ -556,7 +556,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                                                                     
                                           process.leptonSelection *
                                           process.analyzeSUSY1l_leptonSelection_TTJets *
-                                          #process.analyzeTtGenEvent1l_leptonSelection_TTJets *
+                                          process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
                                           process.threeGoodJets *
                                           process.analyzeSUSY1l_jetSelection_TTJets *
