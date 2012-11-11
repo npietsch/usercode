@@ -1,4 +1,4 @@
-#!/bin/bash
+r#!/bin/bash
 
 #nafJobSplitter.pl -q 1 8 RA4b_LM3_cfg.py
 #nafJobSplitter.pl -q 1 8 RA4b_LM8_cfg.py
