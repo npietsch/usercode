@@ -21,6 +21,11 @@ vector<unsigned int> LastValues;
 vector<TString> Selections;
 vector<TString> SelectionLabels;
 
+vector<TString> Smearing;
+vector<TString> SmearingLabels;
+vector<unsigned int> SmearingColors;
+vector<unsigned int> SmearingStyles;
+
 vector<unsigned int> FirstBins;
 vector<unsigned int> LastBins;
 vector<TString> BinLabels;
@@ -47,6 +52,17 @@ void addSelectionStep(TString step, TString selectionLabel)
   SelectionLabels.push_back(selectionLabel);
 }
 
+// add smearing step
+void addSmearingStep(TString smearing, TString smearingLabel, int color, int marker);
+
+void addSmearingStep(TString smearing, TString smearingLabel, int color, int marker)
+{
+  Smearing.push_back(smearing);
+  SmearingLabels.push_back(smearingLabel);
+  SmearingColors.push_back(color);
+  SmearingStyles.push_back(marker);
+}
+
 // add bin
 void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker);
 
@@ -60,7 +76,7 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 }
 
 // main function
-int TtGenEventAnalyzer_nJetsProjectionX()
+int JER()
 {
 
   //--------------------------------------------------------------
@@ -113,29 +129,31 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addSelectionStep
   //--------------------------------------------------------------
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER00", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER00",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER00",    "MET selection");
+  addSelectionStep("analyzeSUSY1l_leptonSelection", "lepton selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER10", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER10",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER10",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER00", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER00",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER00",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER20", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER20",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER20",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER10", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER10",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER10",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER30", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER30",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER30",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER20", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER20",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER20",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER40", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER40",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER40",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER30", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER30",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER30",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER50", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER50",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER50",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER40", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER40",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER40",    "MET selection");
+
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER50", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER50",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER50",    "MET selection");
 
   //--------------------------------------------------------------
   // addBin
@@ -145,9 +163,20 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   //addBin(6, 7,  "5-6 Jets", 4, 23);
   //addBin(8, -1, "> 7 Jets", 1, 20);
 
-  addBin(4,  5, "3-4 Jets", 2, 22);
-  addBin(6,  7, "5-6 Jets", 4, 23);
-  addBin(8, -1, ">7 Jets", 1, 20);
+  addBin(4,  5, "3-4_Jets", 2, 22);
+  addBin(6,  7, "5-6_Jets", 4, 23);
+  addBin(8, -1, "7_Jets",   1, 20);
+
+  //--------------------------------------------------------------
+  // addSmearingStep
+  //--------------------------------------------------------------
+
+  addSmearingStep("JER00", "+0.0", 2,  22);
+  //addSmearingStep("JER10", "+0.1", 8,  20);
+  //addSmearingStep("JER20", "+0.2", 40,  23);
+  addSmearingStep("JER30", "+0.3", 4,  20);
+  //addSmearingStep("JER40", "+0.4", 46, 22);
+  addSmearingStep("JER50", "+0.5", 1, 23);
 
   //------------
   // set style 
@@ -159,82 +188,48 @@ int TtGenEventAnalyzer_nJetsProjectionX()
     { 
       std::cout << "\n" << Histograms[hdx] << std::endl;
       std::cout << "-----------------------" << std::endl;
-
+      
       for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	{
-	  std::cout << Selections[sdx] << "_" << Histograms[hdx] << std::endl;
-	  
-	  TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx], 1);
-
-	  TLegend *leg = new TLegend(.64,.62,.91,.89);
-	  leg->SetTextFont(42);
-	  leg->SetFillColor(0);
-	  leg->SetLineColor(1);
-	  leg->SetShadowColor(0);
-
-	  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
-
 	  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
 	    {
-	      std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
-
-	      // create projection
-	      TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+	      TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+BinLabels[bin]+"_"+Histograms[hdx],Selections[sdx]+"_"+BinLabels[bin]+"_"+Histograms[hdx], 1);
 	      
-	      // edit projection
-	      Projection->SetTitle("");
-	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-	      Projection->GetXaxis()->SetTitleOffset(1.4);
-	      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-	      Projection->GetYaxis()->SetTitle("# events");
-	      Projection->SetLineColor(BinColors[bin]);
-	      Projection->SetLineWidth(2);
-	      Projection->Scale(1/Projection->Integral(1,-1));
-	      Projection->SetMarkerStyle(MarkerStyles[bin]);
-	      Projection->SetMarkerColor(BinColors[bin]);
-	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
-
-	      if(bin == 0) Projection->DrawCopy();
-	      else Projection->DrawCopy("same");
+	      TLegend *leg = new TLegend(.64,.62,.91,.89);
+	      leg->SetTextFont(42);
+	      leg->SetFillColor(0);
+	      leg->SetLineColor(1);
+	      leg->SetShadowColor(0);
+	      
+	      for(int smx=0; smx<(int)Smearing.size(); ++smx)
+		{ 
+		  std::cout << Selections[sdx]+"_"+Smearing[smx]+"/"+Histograms[hdx] << std::endl;
+		  
+		  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"_"+Smearing[smx]+"/"+Histograms[hdx]);
+		  
+		  // create projection
+ 		  TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+		  
+		  // edit projection
+		  Projection->SetTitle("");
+		  Projection->GetXaxis()->SetTitle(XLabels[hdx]);
+		  Projection->GetXaxis()->SetTitleOffset(1.4);
+		  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
+		  Projection->GetYaxis()->SetTitle("# events");
+		  Projection->SetLineColor(SmearingColors[smx]);
+		  Projection->SetLineWidth(2);
+		  Projection->Scale(1/Projection->Integral(1,-1));
+		  Projection->SetMarkerStyle(SmearingStyles[smx]);
+		  Projection->SetMarkerColor(SmearingColors[smx]);
+		  leg->AddEntry(Projection->Clone(),SmearingLabels[smx],"l P");
+		  
+		  if(smx == 0) Projection->DrawCopy();
+		  else Projection->DrawCopy("same");
+		}
+ 	      leg->Draw();
+// 	      canvas->SetLogy();
+// 	      canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	    }
-	  leg->Draw();
-	  canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	}
     }
-
-// 	  TCanvas *canvas = new TCanvas(Histograms[hdx],Histograms[hdx],1);
-	  
-// 	  TLegend *leg = new TLegend(.64,.18,.91,.45);
-// 	  leg->SetTextFont(42);
-// 	  leg->SetFillColor(0);
-// 	  leg->SetLineColor(1);
-// 	  leg->SetShadowColor(0);
-	  
-// 	  for(int bin=0; bin<(int)bins.size(); ++bin)
-// 	    {
-// 	      std::cout << "bin " << bin << std::cout;
-	      
-// 	      // create projection
-// 	      TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
-// 	      TH1F* Projection = (TH1F*)Hist->ProjectionX("", bins[bin], bins[bin],"");
-	      
-// 	      // edit projection
-// 	      Projection->SetTitle("");
-// 	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-// 	      Projection->GetXaxis()->SetTitleOffset(1.4);
-// 	      Projection->GetXaxis()->SetRangeUser(0,400);
-// 	      Projection->GetYaxis()->SetTitle("# events");
-// 	      Projection->SetLineColor(LineColors[sdx]);
-// 	      Projection->SetLineWidth(2);
-// 	      leg->AddEntry(Projection->Clone(),Labels[sdx],"l P");
-	      
-// 	      if(bin == 0) Projection->DrawCopy();
-// 	      else Projection->DrawCopy("same");
-	      // }
-	  //leg->Draw();
-	  // 	  canvas->SetLogy();
-	  
-	  // 	  canvas->SaveAs(Histograms[hdx]+"_reco.pdf");
-	  
 }

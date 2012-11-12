@@ -561,12 +561,12 @@ process.scaledJetEnergy30 = process.scaledJetEnergy.clone()
 process.scaledJetEnergy40 = process.scaledJetEnergy.clone()
 process.scaledJetEnergy50 = process.scaledJetEnergy.clone()
 
-process.scaledJetEnergy00.resolutionFactors = 1.0, 1.0, 1.0
-process.scaledJetEnergy10.resolutionFactors = 1.1, 1.1, 1.1
-process.scaledJetEnergy20.resolutionFactors = 1.2, 1.2, 1.2
-process.scaledJetEnergy30.resolutionFactors = 1.3, 1.3, 1.3
-process.scaledJetEnergy40.resolutionFactors = 1.4, 1.4, 1.4
-process.scaledJetEnergy50.resolutionFactors = 1.5, 1.5, 1.5
+process.scaledJetEnergy00.resolutionFactors = 1.0,  1.0,  1.0
+process.scaledJetEnergy10.resolutionFactors = 1.25, 1.25, 1.25
+process.scaledJetEnergy20.resolutionFactors = 1.5,  1.5,  1.5
+process.scaledJetEnergy30.resolutionFactors = 1.75, 1.75, 1.75
+process.scaledJetEnergy40.resolutionFactors = 2.0,  2.0,  2.0
+process.scaledJetEnergy50.resolutionFactors = 2.25, 2.25, 2.25
 
 process.goodJets00   = process.goodJets.clone(src = "scaledJetEnergy00:selectedPatJetsAK5PF")
 process.goodJets10   = process.goodJets.clone(src = "scaledJetEnergy10:selectedPatJetsAK5PF")
@@ -614,7 +614,7 @@ process.analyzeSUSY1l_METSelection_JER20 = process.analyzeSUSY1l_leptonSelection
 process.analyzeSUSY1l_METSelection_JER30 = process.analyzeSUSY1l_leptonSelection_JER30.clone()
 process.analyzeSUSY1l_METSelection_JER40 = process.analyzeSUSY1l_leptonSelection_JER40.clone()
 process.analyzeSUSY1l_METSelection_JER50 = process.analyzeSUSY1l_leptonSelection_JER50.clone()
-()
+
 ## lepton selection path with JER smeared by different amounts
 process.LeptonSelection_JER = cms.Path(# execute producer and preselection modules
                                        process.makeGenEvt *
