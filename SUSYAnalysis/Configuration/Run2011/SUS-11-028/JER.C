@@ -130,6 +130,8 @@ int JER()
   //--------------------------------------------------------------
 
   addSelectionStep("analyzeSUSY1l_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY1l_HTSelection",     "lepton selection");
+  addSelectionStep("analyzeSUSY1l_METSelection",    "lepton selection");
 
 //   addSelectionStep("analyzeSUSY1l_leptonSelection_JER00", "lepton selection");
 //   addSelectionStep("analyzeSUSY1l_HTSelection_JER00",     "HT selection");
@@ -171,12 +173,12 @@ int JER()
   // addSmearingStep
   //--------------------------------------------------------------
 
-  addSmearingStep("JER00", "+0.0", 2,  22);
+  addSmearingStep("JER00", "+0.0 #Deltap_{T}", 2,  22);
   //addSmearingStep("JER10", "+0.1", 8,  20);
   //addSmearingStep("JER20", "+0.2", 40,  23);
-  addSmearingStep("JER30", "+0.3", 4,  20);
+  addSmearingStep("JER30", "+0.3 #Deltap_{T}", 4,  20);
   //addSmearingStep("JER40", "+0.4", 46, 22);
-  addSmearingStep("JER50", "+0.5", 1, 23);
+  addSmearingStep("JER50", "+0.5 #Deltap_{T} ", 1, 23);
 
   //------------
   // set style 
@@ -226,9 +228,9 @@ int JER()
 		  if(smx == 0) Projection->DrawCopy();
 		  else Projection->DrawCopy("same");
 		}
- 	      leg->Draw();
-// 	      canvas->SetLogy();
-// 	      canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
+ 	      //leg->Draw();
+ 	      canvas->SetLogy();
+ 	      canvas->SaveAs(Selections[sdx]+"_"+BinLabels[bin]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	    }
 	}
     }
