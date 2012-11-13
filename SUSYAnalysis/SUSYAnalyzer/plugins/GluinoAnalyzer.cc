@@ -55,7 +55,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nPV_     = fs->make<TH1F>("nPV", "nPV", 50, 0. , 50  );
   nPU_     = fs->make<TH1F>("nPU", "nPU", 50, 0.5, 50.5);
 
-  weights_ = fs->make<TH1F>("weights", "weights", 100, 1, 50);
+  weights_ = fs->make<TH1F>("weights", "weights", 100, 1, 100);
 
   //-------------------------------------------------
   // Hisograms for mjj variables

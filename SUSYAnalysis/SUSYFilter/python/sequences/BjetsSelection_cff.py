@@ -558,7 +558,7 @@ filterLooseHT.Cut = 400
 
 filterMediumHT = filterHT.clone()
 filterMediumHT.jets = "goodJets"
-filterMediumHT.Cut = 700
+filterMediumHT.Cut = 800
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
