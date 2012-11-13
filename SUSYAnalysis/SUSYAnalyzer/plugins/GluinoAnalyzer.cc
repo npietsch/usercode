@@ -31,7 +31,9 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent")),
   PVSrc_        (cfg.getParameter<edm::InputTag>("PVSrc")),
   PUInfo_       (cfg.getParameter<edm::InputTag>("PUInfo")),
-  RA2Weight_    (cfg.getParameter<edm::InputTag>("RA2Weight") )
+  RA2Weight_    (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  genParticles_ (cfg.getParameter<edm::InputTag>("genParticles" ) )
+
 
 { 
   edm::Service<TFileService> fs;
@@ -50,8 +52,10 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   // Event weighting and Pile-up
   //-------------------------------------------------
 
-  nPV_ = fs->make<TH1F>("nPV", "nPV", 50, 0. , 50  );
-  nPU_ = fs->make<TH1F>("nPU", "nPU", 50, 0.5, 50.5);
+  nPV_     = fs->make<TH1F>("nPV", "nPV", 50, 0. , 50  );
+  nPU_     = fs->make<TH1F>("nPU", "nPU", 50, 0.5, 50.5);
+
+  weights_ = fs->make<TH1F>("weights", "weights", 100, 1, 50);
 
   //-------------------------------------------------
   // Hisograms for mjj variables
@@ -193,7 +197,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
- edm::Handle<std::vector<pat::Muon> > vetoMuons;
+  edm::Handle<std::vector<pat::Muon> > vetoMuons;
   evt.getByLabel(vetoMuons_, vetoMuons);
   edm::Handle<std::vector<pat::Electron> > vetoElectrons;
   evt.getByLabel(vetoElectrons_, vetoElectrons);
@@ -229,6 +233,33 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nPV_->Fill(PVSrc->size(), weight);
   nPU_->Fill(nvtx,          weight);
 
+  weights_ ->Fill(weight);
+
+  //-------------------------------------------------
+  // Temp
+  //-------------------------------------------------
+
+  edm::Handle<reco::GenParticleCollection> genParticles;
+  evt.getByLabel(genParticles_, genParticles);
+
+//   for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
+//     {
+//       if(abs(t->pdgId())==6)
+// 	{
+// 	  std::cout << "-----------------------" << std::endl;
+// 	  std::cout << t->mother()->pdgId() << std::endl;
+// 	  std::cout << "-----------------------" << std::endl;
+// 	}      
+//       //std::cout << "Test" << std::endl;
+//       if(abs(t->pdgId())==1000005 ||
+// 	 abs(t->pdgId())==2000006 ||
+// 	 abs(t->pdgId())==1000006 ||
+// 	 abs(t->pdgId())==2000006 )
+// 	{
+// 	  std::cout << t->pdgId() << std::endl;
+// 	}
+//     }
+  
   //-------------------------------------------------
   // mjj variabels
   //-------------------------------------------------

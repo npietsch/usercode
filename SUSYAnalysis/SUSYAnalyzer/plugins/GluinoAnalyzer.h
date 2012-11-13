@@ -19,6 +19,7 @@
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
 class GluinoAnalyzer : public edm::EDAnalyzer {
 
@@ -50,6 +51,7 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   edm::InputTag PUInfo_;
   edm::InputTag PUWeight_;
   edm::InputTag RA2Weight_;
+  edm::InputTag genParticles_;  
 
   //----------------------------
   // Histograms
@@ -62,7 +64,9 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   // Event weighting and Pile-up
   TH1F* nPV_;    
   TH1F* nPU_;
-  
+
+  TH1F* weights_;
+
   // mjj variables
   TH1F* mjjMCTruth_;
   TH1F* mjj_;
