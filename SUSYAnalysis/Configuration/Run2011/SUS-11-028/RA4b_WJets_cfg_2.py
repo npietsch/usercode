@@ -1,4 +1,18 @@
+#----------------------------------------------------
+# To run on the NAF, type:
+#
+# export NJS_QUEUE=1 
+# nafJobSplitter.pl 213 RA4b_WJets_cfg_1.py
+#----------------------------------------------------
+
 from BjetsPAT_cfg import *
+
+process.preselectionElHTMC2 = process.preselectionElHTMC2ZJets
+
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 81060362
+process.weightProducer.NumberEvts = 31314 
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
 process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_WJetsToLNu_TuneZ2_7TeV_madgraph_tauola.root"
@@ -223,6 +237,5 @@ process.source = cms.Source("PoolSource",
 '/store/user/schettle/WJetsToLNu_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_223_1_sAb.root',
 '/store/user/schettle/WJetsToLNu_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_359_1_QS9.root',
 '/store/user/schettle/WJetsToLNu_TuneZ2_7TeV-madgraph-tauola/SUSYPAT/d81d81f7c5973c60c0add93b95511b5f/Summer11_289_1_4C0.root'
-
 )
 )
