@@ -563,7 +563,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetBorderSize(1);
-  TText *text=label->AddText("L=300 fb^{-1}");
+  TText *text=label->AddText("L=4.98 fb^{-1}");
   text->SetTextAlign(22);
   label->Draw("same");
 
@@ -584,7 +584,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   //tmpC->Modified();
   //tmpC->Update();
   
-  tmpC->SaveAs(c->first+".pdf");
+  tmpC->SaveAs(c->first+"_log_2.pdf");
 
   return 1;
 }
