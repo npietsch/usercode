@@ -6,8 +6,8 @@ DEFINE_FWK_MODULE(SUSYInitSubset);
 #include "SUSYAnalysis/SUSYEventProducers/interface/SUSYGenEventReco.h"
 DEFINE_FWK_MODULE(SUSYGenEventReco);
 
-#include "SUSYAnalysis/SUSYEventProducers/interface/SUSYEvent.h"
-DEFINE_FWK_MODULE(SUSYEvent);
+#include "SUSYAnalysis/SUSYEventProducers/interface/SUSYEventProducer.h"
+DEFINE_FWK_MODULE(SUSYEventProducer);
 
 #include "SUSYAnalysis/SUSYEventProducers/interface/GenEventReco.h"
 DEFINE_FWK_MODULE(GenEventReco);
@@ -22,5 +22,5 @@ typedef StringCutObjectEvtFilter<SUSYGenEvent> SUSYGenEvtFilter;
 DEFINE_FWK_MODULE(SUSYGenEvtFilter);
 
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
-typedef StringCutObjectEvtFilter<SUSYEvent> SUSYEventFilter;
-DEFINE_FWK_MODULE(SUSYEvtFilter)
+typedef StringCutObjectEvtFilter<SUSYEvent> SUSYEvtFilter;
+DEFINE_FWK_MODULE(SUSYEvtFilter);
