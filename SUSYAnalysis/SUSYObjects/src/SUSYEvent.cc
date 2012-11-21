@@ -6,7 +6,7 @@
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
 
 /// default contructor
-SUSYEvent::SUSYEvent(int test, std::vector<pat::Muon>& muons, std::vector<pat::Electron>& electrons, std::vector<pat::Jet>& jets, std::vector<pat::MET>& mets)
+SUSYEvent::SUSYEvent(int test, const std::vector<pat::Muon>& muons, const std::vector<pat::Electron>& electrons, const std::vector<pat::Jet>& jets, const std::vector<pat::MET>& mets)
 {
   test_      = test;
   muons_     = muons;

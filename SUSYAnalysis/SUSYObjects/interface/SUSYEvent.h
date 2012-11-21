@@ -17,7 +17,7 @@ class SUSYEvent {
   /// empty constructor
   SUSYEvent(){};
   /// default constructor
-  SUSYEvent(int, std::vector<pat::Muon>&, std::vector<pat::Electron>&, std::vector<pat::Jet>&, std::vector<pat::MET>&);
+  SUSYEvent(int, const std::vector<pat::Muon>&, const std::vector<pat::Electron>&, const std::vector<pat::Jet>&, const std::vector<pat::MET>&);
   /// default destructor
   virtual ~SUSYEvent(){};
 
