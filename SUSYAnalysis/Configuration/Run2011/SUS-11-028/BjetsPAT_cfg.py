@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(1),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -137,12 +137,20 @@ process.btagEventWeightElJER                 = process.btagEventWeight.clone()
 process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
 process.btagEventWeightElJER.jets            = "goodJets"
 
+
+#--------------------------
+# Temp
+#--------------------------
+
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+
 #--------------------------
 # Selection paths
 #--------------------------
 
 ## muon selection path
 process.MuonSelection = cms.Path(# execute producer and preselection modules
+                                 process.printGenParticles *
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *

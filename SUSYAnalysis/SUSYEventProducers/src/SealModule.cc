@@ -9,9 +9,6 @@ DEFINE_FWK_MODULE(SUSYGenEventReco);
 #include "SUSYAnalysis/SUSYEventProducers/interface/SUSYEventProducer.h"
 DEFINE_FWK_MODULE(SUSYEventProducer);
 
-#include "SUSYAnalysis/SUSYEventProducers/interface/GenEventReco.h"
-DEFINE_FWK_MODULE(GenEventReco);
-
 #include "SUSYAnalysis/SUSYEventProducers/interface/PFConsistentMuonProducer.h"
 DEFINE_FWK_MODULE(PFConsistentMuonProducer);
 
