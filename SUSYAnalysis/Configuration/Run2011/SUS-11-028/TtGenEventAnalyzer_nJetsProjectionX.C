@@ -218,8 +218,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	      else Projection->DrawCopy("same");
 	    }
 	  leg->Draw();
-	  canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
+	  //canvas->SetLogy();
+	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX.pdf");
 	}
     }
 

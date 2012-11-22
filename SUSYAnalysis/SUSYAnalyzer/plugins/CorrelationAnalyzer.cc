@@ -112,7 +112,10 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   DeltaRecoGenJetPtSum_    = fs->make<TH1F>("DeltaRecoGenJetPtSum_",    "DeltaRecoGenJetPtSum",    40,  -100.,  100);
   AbsDeltaRecoGenJetPtSum_ = fs->make<TH1F>("AbsDeltaRecoGenJetPtSum_", "AbsDeltaRecoGenJetPtSum", 40,     0.,  400);
 
-  DeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_MET", "MET vs .DeltaRecoGenJetPtSum", 60,  -30., 30., 50, 0., 1000.);
+  DeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_MET", "MET vs .DeltaRecoGenJetPtSum", 40, -100., 100., 50, 0., 1000.);
+  AbsDeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("AbsDeltaRecoGenJetPtSum_MET", "MET vs. AbsDeltaRecoGenJetPtSum", 40, 0., 400., 50, 0., 1000.);
+  DeltaRecoGenJetPtSum_nJets_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_nJets", "nJets vs .DeltaRecoGenJetPtSum", 40, -100., 100., 16, -0.5, 15.5);
+  AbsDeltaRecoGenJetPtSum_nJets_ = fs->make<TH2F>("AbsDeltaRecoGenJetPtSum_nJets", "nJets vs. AbsDeltaRecoGenJetPtSum", 40, 0., 400., 16, 00.5, 0.5);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -540,7 +543,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   DeltaRecoGenJetPtSum_    ->Fill(DeltaRecoGenJetPtSum,    weight);
   AbsDeltaRecoGenJetPtSum_ ->Fill(AbsDeltaRecoGenJetPtSum, weight);
 
-  DeltaRecoGenJetPtSum_MET_ ->Fill(DeltaRecoGenJetPtSum, (*met)[0].et(), weight);
+  DeltaRecoGenJetPtSum_MET_      ->Fill(DeltaRecoGenJetPtSum,    (*met)[0].et(), weight);
+  AbsDeltaRecoGenJetPtSum_MET_   ->Fill(AbsDeltaRecoGenJetPtSum, (*met)[0].et(), weight);
+  DeltaRecoGenJetPtSum_nJets_    ->Fill(DeltaRecoGenJetPtSum,    jets->size(),   weight);
+  AbsDeltaRecoGenJetPtSum_nJets_ ->Fill(AbsDeltaRecoGenJetPtSum, jets->size(),   weight);
 
   int nLeptons=0;
   int nMuons=0;

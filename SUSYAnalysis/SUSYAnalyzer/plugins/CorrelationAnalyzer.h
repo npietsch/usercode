@@ -111,6 +111,9 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH1F* AbsDeltaRecoGenJetPtSum_;
 
   TH2F* DeltaRecoGenJetPtSum_MET_;
+  TH2F* AbsDeltaRecoGenJetPtSum_MET_;
+  TH2F* DeltaRecoGenJetPtSum_nJets_;
+  TH2F* AbsDeltaRecoGenJetPtSum_nJets_;
 
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;

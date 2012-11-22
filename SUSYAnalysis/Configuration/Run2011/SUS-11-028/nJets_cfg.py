@@ -150,26 +150,27 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_nJets5To6 *
                                           process.analyzeCorrelation1l_nJets7ToInf *
 
-                                          process.analyzeCorrelation1l_HT100To200 *
                                           process.analyzeCorrelation1l_HT200To300 *
                                           process.analyzeCorrelation1l_HT300To400 *
                                           process.analyzeCorrelation1l_HT400To500 *
                                           process.analyzeCorrelation1l_HT500To600 *
-                                          process.analyzeCorrelation1l_HT600ToInf *
+                                          process.analyzeCorrelation1l_HT600To700 *
+                                          process.analyzeCorrelation1l_HT700ToInf *
                                           
                                           process.analyzeCorrelation1l_MET0To50 *
                                           process.analyzeCorrelation1l_MET50To100 *
                                           process.analyzeCorrelation1l_MET100To150 *
                                           process.analyzeCorrelation1l_MET150To200 *
-                                          process.analyzeCorrelation1l_MET200To300 *
-                                          process.analyzeCorrelation1l_MET300ToInf *
+                                          process.analyzeCorrelation1l_MET200To250 *
+                                          process.analyzeCorrelation1l_MET250ToInf *
 
                                           process.analyzeCorrelation1l_MET100ToInf *
                                           
                                           process.analyzeCorrelation1l_HT300ToInf *
 
-                                          process.analyzeCorrelation1l_HT300ToInf_MET0To100 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100To200 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET200To300 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET300ToInf
+                                          process.analyzeCorrelation1l_HT300ToInf_MET0To50 *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET50To100 *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET100To150 *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET150To200 *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET200ToInf
                                           )
