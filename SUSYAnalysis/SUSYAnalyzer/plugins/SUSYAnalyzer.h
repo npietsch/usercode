@@ -98,9 +98,13 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
 
   TH1F* Jets_Et_;
   TH1F* Jets_Eta_;
+  TH1F* DeltaRecoGenJetPt_;
   TH1F* MET_;
   TH1F* HT_; 
   TH1F* nJets_;
+  TH1F* DeltaRecoGenJetPtSum_;
+
+  TH2F* DeltaRecoGenJetPtSum_MET_;
 
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;
