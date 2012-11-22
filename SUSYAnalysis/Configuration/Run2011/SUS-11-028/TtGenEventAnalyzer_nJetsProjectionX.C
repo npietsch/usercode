@@ -113,29 +113,49 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addSelectionStep
   //--------------------------------------------------------------
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER00", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER00",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER00",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER00", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER00",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER00",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER10", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER10",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER10",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER10", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER10",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER10",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER20", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER20",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER20",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER20", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER20",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER20",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER30", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER30",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER30",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER30", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER30",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER30",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER40", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER40",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER40",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER40", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER40",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER40",    "MET selection");
 
-  addSelectionStep("analyzeSUSY1l_leptonSelection_JER50", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_HTSelection_JER50",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_JER50",    "MET selection");
+//   addSelectionStep("analyzeSUSY1l_leptonSelection_JER50", "lepton selection");
+//   addSelectionStep("analyzeSUSY1l_HTSelection_JER50",     "HT selection");
+//   addSelectionStep("analyzeSUSY1l_METSelection_JER50",    "MET selection");
+
+  addSelectionStep("analyzeCorrelation1l_HT100To200", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT200To300", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300To400", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT400To500", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT500To600", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT600ToInf", "lepton selection");
+
+  addSelectionStep("analyzeCorrelation1l_MET0To50",   "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET50To100", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET150To200", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET200To300", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET300ToInf", "lepton selection");
+
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET0To100",   "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100To200", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET200To300", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET300ToInf", "lepton selection");
 
   //--------------------------------------------------------------
   // addBin
