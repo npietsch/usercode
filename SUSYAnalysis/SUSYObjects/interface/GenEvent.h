@@ -17,6 +17,8 @@ class GenEvent {
 
   std::vector<reco::GenParticle*> InitialParticles() const;
 
+  double shat() const;
+
  protected:
 
   reco::GenParticleCollection genParticles_;

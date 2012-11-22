@@ -34,12 +34,12 @@ std::vector<reco::GenParticle*> GenEvent::InitialParticles() const
   return particles;
 }
 
-double GenEven::shat() const
+double GenEvent::shat() const
 {
   double shat=0;
   if(InitialParticles().size()==2)
     {
-      shat=InitialParticles()[0].pt();
+      shat=InitialParticles()[0]->pt();
     }
   return shat;
 

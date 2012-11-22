@@ -26,12 +26,14 @@ class SUSYEvent {
   int nElectrons() const;
   int nJets() const;
 
-  /// return HT, MHT, MET, mT, YMET
+  /// return HT, MHT, MET, mT, YMET, Meff, HTOverMeff
   double HT() const;
   //double MHT() const;
   double MET() const;
   //double mT() const;
   double YMET() const;
+  double Meff() const;
+  double HTOverMeff() const;
 
  protected:
 

@@ -50,3 +50,25 @@ double SUSYEvent::YMET() const
   double YMET= MET()/sqrt(HT());
   return YMET;
 }
+
+double SUSYEvent::Meff() const
+{
+  double Meff=0;
+  for(int idx=0; idx<(int)muons_.size(); ++idx)
+    {
+      Meff=Meff+muons_[idx].et();
+    }
+  for(int idx=0; idx<(int)electrons_.size(); ++idx)
+    {
+      Meff=Meff+electrons_[idx].et();
+    }
+  Meff=Meff+HT();
+
+  return Meff;
+}
+
+double SUSYEvent::HTOverMeff() const
+{
+  double HTOverMeff= HT()/Meff();
+  return HTOverMeff;
+}
