@@ -5,5 +5,5 @@ SUSYEvt = cms.EDProducer("SUSYEventProducer",
                          muons = cms.InputTag("selectedPatMuons"),
                          electrons = cms.InputTag("selectedPatElectrons"),
                          jets = cms.InputTag("selectedPatJetsAK5PF"),
-                         met = cms.InputTag("patMETsPF")
+                         mets = cms.InputTag("patMETsPF")
                          )

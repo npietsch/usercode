@@ -3,7 +3,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
-#include "SUSYAnalysis/CorrelationAnalyzer/plugins/CorrelationAnalyzer.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/CorrelationAnalyzer.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtSemiLeptonicEvent.h"
 #include  <stdio.h>
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
@@ -17,6 +17,11 @@
 using namespace std;
  
 CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
+  SUSYEvent_         (cfg.getParameter<edm::InputTag>("SUSYEvent")),
+  nJetsCut_          (cfg.getParameter<std::vector<int> >("nJetsCut")),
+  HTCut_             (cfg.getParameter<std::vector<double> >("HTCut")),
+  METCut_            (cfg.getParameter<std::vector<double> >("METCut")),
+
   met_               (cfg.getParameter<edm::InputTag>("met") ),
   jets_              (cfg.getParameter<edm::InputTag>("jets") ),
   lightJets_         (cfg.getParameter<edm::InputTag>("lightJets") ),
@@ -362,6 +367,13 @@ CorrelationAnalyzer::~CorrelationAnalyzer()
 
 void
 CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
+
+  edm::Handle<SUSYEvent> SUSYEvt;
+  evt.getByLabel(SUSYEvent_, SUSYEvt);
+
+  if(SUSYEvt->nJets() < nJetsCut_[0] || SUSYEvt->nJets() > nJetsCut_[1]) return;
+  if(SUSYEvt->HT()    < HTCut_[0]    || SUSYEvt->HT()    > HTCut_[1]   ) return;
+  if(SUSYEvt->MET()   < METCut_[0]   || SUSYEvt->MET()   > METCut_[1]  ) return;
 
   //--------------------------------------------------
   // Handles

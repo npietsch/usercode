@@ -5,7 +5,7 @@
 # nafJobSplitter.pl 50 RA4b_Fall11_TTJets3_cfg.py
 #----------------------------------------------------
 
-from TTJets_cfg import *
+from BjetsPAT_cfg import *
 
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsFall11.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")

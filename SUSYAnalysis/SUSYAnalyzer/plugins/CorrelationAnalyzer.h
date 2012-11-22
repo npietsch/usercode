@@ -33,7 +33,12 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-           	
+           
+  edm::InputTag SUSYEvent_;
+  std::vector<int> nJetsCut_;
+  std::vector<double> HTCut_;
+  std::vector<double> METCut_;
+
   edm::InputTag met_;
   edm::InputTag jets_;
   edm::InputTag lightJets_;
