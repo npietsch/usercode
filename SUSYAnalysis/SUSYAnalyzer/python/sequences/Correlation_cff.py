@@ -11,8 +11,13 @@ analyzeCorrelation.met            = "scaledJetEnergy:patMETsPF"
 analyzeCorrelation.useEventWeight = True
 
 ## clone modules for different nJets, HT and MET cuts
-analyzeCorrelation1l_HT200To300       = analyzeCorrelation.clone()
-analyzeCorrelation1l_HT200To300.HTCut = 200.,300.
+analyzeCorrelation1l_nJets5To6          = analyzeCorrelation.clone()
+analyzeCorrelation1l_HT200To300         = analyzeCorrelation.clone()
+analyzeCorrelation1l_MET100To200        = analyzeCorrelation.clone()
+
+analyzeCorrelation1l_nJets5To6.nJetsCut = 5,6
+analyzeCorrelation1l_HT200To300.HTCut   = 200.,300.
+analyzeCorrelation1l_MET100To200.METCut = 100.,200.
 
 ## clone modules for muon channel
 analyzeCorrelation1m_noCuts = analyzeCorrelation.clone()

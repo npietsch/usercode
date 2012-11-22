@@ -55,6 +55,7 @@ process.load("SUSYAnalysis.SUSYEventProducers.producers.SUSYEventProducer_cfi")
 process.SUSYEvt.muons     = "goodMuons"
 process.SUSYEvt.electrons = "goodElectrons"
 process.SUSYEvt.jets      = "goodJets"
+process.SUSYEvt.mets      = "scaledJetEnergy:patMETsPF"
 
 #---------------------------------------------------------------------------
 # load and configure module to create TtGenEvent
@@ -144,5 +145,7 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           # execute filter and analyzer modules
                                           process.leptonSelection *
                                           process.threeGoodJets *
-                                          process.analyzeCorrelation1l_HT200To300
+                                          process.analyzeCorrelation1l_nJets5To6 *
+                                          process.analyzeCorrelation1l_HT200To300 *
+                                          process.analyzeCorrelation1l_MET100To200
                                           )
