@@ -106,10 +106,11 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   Jets_Eta_          = fs->make<TH1F>("Jets_Eta",          "Jets_Eta",          60,  -3.,    3.);
   DeltaRecoGenJetPt_ = fs->make<TH1F>("DeltaRecoGenJetPt", "DeltaRecoGenJetPt", 60, -30.,   30.);
 
-  MET_                  = fs->make<TH1F>("MET",                   "MET",                  50,   0.,  1000.);
-  HT_                   = fs->make<TH1F>("HT",                    "HT",                   40,   0.,  2000.);
-  nJets_                = fs->make<TH1F>("nJets",                 "nJets",                16 , -0.5,  15.5);
-  DeltaRecoGenJetPtSum_ = fs->make<TH1F>("DeltaRecoGenJetPtSum_", "DeltaRecoGenJetPtSum", 40,  -100.,  100);
+  MET_                     = fs->make<TH1F>("MET",                      "MET",                     50,   0.,  1000.);
+  HT_                      = fs->make<TH1F>("HT",                       "HT",                      40,   0.,  2000.);
+  nJets_                   = fs->make<TH1F>("nJets",                    "nJets",                   16 , -0.5,  15.5);
+  DeltaRecoGenJetPtSum_    = fs->make<TH1F>("DeltaRecoGenJetPtSum_",    "DeltaRecoGenJetPtSum",    40,  -100.,  100);
+  AbsDeltaRecoGenJetPtSum_ = fs->make<TH1F>("AbsDeltaRecoGenJetPtSum_", "AbsDeltaRecoGenJetPtSum", 40,     0.,  400);
 
   DeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_MET", "MET vs .DeltaRecoGenJetPtSum", 60,  -30., 30., 50, 0., 1000.);
 
@@ -512,6 +513,8 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
   double HT=0;
   double DeltaRecoGenJetPtSum=0;
+  double AbsDeltaRecoGenJetPtSum=0;
+
   for(int i=0; i<(int)jets->size(); ++i)
     {
       if(i<8)
@@ -527,13 +530,15 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 		  //std::cout << ((*jets)[i].pt()-(*jets)[i].genJet()->pt()) << std::endl;
 		  DeltaRecoGenJetPt_ ->Fill((*jets)[i].pt()-(*jets)[i].genJet()->pt(), weight);
 		  DeltaRecoGenJetPtSum=DeltaRecoGenJetPtSum+((*jets)[i].pt()-(*jets)[i].genJet()->pt());
+		  AbsDeltaRecoGenJetPtSum=AbsDeltaRecoGenJetPtSum+abs((*jets)[i].pt()-(*jets)[i].genJet()->pt());
 		}
     }
   
-  MET_                  ->Fill((*met)[0].et(),                           weight);
-  HT_                   ->Fill(HT,                                       weight);
-  nJets_                ->Fill(jets->size(),                             weight);
-  DeltaRecoGenJetPtSum_ ->Fill(DeltaRecoGenJetPtSum, weight);
+  MET_                     ->Fill((*met)[0].et(),          weight);
+  HT_                      ->Fill(HT,                      weight);
+  nJets_                   ->Fill(jets->size(),            weight);
+  DeltaRecoGenJetPtSum_    ->Fill(DeltaRecoGenJetPtSum,    weight);
+  AbsDeltaRecoGenJetPtSum_ ->Fill(AbsDeltaRecoGenJetPtSum, weight);
 
   DeltaRecoGenJetPtSum_MET_ ->Fill(DeltaRecoGenJetPtSum, (*met)[0].et(), weight);
 
