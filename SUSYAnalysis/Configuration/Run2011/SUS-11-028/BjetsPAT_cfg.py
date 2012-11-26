@@ -149,6 +149,8 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.threeGoodJets *
                                           process.analyzeTtGenEvent1l_jetSelection_SemiLep *
 
+                                          process.analyzeCorrelation1l *
+
                                           process.analyzeCorrelation1l_nJets3To4 *
                                           process.analyzeCorrelation1l_nJets5To6 *
                                           process.analyzeCorrelation1l_nJets7ToInf *
