@@ -237,10 +237,16 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* mlb_nJets_15_;
   TH2F* mlb_nJets_20_;
 
+  TH1F* pv_;
+  TH1F* smearedPv_;
+
   TH2F* pv_nJets_;
   TH2F* mlv_nJets_gen_;
   TH2F* mlv_nJets_reco_;
-
+  
+  TH2F* pv_MET_;
+  TH2F* smearedPv_MET_;
+  
   //-----------------------
   // ABCD method
   //-----------------------

@@ -73,6 +73,7 @@ TtGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup)
   edm::Handle<reco::GenParticleCollection> genParticles;
   evt.getByLabel(genParticles_, genParticles);
 
+  if(!genEvent->isTtBar()) return;
 
   // Fill decay channels
   if(genEvent->isFullHadronic())

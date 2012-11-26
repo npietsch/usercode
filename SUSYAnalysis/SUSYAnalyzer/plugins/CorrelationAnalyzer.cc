@@ -272,9 +272,15 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   // Only when TTJets is set to true in cfg file
   //-------------------------------------------------
 
+  pv_             = fs->make<TH1F>("pv",             "pv",               50, 0., 1000);
+  smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",        50, 0., 1000);
+
   pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",     50, 0., 1000,  16,  -0.5,   15.5);
   mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
   mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
+
+  pv_MET_         = fs->make<TH2F>("pv_MET",        "MET vs.pv",          50, 0., 1000, 50,   0., 1000);
+  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET", "MET vs. smeared pv", 50, 0., 1000, 50,   0., 1000);
 
   //-------------------------------------------------
   // ABCD method
@@ -856,29 +862,39 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       edm::Handle<TtGenEvent> genEvent;
       evt.getByLabel(TtGenEvent_, genEvent);
       
-      if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
-	{      
-	  double NuPt = genEvent->singleNeutrino()->pt();
-	  double NuPx = genEvent->singleNeutrino()->px();
-	  double NuPy = genEvent->singleNeutrino()->py();
+      if(genEvent->isTtBar())
+	{
 	  
-	  double LepPt = genEvent->singleLepton()->pt();
-	  double LepPx = genEvent->singleLepton()->px();
-	  double LepPy = genEvent->singleLepton()->py();
-	  
-	  double LepBQuarkPt = genEvent->leptonicDecayB()->pt();
-	  double LepBQuarkPx = genEvent->leptonicDecayB()->px();
-	  double LepBQuarkPy = genEvent->leptonicDecayB()->py();
+	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+	    {      
+	      double NuPt = genEvent->singleNeutrino()->pt();
+	      double NuPx = genEvent->singleNeutrino()->px();
+	      double NuPy = genEvent->singleNeutrino()->py();
+	      
+	      double LepPt = genEvent->singleLepton()->pt();
+	      double LepPx = genEvent->singleLepton()->px();
+	      double LepPy = genEvent->singleLepton()->py();
+	      
+	      double LepBQuarkPt = genEvent->leptonicDecayB()->pt();
+	      double LepBQuarkPx = genEvent->leptonicDecayB()->px();
+	      double LepBQuarkPy = genEvent->leptonicDecayB()->py();
+	      
+	      double mlb_gen = sqrt(2*(LepPt*LepBQuarkPt-LepPx*LepBQuarkPx-LepPy*LepBQuarkPy));
+	      double mlv_gen = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
+	      
+	      double mlv_reco = 0;
+	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
 
-	  double mlb_gen = sqrt(2*(LepPt*LepBQuarkPt-LepPx*LepBQuarkPx-LepPy*LepBQuarkPy));
-	  double mlv_gen = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
-	  
-	  double mlv_reco = 0;
-	  if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
+	      pv_             -> Fill(NuPt,                      weight);
+	      smearedPv_      -> Fill(NuPt+DeltaRecoGenJetPtSum, weight);
+	      
+	      pv_nJets_       -> Fill(NuPt,     jets->size(), weight);
+	      mlv_nJets_gen_  -> Fill(mlv_gen,  jets->size(), weight);
+	      mlv_nJets_reco_ -> Fill(mlv_reco, jets->size(), weight);
 
-	  pv_nJets_       -> Fill(NuPt,     jets->size(), weight);
-	  mlv_nJets_gen_  -> Fill(mlv_gen,  jets->size(), weight);
-	  mlv_nJets_reco_ -> Fill(mlv_reco, jets->size(), weight);
+	      pv_MET_         -> Fill(NuPt,                      (*met)[0].et(), weight);
+	      smearedPv_MET_  -> Fill(NuPt+DeltaRecoGenJetPtSum, (*met)[0].et(), weight);
+	    }
 	}
     }
   

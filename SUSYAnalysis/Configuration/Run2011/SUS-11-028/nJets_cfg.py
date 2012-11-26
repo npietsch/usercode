@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -144,7 +144,12 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           
                                           # execute filter and analyzer modules
                                           process.leptonSelection *
+                                          process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
+                                          
                                           process.threeGoodJets *
+                                          process.analyzeTtGenEvent1l_jetSelection_SemiLep *
+
+                                          process.analyzeCorrelation1l *
 
                                           process.analyzeCorrelation1l_nJets3To4 *
                                           process.analyzeCorrelation1l_nJets5To6 *
@@ -156,6 +161,12 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT500To600 *
                                           process.analyzeCorrelation1l_HT600To700 *
                                           process.analyzeCorrelation1l_HT700ToInf *
+
+                                          process.analyzeCorrelation1l_HT200ToInf *
+                                          process.analyzeCorrelation1l_HT300ToInf *
+                                          process.analyzeCorrelation1l_HT400ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf *
                                           
                                           process.analyzeCorrelation1l_MET0To50 *
                                           process.analyzeCorrelation1l_MET50To100 *
@@ -166,11 +177,27 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
 
                                           process.analyzeCorrelation1l_MET100ToInf *
                                           
-                                          process.analyzeCorrelation1l_HT300ToInf *
-
                                           process.analyzeCorrelation1l_HT300ToInf_MET0To50 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET50To100 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET100To150 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET150To200 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET200ToInf
+                                          process.analyzeCorrelation1l_HT300ToInf_MET200ToInf *
+                                          
+                                          process.analyzeCorrelation1l_HT300To400_MET0To50 *
+                                          process.analyzeCorrelation1l_HT300To400_MET50To100 *
+                                          process.analyzeCorrelation1l_HT300To400_MET100To150 *
+
+                                          process.analyzeCorrelation1l_HT400To500_MET0To50 *
+                                          process.analyzeCorrelation1l_HT400To500_MET50To100 *
+                                          process.analyzeCorrelation1l_HT400To500_MET100To150 *
+
+                                          process.analyzeCorrelation1l_HT500To600_MET0To50 *
+                                          process.analyzeCorrelation1l_HT500To600_MET50To100 *
+                                          process.analyzeCorrelation1l_HT500To600_MET100To150 *
+
+                                          process.filterMediumHT *
+                                          process.analyzeTtGenEvent1l_HTSelection_SemiLep *
+                                                                                    
+                                          process.oneMediumMET *
+                                          process.analyzeTtGenEvent1l_METSelection_SemiLep
                                           )

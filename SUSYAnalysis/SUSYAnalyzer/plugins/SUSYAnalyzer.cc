@@ -262,9 +262,9 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Only when TTJets is set to true in cfg file
   //-------------------------------------------------
 
-  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",     50, 0., 1000,  16,  -0.5,   15.5);
-  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
-  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
+  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",      50, 0., 1000, 16, -0.5, 15.5);
+  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",     60, 0., 600., 16, -0.5, 15.5);
+  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",     60, 0., 600., 16, -0.5, 15.5);
 
   //-------------------------------------------------
   // ABCD method
@@ -832,32 +832,34 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       edm::Handle<TtGenEvent> genEvent;
       evt.getByLabel(TtGenEvent_, genEvent);
       
-      if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
-	{      
-	  double NuPt = genEvent->singleNeutrino()->pt();
-	  double NuPx = genEvent->singleNeutrino()->px();
-	  double NuPy = genEvent->singleNeutrino()->py();
-	  
-	  double LepPt = genEvent->singleLepton()->pt();
-	  double LepPx = genEvent->singleLepton()->px();
-	  double LepPy = genEvent->singleLepton()->py();
-	  
-	  double LepBQuarkPt = genEvent->leptonicDecayB()->pt();
-	  double LepBQuarkPx = genEvent->leptonicDecayB()->px();
-	  double LepBQuarkPy = genEvent->leptonicDecayB()->py();
-
-	  double mlb_gen = sqrt(2*(LepPt*LepBQuarkPt-LepPx*LepBQuarkPx-LepPy*LepBQuarkPy));
-	  double mlv_gen = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
-	  
-	  double mlv_reco = 0;
-	  if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
-
-	  pv_nJets_       -> Fill(NuPt,     jets->size(), weight);
-	  mlv_nJets_gen_  -> Fill(mlv_gen,  jets->size(), weight);
-	  mlv_nJets_reco_ -> Fill(mlv_reco, jets->size(), weight);
+      if(genEvent->isTtBar())
+	{
+	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
+	    {      
+	      double NuPt = genEvent->singleNeutrino()->pt();
+	      double NuPx = genEvent->singleNeutrino()->px();
+	      double NuPy = genEvent->singleNeutrino()->py();
+	      
+	      double LepPt = genEvent->singleLepton()->pt();
+	      double LepPx = genEvent->singleLepton()->px();
+	      double LepPy = genEvent->singleLepton()->py();
+	      
+	      double LepBQuarkPt = genEvent->leptonicDecayB()->pt();
+	      double LepBQuarkPx = genEvent->leptonicDecayB()->px();
+	      double LepBQuarkPy = genEvent->leptonicDecayB()->py();
+	      
+	      double mlb_gen = sqrt(2*(LepPt*LepBQuarkPt-LepPx*LepBQuarkPx-LepPy*LepBQuarkPy));
+	      double mlv_gen = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
+	      
+	      double mlv_reco = 0;
+	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
+	      
+	      pv_nJets_       -> Fill(NuPt,     jets->size(), weight);
+	      mlv_nJets_gen_  -> Fill(mlv_gen,  jets->size(), weight);
+	      mlv_nJets_reco_ -> Fill(mlv_reco, jets->size(), weight);
+	    }
 	}
     }
-  
 
   //std::cout << "Test13" << std::endl;
 

@@ -303,7 +303,6 @@ analyzeSUSYBjets2b1e_2 = cms.Sequence(analyzeSUSY2b1e_2 *
                                       analyzeSUSYGenEvent2b1e_2
                                       )
 
-
 #----------------------------------------------------
 # Clone and configure TtGenEventAnalyzer modules
 #----------------------------------------------------
