@@ -189,12 +189,13 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	  
 	  TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx], 1);
 
-	  TLegend *leg = new TLegend(.64,.62,.91,.89);
+	  TLegend *leg = new TLegend(.6,.56,.91,.89);
 	  leg->SetTextFont(42);
 	  leg->SetFillColor(0);
 	  leg->SetLineColor(1);
 	  leg->SetShadowColor(0);
-
+	  leg->AddEntry((TObject*)0, "semilep. t#bar{t}", "");
+      
 	  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
 
 	  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
@@ -207,9 +208,9 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	      // edit projection
 	      Projection->SetTitle("");
 	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-	      Projection->GetXaxis()->SetTitleOffset(1.4);
+	      Projection->GetXaxis()->SetTitleSize(0.07);
 	      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-	      Projection->GetYaxis()->SetTitle("# events");
+	      Projection->GetYaxis()->SetTitle("events");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
 	      Projection->Scale(1/Projection->Integral(1,-1));
@@ -220,16 +221,25 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	      if(bin == 0) Projection->DrawCopy();
 	      else Projection->DrawCopy("same");
 	    }
-
-	  TPaveText *label2 = new TPaveText(0.47,0.37,0.75,0.56,"NDC");
+	  TPaveText *label = new TPaveText(0.11,0.94,0.99,1.,"NDC");
+	  label->SetFillColor(0);
+	  label->SetTextFont(42);
+	  label->SetTextSize(0.043);
+	  label->SetBorderSize(0);
+	  label->SetTextAlign(12);
+	  TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
+	  label->Draw("same");
+	  
+	  TPaveText *label2 = new TPaveText(0.45,0.38,0.75,0.54,"NDC");
 	  label2->SetFillColor(0);
 	  label2->SetTextFont(62);
-	  label2->SetTextSize(0.06);
+	  label2->SetTextSize(0.07);
 	  label2->SetBorderSize(0);
 	  label2->SetTextAlign(12);
 	  TText *text2=label2->AddText("Own work");
 	  TText *text3=label2->AddText("in progress");
 	  label2->Draw("same");
+	  
 	  leg->Draw();
 
 	  //canvas->SetLogy();

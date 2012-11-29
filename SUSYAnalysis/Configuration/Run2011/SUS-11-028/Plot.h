@@ -482,7 +482,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   PadMargins[3] = 0.03; //legSize + .02;
   
   //gPad->SetMargin(PadMargins[0],PadMargins[1],PadMargins[2],PadMargins[3]);
-  gPad->SetMargin(0.12,0.05,0.1,0.07);
+  gPad->SetMargin(0.15,0.05,0.15,0.07);
 
   if( c->second.size()==0 ) return 0;
   
@@ -568,7 +568,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
 /*   text->SetTextAlign(22); */
 /*   label->Draw("same"); */
 
-  TPaveText *label = new TPaveText(0.075,0.94,0.99,1.,"NDC");
+  TPaveText *label = new TPaveText(0.11,0.94,0.99,1.,"NDC");
   label->SetFillColor(0);
   label->SetTextFont(42);
   label->SetTextSize(0.043);
@@ -690,17 +690,20 @@ void plotSet::setStyles(T*& hist, TString name) {
     hist->GetXaxis()->SetTitle( XaxisTitle[name] );
   //if( YaxisTitle.find(name) != YaxisTitle.end() )
   hist->GetYaxis()->SetTitle(YaxisTitle[name]);
-  hist->GetYaxis()->CenterTitle();
-  hist->GetXaxis()->CenterTitle();
+  //hist->GetYaxis()->CenterTitle();
+  //hist->GetXaxis()->CenterTitle();
 
   hist->GetXaxis()->SetLabelSize(labelFontSize);
   hist->GetYaxis()->SetLabelSize(labelFontSize);
-  
-  hist->GetYaxis()->SetTitleOffset(1.3);
+
+  //hist->GetYaxis()->SetTitleOffset(1.3);
 
   hist->GetXaxis()->SetTitleSize(titleFontSize);
   hist->GetYaxis()->SetTitleSize(titleFontSize);
   
+  hist->GetXaxis()->SetTitleSize(0.07);
+  hist->GetYaxis()->SetTitleSize(0.07);
+
   hist->GetXaxis()->SetLabelFont(fontStyle);
   hist->GetYaxis()->SetLabelFont(fontStyle);
   
