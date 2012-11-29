@@ -74,7 +74,7 @@ analyzeCorrelation1l_HT300ToInf_MET50To100    = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT300ToInf_MET100To150   = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT300ToInf_MET150To200   = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT300ToInf_MET200ToInf   = analyzeCorrelation.clone()
-
+    
 analyzeCorrelation1l_HT300ToInf_MET0To50.HTCut     = 300.,9999.
 analyzeCorrelation1l_HT300ToInf_MET0To50.METCut    = 0.,50.
 
@@ -89,6 +89,19 @@ analyzeCorrelation1l_HT300ToInf_MET150To200.METCut = 150.,200.
 
 analyzeCorrelation1l_HT300ToInf_MET200ToInf.HTCut  = 300.,9999.
 analyzeCorrelation1l_HT300ToInf_MET200ToInf.METCut = 200.,9999.
+
+analyzeCorrelation1l_HT300ToInf_MET60ToInf  = analyzeCorrelation.clone()
+analyzeCorrelation1l_HT300ToInf_MET100ToInf = analyzeCorrelation.clone()
+analyzeCorrelation1l_HT300ToInf_MET150ToInf = analyzeCorrelation.clone()
+
+analyzeCorrelation1l_HT300ToInf_MET60ToInf.HTCut    = 300.,9999.
+analyzeCorrelation1l_HT300ToInf_MET60ToInf.METCut   = 60.,9999.
+
+analyzeCorrelation1l_HT300ToInf_MET100ToInf.HTCut   = 300.,9999.
+analyzeCorrelation1l_HT300ToInf_MET100ToInf.METCut  = 100.,9999.
+
+analyzeCorrelation1l_HT300ToInf_MET150ToInf.HTCut   = 300.,9999.
+analyzeCorrelation1l_HT300ToInf_MET150ToInf.METCut  = 150.,9999.
 
 ##
 analyzeCorrelation1l_HT300To400_MET0To50      = analyzeCorrelation.clone()

@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -134,7 +134,7 @@ process.btagEventWeightElJER.jets            = "goodJets"
 process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
                                           process.makeSUSYGenEvt *
-                                          process.SemiLepTtGenEventFilter *
+                                          #process.SemiLepTtGenEventFilter *
                                           process.scaledJetEnergy *
                                           process.preselectionLepHTMC2 *
                                           process.makeObjects *
@@ -144,10 +144,10 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           
                                           # execute filter and analyzer modules
                                           process.leptonSelection *
-                                          process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
+                                          #process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
                                           
                                           process.threeGoodJets *
-                                          process.analyzeTtGenEvent1l_jetSelection_SemiLep *
+                                          #process.analyzeTtGenEvent1l_jetSelection_SemiLep *
 
                                           process.analyzeCorrelation1l *
 
@@ -182,6 +182,10 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT300ToInf_MET100To150 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET150To200 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET200ToInf *
+
+                                          process.analyzeCorrelation1l_HT300ToInf_MET60ToInf *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET100ToInf *
+                                          process.analyzeCorrelation1l_HT300ToInf_MET150ToInf *
                                           
                                           process.analyzeCorrelation1l_HT300To400_MET0To50 *
                                           process.analyzeCorrelation1l_HT300To400_MET50To100 *
@@ -196,8 +200,8 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT500To600_MET100To150 *
 
                                           process.filterMediumHT *
-                                          process.analyzeTtGenEvent1l_HTSelection_SemiLep *
+                                          #process.analyzeTtGenEvent1l_HTSelection_SemiLep *
                                                                                     
-                                          process.oneMediumMET *
-                                          process.analyzeTtGenEvent1l_METSelection_SemiLep
+                                          process.oneGoodMET #*
+                                          #process.analyzeTtGenEvent1l_METSelection_SemiLep
                                           )

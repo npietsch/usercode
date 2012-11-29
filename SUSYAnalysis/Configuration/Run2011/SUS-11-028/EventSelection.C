@@ -61,7 +61,8 @@ void addMCSample(TFile* sample, TString name,  int lc, int fc, int fs, double we
 void addMCSample(TFile* sample, TString name,  int lc, int fc, int fs, double weight)
 {
   MCFiles.push_back(sample);
-  MCNames.push_back(name);  MCLineColors.push_back(lc);
+  MCNames.push_back(name);
+  MCLineColors.push_back(lc);
   MCFillColors.push_back(fc);
   MCFillStyles.push_back(fs);
   Weights.push_back(weight);
@@ -201,10 +202,10 @@ int EventSelection()
 //   addMCSample(WJetsHT,   "W+Jets",        kYellow,  kYellow,  1101, sWJets);
 //   addMCSample(SingleTop, "Single Top",    kRed,     kRed,     1101, sSingleTop);
 
-  addMCSample(LM8_StopPair,      "LM8 #tilde{t}#tilde{t}*",   kGreen+2, 0,    0,    sLM8);
-  //addMCSample(LM8_SbottomPair,   "LM8 #tilde{b}#tilde{b}*",   kYellow,  0,     0,    sLM8);
-  addMCSample(LM8_GluinoPair,    "LM8 #tilde{g}#tilde{g}",    kRed,     0,        0,    sLM8);
-  addMCSample(LM8_GluinoSquark,  "LM8 #tilde{g}#tilde{q}",    kRed+2,   0,      0,    sLM8);
+  addMCSample(LM8_StopPair,      "LM8 #tilde{t}#tilde{t}*",   kGreen+2, kGreen+2, 1101,   sLM8);
+  addMCSample(LM8_SbottomPair,   "LM8 #tilde{b}#tilde{b}*",   kYellow,  kYellow,  1101,   sLM8);
+  addMCSample(LM8_GluinoPair,    "LM8 #tilde{g}#tilde{g}",    kRed,     kRed,     1101,   sLM8);
+  addMCSample(LM8_GluinoSquark,  "LM8 #tilde{g}#tilde{q}",    kRed+2,   kRed+2,   1101,   sLM8);
 
   //addMCSample(TTJets,    "t#bar{t}+Jets", kBlue,   0,   0, sTTJets);
 
@@ -227,13 +228,17 @@ int EventSelection()
 
   std::cout << "Test1" << std::endl;
 
-  MCMuSelections.push_back("analyzeSUSY1l_jetSelection_TTJets");
-  MCMuSelections.push_back("analyzeSUSY1l_HTSelection_TTJets");
-  MCMuSelections.push_back("analyzeSUSY1l_METSelection_TTJets");
+//   MCMuSelections.push_back("analyzeSUSY1l_jetSelection_TTJets");
+//   MCMuSelections.push_back("analyzeSUSY1l_HTSelection_TTJets");
+//   MCMuSelections.push_back("analyzeSUSY1l_METSelection_TTJets");
 
-  DataMuSelections.push_back("analyzeSUSY1l_jetSelection_SemiLep");
-  DataMuSelections.push_back("analyzeSUSY1l_HTSelection_SemiLep");
-  DataMuSelections.push_back("analyzeSUSY1l_METSelection_SemiLep");
+//   DataMuSelections.push_back("analyzeSUSY1l_jetSelection_SemiLep");
+//   DataMuSelections.push_back("analyzeSUSY1l_HTSelection_SemiLep");
+//   DataMuSelections.push_back("analyzeSUSY1l_METSelection_SemiLep");
+
+  MCMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET60ToInf");
+
+  DataMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET60ToInf");
 
 //   DataMuSelections.push_back("analyzeSUSY1m_leptonSelection");
 //   DataMuSelections.push_back("analyzeSUSY1m_jetSelection");
@@ -248,13 +253,13 @@ int EventSelection()
   //addMCHistogram("nLeptons",  1, 1, 1, 1);
   addMCHistogram("nJets",     1, 1, 1, 1);
   addMCHistogram("mT",        1, 1, 1, 1);
-  addMCHistogram("YMET",      1, 1, 1, 1);
-  addMCHistogram("mlb",       1, 1, 1, 1);
+  //addMCHistogram("YMET",      1, 1, 1, 1);
+  //addMCHistogram("mlb",       1, 1, 1, 1);
 
   addDataHistogram("nJets",     1, 1, 1, 1);
   addDataHistogram("mT",        1, 1, 1, 1);
-  addDataHistogram("YMET",      1, 1, 1, 1);
-  addDataHistogram("mlb",       1, 1, 1, 1);
+  //addDataHistogram("YMET",      1, 1, 1, 1);
+  //addDataHistogram("mlb",       1, 1, 1, 1);
 
 
 //   addMCHistogram("nBjets_2",    1, 1, 1, 1);
@@ -297,6 +302,8 @@ int EventSelection()
 	    }
 	}
     }
+  plots.SetAxesTitles("mT_analyzeCorrelation1l_HT300ToInf_MET60ToInf", "m_{T} [GeV]", "events");
+  plots.SetAxesTitles("nJets_analyzeCorrelation1l_HT300ToInf_MET60ToInf", "Number of jets", "events");
 
   plots.printAll("ylog");
 }

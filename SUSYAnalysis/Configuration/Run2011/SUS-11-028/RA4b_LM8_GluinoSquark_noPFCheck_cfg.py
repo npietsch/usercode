@@ -5,7 +5,7 @@
 # nafJobSplitter.pl 32 RA4b_LM8_noPFCheck_cfg.py
 #-------------------------------------------------
 
-from TTJets_cfg import *
+from BjetsPAT_cfg import *
 
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_LM8.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
@@ -21,8 +21,6 @@ process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 
 process.goodMuons = process.vertexSelectedGoodMuons.clone()
 
-process.preselectionMuHTMC2  = process.preselectionGluinoSquark
-process.preselectionElHTMC2  = process.preselectionGluinoSquark
 process.preselectionLepHTMC2 = process.preselectionGluinoSquark
 
 # Choose input files

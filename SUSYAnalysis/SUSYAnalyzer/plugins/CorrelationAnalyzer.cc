@@ -13,6 +13,7 @@
 #include "DataFormats/Common/interface/View.h"
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
+#include <math.h>
 
 using namespace std;
  
@@ -115,7 +116,9 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   DeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_MET", "MET vs .DeltaRecoGenJetPtSum", 40, -100., 100., 50, 0., 1000.);
   AbsDeltaRecoGenJetPtSum_MET_ = fs->make<TH2F>("AbsDeltaRecoGenJetPtSum_MET", "MET vs. AbsDeltaRecoGenJetPtSum", 40, 0., 200., 50, 0., 1000.);
   DeltaRecoGenJetPtSum_nJets_ = fs->make<TH2F>("DeltaRecoGenJetPtSum_nJets", "nJets vs .DeltaRecoGenJetPtSum", 40, -100., 100., 16, -0.5, 15.5);
-  AbsDeltaRecoGenJetPtSum_nJets_ = fs->make<TH2F>("AbsDeltaRecoGenJetPtSum_nJets", "nJets vs. AbsDeltaRecoGenJetPtSum", 40, 0., 200., 16, 00.5, 0.5);
+  AbsDeltaRecoGenJetPtSum_nJets_ = fs->make<TH2F>("AbsDeltaRecoGenJetPtSum_nJets", "nJets vs. AbsDeltaRecoGenJetPtSum", 40, 0., 200., 16, 0.5, 0.5);
+
+  smearedGenMET_ = fs->make<TH1F>("smearedGenMET", "smearedGenMET", 50,   0.,  1000.);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -521,7 +524,8 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   if(met->size()==0) return;
 
   double HT=0;
-  double DeltaRecoGenJetPtSum=0;
+  double DeltaRecoGenJetPxSum=0;
+  double DeltaRecoGenJetPySum=0;
   double AbsDeltaRecoGenJetPtSum=0;
 
   for(int i=0; i<(int)jets->size(); ++i)
@@ -536,12 +540,15 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
 	      if((*jets)[i].genJet())
 		{
-		  //std::cout << ((*jets)[i].pt()-(*jets)[i].genJet()->pt()) << std::endl;
 		  DeltaRecoGenJetPt_ ->Fill((*jets)[i].pt()-(*jets)[i].genJet()->pt(), weight);
-		  DeltaRecoGenJetPtSum=DeltaRecoGenJetPtSum+((*jets)[i].pt()-(*jets)[i].genJet()->pt());
+
+		  DeltaRecoGenJetPxSum=DeltaRecoGenJetPxSum+((*jets)[i].px()-(*jets)[i].genJet()->px());
+		  DeltaRecoGenJetPySum=DeltaRecoGenJetPySum+((*jets)[i].py()-(*jets)[i].genJet()->py());
+
 		  AbsDeltaRecoGenJetPtSum=AbsDeltaRecoGenJetPtSum+abs((*jets)[i].pt()-(*jets)[i].genJet()->pt());
 		}
     }
+  double DeltaRecoGenJetPtSum = sqrt(pow(DeltaRecoGenJetPxSum,2) + pow(DeltaRecoGenJetPySum,2));
   
   MET_                     ->Fill((*met)[0].et(),          weight);
   HT_                      ->Fill(HT,                      weight);
@@ -553,6 +560,13 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   AbsDeltaRecoGenJetPtSum_MET_   ->Fill(AbsDeltaRecoGenJetPtSum, (*met)[0].et(), weight);
   DeltaRecoGenJetPtSum_nJets_    ->Fill(DeltaRecoGenJetPtSum,    jets->size(),   weight);
   AbsDeltaRecoGenJetPtSum_nJets_ ->Fill(AbsDeltaRecoGenJetPtSum, jets->size(),   weight);
+
+  if((*met)[0].genMET())
+    {
+      std::cout << (*met)[0].genMET()->et() << std::endl;
+      double smearedGenMET = sqrt(pow((*met)[0].genMET()->px()+DeltaRecoGenJetPxSum,2)+pow((*met)[0].genMET()->py()+DeltaRecoGenJetPxSum,2));
+      smearedGenMET_ ->Fill(smearedGenMET, weight);
+    }
 
   int nLeptons=0;
   int nMuons=0;
@@ -885,15 +899,17 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      double mlv_reco = 0;
 	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
 
-	      pv_             -> Fill(NuPt,                      weight);
-	      smearedPv_      -> Fill(NuPt+DeltaRecoGenJetPtSum, weight);
+	      double smearedPv = sqrt(pow(NuPx+DeltaRecoGenJetPySum,2)+pow(NuPx+DeltaRecoGenJetPySum,2));
+
+	      pv_             -> Fill(NuPt,      weight);
+	      smearedPv_      -> Fill(smearedPv, weight);
 	      
 	      pv_nJets_       -> Fill(NuPt,     jets->size(), weight);
 	      mlv_nJets_gen_  -> Fill(mlv_gen,  jets->size(), weight);
 	      mlv_nJets_reco_ -> Fill(mlv_reco, jets->size(), weight);
 
-	      pv_MET_         -> Fill(NuPt,                      (*met)[0].et(), weight);
-	      smearedPv_MET_  -> Fill(NuPt+DeltaRecoGenJetPtSum, (*met)[0].et(), weight);
+	      pv_MET_         -> Fill(NuPt,      (*met)[0].et(), weight);
+	      smearedPv_MET_  -> Fill(smearedPv, (*met)[0].et(), weight);
 	    }
 	}
     }

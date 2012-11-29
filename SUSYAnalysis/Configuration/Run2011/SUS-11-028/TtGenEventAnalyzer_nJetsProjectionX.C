@@ -85,6 +85,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 
   //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
   addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
+  addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
 
@@ -144,12 +145,14 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeCorrelation1l_HT500To600", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT600ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_MET0To50",   "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET50To100", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET150To200", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET200To300", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET300ToInf", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET0To50",   "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET50To100", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET150To200", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET200To300", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_MET300ToInf", "lepton selection");
+
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
 
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET0To100",   "lepton selection");
@@ -217,7 +220,18 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	      if(bin == 0) Projection->DrawCopy();
 	      else Projection->DrawCopy("same");
 	    }
+
+	  TPaveText *label2 = new TPaveText(0.47,0.37,0.75,0.56,"NDC");
+	  label2->SetFillColor(0);
+	  label2->SetTextFont(62);
+	  label2->SetTextSize(0.06);
+	  label2->SetBorderSize(0);
+	  label2->SetTextAlign(12);
+	  TText *text2=label2->AddText("Own work");
+	  TText *text3=label2->AddText("in progress");
+	  label2->Draw("same");
 	  leg->Draw();
+
 	  //canvas->SetLogy();
 	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX.pdf");
 	}

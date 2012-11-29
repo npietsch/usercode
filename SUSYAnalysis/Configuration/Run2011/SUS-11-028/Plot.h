@@ -469,7 +469,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   Canvases[c->first] = tmpC;
   tmpC->cd();
   float legSize = .05 + (.05*min((int)c->second.size(),4));
-  TLegend *leg = new TLegend(.6,.65,.99,.99);
+  TLegend *leg = new TLegend(.68,.68,.94,.9);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
   leg->SetLineColor(0);
@@ -479,10 +479,11 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   setBounds( c->second, yLogScale, false);
   
   PadMargins[1] = 0.03;
-  PadMargins[3] = legSize + .02;
+  PadMargins[3] = 0.03; //legSize + .02;
   
-  gPad->SetMargin(PadMargins[0],PadMargins[1],PadMargins[2],PadMargins[3]);
-  
+  //gPad->SetMargin(PadMargins[0],PadMargins[1],PadMargins[2],PadMargins[3]);
+  gPad->SetMargin(0.12,0.05,0.1,0.07);
+
   if( c->second.size()==0 ) return 0;
   
   TH1* nu = (TH1*) c->second.at(0)->Clone(c->first+"nu");
@@ -559,13 +560,32 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
 	}
     }
 
-  TPaveText *label = new TPaveText(0.1,0.85,0.4,0.95,"NDC");
+/*   TPaveText *label = new TPaveText(0.1,0.85,0.4,0.95,"NDC"); */
+/*   label->SetFillColor(0); */
+/*   label->SetTextFont(42); */
+/*   label->SetBorderSize(1); */
+/*   TText *text=label->AddText("L=4.98 fb^{-1}"); */
+/*   text->SetTextAlign(22); */
+/*   label->Draw("same"); */
+
+  TPaveText *label = new TPaveText(0.075,0.94,0.99,1.,"NDC");
   label->SetFillColor(0);
   label->SetTextFont(42);
-  label->SetBorderSize(1);
-  TText *text=label->AddText("L=4.98 fb^{-1}");
-  text->SetTextAlign(22);
+  label->SetTextSize(0.043);
+  label->SetBorderSize(0);
+  label->SetTextAlign(12);
+  TText *text=label->AddText("Simulation, L=4.98 fb^{-1}, #sqrt{s} = 7 TeV");
   label->Draw("same");
+
+  TPaveText *label2 = new TPaveText(0.55,0.48,0.85,0.64,"NDC");
+  label2->SetFillColor(0);
+  label2->SetTextFont(62);
+  label2->SetTextSize(0.06);
+  label2->SetBorderSize(0);
+  label2->SetTextAlign(12);
+  TText *text2=label2->AddText("Own work");
+  TText *text3=label2->AddText("in progress");
+  label2->Draw("same");
 
   gPad->RedrawAxis();
 
@@ -669,13 +689,15 @@ void plotSet::setStyles(T*& hist, TString name) {
   if( XaxisTitle.find(name) != XaxisTitle.end() )
     hist->GetXaxis()->SetTitle( XaxisTitle[name] );
   //if( YaxisTitle.find(name) != YaxisTitle.end() )
-  hist->GetYaxis()->SetTitle("events");
+  hist->GetYaxis()->SetTitle(YaxisTitle[name]);
   hist->GetYaxis()->CenterTitle();
   hist->GetXaxis()->CenterTitle();
 
   hist->GetXaxis()->SetLabelSize(labelFontSize);
   hist->GetYaxis()->SetLabelSize(labelFontSize);
   
+  hist->GetYaxis()->SetTitleOffset(1.3);
+
   hist->GetXaxis()->SetTitleSize(titleFontSize);
   hist->GetYaxis()->SetTitleSize(titleFontSize);
   

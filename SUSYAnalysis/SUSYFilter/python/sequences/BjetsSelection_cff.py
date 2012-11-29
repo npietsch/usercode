@@ -31,6 +31,9 @@ goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuons"
                                     )
 
 
+###=============================================================
+### ATTENTION: ELECTRON pT CUT HAS CHENGED FROM 20 TO 30 GEV ###
+###=============================================================
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -38,7 +41,7 @@ from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
-                                               'pt >= 20. &'
+                                               'pt >= 30. &'
                                                'electronID(\"simpleEleId80cIso\")=7 &'
                                                'abs(superCluster.eta) <= 2.5 &'
                                                '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
