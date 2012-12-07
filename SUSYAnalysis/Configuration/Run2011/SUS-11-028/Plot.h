@@ -577,7 +577,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   TText *text=label->AddText("Simulation, L=4.98 fb^{-1}, #sqrt{s} = 7 TeV");
   label->Draw("same");
 
-  TPaveText *label2 = new TPaveText(0.55,0.48,0.85,0.64,"NDC");
+  TPaveText *label2 = new TPaveText(0.6,0.48,0.9,0.64,"NDC");
   label2->SetFillColor(0);
   label2->SetTextFont(62);
   label2->SetTextSize(0.06);
@@ -587,7 +587,45 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   TText *text3=label2->AddText("in progress");
   label2->Draw("same");
 
-  gPad->RedrawAxis();
+/*   TPaveText *label3 = new TPaveText(0.255,0.47,0.36,0.54,"NDC"); */
+/*   label3->SetFillColor(0); */
+/*   label3->SetTextFont(42); */
+/*   label3->SetTextSize(0.03); */
+/*   label3->SetBorderSize(0); */
+/*   label3->SetTextAlign(12); */
+/*   TText *text4=label3->AddText("control"); */
+/*   TText *text5=label3->AddText("region"); */
+/*   label3->Draw("same"); */
+
+/*   TPaveText *label4 = new TPaveText(0.505,0.47,0.61,0.54,"NDC"); */
+/*   label4->SetFillColor(0); */
+/*   label4->SetTextFont(42); */
+/*   label4->SetTextSize(0.03); */
+/*   label4->SetBorderSize(0); */
+/*   label4->SetTextAlign(12); */
+/*   TText *text6=label4->AddText("signal"); */
+/*   TText *text7=label4->AddText("region"); */
+/*   label4->Draw("same"); */
+
+/*   // TLine */
+/*   TLine * line = new TLine(50, 0 , 50, 1000 ); */
+/*   line->SetLineWidth(1); */
+/*   line->SetLineStyle(7); */
+/*   line->SetLineColor(1); */
+/*   line->Draw("same"); */
+
+/*   TLine * line2 = new TLine(100, 0 , 100, 1000 ); */
+/*   line2->SetLineWidth(1); */
+/*   line2->SetLineStyle(7); */
+/*   line2->SetLineColor(1); */
+/*   line2->Draw("same"); */
+
+/*   TLine * line3 = new TLine(150, 0 , 150, 1000 ); */
+/*   line3->SetLineWidth(1); */
+/*   line3->SetLineStyle(7); */
+/*   line3->SetLineColor(1); */
+/*   line3->Draw("same"); */
+/*   gPad->RedrawAxis(); */
 
   leg->Draw();
   if( !theFirstInStack ) setStyles( tmpStk , c->first );

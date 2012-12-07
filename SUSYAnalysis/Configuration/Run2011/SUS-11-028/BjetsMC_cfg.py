@@ -59,13 +59,13 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_68000.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500.root"
 
 process.eventWeightPUUp = process.eventWeightPU.clone()
-process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_64600.root"
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.root"
 
 process.eventWeightPUDown = process.eventWeightPU.clone()
-process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.root"
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_67620.root"
 
 #------------------------------------------------------------------
 # Load modules for preselection

@@ -236,9 +236,11 @@ int EventSelection()
 //   DataMuSelections.push_back("analyzeSUSY1l_HTSelection_SemiLep");
 //   DataMuSelections.push_back("analyzeSUSY1l_METSelection_SemiLep");
 
-  MCMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET60ToInf");
+  MCMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET100ToInf");
+  MCMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET150ToInf");
 
-  DataMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET60ToInf");
+  DataMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET100ToInf");
+  DataMuSelections.push_back("analyzeCorrelation1l_HT300ToInf_MET150ToInf");
 
 //   DataMuSelections.push_back("analyzeSUSY1m_leptonSelection");
 //   DataMuSelections.push_back("analyzeSUSY1m_jetSelection");
@@ -302,8 +304,10 @@ int EventSelection()
 	    }
 	}
     }
-  plots.SetAxesTitles("mT_analyzeCorrelation1l_HT300ToInf_MET60ToInf", "m_{T} [GeV]", "events");
-  plots.SetAxesTitles("nJets_analyzeCorrelation1l_HT300ToInf_MET60ToInf", "Number of jets", "events");
+  plots.SetAxesTitles("mT_analyzeCorrelation1l_HT300ToInf_MET100ToInf", "m_{T} [GeV]", "events");
+  plots.SetAxesTitles("nJets_analyzeCorrelation1l_HT300ToInf_MET100ToInf", "Number of jets", "events");
+  plots.SetAxesTitles("mT_analyzeCorrelation1l_HT300ToInf_MET150ToInf", "m_{T} [GeV]", "events");
+  plots.SetAxesTitles("nJets_analyzeCorrelation1l_HT300ToInf_MET150ToInf", "Number of jets", "events");
 
   plots.printAll("ylog");
 }

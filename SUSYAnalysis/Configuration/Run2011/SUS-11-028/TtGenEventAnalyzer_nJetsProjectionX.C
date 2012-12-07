@@ -152,7 +152,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeCorrelation1l_MET200To300", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET300ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET150ToInf", "lepton selection");
 
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET0To100",   "lepton selection");
