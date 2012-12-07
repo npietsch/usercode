@@ -11,9 +11,10 @@ void PU70() {
 //   Names.push_back("WJetsHT");
 //   Names.push_back("WJetsHT250");
 //   Names.push_back("WJetsHT300");
-//   Names.push_back("LM3");
-//   Names.push_back("LM8");
-//   Names.push_back("LM13");
+   Names.push_back("LM3");
+   Names.push_back("LM6");
+   Names.push_back("LM8");
+   Names.push_back("LM13");
 //   Names.push_back("QCD");
 //   Names.push_back("SingleTop");
 //   Names.push_back("ZJets");

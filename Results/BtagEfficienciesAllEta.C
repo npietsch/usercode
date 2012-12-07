@@ -71,7 +71,7 @@ int BtagEfficienciesAllEta()
   TFile* WJetsHT   = new TFile("WJetsHT.root",        "READ");
   TFile* SingleTop = new TFile("SingleTop.root",      "READ");
 
-  //TFile* ZJets     = new TFile("ZJets.root",          "READ");
+  TFile* ZJets     = new TFile("ZJets.root",          "READ");
   //TFile* QCD       = new TFile("QCD.root",            "READ");
 
   //TFile* LM3       = new TFile("LM3.root",            "READ");
@@ -82,11 +82,11 @@ int BtagEfficienciesAllEta()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
-  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
-  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
+  //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
+  //addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
+  //addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
 
-  //addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
+  addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
   //addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7);
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
@@ -111,7 +111,7 @@ int BtagEfficienciesAllEta()
   // addSelectionStep(TString name, int lc, TString sn);
   //-----------------------------------------------------
 
-  addSelectionStep("_3", 8, "RA4b");
+  addSelectionStep(" ", 8, "RA4b");
 
   //-----------------------------------------------------
   // set Style
@@ -279,7 +279,7 @@ int BtagEfficienciesAllEta()
 	      label->Draw();
 	      //label2->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.eps");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.pdf");
 	    }
 	}
     }

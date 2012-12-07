@@ -11,7 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
-#include <TDRStyle_PU.h>
+#include <TDRStyle.h>
 
 vector<TFile*> Files;
 vector<TString> Names;
@@ -52,11 +52,11 @@ int PU()
   // Samples
   //--------------------------------------------------------------
 
-  TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
+  //TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
   TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
   TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
   TFile* ZJets          = new TFile("ZJets.root",          "READ");
-  TFile* WJets          = new TFile("WJets.root",          "READ");
+  //TFile* WJets          = new TFile("WJets.root",          "READ");
   TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
@@ -84,15 +84,11 @@ int PU()
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
 
-  std::cout << "Test1" << std::endl;
-
   Selections.push_back("analyzeSUSY1m_noCuts");
   
   //-------------------------------------------------------------------------------------------------
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
-
-  std::cout << "Test2" << std::endl;
 
   addHistogram("nPU");
   addHistogram("nPU_noWgt");
@@ -126,15 +122,13 @@ int PU()
 	   leg->SetFillColor(0);
 	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
-	   	   
-	   std::cout << "Test3" << std::endl;
 
 	   // Draw first histogram
 	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
 	   Temp1->Scale(1/(Temp1->Integral()));
 	   Temp1->SetTitle("");
-	   Temp1->SetMaximum(0.095);
-	   if(Names[ndx]=="Single Top") Temp1->SetMaximum(0.11);
+	   //Temp1->SetMaximum(0.11);
+	   //if(Names[ndx]=="Single Top") Temp1->SetMaximum(0.11);
 	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
 	   //Temp1->GetXaxis()->CenterTitle();
 	   Temp1->GetXaxis()->SetTitleOffset(1.2);
@@ -149,8 +143,6 @@ int PU()
 	   //Temp1->SetMarkerColor(LineColors[ndx]);
 	   //Temp1->SetMarkerSize(1.0);
 	   Temp1->Draw("Hist");
-
-	   std::cout << "Test4" << std::endl;
 	   
 	   // Draw first histogram
 	   TH1F* Temp2=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[1]);

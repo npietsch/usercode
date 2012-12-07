@@ -6,8 +6,8 @@ void setTDRStyle() {
   // For the canvas:
   tdrStyle->SetCanvasBorderMode(0);
   tdrStyle->SetCanvasColor(kWhite);
-  //tdrStyle->SetCanvasDefH(600); //Height of canvas
-  //tdrStyle->SetCanvasDefW(600); //Width of canvas
+  tdrStyle->SetCanvasDefH(600); //Height of canvas
+  tdrStyle->SetCanvasDefW(600); //Width of canvas
   tdrStyle->SetCanvasDefX(0);   //POsition on screen
   tdrStyle->SetCanvasDefY(0);
 
@@ -73,10 +73,10 @@ void setTDRStyle() {
 /*   // tdrStyle->SetStatY(Float_t y = 0); */
 
   // Margins:
-  tdrStyle->SetPadTopMargin(0.1); // set from 0.5 to 0.1
-  tdrStyle->SetPadBottomMargin(0.13); // set from 0.13 to 0.13
-  tdrStyle->SetPadLeftMargin(0.11); // set from 0.13 to 0.11
-  tdrStyle->SetPadRightMargin(0.05);
+  tdrStyle->SetPadTopMargin(0.07); // set from 0.05 to 0.07
+  tdrStyle->SetPadBottomMargin(0.13);
+  tdrStyle->SetPadLeftMargin(0.14); // set from 0.13 to 0.14
+  tdrStyle->SetPadRightMargin(0.05); // set from 0.05 to 0.06
 
 /*   // For the Global title: */
 
