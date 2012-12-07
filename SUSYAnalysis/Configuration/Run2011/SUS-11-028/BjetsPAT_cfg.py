@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("nJets") 
+process = cms.Process("RA4b") 
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('nJets.root')
+                                   fileName = cms.string('Bjets.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -46,34 +46,10 @@ process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
 process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 #------------------------------------------------------------------
-# Load and configure modules to create SUSYGenEvent and SUSYEvent
+# Load modules to create SUSYGenEvent
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-process.load("SUSYAnalysis.SUSYEventProducers.producers.SUSYEventProducer_cfi")
-
-process.SUSYEvt.muons     = "goodMuons"
-process.SUSYEvt.electrons = "goodElectrons"
-process.SUSYEvt.jets      = "goodJets"
-process.SUSYEvt.mets      = "scaledJetEnergy:patMETsPF"
-
-#---------------------------------------------------------------------------
-# load and configure module to create TtGenEvent
-#---------------------------------------------------------------------------
-
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
-process.decaySubset.fillMode = "kME"
-
-#---------------------------------------------------------------------------
-# load and configure modules to filter on member functions of TtGenEvent
-#---------------------------------------------------------------------------
-
-process.load("TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi")
-
-process.SemiLepTtGenEventFilter = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
-process.DiLepTtGenEventFilter   = process.ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
-process.FullHadTtGenEventFilter = process.ttGenEventFilter.clone(cut="isFullHadronic()")
-process.TauTtGenEventFilter     = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
 
 #------------------------------------------------------------------
 # Load and configure modules for event weighting
@@ -83,13 +59,13 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_68000.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500.root"
 
 process.eventWeightPUUp = process.eventWeightPU.clone()
-process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_64600.root"
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.root"
 
 process.eventWeightPUDown = process.eventWeightPU.clone()
-process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.root"
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_67620.root"
 
 #------------------------------------------------------------------
 # Load modules for preselection
@@ -101,7 +77,42 @@ process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 # Load analyzer modules
 #------------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.Correlation_cff")
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
+
+# clone and configure modules to monitor b-tag efficiency weighting
+process.monitorBtagWeightingMu                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingMu.useBtagEventWeight = True
+process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEventWeights"
+process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
+
+process.monitorBtagWeightingMu_2 = process.monitorBtagWeightingMu.clone()
+process.monitorBtagWeightingMu_3 = process.monitorBtagWeightingMu.clone()
+
+process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingEl.useBtagEventWeight = True
+process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEventWeights"
+process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
+
+process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
+process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
+
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
+
+process.analyzeRA4Muons.jets           = "goodJets"
+process.analyzeRA4Muons.muons          = "looseMuons"
+process.analyzeRA4Muons.electrons      = "goodElectrons"
+process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Muons.PVSrc          = "goodVertices"
+process.analyzeRA4Muons.useEventWeight = True
+
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4ElectronAnalyzer_cfi")
+
+process.analyzeRA4Electrons.jets           = "goodJets"
+process.analyzeRA4Electrons.muons          = "goodMuons"
+process.analyzeRA4Electrons.electrons      = "looseElectrons"
+process.analyzeRA4Electrons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Electrons.PVSrc          = "goodVertices"
+process.analyzeRA4Electrons.useEventWeight = True
 
 #------------------------------------------------------------------
 # Load and configure modules for b-tag efficiency weighting
@@ -126,82 +137,112 @@ process.btagEventWeightElJER                 = process.btagEventWeight.clone()
 process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
 process.btagEventWeightElJER.jets            = "goodJets"
 
+
+#--------------------------
+# Temp
+#--------------------------
+
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
+
 #--------------------------
 # Selection paths
 #--------------------------
 
-## lepton selection path for all SemiLep TTJets
-process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection modules
-                                          process.makeGenEvt *
-                                          process.makeSUSYGenEvt *
-                                          process.SemiLepTtGenEventFilter *
-                                          process.scaledJetEnergy *
-                                          process.preselectionLepHTMC2 *
-                                          process.makeObjects *
-                                          process.SUSYEvt *
-                                          process.eventWeightPU *
-                                          process.weightProducer *
-                                          
-                                          # execute filter and analyzer modules
-                                          process.leptonSelection *
-                                          process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
-                                          
-                                          process.threeGoodJets *
-                                          process.analyzeTtGenEvent1l_jetSelection_SemiLep *
+## muon selection path
+process.MuonSelection = cms.Path(# execute producer and preselection modules
+                                 #process.printGenParticles *
+                                 process.scaledJetEnergy *
+                                 process.preselectionMuHTMC2 *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 
+                                 # execute filter and analyzer modules
+                                 process.analyzeSUSYBjets1m_noCuts *
+                                 
+                                 process.MuHadSelection *
+                                 process.analyzeSUSYBjets1m_preselection *
+                                 process.analyzeRA4Muons *
+                                 
+                                 process.muonSelection*
+                                 process.analyzeSUSYBjets1m_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1m_jetSelection *
+                                 
+                                 # execute b-tag producer modules and analyzer modules
+                                 process.btagEventWeightMuJER *
+                                 
+                                 process.monitorBtagWeightingMu *
+                                 process.analyzeSUSYBjets1b1m_1 *
+                                 process.analyzeSUSYBjets2b1m_1 *
+                                 process.analyzeSUSYBjets3b1m_1 *
+                                 process.analyzeSUSYBjets0b1m_2 *
+                                 process.analyzeSUSYBjets1b1m_2 *
+                                 process.analyzeSUSYBjets2b1m_2                                   
+                                 )
 
-                                          process.analyzeCorrelation1l *
+## electron selection path
+process.ElectronSelection = cms.Path(# execute producer and preselection modules
+                                 process.scaledJetEnergy *
+                                 process.preselectionElHTMC2 *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 
+                                 # execute filter and analyzer modules
+                                 process.analyzeSUSYBjets1e_noCuts *
+                                 
+                                 process.ElHadSelection *
+                                 process.analyzeSUSYBjets1e_preselection *
+                                 process.analyzeRA4Electrons *
+                                 
+                                 process.electronSelection*
+                                 process.analyzeSUSYBjets1e_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1e_jetSelection *
+                                 
+                                 # execute b-tag producer modules and analyzer modules
+                                 process.btagEventWeightElJER *
+                                 
+                                 process.monitorBtagWeightingEl *
+                                 process.analyzeSUSYBjets1b1e_1 *
+                                 process.analyzeSUSYBjets2b1e_1 *
+                                 process.analyzeSUSYBjets3b1e_1 *
+                                 process.analyzeSUSYBjets0b1e_2 *
+                                 process.analyzeSUSYBjets1b1e_2 *
+                                 process.analyzeSUSYBjets2b1e_2                                   
+                                 )
 
-                                          process.analyzeCorrelation1l_nJets3To4 *
-                                          process.analyzeCorrelation1l_nJets5To6 *
-                                          process.analyzeCorrelation1l_nJets7ToInf *
+process.analyzeSUSY1m_noCuts_Vienna          = process.analyzeSUSY1m_noCuts.clone()
+process.analyzeSUSY1m_preselection_Vienna    = process.analyzeSUSY1m_preselection.clone()
+process.analyzeSUSY1m_leptonSelection_Vienna = process.analyzeSUSY1m_leptonSelection.clone()
+process.analyzeSUSY1m_jetSelection_Vienna    = process.analyzeSUSY1m_jetSelection.clone()
 
-                                          process.analyzeCorrelation1l_HT200To300 *
-                                          process.analyzeCorrelation1l_HT300To400 *
-                                          process.analyzeCorrelation1l_HT400To500 *
-                                          process.analyzeCorrelation1l_HT500To600 *
-                                          process.analyzeCorrelation1l_HT600To700 *
-                                          process.analyzeCorrelation1l_HT700ToInf *
-
-                                          process.analyzeCorrelation1l_HT200ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf *
-                                          process.analyzeCorrelation1l_HT400ToInf *
-                                          process.analyzeCorrelation1l_HT500ToInf *
-                                          process.analyzeCorrelation1l_HT600ToInf *
-                                          
-                                          process.analyzeCorrelation1l_MET0To50 *
-                                          process.analyzeCorrelation1l_MET50To100 *
-                                          process.analyzeCorrelation1l_MET100To150 *
-                                          process.analyzeCorrelation1l_MET150To200 *
-                                          process.analyzeCorrelation1l_MET200To250 *
-                                          process.analyzeCorrelation1l_MET250ToInf *
-
-                                          process.analyzeCorrelation1l_MET100ToInf *
-                                          
-                                          process.analyzeCorrelation1l_HT300ToInf_MET0To50 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET50To100 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100To150 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET150To200 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET200ToInf *
-
-                                          process.analyzeCorrelation1l_HT300ToInf_MET60ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET150ToInf *
-                                          
-                                          process.analyzeCorrelation1l_HT300To400_MET0To50 *
-                                          process.analyzeCorrelation1l_HT300To400_MET50To100 *
-                                          process.analyzeCorrelation1l_HT300To400_MET100To150 *
-
-                                          process.analyzeCorrelation1l_HT400To500_MET0To50 *
-                                          process.analyzeCorrelation1l_HT400To500_MET50To100 *
-                                          process.analyzeCorrelation1l_HT400To500_MET100To150 *
-
-                                          process.analyzeCorrelation1l_HT500To600_MET0To50 *
-                                          process.analyzeCorrelation1l_HT500To600_MET50To100 *
-                                          process.analyzeCorrelation1l_HT500To600_MET100To150 *
-
-                                          process.filterMediumHT *
-                                          process.analyzeTtGenEvent1l_HTSelection_SemiLep *
-                                                                                    
-                                          process.oneGoodMET *
-                                          process.analyzeTtGenEvent1l_METSelection_SemiLep
-                                          )
+## Vienna muon selection path
+process.MuonSelection = cms.Path(# execute producer and preselection modules
+                                 #process.printGenParticles *
+                                 process.scaledJetEnergy *
+                                 process.preselectionMuHTMC2 *
+                                 process.makeObjects *
+                                 process.makeSUSYGenEvt *
+                                 process.eventWeightPU *
+                                 process.weightProducer *
+                                 
+                                 # execute filter and analyzer modules
+                                 process.analyzeSUSY1m_noCuts_Vienna *
+                                 
+                                 process.oneLooseMuon *
+                                 process.oneMediumMET *
+                                 process.filterTightHT *
+                                 process.analyzeSUSY1m_preselection_Vienna *
+                                 
+                                 process.muonSelection*
+                                 process.analyzeSUSY1m_leptonSelection_Vienna *
+                                 
+                                 process.threeGoodJets*
+                                 process.analyzeSUSY1m_jetSelection_Vienna                                   
+                                 )

@@ -41,7 +41,7 @@ from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
-                                               'pt >= 30. &'
+                                               'pt >= 20. &'
                                                'electronID(\"simpleEleId80cIso\")=7 &'
                                                'abs(superCluster.eta) <= 2.5 &'
                                                '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
