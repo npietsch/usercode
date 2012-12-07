@@ -14,6 +14,7 @@
 #include <TDRStyle.h>
 
 vector<TFile*> Files;
+vector<TString> Labels;
 vector<TString> Names;
 vector<double> Weights;
 vector<unsigned int> LineColors;
@@ -24,12 +25,13 @@ vector<TString> Selections;
 vector<TString> Histograms;
 
 // add  sample
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+void addSample(TFile* sample, TString name, TString label, double weight, int lc, int fc, int fs);
 
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+void addSample(TFile* sample, TString name, TString label, double weight, int lc, int fc, int fs)
 {
   Files.push_back(sample);
   Names.push_back(name);
+  Labels.push_back(label);
   Weights.push_back(weight);
   LineColors.push_back(lc);
   FillColors.push_back(fc);
@@ -70,11 +72,11 @@ int PU()
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(TTJetsFall11,   "t#bar{t}+Jets",    1, kRed,      0, 0);
-  addSample(SingleTop,      "Single Top",       1, kBlue,     0, 0);
-  addSample(ZJets,          "Z/#gamma*+Jets",   1, kYellow,   0, 0);
-  addSample(WJetsHT,        "W+Jets",           1, kGreen+2,  0, 0);
-  addSample(QCD,            "QCD",              1, kRed+2,    0, 0);
+  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -112,30 +114,49 @@ int PU()
    for(int ndx=0; ndx<(int)Files.size(); ++ndx)
      {
 
+       std::cout << "\n"<< Names[ndx] << std::endl;
+       std::cout << "---------------" << std::endl;
+
        // loop over selections
        for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	 {
-	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx], 1);
+	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
-	   TLegend *leg = new TLegend(.38,.70,.91,.91);
+	   TLegend *leg = new TLegend(.33,.70,.91,.91);
 	   leg->SetTextFont(42);
 	   leg->SetFillColor(0);
 	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
+	   leg->SetTextSize(0.045);
+	   leg->SetFillColor(0);
+	   leg->SetLineColor(1);
+	   leg->SetShadowColor(0);
+	   leg->SetLineColor(0);
+
+	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	   label->SetFillColor(0);
+	   label->SetTextFont(42);
+	   label->SetTextSize(0.043);
+	   label->SetBorderSize(0);
+	   label->SetTextAlign(12);
+	   TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
 
 	   // Draw first histogram
 	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
+
+	   std::cout << "Integral after weighting: " << Temp1->Integral() << std::endl;
+
 	   Temp1->Scale(1/(Temp1->Integral()));
 	   Temp1->SetTitle("");
 	   //Temp1->SetMaximum(0.11);
-	   //if(Names[ndx]=="Single Top") Temp1->SetMaximum(0.11);
+	   //if(Labels[ndx]=="Single Top") Temp1->SetMaximum(0.11);
 	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
 	   //Temp1->GetXaxis()->CenterTitle();
 	   Temp1->GetXaxis()->SetTitleOffset(1.2);
-	   Temp1->GetXaxis()->SetRangeUser(-0.5,50.5);
+	   //Temp1->GetXaxis()->SetRangeUser(-0.5,50.5);
 	   Temp1->GetYaxis()->SetTitle("a.u.");
 	   //Temp1->GetYaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitleOffset(1.7);
+	   Temp1->GetYaxis()->SetTitleOffset(1.4);
 	   Temp1->SetLineColor(LineColors[ndx]);
 	   Temp1->SetLineStyle(3);
 	   Temp1->SetLineWidth(3);
@@ -143,9 +164,12 @@ int PU()
 	   //Temp1->SetMarkerColor(LineColors[ndx]);
 	   //Temp1->SetMarkerSize(1.0);
 	   Temp1->Draw("Hist");
-	   
+
 	   // Draw first histogram
 	   TH1F* Temp2=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[1]);
+
+	   std::cout << "Integral before weighting: " << Temp2->Integral() << std::endl;
+
 	   Temp2->Scale(1/(Temp2->Integral()));
 	   Temp2->SetLineColor(LineColors[ndx]);
 	   Temp2->SetLineStyle(1);
@@ -164,12 +188,13 @@ int PU()
 	   Temp3->SetMarkerSize(0.9);
 	   Temp3->Draw("same E");
 
-	   leg->AddEntry(Temp2,Names[ndx]+" w/o reweighting","l P");
-	   leg->AddEntry(Temp1,Names[ndx]+" w reweighting","l P");
+	   leg->AddEntry(Temp2,Labels[ndx]+" w/o reweighting","l P");
+	   leg->AddEntry(Temp1,Labels[ndx]+" w reweighting","l P");
 	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
 	   leg->Draw();
-	   c1->SaveAs("PU_"+Names[ndx]+".eps");
+	   label->Draw("same");
+	   c1->SaveAs("PU_"+Names[ndx]+".pdf");
 	 }
      }
 }

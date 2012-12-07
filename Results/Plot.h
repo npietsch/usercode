@@ -585,7 +585,7 @@ int plotSet::print1D( map<TString, vector<TH1*> >::iterator c )
   //tmpC->Modified();
   //tmpC->Update();
   
-  tmpC->SaveAs(c->first+"_tight.pdf");
+  tmpC->SaveAs(c->first+".pdf");
 
   return 1;
 }
