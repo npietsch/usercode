@@ -22,3 +22,15 @@ nafJobSplitter.pl -q 1 150 QCD3_1_cfg.py
 nafJobSplitter.pl -q 1 146 QCD3_2_cfg.py
 nafJobSplitter.pl -q 1 150 QCD4_1_cfg.py
 nafJobSplitter.pl -q 1 107 QCD4_2_cfg.py
+
+nafJobSplitter.pl -q 1 200 QCD5_1_cfg.py
+nafJobSplitter.pl -q 1 200 QCD5_2_cfg.py
+
+nafJobSplitter.pl -q 1 200 QCD6_1_cfg.py
+nafJobSplitter.pl -q 1 200 QCD6_2_cfg.py
+
+nafJobSplitter.pl -q 1 200 QCD7_1_cfg.py
+nafJobSplitter.pl -q 1 152 QCD7_2_cfg.py
+
+nafJobSplitter.pl -q 1 200 QCD8_1_cfg.py
+nafJobSplitter.pl -q 1 133 QCD8_2_cfg.py

@@ -29,10 +29,11 @@ process.GlobalTag.globaltag = cms.string('START44_V10::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    'file:../../../../../../Storage/QCD_HT700_JetPt40_14TeV_PAT.root'
+    #'file:../../../../../../Storage/QCD_HT700_JetPt40_14TeV_PAT.root'
+    'file:SUSYPAT.root'
     )
  )
-process.source.duplictateCheckMode = cms.untracked.string('noDuplicateCheck')
+#process.source.duplictateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 # load and configure modules for event weighting
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
@@ -100,8 +101,11 @@ process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 process.analyzeLooseJets      = process.analyzeGluino.clone()
 process.analyzeLooseJets.jets = "looseJets"
 
-process.analyzeGoodJets      = process.analyzeGluino.clone()
-process.analyzeGoodJets.jets = "goodJets"
+process.analyzeGoodJets       = process.analyzeGluino.clone()
+process.analyzeGoodJets.jets  = "goodJets"
+
+process.analyzeHiggs          = process.analyzeGluino.clone()
+process.analyzeHiggs.jets     = "goodJets"
 
 ## analyzer modules for signal only
 process.analyzeSignal1        = process.analyzeGluino.clone()
@@ -310,6 +314,9 @@ process.Bino45 = cms.Path(# producer sequneces
                           process.analyzeBinoJERUp *
                           process.analyzeBinoJERDown
                           )
+
+process.test = cms.Path(process.preselection14TeV *
+                        process.analyzeHiggs)
 
 process.Bino4 = cms.Path(# filter and analyzer sequences
                          process.preselection14TeV *
