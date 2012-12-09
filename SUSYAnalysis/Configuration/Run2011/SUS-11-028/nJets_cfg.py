@@ -64,17 +64,6 @@ process.SUSYEvt.mets      = "scaledJetEnergy:patMETsPF"
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff")
 process.decaySubset.fillMode = "kME"
 
-#---------------------------------------------------------------------------
-# load and configure modules to filter on member functions of TtGenEvent
-#---------------------------------------------------------------------------
-
-process.load("TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi")
-
-process.SemiLepTtGenEventFilter = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
-process.DiLepTtGenEventFilter   = process.ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
-process.FullHadTtGenEventFilter = process.ttGenEventFilter.clone(cut="isFullHadronic()")
-process.TauTtGenEventFilter     = process.ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
-
 #------------------------------------------------------------------
 # Load and configure modules for event weighting
 #------------------------------------------------------------------
@@ -83,13 +72,13 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_68000.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500.root"
 
 process.eventWeightPUUp = process.eventWeightPU.clone()
-process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_64600.root"
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.root"
 
 process.eventWeightPUDown = process.eventWeightPU.clone()
-process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_71400.root"
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_67620.root"
 
 #------------------------------------------------------------------
 # Load modules for preselection
@@ -134,7 +123,6 @@ process.btagEventWeightElJER.jets            = "goodJets"
 process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
                                           process.makeSUSYGenEvt *
-                                          process.SemiLepTtGenEventFilter *
                                           process.scaledJetEnergy *
                                           process.preselectionLepHTMC2 *
                                           process.makeObjects *
@@ -144,10 +132,10 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           
                                           # execute filter and analyzer modules
                                           process.leptonSelection *
-                                          process.analyzeTtGenEvent1l_leptonSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
                                           process.threeGoodJets *
-                                          process.analyzeTtGenEvent1l_jetSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_jetSelection_TTJets *
 
                                           process.analyzeCorrelation1l *
 
@@ -200,8 +188,8 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT500To600_MET100To150 *
 
                                           process.filterMediumHT *
-                                          process.analyzeTtGenEvent1l_HTSelection_SemiLep *
+                                          process.analyzeTtGenEvent1l_HTSelection_TTJets *
                                                                                     
                                           process.oneGoodMET *
-                                          process.analyzeTtGenEvent1l_METSelection_SemiLep
+                                          process.analyzeTtGenEvent1l_METSelection_TTJets
                                           )
