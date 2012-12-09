@@ -129,6 +129,7 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.SUSYEvt *
                                           process.eventWeightPU *
                                           process.weightProducer *
+                                          process.btagEventWeightMuJER *
                                           
                                           # execute filter and analyzer modules
                                           process.leptonSelection *
@@ -164,6 +165,10 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_MET250ToInf *
 
                                           process.analyzeCorrelation1l_MET100ToInf *
+
+                                          process.analyzeCorrelation1l_YMET0To3 *
+                                          process.analyzeCorrelation1l_YMET3To5 *
+                                          process.analyzeCorrelation1l_YMET5To8 *
                                           
                                           process.analyzeCorrelation1l_HT300ToInf_MET0To50 *
                                           process.analyzeCorrelation1l_HT300ToInf_MET50To100 *
@@ -190,6 +195,6 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.filterMediumHT *
                                           process.analyzeTtGenEvent1l_HTSelection_TTJets *
                                                                                     
-                                          process.oneGoodMET *
+                                          process.oneMediumMET *
                                           process.analyzeTtGenEvent1l_METSelection_TTJets
                                           )

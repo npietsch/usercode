@@ -271,3 +271,44 @@ preselectionElHTAllData = cms.Sequence(goodVertices *
                                        Electron_BEfilterSequence *
                                        ElHTTriggerAllData
                                        )
+
+
+#---------------------------------------------------------------------------
+# load and configure modules to filter on member functions of TtGenEvent
+#---------------------------------------------------------------------------
+
+from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
+
+SemiLepElMuTtGenEventFilter = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
+SemiLepTauTtGenEventFilter  = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3")
+
+DiLepTtGenEventFilter       = ttGenEventFilter.clone(cut="isFullLeptonic()")
+
+DiLepElMuTtGenEventFilter   = ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
+
+FullHadTtGenEventFilter     = ttGenEventFilter.clone(cut="isFullHadronic()")
+TauTtGenEventFilter         = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
+
+preselectionSemiLepElMu = cms.Sequence(goodVertices *
+                                       oneGoodVertex *
+                                       scrapingVeto *
+                                       SemiLepElMuTtGenEventFilter
+                                       )
+
+preselectionSemiLepTau = cms.Sequence(goodVertices *
+                                      oneGoodVertex *
+                                      scrapingVeto *
+                                      SemiLepTauTtGenEventFilter
+                                      )
+
+preselectionDiLep = cms.Sequence(goodVertices *
+                                 oneGoodVertex *
+                                 scrapingVeto *
+                                 DiLepTtGenEventFilter
+                                 )
+
+preselectionDiLepElMu = cms.Sequence(goodVertices *
+                                     oneGoodVertex *
+                                     scrapingVeto *
+                                     DiLepElMuTtGenEventFilter
+                                     )

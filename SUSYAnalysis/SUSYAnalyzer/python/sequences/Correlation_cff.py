@@ -11,6 +11,11 @@ analyzeCorrelation.met            = "scaledJetEnergy:patMETsPF"
 analyzeCorrelation.useEventWeight = True
 analyzeCorrelation.TTJets         = True
 
+analyzeCorrelation.useInclusiveBtagEventWeight = True
+analyzeCorrelation.inclusiveBtagBin = 2
+analyzeCorrelation.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
+analyzeCorrelation.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
+
 analyzeCorrelation1l              = analyzeCorrelation.clone()
 
 ## clone and configure modules for different nJets cuts
@@ -67,6 +72,15 @@ analyzeCorrelation1l_MET250ToInf.METCut = 250.,9999.
 analyzeCorrelation1l_MET100ToInf              = analyzeCorrelation.clone()
 
 analyzeCorrelation1l_MET100ToInf.METCut = 100.,9999.
+
+## clone and configure modules for different YMET cuts
+analyzeCorrelation1l_YMET0To3          = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET3To5          = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET5To8          = analyzeCorrelation.clone()
+
+analyzeCorrelation1l_YMET0To3.YMETCut  = 0.,3.
+analyzeCorrelation1l_YMET3To5.YMETCut  = 3.,5.
+analyzeCorrelation1l_YMET5To8.YMETCut  = 5.,8.
 
 ## clone and configure modules for different HT + MET cuts
 analyzeCorrelation1l_HT300ToInf_MET0To50      = analyzeCorrelation.clone()

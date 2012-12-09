@@ -38,6 +38,7 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   std::vector<int> nJetsCut_;
   std::vector<double> HTCut_;
   std::vector<double> METCut_;
+  std::vector<double> YMETCut_;
 
   edm::InputTag met_;
   edm::InputTag jets_;

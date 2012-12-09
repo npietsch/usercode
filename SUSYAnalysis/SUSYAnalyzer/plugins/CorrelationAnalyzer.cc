@@ -22,6 +22,7 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   nJetsCut_          (cfg.getParameter<std::vector<int> >("nJetsCut")),
   HTCut_             (cfg.getParameter<std::vector<double> >("HTCut")),
   METCut_            (cfg.getParameter<std::vector<double> >("METCut")),
+  YMETCut_           (cfg.getParameter<std::vector<double> >("YMETCut")),
 
   met_               (cfg.getParameter<edm::InputTag>("met") ),
   jets_              (cfg.getParameter<edm::InputTag>("jets") ),
@@ -387,6 +388,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   if(SUSYEvt->nJets() < nJetsCut_[0] || SUSYEvt->nJets() > nJetsCut_[1]) return;
   if(SUSYEvt->HT()    < HTCut_[0]    || SUSYEvt->HT()    > HTCut_[1]   ) return;
   if(SUSYEvt->MET()   < METCut_[0]   || SUSYEvt->MET()   > METCut_[1]  ) return;
+  if(SUSYEvt->YMET()  < YMETCut_[0]  || SUSYEvt->YMET()  > YMETCut_[1] ) return;
 
   //--------------------------------------------------
   // Handles

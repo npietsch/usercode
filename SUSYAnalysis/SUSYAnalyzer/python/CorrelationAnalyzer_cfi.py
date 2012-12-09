@@ -8,6 +8,7 @@ analyzeCorrelation = cms.EDAnalyzer("CorrelationAnalyzer",
                                     nJetsCut  = cms.vint32(0,99),
                                     HTCut = cms.vdouble(0.,9999.),
                                     METCut = cms.vdouble(0.,9999.),
+                                    YMETCut = cms.vdouble(0.,999.),
 
                                     met = cms.InputTag("patMETsPF"),
                                     jets = cms.InputTag("selectedPatJetsAK5PF"),
