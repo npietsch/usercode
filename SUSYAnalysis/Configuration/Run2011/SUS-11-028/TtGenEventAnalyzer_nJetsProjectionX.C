@@ -67,7 +67,9 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // Sample
   //--------------------------------------------------------------
 
-  TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  //TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  //TFile* TTJets = new TFile("SingleTop.root", "READ");
+  TFile* TTJets = new TFile("DiLep.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -85,7 +87,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 
   //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
   addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
-  addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
+  //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
 
@@ -152,12 +154,15 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeCorrelation1l_MET200To250", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET250ToInf", "lepton selection");
 
+  addSelectionStep("analyzeCorrelation1l", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_MET100ToInf", "lepton selection");
+
   addSelectionStep("analyzeCorrelation1l_HT400ToInf", "lepton selection");
   addSelectionStep("analyzeCorrelation1l_HT500ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
 
-//   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET150ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET200ToInf", "lepton selection");
 
@@ -184,7 +189,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   //------------ 
 
   setTDRStyle();
-  
+
   for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
     { 
       std::cout << "\n" << Histograms[hdx] << std::endl;

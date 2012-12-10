@@ -19,13 +19,7 @@ process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
-process.muonSelection = cms.Sequence(process.oneGoodMuon *
-                                     process.exactlyOneGoodMuon *
-                                     ##process.pfMuonConsistency *
-                                     process.noGoodElectron *
-                                     process.exactlyOneVetoMuon *
-                                     process.noVetoElectron
-                                     )
+process.goodMuons = process.vertexSelectedGoodMuons.clone()
 
 # Choose input files
 process.source = cms.Source("PoolSource",
