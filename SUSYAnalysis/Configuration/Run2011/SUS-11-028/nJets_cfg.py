@@ -209,12 +209,9 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT400ToInf_MET100To150 *
                                           process.analyzeCorrelation1l_HT400ToInf_MET150To200 *
                                           process.analyzeCorrelation1l_HT400ToInf_MET200To250 *
-
-                                          # execute analyzer modules for exclusive HT and exclusive MET cuts
-                                          process.analyzeCorrelation1l_HT300ToInf_MET60ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100ToInf *
                                           process.analyzeCorrelation1l_HT300ToInf_MET150ToInf *
                                           
+                                          # execute analyzer modules for exclusive HT and exclusive MET cuts
                                           process.analyzeCorrelation1l_HT300To400_MET0To50 *
                                           process.analyzeCorrelation1l_HT300To400_MET50To100 *
                                           process.analyzeCorrelation1l_HT300To400_MET100To150 *
