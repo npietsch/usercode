@@ -87,13 +87,19 @@ analyzeCorrelation1l_MET150To200.METCut = 150.,200.
 analyzeCorrelation1l_MET200To250.METCut = 200.,250.
 
 ## clone and configure modules for different exclusive YMET cuts
-analyzeCorrelation1l_YMET0To3 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET3To5 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET5To8 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET0To1 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET1To2 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET2To3 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET3To4 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET4To5 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET5To6 = analyzeCorrelation.clone()
 
-analyzeCorrelation1l_YMET0To3.YMETCut = 0.,3.
-analyzeCorrelation1l_YMET3To5.YMETCut = 3.,5.
-analyzeCorrelation1l_YMET5To8.YMETCut = 5.,8.
+analyzeCorrelation1l_YMET0To1.YMETCut = 0.,1.
+analyzeCorrelation1l_YMET1To2.YMETCut = 1.,2.
+analyzeCorrelation1l_YMET2To3.YMETCut = 2.,3.
+analyzeCorrelation1l_YMET3To4.YMETCut = 3.,4.
+analyzeCorrelation1l_YMET4To5.YMETCut = 4.,5.
+analyzeCorrelation1l_YMET5To6.YMETCut = 5.,6.
 
 ## clone and configure modules for HT > 400 und different inclusive MET cuts
 analyzeCorrelation1l_HT400ToInf_MET0ToInf   = analyzeCorrelation.clone()
@@ -192,7 +198,6 @@ analyzeCorrelation1l_HT500ToInf_MET150To200.METCut = 150.,200.
 
 analyzeCorrelation1l_HT500ToInf_MET200To250.HTCut  = 500.,9999.
 analyzeCorrelation1l_HT500ToInf_MET200To250.METCut = 200.,250.
-
 
 ## clone and configure modules for HT > 600 und different inclusive MET cuts
 analyzeCorrelation1l_HT600ToInf_MET0ToInf   = analyzeCorrelation.clone()

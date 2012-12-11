@@ -67,9 +67,9 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // Sample
   //--------------------------------------------------------------
 
-  //TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  TFile* TTJets = new TFile("SemiLepElMu.root", "READ");
   //TFile* TTJets = new TFile("SingleTop.root", "READ");
-  TFile* TTJets = new TFile("DiLep.root", "READ");
+  //TFile* TTJets = new TFile("DiLep.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -155,14 +155,18 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeCorrelation1l_MET250ToInf", "lepton selection");
 
   addSelectionStep("analyzeCorrelation1l", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_MET100ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_MET100ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_HT400ToInf", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_HT500ToInf", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET0To3", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET3To5", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET5To8", "lepton selection");
+
+  //addSelectionStep("analyzeCorrelation1l_HT400ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT500ToInf", "lepton selection");
 
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET150ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET200ToInf", "lepton selection");
 
