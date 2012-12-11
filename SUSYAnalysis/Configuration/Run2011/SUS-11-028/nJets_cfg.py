@@ -180,21 +180,6 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_YMET3To5 *
                                           process.analyzeCorrelation1l_YMET5To8 *
 
-                                          # execute analyzer modules for HT > 300 and inclusive MET cuts
-                                          process.analyzeCorrelation1l_HT300ToInf_MET0ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET50ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET150ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET200ToInf *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET250ToInf *
-
-                                          # execute analyzer modules for HT > 300 and exclusive MET cuts
-                                          process.analyzeCorrelation1l_HT300ToInf_MET0To50 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET50To100 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET100To150 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET150To200 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET200To250 *
-
                                           # execute analyzer modules for HT > 400 and inclusive MET cuts
                                           process.analyzeCorrelation1l_HT400ToInf_MET0ToInf *
                                           process.analyzeCorrelation1l_HT400ToInf_MET50ToInf *
@@ -209,7 +194,37 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT400ToInf_MET100To150 *
                                           process.analyzeCorrelation1l_HT400ToInf_MET150To200 *
                                           process.analyzeCorrelation1l_HT400ToInf_MET200To250 *
-                                          process.analyzeCorrelation1l_HT300ToInf_MET150ToInf *
+                                          process.analyzeCorrelation1l_HT400ToInf_MET150ToInf *
+
+                                          # execute analyzer modules for HT > 500 and inclusive MET cuts
+                                          process.analyzeCorrelation1l_HT500ToInf_MET0ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET50ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET100ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET150ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET200ToInf *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET250ToInf *
+
+                                          # execute analyzer modules for HT > 500 and exclusive MET cuts
+                                          process.analyzeCorrelation1l_HT500ToInf_MET0To50 *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET50To100 *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET100To150 *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET150To200 *
+                                          process.analyzeCorrelation1l_HT500ToInf_MET200To250 *
+
+                                          # execute analyzer modules for HT > 600 and inclusive MET cuts
+                                          process.analyzeCorrelation1l_HT600ToInf_MET0ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET50ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET100ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET150ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET200ToInf *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET250ToInf *
+
+                                          # execute analyzer modules for HT > 600 and exclusive MET cuts
+                                          process.analyzeCorrelation1l_HT600ToInf_MET0To50 *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET50To100 *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET100To150 *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET150To200 *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET200To250 *
                                           
                                           # execute analyzer modules for exclusive HT and exclusive MET cuts
                                           process.analyzeCorrelation1l_HT300To400_MET0To50 *

@@ -109,8 +109,9 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   DeltaRecoGenJetPt_ = fs->make<TH1F>("DeltaRecoGenJetPt", "DeltaRecoGenJetPt", 60, -30.,   30.);
 
   MET_                     = fs->make<TH1F>("MET",                      "MET",                     50,   0.,  1000.);
-  HT_                      = fs->make<TH1F>("HT",                       "HT",                      40,   0.,  2000.);
+  HT_                      = fs->make<TH1F>("HT",                       "HT",                      60,   0.,  3000.);
   nJets_                   = fs->make<TH1F>("nJets",                    "nJets",                   16 , -0.5,  15.5);
+  nJets50_                 = fs->make<TH1F>("nJets50",                  "nJets50",                 16 , -0.5,  15.5);
   DeltaRecoGenJetPtSum_    = fs->make<TH1F>("DeltaRecoGenJetPtSum_",    "DeltaRecoGenJetPtSum",    40,  -100.,  100);
   AbsDeltaRecoGenJetPtSum_ = fs->make<TH1F>("AbsDeltaRecoGenJetPtSum_", "AbsDeltaRecoGenJetPtSum", 40,     0.,  200);
 
@@ -150,9 +151,9 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
 
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
-  mT_       = fs->make<TH1F>("mT",      "mT",      80, 0., 400.);
-  mlb_      = fs->make<TH1F>("mlb",     "mlb",     80, 0., 400.);
-  mLepTop_  = fs->make<TH1F>("mLepTop", "mLepTop", 80, 0., 400.);
+  mT_       = fs->make<TH1F>("mT",      "mT",      40, 0., 400.);
+  mlb_      = fs->make<TH1F>("mlb",     "mlb",     40, 0., 400.);
+  mLepTop_  = fs->make<TH1F>("mLepTop", "mLepTop", 40, 0., 400.);
 
   YMET_     = fs->make<TH1F>("YMET", "YMET", 50, 0., 25);
   METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
@@ -526,6 +527,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   if(met->size()==0) return;
 
   double HT=0;
+  int nJets50 =0;
   double DeltaRecoGenJetPxSum=0;
   double DeltaRecoGenJetPySum=0;
   double AbsDeltaRecoGenJetPtSum=0;
@@ -539,6 +541,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       Jets_Et_  ->Fill((*jets)[i].et(),  weight);
       Jets_Eta_ ->Fill((*jets)[i].eta(), weight);
       HT=HT+(*jets)[i].et();
+      if((*jets)[i].pt()>50) nJets50=nJets50+1; 
 
 	      if((*jets)[i].genJet())
 		{
@@ -555,6 +558,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   MET_                     ->Fill((*met)[0].et(),          weight);
   HT_                      ->Fill(HT,                      weight);
   nJets_                   ->Fill(jets->size(),            weight);
+  nJets50_                 ->Fill(nJets50,                weight);
   DeltaRecoGenJetPtSum_    ->Fill(DeltaRecoGenJetPtSum,    weight);
   AbsDeltaRecoGenJetPtSum_ ->Fill(AbsDeltaRecoGenJetPtSum, weight);
 

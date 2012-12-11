@@ -107,7 +107,8 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH1F* DeltaRecoGenJetPt_;
   TH1F* MET_;
   TH1F* HT_; 
-  TH1F* nJets_;
+  TH1F* nJets_; 
+  TH1F* nJets50_;
   TH1F* DeltaRecoGenJetPtSum_;
   TH1F* AbsDeltaRecoGenJetPtSum_;
 
