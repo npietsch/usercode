@@ -69,7 +69,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 
   TFile* TTJets = new TFile("SemiLepElMu.root", "READ");
   //TFile* TTJets = new TFile("SingleTop.root", "READ");
-  //TFile* TTJets = new TFile("DiLep.root", "READ");
+  // TFile* TTJets = new TFile("DiLep.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -85,8 +85,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
   //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
+  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  //addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
   //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
@@ -144,27 +144,27 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeCorrelation1l_HT200To300", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300To400", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT400To500", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_HT500To600", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT500To600", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT600ToInf", "lepton selection");
 
 //   addSelectionStep("analyzeCorrelation1l_MET0To50",   "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET50To100", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
+   addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET150To200", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET200To250", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET250ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l", "lepton selection");
   //addSelectionStep("analyzeCorrelation1l_MET100ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_YMET0To3", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET3To5", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET5To8", "lepton selection");
+ //  addSelectionStep("analyzeCorrelation1l_YMET0To3", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET3To5", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET5To8", "lepton selection");
 
   //addSelectionStep("analyzeCorrelation1l_HT400ToInf", "lepton selection");
   //addSelectionStep("analyzeCorrelation1l_HT500ToInf", "lepton selection");
-
-//   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET60ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_MET100ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT300ToInf", "lepton selection");
 
   //addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET100ToInf", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300ToInf_MET150ToInf", "lepton selection");
@@ -210,7 +210,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	  leg->SetFillColor(0);
 	  leg->SetLineColor(1);
 	  leg->SetShadowColor(0);
-	  leg->AddEntry((TObject*)0, "semilep. t#bar{t}", "");
+	  leg->AddEntry((TObject*)0, "Semilep. t#bar{t}", "");
       
 	  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
 
@@ -254,12 +254,12 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 	  label2->SetTextAlign(12);
 	  TText *text2=label2->AddText("Own work");
 	  TText *text3=label2->AddText("in progress");
-	  label2->Draw("same");
+	  //label2->Draw("same");
 	  
 	  leg->Draw();
 
-	  //canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX.pdf");
+	  canvas->SetLogy();
+	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	}
     }
 

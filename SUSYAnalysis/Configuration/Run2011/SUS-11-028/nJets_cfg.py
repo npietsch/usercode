@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(1000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -119,8 +119,8 @@ process.btagEventWeightElJER.jets            = "goodJets"
 # Selection paths
 #--------------------------
 
-## lepton selection path for all SemiLep TTJets
-process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection modules
+## lepton selection path for all TTJets
+process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection modules
                                           process.makeGenEvt *
                                           process.makeSUSYGenEvt *
                                           process.scaledJetEnergy *
@@ -243,9 +243,69 @@ process.LeptonSelection_SemiLep = cms.Path(# execute producer and preselection m
                                           process.analyzeCorrelation1l_HT500To600_MET100To150 *
 
                                           ## execute analyzer modules for inclusive nJets cuts
-                                          process.filterMediumHT *
+                                          process.filterTightHT *
                                           process.analyzeTtGenEvent1l_HTSelection_TTJets *
                                                                                     
                                           process.oneMediumMET *
-                                          process.analyzeTtGenEvent1l_METSelection_TTJets
+                                          process.analyzeTtGenEvent1l_METSelection_TTJets *
+
+                                          process.filterMT *
+                                          process.analyzeTtGenEvent1l_mTSelection_TTJets *
+                                          process.analyzeCorrelation1l_HT600ToInf_MET100ToInf_MT120ToInf
                                           )
+
+## std sequence to produce the ttSemiLepEvent
+process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff")
+process.ttSemiLepEvent.verbosity = 1
+
+## choose which hypotheses to produce
+from TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff import *
+## addTtSemiLepHypotheses(process,
+##                        ["kGeom", "kWMassDeltaTopMass", "kWMassMaxSumPt", "kMaxSumPtWMass", "kMVADisc", "kKinFit"]
+##                        )
+addTtSemiLepHypotheses(process,
+                       ["kKinFit"]
+                       )
+removeTtSemiLepHypGenMatch(process)
+
+process.ttSemiLepHypKinFit.mets = "scaledJetEnergy:patMETsPF"
+process.ttSemiLepHypKinFit.jets = "goodJets"
+process.ttSemiLepHypKinFit.leps = "goodMuons"
+
+process.kinFitTtSemiLepEventHypothesis.mets = "scaledJetEnergy:patMETsPF"
+process.kinFitTtSemiLepEventHypothesis.jets = "goodJets"
+process.kinFitTtSemiLepEventHypothesis.leps = "goodMuons"
+
+process.kinFitTtSemiLepEventHypothesis.maxNJets = 4
+## process.kinFitTtSemiLepEventHypothesis.minBDiscBJets = 3.3
+## process.kinFitTtSemiLepEventHypothesis.maxBDiscLightJets = 3.3
+## process.kinFitTtSemiLepEventHypothesis.useBTagging = True
+process.kinFitTtSemiLepEventHypothesis.constraints = 1,2,3,4
+
+process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
+#process.analyzeHypothesisKinFit.maxNJets = -1
+
+## test selection path for all TTJets
+process.testKinFit_TTJets = cms.Path(# execute producer and preselection modules
+                                     process.makeGenEvt *
+                                     process.makeSUSYGenEvt *
+                                     process.scaledJetEnergy *
+                                     process.preselectionLepHTMC2 *
+                                     process.makeObjects *
+                                     process.SUSYEvt *
+                                     process.eventWeightPU *
+                                     process.weightProducer *
+                                     process.btagEventWeightMuJER *
+                                          
+                                     # execute filter and analyzer modules
+                                     process.muonSelection *
+                                                                          
+                                     process.threeGoodJets *
+                                     
+                                     #process.filterTightHT *
+                                     
+                                     #process.oneMediumMET *
+
+                                     process.makeTtSemiLepEvent *
+                                     process.analyzeHypothesisKinFit
+                                     )

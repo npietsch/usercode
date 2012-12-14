@@ -67,7 +67,7 @@ int TtGenEventAnalyzer_ProjectionX()
   // Sample
   //--------------------------------------------------------------
 
-  TFile* TTJets = new TFile("TTJetsFall11.root", "READ");
+  TFile* TTJets = new TFile("SemiLepElMu.root", "READ");
 
   //--------------------------------------------------------------
   // addHistogram
@@ -79,11 +79,8 @@ int TtGenEventAnalyzer_ProjectionX()
   //--------------------------------------------------------------
   // addSelectionStep
   //--------------------------------------------------------------
-
-  addSelectionStep("analyzeSUSY1l_leptonSelection_TTJets", "lepton selection");
-  addSelectionStep("analyzeSUSY1l_jetSelection_TTJets",    "jet selection");
-  //addSelectionStep("analyzeSUSY1l_HTSelection_TTJets",     "HT selection");
-  addSelectionStep("analyzeSUSY1l_METSelection_TTJets",    "MET selection");
+ 
+  addSelectionStep("analyzeCorrelation1l",    "MET selection");
 
   //--------------------------------------------------------------
   // addBin
@@ -93,9 +90,9 @@ int TtGenEventAnalyzer_ProjectionX()
 //   addBin(13, 20, "6 < Y_{MET} < 10", 4, 23);
 //   addBin(21, -1, "Y_{MET} > 10 ",    1, 20);
 
-  addBin(3,  3,  "4 <  Y_{MET} < 6", 2, 22);
-  addBin(4,  5,  "6 < Y_{MET} < 10", 4, 23);
-  addBin(6, -1, "Y_{MET} > 10 ",    1, 20);
+  addBin(9,  12,  "4 <  Y_{MET} < 6", 2, 22);
+  addBin(13, 20,  "6 < Y_{MET} < 10", 4, 23);
+  addBin(21, -1,  "Y_{MET} > 10 ",    1, 20);
 
   //------------
   // set style 
@@ -137,7 +134,7 @@ int TtGenEventAnalyzer_ProjectionX()
 	      Projection->GetYaxis()->SetTitle("# events");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
-	      Projection->Scale(1/Projection->Integral(9,-1));
+	      Projection->Scale(1/Projection->Integral(11,-1));
 	      Projection->SetMarkerStyle(MarkerStyles[bin]);
 	      Projection->SetMarkerColor(BinColors[bin]);
 	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
@@ -145,7 +142,7 @@ int TtGenEventAnalyzer_ProjectionX()
 	      if(bin == 0) Projection->DrawCopy();
 	      else Projection->DrawCopy("same");
 	    }
-	  //leg->Draw();
+	  leg->Draw();
 	  canvas->SetLogy();
 	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	}
