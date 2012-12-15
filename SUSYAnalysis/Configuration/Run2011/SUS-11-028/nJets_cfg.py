@@ -135,7 +135,7 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           process.leptonSelection *
                                           process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
-                                          process.threeGoodJets *
+                                          process.fourGoodJets *
                                           process.analyzeTtGenEvent1l_jetSelection_TTJets *
 
                                           process.analyzeCorrelation1l *
