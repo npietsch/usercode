@@ -7,14 +7,19 @@ le#!/bin/bash
 #nafJobSplitter.pl -q 1 235 RA4b_TTJets_cfg.py
 
 nafJobSplitter.pl -q 1 31 RA4b_LM3_noPFCheck_cfg.py
-nafJobSplitter.pl -q 1 27 RA4b_LM6_noPFCheck_cfg.py
-nafJobSplitter.pl -q 1 32 RA4b_LM8_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM13_noPFCheck_cfg.py
 
 nafJobSplitter.pl -q 1 31 RA4b_LM3_GluinoSquark_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 31 RA4b_LM3_GluinoPair_noPFCheck_cfg.py
-nafJobSplitter.pl -q 1 27 RA4b_LM6_StopPair_noPFCheck_cfg.py
 
+nafJobSplitter.pl -q 1 27 RA4b_LM6_StopPair
+nafJobSplitter.pl -q 1 27 RA4b_LM6_noPFCheck_cfg.py_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 27 RA4b_LM6_SbottomPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 27 RA4b_LM6_GluinoPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 27 RA4b_LM6_GluinoSquark_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 27 RA4b_LM6_SquarkPair_noPFCheck_cfg.py
+
+nafJobSplitter.pl -q 1 32 RA4b_LM8_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_StopPair_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_SbottomPair_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_GluinoPair_noPFCheck_cfg.py
