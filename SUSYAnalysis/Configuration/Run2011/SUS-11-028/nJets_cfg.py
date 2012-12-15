@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -254,58 +254,96 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           process.analyzeCorrelation1l_HT600ToInf_MET100ToInf_MT120ToInf
                                           )
 
-## std sequence to produce the ttSemiLepEvent
-process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff")
-process.ttSemiLepEvent.verbosity = 1
+## process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff")
 
-## choose which hypotheses to produce
-from TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff import *
 ## addTtSemiLepHypotheses(process,
-##                        ["kGeom", "kWMassDeltaTopMass", "kWMassMaxSumPt", "kMaxSumPtWMass", "kMVADisc", "kKinFit"]
+##                        ["kKinFit"]
 ##                        )
-addTtSemiLepHypotheses(process,
-                       ["kKinFit"]
-                       )
-removeTtSemiLepHypGenMatch(process)
+## removeTtSemiLepHypGenMatch(process)
 
-process.ttSemiLepHypKinFit.mets = "scaledJetEnergy:patMETsPF"
-process.ttSemiLepHypKinFit.jets = "goodJets"
-process.ttSemiLepHypKinFit.leps = "goodMuons"
+#------------------------------------------------------------------
+# Import all modules to to create ttSemiLepEvent
+#------------------------------------------------------------------
 
-process.kinFitTtSemiLepEventHypothesis.mets = "scaledJetEnergy:patMETsPF"
-process.kinFitTtSemiLepEventHypothesis.jets = "goodJets"
-process.kinFitTtSemiLepEventHypothesis.leps = "goodMuons"
+from TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff import *
 
-process.kinFitTtSemiLepEventHypothesis.maxNJets = 4
-## process.kinFitTtSemiLepEventHypothesis.minBDiscBJets = 3.3
-## process.kinFitTtSemiLepEventHypothesis.maxBDiscLightJets = 3.3
-## process.kinFitTtSemiLepEventHypothesis.useBTagging = True
-process.kinFitTtSemiLepEventHypothesis.constraints = 1,2,3,4
+#------------------------------------------------------------------
+# clone and configure modules to fit hadronically decaying W
+#------------------------------------------------------------------
 
-process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
-#process.analyzeHypothesisKinFit.maxNJets = -1
+process.kinFitTtSemiLepEventHypothesisHadWMass      =  kinFitTtSemiLepEventHypothesis.clone()
+process.kinFitTtSemiLepEventHypothesisHadWMass.mets = "scaledJetEnergy:patMETsPF"
+process.kinFitTtSemiLepEventHypothesisHadWMass.jets = "goodJets"
+process.kinFitTtSemiLepEventHypothesisHadWMass.leps = "goodMuons"
+process.kinFitTtSemiLepEventHypothesisHadWMass.maxNJets = 8
+process.kinFitTtSemiLepEventHypothesisHadWMass.constraints = 1,
 
-## test selection path for all TTJets
-process.testKinFit_TTJets = cms.Path(# execute producer and preselection modules
-                                     process.makeGenEvt *
-                                     process.makeSUSYGenEvt *
-                                     process.scaledJetEnergy *
-                                     process.preselectionLepHTMC2 *
-                                     process.makeObjects *
-                                     process.SUSYEvt *
-                                     process.eventWeightPU *
-                                     process.weightProducer *
-                                     process.btagEventWeightMuJER *
-                                          
-                                     # execute filter and analyzer modules
-                                     process.muonSelection *
-                                                                          
-                                     process.threeGoodJets *
-                                     
-                                     #process.filterTightHT *
-                                     
-                                     #process.oneMediumMET *
+process.ttSemiLepHypKinFitHadWMass      = ttSemiLepHypKinFit.clone()
+process.ttSemiLepHypKinFitHadWMass.mets = "scaledJetEnergy:patMETsPF"
+process.ttSemiLepHypKinFitHadWMass.jets = "goodJets"
+process.ttSemiLepHypKinFitHadWMass.leps = "goodMuons"
+        
+process.ttSemiLepHypKinFitHadWMass.match       = "kinFitTtSemiLepEventHypothesisHadWMass"
+process.ttSemiLepHypKinFitHadWMass.status      = "kinFitTtSemiLepEventHypothesisHadWMass:Status"
+process.ttSemiLepHypKinFitHadWMass.leptons     = "kinFitTtSemiLepEventHypothesisHadWMass:Leptons"
+process.ttSemiLepHypKinFitHadWMass.neutrinos   = "kinFitTtSemiLepEventHypothesisHadWMass:Neutrinos"
+process.ttSemiLepHypKinFitHadWMass.partonsHadP = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadP"
+process.ttSemiLepHypKinFitHadWMass.partonsHadQ = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadQ"
+process.ttSemiLepHypKinFitHadWMass.partonsHadB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadB"
+process.ttSemiLepHypKinFitHadWMass.partonsLepB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsLepB"
+#process.ttSemiLepHypKinFitHadWMass.nJetsConsidered = "kinFitTtSemiLepEventHypothesisHadWMass:NumberOfConsideredJets"
 
-                                     process.makeTtSemiLepEvent *
-                                     process.analyzeHypothesisKinFit
-                                     )
+process.ttSemiLepEventHadWMass             = ttSemiLepEvent.clone()
+process.ttSemiLepEventHadWMass.hypotheses = ["ttSemiLepHypKinFitHadWMass"]
+
+## add extra information on kinFit
+process.ttSemiLepEventHadWMass.kinFit.chi2 = "kinFitTtSemiLepEventHypothesisHadWMass:Chi2"
+process.ttSemiLepEventHadWMass.kinFit.prob = "kinFitTtSemiLepEventHypothesisHadWMass:Prob"
+
+
+## process.ttSemiLepHypGenMatch.jets = 'goodJets'
+## process.ttSemiLepHypGenMatch.leps = 'goodMuons'
+## process.ttSemiLepHypGenMatch.mets = 'scaledJetEnergy:patMETsPF'
+## process.ttSemiLepHypGenMatch.jetCorrectionLevel="L3Absolute"
+
+## #process.ttSemiLepJetPartonMatch.algorithm = "unambiguousOnly"
+## #process.ttSemiLepJetPartonMatch.algorithm = "totalMinDist"
+## #process.ttSemiLepJetPartonMatch.useMaxDist = True
+## ## set number of jets considered in jet-parton matching
+## process.ttSemiLepJetPartonMatch.maxNJets=8
+## ## choose jet collection considered in jet-parton matching
+## process.ttSemiLepJetPartonMatch.jets='goodJets'
+
+## process.load("TopAnalysis.TopAnalyzer.HypothesisKinFit_cfi")
+## process.analyzeHypothesisKinFit.analyze.maxNJets = 8
+
+## selection path to test kin fit of had W mass
+process.testKinFitHadWMass_TTJets = cms.Path(# execute producer and preselection modules
+                                             process.makeGenEvt *
+                                             process.makeSUSYGenEvt *
+                                             process.scaledJetEnergy *
+                                             process.preselectionLepHTMC2 *
+                                             process.makeObjects *
+                                             process.SUSYEvt *
+                                             process.eventWeightPU *
+                                             process.weightProducer *
+                                             process.btagEventWeightMuJER *
+                                             
+                                             # execute filter and analyzer modules
+                                             process.muonSelection *
+                                             
+                                             process.fourGoodJets *
+                                             
+                                             #process.filterTightHT *
+                                             
+                                             #process.oneMediumMET *
+                                             
+                                             #process.makeTtSemiLepEventHadWMass *
+
+                                             process.kinFitTtSemiLepEventHypothesisHadWMass *
+                                             process.ttSemiLepHypKinFitHadWMass *
+                                             process.ttSemiLepEventHadWMass *
+                                             
+                                             process.analyzeCorrelation1m_KinFitHadWMass
+                                             )
+
