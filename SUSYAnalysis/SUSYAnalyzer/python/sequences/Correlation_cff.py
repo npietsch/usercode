@@ -87,19 +87,19 @@ analyzeCorrelation1l_MET150To200.METCut = 150.,200.
 analyzeCorrelation1l_MET200To250.METCut = 200.,250.
 
 ## clone and configure modules for different exclusive YMET cuts
-analyzeCorrelation1l_YMET0To1 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET1To2 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET2To3 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET3To4 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET4To5 = analyzeCorrelation.clone()
-analyzeCorrelation1l_YMET5To6 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET10To15 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET15To20 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET20To25 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET25To30 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET30To35 = analyzeCorrelation.clone()
+analyzeCorrelation1l_YMET35To40 = analyzeCorrelation.clone()
 
-analyzeCorrelation1l_YMET0To1.YMETCut = 0.,1.
-analyzeCorrelation1l_YMET1To2.YMETCut = 1.,2.
-analyzeCorrelation1l_YMET2To3.YMETCut = 2.,3.
-analyzeCorrelation1l_YMET3To4.YMETCut = 3.,4.
-analyzeCorrelation1l_YMET4To5.YMETCut = 4.,5.
-analyzeCorrelation1l_YMET5To6.YMETCut = 5.,6.
+analyzeCorrelation1l_YMET10To15.YMETCut = 1.,1.5
+analyzeCorrelation1l_YMET15To20.YMETCut = 1.5,2.
+analyzeCorrelation1l_YMET20To25.YMETCut = 2.,2.5
+analyzeCorrelation1l_YMET25To30.YMETCut = 2.5,3.
+analyzeCorrelation1l_YMET30To35.YMETCut = 3.,3.5
+analyzeCorrelation1l_YMET35To40.YMETCut = 3.5,4.
 
 ## clone and configure modules for HT > 400 und different inclusive MET cuts
 analyzeCorrelation1l_HT400ToInf_MET0ToInf   = analyzeCorrelation.clone()
@@ -206,7 +206,7 @@ analyzeCorrelation1l_HT600ToInf_MET100ToInf = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT600ToInf_MET150ToInf = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT600ToInf_MET200ToInf = analyzeCorrelation.clone()
 analyzeCorrelation1l_HT600ToInf_MET250ToInf = analyzeCorrelation.clone()
-    
+
 analyzeCorrelation1l_HT600ToInf_MET0ToInf.HTCut    = 600.,9999.
 analyzeCorrelation1l_HT600ToInf_MET0ToInf.METCut   = 0.,9999.
 
@@ -287,6 +287,31 @@ analyzeCorrelation1l_HT500To600_MET50To100.METCut  = 50.,100.
 
 analyzeCorrelation1l_HT500To600_MET100To150.HTCut  = 500.,600.
 analyzeCorrelation1l_HT500To600_MET100To150.METCut = 100.,150.
+
+## clone and configure modules for HT > 600, MET > 150 and different inclusive nJets cuts
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf = analyzeCorrelation.clone()
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets4ToInf = analyzeCorrelation.clone()
+
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf.HTCut  = 600.,9999.
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf.METCut = 150.,9999.
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf.METCut = 3,99.
+
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets4ToInf.HTCut  = 600.,9999.
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets4ToInf.METCut = 150.,9999.
+analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets4ToInf.METCut = 4,99.
+
+## clone and configure modules for analysis after kin fit
+analyzeCorrelation1m_KinFitHadWMass           = analyzeCorrelation.clone()
+analyzeCorrelation1m_KinFitHadWMass.TTJetsHyp = True
+analyzeCorrelation1m_KinFitHadWMass.TtSemiLepEvent = "ttSemiLepEventHadWMass"
+
+analyzeCorrelation1m_KinFitHadWMass_nJets4 = analyzeCorrelation1m_KinFitHadWMass.clone()
+analyzeCorrelation1m_KinFitHadWMass_nJets5 = analyzeCorrelation1m_KinFitHadWMass.clone()
+analyzeCorrelation1m_KinFitHadWMass_nJets6 = analyzeCorrelation1m_KinFitHadWMass.clone()
+
+analyzeCorrelation1m_KinFitHadWMass_nJets4.nJetsCut = 4,4
+analyzeCorrelation1m_KinFitHadWMass_nJets5.nJetsCut = 5,5
+analyzeCorrelation1m_KinFitHadWMass_nJets6.nJetsCut = 6,6
 
 ## clone modules for muon channel
 analyzeCorrelation1m_noCuts          = analyzeCorrelation.clone()
@@ -382,6 +407,7 @@ analyzeCorrelation2b1e_2.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeigh
 analyzeCorrelation_TTJets        = analyzeCorrelation.clone()
 analyzeCorrelation_TTJets.TTJets = True
 
+# clone modules for muon channel
 analyzeCorrelation1m_noCuts_SemiLep          = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1m_preselection_SemiLep    = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1m_leptonSelection_SemiLep = analyzeCorrelation_TTJets.clone()
@@ -410,6 +436,7 @@ analyzeCorrelation1m_jetSelection_Tau        = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1m_HTSelection_Tau         = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1m_METSelection_Tau        = analyzeCorrelation_TTJets.clone()
 
+# clone modules for electron channel
 analyzeCorrelation1e_noCuts_SemiLep          = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1e_preselection_SemiLep    = analyzeCorrelation_TTJets.clone()
 analyzeCorrelation1e_leptonSelection_SemiLep = analyzeCorrelation_TTJets.clone()
@@ -464,6 +491,7 @@ analyzeTtGenEvent1l_leptonSelection_TTJets  = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_jetSelection_TTJets     = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_HTSelection_TTJets      = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_METSelection_TTJets     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_mTSelection_TTJets      = analyzeTtGenEvent.clone()
 
 analyzeTtGenEvent1l_noCuts_SemiLep          = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_preselection_SemiLep    = analyzeTtGenEvent.clone()
@@ -471,3 +499,5 @@ analyzeTtGenEvent1l_leptonSelection_SemiLep = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_jetSelection_SemiLep    = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_HTSelection_SemiLep     = analyzeTtGenEvent.clone()
 analyzeTtGenEvent1l_METSelection_SemiLep    = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1l_mTSelection_SemiLep     = analyzeTtGenEvent.clone()
+

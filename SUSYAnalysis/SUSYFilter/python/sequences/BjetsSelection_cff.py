@@ -554,7 +554,7 @@ filterGoodHT.Cut = 375
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
-filterTightHT.Cut = 400
+filterTightHT.Cut = 600
 
 ## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
@@ -588,6 +588,7 @@ from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *
 filterMT = filterTransverseMass.clone()
 filterMT.muons = "goodMuons"
 filterMT.electrons = "goodElectrons"
+filterMT.Cut = 0.,120.
 
 #------------------------------------------------------------------------------
 # Define producer and filter sequences

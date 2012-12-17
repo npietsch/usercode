@@ -55,7 +55,11 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   Y2_                (cfg.getParameter<double>("Y2") ),
 
   TTJets_            (cfg.getParameter<bool>("TTJets") ),
-  TtGenEvent_        (cfg.getParameter<edm::InputTag>("TtGenEvent"))
+  TtGenEvent_        (cfg.getParameter<edm::InputTag>("TtGenEvent")),
+
+  TTJetsHyp_         (cfg.getParameter<bool>("TTJetsHyp") ),
+  TtSemiLepEvent_    (cfg.getParameter<edm::InputTag>("TtSemiLepEvent")),
+  hypoKey_           (cfg.getParameter<std::string>("hypoKey"))
 
 { 
   edm::Service<TFileService> fs;
@@ -276,16 +280,24 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   //-------------------------------------------------
   // Only when TTJets is set to true in cfg file
   //-------------------------------------------------
+  
+  pv_             = fs->make<TH1F>("pv",             "pv",                 50, 0., 1000);
+  smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",          50, 0., 1000);
 
-  pv_             = fs->make<TH1F>("pv",             "pv",               50, 0., 1000);
-  smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",        50, 0., 1000);
+  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",       50, 0., 1000,  16, -0.5, 15.5);
+  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",      60, 0., 600.,  16, -0.5, 15.5);
+  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",      60, 0., 600.,  16, -0.5, 15.5);
 
-  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",     50, 0., 1000,  16,  -0.5,   15.5);
-  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
-  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",    60, 0., 600.,  16,  -0.5,   15.5);
+  pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",          50, 0., 1000,   50,  0., 1000);
+  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv", 50, 0., 1000,   50,  0., 1000);
 
-  pv_MET_         = fs->make<TH2F>("pv_MET",        "MET vs.pv",          50, 0., 1000, 50,   0., 1000);
-  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET", "MET vs. smeared pv", 50, 0., 1000, 50,   0., 1000);
+  //-------------------------------------------------
+  // Only when TTJetsHyp is set to true in cfg file
+  //-------------------------------------------------
+
+  hadWMass_      = fs->make<TH1F>("hadWMass",        "hadWMass",     400,  60., 100);
+  hadTopMass_    = fs->make<TH1F>("hadTopMass",      "hadTopMass",   400, 100., 300);
+  chi2_          = fs->make<TH1F>("chi2",            "chi2",         100,   0.,  1.);
 
   //-------------------------------------------------
   // ABCD method
@@ -877,6 +889,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       else               mlb_nJets_20_ ->Fill(mlb, jets->size(), weight);
     }
   
+  //-------------------------------------------------
+  // Only when TTJets is set to true in cfg file
+  //-------------------------------------------------
+
   if(TTJets_ == true)
     {
       edm::Handle<TtGenEvent> genEvent;
@@ -920,7 +936,28 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	}
     }
   
+  //-------------------------------------------------
+  // Only when TTJetsHyp is set to true in cfg file
+  //-------------------------------------------------
 
+  if(TTJetsHyp_ == true)
+    {
+      edm::Handle<TtSemiLeptonicEvent> semiLepEvent;
+      evt.getByLabel(TtSemiLepEvent_, semiLepEvent);
+
+      if(semiLepEvent->isHypoValid(hypoKey_))
+	{
+	  if(semiLepEvent->hadronicDecayW(hypoKey_))
+	    {
+	      hadWMass_  ->Fill(semiLepEvent->hadronicDecayW(hypoKey_)  ->mass(),  weight);
+	      hadTopMass_->Fill(semiLepEvent->hadronicDecayTop(hypoKey_)->mass(),  weight);
+	      if(hypoKey_ == "kKinFit" )
+		{
+		  chi2_ ->Fill(semiLepEvent->fitChi2(), weight);
+		}
+	    }
+	}
+    }
   //std::cout << "Test13" << std::endl;
 
   //-------------------------------------------------

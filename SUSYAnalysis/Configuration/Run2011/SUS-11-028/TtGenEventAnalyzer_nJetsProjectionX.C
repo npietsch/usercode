@@ -85,8 +85,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   //addHistogram("HT_mLepTop",    "HT [GeV]",       "mLepTop [GeV]");
   //addHistogram("HT_minj3",        "HT [GeV]",  "minj3 [GeV]");
 
-  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  //addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
+  //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
   //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
@@ -140,7 +140,18 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 //   addSelectionStep("analyzeSUSY1l_HTSelection_JER50",     "HT selection");
 //   addSelectionStep("analyzeSUSY1l_METSelection_JER50",    "MET selection");
 
-//   addSelectionStep("analyzeCorrelation1l_HT100To200", "lepton selection");
+  
+  addSelectionStep("analyzeCorrelation1l_YMET0To1", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET1To2", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET2To3", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET3To4", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET4To5", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET5To6", "lepton selection");
+
+  //addSelectionStep("analyzeCorrelation1l_HT300ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT400ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT500ToInf", "lepton selection");
+
 //   addSelectionStep("analyzeCorrelation1l_HT200To300", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT300To400", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_HT400To500", "lepton selection");
@@ -149,7 +160,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 
 //   addSelectionStep("analyzeCorrelation1l_MET0To50",   "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET50To100", "lepton selection");
-   addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_MET100To150", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET150To200", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET200To250", "lepton selection");
 //   addSelectionStep("analyzeCorrelation1l_MET250ToInf", "lepton selection");

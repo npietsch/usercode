@@ -5,7 +5,7 @@
 # nafJobSplitter.pl 27 RA4b_LM6_noPFCheck_cfg.py
 #-------------------------------------------------
 
-from TTJets_cfg import *
+from BjetsPAT_cfg import *
 
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_LM6.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")

@@ -41,6 +41,10 @@ analyzeCorrelation = cms.EDAnalyzer("CorrelationAnalyzer",
                                     Y2 = cms.double(5.5),
                                     
                                     TTJets = cms.bool(False),
-                                    TtGenEvent = cms.InputTag("genEvt")
+                                    TtGenEvent = cms.InputTag("genEvt"),
+                                    
+                                    TTJetsHyp = cms.bool(False),
+                                    TtSemiLepEvent = cms.InputTag("ttSemiLepEvent"),
+                                    hypoKey = cms.string("kKinFit")
                                     )
 

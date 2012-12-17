@@ -69,6 +69,11 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   bool TTJets_;
   edm::InputTag TtGenEvent_;
 
+  bool TTJetsHyp_;
+  edm::InputTag TtSemiLepEvent_;
+
+  std::string hypoKey_;
+
   //-----------------------
   // Dummy histograms
   //-----------------------
@@ -241,6 +246,10 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* mlb_nJets_15_;
   TH2F* mlb_nJets_20_;
 
+  //-------------------------------------------------
+  // Only when TTJets is set to true in cfg file
+  //-------------------------------------------------
+
   TH1F* pv_;
   TH1F* smearedPv_;
 
@@ -251,6 +260,14 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* pv_MET_;
   TH2F* smearedPv_MET_;
   
+  //-------------------------------------------------
+  // Only when TTJetsHyp is set to true in cfg file
+  //-------------------------------------------------
+
+  TH1F* hadWMass_;
+  TH1F* hadTopMass_;
+  TH1F* chi2_;
+
   //-----------------------
   // ABCD method
   //-----------------------
