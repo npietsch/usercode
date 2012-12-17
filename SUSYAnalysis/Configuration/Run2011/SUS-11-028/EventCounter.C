@@ -109,14 +109,16 @@ int EventCounter()
   // push back selection steps to vector<TString> Selections
   //--------------------------------------------------------------
 
-  addSelection("analyzeCorrelation1l",      "baseline");
-  addSelection("analyzeCorrelation1l",      "$H_{T}>600\,\textmd{GeV}$");
-  addSelection("analyzeCorrelation1l",      "$\not\!\!E_{T}>150\,\textmd{GeV}$");
-  addSelection("analyzeCorrelation1l",      "$m_{T}>120\,\textmd{GeV}$");
+  addSelection("analyzeCorrelation1l",                                   "1 lep, $\\geq3$ jets");
+  addSelection("analyzeCorrelation1l_HT600ToInf",                        "$H_{T}>600\\,\\textmd{GeV}$");
+  addSelection("analyzeCorrelation1l_HT600ToInf_MET150ToInf",            "$\\not\\!\\!E_{T}>150\\,\\textmd{GeV}$");
+  //addSelection("analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf","$m_{T}>120\\,\\textmd{GeV}$");
   
   //--------------------------------------------------------------
   // Display event yields
   //--------------------------------------------------------------
+
+  int minNJets = 7;
 
   for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
     { 
@@ -128,11 +130,11 @@ int EventCounter()
 	  
 	  if(fdx == Files.size()-1)
 	    {
-	      std::cout << temp->Integral(0,temp->GetNbinsX()+1)*2000*Weights[fdx] << " \\\\\n";
+	      std::cout << temp->Integral(minNJets,temp->GetNbinsX()+1)*20000*Weights[fdx] << " \\\\\n";
 	    }
 	  else
 	    {
-	      std::cout << temp->Integral(0,temp->GetNbinsX()+1)*2000*Weights[fdx] << " & ";
+	      std::cout << temp->Integral(minNJets,temp->GetNbinsX()+1)*20000*Weights[fdx] << " & ";
 	    }
 	}
     }
