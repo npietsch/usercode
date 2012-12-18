@@ -251,7 +251,7 @@ mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
 
 tightMETs = selectedPatMET.clone(src = 'patMETsPF',
                                  cut =
-                                 'et > 150.'
+                                 'et > 200.'
                                  )
 
 noSignalMETs = selectedPatMET.clone(src = 'patMETsPF',
@@ -582,6 +582,12 @@ exactlyOneVetoLepton.electronSource = "vetoElectrons"
 exactlyOneVetoLepton.muonSource = "vetoMuons"                           
 exactlyOneVetoLepton.minNumber = 1
 exactlyOneVetoLepton.maxNumber = 1
+
+from TopAnalysis.TopFilter.filters.DiLeptonFilter_cfi import *
+
+filterLeptonPair.electrons = "goodElectrons"
+filterLeptonPair.muons = "goodMuons"
+filterLeptonPair.filterCharge = -1
 
 ## Transverse mass filter
 from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *

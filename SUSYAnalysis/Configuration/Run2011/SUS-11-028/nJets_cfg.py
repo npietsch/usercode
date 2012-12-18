@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -140,6 +140,9 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
 
                                           process.analyzeCorrelation1l *
 
+                                          process.filterMT *
+                                          process.analyzeTtGenEvent1l_mTSelection_TTJets *
+                                          
 ##                                           # execute analyzer modules for inclusive nJets cuts 
 ##                                           process.analyzeCorrelation1l_nJets3To4 *
 ##                                           process.analyzeCorrelation1l_nJets5To6 *
@@ -243,97 +246,111 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
 ##                                           process.analyzeCorrelation1l_HT500To600_MET100To150 *
 
                                           ## execute analyzer modules for inclusive nJets cuts
-                                          process.filterTightHT *
-                                          process.analyzeTtGenEvent1l_HTSelection_TTJets *
+ ##                                          process.filterTightHT *
+##                                           process.analyzeTtGenEvent1l_HTSelection_TTJets *
                                                                                     
                                           process.oneTightMET *
                                           process.analyzeTtGenEvent1l_METSelection_TTJets *
 
-                                          process.filterMT *
-                                          process.analyzeTtGenEvent1l_mTSelection_TTJets *
                                           process.analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets3ToInf *
                                           process.analyzeCorrelation1l_HT600ToInf_MET150ToInf_nJets4ToInf 
                                           
                                           )
 
-## process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff")
+## path for dilep control sample
+process.DiLepSelection_TTJets = cms.Path(# execute producer and preselection modules
+                                         process.makeGenEvt *
+                                         process.makeSUSYGenEvt *
+                                         process.scaledJetEnergy *
+                                         process.preselectionLepHTMC2 *
+                                         process.makeObjects *
+                                         process.SUSYEvt *
+                                         process.eventWeightPU *
+                                         process.weightProducer *
+                                         process.btagEventWeightMuJER *
 
-## addTtSemiLepHypotheses(process,
-##                        ["kKinFit"]
-##                        )
-## removeTtSemiLepHypGenMatch(process)
+                                         process.filterLeptonPair *
+                                         process.filterMT
+                                         )
+                                         
+## ## process.load("TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff")
 
-#------------------------------------------------------------------
-# Import all modules to to create ttSemiLepEvent
-#------------------------------------------------------------------
+## ## addTtSemiLepHypotheses(process,
+## ##                        ["kKinFit"]
+## ##                        )
+## ## removeTtSemiLepHypGenMatch(process)
 
-from TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff import *
+## #------------------------------------------------------------------
+## # Import all modules to to create ttSemiLepEvent
+## #------------------------------------------------------------------
 
-#------------------------------------------------------------------
-# clone and configure modules to fit hadronically decaying W
-#------------------------------------------------------------------
+## from TopQuarkAnalysis.TopEventProducers.sequences.ttSemiLepEvtBuilder_cff import *
 
-process.kinFitTtSemiLepEventHypothesisHadWMass      =  kinFitTtSemiLepEventHypothesis.clone()
-process.kinFitTtSemiLepEventHypothesisHadWMass.mets = "scaledJetEnergy:patMETsPF"
-process.kinFitTtSemiLepEventHypothesisHadWMass.jets = "goodJets"
-process.kinFitTtSemiLepEventHypothesisHadWMass.leps = "goodMuons"
-process.kinFitTtSemiLepEventHypothesisHadWMass.maxNJets = 8
-process.kinFitTtSemiLepEventHypothesisHadWMass.constraints = 1,
+## #------------------------------------------------------------------
+## # clone and configure modules to fit hadronically decaying W
+## #------------------------------------------------------------------
 
-process.ttSemiLepHypKinFitHadWMass      = ttSemiLepHypKinFit.clone()
-process.ttSemiLepHypKinFitHadWMass.mets = "scaledJetEnergy:patMETsPF"
-process.ttSemiLepHypKinFitHadWMass.jets = "goodJets"
-process.ttSemiLepHypKinFitHadWMass.leps = "goodMuons"
+## process.kinFitTtSemiLepEventHypothesisHadWMass      =  kinFitTtSemiLepEventHypothesis.clone()
+## process.kinFitTtSemiLepEventHypothesisHadWMass.mets = "scaledJetEnergy:patMETsPF"
+## process.kinFitTtSemiLepEventHypothesisHadWMass.jets = "goodJets"
+## process.kinFitTtSemiLepEventHypothesisHadWMass.leps = "goodMuons"
+## process.kinFitTtSemiLepEventHypothesisHadWMass.maxNJets = 8
+## process.kinFitTtSemiLepEventHypothesisHadWMass.constraints = 1,
+
+## process.ttSemiLepHypKinFitHadWMass      = ttSemiLepHypKinFit.clone()
+## process.ttSemiLepHypKinFitHadWMass.mets = "scaledJetEnergy:patMETsPF"
+## process.ttSemiLepHypKinFitHadWMass.jets = "goodJets"
+## process.ttSemiLepHypKinFitHadWMass.leps = "goodMuons"
         
-process.ttSemiLepHypKinFitHadWMass.match       = "kinFitTtSemiLepEventHypothesisHadWMass"
-process.ttSemiLepHypKinFitHadWMass.status      = "kinFitTtSemiLepEventHypothesisHadWMass:Status"
-process.ttSemiLepHypKinFitHadWMass.leptons     = "kinFitTtSemiLepEventHypothesisHadWMass:Leptons"
-process.ttSemiLepHypKinFitHadWMass.neutrinos   = "kinFitTtSemiLepEventHypothesisHadWMass:Neutrinos"
-process.ttSemiLepHypKinFitHadWMass.partonsHadP = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadP"
-process.ttSemiLepHypKinFitHadWMass.partonsHadQ = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadQ"
-process.ttSemiLepHypKinFitHadWMass.partonsHadB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadB"
-process.ttSemiLepHypKinFitHadWMass.partonsLepB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsLepB"
-#process.ttSemiLepHypKinFitHadWMass.nJetsConsidered = "kinFitTtSemiLepEventHypothesisHadWMass:NumberOfConsideredJets"
+## process.ttSemiLepHypKinFitHadWMass.match       = "kinFitTtSemiLepEventHypothesisHadWMass"
+## process.ttSemiLepHypKinFitHadWMass.status      = "kinFitTtSemiLepEventHypothesisHadWMass:Status"
+## process.ttSemiLepHypKinFitHadWMass.leptons     = "kinFitTtSemiLepEventHypothesisHadWMass:Leptons"
+## process.ttSemiLepHypKinFitHadWMass.neutrinos   = "kinFitTtSemiLepEventHypothesisHadWMass:Neutrinos"
+## process.ttSemiLepHypKinFitHadWMass.partonsHadP = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadP"
+## process.ttSemiLepHypKinFitHadWMass.partonsHadQ = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadQ"
+## process.ttSemiLepHypKinFitHadWMass.partonsHadB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsHadB"
+## process.ttSemiLepHypKinFitHadWMass.partonsLepB = "kinFitTtSemiLepEventHypothesisHadWMass:PartonsLepB"
+## #process.ttSemiLepHypKinFitHadWMass.nJetsConsidered = "kinFitTtSemiLepEventHypothesisHadWMass:NumberOfConsideredJets"
 
-process.ttSemiLepEventHadWMass             = ttSemiLepEvent.clone()
-process.ttSemiLepEventHadWMass.hypotheses = ["ttSemiLepHypKinFitHadWMass"]
+## process.ttSemiLepEventHadWMass             = ttSemiLepEvent.clone()
+## process.ttSemiLepEventHadWMass.hypotheses = ["ttSemiLepHypKinFitHadWMass"]
 
-## add extra information on kinFit
-process.ttSemiLepEventHadWMass.kinFit.chi2 = "kinFitTtSemiLepEventHypothesisHadWMass:Chi2"
-process.ttSemiLepEventHadWMass.kinFit.prob = "kinFitTtSemiLepEventHypothesisHadWMass:Prob"
+## ## add extra information on kinFit
+## process.ttSemiLepEventHadWMass.kinFit.chi2 = "kinFitTtSemiLepEventHypothesisHadWMass:Chi2"
+## process.ttSemiLepEventHadWMass.kinFit.prob = "kinFitTtSemiLepEventHypothesisHadWMass:Prob"
 
 
-## selection path to test kin fit of had W mass
-process.testKinFitHadWMass_TTJets = cms.Path(# execute producer and preselection modules
-                                             process.makeGenEvt *
-                                             process.makeSUSYGenEvt *
-                                             process.scaledJetEnergy *
-                                             process.preselectionLepHTMC2 *
-                                             process.makeObjects *
-                                             process.SUSYEvt *
-                                             process.eventWeightPU *
-                                             process.weightProducer *
-                                             process.btagEventWeightMuJER *
+## ## selection path to test kin fit of had W mass
+## process.testKinFitHadWMass_TTJets = cms.Path(# execute producer and preselection modules
+##                                              process.makeGenEvt *
+##                                              process.makeSUSYGenEvt *
+##                                              process.scaledJetEnergy *
+##                                              process.preselectionLepHTMC2 *
+##                                              process.makeObjects *
+##                                              process.SUSYEvt *
+##                                              process.eventWeightPU *
+##                                              process.weightProducer *
+##                                              process.btagEventWeightMuJER *
                                              
-                                             # execute filter and analyzer modules
-                                             process.muonSelection *
+##                                              # execute filter and analyzer modules
+##                                              process.muonSelection *
                                              
-                                             process.fourGoodJets *
+##                                              process.fourGoodJets *
                                              
-                                             #process.makeTtSemiLepEventHadWMass *
-                                             process.kinFitTtSemiLepEventHypothesisHadWMass *
-                                             process.ttSemiLepHypKinFitHadWMass *
-                                             process.ttSemiLepEventHadWMass *
+##                                              #process.makeTtSemiLepEventHadWMass *
+##                                              process.kinFitTtSemiLepEventHypothesisHadWMass *
+##                                              process.ttSemiLepHypKinFitHadWMass *
+##                                              process.ttSemiLepEventHadWMass *
                                              
-                                             process.analyzeCorrelation1m_KinFitHadWMass *
-                                             process.analyzeCorrelation1m_KinFitHadWMass_nJets4 *
-                                             process.analyzeCorrelation1m_KinFitHadWMass_nJets5 *
-                                             process.analyzeCorrelation1m_KinFitHadWMass_nJets6
+##                                              process.analyzeCorrelation1m_KinFitHadWMass *
+##                                              process.analyzeCorrelation1m_KinFitHadWMass_nJets4 *
+##                                              process.analyzeCorrelation1m_KinFitHadWMass_nJets5 *
+##                                              process.analyzeCorrelation1m_KinFitHadWMass_nJets6
                                              
-                                             #process.filterTightHT *
+##                                              #process.filterTightHT *
                                              
-                                             #process.oneTightMET *
-                                             )
+##                                              #process.oneTightMET *
+##                                              )
 
 
 

@@ -77,25 +77,27 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // Sample
   //---------------------------------------------------------------------------------
 
-  //TFile* TTJets = new TFile("SemiLepElMu.root", "READ");
-  //TFile* TTJets = new TFile("DiLep.root", "READ");
+  TFile* SemiLep = new TFile("SemiLep.root", "READ");
+  TFile* DiLep   = new TFile("DiLep.root", "READ");
   TFile* SingleTop = new TFile("SingleTop.root", "READ");
   TFile* WJetsHT   = new TFile("WJetsHT.root", "READ");
 
   //---------------------------------------------------------------------------------
   // addSample(TFile* sample, TString label)
   //---------------------------------------------------------------------------------
-
-  addSample(SingleTop, "Single Top", "SingleTop");
-  addSample(WJetsHT,   "W+Jets",     "WJets");
+  
+  //addSample(SemiLep, "SemiLep t#bar{t}", "SemiLep");
+  addSample(DiLep,   "DiLep t#bar{t}",  "DiLep");
+  //addSample(SingleTop, "Single Top", "SingleTop");
+  //addSample(WJetsHT,   "W+Jets",     "WJets");
 
   //---------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue)
   //---------------------------------------------------------------------------------
 
   //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  addHistogram("mT_nJets",      "m_{T} [GeV]",      0, 300);
-  //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]",      0, 300);
+  addHistogram("mT_nJets",      "m_{T} [GeV]",          0, 300);
+  //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]", 0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
 
@@ -103,14 +105,16 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addSelectionStep(TString step, TString selectionLabel)
   //---------------------------------------------------------------------------------
 
-  addSelectionStep("analyzeCorrelation1l", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT400ToInf_MET100ToInf", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1l_HT600ToInf_MET150ToInf", "lepton selection");
 
-//   addSelectionStep("analyzeCorrelation1l_YMET0To1", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_YMET1To2", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_YMET2To3", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_YMET3To4", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_YMET4To5", "lepton selection");
-//   addSelectionStep("analyzeCorrelation1l_YMET5To6", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET10To15", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET15To20", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET20To25", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET25To30", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET30To35", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l_YMET35To40", "lepton selection");
 
   //---------------------------------------------------------------------------------
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker)
