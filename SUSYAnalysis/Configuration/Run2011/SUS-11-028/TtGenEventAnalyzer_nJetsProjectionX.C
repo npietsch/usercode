@@ -95,8 +95,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue)
   //---------------------------------------------------------------------------------
 
-  //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
-  addHistogram("mT_nJets",      "m_{T} [GeV]",          0, 300);
+  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  //addHistogram("mT_nJets",      "m_{T} [GeV]",          0, 300);
   //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]", 0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);
   //addHistogram("mLepTop_nJets", "mLepTop [GeV]",    0, 400);
@@ -105,16 +105,16 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addSelectionStep(TString step, TString selectionLabel)
   //---------------------------------------------------------------------------------
 
-  //addSelectionStep("analyzeCorrelation1l", "lepton selection");
+  addSelectionStep("analyzeCorrelation1l", "lepton selection");
   //addSelectionStep("analyzeCorrelation1l_HT400ToInf_MET100ToInf", "lepton selection");
   //addSelectionStep("analyzeCorrelation1l_HT600ToInf_MET150ToInf", "lepton selection");
 
-  addSelectionStep("analyzeCorrelation1l_YMET10To15", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET15To20", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET20To25", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET25To30", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET30To35", "lepton selection");
-  addSelectionStep("analyzeCorrelation1l_YMET35To40", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET10To15", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET15To20", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET20To25", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET25To30", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET30To35", "lepton selection");
+//   addSelectionStep("analyzeCorrelation1l_YMET35To40", "lepton selection");
 
   //---------------------------------------------------------------------------------
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker)
@@ -189,7 +189,7 @@ int TtGenEventAnalyzer_nJetsProjectionX()
 		  Projection->GetYaxis()->SetTitleSize(0.05);
 		  Projection->GetYaxis()->SetTitleSize(0.05);
 		  
-		  Projection->Scale(1/Projection->Integral(1,-1));
+		  Projection->Scale(1/Projection->Integral(4,-1));
 
 		  // lines
 		  Projection->SetLineColor(BinColors[bin]);

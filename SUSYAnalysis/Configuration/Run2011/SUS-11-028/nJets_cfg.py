@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -268,6 +268,9 @@ process.DiLepSelection_TTJets = cms.Path(# execute producer and preselection mod
                                          process.eventWeightPU *
                                          process.weightProducer *
                                          process.btagEventWeightMuJER *
+
+                                         process.threeGoodJets *
+                                         process.oneTightMET *
 
                                          process.filterLeptonPair *
                                          process.filterMT
