@@ -75,7 +75,7 @@ void addHistogram(TString hist, TString xlabel, double xMin, double xMax, TStrin
 int EventSelection_Shape()
 {
   // make thes settings as command line option available later
-  bool normalize = true;
+  bool normalize = false;
   bool setLogY = true;
 
   //--------------------------------------------------------------
@@ -151,8 +151,8 @@ int EventSelection_Shape()
   //addSample(SemiLep,       "t#bar{t} Semilep",         kRed+2,    1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(SemiLepElMu,   "t#bar{t} Semilep e/#mu",   kRed+2,    1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(SemiLepTau,    "t#bar{t} Semilep #tau",    kOrange+7, 1,   2,   0,   0,  22,   1.5,   sTTJets);
-  addSample(DiLep,         "t#bar{t} Dilep",           kPink+5,   1,   2,   0,   0,  23,   1.5,   sTTJets);
-  //addSample(DiLepElMu,     "t#bar{t} Dilep e/#mu",      kRed,      1,   2,   0,   0,  21,   1.1,   sTTJets);
+  //addSample(DiLep,         "t#bar{t} Dilep",           kPink+5,   1,   2,   0,   0,  23,   1.5,   sTTJets);
+  addSample(DiLepElMu,     "t#bar{t} Dilep e/#mu",      kRed,      1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(DiLepTau,      "t#bar{t} Dilep #tau",       kBlue,     1,   2,   0,   0,  23,   1.5,   sTTJets);
 
   //addSample(SingleTop,     "Single Top",               kRed,      1,   2,   0,   0,  22,   1.5,   sSingleTop);
@@ -180,14 +180,14 @@ int EventSelection_Shape()
   //---------------------------------------------------------------------------------------------------------------
 
   //addHistogram("chi2",   "#chi^{2}_{W fit}",      0,    1, "Hist",   true);
-  addHistogram("nJets",   "Number of Jets",  -0.5, 15.5, "Marker",   true);
+  //addHistogram("nJets",   "Number of Jets",  -0.5, 15.5, "Marker",   true);
   //addHistogram("nJets50", "Number of Jets",  -0.5, 15.5, "Marker",   false);
-  //addHistogram("mT",       "m_{T} [GeV]",         0,  400, "Marker", true);
-  addHistogram("YMET",    "Y_{MET} [GeV]",      0,   25, "Marker", false);
+  addHistogram("mT",       "m_{T} [GeV]",         0,  400, "Marker", true);
+  //addHistogram("YMET",    "Y_{MET} [GeV]",      0,   25, "Marker", false);
   //addHistogram("minj3",    "minj3 [GeV]",         0,  300, "Marker", true);
   //addHistogram("hadWMass", "m_{Whad} [GeV]",     60,  100, "Marker", true);
-  addHistogram("MET",      "E_{T}^{miss} [GeV]",  0,  900, "Marker", true);
-  addHistogram("HT",       "H_{T} [GeV]",         0, 2500, "Marker", true);
+  //addHistogram("MET",      "E_{T}^{miss} [GeV]",  0,  900, "Marker", true);
+  //addHistogram("HT",       "H_{T} [GeV]",         0, 2500, "Marker", true);
   //addHistogram("Jets_Et","E_{T} [GeV]",        0, 700,  "Marker", true);
   //addHistogram("Jet0_Et","E_{T} [GeV]",        0, 1000, "Marker", true);
   //addHistogram("Jet1_Et","E_{T} [GeV]",        0, 700,  "Marker", true);
@@ -258,6 +258,8 @@ int EventSelection_Shape()
 		  temp->Scale(20000*Weights[fdx]);
 		  temp->SetMinimum(0.1);
 		}
+
+	      std::cout << temp->Integral(13,temp->GetNbinsX()+1) << std::endl;
 
 	      temp->GetYaxis()->SetTitleOffset(1.4);
 	      temp->GetYaxis()->SetTitleSize(0.05);

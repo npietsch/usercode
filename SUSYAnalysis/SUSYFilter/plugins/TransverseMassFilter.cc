@@ -39,14 +39,19 @@ TransverseMassFilter::filter(edm::Event& event, const edm::EventSetup& setup)
 
   //transverse W-mass
   double mW=0;
+  double LeptonPt=0;
 
-  if(muons->size()==1)
+  if(muons->size()>=1)
     {
+      LeptonPt = (*muons)[0].et();
       mW=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
     }
-  else if(electrons->size()==1)
+  if(electrons->size()>=1)
     {
-      mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+      if((*electrons)[0].et()>LeptonPt)
+	{
+	  mW=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+	}
     }
   
   if (Cut_[0] <= mW && mW < Cut_[1]) return false;

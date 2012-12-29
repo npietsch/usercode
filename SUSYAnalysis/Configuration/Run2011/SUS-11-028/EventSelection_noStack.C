@@ -75,7 +75,7 @@ int EventSelection_noStack()
   TFile* SemiLep     = new TFile("SemiLep.root", "READ");
   //TFile* SemiLepElMu = new TFile("SemiLepElMu.root", "READ");
   //TFile* SemiLepTau  = new TFile("SemiLepTau.root",  "READ");
-  TFile* DiLep       = new TFile("DiLepAll.root",       "READ");
+  TFile* DiLep       = new TFile("DiLep.root",       "READ");
   //TFile* DiLepElMu   = new TFile("DiLepElMu.root",   "READ");
   //TFile* DiLepTau    = new TFile("DiLepTau.root",    "READ");
 
@@ -84,14 +84,17 @@ int EventSelection_noStack()
   TFile* SingleTop   = new TFile("SingleTop.root",   "READ");
 
   //TFile* SingleTops  = new TFile("SingleTop_sChannel.root",   "READ");
-  //TFile* SingleTopt  = new TFile("SingleTop_tChannel.root",   "READ");
-  //TFile* SingleToptW = new TFile("SingleTop_tW.root",         "READ");
+  TFile* SingleTopt  = new TFile("SingleTop_tChannel.root",   "READ");
+  TFile* SingleToptW = new TFile("SingleTop_tW.root",         "READ");
 
   TFile* WJetsHT     = new TFile("WJetsHT.root",     "READ");
   //TFile* ZJets       = new TFile("ZJets.root",       "READ");
   //TFile* QCD         = new TFile("QCD.root",         "READ");
   
   TFile* LM6         = new TFile("LM6.root",          "READ");
+  TFile* LM6GluinoPair   = new TFile("LM6_GluinoPair.root",  "READ");
+  TFile* LM6GluinoSquark = new TFile("LM6_GluinoSquark.root", "READ");
+
   TFile* LM8         = new TFile("LM8.root",          "READ");
   //TFile* LM6StopPair = new TFile("LM6StopPair.root",  "READ");
   //TFile* LM8StopPair = new TFile("LM8StopPair.root",  "READ");
@@ -140,23 +143,25 @@ int EventSelection_noStack()
   // addSample(TFile* sample, TString label, int lc, int ls, int lw, int fc, int fs, int markerStyle, double markerSize, double weight)
   //------------------------------------------------------------------------------------------------------------------------------------
   
+  addSample(DiLep,         "t#bar{t} Dilep",           kOrange+7, 1,   2,   0,   0,  20,   1.5,   sTTJets);
   addSample(SemiLep,       "t#bar{t} Semilep",         kRed+2,    1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(SemiLepElMu,   "t#bar{t} Semilep e/#mu",   kRed,      1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(SemiLepTau,    "t#bar{t} Semilep #tau",    kOrange+7, 1,   2,   0,   0,  22,   1.5,   sTTJets);
-  addSample(DiLep,         "t#bar{t} Dilep",           kRed,      1,   2,   0,   0,  20,   1.5,   sTTJets);
   //addSample(DiLepElMu,     "t#bar{t} Dilep e/#mu",     kRed,      1,   2,   0,   0,  21,   1.1,   sTTJets);
   //addSample(DiLepTau,      "t#bar{t} Dilep #tau",      kBlue,     1,   2,   0,   0,  23,   1.5,   sTTJets);
 
   //addSample(SingleTop,     "Single Top",               kRed,      1,   2,   0,   0,  22,   1.5,   sSingleTop);
   //addSample(SingleTops,    "Single Top s",             kRed,      1,   2,   0,   0,  21,   1.1,   sSingleTop);
-  //addSample(SingleTopt,    "Single Top t",             kBlue,     1,   2,   0,   0,  22,   1.5,   sSingleTop);
-  //addSample(SingleToptW,   "Single Top tW",            kPink+5,   1,   2,   0,   0,  23,   1.5,   sSingleTop);
+  addSample(SingleTopt,    "Single Top t channel",     kBlue,     1,   2,   0,   0,  22,   1.5,   sSingleTop);
+  addSample(SingleToptW,   "Single Top tW",            kPink+5,   1,   2,   0,   0,  23,   1.5,   sSingleTop);
 
 
-  //addSample(WJetsHT,       "W+Jets",                   1,         1,   2,   0,   0,  23,   1.5,   sWJets);
+  addSample(WJetsHT,       "W+Jets",                   1,         1,   2,   0,   0,  23,   1.5,   sWJets);
 
-  addSample(LM8,           "LM8",                      kBlue,     1,   2,   0,   0,   23,   1.5,    sLM8);
-  addSample(LM6,           "LM6",                        1,       1,   2,   0,   0,   22,   1.5,    sLM6);
+  addSample(LM8,           "LM8",                      kBlue+2,   1,   2,   0,   0,   23,   1.5,    sLM8);
+  addSample(LM6,           "LM6",                      kPink+5,   1,   2,   0,   0,   22,   1.5,    sLM6);
+  //addSample(LM6GluinoPair,   "LM6 #tilde{g}#tilde{g}", kBlue,     1,   2,   0,   0,   23,   1.5,    sLM6);
+  //addSample(LM6GluinoSquark, "LM6 #tilde{g}#tilde{q}", kBlue+2,   1,   2,   0,   0,   24,   1.5,    sLM6);
   //addSample(LM8StopPair,   "LM8 #tilde{t}#tilde{t}*",  kBlue,     1,   2,   0,   0,  24,   1.2,   sLM8);
   //addSample(LM6StopPair,   "LM6 #tilde{t}#tilde{t}*",  kBlue+2,   1,   2,   0,   0,  24,   1.2,    sLM6);
 
@@ -164,9 +169,9 @@ int EventSelection_noStack()
   // push back selection steps to vector<TString> Selections;
   //-------------------------------------------------------------------------------------------------
 
-  //Selections.push_back("analyzeCorrelation1l");
-  Selections.push_back("analyzeCorrelation1l_MET150ToInf");
-  Selections.push_back("analyzeCorrelation1l_MET200ToInf");
+  Selections.push_back("analyzeCorrelation1l_MET50ToInf");
+  //Selections.push_back("analyzeCorrelation1l_MET150ToInf");
+  //Selections.push_back("analyzeCorrelation1l_MET200ToInf");
   //Selections.push_back("analyzeCorrelation1l_MET100ToInf");
   //Selections.push_back("analyzeCorrelation1l_MET150ToInf");
   //Selections.push_back("analyzeCorrelation1l_MET200ToInf");
@@ -204,11 +209,12 @@ int EventSelection_noStack()
   //---------------------------------------------------------------------------------------------------------------
 
   //addHistogram("chi2",   "#chi^{2}_{W fit}",      0,    1, "Hist",   true);
-  addHistogram("nJets",   "Number of Jets",  -0.5, 15.5, "Marker",   false);
-  addHistogram("nJets50", "Number of Jets",  -0.5, 15.5, "Marker",   false);
+  addHistogram("nJets",   "Number of Jets with p_{T}>40 GeV",  -0.5, 15.5, "Hist",   false);
+  addHistogram("nJets50", "Number of Jets with p_{T}>50 GeV",  -0.5, 15.5, "Hist",   false);
   //addHistogram("mT",       "m_{T} [GeV]",         0,  400, "Marker", true);
-  //addHistogram("YMET",    "Y_{MET} [GeV]",      0,   25, "Marker", true);
-  //addHistogram("minj3",    "minj3 [GeV]",         0,  300, "Marker", true);
+  //addHistogram("YMET",    "Y_{MET} [GeV]",      0,    25, "Marker", true);
+  //addHistogram("mlb",     "m_{lb} [GeV]",       0,   300, "Marker", true);
+  //addHistogram("minj3",    "minj3 [GeV]",       0,   300, "Marker", true); 
   //addHistogram("hadWMass", "m_{Whad} [GeV]",     60,  100, "Marker", true);
   //addHistogram("MET",      "E_{T}^{miss} [GeV]",  0,  900, "Marker", true);
   //addHistogram("HT",       "H_{T} [GeV]",         0, 2500, "Marker", true);
@@ -228,13 +234,11 @@ int EventSelection_noStack()
 
   for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
     {
-      std::cout << "\n" << Selections[sdx] << std::endl;
-      std::cout << "---------------------------------------------" << std::endl;
-
       for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	{
-	  std::cout << Histograms[hdx] << std::endl;
-	  
+	  std::cout << "\n" << Selections[sdx] << "_" << Histograms[hdx] << std::endl;
+	  std::cout << "-------------------------------------------------\n" << std::endl;
+	  	  
 	  // canvas
 	  TCanvas *canvas =new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx],1);
 	  if(setLogY == true) canvas->SetLogy();
@@ -283,11 +287,10 @@ int EventSelection_noStack()
 		  temp->SetMinimum(0.1);
 		}
 
-	      double lowMT  = temp->Integral(6,10);
-	      double highMT = temp->Integral(7,temp->GetNbinsX()+1);
-
-	      //std::cout << Labels[fdx] << ": " << lowMT << std::endl;
-	      std::cout << Labels[fdx] << ": " << highMT << std::endl;
+	      std::cout << Labels[fdx] << std::endl;
+	      std::cout << "---------------" << std::endl;
+	      std::cout << temp->Integral(1,temp->GetNbinsX()+1) << "\n" << std::endl;
+	      //std::cout << temp->Integral(16,temp->GetNbinsX()+1) << std::endl;
 
 	      temp->GetYaxis()->SetTitleOffset(1.4);
 	      temp->GetYaxis()->SetTitleSize(0.05);

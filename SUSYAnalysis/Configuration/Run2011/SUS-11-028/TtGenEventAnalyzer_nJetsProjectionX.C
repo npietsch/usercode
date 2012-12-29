@@ -95,7 +95,8 @@ int TtGenEventAnalyzer_nJetsProjectionX()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue)
   //---------------------------------------------------------------------------------
 
-  addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  //addHistogram("YMET_nJets",    "YMET [GeV^{1/2}]", 0, 25);
+  addHistogram("MET_nJets",     "MET [GeV]",        0, 600);
   //addHistogram("mT_nJets",      "m_{T} [GeV]",          0, 300);
   //addHistogram("mlv_nJets_gen", "m_{l#nu}^{gen} [GeV]", 0, 300);
   //addHistogram("mlb_nJets",     "mlb [GeV]",        0, 300);

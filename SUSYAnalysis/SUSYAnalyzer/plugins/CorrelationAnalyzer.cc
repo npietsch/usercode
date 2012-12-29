@@ -255,6 +255,7 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
 
   HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,    0.,   600.);
   mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16,  -0.5,   15.5);
+  MET_nJets_       = fs->make<TH2F>("MET_nJets",      "MET vs. nJets",  50, 0., 1000., 16,  -0.5,   15.5);
   YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 25, 0.,   25., 16,  -0.5,   15.5);
  
   mlb_YMET_        = fs->make<TH2F>("mlb_YMET",       "YMET vs. mlb",   60, 0., 600.,  50,    0,      25);
@@ -426,14 +427,9 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   // Event weighting
   //----------------------f--------------------------
 
-  //std::cout << "Test1" << std::endl;
-
-
-  int run   = evt.id().run();
-  int lumi  = evt.id().luminosityBlock();
-  int event = evt.id().event();
-
-  //std::cout << "Run, lumi, event: " << run << ":" << lumi << ":" << event << std::endl;
+  //int run   = evt.id().run();
+  //int lumi  = evt.id().luminosityBlock();
+  //int event = evt.id().event();
 
   // declare and initialize different weights
   double weight=1;
@@ -638,11 +634,13 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   const reco::LeafCandidate * singleLepton = 0;
 
   // mT
+  double LeptonPt = 0;
   double mT=0;
   double mLepTop=0;
   double mlb=0;
-  if(muons->size()==1)
+  if(muons->size()>=1)
     {
+      LeptonPt = (*muons)[0].et();
       singleLepton = &(*muons)[0];
       
       mT=sqrt(2*(((*met)[0].et())*((*muons)[0].et())-((*met)[0].px())*((*muons)[0].px())-((*met)[0].py())*((*muons)[0].py())));
@@ -668,28 +666,31 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
     }  
   if(electrons->size()==1)
     {
-      singleLepton = &(*electrons)[0];
-      
-      mT=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
-      reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
-      reco::Particle::LorentzVector METP4=(*met)[0].p4();
-      double dRLepBjetMin=9;
-
-      for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
+      if((*electrons)[0].et()<LeptonPt)
 	{
-	  double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
-	  reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
-	  if(dRLepBjet < dRLepBjetMin)
+	  singleLepton = &(*electrons)[0];
+	  
+	  mT=sqrt(2*(((*met)[0].et())*((*electrons)[0].et())-((*met)[0].px())*((*electrons)[0].px())-((*met)[0].py())*((*electrons)[0].py())));
+	  reco::Particle::LorentzVector LepP4=(*electrons)[0].p4();
+	  reco::Particle::LorentzVector METP4=(*met)[0].p4();
+	  double dRLepBjetMin=9;
+	  
+	  for(int bdx=0; bdx<(int)bjets->size(); ++bdx)
 	    {
-	      dRLepBjetMin=dRLepBjet;
-	      mlb=sqrt((LepP4+BjetP4).Dot(LepP4+BjetP4));
-	      mLepTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+	      double dRLepBjet=abs(deltaR((*bjets)[bdx].eta(),(*bjets)[bdx].phi(),(*electrons)[0].eta(),(*electrons)[0].phi()));
+	      reco::Particle::LorentzVector BjetP4=(*bjets)[bdx].p4();
+	      if(dRLepBjet < dRLepBjetMin)
+		{
+		  dRLepBjetMin=dRLepBjet;
+		  mlb=sqrt((LepP4+BjetP4).Dot(LepP4+BjetP4));
+		  mLepTop=sqrt((METP4+LepP4+BjetP4).Dot(METP4+LepP4+BjetP4));
+		}
+	      mlb_    ->Fill(mlb,     weight);
+	      mLepTop_->Fill(mLepTop, weight);
 	    }
-	  mlb_    ->Fill(mlb,     weight);
-	  mLepTop_->Fill(mLepTop, weight);
+	  
+	  mT_ ->Fill(mT, weight);
 	}
-      
-      mT_ ->Fill(mT, weight);
     }
   
   // YMET
@@ -865,6 +866,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       mT_nJets_ ->Fill(mT, jets->size(), weight);
     }
 
+  MET_nJets_  ->Fill((*met)[0].et(),  jets->size(), weight);
   YMET_nJets_ ->Fill(YMET, jets->size(), weight);
 
   if(mlb > 0)

@@ -227,6 +227,7 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
 
   TH2F* HT_mT_;
   TH2F* mT_nJets_;
+  TH2F* MET_nJets_;
   TH2F* YMET_nJets_;
   TH2F* mlb_YMET_;
   TH2F* HT_mLepTop_;

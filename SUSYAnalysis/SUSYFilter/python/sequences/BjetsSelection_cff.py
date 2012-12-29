@@ -31,9 +31,9 @@ goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuons"
                                     )
 
 
-###=============================================================
-### ATTENTION: ELECTRON pT CUT HAS CHENGED FROM 20 TO 30 GEV ###
-###=============================================================
+###===================================================================
+### ATTENTION: ELECTRON pT CUT MIGHT HAS CHENGED FROM 20 TO 30 GEV ###
+###===================================================================
 
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
@@ -71,7 +71,7 @@ looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                         cut =
                                         'isGood("GlobalMuonPromptTight") &'
-                                        'pt >= 15. &'
+                                        'pt >= 10. &'
                                         'abs(eta) <= 2.5 &'
                                         '((trackIso+hcalIso+ecalIso)/pt) <  0.15 &'
                                         'abs(dB) < 0.1'
@@ -84,7 +84,7 @@ vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons",
 ## create collection of veto electrons
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 cut =
-                                                'pt >= 15. &'
+                                                'pt >= 10. &'
                                                 'electronID(\"simpleEleId95cIso\")=7 &'
                                                 'abs(superCluster.eta) <= 2.5 &'
                                                 '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
@@ -167,6 +167,8 @@ goodJets.checkOverlaps = cms.PSet(
     requireNoOverlaps   = cms.bool(True),
     )
 )
+
+
 
 ## create collection of medium jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
@@ -570,6 +572,12 @@ oneLooseLepton = countPatLeptons.clone()
 oneLooseLepton.electronSource = "looseElectrons"
 oneLooseLepton.muonSource = "looseMuons"  
 oneLooseLepton.minNumber = 1
+
+oneGoodLepton = countPatLeptons.clone()
+oneGoodLepton.electronSource = "goodElectrons"
+oneGoodLepton.muonSource = "goodMuons"                           
+oneGoodLepton.minNumber = 1
+oneGoodLepton.maxNumber = 99
 
 exactlyOneGoodLepton = countPatLeptons.clone()
 exactlyOneGoodLepton.electronSource = "goodElectrons"

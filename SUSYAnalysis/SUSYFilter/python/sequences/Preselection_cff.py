@@ -284,7 +284,8 @@ SemiLepTauTtGenEventFilter  = ttGenEventFilter.clone(cut="semiLeptonicChannel()=
 
 DiLepTtGenEventFilter       = ttGenEventFilter.clone(cut="isFullLeptonic()")
 
-DiLepElMuTtGenEventFilter   = ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3 ")
+DiLepElMuTtGenEventFilter = ttGenEventFilter.clone(cut="isFullLeptonic() &&fullLeptonicChannel.first!=3 && fullLeptonicChannel.second!=3")
+DiLepTauTtGenEventFilter  = ttGenEventFilter.clone(cut="isFullLeptonic() && fullLeptonicChannel.first=3 && fullLeptonicChannel.second=3")
 
 FullHadTtGenEventFilter     = ttGenEventFilter.clone(cut="isFullHadronic()")
 TauTtGenEventFilter         = ttGenEventFilter.clone(cut="semiLeptonicChannel()=3 || fullLeptonicChannel.first=3 || fullLeptonicChannel.second=3")
@@ -312,3 +313,9 @@ preselectionDiLepElMu = cms.Sequence(goodVertices *
                                      scrapingVeto *
                                      DiLepElMuTtGenEventFilter
                                      )
+
+preselectionDiLepTau = cms.Sequence(goodVertices *
+                                    oneGoodVertex *
+                                    scrapingVeto *
+                                    DiLepTauTtGenEventFilter
+                                    )
