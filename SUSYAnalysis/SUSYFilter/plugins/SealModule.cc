@@ -14,3 +14,6 @@ DEFINE_FWK_MODULE(MHTFilter);
 
 #include "SUSYAnalysis/SUSYFilter/plugins/YmetFilter.h"
 DEFINE_FWK_MODULE(YmetFilter);
+
+#include "SUSYAnalysis/SUSYFilter/plugins/DiLepFilter.h"
+DEFINE_FWK_MODULE(DiLepFilter);
