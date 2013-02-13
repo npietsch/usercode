@@ -49,7 +49,6 @@ void addHistogram(TString name)
 // main function
 int PU()
 {
-
   //--------------------------------------------------------------
   // Samples
   //--------------------------------------------------------------
@@ -73,10 +72,10 @@ int PU()
   //-------------------------------------------------------------------------------------------------------------------
 
   addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
-  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
-  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
-  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
-  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
+  //addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
+  //addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  //addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  //addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -101,11 +100,6 @@ int PU()
 
   setTDRStyle();
 
-//   gStyle->SetCanvasColor(10);
-//   gStyle->SetOptStat(0);
-//   gStyle->SetPalette(1);
-//   gStyle->SetTitleFillColor(0);
-
   //--------
   // Plot
   //--------
@@ -122,17 +116,16 @@ int PU()
 	 {
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
-	   TLegend *leg = new TLegend(.33,.70,.91,.91);
+	   // legend
+	   TLegend *leg = new TLegend(.32,.70,.91,.91);
 	   leg->SetTextFont(42);
-	   leg->SetFillColor(0);
-	   leg->SetLineColor(1);
-	   leg->SetShadowColor(0);
 	   leg->SetTextSize(0.045);
 	   leg->SetFillColor(0);
 	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
 	   leg->SetLineColor(0);
-
+      
+	   // label
 	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
 	   label->SetFillColor(0);
 	   label->SetTextFont(42);
@@ -144,56 +137,80 @@ int PU()
 	   // Draw first histogram
 	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
 
-	   std::cout << "Integral after weighting: " << Temp1->Integral() << std::endl;
+	   //std::cout << "Integral after weighting: " << Temp1->Integral() << std::endl;
 
+	   // Normalization and ranges
 	   Temp1->Scale(1/(Temp1->Integral()));
+
+	   // Title
 	   Temp1->SetTitle("");
-	   //Temp1->SetMaximum(0.11);
-	   //if(Labels[ndx]=="Single Top") Temp1->SetMaximum(0.11);
-	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
-	   //Temp1->GetXaxis()->CenterTitle();
-	   Temp1->GetXaxis()->SetTitleOffset(1.2);
-	   //Temp1->GetXaxis()->SetRangeUser(-0.5,50.5);
-	   Temp1->GetYaxis()->SetTitle("a.u.");
-	   //Temp1->GetYaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitleOffset(1.4);
+
+	   // Line color, style, and width
 	   Temp1->SetLineColor(LineColors[ndx]);
 	   Temp1->SetLineStyle(3);
-	   Temp1->SetLineWidth(3);
-	   //Temp1->SetMarkerStyle(24);
-	   //Temp1->SetMarkerColor(LineColors[ndx]);
-	   //Temp1->SetMarkerSize(1.0);
+	   Temp1->SetLineWidth(2);
+
+	   // Axes
+	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
+	   Temp1->GetXaxis()->SetTitleSize(0.05);
+	   Temp1->GetXaxis()->SetTitleFont(42);
+	   Temp1->GetXaxis()->SetTitleOffset(1.2);
+
+	   Temp1->GetYaxis()->SetTitle("a.u.");
+	   Temp1->GetYaxis()->SetTitleOffset(1.4);
+	   Temp1->GetYaxis()->SetTitleSize(0.05);
+	   Temp1->GetYaxis()->SetTitleFont(42);
+
+	   // Labels
+	   Temp1->SetLabelColor(1, "XYZ");
+	   Temp1->SetLabelFont(42, "XYZ");
+	   Temp1->SetLabelOffset(0.007, "XYZ");
+	   Temp1->SetLabelSize(0.04, "XYZ");
+
 	   Temp1->Draw("Hist");
 
-	   // Draw first histogram
+	   // Draw second histogram
 	   TH1F* Temp2=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[1]);
 
-	   std::cout << "Integral before weighting: " << Temp2->Integral() << std::endl;
+	   //std::cout << "Integral before weighting: " << Temp2->Integral() << std::endl;
 
+	   // Normalization
 	   Temp2->Scale(1/(Temp2->Integral()));
+
+	   // Line color, style, and width
 	   Temp2->SetLineColor(LineColors[ndx]);
 	   Temp2->SetLineStyle(1);
 	   Temp2->SetLineWidth(2);
-	   //Temp2->SetMarkerStyle(21);
-	   //Temp2->SetMarkerColor(LineColors[ndx]);
-	   //Temp2->SetMarkerSize(1.0);
+
 	   Temp2->Draw("same Hist");
 
+	   // Draw third histogram
 	   TH1F* Temp3=(TH1F*)Data->Get("pileup");
+
+	   // Normalization
 	   Temp3->Scale(1/(Temp3->Integral()));
+
+	   // Line color, style, and width
 	   Temp3->SetLineColor(1);
 	   Temp3->SetLineWidth(1);
+
+	   // Marker style, colors, and size
 	   Temp3->SetMarkerStyle(20);
 	   Temp3->SetMarkerColor(1);
 	   Temp3->SetMarkerSize(0.9);
+
 	   Temp3->Draw("same E");
 
+	   // Add entries to legend
 	   leg->AddEntry(Temp2,Labels[ndx]+" w/o reweighting","l P");
 	   leg->AddEntry(Temp1,Labels[ndx]+" w reweighting","l P");
 	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
+	   // Draw legend and labels
 	   leg->Draw();
 	   label->Draw("same");
+
+	   // Save canvas
 	   c1->SaveAs("PU_"+Names[ndx]+".pdf");
 	 }
      }
