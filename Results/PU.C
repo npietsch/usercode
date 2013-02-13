@@ -72,10 +72,10 @@ int PU()
   //-------------------------------------------------------------------------------------------------------------------
 
   addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
-  //addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
-  //addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
-  //addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
-  //addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
 				    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -117,7 +117,7 @@ int PU()
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
 	   // legend
-	   TLegend *leg = new TLegend(.32,.70,.91,.91);
+	   TLegend *leg = new TLegend(.30,.70,.91,.91);
 	   leg->SetTextFont(42);
 	   leg->SetTextSize(0.045);
 	   leg->SetFillColor(0);
@@ -147,8 +147,8 @@ int PU()
 
 	   // Line color, style, and width
 	   Temp1->SetLineColor(LineColors[ndx]);
-	   Temp1->SetLineStyle(3);
-	   Temp1->SetLineWidth(2);
+	   Temp1->SetLineStyle(7);
+	   Temp1->SetLineWidth(3);
 
 	   // Axes
 	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
@@ -195,9 +195,9 @@ int PU()
 	   Temp3->SetLineWidth(1);
 
 	   // Marker style, colors, and size
-	   Temp3->SetMarkerStyle(20);
+	   Temp3->SetMarkerStyle(21);
 	   Temp3->SetMarkerColor(1);
-	   Temp3->SetMarkerSize(0.9);
+	   Temp3->SetMarkerSize(0.7);
 
 	   Temp3->Draw("same E");
 
