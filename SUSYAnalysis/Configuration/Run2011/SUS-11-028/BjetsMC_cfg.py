@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -52,10 +52,14 @@ process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 
 #------------------------------------------------------------------
-# Load and configure modules for event weighting
+# Load and configure module for cross-section event weighting
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
+
+#------------------------------------------------------------------
+# Load and configure module for PU weighting
+#------------------------------------------------------------------
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 
@@ -66,6 +70,29 @@ process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.ro
 
 process.eventWeightPUDown = process.eventWeightPU.clone()
 process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_67620.root"
+
+#------------------------------------------------------------------
+# Load and configure modules for b-tag efficiency weighting
+#------------------------------------------------------------------
+
+process.load("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
+
+## common default settings (similar for muon and electron channel)
+process.btagEventWeight           = process.btagEventWeight.clone()
+process.btagEventWeight.bTagAlgo  = "TCHEM"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
+
+## create weights for muon selection
+process.btagEventWeightMuJER                 = process.btagEventWeight.clone()
+process.btagEventWeightMuJER.rootDir         = "RA4bMuTCHEM"
+process.btagEventWeightMuJER.jets            = "goodJets"
+
+## create weights for electron selection
+process.btagEventWeightElJER                 = process.btagEventWeight.clone()
+process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
+process.btagEventWeightElJER.jets            = "goodJets"
 
 #------------------------------------------------------------------
 # Load modules for preselection
@@ -96,6 +123,7 @@ process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJe
 process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
 process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
 
+# clone and configure modules to monitor muon and electron quantities
 process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
 
 process.analyzeRA4Muons.jets           = "goodJets"
@@ -114,30 +142,6 @@ process.analyzeRA4Electrons.met            = "scaledJetEnergy:patMETsPF"
 process.analyzeRA4Electrons.PVSrc          = "goodVertices"
 process.analyzeRA4Electrons.useEventWeight = True
 
-#------------------------------------------------------------------
-# Load and configure modules for b-tag efficiency weighting
-#------------------------------------------------------------------
-
-process.load("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
-process.load("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
-process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
-
-## common default settings (similar for muon and electron channel)
-process.btagEventWeight           = process.btagEventWeight.clone()
-process.btagEventWeight.bTagAlgo  = "TCHEM"
-process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/TTJetsSummer11.root"
-
-## create weights for muon selection
-process.btagEventWeightMuJER                 = process.btagEventWeight.clone()
-process.btagEventWeightMuJER.rootDir         = "RA4bMuTCHEM"
-process.btagEventWeightMuJER.jets            = "goodJets"
-
-## create weights for electron selection
-process.btagEventWeightElJER                 = process.btagEventWeight.clone()
-process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
-process.btagEventWeightElJER.jets            = "goodJets"
-
-
 #--------------------------
 # Temp
 #--------------------------
@@ -150,7 +154,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 
 ## muon selection path
 process.MuonSelection = cms.Path(# execute producer and preselection modules
-                                 process.printGenParticles *
+                                 #process.printGenParticles *
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *

@@ -85,9 +85,12 @@ RA4ElectronAnalyzer::RA4ElectronAnalyzer(const edm::ParameterSet& cfg):
   dB_                           = fs->make<TH1F>("dB",                         "dB",                             20 ,  0.,  0.2);
   dz_                           = fs->make<TH1F>("dz",                         "dz",                             20 ,  0.,   1.);
 
-  ID_                           = fs->make<TH1F>("ID",                         "ID",                             8 , -0.5,  7.5);
+  ID_                           = fs->make<TH1F>("ID",                         "ID",                              8, -0.5,  7.5);
 
-  nElectrons_                   = fs->make<TH1F>("nElectrons",                 "nElectrons",                      4 ,  0.,   4.);
+  relIsoBarrel_                 = fs->make<TH1F>("relIsoBarrel",               "relIsoBarrel",                   50,    0,    2);
+  relIsoEndcaps_                = fs->make<TH1F>("relIsoEndcaps",              "relIsoEndcaps",                  50,    0,    2);
+
+  nElectrons_                   = fs->make<TH1F>("nElectrons",                 "nElectrons",                      4, -0.5,  3.5);
 }
 
 RA4ElectronAnalyzer::~RA4ElectronAnalyzer()
@@ -223,6 +226,11 @@ RA4ElectronAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       // ID
       int ID     = (*electrons)[idx].electronID("simpleEleId80cIso");
 
+      // relIso
+      int relIso = ( (*electrons)[idx].dr03TkSumPt() +
+		     max(0., (*electrons)[idx].dr03EcalRecHitSumEt() - 1.) +
+		     (*electrons)[idx].dr03HcalTowerSumEt() ) / (*electrons)[idx].pt();
+      
       // Fill histos
       pt_  ->Fill(Pt,   weight);
       eta_ ->Fill(Eta,  weight);
@@ -232,6 +240,8 @@ RA4ElectronAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
       ID_  ->Fill(ID,   weight);
 
+      if(abs((*electrons)[idx].superCluster()->eta()) < 1.4442) relIsoBarrel_  -> Fill (relIso, weight);
+      if(abs((*electrons)[idx].superCluster()->eta()) > 1.566)  relIsoEndcaps_ -> Fill (relIso, weight);
     }
   
   // number of electrons

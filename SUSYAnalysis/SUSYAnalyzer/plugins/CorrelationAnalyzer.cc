@@ -30,6 +30,8 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   bjets_             (cfg.getParameter<edm::InputTag>("bjets") ),
   muons_             (cfg.getParameter<edm::InputTag>("muons") ),
   electrons_         (cfg.getParameter<edm::InputTag>("electrons") ),
+  vetoMuons_         (cfg.getParameter<edm::InputTag>("vetoMuons") ),
+  vetoElectrons_     (cfg.getParameter<edm::InputTag>("vetoElectrons") ),
   PVSrc_             (cfg.getParameter<edm::InputTag>("PVSrc") ),
   PUInfo_            (cfg.getParameter<edm::InputTag>("PUInfo") ),
 
@@ -147,11 +149,12 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
       Electron_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
 
-  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,   6.5);
-  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,   6.5);
-  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,  12.5);
-  LeptonPt_    = fs->make<TH1F>("LeptonPt",   "Lepton Pt",  60,   0.,  600.);
-  LeptonEta_   = fs->make<TH1F>("LeptonEta",  "Lepton Eta", 60,   -3,    3.);
+  nMuons_        = fs->make<TH1F>("nMuons",       "nMuons",         7, -0.5,   6.5);
+  nElectrons_    = fs->make<TH1F>("nElectrons",   "nElectrons",     7, -0.5,   6.5);
+  nLeptons_      = fs->make<TH1F>("nLeptons",     "nLeptons",      13, -0.5,  12.5);
+  LeptonPt_      = fs->make<TH1F>("LeptonPt",     "Lepton Pt",     60,   0.,  600.);
+  LeptonEta_     = fs->make<TH1F>("LeptonEta",    "Lepton Eta",    60,   -3,    3.);
+  nVetoLeptons_  = fs->make<TH1F>("nVetoLeptons", "nVetoLeptons",  13, -0.5,  12.5);
 
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
@@ -420,6 +423,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   evt.getByLabel(muons_, muons);
   edm::Handle<std::vector<pat::Electron> > electrons;
   evt.getByLabel(electrons_, electrons);
+  edm::Handle<std::vector<pat::Muon> > vetoMuons;
+  evt.getByLabel(vetoMuons_, vetoMuons);
+  edm::Handle<std::vector<pat::Electron> > vetoElectrons;
+  evt.getByLabel(vetoElectrons_, vetoElectrons);
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
 
@@ -457,6 +464,16 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
 	  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
 	  
+	  btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
+	  btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
+	  btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
+	  btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
+	  
+	  btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
+	  btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
+	  btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
+	  btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight); 
+
 	  if(useBtagEventWgt_)
 	    {
 	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
@@ -465,25 +482,16 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[1]): " << (*BtagEventWeightsHandle)[1] <<std::endl;
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[2]): " << (*BtagEventWeightsHandle)[2] <<std::endl;
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[3]): " << (*BtagEventWeightsHandle)[3] <<std::endl;
-
-	      btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
-	      btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
-	      btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
-	      btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
-	      
-	      btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
-	      btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
-	      btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
-	      btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight); 
 	    }
          
 	  if(useInclusiveBtagEventWgt_)
 	    {
 	      weightBtagEff=0;
-	      for(int bwx=inclusiveBtagBin_; bwx<4; ++bwx)
-		{
-		  weightBtagEff=weightBtagEff+(*BtagEventWeightsHandle)[bwx];
-		}
+	      //for(int bwx=inclusiveBtagBin_; bwx<4; ++bwx)
+	      //{
+	      //  weightBtagEff=weightBtagEff+(*BtagEventWeightsHandle)[bwx];
+	      //}
+	      weightBtagEff=(*BtagEventWeightsHandle)[1]+(*BtagEventWeightsHandle)[2];
 	    }
 	}
 
@@ -621,9 +629,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       LeptonPt_->Fill((*electrons)[i].eta());
     }
 
-  nMuons_    ->Fill(nMuons,     weight);
-  nElectrons_->Fill(nElectrons, weight);
-  nLeptons_  ->Fill(nLeptons,   weight);
+  nMuons_       ->Fill(nMuons,     weight);
+  nElectrons_   ->Fill(nElectrons, weight);
+  nLeptons_     ->Fill(nLeptons,   weight);
+  nVetoLeptons_ ->Fill(vetoMuons->size()+vetoElectrons->size(), weight);
 
   //std::cout << "Test5" << std::endl;
 

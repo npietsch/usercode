@@ -46,6 +46,8 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+  edm::InputTag vetoMuons_;
+  edm::InputTag vetoElectrons_;
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
 
@@ -135,6 +137,7 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH1F* nLeptons_;
   TH1F* LeptonPt_;
   TH1F* LeptonEta_;
+  TH1F* nVetoLeptons_;
 
   TH1F* MT_;
 

@@ -133,6 +133,10 @@ process.LeptonSelection_TTJets = cms.Path(# execute producer and preselection mo
                                           
                                           # execute filter and analyzer modules
                                           process.oneGoodLepton *
+                                          
+##                                           process.DiLeptonFilter *
+##                                           process.filterLeptonPair *
+                                          
                                           process.analyzeTtGenEvent1l_leptonSelection_TTJets *
                                           
                                           process.threeGoodJets *

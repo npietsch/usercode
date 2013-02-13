@@ -95,8 +95,8 @@ RA4MuonAnalyzer::RA4MuonAnalyzer(const edm::ParameterSet& cfg):
   nMatches_                     = fs->make<TH1F>("nMatches",                   "nMatches",                        10 ,  0.,  10.);
 
   // isolation
-  relIso_                       = fs->make<TH1F>("relIso",                      "relIso",                         50 ,  0.,   1.);
-  relIso_Nminus1_               = fs->make<TH1F>("relIso_Nminus1",              "relIso Nminus1",                 50 ,  0.,   1.);
+  relIso_                       = fs->make<TH1F>("relIso",                      "relIso",                         40 ,  0.,    2);
+  relIso_Nminus1_               = fs->make<TH1F>("relIso_Nminus1",              "relIso Nminus1",                 40 ,  0.,    2);
 
   // quality criteria
   normChi2_                     = fs->make<TH1F>("normChi2",                    "normChi2",                       20 ,  0.,  20.);

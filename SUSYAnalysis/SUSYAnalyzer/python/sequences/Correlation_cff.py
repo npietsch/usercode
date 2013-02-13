@@ -14,7 +14,7 @@ analyzeCorrelation.TTJets         = True
 
 ## b-tag configuration
 analyzeCorrelation.useInclusiveBtagEventWeight = True
-analyzeCorrelation.inclusiveBtagBin            = 2
+analyzeCorrelation.inclusiveBtagBin            = 3
 analyzeCorrelation.BtagEventWeights            = "btagEventWeightMuJER:RA4bSFEventWeights"
 analyzeCorrelation.BtagJetWeights              = "btagEventWeightMuJER:RA4bSFJetWeights"
 

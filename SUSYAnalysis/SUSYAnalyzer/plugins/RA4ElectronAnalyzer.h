@@ -94,6 +94,9 @@ class RA4ElectronAnalyzer : public edm::EDAnalyzer {
 
   TH1F* ID_;
 
+  TH1F* relIsoBarrel_;
+  TH1F* relIsoEndcaps_;
+
   // nMuons
   TH1F* nElectrons_;
 };  

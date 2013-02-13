@@ -16,6 +16,8 @@ analyzeCorrelation = cms.EDAnalyzer("CorrelationAnalyzer",
                                     bjets = cms.InputTag("mediumTrackHighEffBjets"),
                                     muons = cms.InputTag("selectedPatMuons"),
                                     electrons = cms.InputTag("selectedPatElectrons"),
+                                    vetoMuons = cms.InputTag("vetoMuons"),
+                                    vetoElectrons = cms.InputTag("vetoElectrons"),
                                     PVSrc = cms.InputTag("offlinePrimaryVertices"),
                                     PUInfo = cms.InputTag("addPileupInfo"),
                                     

@@ -17,8 +17,8 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     'abs(eta) <= 2.1 &'
                                     '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                     'abs(dB) < 0.02 &'
-                                    'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
-                                    'numberOfMatches() > 1 &'
+                                    'globalTrack.hitPattern.numberOfValidTrackerHits >= 11 &'
+                                    'numberOfMatches() >= 2 &'
                                     'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
                                     '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
@@ -30,11 +30,6 @@ vertexSelectedGoodMuons = vertexSelectedMuons.clone(src = "trackMuons",
 goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuons"
                                     )
 
-
-###===================================================================
-### ATTENTION: ELECTRON pT CUT MIGHT HAS CHENGED FROM 20 TO 30 GEV ###
-###===================================================================
-
 ## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
@@ -42,9 +37,9 @@ from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
                                                'pt >= 20. &'
-                                               'electronID(\"simpleEleId80cIso\")=7 &'
                                                'abs(superCluster.eta) <= 2.5 &'
                                                '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
+                                               'electronID(\"simpleEleId80cIso\")=7 &'
                                                'abs(dB) < 0.02 '
                                                )
 
@@ -56,22 +51,21 @@ goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons",
 looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
                                     cut =
                                     'pt > 20. &'
-                                    'abs(eta) < 2.1'
+                                    'abs(eta) < 2.5'
                                     )
 
 ## create collection of loose electrons
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             cut =
                                             'pt > 20. &'
-                                            'abs(superCluster.eta) <= 2.5 &'
-                                            '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566)'
+                                            'abs(superCluster.eta) <= 2.5'
                                             )
 
 ## create collection of veto muons
 trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                         cut =
                                         'isGood("GlobalMuonPromptTight") &'
-                                        'pt >= 10. &'
+                                        'pt >= 15. &'
                                         'abs(eta) <= 2.5 &'
                                         '((trackIso+hcalIso+ecalIso)/pt) <  0.15 &'
                                         'abs(dB) < 0.1'
@@ -84,7 +78,7 @@ vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons",
 ## create collection of veto electrons
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 cut =
-                                                'pt >= 10. &'
+                                                'pt >= 15. &'
                                                 'electronID(\"simpleEleId95cIso\")=7 &'
                                                 'abs(superCluster.eta) <= 2.5 &'
                                                 '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
@@ -276,6 +270,7 @@ oneLooseMuon = countPatMuons.clone(src = 'looseMuons',
 oneVertexSelectedGoodMuon = countPatMuons.clone(src = 'vertexSelectedGoodMuons',
                                                 minNumber = 1
                                                 )
+
 ## select events with at least one vertex selectedgood muon
 oneGoodMuon = countPatMuons.clone(src = 'goodMuons',
                                   minNumber = 1
@@ -591,11 +586,26 @@ exactlyOneVetoLepton.muonSource = "vetoMuons"
 exactlyOneVetoLepton.minNumber = 1
 exactlyOneVetoLepton.maxNumber = 1
 
+exactlyTwoVetoLepton = countPatLeptons.clone()
+exactlyTwoVetoLepton.electronSource = "vetoElectrons"
+exactlyTwoVetoLepton.muonSource = "vetoMuons"                           
+exactlyTwoVetoLepton.minNumber = 2
+exactlyTwoVetoLepton.maxNumber = 2
+
 from TopAnalysis.TopFilter.filters.DiLeptonFilter_cfi import *
 
 filterLeptonPair.electrons = "goodElectrons"
 filterLeptonPair.muons = "goodMuons"
 filterLeptonPair.filterCharge = -1
+
+from SUSYAnalysis.SUSYFilter.filters.DiLepFilter_cfi import *
+
+DiLeptonFilter.goodElectrons = "goodElectrons"
+DiLeptonFilter.goodMuons = "goodMuons"
+DiLeptonFilter.looseElectrons = "vetoElectrons"
+DiLeptonFilter.looseMuons = "vetoMuons"
+DiLeptonFilter.filterCharge = -1
+
 
 ## Transverse mass filter
 from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *

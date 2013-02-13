@@ -191,7 +191,7 @@ DiLepFilter::filter ( edm::Event& event, const edm::EventSetup& setup )
 	//ee combinations
 	for (std::vector<pat::Electron>::const_iterator goodElec = goodElectrons->begin(); goodElec != goodElectrons->end(); ++goodElec) 
 	  {
-	    for (std::vector<pat::Elctron>::const_iterator looseElec = goodElec+1; looseElec != goodElectrons->end(); ++looseElec)
+	    for (std::vector<pat::Electron>::const_iterator looseElec = goodElec+1; looseElec != goodElectrons->end(); ++looseElec)
 	      {
 		if (goodElec->pt() != looseElec->pt() && (! fltrChrg_ || goodElec->charge()*looseElec->charge() == fltrChrg_) )
 		  {
