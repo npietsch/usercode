@@ -11,7 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
-#include "TDRStyle_BtagEfficienciesAllEta.h"
+#include "TDRStyle.h"
 
 vector<TFile*> Files;
 vector<TString> Labels;
@@ -62,7 +62,7 @@ int BtagEfficiencyWeighting()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
+  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
   addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7, "SingleTop");
   addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
 
@@ -91,13 +91,13 @@ int BtagEfficiencyWeighting()
       // Define canvas, legend and labels
       TCanvas *canvas =new TCanvas(Labels[f],Labels[f],1);
       
-      TLegend *leg = new TLegend(.57,.66,.90,.90);
+      TLegend *leg = new TLegend(.57,.66,.92,.90);
       leg->SetTextFont(42);
       leg->SetTextSize(0.06);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
       leg->SetShadowColor(0);
-      leg->SetLineColor(0);
+      leg->SetLineColor(1);
       leg->AddEntry((TObject*)0, Labels[f], "");
 
       TPaveText *label = new TPaveText(0.22,0.94,0.99,1.,"NDC");
@@ -114,21 +114,35 @@ int BtagEfficiencyWeighting()
 
       TH1F* cuts_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/nBjets_noWgt");
 
-      // define hisogram
+      // Title
+      cuts_->SetTitle("");
+
+      // Line color, style, and width
       cuts_->SetLineColor(4);
       //cuts_->SetLineColor(SampleColors[f]);
-      cuts_->SetLineWidth(1);
       cuts_->SetLineStyle(1);
-      cuts_->GetXaxis()->SetTitle("Number of b-jets");
-      cuts_->GetYaxis()->SetTitle("# events");
-      cuts_->SetTitleSize(0.05, "XYZ");
-      cuts_->GetXaxis()->SetTitleOffset(1.2); 
-      cuts_->GetYaxis()->SetTitleOffset(1.55);
-      cuts_->SetTitle("");
-      cuts_->SetNdivisions(5, "X");
-      cuts_->SetNdivisions(505, "Y");
+      cuts_->SetLineWidth(1);
 
-      // define marker
+      // Axes
+      cuts_->GetXaxis()->SetTitle("Number of b-jets");
+      cuts_->SetNdivisions(5, "X");
+      cuts_->GetXaxis()->SetTitleSize(0.05);
+      cuts_->GetXaxis()->SetTitleFont(42);
+      cuts_->GetXaxis()->SetTitleOffset(1.2);
+      
+      cuts_->GetYaxis()->SetTitle("events");
+      cuts_->SetNdivisions(505, "Y");
+      cuts_->GetYaxis()->SetTitleOffset(1.4);
+      cuts_->GetYaxis()->SetTitleSize(0.05);
+      cuts_->GetYaxis()->SetTitleFont(42);
+
+      // Labels
+      cuts_->SetLabelColor(1, "XYZ");
+      cuts_->SetLabelFont(42, "XYZ");
+      cuts_->SetLabelOffset(0.007, "XYZ");
+      cuts_->SetLabelSize(0.04, "XYZ");
+
+      // Define marker
       cuts_->SetMarkerStyle(22);
       cuts_->SetMarkerColor(4);
       //cuts_->SetMarkerColor(SampleColors[f]);
@@ -162,8 +176,8 @@ int BtagEfficiencyWeighting()
 	{
 	  ibinX=ibinX+1;
 	  
-	  xbins[xbin] =ibinX;
-	  xbins2[xbin]=ibinX+shift_;
+	  xbins[xbin] =ibinX-0.5;
+	  xbins2[xbin]=ibinX-0.5+shift_;
 	}
 
       xbins[4]=4;
@@ -190,15 +204,15 @@ int BtagEfficiencyWeighting()
       // Draw x-errors
       Tmp_->SetLineColor(2);
       //Tmp_->SetLineColor(SampleColors[f]);
-      Tmp_->SetLineWidth(1);
-      Tmp_->SetLineStyle(2);
+      Tmp_->SetLineWidth(2);
+      Tmp_->SetLineStyle(7);
       Tmp_->Draw("same");
       
       // Draw markers
       Tmp2_->SetLineColor(2);
       //Tmp2_->SetLineColor(SampleColors[f]);
-      Tmp2_->SetLineWidth(1);
-      Tmp2_->SetLineStyle(2);
+      Tmp2_->SetLineWidth(2);
+      Tmp2_->SetLineStyle(7);
       Tmp2_->SetMarkerStyle(21);
       Tmp2_->SetMarkerColor(2);
       //Tmp2_->SetMarkerColor(SampleColors[f]);
