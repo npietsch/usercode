@@ -61,9 +61,10 @@ int PU()
   TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
-  TFile* LM3            = new TFile("LM3.root",            "READ");
+  //TFile* LM3            = new TFile("LM3.root",            "READ");
+  TFile* LM6            = new TFile("LM6.root",            "READ")
   TFile* LM8            = new TFile("LM8.root",            "READ");
-  TFile* LM13           = new TFile("LM13.root",           "READ");
+  //TFile* LM13           = new TFile("LM13.root",           "READ");
 
   TFile* Data = new TFile("PU_Data_73500.root", "Read"); 
 
@@ -76,7 +77,10 @@ int PU()
   addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
   addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
   addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
-				    
+
+//   addSample(LM6,       "LM6",         1, 1,        0, 0);
+//   addSample(LM8,       "LM8",         1, 1,        0, 0);
+			    
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
 //   addSample(LM13,      "LM13",        1, kBlue,    0, 0);
@@ -117,13 +121,12 @@ int PU()
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
 	   // legend
-	   TLegend *leg = new TLegend(.30,.70,.91,.91);
+	   TLegend *leg = new TLegend(.29,.68,.91,.89);
 	   leg->SetTextFont(42);
-	   leg->SetTextSize(0.045);
+	   leg->SetTextSize(0.043);
 	   leg->SetFillColor(0);
-	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
-	   leg->SetLineColor(0);
+	   leg->SetLineColor(1);
       
 	   // label
 	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
@@ -157,7 +160,7 @@ int PU()
 	   Temp1->GetXaxis()->SetTitleOffset(1.2);
 
 	   Temp1->GetYaxis()->SetTitle("a.u.");
-	   Temp1->GetYaxis()->SetTitleOffset(1.4);
+	   Temp1->GetYaxis()->SetTitleOffset(1.5);
 	   Temp1->GetYaxis()->SetTitleSize(0.05);
 	   Temp1->GetYaxis()->SetTitleFont(42);
 
@@ -195,9 +198,9 @@ int PU()
 	   Temp3->SetLineWidth(1);
 
 	   // Marker style, colors, and size
-	   Temp3->SetMarkerStyle(21);
+	   Temp3->SetMarkerStyle(20);
 	   Temp3->SetMarkerColor(1);
-	   Temp3->SetMarkerSize(0.7);
+	   Temp3->SetMarkerSize(0.9);
 
 	   Temp3->Draw("same E");
 
