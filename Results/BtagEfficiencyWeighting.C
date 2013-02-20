@@ -55,22 +55,24 @@ int BtagEfficiencyWeighting()
   TFile* QCD       = new TFile("QCD.root",            "READ");
 
   //TFile* LM3       = new TFile("LM3.root",            "READ");
-  //TFile* LM8       = new TFile("LM8.root",            "READ");
+  TFile* LM6       = new TFile("LM6.root",            "READ");
+  TFile* LM8       = new TFile("LM8.root",            "READ");
   //TFile* LM13      = new TFile("LM13.root",           "READ");
 
   //----------------------------------------------------------------------------------
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
-  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7, "SingleTop");
-  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
+  //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
+  //addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7, "SingleTop");
+  //addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
 
-  addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7, "ZJets");
-  addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7, "QCD");
+  //addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7, "ZJets");
+  //addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7, "QCD");
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
-//   addSample(LM8,  "LM8",  kBlue,    21, 0.9, 7);
+  //addSample(LM6,  "LM6",  kBlue,    21, 0.9, 7, "LM6");
+  addSample(LM8,  "LM8",  kRed,     21, 0.9, 7, "LM8");
 //   addSample(LM13, "LM13", kGreen+2, 22, 1.2, 7);
 
   //-----------------------------------------------------
@@ -91,9 +93,10 @@ int BtagEfficiencyWeighting()
       // Define canvas, legend and labels
       TCanvas *canvas =new TCanvas(Labels[f],Labels[f],1);
       
-      TLegend *leg = new TLegend(.57,.66,.92,.90);
+      //TLegend *leg = new TLegend(.59,.67,.90,.88);
+      TLegend *leg = new TLegend(.59,.19,.90,.40);
       leg->SetTextFont(42);
-      leg->SetTextSize(0.06);
+      leg->SetTextSize(0.05);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
       leg->SetShadowColor(0);
@@ -112,7 +115,7 @@ int BtagEfficiencyWeighting()
       // Define and draw b-tags histogram
       //--------------------------------------
 
-      TH1F* cuts_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/nBjets_noWgt");
+      TH1F* cuts_=(TH1F*)Files[f]->Get("monitorBtagWeightingEl/nBjets_noWgt");
 
       // Title
       cuts_->SetTitle("");
@@ -130,9 +133,9 @@ int BtagEfficiencyWeighting()
       cuts_->GetXaxis()->SetTitleFont(42);
       cuts_->GetXaxis()->SetTitleOffset(1.2);
       
-      cuts_->GetYaxis()->SetTitle("events");
+      cuts_->GetYaxis()->SetTitle("Events");
       cuts_->SetNdivisions(505, "Y");
-      cuts_->GetYaxis()->SetTitleOffset(1.4);
+      cuts_->GetYaxis()->SetTitleOffset(1.5);
       cuts_->GetYaxis()->SetTitleSize(0.05);
       cuts_->GetYaxis()->SetTitleFont(42);
 
@@ -156,7 +159,7 @@ int BtagEfficiencyWeighting()
       // Define and weights histogram
       //--------------------------------------
       
-      TH1F* weights_=(TH1F*)Files[f]->Get("monitorBtagWeightingMu/btagWeights_noWgt");
+      TH1F* weights_=(TH1F*)Files[f]->Get("monitorBtagWeightingEl/btagWeights_noWgt");
       
       // define shifts of markers in x direction
       double shift_=0.12;
@@ -180,8 +183,8 @@ int BtagEfficiencyWeighting()
 	  xbins2[xbin]=ibinX-0.5+shift_;
 	}
 
-      xbins[4]=4;
-      xbins2[4]=4;
+      xbins[4]=3.5;
+      xbins2[4]=3.5;
 
       // define new histograms Tmp_ and Tmp2_
       char Tmp [70];
@@ -223,7 +226,7 @@ int BtagEfficiencyWeighting()
       leg->Draw();
       label->Draw();
   
-      canvas->SaveAs("BtagEfficiencyWeighting_"+Names[f]+"_Mu.pdf");
+      canvas->SaveAs("BtagEfficiencyWeighting_"+Names[f]+"_El.pdf");
     }
 
 

@@ -62,7 +62,7 @@ int PU()
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
   //TFile* LM3            = new TFile("LM3.root",            "READ");
-  TFile* LM6            = new TFile("LM6.root",            "READ")
+  TFile* LM6            = new TFile("LM6.root",            "READ");
   TFile* LM8            = new TFile("LM8.root",            "READ");
   //TFile* LM13           = new TFile("LM13.root",           "READ");
 
