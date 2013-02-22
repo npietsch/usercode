@@ -10,9 +10,10 @@ import FWCore.ParameterSet.Config as cms
 # collections of good leptons
 #-------------------------------
 
-## create good muon collection
+## create collection of good muons
 from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 from TopAnalysis.TopFilter.sequences.MuonVertexDistanceSelector_cfi import *
+from SUSYAnalysis.SUSYEventProducers.PFConsistentMuonProducer_cfi import *
 
 trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     cut =
@@ -22,57 +23,67 @@ trackMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                     'abs(eta) <= 2.1 &'
                                     '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                     'abs(dB) < 0.02 &'
-                                    'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
-                                    'numberOfMatches() > 1 &'
+                                    'globalTrack.hitPattern.numberOfValidTrackerHits >= 11 &'
+                                    'numberOfMatches() >= 2 &'
                                     'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
-                                    '(globalTrack.ptError)/(pt*pt) < 0.001'
+                                    '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                     )
 
-goodMuons = vertexSelectedMuons.clone(src = "trackMuons"
-                                      )
+vertexSelectedGoodMuons = vertexSelectedMuons.clone(src = "trackMuons",
+                                                    primaryVertex = "goodVertices"
+                                                    )
 
-## create good electron collection
+goodMuons = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuons"
+                                    )
+
+## create collection of good electrons
 from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
 from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
 
 isolatedElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                cut =
                                                'pt >= 20. &'
-                                               'abs(eta) <= 2.5 &'
-                                               'electronID(\"simpleEleId80relIso\")=7 &'
-                                               '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                               'abs(superCluster.eta) <= 2.5 &'
+                                               '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
+                                               'electronID(\"simpleEleId80cIso\")=7 &'
                                                'abs(dB) < 0.02 '
                                                )
 
-goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons"
+goodElectrons = vertexSelectedElectrons.clone(src = "isolatedElectrons",
+                                              primaryVertex = "goodVertices"
                                               )
 
 #-------------------------------
 # collections of veto leptons
 #-------------------------------
 
+## create collection of veto muons
 trackVetoMuons = selectedPatMuons.clone(src = "selectedPatMuons",
                                         cut =
                                         'isGood("GlobalMuonPromptTight") &'
                                         'pt >= 15. &'
                                         'abs(eta) <= 2.5 &'
-                                        '(trackIso+hcalIso+ecalIso)/pt <  0.15 &'
+                                        '((trackIso+hcalIso+ecalIso)/pt) <  0.15 &'
                                         'abs(dB) < 0.1'
                                         )
 
-vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons"
+vetoMuons = vertexSelectedMuons.clone(src = "trackVetoMuons",
+                                      primaryVertex = "goodVertices"
                                       )
 
+## create collection of veto electrons
 looseVetoElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                 cut =
                                                 'pt >= 15. &'
-                                                'abs(eta) <= 2.5 &'
-                                                'electronID(\"simpleEleId95relIso\")=7 &'
-                                                '(abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) &'
+                                                'electronID(\"simpleEleId95cIso\")=7 &'
+                                                'abs(superCluster.eta) <= 2.5 &'
+                                                '(abs(superCluster.eta) < 1.4442 || abs(superCluster.eta) > 1.566) &'
                                                 'abs(dB) < 0.1'
                                                 )
 
-vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons")
+vetoElectrons = vertexSelectedElectrons.clone(src = "looseVetoElectrons",
+                                              primaryVertex = "goodVertices"
+                                              )
 
 #------------------------------
 # collections of loose leptons
@@ -89,7 +100,7 @@ looseMuons = selectedPatMuons.clone(src = 'selectedPatMuons',
 looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                             cut =
                                             'pt > 20. &'
-                                            'abs(eta) < 2.5 '
+                                            'abs(superCluster.eta) <= 2.5'
                                             )
 
 #-------------------------------
@@ -99,16 +110,16 @@ looseElectrons = selectedPatElectrons.clone(src = 'selectedPatElectrons',
 ## create collection of good Jets
 from PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi import *
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
-                              preselection =
-                              'abs(eta) < 2.4 &'
-                              'pt > 40. &'
-                              'chargedHadronEnergyFraction > 0.0  &'
-                              'neutralHadronEnergyFraction < 0.99 &'
-                              'chargedEmEnergyFraction     < 0.99 &'
-                              'neutralEmEnergyFraction     < 0.99 &'
-                              'chargedMultiplicity > 0            &'
-                              'nConstituents > 1'
-                              )
+                               preselection =
+                               'abs(eta) < 2.4 &'
+                               'pt > 40. &'
+                               'chargedHadronEnergyFraction > 0.0  &'
+                               'neutralHadronEnergyFraction < 0.99 &'
+                               'chargedEmEnergyFraction     < 0.99 &'
+                               'neutralEmEnergyFraction     < 0.99 &'
+                               'chargedMultiplicity > 0            &'
+                               'nConstituents > 1' 
+                               )
                                
 goodJets.checkOverlaps = cms.PSet(
     muons = cms.PSet(
@@ -194,51 +205,78 @@ trackMuonsUp = selectedPatMuons.clone(src = "selectedPatMuons",
                                       'abs(eta) <= 2.1 &'
                                       '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
                                       'abs(dB) < 0.02 &'
-                                      'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
-                                      'numberOfMatches() > 1 &'
+                                      'globalTrack.hitPattern.numberOfValidTrackerHits >= 11 &'
+                                      'numberOfMatches() >= 2 &'
                                       'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
-                                      '(globalTrack.ptError)/(pt*pt) < 0.001'
+                                      '((globalTrack.ptError)/(pt*pt)) < 0.001'
                                       )
 
-goodMuonsUp = vertexSelectedMuons.clone(src = "trackMuonsUp"
-                                        )
+vertexSelectedGoodMuonsUp = vertexSelectedMuons.clone(src = "trackMuonsUp",
+                                                      primaryVertex = "goodVertices"
+                                                      )
+
+goodMuonsUp = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuonsUp"
+                                      )
 
 trackMuonsDown = selectedPatMuons.clone(src = "selectedPatMuons",
-                                      cut =
-                                      'isGood("GlobalMuonPromptTight") &'
-                                      'isGood("AllTrackerMuons") &'
-                                       'pt >= 20.2 &'
-                                      'abs(eta) <= 2.1 &'
-                                      '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
-                                      'abs(dB) < 0.02 &'
-                                      'globalTrack.hitPattern.numberOfValidTrackerHits > 10 &'
-                                      'numberOfMatches() > 1 &'
-                                      'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
-                                      '(globalTrack.ptError)/(pt*pt) < 0.001'
-                                      )
+                                        cut =
+                                        'isGood("GlobalMuonPromptTight") &'
+                                        'isGood("AllTrackerMuons") &'
+                                        'pt >= 20.2 &'
+                                        'abs(eta) <= 2.1 &'
+                                        '(trackIso+hcalIso+ecalIso)/pt < 0.1 &'
+                                        'abs(dB) < 0.02 &'
+                                        'globalTrack.hitPattern.numberOfValidTrackerHits >= 11 &'
+                                        'numberOfMatches() >= 2 &'
+                                        'innerTrack().hitPattern().pixelLayersWithMeasurement() >= 1 &'
+                                        '((globalTrack.ptError)/(pt*pt)) < 0.001'
+                                        )
 
-goodMuonsDown = vertexSelectedMuons.clone(src = "trackMuonsDown"
-                                          )
+vertexSelectedGoodMuonsDown = vertexSelectedMuons.clone(src = "trackMuonsDown",
+                                                        primaryVertex = "goodVertices"
+                                                        )
+
+goodMuonsDown = PFConsistentMuons.clone(muons = "vertexSelectedGoodMuonsDown"
+                                        )
 
 
 ## create collection of good electrons with scaled up and down energy
+from PhysicsTools.PatAlgos.selectionLayer1.electronSelector_cfi import *
+from TopAnalysis.TopFilter.sequences.ElectronVertexDistanceSelector_cfi import *
+
 isolatedElectronsUp = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                  cut =
-                                                 '(pt >= 19.8 & abs(eta) <= 1.4 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02) |'
-                                                  '(pt >= 19.5 & abs(eta) > 1.4 & abs(eta) <=2.5 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02)'
+                                                 '(pt >= 19.8 &'
+                                                 'abs(superCluster.eta) < 1.4442 &'
+                                                 'electronID(\"simpleEleId80cIso\")=7 &'
+                                                 'abs(dB) < 0.02) ||'
+                                                 '(pt >= 19.5 &'
+                                                 'abs(superCluster.eta) <= 2.5 &'
+                                                 'abs(superCluster.eta) > 1.566 &'
+                                                 'electronID(\"simpleEleId80cIso\")=7 &'
+                                                 'abs(dB) < 0.02)'
                                                  )
 
-goodElectronsUp = vertexSelectedElectrons.clone(src = "isolatedElectronsUp"
+goodElectronsUp = vertexSelectedElectrons.clone(src = "isolatedElectronsUp",
+                                                primaryVertex = "goodVertices"
                                                 )
 
 isolatedElectronsDown = selectedPatElectrons.clone(src = 'selectedPatElectrons',
                                                    cut =
-                                                 '(pt >= 20.2 & abs(eta) <= 1.4 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02) |'
-                                                 '(pt >= 20.5 & abs(eta) > 1.4 & abs(eta) <=2.5 & electronID(\"simpleEleId80relIso\")=7 & (abs(superCluster.eta) < 1.4442 | abs(superCluster.eta) > 1.566) & abs(dB) < 0.02)'
-                                                 )
+                                                   '(pt >= 20.2 &'
+                                                   'abs(superCluster.eta) < 1.4442 &'
+                                                   'electronID(\"simpleEleId80cIso\")=7 &'
+                                                   'abs(dB) < 0.02) ||'
+                                                   '(pt >= 20.5 &'
+                                                   'abs(superCluster.eta) <= 2.5 &'
+                                                   'abs(superCluster.eta) > 1.566 &'
+                                                   'electronID(\"simpleEleId80cIso\")=7 &'
+                                                   'abs(dB) < 0.02)'
+                                                   )
 
-goodElectronsDown = vertexSelectedElectrons.clone(src = "isolatedElectronsDown"
-                                                )
+goodElectronsDown = vertexSelectedElectrons.clone(src = "isolatedElectronsDown",
+                                                  primaryVertex = "goodVertices"
+                                                  )
 
 #--------------------------------------------------------------------------------------------
 # collections of good jets with energy scaled up and down
@@ -307,7 +345,7 @@ mediumSSVHighEffBjetsJERDown = selectedPatJets.clone(src = 'goodJetsJERDown',
                                                      )
 
 #--------------------------------------------------------------------------------------------
-# collections of good  METs with lep energy scaled up and down
+# collections of good  METs with lepton energy scaled up and down
 #--------------------------------------------------------------------------------------------
 
 ## create collection of good METs with scaled up lepton energy corrections
@@ -411,21 +449,21 @@ noGoodElectron = countPatElectrons.clone(src = 'goodElectrons',
 #------------------------------
 
 ## select events with exactly one veto muon
-oneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
-                                  minNumber = 1,
-                                  maxNumber = 1
-                                  )
+exactlyOneVetoMuon = countPatMuons.clone(src = 'vetoMuons',
+                                         minNumber = 1,
+                                         maxNumber = 1
+                                         )
 
 ## select events with no veto muon
 noVetoMuon = countPatMuons.clone(src = 'vetoMuons',
-                                  maxNumber = 0
-                                  )
+                                 maxNumber = 0
+                                 )
 
 ## select events with exactly one veto electron
-oneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
-                                          minNumber = 1,
-                                          maxNumber = 1
-                                          )
+exactlyOneVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
+                                                 minNumber = 1,
+                                                 maxNumber = 1
+                                                 )
 ## select events with no veto electron
 noVetoElectron = countPatElectrons.clone(src = 'vetoElectrons',
                                          maxNumber = 0
@@ -641,52 +679,50 @@ oneGoodMETMETDown = countPatMET.clone(src = 'goodMETsMETDown',
 ##======================================================================
 
 # lepton producer sequences
-createGoodLeptons = cms.Sequence(## muons
+createGoodLeptons = cms.Sequence(## loose leptons
                                  looseMuons *
+                                 looseElectrons *
+                                 ## muons
                                  trackMuons *
+                                 vertexSelectedGoodMuons *
                                  goodMuons *
                                  trackVetoMuons *
                                  vetoMuons *
                                  ## electrons
-                                 looseElectrons *
                                  isolatedElectrons *
                                  goodElectrons*
                                  looseVetoElectrons *
                                  vetoElectrons
                                  )
 
-createGoodLeptonsUp = cms.Sequence(## muons
+createGoodLeptonsUp = cms.Sequence(## loose leptons
                                    looseMuons *
-                                   trackMuons *
-                                   goodMuons *
+                                   looseElectrons *
+                                   ## muons
                                    trackMuonsUp *
+                                   vertexSelectedGoodMuonsUp *
                                    goodMuonsUp *
                                    trackVetoMuons *
                                    vetoMuons *
                                    ## electrons
-                                   looseElectrons *
-                                   isolatedElectrons *
-                                   goodElectrons*
                                    isolatedElectronsUp *
-                                   goodElectronsUp*
+                                   goodElectronsUp *
                                    looseVetoElectrons *
                                    vetoElectrons
                                    )
 
-createGoodLeptonsDown = cms.Sequence(## muons
+createGoodLeptonsDown = cms.Sequence(## loose leptons
                                      looseMuons *
-                                     trackMuons *
-                                     goodMuons *
+                                     looseElectrons *
+                                     ## muons
                                      trackMuonsDown *
+                                     vertexSelectedGoodMuonsDown *
                                      goodMuonsDown *
                                      trackVetoMuons *
                                      vetoMuons *
                                      ## electrons
-                                     looseElectrons *
-                                     isolatedElectrons *
-                                     goodElectrons*
                                      isolatedElectronsDown *
-                                     goodElectronsDown*
+                                     goodElectronsDown *
                                      looseVetoElectrons *
                                      vetoElectrons
                                      )
@@ -761,32 +797,32 @@ from SUSYAnalysis.SUSYFilter.filters.HTFilter_cfi import *
 ## select events with one good HT
 oneGoodHT = filterHT.clone()
 oneGoodHT.jets = "goodJets"
-oneGoodHT.Cut = 350
+oneGoodHT.Cut = 375
 
 ## select events with one good HT with smeared jet energy
 oneSmearedGoodHT = filterHT.clone()
 oneSmearedGoodHT.jets = "smearedGoodJets"
-oneSmearedGoodHT.Cut = 350
+oneSmearedGoodHT.Cut = 375
 
 ## select events with one good HT with scaled up jet energy corrections
 oneGoodHTJECUp = filterHT.clone()
 oneGoodHTJECUp.jets = "goodJetsJECUp"
-oneGoodHTJECUp.Cut = 350
+oneGoodHTJECUp.Cut = 375
 
 ## select events with one good HT with scaled down jet energy corrections
 oneGoodHTJECDown = filterHT.clone()
 oneGoodHTJECDown.jets = "goodJetsJECDown"
-oneGoodHTJECDown.Cut = 350
+oneGoodHTJECDown.Cut = 375
 
 ## select events with one good HT with scaled up jet energy corrections
 oneGoodHTJERUp = filterHT.clone()
 oneGoodHTJERUp.jets = "goodJetsJERUp"
-oneGoodHTJERUp.Cut = 350
+oneGoodHTJERUp.Cut = 375
 
 ## select events with one good HT with scaled down jet energy corrections
 oneGoodHTJERDown = filterHT.clone()
 oneGoodHTJERDown.jets = "goodJetsJERDown"
-oneGoodHTJERDown.Cut = 350
+oneGoodHTJERDown.Cut = 375
 
 
 ##======================================================================
@@ -900,25 +936,25 @@ ElHadSelectionMETDown = cms.Sequence(oneSmearedGoodHT *
 from SUSYAnalysis.SUSYFilter.filters.PFMuonConsistency_cfi import *
 muonSelection = cms.Sequence(oneGoodMuon *
                              exactlyOneGoodMuon *
-                             pfMuonConsistency *
+                             #pfMuonConsistency *
                              noGoodElectron *
-                             oneVetoMuon *
+                             exactlyOneVetoMuon *
                              noVetoElectron
                              )
 
 muonSelectionUp = cms.Sequence(oneGoodMuonUp *
                                exactlyOneGoodMuonUp *
-                               pfMuonConsistency *
+                               #pfMuonConsistency *
                                noGoodElectronUp *
-                               oneVetoMuon *
+                               exactlyOneVetoMuon *
                                noVetoElectron
                                )
 
 muonSelectionDown = cms.Sequence(oneGoodMuonDown *
                                  exactlyOneGoodMuonDown *
-                                 pfMuonConsistency *
+                                 #pfMuonConsistency *
                                  noGoodElectronDown *
-                                 oneVetoMuon *
+                                 exactlyOneVetoMuon *
                                  noVetoElectron
                                  )
 
@@ -926,21 +962,21 @@ muonSelectionDown = cms.Sequence(oneGoodMuonDown *
 electronSelection = cms.Sequence(oneGoodElectron *
                                  exactlyOneGoodElectron *
                                  noGoodMuon *
-                                 oneVetoElectron *
+                                 exactlyOneVetoElectron *
                                  noVetoMuon
                                  )
 
 electronSelectionUp = cms.Sequence(oneGoodElectronUp *
                                    exactlyOneGoodElectronUp *
                                    noGoodMuonUp *
-                                   oneVetoElectron *
+                                   exactlyOneVetoElectron *
                                    noVetoMuon
                                    )
 
 electronSelectionDown = cms.Sequence(oneGoodElectronDown *
                                      exactlyOneGoodElectronDown *
                                      noGoodMuonDown *
-                                     oneVetoElectron *
+                                     exactlyOneVetoElectron *
                                      noVetoMuon
                                      )
 

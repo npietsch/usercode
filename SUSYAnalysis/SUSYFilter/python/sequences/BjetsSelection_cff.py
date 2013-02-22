@@ -162,8 +162,6 @@ goodJets.checkOverlaps = cms.PSet(
     )
 )
 
-
-
 ## create collection of medium jets
 from PhysicsTools.PatAlgos.selectionLayer1.jetSelector_cfi import *
 mediumJets = selectedPatJets.clone(src = 'goodJets',

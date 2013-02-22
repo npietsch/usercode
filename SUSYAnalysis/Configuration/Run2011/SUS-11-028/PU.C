@@ -1,16 +1,20 @@
-#include <TROOT.h>
+#include <vector>
+#include <iostream>
+#include <bitset>
+#include <vector>
+#include <fstream>
 #include "TFile.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TTree.h"
-#include "TKey.h"
 #include "TF1.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <Plot.h>
+#include "TCanvas.h"
+#include "TStyle.h"
+#include "TLegend.h"
+#include "TPaveText.h"
+#include <TDRStyle.h>
 
 vector<TFile*> Files;
+vector<TString> Labels;
 vector<TString> Names;
 vector<double> Weights;
 vector<unsigned int> LineColors;
@@ -21,12 +25,13 @@ vector<TString> Selections;
 vector<TString> Histograms;
 
 // add  sample
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
+void addSample(TFile* sample, TString name, TString label, double weight, int lc, int fc, int fs);
 
-void addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
+void addSample(TFile* sample, TString name, TString label, double weight, int lc, int fc, int fs)
 {
   Files.push_back(sample);
   Names.push_back(name);
+  Labels.push_back(label);
   Weights.push_back(weight);
   LineColors.push_back(lc);
   FillColors.push_back(fc);
@@ -44,46 +49,45 @@ void addHistogram(TString name)
 // main function
 int PU()
 {
-
   //--------------------------------------------------------------
   // Samples
   //--------------------------------------------------------------
 
-  TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
-  //TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
+  //TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
+  TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
   TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
-  //TFile* ZJets          = new TFile("ZJets.root",          "READ");
+  TFile* ZJets          = new TFile("ZJets.root",          "READ");
   //TFile* WJets          = new TFile("WJets.root",          "READ");
-  //TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
+  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
   TFile* QCD            = new TFile("QCD.root",            "READ");
   
-  TFile* LM3            = new TFile("LM3.root",            "READ");
+  //TFile* LM3            = new TFile("LM3.root",            "READ");
+  TFile* LM6            = new TFile("LM6.root",            "READ")
   TFile* LM8            = new TFile("LM8.root",            "READ");
-  TFile* LM13           = new TFile("LM13.root",           "READ");
+  //TFile* LM13           = new TFile("LM13.root",           "READ");
 
-  TFile* Data = new TFile("Run2011_PU_bin50.root", "Read"); 
+  TFile* Data = new TFile("PU_Data_73500.root", "Read"); 
 
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(TTJetsSummer11, "TTJetsSummer11", 1, kRed,     0, 0);
-  //addSample(TTJetsFall11,   "TTJetsFall11",   1, kRed,     0, 0);
-  addSample(SingleTop,      "SingleTop",      1, kRed+2,   0, 0);
-  //addSample(ZJets,          "ZJets",          1, kGreen+2, 0, 0);
-  //addSample(WJets,          "WJets",          1, kYellow,  0, 0);
-  //addSample(WJetsHT,        "WJetsHT",        1, kYellow,  0, 0);
-  addSample(QCD,            "QCD",            1, kBlue-7,  0, 0);
-				    
-  addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
-  addSample(LM8,       "LM8",         1, 1,        0, 0);
-  addSample(LM13,      "LM13",        1, kBlue,    0, 0);
+  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
+
+//   addSample(LM6,       "LM6",         1, 1,        0, 0);
+//   addSample(LM8,       "LM8",         1, 1,        0, 0);
+			    
+//   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
+//   addSample(LM8,       "LM8",         1, 1,        0, 0);
+//   addSample(LM13,      "LM13",        1, kBlue,    0, 0);
 
   //-------------------------------------------------------------------------------------------------
   // push back selection step to vector<TString> Selections and DataSelection;
   //-------------------------------------------------------------------------------------------------
-
-  std::cout << "Test1" << std::endl;
 
   Selections.push_back("analyzeSUSY1m_noCuts");
   
@@ -91,18 +95,14 @@ int PU()
   // push back histogram to vector<int> Histograms and DataHistograms;
   //-------------------------------------------------------------------------------------------------
 
-  std::cout << "Test2" << std::endl;
-
   addHistogram("nPU");
+  addHistogram("nPU_noWgt");
 
   //------------
   // set style 
   //------------ 
 
-  gStyle->SetCanvasColor(10);
-  gStyle->SetOptStat(0);
-  gStyle->SetPalette(1);
-  gStyle->SetTitleFillColor(0);
+  setTDRStyle();
 
   //--------
   // Plot
@@ -112,49 +112,109 @@ int PU()
    for(int ndx=0; ndx<(int)Files.size(); ++ndx)
      {
 
+       std::cout << "\n"<< Names[ndx] << std::endl;
+       std::cout << "---------------" << std::endl;
+
        // loop over selections
        for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	 {
-	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx], 1);
+	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
-	   TLegend *leg = new TLegend(.65,.75,.98,.98);
+	   // legend
+	   TLegend *leg = new TLegend(.29,.68,.91,.89);
 	   leg->SetTextFont(42);
+	   leg->SetTextSize(0.043);
 	   leg->SetFillColor(0);
-	   leg->SetLineColor(0);
-	   
-	   std::cout << "Test3" << std::endl;
+	   leg->SetShadowColor(0);
+	   leg->SetLineColor(1);
+      
+	   // label
+	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	   label->SetFillColor(0);
+	   label->SetTextFont(42);
+	   label->SetTextSize(0.043);
+	   label->SetBorderSize(0);
+	   label->SetTextAlign(12);
+	   TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
 
-	   // draw first histogram
+	   // Draw first histogram
 	   TH1F* Temp1=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[0]);
-	   Temp1->Draw();
-	   Temp1->Scale(1/(Temp1->Integral()));
-	   Temp1->SetTitle(Names[ndx]);
-	   Temp1->GetXaxis()->SetTitle("Number of pile-up interactions");
-	   Temp1->GetXaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitle("a.u.");
-	   Temp1->GetYaxis()->CenterTitle();
-	   Temp1->GetYaxis()->SetTitleOffset(1.3);
-	   Temp1->SetLineColor(LineColors[ndx]);
-	   Temp1->SetLineStyle(1);
-	   Temp1->SetMarkerStyle(20);
-	   Temp1->SetMarkerColor(LineColors[ndx]);
-	   Temp1->SetMarkerSize(0.7);
-	   leg->AddEntry(Temp1,Names[ndx],"l P");
 
-	   std::cout << "Test4" << std::endl;
-	   
-	   TH1F* Temp2=(TH1F*)Data->Get("pileup");
-	   Temp2->Draw("same");
+	   //std::cout << "Integral after weighting: " << Temp1->Integral() << std::endl;
+
+	   // Normalization and ranges
+	   Temp1->Scale(1/(Temp1->Integral()));
+
+	   // Title
+	   Temp1->SetTitle("");
+
+	   // Line color, style, and width
+	   Temp1->SetLineColor(LineColors[ndx]);
+	   Temp1->SetLineStyle(7);
+	   Temp1->SetLineWidth(3);
+
+	   // Axes
+	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
+	   Temp1->GetXaxis()->SetTitleSize(0.05);
+	   Temp1->GetXaxis()->SetTitleFont(42);
+	   Temp1->GetXaxis()->SetTitleOffset(1.2);
+
+	   Temp1->GetYaxis()->SetTitle("a.u.");
+	   Temp1->GetYaxis()->SetTitleOffset(1.5);
+	   Temp1->GetYaxis()->SetTitleSize(0.05);
+	   Temp1->GetYaxis()->SetTitleFont(42);
+
+	   // Labels
+	   Temp1->SetLabelColor(1, "XYZ");
+	   Temp1->SetLabelFont(42, "XYZ");
+	   Temp1->SetLabelOffset(0.007, "XYZ");
+	   Temp1->SetLabelSize(0.04, "XYZ");
+
+	   Temp1->Draw("Hist");
+
+	   // Draw second histogram
+	   TH1F* Temp2=(TH1F*)Files[ndx]->Get(Selections[sdx]+"/"+Histograms[1]);
+
+	   //std::cout << "Integral before weighting: " << Temp2->Integral() << std::endl;
+
+	   // Normalization
 	   Temp2->Scale(1/(Temp2->Integral()));
-	   Temp2->SetLineColor(1);
-	   Temp2->SetLineStyle(2);
-	   Temp2->SetMarkerStyle(25);
-	   Temp2->SetMarkerColor(1);
-	   Temp2->SetMarkerSize(0.9);
-	   leg->AddEntry(Temp2,"Data","l P");
+
+	   // Line color, style, and width
+	   Temp2->SetLineColor(LineColors[ndx]);
+	   Temp2->SetLineStyle(1);
+	   Temp2->SetLineWidth(2);
+
+	   Temp2->Draw("same Hist");
+
+	   // Draw third histogram
+	   TH1F* Temp3=(TH1F*)Data->Get("pileup");
+
+	   // Normalization
+	   Temp3->Scale(1/(Temp3->Integral()));
+
+	   // Line color, style, and width
+	   Temp3->SetLineColor(1);
+	   Temp3->SetLineWidth(1);
+
+	   // Marker style, colors, and size
+	   Temp3->SetMarkerStyle(20);
+	   Temp3->SetMarkerColor(1);
+	   Temp3->SetMarkerSize(0.9);
+
+	   Temp3->Draw("same E");
+
+	   // Add entries to legend
+	   leg->AddEntry(Temp2,Labels[ndx]+" w/o reweighting","l P");
+	   leg->AddEntry(Temp1,Labels[ndx]+" w reweighting","l P");
+	   leg->AddEntry(Temp3,"Run 2011","l P");
 	   	 
-	   leg->Draw("box");
-	   c1->SaveAs(Selections[sdx]+"_"+Histograms[0]+"_"+Names[ndx]+".pdf");
+	   // Draw legend and labels
+	   leg->Draw();
+	   label->Draw("same");
+
+	   // Save canvas
+	   c1->SaveAs("PU_"+Names[ndx]+".pdf");
 	 }
      }
 }

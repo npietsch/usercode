@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(100000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -24,7 +24,6 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
-
 #------------------------------------------------------------------
 # Load and configure module to smear jet energy on reco level
 #------------------------------------------------------------------
@@ -36,23 +35,13 @@ process.scaledJetEnergy.inputMETs = "patMETsPF"
 process.scaledJetEnergy.doJetSmearing = True
 
 #------------------------------------------------------------------
-# Load modules to create objects and filter events on reco level
-#------------------------------------------------------------------
-
-process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
-
-# define source for goodJets producer
-process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
-process.goodMETs.src = "scaledJetEnergy:patMETsPF"
-
-#------------------------------------------------------------------
 # Load modules to create SUSYGenEvent
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 
 #------------------------------------------------------------------
-# Load and configure module for cross-section event weighting
+# Load and configure module for cross-section weighting
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
@@ -99,6 +88,16 @@ process.btagEventWeightElJER.jets            = "goodJets"
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
+
+#------------------------------------------------------------------
+# Load modules to create objects and filter events on reco level
+#------------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
+
+# define source for goodJets producer
+process.goodJets.src = "scaledJetEnergy:selectedPatJetsAK5PF"
+process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 
 #------------------------------------------------------------------
 # Load analyzer modules

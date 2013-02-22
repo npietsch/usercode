@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm *root
+#rm *root
 
 #cp naf_RA4b_TTJets_cfg/$1 ./TTJetsSummer11.root
 
@@ -20,9 +20,11 @@ hadd WJetsHT.root naf_RA4b_WJets_HT*/$1
 
 hadd ZJets.root naf_RA4b_ZJets_cfg_*/$1
 
-cp naf_RA4b_LM3_cfg/$1 ./LM3.root
+#cp naf_RA4b_LM3_cfg/$1 ./LM3.root
 
-cp naf_RA4b_LM8_cfg/$1 ./LM8.root
+#cp naf_RA4b_LM6_noPFCheck_cfg/$1 ./LM6.root
 
-cp naf_RA4b_LM13_cfg/$1 ./LM13.root
+#cp naf_RA4b_LM8_noPFCheck_cfg/$1 ./LM8.root
+
+#cp naf_RA4b_LM13_cfg/$1 ./LM13.root
 

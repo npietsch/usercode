@@ -272,7 +272,6 @@ preselectionElHTAllData = cms.Sequence(goodVertices *
                                        ElHTTriggerAllData
                                        )
 
-
 #---------------------------------------------------------------------------
 # load and configure modules to filter on member functions of TtGenEvent
 #---------------------------------------------------------------------------

@@ -20,6 +20,7 @@ process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
 process.goodMuons = process.vertexSelectedGoodMuons.clone()
+process.analyzeRA4Muons.pfMuons = "goodMuons"
 
 # Choose input files
 process.source = cms.Source("PoolSource",

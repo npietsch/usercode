@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100000),
+    input = cms.untracked.int32(20000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -171,7 +171,7 @@ process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly 1 electron and at least 0 b-tags
 process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.makeObjects *
                                    process.TriggerWeightProducer *
                                    
@@ -191,7 +191,7 @@ process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
 
 ## exactly one electron and at least 1 btag
 process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -203,7 +203,7 @@ process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly one electron and at least 2 btag
 process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -215,7 +215,7 @@ process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly 1 electron and at least 3 b-tags
 process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -227,7 +227,7 @@ process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly one electron and exactly 0 btags
 process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -239,7 +239,7 @@ process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly one electron and exactly 1 btag
 process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
@@ -251,7 +251,7 @@ process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
 
 ## exactly one electron and exactly 2 btags
 process.Selection2b1e_2 = cms.Path(# execute filter and b-tag producer modules
-                                   process.preselectionMuHTAllData *
+                                   process.preselectionElHTAllData *
                                    process.MuHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
