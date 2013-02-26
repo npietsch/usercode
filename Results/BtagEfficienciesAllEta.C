@@ -11,7 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
-#include "TDRStyle_BtagEfficienciesAllEta.h"
+#include "TDRStyle.h"
 
 vector<TFile*> Files;
 vector<TString> Labels;
@@ -67,11 +67,11 @@ int BtagEfficienciesAllEta()
   // Define samples
   //-----------------------------------------------------
 
-  TFile* TTJets    = new TFile("TTJetsFall11.root",   "READ");
-  TFile* WJetsHT   = new TFile("WJetsHT.root",        "READ");
-  TFile* SingleTop = new TFile("SingleTop.root",      "READ");
+  TFile* TTJets    = new TFile("Btag_TTJetsFall11.root",   "READ");
+  TFile* WJetsHT   = new TFile("Btag_WJetsHT.root",        "READ");
+  TFile* SingleTop = new TFile("Btag_SingleTop.root",      "READ");
 
-  TFile* ZJets     = new TFile("ZJets.root",          "READ");
+  //TFile* ZJets     = new TFile("Btag_ZJets.root",          "READ");
   //TFile* QCD       = new TFile("QCD.root",            "READ");
 
   //TFile* LM3       = new TFile("LM3.root",            "READ");
@@ -82,11 +82,11 @@ int BtagEfficienciesAllEta()
   // addSample(TFile* sample, TString label, int lc, int ms, double msize, int fs);
   //----------------------------------------------------------------------------------
 
-  //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
-  //addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
-  //addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
+  addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7);
+  addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7);
+  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7);
 
-  addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
+  //addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7);
   //addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7);
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
@@ -104,8 +104,8 @@ int BtagEfficienciesAllEta()
   //-----------------------------------------------------
 
   Flavors.push_back("B");
-  Flavors.push_back("C");
-  Flavors.push_back("L");
+  //Flavors.push_back("C");
+  //Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -130,8 +130,10 @@ int BtagEfficienciesAllEta()
 	  // loop over selection steps
 	  for(int s=0; s < Steps.size(); ++s)
 	    {
-	      std::cout << "Selection step " << Steps[s] <<  std::endl;
+	      //std::cout << "Selection step " << Steps[s] <<  std::endl;
 	       
+	      std::cout << SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt" << std::endl;
+
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
@@ -160,15 +162,19 @@ int BtagEfficienciesAllEta()
 	      // declare Maximum and ybin
 	      double Maximum=0;
 
+	      std::cout << "Test 1" << std::endl
+
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  //TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  std::cout << "File: " <<  Files[f] << std::endl;
+
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  //TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //Pt_->Add(Pt2_);
 
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
-		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TaggedPt_->Add(TaggedPt2_);
 
 		  TaggedPt_->Divide(Pt_);
@@ -275,11 +281,11 @@ int BtagEfficienciesAllEta()
 	      std::cout << "Maximum: " << Maximum << std::endl;
 	      std::cout << "==============================" << std::endl;
 	      
-	      //leg->Draw();
+	      leg->Draw();
 	      label->Draw();
 	      //label2->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.pdf");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_Mu.pdf");
 	    }
 	}
     }
