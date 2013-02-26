@@ -178,7 +178,7 @@ process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
                                    # execute filter and analyzer modules
                                    process.analyzeSUSYBjets1e_noCuts *
                                    
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.analyzeSUSYBjets1e_preselection *
                                    process.analyzeRA4Electrons *
                                    
@@ -192,7 +192,7 @@ process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
 ## exactly one electron and at least 1 btag
 process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.oneMediumTrackHighEffBjets *
@@ -204,7 +204,7 @@ process.Selection1b1e_1 = cms.Path(# execute filter and b-tag producer modules
 ## exactly one electron and at least 2 btag
 process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.twoMediumTrackHighEffBjets *
@@ -216,7 +216,7 @@ process.Selection2b1e_1 = cms.Path(# execute filter and b-tag producer modules
 ## exactly 1 electron and at least 3 b-tags
 process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.threeMediumTrackHighEffBjets *
@@ -228,7 +228,7 @@ process.Selection3b1e_1 = cms.Path(# execute filter and b-tag producer modules
 ## exactly one electron and exactly 0 btags
 process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.exactlyZeroMediumTrackHighEffBjets *
@@ -240,7 +240,7 @@ process.Selection0b1e_2 = cms.Path(# execute filter and b-tag producer modules
 ## exactly one electron and exactly 1 btag
 process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.exactlyOneMediumTrackHighEffBjets *
@@ -252,7 +252,7 @@ process.Selection1b1e_2 = cms.Path(# execute filter and b-tag producer modules
 ## exactly one electron and exactly 2 btags
 process.Selection2b1e_2 = cms.Path(# execute filter and b-tag producer modules
                                    process.preselectionElHTAllData *
-                                   process.MuHadSelection *
+                                   process.ElHadSelection *
                                    process.electronSelection*
                                    process.jetSelection *
                                    process.exactlyTwoMediumTrackHighEffBjets *

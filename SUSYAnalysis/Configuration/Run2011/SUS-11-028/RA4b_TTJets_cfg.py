@@ -7,12 +7,22 @@
 
 from BjetsPAT_cfg import *
 
-process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/TTJetsSummer11_test.root"
-process.eventWeightPU.MCSampleHistoName   = cms.string("analyzeSUSY1m_noCuts/nPU_noWgt")
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 157.5
+process.weightProducer.NumberEvts = 3631452
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
-#process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+
 process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
+
 process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
+process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
+
+process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
+process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
 # Choose input files
 process.source = cms.Source("PoolSource",
