@@ -1,278 +1,138 @@
-#include <TROOT.h>
-#include "TFile.h"
-#include "TH1.h"
-#include "TH2.h"
-#include "TTree.h"
-#include "TKey.h"
-#include "TF1.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <Plot.h>
+// systematic error from PAS Tab.5 SM MC 1b-tag
+// N_D = 195.6 ± 7.2 ± 53.0 53/195.6=0.27
+//
+// MC SF 0.97 for lepton ID
 
-// MC samples
-vector<TFile*> MCFiles;
-vector<TString> MCNames;
-vector<unsigned int> MCLineColors;
-vector<unsigned int> MCFillColors;
-vector<unsigned int> MCFillStyles;
-vector<double> Weights;
- 
-// Muon data samples
-vector<TFile*> MuFiles;
-vector<TString> MuNames;
-vector<unsigned int> MuLineColors;
-vector<unsigned int> MuFillColors;
-vector<unsigned int> MuFillStyles;
+#include "StackWithRatio.h"
+#include "tdrStyle.h"
 
-// Electron data samples
-vector<TFile*> ElFiles;
-vector<TString> ElNames;
-vector<unsigned int> ElLineColors;
-vector<unsigned int> ElFillColors;
-vector<unsigned int> ElFillStyles;
+vector<TString> Histograms;
+vector<TString> XTitles;
+vector<TString> YTitles;
+vector<double> Xmin;
+vector<double> Xmax;
+vector<double> Ymin;
+vector<double> Ymax;
+vector<double> Smin;
+vector<double> Smax;
+vector<int> Legend;
 
-// MC histograms
-vector<TString> MCHistograms;
-vector<double> MCXminN;
-vector<double> MCXmaxN;
-vector<double> MCXminR;
-vector<double> MCXmaxR;
-
-// Data histograms
-vector<TString> DataHistograms;
-vector<double> DataXminN;
-vector<double> DataXmaxN;
-vector<double> DataXminR;
-vector<double> DataXmaxR;
-
-// Selections
-vector<TString> MCMuSelections;
-vector<TString> MCElSelections;
-vector<TString> DataMuSelections;
-vector<TString> DataElSelections;
-
-// Scales vector
-vector<double> Scales;
-
-// add MC sample
-void addMCSample(TFile* sample, TString name,  int lc, int fc, int fs, double weight);
-
-void addMCSample(TFile* sample, TString name,  int lc, int fc, int fs, double weight)
+void addMCHistogram(TString name, TString XTitle, TString YTitle, double xmin, double xmax, double ymin, double ymax, double smin, double smax, int legend)
 {
-  MCFiles.push_back(sample);
-  MCNames.push_back(name);  MCLineColors.push_back(lc);
-  MCFillColors.push_back(fc);
-  MCFillStyles.push_back(fs);
-  Weights.push_back(weight);
+  Histograms.push_back(name);
+  XTitles.push_back(XTitle);
+  YTitles.push_back(YTitle);
+  Xmin.push_back(xmin);
+  Xmax.push_back(xmax);
+  Ymin.push_back(ymin);
+  Ymax.push_back(ymax);
+  Smin.push_back(smin);
+  Smax.push_back(smax);
+  Legend.push_back(legend);
 }
 
-// add Muon data samples
-void addMuSample(TFile* sample, TString name, int lc, int fc, int fs);
+//-------------------- main --------------------
+void EventSelection(){
 
-void addMuSample(TFile* sample, TString name, int lc, int fc, int fs)
-{
-  MuFiles.push_back(sample);
-  MuNames.push_back(name);
-  MuLineColors.push_back(lc);
-  MuFillColors.push_back(fc);
-  MuFillStyles.push_back(fs);
-}
+	setTDRStyle();
+	gStyle->SetPadTopMargin(0.1);
+	gStyle->SetLineStyleString(11,"14 12");
+           
+	double dataLumi = 4980;//4965.876/pb. -20/pb in ele
+	double SF=0.97; // scale factor - missing part lepton id
 
-// add Electron data sample
-void addElSample(TFile* sample, TString name, int lc, int fc, int fs);
+	// define files
+	TFile* TTJets_file    = new TFile("TTJetsFall11.root", "READ");
+	TFile* SingleTop_file = new TFile("SingleTop.root",    "READ");
+	TFile* WJets_file     = new TFile("WJetsHT.root",      "READ");
+	TFile* ZJets_file     = new TFile("ZJets.root",        "READ");
+	TFile* QCD_file       = new TFile("QCD.root",          "READ");
+	
+	TFile* LM3_file       = new TFile("LM3.root",          "READ");
+	TFile* LM6_file       = new TFile("LM6.root",          "READ");
+	TFile* LM8_file       = new TFile("LM8.root",          "READ");
+	
+	TFile* MuHad_file     = new TFile("MuHad.root",        "READ");
+	TFile* ElHad_file     = new TFile("ElHad.root",        "READ");
 
-void addElSample(TFile* sample, TString name, int lc, int fc, int fs)
-{
-  ElFiles.push_back(sample);
-  ElNames.push_back(name);
-  ElLineColors.push_back(lc);
-  ElFillColors.push_back(fc);
-  ElFillStyles.push_back(fs);
-}
+	//addMCHistogram(TString name, int xmin, int xmax)
+	addMCHistogram("analyzeSUSY3b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV", 0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeSUSY1m_jetSelection/mT", "m_{T} [GeV]","Events / 10 GeV", 0,  400, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY3b1m_1/MET", "E_{T}^{miss} [GeV]","Events / 25 GeV", 0,  600, 0.1, 1e3, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of Jets [GeV]","Events", 0,  12, 0.1, 1e3, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets [GeV]","Events", 0,  12, 0.1, 1e5, -0.1, 2.1, 1);
 
-// add MC histogram
-void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
+	  {
+	    // get histograms
+	    TH1D* TTJets    = (TH1D*)TTJets_file    ->Get(Histograms[hdx]);
+	    TH1D* SingleTop = (TH1D*)SingleTop_file ->Get(Histograms[hdx]);
+	    TH1D* WJets     = (TH1D*)WJets_file     ->Get(Histograms[hdx]);
+	    TH1D* ZJets     = (TH1D*)ZJets_file     ->Get(Histograms[hdx]);
+	    TH1D* QCD       = (TH1D*)QCD_file       ->Get(Histograms[hdx]);
+	    
+	    TH1D* LM3       = (TH1D*)LM3_file       ->Get(Histograms[hdx]);
+	    TH1D* LM6       = (TH1D*)LM6_file       ->Get(Histograms[hdx]);
+	    TH1D* LM8       = (TH1D*)LM8_file       ->Get(Histograms[hdx]);
+	    
+	    TH1D* MuHad     = (TH1D*)MuHad_file     ->Get(Histograms[hdx]);
+	    TH1D* ElHad     = (TH1D*)ElHad_file     ->Get(Histograms[hdx]);
+	    
+	    // stack with ratio
+	    StackWithRatio sr(dataLumi, XTitles[hdx], YTitles[hdx], "Data/Simulation");
+	    sr.SetXRange(Xmin[hdx],Xmax[hdx]);
+	    sr.SetStackYRange(Ymin[hdx],Ymax[hdx]);
+	    sr.SetRatioYRange(Smin[hdx],Smax[hdx]);
+	    
+	    sr.band   = false; // draw an error band
+	    sr.relsys = 0.27; // relative systematic uncertainty
+	    
+	    sr.rebOff =  0;  // rebinning offset = number of empty bin at the low edge
+	    sr.rebN   =  1;  // # bins to merge
+	    
+	    sr.SF     = SF;  // scale factor data MC which is not yet included in rootfiles
+	    
+	    sr.AddData(MuHad);
 
-void addMCHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
-{
-  MCHistograms.push_back(name);
-  MCXminN.push_back(xminN);
-  MCXmaxN.push_back(xmaxN);
-  MCXminR.push_back(xminR);
-  MCXmaxR.push_back(xmaxR);
-}
+	    // MC histogram, color,    nevnts, x-sect
+	    sr.Add(QCD,       kRed+2,    1, 0.001);
+	    sr.Add(ZJets,     kBlue-9,   1, 0.001);
+	    sr.Add(SingleTop, kGreen-3,  1, 0.001);
+	    sr.Add(WJets,     kYellow-4, 1, 0.001);
+	    sr.Add(TTJets,    kRed-7,    1, 0.001);
 
-// add data histogram
-void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR);
+	    
+	    // 	LM8->Smooth(2);
+	    // 	LM8->GetXaxis()->SetRangeUser(375, 2000);
 
-void addDataHistogram(TString name, int xminN, int xmaxN, int xminR, int xmaxR)
-{
-  DataHistograms.push_back(name);
-  DataXminN.push_back(xminN);
-  DataXmaxN.push_back(xmaxN);
-  DataXminR.push_back(xminR);
-  DataXmaxR.push_back(xmaxR);
-}
+	    // add a few signal points
+	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
+	    sr.AddExtra(LM3,  kBlue,   440000,   3.438*1.4,   1,  2); 
+	    sr.AddExtra(LM8,  kRed+3,  421190,   0.73*1.41,   2,  3);
 
-// main function
-int EventSelection()
-{
-
-  // Normalize background to data? -1: No histogram normalized, 0: only specified normalized, +1: all normalized
-  int Normalize=0;
-
-  //--------------------------------------------------------------
-  // Samples and luminosity
-  //--------------------------------------------------------------
-
-  TFile* TTJets    = new TFile("TTJetsFall11.root", "READ");
-  TFile* SingleTop = new TFile("SingleTop.root",    "READ");
-  TFile* WJetsHT   = new TFile("WJetsHT.root",      "READ");
-  TFile* ZJets     = new TFile("ZJets.root",        "READ");
-  TFile* QCD       = new TFile("QCD.root",          "READ");
-
-  TFile* LM3       = new TFile("LM3.root",          "READ");
-  TFile* LM6       = new TFile("LM6.root",          "READ");
-  TFile* LM8       = new TFile("LM8.root",          "READ");
-  TFile* LM13      = new TFile("LM13.root",         "READ");
-
-  TFile* MuHad     = new TFile("MuHad.root",        "READ");
-  TFile* ElHad     = new TFile("ElHad.root",        "READ");
-
-  // Luminosity for MuHad in pb^-1
-  Double_t MuLumi=4980;
-
-  // Luminosity for ElHad in pb^-1
-  Double_t ElLumi=4980;
-
-  //--------------------------------------------------------------
-  // Weights
-  //--------------------------------------------------------------
-
-  // cross-sections
-  double xsecQCD       = 0.001;
-  double xsecZJets     = 3048;
-  double xsecWJets     = 0.001;
-  double xsecSingleTop = 0.001;
-  double xsecTTJets    = 157.5;
-
-  double xsecLM3       = 3.438;
-  double xsecLM6       = 0.3105;
-  double xsecLM8       = 0.730;
-  double xsecLM13      = 6.899;
-
-  // number of events
-  double nQCD       = 1;
-  double nZJets     = 36058014;
-  double nWJets     = 1;
-  double nSingleTop = 1;
-  double nTTJets    = 59517528;
-
-  double nLM3       = 440000;
-  double nLM6       = 427625;
-  double nLM8       = 421190;
-  double nLM13      = 437225;
-
-  // weights
-  double sQCD       = xsecQCD/(nQCD);
-  double sZJets     = xsecZJets/(nZJets);
-  double sWJets     = xsecWJets/(nWJets);
-  double sSingleTop = xsecSingleTop/(nSingleTop);
-  double sTTJets    = xsecTTJets/(nTTJets);
-
-  double sLM3       = xsecLM3/(nLM3);
-  double sLM6       = xsecLM6/(nLM6);
-  double sLM8       = xsecLM8/(nLM8);
-  double sLM13      = xsecLM13/(nLM13);
-
-  //-------------------------------------------------------------------------------------------------------------------
-  // addMCSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
-  //-------------------------------------------------------------------------------------------------------------------
-
-  addMCSample(QCD,       "QCD",           kBlue,    kBlue,    1101, sQCD );
-  addMCSample(ZJets,     "Z+Jets",        kGreen+2, kGreen+2, 1101, sZJets);
-  addMCSample(WJetsHT,   "W+Jets",        kYellow,  kYellow,  1101, sWJets);
-  addMCSample(SingleTop, "Single Top",    kRed,     kRed,     1101, sSingleTop);
-  addMCSample(TTJets,    "t#bar{t}+Jets", kRed+2,   kRed+2,   1101, sTTJets);
-  
-  addMCSample(LM3,       "LM3",           kBlue+2,  0,        0,    sLM3);
-  addMCSample(LM6,       "LM6",           15,       0,        0,    sLM6);
-  addMCSample(LM8,       "LM8",           kCyan,    0,        0,    sLM8);
-
-  //-------------------------------------------------------------------------------------------------------------------
-  // addMuSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
-  //-------------------------------------------------------------------------------------------------------------------
-
-  addMuSample(MuHad, "MuHad", 1, 0, 0);
-
-  //-------------------------------------------------------------------------------------------------------------------
-  // addElSample(TFile* sample, TString name, double weight, int lc, int fc, int fs);
-  //-------------------------------------------------------------------------------------------------------------------
-
-  addElSample(ElHad, "ElHad", 1, 0, 0);
-
-  //-------------------------------------------------------------------------------------------------
-  // push back selection steps to vector<TString> Selections and DataSelection;
-  //-------------------------------------------------------------------------------------------------
-
-  std::cout << "Test1" << std::endl;
-
-  MCMuSelections.push_back("analyzeSUSY1m_leptonSelection");
-  MCMuSelections.push_back("analyzeSUSY1m_jetSelection");
-
-  DataMuSelections.push_back("analyzeSUSY1m_leptonSelection");
-  DataMuSelections.push_back("analyzeSUSY1m_jetSelection");
-
-  //-------------------------------------------------------------------------------------------------
-  // push back histograms to vector<int> Histograms and DataHistograms;
-  //-------------------------------------------------------------------------------------------------
-
-  std::cout << "Test2" << std::endl;
-
-  // MC
-  //addMCHistogram("nLeptons",  1, 1, 1, 1);
-  addMCHistogram("nJets",     1, 1, 1, 1);
-  addMCHistogram("nBjets_2",    1, 1, 1, 1);
-  addMCHistogram("HT",     1, 1, 1, 1);
-  addMCHistogram("MET",    1, 1, 1, 1);
-
-  // data
-  //addDataHistogram("nLeptons", 1, 1, 1, 1);
-  addDataHistogram("nJets",    1, 1, 1, 1);
-  addDataHistogram("nBjets_2",   1, 1, 1, 1);
-  addDataHistogram("HT",     1, 1, 1, 1);
-  addDataHistogram("MET",    1, 1, 1, 1);
-
-  //--------
-  // Plot
-  //--------
-
-  plotSet plots("Name");
-  
-  // Loop over muon selections
-  for(int sdx=0; sdx<(int)MCMuSelections.size(); ++sdx)
-    {
-      std::cout << MCMuSelections[sdx] << std::endl;
-      
-      // Loop over histogram
-      for(int h=0; h<(int)MCHistograms.size(); ++h)
-	{ 
-	  std::cout << MCHistograms[h] << std::endl;
-	  
-	  // Loop over MC samples
-	  for(int i=0; i<(int)MCFiles.size(); ++i)
-	    {
-	      plots.addPlot((TH1F*)MCFiles[i]->Get(MCMuSelections[sdx]+"/"+MCHistograms[h]),MCNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],MuLumi*Weights[i],MCLineColors[i],MCFillStyles[i],MCFillColors[i]);
-	    }      
-	  
-	  // loop over muon data samples
-	  for(int i=0; i<(int)MuFiles.size(); ++i)
-	    {
-	      plots.addPlot((TH1F*)MuFiles[i]->Get(DataMuSelections[sdx]+"/"+DataHistograms[h]),MuNames[i],MCHistograms[h]+"_"+MCMuSelections[sdx],1,MuLineColors[i],MuFillStyles[i],MuFillColors[i]);
-	    }
-	}
-    }
-
-  plots.printAll("ylog");
+	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,700);
+	    sr.DrawClone();
+	    
+	    sr.pad1->cd(); // stack
+	    
+	    TLegend *leg = new TLegend(0.65, 0.5, 0.9499, 0.9);
+	    leg->SetTextSize(0.05);
+	    leg->SetFillColor(0);
+	    leg->AddEntry(MuHad,     "Data",             "lep");
+	    leg->AddEntry(TTJets,    "t#bar{t} + Jets",  "f");
+	    leg->AddEntry(WJets,     "W + Jets",         "f");
+	    leg->AddEntry(SingleTop, "Single Top",       "f");
+	    leg->AddEntry(ZJets,     "Z/#gamma* + Jets", "f");
+	    leg->AddEntry(QCD,       "QCD",              "f");
+	    leg->AddEntry(LM3,       "LM3",              "lp");
+	    leg->AddEntry(LM8,       "LM8",              "lp");
+	    leg->SetBorderSize(1);
+	    if(Legend[hdx] == 1) leg->Draw();
+	    
+	    TLatex *t1 = new TLatex(0,1.8e5,"L = 4.98 fb^{-1}, #sqrt{s} = 7 TeV");
+	    t1->SetTextSize(0.05);
+	    t1->Draw();
+	    
+	    c1->SaveAs("test.pdf");
+	  }
 }

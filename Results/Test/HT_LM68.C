@@ -55,11 +55,11 @@ void HT_LM68(){
 	ElMuAdder ad("..//"); // path to root files
 
 	// electron and muon data
-	//ad.mName   = "analyzeSUSY1b1m_1/HT"; // muon histogram
+	//ad.mName   = "analyzeSUSY1m_HTSelection/HT"; // muon histogram
 	//ad.eName   = "analyzeSUSY1e_HTSelection/HT"; // electron histogram
 	//ad.mName   = "analyzeRA4Muons/relIso"; // muon histogram
-	ad.mName   = "analyzeSUSY1b1m_2/HT"; // muon histogram
-	ad.eName   = "analyzeSUSY1b1e_2/HT"; // electron histogram
+	ad.mName   = "analyzeSUSY1m_leptonSelection/nJets"; // muon histogram
+	ad.eName   = "analyzeSUSY1e_leptonSelection/nJets"; // electron histogram
 	//ad.mName   = "analyzeSUSY1m_jetSelection/nBjets_2"; // muon histogram
 	//ad.eName   = "analyzeSUSY1e_jetSelection/nBjets_2"; // electron histogram
 	TH1D* data      =  ad.get("ElHad.root","MuHad.root");
@@ -68,8 +68,8 @@ void HT_LM68(){
 	//ad.mName   = "analyzeSUSY1b1m_1/HT"; // muon histogram
 	//ad.eName   = "analyzeSUSY1e_HTSelection/HT"; // electron histogram
 	//ad.mName   = "analyzeRA4Muons/relIso"; // muon histogram
-	ad.mName   = "analyzeSUSY1b1m_2/HT"; // muon histogram
-	ad.eName   = "analyzeSUSY1b1e_2/HT"; // electron histogram
+	ad.mName   = "analyzeSUSY1m_leptonSelection/nJets"; // muon histogram
+	ad.eName   = "analyzeSUSY1e_leptonSelection/nJets"; // electron histogram
 	//ad.mName   = "analyzeSUSY1m_jetSelection/nBjets_2"; // muon histogram
 	//ad.eName   = "analyzeSUSY1e_jetSelection/nBjets_2"; // electron histogram
 	TH1D* QCD       =  ad.get("QCD.root");
