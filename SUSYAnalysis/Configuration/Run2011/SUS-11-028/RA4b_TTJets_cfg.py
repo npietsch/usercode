@@ -12,14 +12,14 @@ process.weightProducer.XS = 157.5
 process.weightProducer.NumberEvts = 3631452
 process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
-process.eventWeightPU.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsSummer11.root"
+process.eventWeightPU.MCSampleHistoName = cms.string("pileup")
 
-process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsSummer11.root"
+process.eventWeightPUUp.MCSampleHistoName = cms.string("pileup")
 
-process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_TTJets_TuneZ2_7TeV_madgraph_tauola.root"
-process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsSummer11.root"
+process.eventWeightPUDown.MCSampleHistoName = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
