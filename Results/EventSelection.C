@@ -55,12 +55,19 @@ void EventSelection(){
 	TFile* MuHad_file     = new TFile("MuHad.root",        "READ");
 	TFile* ElHad_file     = new TFile("ElHad.root",        "READ");
 
-	//addMCHistogram(TString name, int xmin, int xmax)
-	addMCHistogram("analyzeSUSY3b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV", 0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeSUSY1m_jetSelection/mT", "m_{T} [GeV]","Events / 10 GeV", 0,  400, 0.1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY3b1m_1/MET", "E_{T}^{miss} [GeV]","Events / 25 GeV", 0,  600, 0.1, 1e3, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of Jets [GeV]","Events", 0,  12, 0.1, 1e3, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets [GeV]","Events", 0,  12, 0.1, 1e5, -0.1, 2.1, 1);
+	//addMCHistogram(TString name, int xmin, int xmax)	
+// 	addMCHistogram("analyzeSUSY1m_leptonSelection/HT", "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY2b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY3b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
+
+
+// 	addMCHistogram("analyzeRA4Muons/relIso", "rel. Isolation","Events",  0, 2, 0.1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/relIso_Nminus1", "rel. Isolation","Events",  0, 2, 0.1, 1e7, -0.1, 2.1, 1);
+
+// 	addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of Jets","Events", 0,  12, 0.1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets","Events", 0,  12, 0.1, 1e5, -0.1, 2.1, 1);
 
 	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	  {
@@ -96,26 +103,23 @@ void EventSelection(){
 
 	    // MC histogram, color,    nevnts, x-sect
 	    sr.Add(QCD,       kRed+2,    1, 0.001);
-	    sr.Add(ZJets,     kBlue-9,   1, 0.001);
+	    sr.Add(ZJets,     kBlue-7,   1, 0.001);
 	    sr.Add(SingleTop, kGreen-3,  1, 0.001);
 	    sr.Add(WJets,     kYellow-4, 1, 0.001);
-	    sr.Add(TTJets,    kRed-7,    1, 0.001);
+	    sr.Add(TTJets,    kRed-4,    1, 0.001);
 
-	    
-	    // 	LM8->Smooth(2);
-	    // 	LM8->GetXaxis()->SetRangeUser(375, 2000);
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
 	    sr.AddExtra(LM3,  kBlue,   440000,   3.438*1.4,   1,  2); 
-	    sr.AddExtra(LM8,  kRed+3,  421190,   0.73*1.41,   2,  3);
+	    sr.AddExtra(LM8,  kBlack,  421190,   0.73*1.41,   2,  3);
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,700);
 	    sr.DrawClone();
 	    
 	    sr.pad1->cd(); // stack
 	    
-	    TLegend *leg = new TLegend(0.65, 0.5, 0.9499, 0.9);
+	    TLegend *leg = new TLegend(0.68, 0.45, 0.9499, 0.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
 	    leg->AddEntry(MuHad,     "Data",             "lep");
@@ -128,11 +132,22 @@ void EventSelection(){
 	    leg->AddEntry(LM8,       "LM8",              "lp");
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
-	    
-	    TLatex *t1 = new TLatex(0,1.8e5,"L = 4.98 fb^{-1}, #sqrt{s} = 7 TeV");
-	    t1->SetTextSize(0.05);
-	    t1->Draw();
-	    
-	    c1->SaveAs("test.pdf");
+	    	    
+	    TPaveText *label = new TPaveText(0.06,0.94,0.99,1.,"NDC");
+	    label->SetFillColor(0);
+	    label->SetTextFont(62);
+	    label->SetTextSize(0.05);
+	    label->SetBorderSize(0);
+	    label->SetTextAlign(12);
+	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV");
+	    label->Draw();
+
+// 	    TLatex *t1 = new TLatex(0,1.8e5,"L = 4.98 fb^{-1}, #sqrt{s} = 7 TeV");
+// 	    t1->SetTextSize(0.05);
+// 	    t1->Draw();
+
+	    TString NAME = Histograms[hdx]+".pdf";
+	    NAME.ReplaceAll("/", "_");
+	    c1->SaveAs(NAME);
 	  }
 }

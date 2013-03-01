@@ -150,7 +150,7 @@ int BtagEfficiencyWeighting()
       cuts_->SetMarkerColor(4);
       //cuts_->SetMarkerColor(SampleColors[f]);
       cuts_->SetMarkerSize(1.4);
-      leg->AddEntry(cuts_, "w/ cuts" ,"l P");    
+      leg->AddEntry(cuts_, "w/ cuts" ,"l P");
 
       // draw histogram
       cuts_->Draw("l P");
