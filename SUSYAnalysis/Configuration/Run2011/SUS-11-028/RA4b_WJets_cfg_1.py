@@ -10,8 +10,8 @@ from BjetsPAT_cfg import *
 process.preselectionElHTMC2 = process.preselectionElHTMC2ZJets
 
 process.weightProducer.Method = "Constant"
-process.weightProducer.XS = 81060362
-process.weightProducer.NumberEvts = 31314 
+process.weightProducer.XS = 31314
+process.weightProducer.NumberEvts = 81060362 
 process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_TTJetsSummer11.root"
