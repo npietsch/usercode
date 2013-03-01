@@ -96,7 +96,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       Jet_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
 
-  Jets_Et_           = fs->make<TH1F>("Jets_Et",           "Jets_Et",           90,   0.,  900.);
+  Jets_Et_           = fs->make<TH1F>("Jets_Et",           "Jets_Et",           50,   0., 1000.);
   Jets_Eta_          = fs->make<TH1F>("Jets_Eta",          "Jets_Eta",          60,  -3.,    3.);
   DeltaRecoGenJetPt_ = fs->make<TH1F>("DeltaRecoGenJetPt", "DeltaRecoGenJetPt", 60, -30.,   30.);
 

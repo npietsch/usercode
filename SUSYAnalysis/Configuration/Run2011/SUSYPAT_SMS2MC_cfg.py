@@ -76,10 +76,6 @@ process.globalReplace(process.makeSUSYGenEvt,
                       process.makeSUSYGenEvt
                       )
 
-
-
-
-
 #---------------------------------------------
 #Load all files for the appropriate SMS point
 #---------------------------------------------

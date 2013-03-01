@@ -74,13 +74,11 @@ process.RA4bMuonSelection.replace(process.btagEventWeightMu,
                                   process.analyzeSystematicsNoCuts3b
                                   )
 
-process.globalReplace(process.makeSUSYGenEvt,
-                      process.sms3ParamExtract*       #extract susyPars
-                      process.sms3ParamFilter*        #filter susyPars                            
-                      process.makeSUSYGenEvt
+process.globalReplace("makeSUSYGenEvt",
+                      cms.Sequence(process.sms3ParamExtract*       #extract susyPars
+                                   process.sms3ParamFilter*        #filter susyPars                            
+                                   process.makeSUSYGenEvt)
                       )
-
-
 
 #---------------------------------------------
 #Load all files for the appropriate SMS point
@@ -109,4 +107,6 @@ fileCat.close()
 print "Running over files:  "
 print fileList
 
-process.source.fileNames = fileList
+process.source = cms.Source("PoolSource",
+                            fileNames = cms.untracked.vstring(fileList)
+                            )

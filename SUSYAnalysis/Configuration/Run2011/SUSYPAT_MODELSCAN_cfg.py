@@ -11,8 +11,8 @@ from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
 #-- Meta data to be logged in DBS ---------------------------------------------
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.5 $'),
-    name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_cfg.py,v $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
+    name = cms.untracked.string('$Source: /local/reps/CMSSW/UserCode/npietsch/SUSYAnalysis/Configuration/Run2011/SUSYPAT_MODELSCAN_cfg.py,v $'),
     annotation = cms.untracked.string('SUSY pattuple definition')
 )
 
@@ -212,13 +212,13 @@ process.basicMuonSelections = cms.Sequence(process.preselectionMC2PAT*
                                            process.muonSelection*
                                            process.jetSelection
                                            )
+
 process.basicElectronSelections = cms.Sequence(process.preselectionMC2PAT*
                                                process.preselectionElHTMC2*
                                                process.ElHadSelection*
                                                process.electronSelection*
                                                process.jetSelection
                                                )
-
 
 #--------------------------
 # muon selection paths
