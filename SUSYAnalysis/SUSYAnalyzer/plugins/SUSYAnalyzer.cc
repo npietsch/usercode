@@ -149,8 +149,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // Btagging
   //-------------------------------------------------
 
-  TCHE_  = fs->make<TH1F>("TCHE",  "TCHE",   80, -20, 20);
-  TCHP_  = fs->make<TH1F>("TCHP",  "TCHP",   80, -20, 20);
+  TCHE_  = fs->make<TH1F>("TCHE",  "TCHE",  100, -50, 50);
+  TCHP_  = fs->make<TH1F>("TCHP",  "TCHP",  100, -50, 50);
   SSVHE_ = fs->make<TH1F>("SSVHE", "SSVHE", 120,  -2, 10);
   SSVHP_ = fs->make<TH1F>("SSVHP", "SSVHP", 120,  -2, 10);
 
@@ -486,8 +486,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   WeightTrigger_->Fill(weightTrigger);
 
   // number of primary vertices
-  nPV_noWgt_->Fill(PVSrc->size());
-  nPV_->Fill(PVSrc->size(),weightPU);
+  nPV_->Fill(PVSrc->size(),weight);
+  nPV_noWgt_->Fill(PVSrc->size(),weightRA2*weightBtagEff*weightTrigger);
 
   //-------------------------------------------------
   // Basic variables
