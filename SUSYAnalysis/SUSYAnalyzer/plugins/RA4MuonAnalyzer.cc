@@ -279,6 +279,9 @@ RA4MuonAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	      ptPf=(*pfMuons)[jdx].pt();
 	    }
 	}
+
+      std::cout << "selectedPatMuonsPF: " << pfMuons->size() << std::endl;
+
       if(ptPf > 0) pfConsistency_->Fill(fabs((*muons)[idx].pt()-ptPf)/(*muons)[idx].pt());
       else pfConsistency_->Fill(0.99);
       

@@ -89,7 +89,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
     {
       char histname[20];
       sprintf(histname,"Jet%i_Et",idx);
-      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 90, 0., 900.));
+      Jet_Et_.push_back(fs->make<TH1F>(histname,histname, 50, 0., 1000.));
 
       char histname2[20];
       sprintf(histname2,"Jet%i_Eta",idx);
@@ -136,11 +136,11 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
 
-  mT_       = fs->make<TH1F>("mT",      "mT",      80, 0., 400.);
+  mT_       = fs->make<TH1F>("mT",      "mT",      40, 0., 400.);
   mlb_      = fs->make<TH1F>("mlb",     "mlb",     80, 0., 400.);
   mLepTop_  = fs->make<TH1F>("mLepTop", "mLepTop", 80, 0., 400.);
 
-  YMET_     = fs->make<TH1F>("YMET", "YMET", 50, 0., 25);
+  YMET_     = fs->make<TH1F>("YMET", "YMET", 25, 0., 25);
   METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
   LepPt_    = fs->make<TH1F>("LepPt",      "Lepton Pt",  50,   0., 1000.);
   LepPtSig_ = fs->make<TH1F>("LepPtSig", "LepPtSig", 50, 0., 25);
