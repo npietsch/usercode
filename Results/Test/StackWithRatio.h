@@ -97,17 +97,23 @@ class StackWithRatio{
     }
     
     void Rebin(TH1D*&h){
+      //std::cout << "Test1" << std::endl;
+
       int nb = h->GetNbinsX();
       double width = h->GetBinWidth(1);
       TAxis* ax = h->GetXaxis();
       double xmin = ax->GetXmin();
       double xmax = ax->GetXmax();
       
+      //std::cout << "Test2" << std::endl;
+
       const int n  = nb-rebOff+1;
       double bins[n];
       bins[0] = xmin;
       bins[1] = ax->GetBinLowEdge(rebOff+1);
       
+      //std::cout << "Test3" << std::endl;
+
       int k=0;
       for(int i=2;i<n;i++){
 	bins[i]=bins[i-1]+rebN*width;
@@ -123,9 +129,14 @@ class StackWithRatio{
       // delete h;
       h->Delete();// better for interpreter
       h=newH;
+
+      //std::cout << "Test4" << std::endl;
     }
     
     void DrawClone(){
+
+      //std::cout << "Test5" << std::endl;
+
       //cout<<xmin<<"|"<<xmax<<endl;
       if(sumMC==0){
 	cout<<"No histograms added!"<<endl;
@@ -136,7 +147,9 @@ class StackWithRatio{
 	cout<<"Data not yet defined!"<<endl;
 	exit(0);
       }
-      
+
+      //std::cout << "Test6" << std::endl;
+
       if(gPad==0||!gPad->IsEditable()) gROOT->MakeDefCanvas();
       // upper pad - stack
       pad1 = new TPad("pad1","pad1",0,0.3,1,0.98);
@@ -167,6 +180,8 @@ class StackWithRatio{
 	xmax=theData->GetXaxis()->GetXmax();
       }
       
+      //std::cout << "Test7" << std::endl;
+
       TH1D* frame = theData->Clone();
       frame->Reset();
       frame->SetStats(0);
@@ -184,13 +199,17 @@ class StackWithRatio{
       
       frame->Draw();
       theStack->DrawClone("histsame");
-      theData->DrawClone("same");
       //sumMC->DrawClone("same");
       // extra lines
-      
       for(int i=0;i<extra.GetEntries();i++) extra[i]->DrawClone("samehist");
+      theData->DrawClone("same");
+      //theData->DrawClone("sameaxis");
+
+      //std::cout << "Test8" << std::endl;
+
       // ratio
       pad2->cd();
+      //theData->SetNdivisions(11, "X");
       theData->SetTitleOffset(0.9, "x");
       theData->SetTitleOffset(0.5, "y");
       theData->SetYTitle(yRatioTitle);
@@ -213,19 +232,23 @@ class StackWithRatio{
       theData->SetTitle("");
       theData->DrawClone("ep");
       
+      //std::cout << "Test9" << std::endl;
+
       if(band) {
 	DrawBand(theData,relsys);
 	theData->DrawClone("sameep");
       }
       
-      //dk strange be carful
+      //dk: strange be carful
       cout<<xmin<<" "<<xmax<<endl;
       cout<<frame->GetXaxis()->GetXmin()<<" "<<frame->GetXaxis()->GetXmax()<<endl;
-      TLine line(xmin, 1, xmax, 1);
+      TLine line(xmin, 1, xmax+1, 1);
       line.SetLineWidth(1);
       line.SetLineStyle(1);
       line.SetLineColor(1);
-      line.DrawClone();  
+      line.DrawClone();
+
+      //std::cout << "Test10" << std::endl;
     };
     
     void DrawBand(TH1D*h,double sys){

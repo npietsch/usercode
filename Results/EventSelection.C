@@ -56,16 +56,36 @@ void EventSelection(){
 	TFile* ElHad_file     = new TFile("ElHad.root",        "READ");
 
 	//addMCHistogram(TString name, int xmin, int xmax)	
-// 	addMCHistogram("analyzeSUSY1m_leptonSelection/HT", "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{muon}","Events / 10 GeV", 0,  300, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Eta", "#eta^{muon}", "Events",         -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets",  "Events",        -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
+
+// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{electron}","Events / 10 GeV", 0,  300, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{electron}", "Events",         -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
+
+//	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY2b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY3b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
 
 
-// 	addMCHistogram("analyzeRA4Muons/relIso", "rel. Isolation","Events",  0, 2, 0.1, 1e7, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeRA4Muons/relIso_Nminus1", "rel. Isolation","Events",  0, 2, 0.1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/relIso", "rel. Isolation","Events",  0, 2, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/relIso_Nminus1", "rel. Isolation","Events",  0, 2, 0.1, 1e5, -0.1, 2.1, 1);
 
+// 	addMCHistogram("analyzeRA4Muons/pt",     "p_{T}",     "Events / 10 GeV",   0, 300, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/eta",    "#eta",      "Events",           -3,   3, 1, 1e5, -0.1, 2.1, 1);
+
+//  	addMCHistogram("analyzeRA4Muons/globalMuonPromptTight", "globalMuonPromptTight","Events",  0, 2, 1, 1e6, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeRA4Muons/allTrackerMuons","allTrackerMuons","Events",  0, 2, 1,   1e6, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeRA4Muons/dB",             "dB",             "Events",  0, 0.2, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/dz",             "dz",             "Events",  0,   1, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/nMatches",       "nMatches",       "Events",  0,  20, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/normChi2",       "normChi2",       "Events",  0,  10, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/nValidMuonHits", "nValidMuonHits", "Events",  0,  20, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/nTrackerHits",   "nTrackerHits",   "Events",  0,  20, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/nPixelLayersWithMeasurement", "nPixelLayersWithMeasurement", "Events", 0, 10, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeRA4Muons/ptError",         "ptError",       "Events",  0, 0.1,   1, 1e6, -0.1, 2.1, 1);
+//	addMCHistogram("analyzeRA4Muons/pfConsistency",   "pfConsistency", "Events",  0,   1, 0.1, 1e7, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of Jets","Events", 0,  12, 0.1, 1e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets","Events", 0,  12, 0.1, 1e5, -0.1, 2.1, 1);
 
@@ -102,12 +122,12 @@ void EventSelection(){
 	    sr.AddData(MuHad);
 
 	    // MC histogram, color,    nevnts, x-sect
+
 	    sr.Add(QCD,       kRed+2,    1, 0.001);
 	    sr.Add(ZJets,     kBlue-7,   1, 0.001);
 	    sr.Add(SingleTop, kGreen-3,  1, 0.001);
 	    sr.Add(WJets,     kYellow-4, 1, 0.001);
 	    sr.Add(TTJets,    kRed-4,    1, 0.001);
-
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
@@ -119,7 +139,7 @@ void EventSelection(){
 	    
 	    sr.pad1->cd(); // stack
 	    
-	    TLegend *leg = new TLegend(0.68, 0.45, 0.9499, 0.9);
+	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
 	    leg->AddEntry(MuHad,     "Data",             "lep");

@@ -40,7 +40,6 @@ public:
 		H->Add(eH);
 		return H;
 	}
-  
 };
 
 //-------------------- main --------------------
@@ -93,7 +92,7 @@ void HT_LM68(){
 	sr.relsys = 0.27; // relative systematic uncertainty
 
 	sr.rebOff =  0;  // rebinning offset = number of empty bin at the low edge
-        sr.rebN   =  1;  // # bins to merge
+        sr.rebN   =  2;  // # bins to merge
 
 	sr.SF     = SF;  // scale factor data MC which is not yet included in rootfiles
 
