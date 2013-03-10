@@ -132,7 +132,7 @@ looseJets.checkOverlaps = cms.PSet(
 goodJets = cleanPatJets.clone(src = 'selectedPatJetsAK5PF',
                                preselection =
                                'abs(eta) < 2.4 &'
-                               'pt > 40. &'
+                               'pt > 50. &'
                                'chargedHadronEnergyFraction > 0.0  &'
                                'neutralHadronEnergyFraction < 0.99 &'
                                'chargedEmEnergyFraction     < 0.99 &'
@@ -235,7 +235,7 @@ looseMETs = selectedPatMET.clone(src = 'patMETsPF',
 
 goodMETs = selectedPatMET.clone(src = 'patMETsPF',
                                 cut =
-                                'et > 60.'
+                                'et > 200.'
                                 )
 
 mediumMETs = selectedPatMET.clone(src = 'patMETsPF',
@@ -545,7 +545,7 @@ filterMediumHT.Cut = 300
 
 filterGoodHT = filterHT.clone()
 filterGoodHT.jets = "goodJets"
-filterGoodHT.Cut = 375
+filterGoodHT.Cut = 800
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
