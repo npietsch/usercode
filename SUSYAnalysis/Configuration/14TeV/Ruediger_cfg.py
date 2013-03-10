@@ -29,42 +29,44 @@ process.GlobalTag.globaltag = cms.string('START44_V10::All')
 # Choose input files
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
-    #'file:../../../../../../Storage/QCD_HT700_JetPt40_14TeV_PAT.root'
     'file:SUSYPAT.root'
     )
  )
 #process.source.duplictateCheckMode = cms.untracked.string('noDuplicateCheck')
 
-# load and configure modules for event weighting
+#------------------------------------------------------------------
+# Load and configure module for cross-section weighting
+#------------------------------------------------------------------
+
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
-#------------------------------------------------------
-# Import module to produce SUSYGenEvent
-#------------------------------------------------------
+#------------------------------------------------------------------
+# Load modules to create SUSYGenEvent
+#------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 
-#------------------------------------------------------
+#-----------------------------------------------------------------
 # Import modules to filter events on generator level 
-#------------------------------------------------------
+#-----------------------------------------------------------------
 
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
 
-#-----------------------------------------------------------------
+#------------------------------------------------------------------
 # Load modules for preselection
-#-----------------------------------------------------------------
+#------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.Preselection_cff")
 
-#-----------------------------------------------------------------
+#------------------------------------------------------------------
 # Load modules to create objects and filter events on reco level
-#-----------------------------------------------------------------
+#------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYFilter.sequences.BjetsSelection_cff")
 
-#-----------------------------------------------------------------
-# load and configure modules to smear jet energy
-#-----------------------------------------------------------------
+#------------------------------------------------------------------
+# Load and configure module to smear jet energy on reco level
+#------------------------------------------------------------------
 
 from SUSYAnalysis.Uncertainties.JetEnergy_cfi import *
 process.scaledJetEnergy = scaledJetEnergy.clone()
@@ -92,20 +94,11 @@ process.L2L3ResidualMC = cms.ESSource(
     useCondDB = cms.untracked.bool(True)
     )
 
-#-----------------------------------------------------------------------------------------
-# Load modules for analysis on generator level, level of matched objects and reco-level
-#-----------------------------------------------------------------------------------------
+#------------------------------------------------------------------
+# Load and configure analyzer modules
+#------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
-
-process.analyzeLooseJets      = process.analyzeGluino.clone()
-process.analyzeLooseJets.jets = "looseJets"
-
-process.analyzeGoodJets       = process.analyzeGluino.clone()
-process.analyzeGoodJets.jets  = "goodJets"
-
-process.analyzeHiggs          = process.analyzeGluino.clone()
-process.analyzeHiggs.jets     = "goodJets"
 
 ## analyzer modules for signal only
 process.analyzeSignal1        = process.analyzeGluino.clone()
@@ -235,9 +228,9 @@ process.analyzeWinoJERUp.jets    = "goodJetsJERUp"
 process.analyzeWinoJERDown       = process.analyzeGluino.clone()
 process.analyzeWinoJERDown.jets  = "goodJetsJERDown"
 
-#-------------------------------------------------
+#-----------------------------------------------------------------
 # Load additional filter modules 
-#-------------------------------------------------
+#-----------------------------------------------------------------
 
 from SUSYAnalysis.SUSYFilter.filters.DeltaPhiFilter_cfi import *
 
@@ -253,189 +246,32 @@ from SUSYAnalysis.SUSYFilter.filters.YmetFilter_cfi import *
 
 process.filterYmetBino = filterYmet.clone()
 process.filterYmetBino.jets = "goodJets"
-process.filterYmetBino.Cut =15
+process.filterYmetBino.Cut = 15
 
 process.filterYmetWino = filterYmet.clone()
 process.filterYmetWino.jets = "goodJets"
 process.filterYmetWino.Cut = 8
 
-#-------------------------------------------------
-# Temporary
-#-------------------------------------------------
+#-----------------------------------------------------------------
+# Temp
+#-----------------------------------------------------------------
 
 ## produce printout of particle listings (for debugging)
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
-
-#--------------------------
-# selection paths
-#--------------------------
 
 ##------------------------------
 ## Bino selection paths
 ##------------------------------
 
-process.Bino45 = cms.Path(# producer sequneces
+process.Bino45 = cms.Path(# execute producer and preselection modules
                           process.weightProducer *
-                          #process.scaledJetEnergy *
-                          process.scaledJetEnergyJECUp *
-                          process.scaledJetEnergyJECDown *
-                          process.scaledJetEnergyJERUp *
-                          process.scaledJetEnergyJERDown *
                           process.preselection14TeV *
                           process.makeObjects *
                           process.makeSUSYGenEvt *
-                          # filter and analyzer sequences
+                          
+                          # execute filter and analyzer modules
                           process.analyzeSignal1 *
                           
-                          process.filterMediumHT *
-                          process.oneLooseMET *
-                          process.analyzeLooseJets *
-                          process.analyzeGoodJets *
-                          
-                          process.fourGoodJets *
-                          process.maxFiveGoodJets *
-                          process.analyzeBino145 *
-                          
-                          process.noVetoMuon *
-                          process.noVetoElectron *
-                          process.analyzeBino245 *
-                          
-                          process.filterDeltaPhi1 *
-                          process.analyzeBino345 *
-                          
-                          process.filterDeltaPhi2 *
-                          process.analyzeBino445 *
-                          
-                          process.filterYmetBino *
-                          process.analyzeBino545 *
-                          # study JES dependence
-                          process.analyzeBinoJECUp *
-                          process.analyzeBinoJECDown *
-                          process.analyzeBinoJERUp *
-                          process.analyzeBinoJERDown
+                          process.HTSelection *
+                          process.METSelection
                           )
-
-process.test = cms.Path(process.preselection14TeV *
-                        process.analyzeHiggs)
-
-process.Bino4 = cms.Path(# filter and analyzer sequences
-                         process.preselection14TeV *
-                         process.filterMediumHT *
-                         process.oneLooseMET *
-                                                
-                         process.fourGoodJets *
-                         process.maxFourGoodJets *
-                         process.analyzeBino14 *
-                        
-                         process.noVetoMuon *
-                         process.noVetoElectron *
-                         process.analyzeBino24 *
-                         
-                         process.filterDeltaPhi1 *
-                         process.analyzeBino34 *
-                         
-                         process.filterDeltaPhi2 *
-                         process.analyzeBino44*
-
-                         process.filterYmetBino *
-                         process.analyzeBino54
-                         )
-
-process.Bino5 = cms.Path(# filter and analyzer sequences
-                         process.preselection14TeV *
-                         process.filterMediumHT *
-                         process.oneLooseMET *
-                                                
-                         process.fiveGoodJets *
-                         process.maxFiveGoodJets *
-                         process.analyzeBino15 *
-                        
-                         process.noVetoMuon *
-                         process.noVetoElectron *
-                         process.analyzeBino25 *
-                         
-                         process.filterDeltaPhi1 *
-                         process.analyzeBino35 *
-                         
-                         process.filterDeltaPhi2 *
-                         process.analyzeBino45*
-
-                         process.filterYmetBino *
-                         process.analyzeBino55
-                         )
-
-process.Bino46 = cms.Path(# filter and analyzer sequences
-                          process.preselection14TeV *
-                          process.filterMediumHT *
-                          process.oneLooseMET *
-                          
-                          process.fourGoodJets *
-                          process.maxSixGoodJets *
-                          process.analyzeBino146 *
-                          
-                          process.noVetoMuon *
-                          process.noVetoElectron *
-                          process.analyzeBino246 *
-                          
-                          process.filterDeltaPhi1 *
-                          process.analyzeBino346 *
-                          
-                          process.filterDeltaPhi2 *
-                          process.analyzeBino446*
-                          
-                          process.filterYmetBino *
-                          process.analyzeBino546
-                         )
-
-process.Bino56 = cms.Path(# filter and analyzer sequences
-                          process.preselection14TeV *
-                          process.filterMediumHT *
-                          process.oneLooseMET *
-                          
-                          process.fiveGoodJets *
-                          process.maxSixGoodJets *
-                          process.analyzeBino156 *
-                          
-                          process.noVetoMuon *
-                          process.noVetoElectron *
-                          process.analyzeBino256 *
-                          
-                          process.filterDeltaPhi1 *
-                          process.analyzeBino356 *
-                          
-                          process.filterDeltaPhi2 *
-                          process.analyzeBino456*
-                          
-                          process.filterYmetBino *
-                          process.analyzeBino556
-                         )
-
-##------------------------------
-## Wino selection path
-##------------------------------
-
-process.Wino = cms.Path(# filter and analyzer sequences
-                        process.preselection14TeV *
-                        process.filterMediumHT *
-                        process.oneLooseMET *
-
-                        process.sixGoodJets *
-                        process.analyzeWino1 *
-                        
-                        process.oneGoodLepton *
-                        process.analyzeWino2 *
-
-                        process.filterTightHT *
-                        process.analyzeWino3 *
-                                                
-                        process.oneMediumMET *
-                        process.analyzeWino4 *
-
-                        process.filterYmetWino *
-                        process.analyzeWino5 *
-                        # study JES dependence
-                        process.analyzeWinoJECUp *
-                        process.analyzeWinoJECDown *
-                        process.analyzeWinoJERUp *
-                        process.analyzeWinoJERDown 
-                        )
