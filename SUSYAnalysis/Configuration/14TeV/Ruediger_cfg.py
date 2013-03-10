@@ -101,107 +101,43 @@ process.L2L3ResidualMC = cms.ESSource(
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 
 ## analyzer modules for signal only
-process.analyzeSignal1        = process.analyzeGluino.clone()
-process.analyzeSignal1.jets   = "goodJets"
+process.analyzeSignal_1        = process.analyzeGluino.clone()
+process.analyzeSignal_1.jets   = "goodJets"
 
-process.analyzeSignal2        = process.analyzeGluino.clone()
-process.analyzeSignal2.jets   = "goodJets"
-
-## analyzer modules for bino selection with 4 Jets
-process.analyzeBino14         = process.analyzeGluino.clone()
-process.analyzeBino14.jets     = "goodJets"
-
-process.analyzeBino24          = process.analyzeGluino.clone()
-process.analyzeBino24.jets     = "goodJets"
-
-process.analyzeBino34          = process.analyzeGluino.clone()
-process.analyzeBino34.jets     = "goodJets"
-
-process.analyzeBino44          = process.analyzeGluino.clone()
-process.analyzeBino44.jets     = "goodJets"
-
-process.analyzeBino54          = process.analyzeGluino.clone()
-process.analyzeBino54.jets     = "goodJets"
-
-## analyzer modules for bino selection with 5 Jets
-process.analyzeBino15         = process.analyzeGluino.clone()
-process.analyzeBino15.jets     = "goodJets"
-
-process.analyzeBino25          = process.analyzeGluino.clone()
-process.analyzeBino25.jets     = "goodJets"
-
-process.analyzeBino35          = process.analyzeGluino.clone()
-process.analyzeBino35.jets     = "goodJets"
-
-process.analyzeBino45          = process.analyzeGluino.clone()
-process.analyzeBino45.jets     = "goodJets"
-
-process.analyzeBino55          = process.analyzeGluino.clone()
-process.analyzeBino55.jets     = "goodJets"
+process.analyzeSignal_2        = process.analyzeGluino.clone()
+process.analyzeSignal_2.jets   = "goodJets"
 
 ## analyzer modules for bino selection with 4-5 Jets
-process.analyzeBino145          = process.analyzeGluino.clone()
-process.analyzeBino145.jets     = "goodJets"
+process.analyzeBino_45Jets_1          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_1.jets     = "goodJets"
 
-process.analyzeBino245          = process.analyzeGluino.clone()
-process.analyzeBino245.jets     = "goodJets"
+process.analyzeBino_45Jets_2          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_2.jets     = "goodJets"
 
-process.analyzeBino345          = process.analyzeGluino.clone()
-process.analyzeBino345.jets     = "goodJets"
+process.analyzeBino_45Jets_3          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_3.jets     = "goodJets"
 
-process.analyzeBino445          = process.analyzeGluino.clone()
-process.analyzeBino445.jets     = "goodJets"
+process.analyzeBino_45Jets_4          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_4.jets     = "goodJets"
 
-process.analyzeBino545          = process.analyzeGluino.clone()
-process.analyzeBino545.jets     = "goodJets"
-
-## analyzer modules for bino selection with 4-6 Jets
-process.analyzeBino146          = process.analyzeGluino.clone()
-process.analyzeBino146.jets     = "goodJets"
-
-process.analyzeBino246          = process.analyzeGluino.clone()
-process.analyzeBino246.jets     = "goodJets"
-
-process.analyzeBino346          = process.analyzeGluino.clone()
-process.analyzeBino346.jets     = "goodJets"
-
-process.analyzeBino446          = process.analyzeGluino.clone()
-process.analyzeBino446.jets     = "goodJets"
-
-process.analyzeBino546          = process.analyzeGluino.clone()
-process.analyzeBino546.jets     = "goodJets"
-
-## analyzer modules for bino selection with 5-6 Jets
-process.analyzeBino156          = process.analyzeGluino.clone()
-process.analyzeBino156.jets     = "goodJets"
-
-process.analyzeBino256          = process.analyzeGluino.clone()
-process.analyzeBino256.jets     = "goodJets"
-
-process.analyzeBino356          = process.analyzeGluino.clone()
-process.analyzeBino356.jets     = "goodJets"
-
-process.analyzeBino456          = process.analyzeGluino.clone()
-process.analyzeBino456.jets     = "goodJets"
-
-process.analyzeBino556          = process.analyzeGluino.clone()
-process.analyzeBino556.jets     = "goodJets"
+process.analyzeBino_45Jets_5          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_5.jets     = "goodJets"
 
 ## analyzer modules for wino selection
-process.analyzeWino1          = process.analyzeGluino.clone()
-process.analyzeWino1.jets     = "goodJets"
+process.analyzeWino_1          = process.analyzeGluino.clone()
+process.analyzeWino_1.jets     = "goodJets"
 
-process.analyzeWino2          = process.analyzeGluino.clone()
-process.analyzeWino2.jets     = "goodJets"
+process.analyzeWino_2          = process.analyzeGluino.clone()
+process.analyzeWino_2.jets     = "goodJets"
 
-process.analyzeWino3          = process.analyzeGluino.clone()
-process.analyzeWino3.jets     = "goodJets"
+process.analyzeWino_3          = process.analyzeGluino.clone()
+process.analyzeWino_3.jets     = "goodJets"
 
-process.analyzeWino4          = process.analyzeGluino.clone()
-process.analyzeWino4.jets     = "goodJets"   
+process.analyzeWino_4          = process.analyzeGluino.clone()
+process.analyzeWino_4.jets     = "goodJets"
 
-process.analyzeWino5          = process.analyzeGluino.clone()
-process.analyzeWino5.jets     = "goodJets"
+process.analyzeWino_5          = process.analyzeGluino.clone()
+process.analyzeWino_5.jets     = "goodJets"
 
 # Configure modules for JER/JEC studies
 process.analyzeBinoJECUp         = process.analyzeGluino.clone()
@@ -270,8 +206,8 @@ process.Bino45 = cms.Path(# execute producer and preselection modules
                           process.makeSUSYGenEvt *
                           
                           # execute filter and analyzer modules
-                          process.analyzeSignal1 *
+                          process.analyzeSignal_1 *
                           
                           process.HTSelection *
-                          process.METSelection
+                          process.metSelection
                           )
