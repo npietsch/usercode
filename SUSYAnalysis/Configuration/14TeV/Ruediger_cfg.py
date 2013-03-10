@@ -104,8 +104,8 @@ process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 process.analyzeSignal_1        = process.analyzeGluino.clone()
 process.analyzeSignal_1.jets   = "goodJets"
 
-process.analyzeSignal_2        = process.analyzeGluino.clone()
-process.analyzeSignal_2.jets   = "goodJets"
+process.analyzePreselection        = process.analyzeGluino.clone()
+process.analyzePreselection.jets   = "goodJets"
 
 ## analyzer modules for bino selection with 4-5 Jets
 process.analyzeBino_45Jets_1          = process.analyzeGluino.clone()
@@ -209,5 +209,13 @@ process.Bino45 = cms.Path(# execute producer and preselection modules
                           process.analyzeSignal_1 *
                           
                           process.HTSelection *
-                          process.metSelection
+                          process.metSelection *
+
+                          process.analyzePreselection *
+
+                          process.leptonSelection *
+                          process.analyzeWino_1 *
+                          
+                          process.sixGoodJets *
+                          process.analyzeWino_2
                           )
