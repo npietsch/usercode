@@ -72,15 +72,15 @@ int PU()
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-//   addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
-//   addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
-//   addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
-//   addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
-//   addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
-
+  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
+  
   addSample(LM6,       "LM6",     "LM6",          1, 1,        0, 0);
   addSample(LM8,       "LM8",     "LM8",          1, 1,        0, 0);
-			    
+  
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
 //   addSample(LM13,      "LM13",        1, kBlue,    0, 0);

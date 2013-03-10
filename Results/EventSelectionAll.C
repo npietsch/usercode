@@ -85,10 +85,10 @@ void EventSelectionAll(){
 	ElMuAdder ad("./"); // path to root files
 
 	//add MC histogram
-// 	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
 
-	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Et", "p_{T}^{jet1}","Events / 20 GeV", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet1_Et", "p_{T}^{jet2}","Events / 20 GeV", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
@@ -146,7 +146,7 @@ void EventSelectionAll(){
 	    sr.relsys = 0.27; // relative systematic uncertainty
 	    
 	    sr.rebOff =  0;  // rebinning offset = number of empty bin at the low edge
-	    sr.rebN   =  2;  // # bins to merge
+	    sr.rebN   =  1;  // # bins to merge
 	    
 	    sr.SF     = SF;  // scale factor data MC which is not yet included in rootfiles
 	    
@@ -181,7 +181,7 @@ void EventSelectionAll(){
 	    leg->AddEntry(LM3,       "LM3",              "lp");
 	    leg->AddEntry(LM8,       "LM8",              "lp");
 	    leg->SetBorderSize(1);
-	    //if(Legend[hdx] == 1) leg->Draw();
+	    if(Legend[hdx] == 1) leg->Draw();
 	    
 	    TPaveText *label = new TPaveText(0.06,0.94,0.99,1.,"NDC");
 	    label->SetFillColor(0);
