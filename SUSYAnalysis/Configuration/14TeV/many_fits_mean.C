@@ -60,6 +60,7 @@ void many_fits_mean(){
   //  TH1F *his = (TH1F*)file1.Get("his74_1"); // m234
   //  TH1F *his = (TH1F*)file1.Get("his91_1"); // m3j
       TH1F *his = (TH1F*)file1.Get("analyzeBino545/min123"); // m123
+      TH1F *his = (TH1F*)file1.Get("analyzeWino4/min124");
 
   gROOT->ForceStyle();
   c1 = new TCanvas("c1", "Title", 600, 400);
