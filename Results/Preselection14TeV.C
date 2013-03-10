@@ -1,9 +1,4 @@
-// systematic error from PAS Tab.5 SM MC 1b-tag
-// N_D = 195.6 ± 7.2 ± 53.0 53/195.6=0.27
-//
-// MC SF 0.97 for lepton ID
-
-#include "StackWithRatio.h"
+#include "StackMC.h"
 #include "tdrStyle.h"
 
 vector<TString> Histograms;
@@ -32,7 +27,7 @@ void addMCHistogram(TString name, TString XTitle, TString YTitle, double xmin, d
 }
 
 //-------------------- main --------------------
-void Prelection14TeV(){
+void Preselection14TeV(){
 
 	setTDRStyle();
 	gStyle->SetPadTopMargin(0.1);
@@ -53,9 +48,13 @@ void Prelection14TeV(){
 	TFile* C1_file       = new TFile("C1.root",          "READ");
 
 	//addMCHistogram(TString name, int xmin, int xmax)	
-	addMCHistogram("preselection14TeV/HT",  "H_{T} [GeV]","Events / 50 GeV", 0,  4000, 0.1, 1e7, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino4/HT",  "H_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino4/MET",  "H_{T} [GeV]","Events / 50 GeV", 0,  4000, 1, 1e4, -0.1, 2.1, 1);
+
 	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	  {
+	    std::cout << Histograms[hdx] << std::endl;
+
 	    // get histograms
 	    TH1D* TTJets    = (TH1D*)TTJets_file    ->Get(Histograms[hdx]);
 	    //TH1D* SingleTop = (TH1D*)SingleTop_file ->Get(Histograms[hdx]);
@@ -80,7 +79,9 @@ void Prelection14TeV(){
 	    sr.rebN   =  1;  // # bins to merge
 	    
 	    sr.SF     = SF;  // scale factor data MC which is not yet included in rootfiles
-	    
+	    	 
+	    sr.AddData(A1);
+
 	    // MC histogram, color,    nevnts, x-sect
 
 	    sr.Add(QCD,       kRed+2,    1, 0.001);
@@ -91,7 +92,7 @@ void Prelection14TeV(){
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
-	    sr.AddExtra(A1,  kBlue,   1,   0.001,   1,  2); 
+	    //sr.AddExtra(A1,  kBlue,   1,   0.001,   1,  2); 
 	    sr.AddExtra(B1,  kBlack,  1,   0.001,   1,  2);
 	    sr.AddExtra(C1,  kBlack,  1,   0.001,   2,  3);
 
