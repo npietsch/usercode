@@ -34,22 +34,55 @@ void Preselection14TeV(){
 	gStyle->SetLineStyleString(11,"14 12");
            
 	double dataLumi = 4980;//4965.876/pb. -20/pb in ele
-	double SF=0.97; // scale factor - missing part lepton id
+	double SF=1; // scale factor - missing part lepton id
 
 	// define files
 	TFile* TTJets_file    = new TFile("TTJets.root", "READ");
 	//TFile* SingleTop_file = new TFile("SingleTop.root",    "READ");
-	TFile* WJets_file     = new TFile("WJets.root",      "READ");
-	TFile* ZJets_file     = new TFile("ZJets.root",        "READ");
-	TFile* QCD_file       = new TFile("QCD.root",          "READ");
+	TFile* WJets_file     = new TFile("WJets.root",         "READ");
+	TFile* ZJets_file     = new TFile("ZJets.root",         "READ");
+	TFile* QCD_file       = new TFile("QCD.root",           "READ");
 	
-	TFile* A1_file       = new TFile("A1.root",          "READ");
-	TFile* B1_file       = new TFile("B1.root",          "READ");
-	TFile* C1_file       = new TFile("C1.root",          "READ");
+	TFile* A1_file       = new TFile("A1.root",             "READ");
+	TFile* B1_file       = new TFile("B1.root",             "READ");
+	TFile* C1_file       = new TFile("C1.root",             "READ");
 
-	//addMCHistogram(TString name, int xmin, int xmax)	
-	addMCHistogram("analyzeWino4/HT",  "H_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e4, -0.1, 2.1, 1);
-	addMCHistogram("analyzeWino4/MET",  "H_{T} [GeV]","Events / 50 GeV", 0,  4000, 1, 1e4, -0.1, 2.1, 1);
+	TFile* Dummy_file    = new TFile("Dummy.root",          "READ");
+
+// 	//addMCHistogram(TString name, int xmin, int xmax)
+// 	addMCHistogram("analyzeBino_45Jets_1/HT",         "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/MET",        "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/MHT",        "#slash{H}_{T} [GeV]", "Events / 50 GeV",   0,  2000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/nJets",      "Number of jets",      "Events",         -0.5,    15, 1, 1e7, -0.1, 2.1, 1);	
+// // 	addMCHistogram("analyzeBino_45Jets_1/nMuons",     "Number of muons",     "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
+// // 	addMCHistogram("analyzeBino_45Jets_1/nElectrons", "Number of electrons", "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeBino_45Jets_1/nLeptons",   "Number of leptons",   "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_2/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_3/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_3/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_5/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_5/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_6/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_7/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e4, -0.1, 2.1, 1);
+
+// 	addMCHistogram("analyzeBino_45Jets_5/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_5/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
+
+
+	addMCHistogram("analyzeWino_2/nJets", "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino_3/HT",    "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino_3/MET",   "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino_3/YMET",  "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e4, -0.1, 2.1, 1);
+
+	//addMCHistogram("analyzeSignal_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeSignal_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeWino_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeWino_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeWino_2/HT",  "H_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeWino_2/MET",  "#slash{E}_{T} [GeV]","Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
+	//addMCHistogram("analyzeWino_2/nJets", "Number of jets","Events", -0.5,  15, 1, 1e6, -0.1, 2.1, 1);
 
 	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	  {
@@ -65,6 +98,8 @@ void Preselection14TeV(){
 	    TH1D* A1        = (TH1D*)A1_file        ->Get(Histograms[hdx]);
 	    TH1D* B1        = (TH1D*)B1_file        ->Get(Histograms[hdx]);
 	    TH1D* C1        = (TH1D*)C1_file        ->Get(Histograms[hdx]);
+
+	    TH1D* Dummy     = (TH1D*)Dummy_file     ->Get(Histograms[hdx]);
 	    
 	    // stack with ratio
 	    StackWithRatio sr(dataLumi, XTitles[hdx], YTitles[hdx], "Data/Simulation");
@@ -80,10 +115,9 @@ void Preselection14TeV(){
 	    
 	    sr.SF     = SF;  // scale factor data MC which is not yet included in rootfiles
 	    	 
-	    sr.AddData(A1);
+	    sr.AddData(Dummy);
 
 	    // MC histogram, color,    nevnts, x-sect
-
 	    sr.Add(QCD,       kRed+2,    1, 0.001);
 	    sr.Add(ZJets,     kBlue-7,   1, 0.001);
 	    //sr.Add(SingleTop, kGreen-3,  1, 0.001);
@@ -92,9 +126,9 @@ void Preselection14TeV(){
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
-	    //sr.AddExtra(A1,  kBlue,   1,   0.001,   1,  2); 
-	    sr.AddExtra(B1,  kBlack,  1,   0.001,   1,  2);
-	    sr.AddExtra(C1,  kBlack,  1,   0.001,   2,  3);
+	    sr.AddExtra(A1,  kBlue,  1,   0.001,   1,  3); 
+	    sr.AddExtra(B1,  kBlack, 1,   0.001,   2,  3);
+	    sr.AddExtra(C1,  kRed+3, 1,   0.001,   1,  3);
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,700);
 	    sr.DrawClone();
@@ -104,14 +138,14 @@ void Preselection14TeV(){
 	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
-	    leg->AddEntry(TTJets,    "t#bar{t} + Jets",  "f");
-	    leg->AddEntry(WJets,     "W + Jets",         "f");
+	    leg->AddEntry(TTJets,    "t#bar{t} + Jets",   "f");
+	    leg->AddEntry(WJets,     "W + Jets",          "f");
 	    //leg->AddEntry(SingleTop, "Single Top",       "f");
-	    leg->AddEntry(ZJets,     "Z/#gamma* + Jets", "f");
-	    leg->AddEntry(QCD,       "QCD",              "f");
-	    leg->AddEntry(A1,        "scenario A",       "lp");
-	    leg->AddEntry(B1,        "scenario B",       "lp");
-	    leg->AddEntry(C1,        "scenario C",       "lp");
+	    leg->AddEntry(ZJets,     "Z/#gamma* + Jets",  "f");
+	    leg->AddEntry(QCD,       "QCD",               "f");
+	    leg->AddEntry(A1,        "scenario A",        "lp");
+	    leg->AddEntry(B1,        "scenario B",        "lp");
+	    leg->AddEntry(C1,        "scenario C",        "lp");
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
 	    	    

@@ -65,6 +65,8 @@ class StackWithRatio{
       if(rebN>1) Rebin(h);
       h->SetMarkerStyle(20);
       h->SetLineWidth(1);
+      h->SetLineColor(0);
+      h->SetMarkerColor(0);
       h->SetMarkerSize(1);
       h->SetXTitle(xTitle);
       theData = (TH1D*)h->Clone();
@@ -202,14 +204,14 @@ class StackWithRatio{
       //sumMC->DrawClone("same");
       // extra lines
       for(int i=0;i<extra.GetEntries();i++) extra[i]->DrawClone("samehist");
-      theData->DrawClone("same");
+      //theData->DrawClone("same");
       theData->DrawClone("sameaxis");
 
       //std::cout << "Test8" << std::endl;
 
       // ratio
       pad2->cd();
-      theData->SetNdivisions(11, "X");
+      //theData->SetNdivisions(11, "X");
       theData->SetTitleOffset(0.9, "x");
       theData->SetTitleOffset(0.5, "y");
       theData->SetYTitle(yRatioTitle);
@@ -223,7 +225,7 @@ class StackWithRatio{
 	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);
       }
       
-      // mean ratio 
+      // mean ratio
       double imc  =sumMC->Integral();
       double idata=theData->Integral();
       cout<<"Average ratio : "<<idata/imc<<endl;;
