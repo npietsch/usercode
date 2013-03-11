@@ -398,6 +398,12 @@ fiveGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 5
                                   )
 
+## select events with 4-5 good jets
+fourToFiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                        minNumber = 4,
+                                        maxNumber = 5
+                                        )
+
 ## select events with 6 good jets
 sixGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 6
@@ -560,7 +566,7 @@ filterGoodHT.Cut = 800
 
 filterTightHT = filterHT.clone()
 filterTightHT.jets = "goodJets"
-filterTightHT.Cut = 600
+filterTightHT.Cut = 1000
 
 ## MHT filter
 from SUSYAnalysis.SUSYFilter.filters.MHTFilter_cfi import *
