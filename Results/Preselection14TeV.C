@@ -43,9 +43,9 @@ void Preselection14TeV(){
 	TFile* ZJets_file     = new TFile("ZJets.root",         "READ");
 	TFile* QCD_file       = new TFile("QCD.root",           "READ");
 	
-	TFile* A1_file       = new TFile("A1.root",             "READ");
-	TFile* B1_file       = new TFile("B1.root",             "READ");
-	TFile* C1_file       = new TFile("C1.root",             "READ");
+	TFile* A1_file       = new TFile("WJetsMu.root",             "READ");
+	TFile* B1_file       = new TFile("WJetsEl.root",             "READ");
+	TFile* C1_file       = new TFile("WJetsTau.root",             "READ");
 
 	TFile* Dummy_file    = new TFile("Dummy.root",          "READ");
 
@@ -70,11 +70,11 @@ void Preselection14TeV(){
 // 	addMCHistogram("analyzeBino_45Jets_5/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeBino_45Jets_5/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
 
-
-	addMCHistogram("analyzeWino_2/nJets", "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
-	addMCHistogram("analyzeWino_3/HT",    "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e4, -0.1, 2.1, 1);
-	addMCHistogram("analyzeWino_3/MET",   "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e4, -0.1, 2.1, 1);
-	addMCHistogram("analyzeWino_3/YMET",  "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e4, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino_1/nLeptons", "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
+	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/HT",       "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/MET",      "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/YMET",     "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e4, -0.1, 2.1, 1);
 
 	//addMCHistogram("analyzeSignal_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
 	//addMCHistogram("analyzeSignal_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
@@ -118,11 +118,11 @@ void Preselection14TeV(){
 	    sr.AddData(Dummy);
 
 	    // MC histogram, color,    nevnts, x-sect
-	    sr.Add(QCD,       kRed+2,    1, 0.001);
-	    sr.Add(ZJets,     kBlue-7,   1, 0.001);
+	    //sr.Add(QCD,       kRed+2,    1, 0.001);
+	    //sr.Add(ZJets,     kBlue-7,   1, 0.001);
 	    //sr.Add(SingleTop, kGreen-3,  1, 0.001);
 	    sr.Add(WJets,     kYellow-4, 1, 0.001);
-	    sr.Add(TTJets,    kRed-4,    1, 0.001);
+	    //sr.Add(TTJets,    kRed-4,    1, 0.001);
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
