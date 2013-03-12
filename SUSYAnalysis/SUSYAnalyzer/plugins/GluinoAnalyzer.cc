@@ -128,8 +128,9 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   MET_      = fs->make<TH1F>("MET",      "MET",      50,   0.,  2000.);
   MHT_      = fs->make<TH1F>("MHT",      "MHT",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",      100,   0.,  5000.);
-  YMET_     = fs->make<TH1F>("YMET",     "YMET",    100,   0.,  50.);
-  METSig_   = fs->make<TH1F>("METSig",   "METSig",  100,   0.,  50.);
+  mT_       = fs->make<TH1F>("mT",       "mT",       60,   0.,   600.);
+  YMET_     = fs->make<TH1F>("YMET",     "YMET",    100,   0.,    50.);
+  METSig_   = fs->make<TH1F>("METSig",   "METSig",  100,   0.,    50.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
   DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
 
@@ -542,9 +543,18 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double MT=LepHT+HT+(*met)[0].et();
   MT_->Fill(MT, weight);
   
+  // mT
+  double mT;
+
   const reco::LeafCandidate * singleLepton = 0;
   if(muons->size()==1) singleLepton = &(*muons)[0];
   else if(electrons->size()==1) singleLepton = &(*electrons)[0];
+
+  if(singleLepton != 0)
+    {
+      mT=sqrt(2*( (*met)[0].et()*singleLepton->et() - (*met)[0].px()*singleLepton->px() - (*met)[0].py()*singleLepton->py()));
+      mT_ ->Fill(mT, weight); 
+    }  
 
 }
 

@@ -131,6 +131,9 @@ process.analyzeBino_45Jets_6.jets     = "goodJets"
 process.analyzeBino_45Jets_7          = process.analyzeGluino.clone()
 process.analyzeBino_45Jets_7.jets     = "goodJets"
 
+process.analyzeBino_45Jets_8          = process.analyzeGluino.clone()
+process.analyzeBino_45Jets_8.jets     = "goodJets"
+
 ## analyzer modules for wino selection
 process.analyzeWino_noCuts            = process.analyzeGluino.clone()
 process.analyzeWino_noCuts.jets       = "goodJets"
@@ -155,6 +158,9 @@ process.analyzeWino_4.jets            = "goodJets"
 
 process.analyzeWino_5                 = process.analyzeGluino.clone()
 process.analyzeWino_5.jets            = "goodJets"
+
+process.analyzeWino_6                 = process.analyzeGluino.clone()
+process.analyzeWino_6.jets            = "goodJets"
 
 # Configure modules for JER/JEC studies
 process.analyzeBinoJECUp         = process.analyzeGluino.clone()
@@ -239,21 +245,24 @@ process.Bino_45Jets = cms.Path(# execute producer and preselection modules
                                
                                process.fourToFiveGoodJets *
                                process.analyzeBino_45Jets_2 *
-                               
-                               process.filterDeltaPhi1 *
+
+                               process.noVetoLepton *
                                process.analyzeBino_45Jets_3 *
                                
-                               process.filterDeltaPhi2 *
+                               process.filterDeltaPhi1 *
                                process.analyzeBino_45Jets_4 *
                                
-                               process.filterDeltaPhi3 *
+                               process.filterDeltaPhi2 *
                                process.analyzeBino_45Jets_5 *
+                               
+                               process.filterDeltaPhi3 *
+                               process.analyzeBino_45Jets_6 *
 
                                process.filterYmet_1 *
-                               process.analyzeBino_45Jets_6 *
+                               process.analyzeBino_45Jets_7 *
                                
                                process.filterYmet_2 *
-                               process.analyzeBino_45Jets_7
+                               process.analyzeBino_45Jets_8
                                )
 
 process.Wino = cms.Path(# execute producer and preselection modules
@@ -273,13 +282,13 @@ process.Wino = cms.Path(# execute producer and preselection modules
                         process.filterTightHT *
                         process.analyzeWino_1 *
                         
-                        process.leptonSelection *
+                        process.sixGoodJets *
                         process.analyzeWino_2 *
                         
-                        process.sixGoodJets *
+                        process.leptonSelection *
                         process.analyzeWino_3 *
                         
-                        process.filterYmet_1 *
+                        process.filterMT *
                         process.analyzeWino_4 *
                         
                         process.filterYmet_2 *

@@ -595,6 +595,12 @@ exactlyOneGoodLepton.muonSource = "goodMuons"
 exactlyOneGoodLepton.minNumber = 1
 exactlyOneGoodLepton.maxNumber = 1
 
+noVetoLepton = countPatLeptons.clone()
+noVetoLepton.electronSource = "vetoElectrons"
+noVetoLepton.muonSource = "vetoMuons"                           
+noVetoLepton.minNumber = 0
+noVetoLepton.maxNumber = 0
+
 exactlyOneVetoLepton = countPatLeptons.clone()
 exactlyOneVetoLepton.electronSource = "vetoElectrons"
 exactlyOneVetoLepton.muonSource = "vetoMuons"                           
@@ -606,6 +612,7 @@ exactlyTwoVetoLepton.electronSource = "vetoElectrons"
 exactlyTwoVetoLepton.muonSource = "vetoMuons"                           
 exactlyTwoVetoLepton.minNumber = 2
 exactlyTwoVetoLepton.maxNumber = 2
+
 
 from TopAnalysis.TopFilter.filters.DiLeptonFilter_cfi import *
 
@@ -620,7 +627,6 @@ DiLeptonFilter.goodMuons = "goodMuons"
 DiLeptonFilter.looseElectrons = "vetoElectrons"
 DiLeptonFilter.looseMuons = "vetoMuons"
 DiLeptonFilter.filterCharge = -1
-
 
 ## Transverse mass filter
 from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *
