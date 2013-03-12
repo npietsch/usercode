@@ -391,6 +391,15 @@ threeGoodJets = countPatJets.clone(src = 'goodJets',
 fourGoodJets = countPatJets.clone(src = 'goodJets',
                                   minNumber = 4
                                   )
+## select events with 4 good jets
+fourToFiveGoodJets = countPatJets.clone(src = 'goodJets',
+                                        minNumber = 4,
+                                        maxNumber = 5
+                                        )
+## select events with 6 good jets
+sixGoodJets = countPatJets.clone(src = 'goodJets',
+                                 minNumber = 6
+                                 )
 
 ## select events with 2 medium jets
 twoMediumJets = countPatJets.clone(src = 'mediumJets',
@@ -578,6 +587,12 @@ exactlyOneGoodLepton.muonSource = "goodMuons"
 exactlyOneGoodLepton.minNumber = 1
 exactlyOneGoodLepton.maxNumber = 1
 
+noVetoLepton = countPatLeptons.clone()
+noVetoLepton.electronSource = "vetoElectrons"
+noVetoLepton.muonSource = "vetoMuons"                           
+noVetoLepton.minNumber = 0
+noVetoLepton.maxNumber = 0
+
 exactlyOneVetoLepton = countPatLeptons.clone()
 exactlyOneVetoLepton.electronSource = "vetoElectrons"
 exactlyOneVetoLepton.muonSource = "vetoMuons"                           
@@ -603,7 +618,6 @@ DiLeptonFilter.goodMuons = "goodMuons"
 DiLeptonFilter.looseElectrons = "vetoElectrons"
 DiLeptonFilter.looseMuons = "vetoMuons"
 DiLeptonFilter.filterCharge = -1
-
 
 ## Transverse mass filter
 from SUSYAnalysis.SUSYFilter.filters.TransverseMassFilter_cfi import *

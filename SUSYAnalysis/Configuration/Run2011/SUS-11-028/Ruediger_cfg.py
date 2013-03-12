@@ -24,7 +24,7 @@ process.TFileService = cms.Service("TFileService",
 process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = cms.string('START44_V10::All')
+process.GlobalTag.globaltag = cms.string('START42_V13::All')
 
 # Choose input files
 process.source = cms.Source("PoolSource",
@@ -51,6 +51,43 @@ process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
 #-----------------------------------------------------------------
 
 from SUSYAnalysis.SUSYEventProducers.producers.SUSYGenEvtFilter_cfi import *
+
+#------------------------------------------------------------------
+# Load and configure module for PU weighting
+#------------------------------------------------------------------
+
+process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
+
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500.root"
+
+process.eventWeightPUUp = process.eventWeightPU.clone()
+process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.root"
+
+process.eventWeightPUDown = process.eventWeightPU.clone()
+process.eventWeightPUDown.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_67620.root"
+
+#------------------------------------------------------------------
+# Load and configure modules for b-tag efficiency weighting
+#------------------------------------------------------------------
+
+process.load("RecoBTag.PerformanceDB.PoolBTagPerformanceDB1107")
+process.load("RecoBTag.PerformanceDB.BTagPerformanceDB1107")
+process.load("Btagging.BtagWeightProducer.BtagEventWeight_cfi")
+
+## common default settings (similar for muon and electron channel)
+process.btagEventWeight           = process.btagEventWeight.clone()
+process.btagEventWeight.bTagAlgo  = "TCHEM"
+process.btagEventWeight.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
+
+## create weights for muon selection
+process.btagEventWeightMuJER                 = process.btagEventWeight.clone()
+process.btagEventWeightMuJER.rootDir         = "RA4bMuTCHEM"
+process.btagEventWeightMuJER.jets            = "goodJets"
+
+## create weights for electron selection
+process.btagEventWeightElJER                 = process.btagEventWeight.clone()
+process.btagEventWeightElJER.rootDir         = "RA4bElTCHEM"
+process.btagEventWeightElJER.jets            = "goodJets"
 
 #------------------------------------------------------------------
 # Load modules for preselection

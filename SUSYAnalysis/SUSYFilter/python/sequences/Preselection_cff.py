@@ -213,6 +213,12 @@ preselectionSquarkPair = cms.Sequence(goodVertices *
                                       SquarkPairFilter
                                       )
 
+preselection14TeV = cms.Sequence(goodVertices *
+                                 oneGoodVertex #*
+                                 #HBHENoiseFilter *
+                                 #scrapingVeto
+                                 )
+
 ##-------------------------------------
 ## Define data preselection sequences
 ##-------------------------------------

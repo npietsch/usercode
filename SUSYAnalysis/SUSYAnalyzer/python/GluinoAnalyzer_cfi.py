@@ -4,19 +4,17 @@ import FWCore.ParameterSet.Config as cms
 # module to study systematics
 #
 analyzeGluino = cms.EDAnalyzer("GluinoAnalyzer",
-                               ## collections of RA4b objects
-                               jets = cms.InputTag("selectedPatJetsAK5PF"),
+                               jets = cms.InputTag("patMETsPF"),
+                               looseJets = cms.InputTag("looseJets"),
                                bjets = cms.InputTag("mediumTrackHighEffBjets"),
                                muons = cms.InputTag("goodMuons"),
                                electrons = cms.InputTag("goodElectrons"),
+                               vetoMuons = cms.InputTag("vetoMuons"),
+                               vetoElectrons = cms.InputTag("vetoElectrons"),
                                met = cms.InputTag("patMETsPF"),
-                               ## SUSGenEvent
                                susyGenEvent = cms.InputTag("SUSYGenEvt"),
-                               ## for event weighting
                                PVSrc = cms.InputTag("offlinePrimaryVertices"),
                                PUInfo = cms.InputTag("addPileupInfo"),
-                               PUWeight = cms.InputTag("eventWeightPU:eventWeightPU"),
                                RA2Weight = cms.InputTag("weightProducer:weight"),
-                               useEventWeight = cms.bool(False)
+                               genParticles = cms.InputTag("genParticles")
                                )
-

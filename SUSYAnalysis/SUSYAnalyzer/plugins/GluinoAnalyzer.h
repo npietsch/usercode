@@ -14,10 +14,12 @@
 
 #include "DataFormats/Math/interface/angle.h"
 #include "DataFormats/Math/interface/deltaR.h"
+#include "DataFormats/Math/interface/deltaPhi.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
 class GluinoAnalyzer : public edm::EDAnalyzer {
 
@@ -31,64 +33,108 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-           	
-  //--------------------------------
-  // input collections          	
-  //--------------------------------
-
-  // collections of RA4b objects
+     
+  //----------------------------
+  // Input tags
+  //----------------------------
+         
   edm::InputTag jets_;
+  edm::InputTag looseJets_;
   edm::InputTag bjets_;
   edm::InputTag muons_;
   edm::InputTag electrons_;
+  edm::InputTag vetoMuons_;
+  edm::InputTag vetoElectrons_;
   edm::InputTag met_;
   edm::InputTag inputGenEvent_;
-
-  // for event weighting
   edm::InputTag PVSrc_;
   edm::InputTag PUInfo_;
   edm::InputTag PUWeight_;
   edm::InputTag RA2Weight_;
-      
-  // bool
-  bool useEventWgt_;
-  
-  //--------------------------------
-  // histograms      	
-  //--------------------------------
+  edm::InputTag genParticles_;  
 
-  // dummy histograms
+  //----------------------------
+  // Histograms
+  //----------------------------
+
+  // Dummy histograms
   TH1F* Dummy_;
   TH2F* Dummy2_;
 
-  // histogram for control quantities
-  TH1F* nPV_;
-  TH1F* nPV_noWgt_;
+  // Event weighting and Pile-up
+  TH1F* nPV_;    
   TH1F* nPU_;
-  TH1F* nPU_noWgt_;
 
-  TH1F* btagWeights_noWgt_;
-  TH1F* btagWeights_PUWgt_;
-  TH1F* nBtags_noWgt_;
-  TH1F* nBtags_PUWgt_;
-  TH1F* nBtags_;
-  TH1F* TCHE_;
-  TH1F* TCHP_;
-  TH1F* SSVHE_;
-  TH1F* SSVHP_;
-
-  TH1F* MET_;
-  TH1F* HT_;
-  TH1F* MHT_;
-  TH1F* nJets_;
+  TH1F* weights_;
 
   // mjj variables
-  TH1F* mjjLow_;
-  TH1F* mjjHigh_;
-  TH1F* mjjMin_;
-  TH1F* mjjMax_;
-  TH1F* mjjLow2_;
   TH1F* mjjMCTruth_;
+  TH1F* mjj_;
+
+  TH1F* min123_;
+  TH1F* min123_random_;
+  TH1F* min123_right_;
+  TH1F* min123_wrong_;
+  TH1F* min123_noMatch_;
+
+  TH1F* random_;
+  TH1F* Jet2_Phi_;
+  TH1F* Jet2_Eta_;
+  TH1F* Jet2_Theta_;
+  TH1F* Jet2_Phi_random_;
+  TH1F* deltaPhi_;
+
+  TH1F* min124_;
+  TH1F* min124_random_;
+
+  // Basic kinematics
+  std::vector<TH1F*> Jet_Pt_;
+  std::vector<TH1F*> Jet_Eta_;
+  std::vector<TH1F*> DeltaPhi_MHT_Jet_;
+  std::vector<TH1F*> DeltaPhi_MET_Jet_;
+  std::vector<TH1F*> Delta_Pt_;
+  std::vector<TH2F*> Delta_Pt_MHT_;
+  std::vector<TH2F*> RecoJetPt_MHT_;
+  std::vector<TH2F*> GenJetPt_MHT_;
+  TH1F* Jets_Pt_;
+  TH1F* GluonJets_Pt_;
+  TH1F* Jets_Eta_;
+  TH1F* Jets_Phi_;
+  TH1F* Jets_Theta_;
+  TH1F* MET_;
+  TH1F* MHT_;
+  TH1F* HT_;
+  TH1F* mT_;
+  TH1F* YMET_;
+  TH1F* METSig_;
+  TH1F* nJets_;
+  TH1F* DeltaPtSum_;
+  TH2F* DeltaPtSum_MHT_;
+  TH2F* HT_MHT_; 
+
+  TH1F* nJets70_;
+  TH1F* nJets80_;
+  TH1F* nJets100_;
+  TH1F* nJets120_;
+  TH1F* nJets150_;
+  TH1F* nJets200_;
+
+  std::vector<TH1F*> Muon_Pt_;
+  std::vector<TH1F*> Muon_Eta_;
+
+  std::vector<TH1F*> Electron_Pt_;
+  std::vector<TH1F*> Electron_Eta_;
+
+  TH1F* nMuons_;
+  TH1F* nElectrons_;
+  TH1F* nLeptons_;
+
+  TH1F* nVetoMuons_;
+  TH1F* nVetoElectrons_;
+  TH1F* nVetoLeptons_;
+
+  TH1F* MT_;
+
 };  
 
 #endif  
