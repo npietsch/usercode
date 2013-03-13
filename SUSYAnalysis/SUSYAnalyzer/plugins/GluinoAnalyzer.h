@@ -68,24 +68,9 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* weights_;
 
   // mjj variables
-  TH1F* mjjMCTruth_;
-  TH1F* mjj_;
-
+  TH1F* min3j_;
   TH1F* min123_;
-  TH1F* min123_random_;
-  TH1F* min123_right_;
-  TH1F* min123_wrong_;
-  TH1F* min123_noMatch_;
-
-  TH1F* random_;
-  TH1F* Jet2_Phi_;
-  TH1F* Jet2_Eta_;
-  TH1F* Jet2_Theta_;
-  TH1F* Jet2_Phi_random_;
-  TH1F* deltaPhi_;
-
-  TH1F* min124_;
-  TH1F* min124_random_;
+  TH1F* min234_;
 
   // Basic kinematics
   std::vector<TH1F*> Jet_Pt_;
@@ -96,6 +81,7 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   std::vector<TH2F*> Delta_Pt_MHT_;
   std::vector<TH2F*> RecoJetPt_MHT_;
   std::vector<TH2F*> GenJetPt_MHT_;
+
   TH1F* Jets_Pt_;
   TH1F* GluonJets_Pt_;
   TH1F* Jets_Eta_;

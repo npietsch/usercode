@@ -58,27 +58,12 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   weights_ = fs->make<TH1F>("weights", "weights", 100, 1, 100);
 
   //-------------------------------------------------
-  // Hisograms for mjj variables
+  // Histograms for mjj variables
   //-------------------------------------------------
-  mjjMCTruth_     = fs->make<TH1F>("mjjMCTruth",    "mjjMCTruth",     70, 0.,  1400.);
-  mjj_            = fs->make<TH1F>("mjj",           "mjj",            70, 0.,  1400.);
 
-  min123_         = fs->make<TH1F>("min123",        "min123",         70, 0.,  1400.);
-  min123_random_  = fs->make<TH1F>("min123_random", "min123_random",  70, 0.,  1400.);
-  min123_right_   = fs->make<TH1F>("min123_right",  "min123_right",   70, 0.,  1400.);
-  min123_wrong_   = fs->make<TH1F>("min123_wrong",  "min123_wrong",   70, 0.,  1400.);
-  min123_noMatch_ = fs->make<TH1F>("min123_noMatch","min123_noMatch", 70, 0.,  1400.);
-
-  random_          = fs->make<TH1F>("random",          "random",           70,  -3.5,   3.5);
-  Jet2_Phi_        = fs->make<TH1F>("Jet2_Phi",        "Jet2_Phi",         34,  -3.4,   3.4);
-  // obsolete; histogram defined below 
-  //Jet2_Eta_        = fs->make<TH1F>("Jet2_Eta",        "Jet2_Eta",         30,  -3. ,   3. );
-  Jet2_Theta_      = fs->make<TH1F>("Jet2_Theta",      "Jet2_Theta",       17,   0.,    3.4);
-  Jet2_Phi_random_ = fs->make<TH1F>("Jet2_Phi_random", "Jet2_Phi_random",  70,  -3.5,   3.5);
-  deltaPhi_        = fs->make<TH1F>("deltaPhi",        "deltaPhi",         70,  -3.5,   3.5);
-
-  min124_         = fs->make<TH1F>("min124",        "min124",        70, 0.,  1400.);
-  min124_random_  = fs->make<TH1F>("min124_random", "min124_random", 70, 0.,  1400.);
+  min3j_          = fs->make<TH1F>("m3j",           "m3j",            40, 0.,  2000.);
+  min123_         = fs->make<TH1F>("m123",          "m123",           40, 0.,  2000.);
+  min234_         = fs->make<TH1F>("m234",          "m234",           40, 0.,  2000.);
 
   //-------------------------------------------------
   // Basic kinematics
@@ -268,130 +253,37 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   // Example how to use member function of SUSYGenEvent
   //if(susyGenEvent->decayCascadeA()=="gluino->neutralino1" && susyGenEvent->decayCascadeB()=="gluino->neutralino1")
 
-  for(int idx=0; idx<(int)jets->size(); ++idx)
-    {
-      for(int jdx=idx; jdx<(int)jets->size(); ++jdx)
-	{
-	  reco::Particle::LorentzVector Jet_idx=(*jets)[idx].p4();
-	  reco::Particle::LorentzVector Jet_jdx=(*jets)[jdx].p4();
-	  mjj_->Fill(sqrt((Jet_idx+Jet_jdx).Dot(Jet_idx+Jet_jdx)), weight);
-	  
-	  if((*jets)[idx].genParton() && (*jets)[jdx].genParton())
-	    {
-	      if((*jets)[idx].genParton()->mother()->pdgId()==1000021 && (*jets)[idx].genParton()->mother() == (*jets)[jdx].genParton()->mother())
-		{
-		  reco::Particle::LorentzVector JetA=(*jets)[idx].p4();
-		  reco::Particle::LorentzVector JetB=(*jets)[jdx].p4();
-		  
-		  double mjjMCTruth=sqrt((JetA+JetB).Dot(JetA+JetB));
-		  mjjMCTruth_->Fill(mjjMCTruth,weight);
-		}
-	    }
-	}
-    }
-
   //TF1 *f1 = new TF1("f1","",-3.1,3.1);
  
   if(jets->size() >= 3)
     {
-      // define four--vectors
+      // define four-vectors
       reco::Particle::LorentzVector Jet1 = (*jets)[0].p4();
       reco::Particle::LorentzVector Jet2 = (*jets)[1].p4();
       reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
 
-      // define randomly rotated four-vector
-      TVector3 v3(Jet3.Px(),Jet3.Py(),Jet3.Pz());
-      //double random=6.28*(gRandom->Rndm())-3.14;
-      //random_->Fill(random, weight);
-      //v3.RotateZ(random);
-      double phi=v3.Phi();
-      v3.SetPhi(-phi);
-      double theta=v3.Theta();
-      v3.SetTheta(3.14159-theta);
-      reco::Particle::LorentzVector Jet3_random(v3.X(),v3.Y(),v3.Z(),Jet3.E());
+      // define invariant dijet masses
+      double m12 = sqrt((Jet1+Jet2).Dot(Jet1+Jet3));   
+      double m13 = sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
+      double m23 = sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
 
-      Jet2_Phi_   ->Fill(Jet3.phi(),   weight);
-      //Jet2_Eta_   ->Fill(Jet3.eta(),   weight);
-      Jet2_Theta_ ->Fill(Jet3.theta(), weight);
-      Jet2_Phi_random_->Fill(Jet3_random.phi(), weight);
-      deltaPhi_->Fill(deltaPhi(Jet3_random.phi(),Jet3.phi()), weight);
+      double min3j  = min(m13,m23);
+      double min123 = min(min3j,m12);
 
-      // define invariant dijet masses   
-      double m13=sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
-      double m23=sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
-      
-      double m13_random=sqrt((Jet1+Jet3_random).Dot(Jet1+Jet3_random));
-      double m23_random=sqrt((Jet2+Jet3_random).Dot(Jet2+Jet3_random));
+      min3j_  -> Fill(min3j,  weight);
+      min123_ -> Fill(min123, weight);
 
-      // calculate minima
-      double min123        = min(m13,m23);
-      double min123_random = min(m13_random,m23_random);
-
-      // fill histograms
-      min123_       ->Fill(min123, weight);
-      min123_random_->Fill(min123_random, weight);
-
-      // correct and wrong assignments
-      if(min123 == m13)
-	{
-	  if((*jets)[0].genParton() && (*jets)[2].genParton())
-	    {
-	      if( (*jets)[0].genParton()->mother()->pdgId()==1000021 && (*jets)[0].genParton()->mother() == (*jets)[2].genParton()->mother() )
-		{
-		  min123_right_->Fill(min123);
-		}
-	      else
-		{
-		  min123_wrong_->Fill(min123);
-		}
-	    }
-	  else
-	    {
-	      min123_noMatch_->Fill(min123);  
-	    }
-	}
-      else if(min123 == m23)
-	{
-	  if((*jets)[1].genParton() && (*jets)[2].genParton())
-	    {
-	      if( (*jets)[1].genParton()->mother()->pdgId()==1000021 && (*jets)[1].genParton()->mother() == (*jets)[2].genParton()->mother() )
-		{
-		  min123_right_->Fill(min123);
-		}
-	      else
-		{
-		  min123_wrong_->Fill(min123);
-		}
-	    }
-	  else
-	    {
-	      min123_noMatch_->Fill(min123);  
-	    }
-	}
 
       if(jets->size() >= 4)
 	{
 	  reco::Particle::LorentzVector Jet4=(*jets)[3].p4();
 
-	  // define randomly rotated four-vector
-	  TVector3 v3(Jet4.Px(),Jet4.Py(),Jet4.Pz());
-	  double phi=v3.Phi();
-	  v3.SetPhi(-phi);
-	  double theta=v3.Theta();
-	  v3.SetTheta(3.14159-theta);
-	  reco::Particle::LorentzVector Jet4_random(v3.X(),v3.Y(),v3.Z(),Jet4.E());
+	  double m24 = sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
+	  double m34 = sqrt((Jet3+Jet4).Dot(Jet3+Jet4));
 
-	  double m14=sqrt((Jet1+Jet4).Dot(Jet1+Jet4));
-	  double m24=sqrt((Jet2+Jet4).Dot(Jet2+Jet4));
+	  double min234 = min(m23,min(m24,m34));
 
-	  double m14_random=sqrt((Jet1+Jet4_random).Dot(Jet1+Jet4_random));
-	  double m24_random=sqrt((Jet2+Jet4_random).Dot(Jet2+Jet4_random));
-
-	  double min124        = min(m14,m24);
-	  double min124_random = min(m14_random, m24_random);
-
-	  min124_        ->Fill(min124, weight);
-	  min124_random_ ->Fill(min124_random, weight);
+	  min234_ -> Fill(min234, weight);
 	}
     }
 
