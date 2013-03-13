@@ -1,5 +1,5 @@
 #include "StackMC.h"
-#include "tdrStyle.h"
+#include "tdrStyle_14TeV.h"
 
 vector<TString> Histograms;
 vector<TString> XTitles;
@@ -33,7 +33,7 @@ void Preselection14TeV(){
 	gStyle->SetPadTopMargin(0.1);
 	gStyle->SetLineStyleString(11,"14 12");
            
-	double dataLumi = 4980;//4965.876/pb. -20/pb in ele
+	double dataLumi = 1000;//4965.876/pb. -20/pb in ele
 	double SF=1; // scale factor - missing part lepton id
 
 	// define files
@@ -43,57 +43,68 @@ void Preselection14TeV(){
 	TFile* ZJets_file     = new TFile("ZJets.root",         "READ");
 	TFile* QCD_file       = new TFile("QCD.root",           "READ");
 	
-	TFile* A1_file       = new TFile("WJetsMu.root",             "READ");
-	TFile* B1_file       = new TFile("WJetsEl.root",             "READ");
-	TFile* C1_file       = new TFile("WJetsTau.root",             "READ");
+	TFile* A1_file       = new TFile("A1.root",             "READ");
+	TFile* B1_file       = new TFile("B1.root",             "READ");
+	TFile* C1_file       = new TFile("C1.root",             "READ");
 
 	TFile* Dummy_file    = new TFile("Dummy.root",          "READ");
 
 // 	//addMCHistogram(TString name, int xmin, int xmax)
-// 	addMCHistogram("analyzeBino_45Jets_1/HT",         "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e7, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeBino_45Jets_1/MET",        "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e7, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeBino_45Jets_1/MHT",        "#slash{H}_{T} [GeV]", "Events / 50 GeV",   0,  2000, 1, 1e7, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeBino_45Jets_1/nJets",      "Number of jets",      "Events",         -0.5,    15, 1, 1e7, -0.1, 2.1, 1);	
-// // 	addMCHistogram("analyzeBino_45Jets_1/nMuons",     "Number of muons",     "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
-// // 	addMCHistogram("analyzeBino_45Jets_1/nElectrons", "Number of electrons", "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
-//  	addMCHistogram("analyzeBino_45Jets_1/nLeptons",   "Number of leptons",   "Events",         -0.5,     5, 1, 1e7, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeBino_45Jets_2/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_3/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_3/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e6, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_5/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{E}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
-// 	addMCHistogram("analyzeBino_45Jets_5/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/HT",         "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/MET",        "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/MHT",        "#slash{H}_{T} [GeV]", "Events / 50 GeV",   0,  2000, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_1/nJets",      "Number of jets",      "Events",         -0.5,    15, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_2/nJets",      "Number of jets",      "Events",         -0.5,    15, 1, 1e6, -0.1, 2.1, 1);	
+// 	addMCHistogram("analyzeBino_45Jets_2/nVetoLeptons", "Number of veto leptons",  "Events",   -0.5,     5, 1, 1e6, -0.1, 2.1, 1);	
+// 	addMCHistogram("analyzeBino_45Jets_3/nVetoLeptons", "Number of veto leptons",  "Events",   -0.5,     5, 1, 1e6, -0.1, 2.1, 1);
+// // 	addMCHistogram("analyzeBino_45Jets_1/nMuons",     "Number of muons",     "Events",         -0.5,     5, 1, 1e6, -0.1, 2.1, 1);
+// // 	addMCHistogram("analyzeBino_45Jets_1/nElectrons", "Number of electrons", "Events",         -0.5,     5, 1, 1e6, -0.1, 2.1, 1);
+// //  	addMCHistogram("analyzeBino_45Jets_1/nLeptons",   "Number of leptons",   "Events",         -0.5,     5, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_3/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet0",  "#Delta#Phi (jet^{1}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_4/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e5, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_5/DeltaPhi_MET_Jet1",  "#Delta#Phi (jet^{2}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e4, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_5/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e4, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeBino_45Jets_6/DeltaPhi_MET_Jet2",  "#Delta#Phi (jet^{3}, #slash{H}_{T})",   "Events",  -3,  3, 1, 1e4, -0.1, 2.1, 0);
 // 	addMCHistogram("analyzeBino_45Jets_6/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeBino_45Jets_7/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e4, -0.1, 2.1, 1);
+// 	//addMCHistogram("analyzeBino_45Jets_8/YMET",  "Y_{MET} [GeV^{1/2}]", "Events", 0,    50, 1, 1e4, -0.1, 2.1, 1);
 
-// 	addMCHistogram("analyzeBino_45Jets_5/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeBino_45Jets_5/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_6/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_45Jets_6/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeBino_56Jets_8/minj3", "minj3", "Events / 50 GeV", 0, 2000, 0.5, 1000, -0.1, 2.1, 1);
 
-	addMCHistogram("analyzeWino_1/nLeptons", "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
-	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",   "Events",          -0.5,   15, 1, 1e6, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeWino_3/HT",       "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeWino_3/MET",      "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeWino_3/YMET",     "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_1/nLeptons", "Number of leptons",   "Events",          -0.5,   15, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",      "Events",           3.5,   15, 1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/HT",       "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/MET",      "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/YMET",     "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_3/mT",       "m_{T} [GeV]",         "Events / 10 GeV",    0,  600, 1, 1e3, -0.1, 2.1, 1);
 
-	//addMCHistogram("analyzeSignal_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeSignal_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeWino_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeWino_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeWino_2/HT",  "H_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeWino_2/MET",  "#slash{E}_{T} [GeV]","Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
-	//addMCHistogram("analyzeWino_2/nJets", "Number of jets","Events", -0.5,  15, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_4/HT",       "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_4/MET",      "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e3, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_4/YMET",     "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e3, -0.1, 2.1, 1);
+
+// 	addMCHistogram("analyzeSignal_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSignal_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_1/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_1/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e7, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_2/HT",  "H_{T} [GeV]", "Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_2/MET",  "#slash{E}_{T} [GeV]","Events / 50 GeV", 0,  4000, 1, 1e6, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeWino_2/nJets", "Number of jets","Events", -0.5,  15, 1, 1e6, -0.1, 2.1, 1);
+
+// 	addMCHistogram("analyzeWino_4/min234", "min234", "Events / 50 GeV", 0, 1000, 0, 450, -0.1, 2.1, 1);
 
 	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	  {
 	    std::cout << Histograms[hdx] << std::endl;
 
 	    // get histograms
+	    TH1D* QCD       = (TH1D*)QCD_file       ->Get(Histograms[hdx]);
 	    TH1D* TTJets    = (TH1D*)TTJets_file    ->Get(Histograms[hdx]);
 	    //TH1D* SingleTop = (TH1D*)SingleTop_file ->Get(Histograms[hdx]);
 	    TH1D* WJets     = (TH1D*)WJets_file     ->Get(Histograms[hdx]);
 	    TH1D* ZJets     = (TH1D*)ZJets_file     ->Get(Histograms[hdx]);
-	    TH1D* QCD       = (TH1D*)QCD_file       ->Get(Histograms[hdx]);
 	    
 	    TH1D* A1        = (TH1D*)A1_file        ->Get(Histograms[hdx]);
 	    TH1D* B1        = (TH1D*)B1_file        ->Get(Histograms[hdx]);
@@ -118,11 +129,11 @@ void Preselection14TeV(){
 	    sr.AddData(Dummy);
 
 	    // MC histogram, color,    nevnts, x-sect
-	    //sr.Add(QCD,       kRed+2,    1, 0.001);
-	    //sr.Add(ZJets,     kBlue-7,   1, 0.001);
+	    sr.Add(ZJets,     kBlue-7,   1, 0.001);
 	    //sr.Add(SingleTop, kGreen-3,  1, 0.001);
 	    sr.Add(WJets,     kYellow-4, 1, 0.001);
-	    //sr.Add(TTJets,    kRed-4,    1, 0.001);
+	    sr.Add(TTJets,    kRed-4,    1, 0.001);
+	    sr.Add(QCD,       kRed+2,    1, 0.001);
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
