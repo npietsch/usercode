@@ -68,7 +68,7 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* weights_;
 
   // mjj variables
-  TH1F* min3j_;
+  TH1F* minj3_;
   TH1F* min123_;
   TH1F* min234_;
 

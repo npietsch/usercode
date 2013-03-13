@@ -100,7 +100,7 @@ process.L2L3ResidualMC = cms.ESSource(
 
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 
-## analyzer modules for bino selection
+## analyzer modules for bino selection with 4-5 jets
 process.analyzeBino_noCuts            = process.analyzeGluino.clone()
 process.analyzeBino_noCuts.jets       = "goodJets"
 
@@ -133,6 +133,34 @@ process.analyzeBino_45Jets_7.jets     = "goodJets"
 
 process.analyzeBino_45Jets_8          = process.analyzeGluino.clone()
 process.analyzeBino_45Jets_8.jets     = "goodJets"
+
+## analyzer modules for bino selection with 5-6 jets
+process.analyzeBino_56Jets_1          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_1.jets     = "goodJets"
+
+process.analyzeBino_56Jets_1          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_1.jets     = "goodJets"
+
+process.analyzeBino_56Jets_2          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_2.jets     = "goodJets"
+
+process.analyzeBino_56Jets_3          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_3.jets     = "goodJets"
+
+process.analyzeBino_56Jets_4          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_4.jets     = "goodJets"
+
+process.analyzeBino_56Jets_5          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_5.jets     = "goodJets"
+
+process.analyzeBino_56Jets_6          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_6.jets     = "goodJets"
+
+process.analyzeBino_56Jets_7          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_7.jets     = "goodJets"
+
+process.analyzeBino_56Jets_8          = process.analyzeGluino.clone()
+process.analyzeBino_56Jets_8.jets     = "goodJets"
 
 ## analyzer modules for wino selection
 process.analyzeWino_noCuts            = process.analyzeGluino.clone()
@@ -263,6 +291,41 @@ process.Bino_45Jets = cms.Path(# execute producer and preselection modules
                                
                                process.filterYmet_2 *
                                process.analyzeBino_45Jets_8
+                               )
+
+process.Bino_56Jets = cms.Path(# execute producer and preselection modules
+                               process.weightProducer *
+                               process.preselection14TeV *
+                               process.makeObjects *
+                               process.makeSUSYGenEvt *
+                               
+                               # execute filter and analyzer modules
+                               process.HTSelection *
+                               process.metSelection *
+                               
+                               process.filterTightHT *
+                               process.analyzeBino_56Jets_1 *
+                               
+                               process.fourToFiveGoodJets *
+                               process.analyzeBino_56Jets_2 *
+
+                               process.noVetoLepton *
+                               process.analyzeBino_56Jets_3 *
+                               
+                               process.filterDeltaPhi1 *
+                               process.analyzeBino_56Jets_4 *
+                               
+                               process.filterDeltaPhi2 *
+                               process.analyzeBino_56Jets_5 *
+                               
+                               process.filterDeltaPhi3 *
+                               process.analyzeBino_56Jets_6 *
+
+                               process.filterYmet_1 *
+                               process.analyzeBino_56Jets_7 *
+                               
+                               process.filterYmet_2 *
+                               process.analyzeBino_56Jets_8
                                )
 
 process.Wino = cms.Path(# execute producer and preselection modules

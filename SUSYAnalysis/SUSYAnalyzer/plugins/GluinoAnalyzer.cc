@@ -61,9 +61,9 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   // Histograms for mjj variables
   //-------------------------------------------------
 
-  min3j_          = fs->make<TH1F>("m3j",           "m3j",            40, 0.,  2000.);
-  min123_         = fs->make<TH1F>("m123",          "m123",           40, 0.,  2000.);
-  min234_         = fs->make<TH1F>("m234",          "m234",           40, 0.,  2000.);
+  minj3_          = fs->make<TH1F>("minj3",         "minj3",          40, 0.,  2000.);
+  min123_         = fs->make<TH1F>("min123",        "min123",         40, 0.,  2000.);
+  min234_         = fs->make<TH1F>("min234",        "min234",         40, 0.,  2000.);
 
   //-------------------------------------------------
   // Basic kinematics
@@ -114,7 +114,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   MHT_      = fs->make<TH1F>("MHT",      "MHT",      50,   0.,  2000.);
   HT_       = fs->make<TH1F>("HT",       "HT",      100,   0.,  5000.);
   mT_       = fs->make<TH1F>("mT",       "mT",       60,   0.,   600.);
-  YMET_     = fs->make<TH1F>("YMET",     "YMET",    100,   0.,    50.);
+  YMET_     = fs->make<TH1F>("YMET",     "YMET",     50,   0.,    50.);
   METSig_   = fs->make<TH1F>("METSig",   "METSig",  100,   0.,    50.);
   nJets_    = fs->make<TH1F>("nJets",    "nJets",    16 , -0.5,  15.5);
   DeltaPtSum_     = fs->make<TH1F>("DeltaPtSum", "DeltaPtSum", 50,   0.,  500.);
@@ -263,14 +263,14 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       reco::Particle::LorentzVector Jet3 = (*jets)[2].p4();
 
       // define invariant dijet masses
-      double m12 = sqrt((Jet1+Jet2).Dot(Jet1+Jet3));   
+      double m12 = sqrt((Jet1+Jet2).Dot(Jet1+Jet2));   
       double m13 = sqrt((Jet1+Jet3).Dot(Jet1+Jet3));
       double m23 = sqrt((Jet2+Jet3).Dot(Jet2+Jet3));
 
-      double min3j  = min(m13,m23);
-      double min123 = min(min3j,m12);
+      double minj3  = min(m13,m23);
+      double min123 = min(minj3,m12);
 
-      min3j_  -> Fill(min3j,  weight);
+      minj3_  -> Fill(minj3,  weight);
       min123_ -> Fill(min123, weight);
 
 
