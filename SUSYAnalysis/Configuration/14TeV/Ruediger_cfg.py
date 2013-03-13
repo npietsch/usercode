@@ -306,7 +306,7 @@ process.Bino_56Jets = cms.Path(# execute producer and preselection modules
                                process.filterTightHT *
                                process.analyzeBino_56Jets_1 *
                                
-                               process.fourToFiveGoodJets *
+                               process.fiveToSixGoodJets *
                                process.analyzeBino_56Jets_2 *
 
                                process.noVetoLepton *
