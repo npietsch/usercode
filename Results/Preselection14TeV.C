@@ -76,10 +76,12 @@ void Preselection14TeV(){
 
 // 	addMCHistogram("analyzeBino_45Jets_6/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeBino_45Jets_6/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeBino_56Jets_8/minj3", "min_{3j}", "Events / 50 GeV", 0, 2000, 0.5, 1000, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeBino_56Jets_8/minj3", "min_{3j}", "Events / 50 GeV", 0, 2000, 0.5, 1000, -0.1, 2.1, 1);
 
-// 	addMCHistogram("analyzeWino_1/nLeptons", "Number of leptons",   "Events",          -0.5,   15, 1, 1e5, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",      "Events",           3.5,   15, 1, 1e5, -0.1, 2.1, 1);
+ 	addMCHistogram("analyzeWino_1/nLeptons", "Number of leptons",   "Events",          -0.5,   15, 1, 1e5, -0.1, 2.1, 1);
+  	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",      "Events",           3.5,   15, 1, 1e5, -0.1, 2.1, 1); 
+	addMCHistogram("analyzeWino_2/MHT", "#slash{H}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
+
 // 	addMCHistogram("analyzeWino_3/HT",       "H_{T} [GeV]",         "Events / 50 GeV",  500, 5000, 1, 1e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeWino_3/MET",      "#slash{E}_{T}[GeV]",  "Events / 50 GeV",  100, 5000, 1, 1e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeWino_3/YMET",     "Y_{MET} [GeV^{1/2}]", "Events",             0,   50, 1, 1e3, -0.1, 2.1, 1);
@@ -146,6 +148,8 @@ void Preselection14TeV(){
 	    sr.AddExtra(C1,  kRed+3, 1,   0.001,   1,  3);
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,400);
+	    c1->SetLogy();
+
 	    sr.DrawClone();
 	    
 	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
