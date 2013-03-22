@@ -126,6 +126,16 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nJets150_  = fs->make<TH1F>("nJets150", "nJets150",   16, -0.5,  15.5);
   nJets200_  = fs->make<TH1F>("nJets200", "nJets200",   16, -0.5,  15.5);
 
+  TCHE_  = fs->make<TH1F>("TCHE",  "TCHE",   80, -20, 20);
+  TCHP_  = fs->make<TH1F>("TCHP",  "TCHP",   80, -20, 20);
+  SSVHE_ = fs->make<TH1F>("SSVHE", "SSVHE", 120,  -2, 10);
+  SSVHP_ = fs->make<TH1F>("SSVHP", "SSVHP", 120,  -2, 10);
+
+  nBjets_noWgt_    = fs->make<TH1F>("nBjets_noWgt",   "nBjets_noWgt",   4, 0, 4);
+  nBjets_noWgt_2_  = fs->make<TH1F>("nBjets_noWgt_2", "nBjets_noWgt_2", 8, 0, 8);
+  nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
+  nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, 0, 8);
+
   DeltaPtSum_MHT_ = fs->make<TH2F>("DeltaPtSum_MHT", "DeltaPtSum_MHT", 50, 0.,  500., 50, 0,  500);
   HT_MHT_         = fs->make<TH2F>("HT_MHT",         "HT_MHT",         80, 0., 4000., 50, 0, 2000);
 
@@ -159,7 +169,6 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nVetoLeptons_    = fs->make<TH1F>("nVetoLeptons",   "nVetoLeptons",   13, -0.5, 12.5);
 
   MT_          = fs->make<TH1F>("MT","MT", 80, 0., 4000.);
-
 }
 
 GluinoAnalyzer::~GluinoAnalyzer()
@@ -359,9 +368,14 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	  if((*jets)[i].pt()>120) nJets120=nJets70+1;
 	  if((*jets)[i].pt()>150) nJets150=nJets70+1;
 	  if((*jets)[i].pt()>200) nJets150=nJets70+1;
+
+	  TCHE_  ->Fill((*jets)[i].bDiscriminator("trackCountingHighEffBJetTags"), weight);
+	  TCHP_  ->Fill((*jets)[i].bDiscriminator("trackCountingHighPurBJetTags"), weight);
+	  SSVHE_ ->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighEffBJetTags"), weight);
+	  SSVHP_ ->Fill((*jets)[i].bDiscriminator("simpleSecondaryVertexHighPurBJetTags"), weight);
 	}
     }
-
+  
   double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
   double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
   double METSig  = 0;
@@ -385,6 +399,13 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nJets120_->Fill(nJets120, weight);
   nJets150_->Fill(nJets150, weight);
   nJets200_->Fill(nJets200, weight);
+
+  int nBjets=bjets->size();
+  if(bjets->size()>3) nBjets=3;
+  nBjets_noWgt_   ->Fill(nBjets);
+  nBjets_noWgt_2_ ->Fill(bjets->size());
+  nBjets_         ->Fill(nBjets, weight);
+  nBjets_2_       ->Fill(bjets->size(),weight);
 
   int nLeptons=0;
   int nMuons=0;

@@ -1,3 +1,4 @@
+
 #ifndef GluinoAnalyzer_h  
 #define GluinoAnalyzer_h
 
@@ -104,6 +105,16 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
   TH1F* nJets120_;
   TH1F* nJets150_;
   TH1F* nJets200_;
+
+  TH1F* TCHE_;
+  TH1F* TCHP_;
+  TH1F* SSVHE_;
+  TH1F* SSVHP_;
+  
+  TH1F* nBjets_noWgt_;
+  TH1F* nBjets_noWgt_2_;
+  TH1F* nBjets_;
+  TH1F* nBjets_2_;
 
   std::vector<TH1F*> Muon_Pt_;
   std::vector<TH1F*> Muon_Eta_;
