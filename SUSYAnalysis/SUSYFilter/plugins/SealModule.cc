@@ -18,5 +18,8 @@ DEFINE_FWK_MODULE(YmetFilter);
 #include "SUSYAnalysis/SUSYFilter/plugins/DeltaPhiFilter.h"
 DEFINE_FWK_MODULE(DeltaPhiFilter);
 
+#include "SUSYAnalysis/SUSYFilter/plugins/DeltaPhiHTMETFilter.h"
+DEFINE_FWK_MODULE(DeltaPhiHTMETFilter);
+
 #include "SUSYAnalysis/SUSYFilter/plugins/DiLepFilter.h"
 DEFINE_FWK_MODULE(DiLepFilter);

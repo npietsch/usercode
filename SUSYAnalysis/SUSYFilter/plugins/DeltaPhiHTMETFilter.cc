@@ -8,7 +8,7 @@
 DeltaPhiHTMETFilter::DeltaPhiHTMETFilter(const edm::ParameterSet& cfg):
   jets_    (cfg.getParameter<edm::InputTag>("jets")),
   mets_    (cfg.getParameter<edm::InputTag>("mets")),
-  Cut_            (cfg.getParameter<std::vector<double> > ("Cut") )
+  Cut_     (cfg.getParameter<std::vector<double> > ("Cut") )
 {
 }
 
@@ -48,8 +48,9 @@ DeltaPhiHTMETFilter::filter(edm::Event& event, const edm::EventSetup& setup)
     }
   
   std::cout << "DeltaPhiHTMETFilter: " << dPhi << std::endl;
-
-  return true;
+  
+  if(dPhi != 10 && dPhi >= Cut_[0] && dPhi < Cut_[1]) return true;
+  else return false;
 }
 
 
