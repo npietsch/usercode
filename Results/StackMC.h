@@ -131,52 +131,12 @@ class StackWithRatio{
       // delete h;
       h->Delete();// better for interpreter
       h=newH;
-
-      //std::cout << "Test4" << std::endl;
     }
     
     void DrawClone(){
-
-      //std::cout << "Test5" << std::endl;
-
-      //cout<<xmin<<"|"<<xmax<<endl;
-      if(sumMC==0){
-	cout<<"No histograms added!"<<endl;
-	exit(0);
-      }
-      
-      if(theData==0){
-	cout<<"Data not yet defined!"<<endl;
-	exit(0);
-      }
-
-      //std::cout << "Test6" << std::endl;
-
-      if(gPad==0||!gPad->IsEditable()) gROOT->MakeDefCanvas();
-      // upper pad - stack
-      pad1 = new TPad("pad1","pad1",0,0.3,1,0.98);
-      pad1->SetTickx(1);
-      pad1->SetTicky(1);
-      pad1->SetLogy();
-      pad1->SetBottomMargin(0);
-      pad1->SetLeftMargin(0.1);
-      // lower pad - ratio
-      pad2 = new TPad("pad2","pad2",0,0,1,0.31);
-      pad2->SetTickx(1);
-      pad2->SetTicky(1);
-      pad2->SetLogy(kFALSE);
-      pad2->SetBottomMargin(0.3);
-      pad2->SetTopMargin(0);
-      pad2->SetLeftMargin(0.1);
-      pad1->Draw();
-      pad2->Draw();
-      // stack
-      pad1->cd();
-
       if(xmax!=xmin){
 	theData->GetXaxis()->SetRangeUser(xmin, xmax);
       }
-
       else {
 	xmin=theData->GetXaxis()->GetXmin();
 	xmax=theData->GetXaxis()->GetXmax();
@@ -188,11 +148,12 @@ class StackWithRatio{
       frame->Reset();
       frame->SetStats(0);
       frame->SetTitle("");
-      frame->SetTitleOffset(1.2, "x");
+      frame->SetTitleOffset(1.0, "x");
       frame->SetTitleOffset(1.0, "y");
       frame->SetYTitle(yStackTitle);
       frame->GetXaxis()->SetRangeUser(xmin, xmax);
       //dk
+      frame->GetXaxis()->SetTitleSize(0.05);
       frame->GetYaxis()->SetTitleSize(0.05);
       
       if(stackYmin!=stackYmax){
@@ -201,56 +162,9 @@ class StackWithRatio{
       
       frame->Draw();
       theStack->DrawClone("histsame");
-      //sumMC->DrawClone("same");
       // extra lines
       for(int i=0;i<extra.GetEntries();i++) extra[i]->DrawClone("samehist");
-      //theData->DrawClone("same");
       theData->DrawClone("sameaxis");
-
-      //std::cout << "Test8" << std::endl;
-
-      // ratio
-      pad2->cd();
-      //theData->SetNdivisions(11, "X");
-      theData->SetTitleOffset(0.9, "x");
-      theData->SetTitleOffset(0.5, "y");
-      theData->SetYTitle(yRatioTitle);
-      theData->GetXaxis()->SetTitleSize(0.12);
-      //dk theData->GetYaxis()->SetTitleSize(0.09);
-      theData->GetYaxis()->SetTitleSize(0.1);
-      theData->GetYaxis()->SetLabelSize(0.09);
-      theData->GetXaxis()->SetLabelSize(0.09);
-      
-      if(ratioYmin!=ratioYmax){
-	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);
-      }
-      
-      // mean ratio
-      double imc  =sumMC->Integral();
-      double idata=theData->Integral();
-      cout<<"Average ratio : "<<idata/imc<<endl;;
-      theData->Divide(sumMC);
-      theData->SetStats(0);
-      theData->SetTitle("");
-      theData->DrawClone("ep");
-      
-      //std::cout << "Test9" << std::endl;
-
-      if(band) {
-	DrawBand(theData,relsys);
-	theData->DrawClone("sameep");
-      }
-      
-      //dk: strange be carful
-      cout<<xmin<<" "<<xmax<<endl;
-      cout<<frame->GetXaxis()->GetXmin()<<" "<<frame->GetXaxis()->GetXmax()<<endl;
-      TLine line(xmin, 1, xmax+1, 1);
-      line.SetLineWidth(1);
-      line.SetLineStyle(1);
-      line.SetLineColor(1);
-      line.DrawClone();
-
-      //std::cout << "Test10" << std::endl;
     };
     
     void DrawBand(TH1D*h,double sys){
