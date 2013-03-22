@@ -133,56 +133,60 @@ class StackWithRatio{
       h=newH;
     }
     
-    void DrawClone(){
-      if(xmax!=xmin){
-	theData->GetXaxis()->SetRangeUser(xmin, xmax);
-      }
-      else {
-	xmin=theData->GetXaxis()->GetXmin();
-	xmax=theData->GetXaxis()->GetXmax();
-      }
+    void DrawClone()
+    {
+      if(xmax!=xmin) theData->GetXaxis()->SetRangeUser(xmin, xmax);
+      else
+	{
+	  xmin=theData->GetXaxis()->GetXmin();
+	  xmax=theData->GetXaxis()->GetXmax();
+	}
       
       //std::cout << "Test7" << std::endl;
-
+      
       TH1D* frame = theData->Clone();
       frame->Reset();
       frame->SetStats(0);
       frame->SetTitle("");
-      frame->SetTitleOffset(1.0, "x");
+      frame->SetTitleOffset(1.1, "x");
       frame->SetTitleOffset(1.0, "y");
       frame->SetYTitle(yStackTitle);
       frame->GetXaxis()->SetRangeUser(xmin, xmax);
       //dk
       frame->GetXaxis()->SetTitleSize(0.05);
       frame->GetYaxis()->SetTitleSize(0.05);
-      
       if(stackYmin!=stackYmax){
 	frame->GetYaxis()->SetRangeUser(stackYmin, stackYmax);
       }
       
+      // draw stack
       frame->Draw();
       theStack->DrawClone("histsame");
-      // extra lines
+      // draw signal
       for(int i=0;i<extra.GetEntries();i++) extra[i]->DrawClone("samehist");
+      // redraw axis
       theData->DrawClone("sameaxis");
     };
     
-    void DrawBand(TH1D*h,double sys){
+    void DrawBand(TH1D*h,double sys)
+    {
       double r2 = sys*sys;
       const int n=h->fN;
       double  x[MAXBIN];
       double  y[MAXBIN];
       double ey[MAXBIN];
       int k=0;
-      for(int i=0;i<n;i++){
-	y[k]=h->GetBinContent(i);
-	if(y[k]!=0){
-	  double e=h->GetBinError(i)/y[k];
-	  ey[k]=sqrt(e*e+r2)*y[k];
-	  x[k]=h->GetBinCenter(i);
-	  k++;
+      for(int i=0;i<n;i++)
+	{
+	  y[k]=h->GetBinContent(i);
+	  if(y[k]!=0)
+	    {
+	      double e=h->GetBinError(i)/y[k];
+	      ey[k]=sqrt(e*e+r2)*y[k];
+	      x[k]=h->GetBinCenter(i);
+	      k++;
+	    }
 	}
-      }
       TGraphErrors g(k, x, y, 0, ey);
       g.SetFillColor(kYellow-10);
       g.DrawClone("samee3");

@@ -31,6 +31,10 @@ void Preselection14TeV(){
 
 	setTDRStyle();
 	gStyle->SetPadTopMargin(0.1);
+	gStyle->SetPadLeftMargin(0.1);
+	gStyle->SetPadBottomMargin(0.13);
+	gStyle->SetPadRightMargin(0.05);
+
 	gStyle->SetLineStyleString(11,"14 12");
            
 	double dataLumi = 1000;//4965.876/pb. -20/pb in ele
@@ -72,7 +76,7 @@ void Preselection14TeV(){
 
 // 	addMCHistogram("analyzeBino_45Jets_6/HT",  "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeBino_45Jets_6/MET", "#slash{E}_{T} [GeV]", "Events / 50 GeV", 100,  2000, 1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeBino_56Jets_8/minj3", "Events / 50 GeV", "Events / 50 GeV", 0, 2000, 0.5, 1000, -0.1, 2.1, 1);
+	addMCHistogram("analyzeBino_56Jets_8/minj3", "min_{3j}", "Events / 50 GeV", 0, 2000, 0.5, 1000, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeWino_1/nLeptons", "Number of leptons",   "Events",          -0.5,   15, 1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeWino_2/nJets",    "Number of jets",      "Events",           3.5,   15, 1, 1e5, -0.1, 2.1, 1);
@@ -143,8 +147,6 @@ void Preselection14TeV(){
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,400);
 	    sr.DrawClone();
-	    
-	    //sr.pad1->cd(); // stack
 	    
 	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
 	    leg->SetTextSize(0.05);
