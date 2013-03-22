@@ -100,6 +100,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* Jets_Eta_;
   TH1F* DeltaRecoGenJetPt_;
   TH1F* MET_;
+  TH1F* MHT_;
   TH1F* HT_; 
   TH1F* nJets_;
   TH1F* DeltaRecoGenJetPtSum_;

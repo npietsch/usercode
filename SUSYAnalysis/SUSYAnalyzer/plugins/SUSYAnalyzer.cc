@@ -101,6 +101,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   DeltaRecoGenJetPt_ = fs->make<TH1F>("DeltaRecoGenJetPt", "DeltaRecoGenJetPt", 60, -30.,   30.);
 
   MET_                  = fs->make<TH1F>("MET",                   "MET",                  50,   0.,  1000.);
+  MHT_                  = fs->make<TH1F>("MHT",                   "MHT",                  50,   0.,  1000.);
   HT_                   = fs->make<TH1F>("HT",                    "HT",                   40,   0.,  2000.);
   nJets_                = fs->make<TH1F>("nJets",                 "nJets",                16 , -0.5,  15.5);
   DeltaRecoGenJetPtSum_ = fs->make<TH1F>("DeltaRecoGenJetPtSum_", "DeltaRecoGenJetPtSum", 40,  -100.,  100);
@@ -500,7 +501,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double HT=0;
   double DeltaRecoGenJetPtSum=0;
   for(int i=0; i<(int)jets->size(); ++i)
-    {
+    {  
       if(i<8)
 	{
 	  Jet_Et_[i] ->Fill((*jets)[i].et(),  weight);
@@ -516,8 +517,23 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 		  DeltaRecoGenJetPtSum=DeltaRecoGenJetPtSum+((*jets)[i].pt()-(*jets)[i].genJet()->pt());
 		}
     }
-  
+
+  double MHT=0;
+  if(jets->size()>0)
+    {
+      reco::Particle::LorentzVector P4=(*jets)[0].p4();
+      
+      for(int i=1; i<(int)jets->size(); ++i)
+	{
+	  P4=P4+(*jets)[i].p4();
+  	}
+      reco::Particle::LorentzVector MHTP4(-P4.X(),-P4.Y(),-P4.Z(),P4.E());
+
+      MHT=MHTP4.pt();
+    }
+
   MET_                  ->Fill((*met)[0].et(),                           weight);
+  MHT_                  ->Fill(MHT,                                      weight);
   HT_                   ->Fill(HT,                                       weight);
   nJets_                ->Fill(jets->size(),                             weight);
   DeltaRecoGenJetPtSum_ ->Fill(DeltaRecoGenJetPtSum, weight);
