@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -190,7 +190,7 @@ process.analyzeWino_5.jets            = "goodJets"
 process.analyzeWino_6                 = process.analyzeGluino.clone()
 process.analyzeWino_6.jets            = "goodJets"
 
-# Configure modules for JER/JEC studies
+# analyzer modules for JER/JEC studies
 process.analyzeBinoJECUp         = process.analyzeGluino.clone()
 process.analyzeBinoJECUp.jets    = "goodJetsJECUp"
 
@@ -215,6 +215,13 @@ process.analyzeWinoJERUp.jets    = "goodJetsJERUp"
 process.analyzeWinoJERDown       = process.analyzeGluino.clone()
 process.analyzeWinoJERDown.jets  = "goodJetsJERDown"
 
+# analyzer modules for MHT study
+process.analyzeDeltaPhiHTMET_1   = process.analyzeGluino.clone()
+process.analyzeDeltaPhiHTMET_1.jets = "goodJets"
+
+process.analyzeDeltaPhiHTMET_2   = process.analyzeDeltaPhiHTMET_1.clone()
+process.analyzeDeltaPhiHTMET_3   = process.analyzeDeltaPhiHTMET_1.clone()
+
 #-----------------------------------------------------------------
 # Load additional filter modules 
 #-----------------------------------------------------------------
@@ -232,7 +239,8 @@ process.filterDeltaPhi2.jets = "goodJets"
 process.filterDeltaPhi3 = filterDeltaPhi.clone()
 process.filterDeltaPhi3.Jet = 2
 process.filterDeltaPhi3.jets = "goodJets"
-process.filterDeltaPhi3.Cut = 0.3 
+process.filterDeltaPhi3.Cut = 0.3
+
 from SUSYAnalysis.SUSYFilter.filters.YmetFilter_cfi import *
 
 process.filterYmet_1 = filterYmet.clone()
@@ -242,6 +250,20 @@ process.filterYmet_1.Cut = 10
 process.filterYmet_2 = filterYmet.clone()
 process.filterYmet_2.jets = "goodJets"
 process.filterYmet_2.Cut = 15
+
+from SUSYAnalysis.SUSYFilter.filters.DeltaPhiHTMETFilter_cfi import *
+
+process.filterDeltaPhiHTMET = filterDeltaPhiHTMET.clone()
+process.filterDeltaPhiHTMET.jets = "goodJets"
+
+process.filterDeltaPhiHTMET_1 = process.filterDeltaPhiHTMET.clone()
+process.filterDeltaPhiHTMET_1.Cut = 0,0.3
+
+## process.filterDeltaPhiHTMET_1 = process.filterDeltaPhiHTMET.clone()
+## process.filterDeltaPhiHTMET_1.Cut = 0.1,0.5
+
+## process.filterDeltaPhiHTMET_1 = process.filterDeltaPhiHTMET.clone()
+## process.filterDeltaPhiHTMET_1.Cut = 0,0.3
 
 #-----------------------------------------------------------------
 # Temp
@@ -357,3 +379,16 @@ process.Wino = cms.Path(# execute producer and preselection modules
                         process.filterYmet_2 *
                         process.analyzeWino_5
                         )
+
+process.CheckMHT1 = cms.Path(# execute producer and preselection modules
+                             process.weightProducer *
+                             process.preselection14TeV *
+                             process.makeObjects *
+                             process.makeSUSYGenEvt *
+                             
+                             process.filterTightHT *
+                             process.metSelection *
+                             process.filterDeltaPhiHTMET_1 *
+
+                             process.analyzeDeltaPhiHTMET_1
+                             )

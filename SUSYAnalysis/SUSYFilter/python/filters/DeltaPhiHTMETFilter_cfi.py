@@ -6,5 +6,3 @@ filterDeltaPhiHTMET = cms.EDFilter("DeltaPhiHTMETFilter",
                                    mets = cms.InputTag("patMETsPF"),
                                    Cut  = cms.vdouble(0,0.5)
                                    )
-
-

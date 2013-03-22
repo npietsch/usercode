@@ -37,20 +37,19 @@ DeltaPhiHTMETFilter::filter(edm::Event& event, const edm::EventSetup& setup)
 
   if(jets->size()>0)
     {
-      reco::Particle::LorentzVector P4=(*jets)[0].p4();
+      reco::Particle::LorentzVector P4=-(*jets)[0].p4();
       
       // loop over all jets
       for(int i=1; i< (int)jets->size(); ++i)
 	{
-	  P4=P4+(*jets)[i].p4();
+	  P4=P4-(*jets)[i].p4();
   	}
       dPhi=deltaPhi(P4.phi(),(*mets)[0].phi());
     }
   
-  std::cout << "DeltaPhiHTMETFilter: " << dPhi << std::endl;
+  //std::cout << "DeltaPhiHTMETFilter: " << dPhi << std::endl;
+  //std::cout << "DeltaPhiHTMETFilter: " << fabs(dPhi) << std::endl;
   
-  if(dPhi != 10 && dPhi >= Cut_[0] && dPhi < Cut_[1]) return true;
+  if(dPhi != 10 && fabs(dPhi) >= Cut_[0] && fabs(dPhi) < Cut_[1]) return true;
   else return false;
 }
-
-

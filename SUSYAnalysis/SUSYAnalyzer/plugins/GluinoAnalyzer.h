@@ -132,6 +132,8 @@ class GluinoAnalyzer : public edm::EDAnalyzer {
 
   TH1F* MT_;
 
+  // Correlations
+  TH2F* MHT_nJets_;
 };  
 
 #endif  

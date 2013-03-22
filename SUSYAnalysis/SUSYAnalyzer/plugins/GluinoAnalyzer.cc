@@ -52,10 +52,10 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   // Event weighting and Pile-up
   //-------------------------------------------------
 
-  nPV_     = fs->make<TH1F>("nPV", "nPV", 50, 0. , 50  );
-  nPU_     = fs->make<TH1F>("nPU", "nPU", 50, 0.5, 50.5);
+  nPV_     = fs->make<TH1F>("nPV",     "nPV",      50,   0,  50);
+  nPU_     = fs->make<TH1F>("nPU",     "nPU",      50, 0.5,  50.5);
 
-  weights_ = fs->make<TH1F>("weights", "weights", 100, 1, 100);
+  weights_ = fs->make<TH1F>("weights", "weights", 100,   1,  100);
 
   //-------------------------------------------------
   // Histograms for mjj variables
@@ -136,8 +136,8 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nBjets_          = fs->make<TH1F>("nBjets_",        "nBjets_",        4, 0, 4);
   nBjets_2_        = fs->make<TH1F>("nBjets_2",       "nBjets_2",       8, 0, 8);
 
-  DeltaPtSum_MHT_ = fs->make<TH2F>("DeltaPtSum_MHT", "DeltaPtSum_MHT", 50, 0.,  500., 50, 0,  500);
-  HT_MHT_         = fs->make<TH2F>("HT_MHT",         "HT_MHT",         80, 0., 4000., 50, 0, 2000);
+  DeltaPtSum_MHT_ = fs->make<TH2F>("DeltaPtSum_MHT", "DeltaPtSum_MHT",  50, 0.,  500., 50, 0,  500);
+  HT_MHT_         = fs->make<TH2F>("HT_MHT",         "HT_MHT",         100, 0., 5000., 50, 0, 2000);
 
   for(int idx=0; idx<2; ++idx)
     {
@@ -169,6 +169,13 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nVetoLeptons_    = fs->make<TH1F>("nVetoLeptons",   "nVetoLeptons",   13, -0.5, 12.5);
 
   MT_          = fs->make<TH1F>("MT","MT", 80, 0., 4000.);
+
+  //-------------------------------------------------
+  // Correlation
+  //-------------------------------------------------
+  
+  MHT_nJets_ = fs->make<TH2F>("MHT_nJets", "MHT vs. nJets", 16, -0.5, 15.5, 50, 0, 2000);
+
 }
 
 GluinoAnalyzer::~GluinoAnalyzer()
@@ -468,6 +475,12 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       mT=sqrt(2*( (*met)[0].et()*singleLepton->et() - (*met)[0].px()*singleLepton->px() - (*met)[0].py()*singleLepton->py()));
       mT_ ->Fill(mT, weight); 
     }  
+
+  //-------------------------------------------------
+  // Correlation
+  //-------------------------------------------------
+
+  MHT_nJets_->Fill(MHT, jets->size(), weight);
 
 }
 
