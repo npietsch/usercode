@@ -73,7 +73,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
     {
       char histname[20];
       sprintf(histname,"Jet%i_Pt",idx);
-      Jet_Pt_.push_back(fs->make<TH1F>(histname,histname, 200, 0., 2000.));
+      Jet_Pt_.push_back(fs->make<TH1F>(histname,histname,    80, 0., 2000.));
 
       char histname2[20];
       sprintf(histname2,"Jet%i_Eta",idx);
@@ -104,7 +104,7 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
       DeltaPhi_MET_Jet_.push_back(fs->make<TH1F>(histname8,histname8, 66, -3.3, 3.3));
     }
 
-  Jets_Pt_         = fs->make<TH1F>("Jets_Pt",         "Jets_Pt",         200,   0.,  2000.);
+  Jets_Pt_         = fs->make<TH1F>("Jets_Pt",         "Jets_Pt",          80,   0.,  2000.);
   Jets_Eta_        = fs->make<TH1F>("Jets_Eta",        "Jets_Eta",         60,  -3.,    3. );
   Jets_Phi_        = fs->make<TH1F>("Jets_Phi",        "Jets_Phi",         68,  -3.4,   3.4);
   Jets_Theta_      = fs->make<TH1F>("Jets_Theta",      "Jets_Theta",       34,   0.,    3.4);
