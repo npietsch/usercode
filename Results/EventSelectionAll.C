@@ -85,8 +85,8 @@ void EventSelectionAll(){
 	ElMuAdder ad("./"); // path to root files
 
 	//add MC histogram
-	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY2b", "1/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY2b", "1/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
@@ -115,6 +115,7 @@ void EventSelectionAll(){
 // 	addMCHistogram("analyzeSUSY3b", "1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
 
 //   	addMCHistogram("analyzeSUSY",   "jetSelection/MET",    "#slash{E}_{T} [GeV]","Events / 25 GeV", 0,  800, 0.1, 1e4, -0.1, 2.1, 1);
+   	addMCHistogram("analyzeSUSY",   "jetSelection/MHT",    "#slash{H}_{T} [GeV]","Events / 25 GeV", 0,  800, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/MET", "#slash{E}_{T} [GeV]","Events / 25 GeV",  0, 800, 0.1, 1e4, -0.1, 2.1, 1);
 //  	addMCHistogram("analyzeSUSY3b", "1/MET", "#slash{E}_{T} [GeV]","Events / 25 GeV",  0, 800, 0.1, 1e3, -0.1, 2.1, 1);
 	for(int hdx=0; hdx<(int)MuHistograms.size(); ++hdx)
