@@ -24,9 +24,6 @@ cp naf_RA4b_LM3_noPFCheck_cfg/$1 ./LM3.root
 
 cp naf_RA4b_LM8_noPFCheck_cfg/$1 ./LM8.root
 
+hadd MuHad.root naf_RA4b_MuHad*/$1
 
-
-#cp naf_RA4b_LM6_noPFCheck_cfg/$1 ./LM6.root
-
-#cp naf_RA4b_LM13_cfg/$1 ./LM13.root
-
+hadd ElHad.root naf_RA4b_ElHad*/$1
