@@ -1,46 +1,30 @@
 #include "FWCore/Utilities/interface/EDMException.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
-#include "SUSYAnalysis/SUSYEventProducers/interface/SUSYGenEventReco.h"
-#include "SUSYAnalysis/SUSYEventProducers/interface/SUSYInitSubset.h"
+#include "SUSYAnalysis/SUSYObjects/interface/HerwigGenEvent.h"
+#include "SUSYAnalysis/SUSYEventProducers/interface/HerwigGenEventProducer.h"
 
-SUSYGenEventReco::SUSYGenEventReco(const edm::ParameterSet& cfg):
-  Generation_(cfg.getParameter<int> ("Generation")) ,
-  src_ ( cfg.getParameter<edm::InputTag>( "src"  ) ),
-  init_( cfg.getParameter<edm::InputTag>( "init" ) ),
-  sparticles_( cfg.getParameter<edm::InputTag>( "sparticles" ) )
+HerwigGenEventReco::HerwigGenEventReco(const edm::ParameterSet& cfg):
+  src_ ( cfg.getParameter<edm::InputTag>( "src"  ) )
 {
-  produces<SUSYGenEvent>();
+  produces<HerwigGenEvent>();
 }
 
-SUSYGenEventReco::~SUSYGenEventReco()
+HerwigGenEventProducer::~HerwigGenEventProducer()
 {
 }
 
 void
-SUSYGenEventReco::produce(edm::Event& evt, const edm::EventSetup& setup)
+HerwigGenEventProducer::produce(edm::Event& evt, const edm::EventSetup& setup)
 {     
   edm::Handle<reco::GenParticleCollection> parts;
   evt.getByLabel(src_,  parts);
 
-  edm::Handle<reco::GenParticleCollection> inits;
-  evt.getByLabel(init_, inits);
-
-  edm::Handle<reco::GenParticleCollection> sparts;
-  evt.getByLabel(sparticles_, sparts);
-
-  //add SUSYDecayTree
+  //add HerwigDecayTree
   reco::GenParticleRefProd cands( parts );
 
-  //add InitialStatePartons
-  reco::GenParticleRefProd initParts( inits );
-
-  //add InitialSparticles
-  reco::GenParticleRefProd initSparts( sparts );
-
   //add genEvt to the output stream
-  SUSYGenEvent* SgenEvt = new SUSYGenEvent(Generation_,  cands, initParts, initSparts );
-  std::auto_ptr<SUSYGenEvent> gen (SgenEvt);
+  HerwigGenEvent* HgenEvt = new HerwigGenEvent(cands);
+  std::auto_ptr<HerwigGenEvent> gen (HgenEvt);
   evt.put( gen );
 }
