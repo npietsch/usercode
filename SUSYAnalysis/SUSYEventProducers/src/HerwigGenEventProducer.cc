@@ -4,7 +4,7 @@
 #include "SUSYAnalysis/SUSYObjects/interface/HerwigGenEvent.h"
 #include "SUSYAnalysis/SUSYEventProducers/interface/HerwigGenEventProducer.h"
 
-HerwigGenEventReco::HerwigGenEventReco(const edm::ParameterSet& cfg):
+HerwigGenEventProducer::HerwigGenEventProducer(const edm::ParameterSet& cfg):
   src_ ( cfg.getParameter<edm::InputTag>( "src"  ) )
 {
   produces<HerwigGenEvent>();
