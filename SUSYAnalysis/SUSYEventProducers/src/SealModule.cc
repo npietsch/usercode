@@ -14,6 +14,7 @@ DEFINE_FWK_MODULE(PFConsistentMuonProducer);
 
 #include "TopQuarkAnalysis/TopEventProducers/interface/StringCutObjectEvtFilter.h"
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/HerwigGenEvent.h"
 
 typedef StringCutObjectEvtFilter<SUSYGenEvent> SUSYGenEvtFilter;
 typedef StringCutObjectEvtFilter<HerwigGenEvent> HerwigGenEventFilter;
