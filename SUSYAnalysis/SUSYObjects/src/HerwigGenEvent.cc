@@ -39,3 +39,4 @@ bool HerwigGenEvent::isGluinoThreeBodyDecay() const
     }
   return gluinoThreeBodyDecay;
 }
+
