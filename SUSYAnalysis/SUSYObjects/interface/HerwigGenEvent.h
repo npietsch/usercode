@@ -21,7 +21,9 @@ class HerwigGenEvent {
 
   /// is gluino?
   bool isGluino(const reco::GenParticle & genParticle) const;
-  
+  /// is gluino three-body decay?
+  bool isGluinoThreeBodyDecay() const;
+
  protected:
   
   reco::GenParticleRefProd parts_;

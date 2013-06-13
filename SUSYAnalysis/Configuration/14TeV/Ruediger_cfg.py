@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5000),
+    input = cms.untracked.int32(-1),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -277,6 +277,7 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 ##------------------------------
 
 process.Bino_45Jets = cms.Path(# execute producer and preselection modules
+                               #process.printGenParticles *
                                process.weightProducer *
                                process.preselection14TeV *
                                process.makeObjects *

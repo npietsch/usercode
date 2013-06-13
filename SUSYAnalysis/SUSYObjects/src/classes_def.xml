@@ -2,9 +2,11 @@
 
   
   <class name="SUSYGenEvent" />
+  <class name="HerwigGenEvent" />
   <class name="SUSYEvent" />
   <class name="edm::Wrapper<SUSYGenEvent>" />
   <class name="edm::Wrapper<SUSYEvent>" />
+  <class name="edm::Wrapper<HerwigGenEvent>" />
 
 </lcgdict>
 

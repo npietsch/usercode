@@ -262,6 +262,17 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 // 	}
 //     }
   
+  //loop over genParticles
+  for(reco::GenParticleCollection::const_iterator t=genParticles->begin(); t!=genParticles->end(); ++t)
+     {
+       if(t->pdgId()== 1000021 && t->numberOfDaughters() == 3)
+	 {
+	   std::cout << t->daughter(0)->pdgId() << std::endl;
+	   std::cout << t->daughter(1)->pdgId() << std::endl;
+	   std::cout << t->daughter(2)->pdgId() << std::endl;
+	 }
+     }
+
   //-------------------------------------------------
   // mjj variabels
   //-------------------------------------------------
