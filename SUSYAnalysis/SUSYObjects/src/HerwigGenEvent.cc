@@ -11,3 +11,15 @@ HerwigGenEvent::HerwigGenEvent(reco::GenParticleRefProd& decaySubset)
 {
   parts_ = decaySubset;
 }
+
+// is gluino?
+bool HerwigGenEvent::isGluino(const reco::GenParticle & genParticle) const
+{
+  bool gluino=false;
+  if(genParticle.pdgId()==1000021)
+    {
+      gluino=true;
+    }
+  
+  return gluino;
+}
