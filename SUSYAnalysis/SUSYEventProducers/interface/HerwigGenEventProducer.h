@@ -20,8 +20,6 @@ class HerwigGenEventProducer : public edm::EDProducer {
   ~HerwigGenEventProducer();
   virtual void produce(edm::Event&, const edm::EventSetup&);
 
-  void fillOutput(const reco::GenParticleCollection&, reco::GenParticleCollection&);
-
  private:
 
   edm::InputTag src_;
