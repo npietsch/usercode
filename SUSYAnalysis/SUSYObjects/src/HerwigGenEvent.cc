@@ -192,3 +192,27 @@ double HerwigGenEvent::qqbarA() const
   
   return qqbarMass;
 }
+
+// qqbarB
+double HerwigGenEvent::qqbarB() const
+{
+  const reco::GenParticleCollection & partsColl = *particles_;
+  std::vector<unsigned int> gluinos=GluinoIndices();
+  double qqbarMass=0;
+  math::XYZTLorentzVector P4;
+
+  if(GluinoIndices().size()>1)
+    {
+      for(unsigned int gdx=0; gdx<partsColl[gluinos[1]].numberOfDaughters(); ++gdx)
+	{
+	  if(isSquark(partsColl[gluinos[1]].daughter(gdx)) == true)
+	    {
+	      std::cout << partsColl[gluinos[1]].daughter(gdx)->pdgId() << std::endl;
+	      P4=P4+partsColl[gluinos[1]].daughter(gdx)->p4();
+	    }
+	}
+      qqbarMass=P4.M();
+    }
+  
+  return qqbarMass;
+}

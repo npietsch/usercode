@@ -41,6 +41,8 @@ class HerwigGenEvent {
   bool WinoOther() const;
   // invariant dijet mass form Decay chain A
   double qqbarA() const;
+  // invariant dijet mass form Decay chain A
+  double qqbarb() const;
 
  protected:
   
