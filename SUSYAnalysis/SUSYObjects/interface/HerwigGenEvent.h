@@ -25,6 +25,8 @@ class HerwigGenEvent {
   bool isSquark(const reco::Candidate* candidate) const;
   /// gluinos
   std::vector<unsigned int> GluinoIndices() const;
+  /// number of gluinos
+  int nGluinos() const;
   /// gluino1 decay
   std::string DecayA() const;
   /// gluino2 decay
@@ -39,10 +41,12 @@ class HerwigGenEvent {
   bool WinoWino() const;
   // isWinoOther ?
   bool WinoOther() const;
+  // isOtherOther ?
+  bool OtherOther() const;
   // invariant dijet mass form Decay chain A
   double qqbarA() const;
   // invariant dijet mass form Decay chain A
-  double qqbarb() const;
+  double qqbarB() const;
 
  protected:
   

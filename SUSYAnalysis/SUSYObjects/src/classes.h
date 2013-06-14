@@ -12,6 +12,7 @@ namespace {
     SUSYGenEvent susygen;
     SUSYEvent susy;
     GenEvent gen;
+    HerwigGenEvent herwiggen;
     edm::Wrapper<SUSYGenEvent> w_susygen;
     edm::Wrapper<SUSYEvent> w_susy;
     edm::Wrapper<GenEvent> w_gen;

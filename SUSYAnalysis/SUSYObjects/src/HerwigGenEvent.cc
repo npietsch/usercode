@@ -43,7 +43,6 @@ bool HerwigGenEvent::isSquark(const reco::Candidate* candidate) const
   return squark;
 }
 
-
 // gluinos
 std::vector<unsigned int> HerwigGenEvent::GluinoIndices() const
 {
@@ -58,6 +57,15 @@ std::vector<unsigned int> HerwigGenEvent::GluinoIndices() const
 	}
     }
   return gluinos;
+}
+
+// number of gluinos
+int HerwigGenEvent::nGluinos() const
+{
+  int ngluinos=0;
+  //int ngluinos=GluinoIndices().size();
+
+  return ngluinos;
 }
 
 // DecayA
@@ -167,6 +175,19 @@ bool HerwigGenEvent::WinoOther() const
     }
   
   return winoOther;
+}
+
+// is WinoOther
+bool HerwigGenEvent::OtherOther() const
+{
+  bool otherOther=false;
+
+  if( (DecayA()=="Other" && DecayB()=="Other"))
+    {
+      otherOther = true;
+    }
+  
+  return otherOther;
 }
 
 // qqbarA

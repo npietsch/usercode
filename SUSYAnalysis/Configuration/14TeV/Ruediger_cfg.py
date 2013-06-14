@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(2000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -41,10 +41,17 @@ process.source = cms.Source("PoolSource",
 process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 #------------------------------------------------------------------
-# Load modules to create SUSYGenEvent
+# Load modules to create SUSYGenEvent and HerwigGenEvent
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
+
+process.load("SUSYAnalysis.SUSYEventProducers.producers.HerwigGenEventProducer_cfi")
+
+process.load("SUSYAnalysis.SUSYEventProducers.producers.HerwigGenEventFilter_cfi")
+
+#process.BinoFilter = process.HerwigGenEventFilter.clone(cut='BinoOther')
+process.BinoFilter = process.HerwigGenEventFilter.clone(cut='nGluinos()==1')
 
 #-----------------------------------------------------------------
 # Import modules to filter events on generator level 
@@ -282,6 +289,8 @@ process.Bino_45Jets = cms.Path(# execute producer and preselection modules
                                process.preselection14TeV *
                                process.makeObjects *
                                process.makeSUSYGenEvt *
+                               process.HerwigGenEvent *
+                               process.BinoFilter *
                                
                                # execute filter and analyzer modules
                                process.analyzeBino_noCuts *
@@ -316,80 +325,80 @@ process.Bino_45Jets = cms.Path(# execute producer and preselection modules
                                process.analyzeBino_45Jets_8
                                )
 
-process.Bino_56Jets = cms.Path(# execute producer and preselection modules
-                               process.weightProducer *
-                               process.preselection14TeV *
-                               process.makeObjects *
-                               process.makeSUSYGenEvt *
+## process.Bino_56Jets = cms.Path(# execute producer and preselection modules
+##                                process.weightProducer *
+##                                process.preselection14TeV *
+##                                process.makeObjects *
+##                                process.makeSUSYGenEvt *
                                
-                               # execute filter and analyzer modules
-                               process.HTSelection *
-                               process.metSelection *
+##                                # execute filter and analyzer modules
+##                                process.HTSelection *
+##                                process.metSelection *
                                
-                               process.filterTightHT *
-                               process.analyzeBino_56Jets_1 *
+##                                process.filterTightHT *
+##                                process.analyzeBino_56Jets_1 *
                                
-                               process.fiveToSixGoodJets *
-                               process.analyzeBino_56Jets_2 *
+##                                process.fiveToSixGoodJets *
+##                                process.analyzeBino_56Jets_2 *
 
-                               process.noVetoLepton *
-                               process.analyzeBino_56Jets_3 *
+##                                process.noVetoLepton *
+##                                process.analyzeBino_56Jets_3 *
                                
-                               process.filterDeltaPhi1 *
-                               process.analyzeBino_56Jets_4 *
+##                                process.filterDeltaPhi1 *
+##                                process.analyzeBino_56Jets_4 *
                                
-                               process.filterDeltaPhi2 *
-                               process.analyzeBino_56Jets_5 *
+##                                process.filterDeltaPhi2 *
+##                                process.analyzeBino_56Jets_5 *
                                
-                               process.filterDeltaPhi3 *
-                               process.analyzeBino_56Jets_6 *
+##                                process.filterDeltaPhi3 *
+##                                process.analyzeBino_56Jets_6 *
 
-                               process.filterYmet_1 *
-                               process.analyzeBino_56Jets_7 *
+##                                process.filterYmet_1 *
+##                                process.analyzeBino_56Jets_7 *
                                
-                               process.filterYmet_2 *
-                               process.analyzeBino_56Jets_8
-                               )
+##                                process.filterYmet_2 *
+##                                process.analyzeBino_56Jets_8
+##                                )
 
-process.Wino = cms.Path(# execute producer and preselection modules
-                        process.weightProducer *
-                        process.preselection14TeV *
-                        process.makeObjects *
-                        process.makeSUSYGenEvt *
+## process.Wino = cms.Path(# execute producer and preselection modules
+##                         process.weightProducer *
+##                         process.preselection14TeV *
+##                         process.makeObjects *
+##                         process.makeSUSYGenEvt *
                         
-                        # execute filter and analyzer modules
-                        process.analyzeWino_noCuts *
+##                         # execute filter and analyzer modules
+##                         process.analyzeWino_noCuts *
                         
-                        process.HTSelection *
-                        process.metSelection *
+##                         process.HTSelection *
+##                         process.metSelection *
                         
-                        process.analyzeWino_Preselection *
+##                         process.analyzeWino_Preselection *
 
-                        process.filterTightHT *
-                        process.analyzeWino_1 *
+##                         process.filterTightHT *
+##                         process.analyzeWino_1 *
                         
-                        process.sixGoodJets *
-                        process.analyzeWino_2 *
+##                         process.sixGoodJets *
+##                         process.analyzeWino_2 *
                         
-                        process.leptonSelection *
-                        process.analyzeWino_3 *
+##                         process.leptonSelection *
+##                         process.analyzeWino_3 *
                         
-                        process.filterMT *
-                        process.analyzeWino_4 *
+##                         process.filterMT *
+##                         process.analyzeWino_4 *
                         
-                        process.filterYmet_2 *
-                        process.analyzeWino_5
-                        )
+##                         process.filterYmet_2 *
+##                         process.analyzeWino_5
+##                         )
 
-process.CheckMHT1 = cms.Path(# execute producer and preselection modules
-                             process.weightProducer *
-                             process.preselection14TeV *
-                             process.makeObjects *
-                             process.makeSUSYGenEvt *
+## process.CheckMHT1 = cms.Path(# execute producer and preselection modules
+##                              process.weightProducer *
+##                              process.preselection14TeV *
+##                              process.makeObjects *
+##                              process.makeSUSYGenEvt *
                              
-                             process.filterTightHT *
-                             process.metSelection *
-                             process.filterDeltaPhiHTMET_1 *
+##                              process.filterTightHT *
+##                              process.metSelection *
+##                              process.filterDeltaPhiHTMET_1 *
 
-                             process.analyzeDeltaPhiHTMET_1
-                             )
+##                              process.analyzeDeltaPhiHTMET_1
+##                              )
