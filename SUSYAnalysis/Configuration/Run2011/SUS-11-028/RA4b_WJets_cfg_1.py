@@ -7,6 +7,7 @@
 
 from BjetsPAT_cfg import *
 
+process.preselectionMuHTMC2 = process.preselectionMuHTMC2ZJets
 process.preselectionElHTMC2 = process.preselectionElHTMC2ZJets
 
 process.weightProducer.Method = "Constant"

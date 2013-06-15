@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -166,7 +166,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.MuHadSelection *
                                  process.analyzeSUSYBjets1m_preselection *
-                                 process.analyzeRA4Muons *
+                                 #process.analyzeRA4Muons *
                                  
                                  process.muonSelection*
                                  process.analyzeSUSYBjets1m_leptonSelection *
