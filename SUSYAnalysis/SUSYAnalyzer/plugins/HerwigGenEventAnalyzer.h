@@ -85,6 +85,8 @@ class HerwigGenEventAnalyzer : public edm::EDAnalyzer {
   TH1F* dijetBino3_;
   TH1F* dijetWino3_;
 
+  TH1F* dijetMass_;
+
   // mjj variables
   TH1F* minj3_;
   TH1F* min123_;

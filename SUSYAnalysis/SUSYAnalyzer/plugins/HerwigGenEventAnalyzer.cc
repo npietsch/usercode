@@ -78,6 +78,8 @@ HerwigGenEventAnalyzer::HerwigGenEventAnalyzer(const edm::ParameterSet& cfg):
   dijetBino3_ = fs->make<TH1F>("dijetBino3",    "m_{jj}",          40, 0.,  2000.);
   dijetWino3_ = fs->make<TH1F>("dijetWino3",    "m_{jj}",          40, 0.,  2000.);
 
+  dijetMass_ = fs->make<TH1F>("dijetMass",    "m_{jj}",          40, 0.,  2000.);
+
   //-------------------------------------------------
   // Histograms for mjj variables
   //-------------------------------------------------
@@ -299,18 +301,18 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 	{
 	  for(int jdx=0; jdx<(int)jets->size(); ++jdx)
 	    {
-	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
-		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 1.) )
+	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.2 &&
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt()))< 0.3 )
 		{
 		  jetIndicesA1.push_back(jdx);
 		}
 	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
-		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 2.) )
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt()))< 0.3 )
 		{
 		  jetIndicesA2.push_back(jdx);
 		}
-	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
-		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 3.) )
+	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.4 &&
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt()))< 0.3 )
 		{
 		  jetIndicesA3.push_back(jdx);
 		}
@@ -323,8 +325,8 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA1[0]].p4()+(*jets)[jetIndicesA1[1]].p4());
 	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
 	      
-	      if(GenEvent->DecayA()=="Bino") dijetBino1_->Fill(dijetAMass);
-	      if(GenEvent->DecayA()=="Wino") dijetWino1_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Bino") dijetBino1_->Fill(dijetAMass, weight);
+	      if(GenEvent->DecayA()=="Wino") dijetWino1_->Fill(dijetAMass, weight);
     	    }	    
 	}
       if(jetIndicesA2.size()==2)
@@ -334,8 +336,8 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA2[0]].p4()+(*jets)[jetIndicesA2[1]].p4());
 	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
 	      
-	      if(GenEvent->DecayA()=="Bino") dijetBino2_->Fill(dijetAMass);
-	      if(GenEvent->DecayA()=="Wino") dijetWino2_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Bino") dijetBino2_->Fill(dijetAMass, weight);
+	      if(GenEvent->DecayA()=="Wino") dijetWino2_->Fill(dijetAMass, weight);
     	    }	    
 	}
       if(jetIndicesA3.size()==2)
@@ -345,8 +347,8 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA3[0]].p4()+(*jets)[jetIndicesA3[1]].p4());
 	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
 	      
-	      if(GenEvent->DecayA()=="Bino") dijetBino3_->Fill(dijetAMass);
-	      if(GenEvent->DecayA()=="Wino") dijetWino3_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Bino") dijetBino3_->Fill(dijetAMass, weight);
+	      if(GenEvent->DecayA()=="Wino") dijetWino3_->Fill(dijetAMass, weight);
     	    }	    
 	}
     }
@@ -467,6 +469,15 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 
       for(int i=0; i<(int)jets->size(); ++i)
 	{
+	  for(int j=i+1; j<(int)jets->size(); ++j)
+	    {
+
+	      reco::Particle::LorentzVector dijetP4=(*jets)[i].p4()+(*jets)[j].p4();
+	      double dijetMass=sqrt(dijetP4.Dot(dijetP4));
+
+	      dijetMass_->Fill(dijetMass, weight);
+	    }
+
 // 	  if((*jets)[i].genParton())
 // 	    {
 // 	      std::cout << (*jets)[i].genParton()->status() << std::endl;
