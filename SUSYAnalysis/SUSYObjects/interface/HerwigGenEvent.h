@@ -23,6 +23,8 @@ class HerwigGenEvent {
   bool isGluino(const reco::GenParticle & genParticle) const;
   /// is squark of first or second generation?
   bool isSquark(const reco::Candidate* candidate) const;
+  /// is quark of first or second generation?
+  bool isQuark(const reco::Candidate* candidate) const;
   /// gluinos
   std::vector<unsigned int> GluinoIndices() const;
   /// number of gluinos
@@ -43,10 +45,16 @@ class HerwigGenEvent {
   bool WinoOther() const;
   // isOtherOther ?
   bool OtherOther() const;
+  // isOther ?
+  bool Other() const;
   // invariant dijet mass form Decay chain A
   double qqbarA() const;
   // invariant dijet mass form Decay chain A
   double qqbarB() const;
+  // quarks form decay chain A
+  std::vector<reco::GenParticle*> QuarksA() const;
+  // quarks form decay chain B
+  std::vector<reco::GenParticle*> QuarksB() const;
 
  protected:
   

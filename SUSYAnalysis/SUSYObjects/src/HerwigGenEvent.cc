@@ -43,6 +43,21 @@ bool HerwigGenEvent::isSquark(const reco::Candidate* candidate) const
   return squark;
 }
 
+// is quark of first or second generation?
+bool HerwigGenEvent::isQuark(const reco::Candidate* candidate) const
+{
+  bool quark=false;
+  if(abs(candidate->pdgId())==1 ||
+     abs(candidate->pdgId())==2 ||
+     abs(candidate->pdgId())==3 ||
+     abs(candidate->pdgId())==4)
+    {
+      quark=true;
+    }
+  
+  return quark;
+}
+
 // gluinos
 std::vector<unsigned int> HerwigGenEvent::GluinoIndices() const
 {
@@ -62,8 +77,8 @@ std::vector<unsigned int> HerwigGenEvent::GluinoIndices() const
 // number of gluinos
 int HerwigGenEvent::nGluinos() const
 {
-  int ngluinos=0;
-  //int ngluinos=GluinoIndices().size();
+  //int ngluinos=0;
+  int ngluinos=GluinoIndices().size();
 
   return ngluinos;
 }
@@ -83,6 +98,11 @@ std::string HerwigGenEvent::DecayA() const
 	    {
 	      chain="Bino";
 	    }
+	  if(abs(partsColl[gluinos[0]].daughter(gdx)->pdgId()) == 1000023 ||
+	     abs(partsColl[gluinos[0]].daughter(gdx)->pdgId()) == 1000024  )
+	    {
+	      chain="Wino";
+	    }
 	}
     }
   
@@ -100,6 +120,10 @@ std::string HerwigGenEvent::DecayB() const
     {
       for(unsigned int gdx=0; gdx<partsColl[gluinos[1]].numberOfDaughters(); ++gdx)
 	{
+	  if(abs(partsColl[gluinos[1]].daughter(gdx)->pdgId()) == 1000022)
+	    {
+	      chain="Bino";
+	    }
 	  if(abs(partsColl[gluinos[1]].daughter(gdx)->pdgId()) == 1000023 ||
 	     abs(partsColl[gluinos[1]].daughter(gdx)->pdgId()) == 1000024  )
 	    {
@@ -110,7 +134,6 @@ std::string HerwigGenEvent::DecayB() const
   
   return chain;
 }
-
 
 // is BinoBino
 bool HerwigGenEvent::BinoBino() const
@@ -177,19 +200,31 @@ bool HerwigGenEvent::WinoOther() const
   return winoOther;
 }
 
-// is WinoOther
+// is Other
+bool HerwigGenEvent::Other() const
+{
+  bool other=false;
+
+  if( BinoBino() == false && BinoOther() == false && BinoWino() == false && WinoWino() == false && WinoOther() == false)
+    {
+      other = true;
+    }
+  
+  return other;
+}
+
+// is OtherOther
 bool HerwigGenEvent::OtherOther() const
 {
   bool otherOther=false;
 
-  if( (DecayA()=="Other" && DecayB()=="Other"))
+  if( DecayA()=="Other" && DecayB()=="Other" )
     {
       otherOther = true;
     }
   
   return otherOther;
 }
-
 // qqbarA
 double HerwigGenEvent::qqbarA() const
 {
@@ -202,13 +237,13 @@ double HerwigGenEvent::qqbarA() const
     {
       for(unsigned int gdx=0; gdx<partsColl[gluinos[0]].numberOfDaughters(); ++gdx)
 	{
-	  if(isSquark(partsColl[gluinos[0]].daughter(gdx)) == true)
+	  if(isQuark(partsColl[gluinos[0]].daughter(gdx)) == true)
 	    {
-	      std::cout << partsColl[gluinos[0]].daughter(gdx)->pdgId() << std::endl;
+	      //std::cout << partsColl[gluinos[0]].daughter(gdx)->pdgId() << std::endl;
 	      P4=P4+partsColl[gluinos[0]].daughter(gdx)->p4();
 	    }
 	}
-      qqbarMass=P4.M();
+      qqbarMass=sqrt(P4.Dot(P4));
     }
   
   return qqbarMass;
@@ -226,9 +261,9 @@ double HerwigGenEvent::qqbarB() const
     {
       for(unsigned int gdx=0; gdx<partsColl[gluinos[1]].numberOfDaughters(); ++gdx)
 	{
-	  if(isSquark(partsColl[gluinos[1]].daughter(gdx)) == true)
+	  if(isQuark(partsColl[gluinos[1]].daughter(gdx)) == true)
 	    {
-	      std::cout << partsColl[gluinos[1]].daughter(gdx)->pdgId() << std::endl;
+	      //std::cout << partsColl[gluinos[1]].daughter(gdx)->pdgId() << std::endl;
 	      P4=P4+partsColl[gluinos[1]].daughter(gdx)->p4();
 	    }
 	}
@@ -236,4 +271,58 @@ double HerwigGenEvent::qqbarB() const
     }
   
   return qqbarMass;
+}
+
+// quark indices A
+std::vector<reco::GenParticle*> HerwigGenEvent::QuarksA() const
+{
+  const reco::GenParticleCollection & partsColl = *particles_;
+  std::vector<unsigned int> gluinos=GluinoIndices();
+  std::vector<reco::GenParticle*> quarks;
+
+  if(GluinoIndices().size()>0)
+    {
+      for(unsigned int gdx=0; gdx<partsColl[gluinos[0]].numberOfDaughters(); ++gdx)
+	{
+	  if(isQuark(partsColl[gluinos[0]].daughter(gdx)) == true)
+	    {
+	      reco::GenParticle* quark = new reco::GenParticle( partsColl[gluinos[0]].daughter(gdx)->threeCharge(),
+								partsColl[gluinos[0]].daughter(gdx)->p4(), 
+								partsColl[gluinos[0]].daughter(gdx)->vertex(),
+								partsColl[gluinos[0]].daughter(gdx)->pdgId(), 
+								partsColl[gluinos[0]].daughter(gdx)->status(),
+								false );
+	      quarks.push_back(quark);
+	    }
+	}
+    }
+  
+  return quarks;
+}
+ 
+// quark indices B
+std::vector<reco::GenParticle*> HerwigGenEvent::QuarksB() const
+{
+  const reco::GenParticleCollection & partsColl = *particles_;
+  std::vector<unsigned int> gluinos=GluinoIndices();
+  std::vector<reco::GenParticle*> quarks;
+
+  if(GluinoIndices().size()>0)
+    {
+      for(unsigned int gdx=0; gdx<partsColl[gluinos[1]].numberOfDaughters(); ++gdx)
+	{
+	  if(isQuark(partsColl[gluinos[1]].daughter(gdx)) == true)
+	    {
+	      reco::GenParticle* quark = new reco::GenParticle( partsColl[gluinos[1]].daughter(gdx)->threeCharge(),
+								partsColl[gluinos[1]].daughter(gdx)->p4(), 
+								partsColl[gluinos[1]].daughter(gdx)->vertex(),
+								partsColl[gluinos[1]].daughter(gdx)->pdgId(), 
+								partsColl[gluinos[1]].daughter(gdx)->status(),
+								false );
+	      quarks.push_back(quark);
+	    }
+	}
+    }
+  
+  return quarks;
 }

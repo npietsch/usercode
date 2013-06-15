@@ -16,5 +16,6 @@ analyzeHerwigGenEvent = cms.EDAnalyzer("HerwigGenEventAnalyzer",
                                        PVSrc = cms.InputTag("offlinePrimaryVertices"),
                                        PUInfo = cms.InputTag("addPileupInfo"),
                                        RA2Weight = cms.InputTag("weightProducer:weight"),
-                                       genParticles = cms.InputTag("genParticles")
+                                       genParticles = cms.InputTag("genParticles"),
+                                       HerwigGenEvent = cms.InputTag("HerwigGenEvent")
                                        )

@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(2000),
+    input = cms.untracked.int32(10000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -50,8 +50,8 @@ process.load("SUSYAnalysis.SUSYEventProducers.producers.HerwigGenEventProducer_c
 
 process.load("SUSYAnalysis.SUSYEventProducers.producers.HerwigGenEventFilter_cfi")
 
-#process.BinoFilter = process.HerwigGenEventFilter.clone(cut='BinoOther')
-process.BinoFilter = process.HerwigGenEventFilter.clone(cut='nGluinos()==1')
+process.BinoFilter = process.HerwigGenEventFilter.clone(cut='BinoWino')
+#process.BinoFilter = process.HerwigGenEventFilter.clone(cut='qqbarA>50.')
 
 #-----------------------------------------------------------------
 # Import modules to filter events on generator level 
@@ -104,6 +104,10 @@ process.L2L3ResidualMC = cms.ESSource(
 #------------------------------------------------------------------
 # Load and configure analyzer modules
 #------------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYAnalyzer.HerwigGenEventAnalyzer_cfi")
+
+process.test = process.analyzeHerwigGenEvent.clone()
 
 process.load("SUSYAnalysis.SUSYAnalyzer.GluinoAnalyzer_cfi")
 
@@ -290,6 +294,7 @@ process.Bino_45Jets = cms.Path(# execute producer and preselection modules
                                process.makeObjects *
                                process.makeSUSYGenEvt *
                                process.HerwigGenEvent *
+                               process.test *
                                process.BinoFilter *
                                
                                # execute filter and analyzer modules

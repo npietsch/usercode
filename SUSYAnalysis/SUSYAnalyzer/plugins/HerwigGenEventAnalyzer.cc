@@ -66,6 +66,18 @@ HerwigGenEventAnalyzer::HerwigGenEventAnalyzer(const edm::ParameterSet& cfg):
   qqbarBino_ = fs->make<TH1F>("qqbarBino",    "m_{qqbar}",          40, 0.,  2000.);
   qqbarWino_ = fs->make<TH1F>("qqbarWino",    "m_{qqbar}",          40, 0.,  2000.);
 
+  qqbarBinoTest_ = fs->make<TH1F>("qqbarBinoTest",    "m_{qqbar}",          40, 0.,  2000.);
+  qqbarWinoTest_ = fs->make<TH1F>("qqbarWinoTest",    "m_{qqbar}",          40, 0.,  2000.);
+
+  dijetBino1_ = fs->make<TH1F>("dijetBino1",    "m_{jj}",          40, 0.,  2000.);
+  dijetWino1_ = fs->make<TH1F>("dijetWino1",    "m_{jj}",          40, 0.,  2000.);
+
+  dijetBino2_ = fs->make<TH1F>("dijetBino2",    "m_{jj}",          40, 0.,  2000.);
+  dijetWino2_ = fs->make<TH1F>("dijetWino2",    "m_{jj}",          40, 0.,  2000.);
+
+  dijetBino3_ = fs->make<TH1F>("dijetBino3",    "m_{jj}",          40, 0.,  2000.);
+  dijetWino3_ = fs->make<TH1F>("dijetWino3",    "m_{jj}",          40, 0.,  2000.);
+
   //-------------------------------------------------
   // Histograms for mjj variables
   //-------------------------------------------------
@@ -256,9 +268,89 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
   if(GenEvent->DecayA()=="Bino") qqbarBino_->Fill(GenEvent->qqbarA());
   if(GenEvent->DecayA()=="Wino") qqbarWino_->Fill(GenEvent->qqbarA());
 
-  if(GenEvent->DecayB()=="Bino") qqbarBino_->Fill(GenEvent->qqbarB());
-  if(GenEvent->DecayB()=="Wino") qqbarWino_->Fill(GenEvent->qqbarB());
+  //if(GenEvent->DecayB()=="Bino") qqbarBino_->Fill(GenEvent->qqbarB());
+  //if(GenEvent->DecayB()=="Wino") qqbarWino_->Fill(GenEvent->qqbarB());
 
+  //if(GenEvent->DecayA()=="Bino") std::cout << "GenEvent->QuarksA().size(): " << GenEvent->QuarksA().size() <<std::endl;
+
+  if(GenEvent->QuarksA().size() == 2)
+    {
+      math::XYZTLorentzVector qqbarATestP4=GenEvent->QuarksA()[0]->p4()+GenEvent->QuarksA()[1]->p4();
+
+      double qqbarATestMass=sqrt(qqbarATestP4.Dot(qqbarATestP4));
+
+      if(GenEvent->DecayA()=="Bino") qqbarBinoTest_->Fill(qqbarATestMass);
+      if(GenEvent->DecayA()=="Wino") qqbarWinoTest_->Fill(qqbarATestMass);
+    }
+ 
+  //-------------------------------------------------
+  // Analysis of matched jets
+  //-------------------------------------------------
+  
+  // Decay chain A
+  if(GenEvent->QuarksA().size() == 2)
+    {
+      std::vector<int> jetIndicesA1;
+      std::vector<int> jetIndicesA2;
+      std::vector<int> jetIndicesA3;
+
+      // dR < 0.3 and ptError < 1,2,3
+      for(int gdx=0; gdx<(int)GenEvent->QuarksA().size(); ++gdx)
+	{
+	  for(int jdx=0; jdx<(int)jets->size(); ++jdx)
+	    {
+	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 1.) )
+		{
+		  jetIndicesA1.push_back(jdx);
+		}
+	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 2.) )
+		{
+		  jetIndicesA2.push_back(jdx);
+		}
+	      if( deltaR(GenEvent->QuarksA()[gdx]->eta(),GenEvent->QuarksA()[gdx]->phi(),(*jets)[jdx].eta(),(*jets)[jdx].phi())<0.3 &&
+		  abs( (GenEvent->QuarksA()[gdx]->pt()-(*jets)[jdx].pt()) / (GenEvent->QuarksA()[gdx]->pt())< 3.) )
+		{
+		  jetIndicesA3.push_back(jdx);
+		}
+	    }
+	}
+      if(jetIndicesA1.size()==2)
+	{
+	  if(jetIndicesA1[0] != jetIndicesA1[1])
+	    {
+	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA1[0]].p4()+(*jets)[jetIndicesA1[1]].p4());
+	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
+	      
+	      if(GenEvent->DecayA()=="Bino") dijetBino1_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Wino") dijetWino1_->Fill(dijetAMass);
+    	    }	    
+	}
+      if(jetIndicesA2.size()==2)
+	{
+	  if(jetIndicesA2[0] != jetIndicesA2[1])
+	    {
+	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA2[0]].p4()+(*jets)[jetIndicesA2[1]].p4());
+	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
+	      
+	      if(GenEvent->DecayA()=="Bino") dijetBino2_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Wino") dijetWino2_->Fill(dijetAMass);
+    	    }	    
+	}
+      if(jetIndicesA3.size()==2)
+	{
+	  if(jetIndicesA3[0] != jetIndicesA3[1])
+	    {
+	      math::XYZTLorentzVector dijetAP4=((*jets)[jetIndicesA3[0]].p4()+(*jets)[jetIndicesA3[1]].p4());
+	      double dijetAMass = sqrt(dijetAP4.Dot(dijetAP4));
+	      
+	      if(GenEvent->DecayA()=="Bino") dijetBino3_->Fill(dijetAMass);
+	      if(GenEvent->DecayA()=="Wino") dijetWino3_->Fill(dijetAMass);
+    	    }	    
+	}
+    }
+  
   //-------------------------------------------------
   // Temp
   //-------------------------------------------------
@@ -375,6 +467,11 @@ HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& se
 
       for(int i=0; i<(int)jets->size(); ++i)
 	{
+// 	  if((*jets)[i].genParton())
+// 	    {
+// 	      std::cout << (*jets)[i].genParton()->status() << std::endl;
+// 	    }
+
 	  //std::cout << (*jets)[i].partonFlavour() << std::endl;
 	  if(i<8)
 	    {
