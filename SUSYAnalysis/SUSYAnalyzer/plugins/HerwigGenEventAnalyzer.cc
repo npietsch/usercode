@@ -2,7 +2,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
-#include "SUSYAnalysis/SUSYAnalyzer/plugins/GluinoAnalyzer.h"
+#include "SUSYAnalysis/SUSYAnalyzer/plugins/HerwigGenEventAnalyzer.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtSemiLeptonicEvent.h"
 #include  <stdio.h>
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
@@ -13,26 +13,28 @@
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
 #include "SUSYAnalysis/SUSYObjects/interface/SUSYGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/HerwigGenEvent.h"
 #include <Math/RotationZ.h>
 #include "TVector3.h"
 #include "TRandom.h"
 
 using namespace std;
  
-GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
-  jets_         (cfg.getParameter<edm::InputTag>("jets")),
-  looseJets_    (cfg.getParameter<edm::InputTag>("looseJets")),
-  bjets_        (cfg.getParameter<edm::InputTag>("bjets")),
-  muons_        (cfg.getParameter<edm::InputTag>("muons")),
-  electrons_    (cfg.getParameter<edm::InputTag>("electrons")),
-  vetoMuons_    (cfg.getParameter<edm::InputTag>("vetoMuons")),
-  vetoElectrons_(cfg.getParameter<edm::InputTag>("vetoElectrons")),
-  met_          (cfg.getParameter<edm::InputTag>("met")),
-  inputGenEvent_(cfg.getParameter<edm::InputTag>("susyGenEvent")),
-  PVSrc_        (cfg.getParameter<edm::InputTag>("PVSrc")),
-  PUInfo_       (cfg.getParameter<edm::InputTag>("PUInfo")),
-  RA2Weight_    (cfg.getParameter<edm::InputTag>("RA2Weight") ),
-  genParticles_ (cfg.getParameter<edm::InputTag>("genParticles" ) )
+HerwigGenEventAnalyzer::HerwigGenEventAnalyzer(const edm::ParameterSet& cfg):
+  jets_           (cfg.getParameter<edm::InputTag>("jets")),
+  looseJets_      (cfg.getParameter<edm::InputTag>("looseJets")),
+  bjets_          (cfg.getParameter<edm::InputTag>("bjets")),
+  muons_          (cfg.getParameter<edm::InputTag>("muons")),
+  electrons_      (cfg.getParameter<edm::InputTag>("electrons")),
+  vetoMuons_      (cfg.getParameter<edm::InputTag>("vetoMuons")),
+  vetoElectrons_  (cfg.getParameter<edm::InputTag>("vetoElectrons")),
+  met_            (cfg.getParameter<edm::InputTag>("met")),
+  inputGenEvent_  (cfg.getParameter<edm::InputTag>("susyGenEvent")),
+  PVSrc_          (cfg.getParameter<edm::InputTag>("PVSrc")),
+  PUInfo_         (cfg.getParameter<edm::InputTag>("PUInfo")),
+  RA2Weight_      (cfg.getParameter<edm::InputTag>("RA2Weight") ),
+  genParticles_   (cfg.getParameter<edm::InputTag>("genParticles" ) ),
+  HerwigGenEvent_ (cfg.getParameter<edm::InputTag>("HerwigGenEvent" ) )
 
 
 { 
@@ -56,6 +58,13 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
   nPU_     = fs->make<TH1F>("nPU",     "nPU",      50, 0.5,  50.5);
 
   weights_ = fs->make<TH1F>("weights", "weights", 100,   1,  100);
+
+  //-------------------------------------------------
+  // GenEvent plots
+  //-------------------------------------------------
+
+  qqbarBino_ = fs->make<TH1F>("qqbarBino",    "m_{qqbar}",          40, 0.,  2000.);
+  qqbarWino_ = fs->make<TH1F>("qqbarWino",    "m_{qqbar}",          40, 0.,  2000.);
 
   //-------------------------------------------------
   // Histograms for mjj variables
@@ -178,12 +187,12 @@ GluinoAnalyzer::GluinoAnalyzer(const edm::ParameterSet& cfg):
 
 }
 
-GluinoAnalyzer::~GluinoAnalyzer()
+HerwigGenEventAnalyzer::~HerwigGenEventAnalyzer()
 {
 }
 
 void
-GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
+HerwigGenEventAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
   //-------------------------------------------------
   // Fetch input collection from the event content
@@ -236,6 +245,19 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nPU_->Fill(nvtx,          weight);
 
   weights_ ->Fill(weight);
+
+  //-------------------------------------------------
+  // HerwigGenEvent Analysis
+  //-------------------------------------------------
+
+  edm::Handle<HerwigGenEvent> GenEvent;
+  evt.getByLabel(HerwigGenEvent_, GenEvent);
+
+  if(GenEvent->DecayA()=="Bino") qqbarBino_->Fill(GenEvent->qqbarA());
+  if(GenEvent->DecayA()=="Wino") qqbarWino_->Fill(GenEvent->qqbarA());
+
+  if(GenEvent->DecayB()=="Bino") qqbarBino_->Fill(GenEvent->qqbarB());
+  if(GenEvent->DecayB()=="Wino") qqbarWino_->Fill(GenEvent->qqbarB());
 
   //-------------------------------------------------
   // Temp
@@ -333,7 +355,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   int nJets150=0;
   int nJets200=0;
 
-  //std::cout << "GluinoAnalyzer: nJets=" << jets->size() << std::endl;
+  //std::cout << "HerwigGenEventAnalyzer: nJets=" << jets->size() << std::endl;
 
   if(jets->size()>0)
     {
@@ -349,7 +371,7 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
       MHT=MHTP4.pt();
 
-      //std::cout << "GluinoAnalyzer: " << MHT << std::endl;
+      //std::cout << "HerwigGenEventAnalyzer: " << MHT << std::endl;
 
       for(int i=0; i<(int)jets->size(); ++i)
 	{
@@ -496,10 +518,10 @@ GluinoAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 }
 
 
-void GluinoAnalyzer::beginJob()
+void HerwigGenEventAnalyzer::beginJob()
 {  
 } 
 
-void GluinoAnalyzer::endJob()
+void HerwigGenEventAnalyzer::endJob()
 {
 }
