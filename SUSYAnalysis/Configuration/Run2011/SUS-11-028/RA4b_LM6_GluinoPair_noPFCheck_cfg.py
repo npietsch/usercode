@@ -20,7 +20,10 @@ process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
 process.goodMuons = process.vertexSelectedGoodMuons.clone()
+process.analyzeRA4Muons.pfMuons = "goodMuons"
 
+process.preselectionMuHTMC2 = process.preselectionGluinoPair
+process.preselectionElHTMC2 = process.preselectionGluinoPair
 process.preselectionLepHTMC2 = process.preselectionGluinoPair
 
 # Choose input files

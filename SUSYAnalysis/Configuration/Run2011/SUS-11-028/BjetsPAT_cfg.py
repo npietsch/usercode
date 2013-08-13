@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(5000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -154,10 +154,10 @@ process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff
 ## muon selection path
 process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  #process.printGenParticles *
+                                 process.makeSUSYGenEvt *
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *
-                                 process.makeSUSYGenEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
@@ -166,7 +166,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.MuHadSelection *
                                  process.analyzeSUSYBjets1m_preselection *
-                                 #process.analyzeRA4Muons *
+                                 process.analyzeRA4Muons *
                                  
                                  process.muonSelection*
                                  process.analyzeSUSYBjets1m_leptonSelection *
@@ -188,10 +188,10 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
 
 ## electron selection path
 process.ElectronSelection = cms.Path(# execute producer and preselection modules
+                                 process.makeSUSYGenEvt *
                                  process.scaledJetEnergy *
                                  process.preselectionElHTMC2 *
                                  process.makeObjects *
-                                 process.makeSUSYGenEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
