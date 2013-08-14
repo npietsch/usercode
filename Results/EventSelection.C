@@ -56,13 +56,13 @@ void EventSelection(){
 	TFile* ElHad_file     = new TFile("ElHad.root",        "READ");
 
 	//addMCHistogram(TString name, int xmin, int xmax)	
-//  	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{muon}","Events / 10 GeV", 0,  300, 0.1, 1e5, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Eta", "#eta^{muon}", "Events",         -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{muon}","Events",  0,  300, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Eta", "#eta^{muon}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets",  "Events",        -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY1m_leptonSelection/nPV", "Number of primary vertices", "Events",  -0.5,  50.5, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1m_leptonSelection/nPV", "Number of primary vertices", "Events",  -0.5,  50.5, 0.1, 1e5, -0.1, 2.1, 1);
 
-// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{electron}","Events / 10 GeV", 0,  300, 0.1, 1e5, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{electron}", "Events",         -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
+// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{electron}","Events",  0,  300, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{electron}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 
 //	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
@@ -132,8 +132,8 @@ void EventSelection(){
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
-	    sr.AddExtra(LM3,  kBlue,   440000,   3.438*1.4,   1,  2); 
-	    sr.AddExtra(LM8,  kBlack,  421190,   0.73*1.41,   2,  3);
+	    sr.AddExtra(LM8,  kBlue,   421190,   0.73*1.41,   1,  2); 
+	    sr.AddExtra(LM6,  kBlack,  427625,   0.404,       2,  3);
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,700);
 	    sr.DrawClone();
@@ -149,8 +149,8 @@ void EventSelection(){
 	    leg->AddEntry(SingleTop, "Single Top",       "f");
 	    leg->AddEntry(ZJets,     "Z/#gamma* + Jets", "f");
 	    leg->AddEntry(QCD,       "QCD",              "f");
-	    leg->AddEntry(LM3,       "LM3",              "lp");
 	    leg->AddEntry(LM8,       "LM8",              "lp");
+	    leg->AddEntry(LM6,       "LM6",              "lp");
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
 	    	    
