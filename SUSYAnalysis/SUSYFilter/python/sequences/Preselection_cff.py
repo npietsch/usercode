@@ -182,6 +182,7 @@ SbottomPairFilter  = SUSYGenEventFilter.clone(cut='SbottomSbottomDecay')
 GluinoSquarkFilter = SUSYGenEventFilter.clone(cut='GluinoSquarkDecay')
 GluinoPairFilter   = SUSYGenEventFilter.clone(cut='GluinoGluinoDecay')
 SquarkPairFilter   = SUSYGenEventFilter.clone(cut='SquarkSquarkDecay')
+OtherFilter        = SUSYGenEventFilter.clone(cut='!StopStopDecay && !SbottomSbottomDecay && !GluinoSquarkDecay && !GluinoGluinoDecay && !SquarkSquarkDecay')
 
 preselectionStopPair = cms.Sequence(goodVertices *
                                     oneGoodVertex *
@@ -212,6 +213,12 @@ preselectionSquarkPair = cms.Sequence(goodVertices *
                                       scrapingVeto *
                                       SquarkPairFilter
                                       )
+
+preselectionOther = cms.Sequence(goodVertices *
+                                 oneGoodVertex *
+                                 scrapingVeto *
+                                 OtherFilter
+                                 )
 
 preselection14TeV = cms.Sequence(goodVertices *
                                  oneGoodVertex #*
