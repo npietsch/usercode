@@ -209,7 +209,7 @@ class StackWithRatio{
 
       // ratio
       pad2->cd();
-      theData->SetNdivisions(11, "X");
+      theData->SetNdivisions(5, "X");
       theData->SetTitleOffset(0.9, "x");
       theData->SetTitleOffset(0.5, "y");
       theData->SetYTitle(yRatioTitle);

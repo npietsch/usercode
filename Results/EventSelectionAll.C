@@ -104,11 +104,12 @@ void EventSelectionAll(){
 //  	addMCHistogram("analyzeSUSY3b", "1/YMET",            "Y_{MET}","Events", 0,  200, 0.1, 1e3, -0.1, 2.1, 0);
 
 //  	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets_2", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 1);
+  	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 0);
 
 // 	addMCHistogram("analyzeSUSY",   "leptonSelection/nJets", "Number of jets","Events", -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/nJets",    "Number of jets","Events",  3.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY1b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY3b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY3b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/HT",    "H_{T} [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/HT", "H_{T} [GeV]","Events",  0, 2000, 0.1, 1e4, -0.1, 2.1, 1);
