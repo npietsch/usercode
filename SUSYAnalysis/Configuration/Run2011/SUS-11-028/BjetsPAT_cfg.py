@@ -147,6 +147,14 @@ process.analyzeRA4Electrons.useEventWeight = True
 
 process.load("TopQuarkAnalysis.TopEventProducers.sequences.printGenParticles_cff")
 
+process.load("TopAnalysis.TopAnalyzer.BTags_cfi")
+
+process.analyzeBTagsMu = process.analyzeBTags.clone()
+process.analyzeBTagsEl = process.analyzeBTags.clone()
+
+process.analyzeBTagsMu.src = "goodJets"
+process.analyzeBTagsEl.src = "goodJets"
+
 #--------------------------
 # Selection paths
 #--------------------------
@@ -176,6 +184,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightMuJER *
+                                 process.analyzeBTagsMu *
                                  
                                  process.monitorBtagWeightingMu *
                                  process.analyzeSUSYBjets1b1m_1 *
@@ -210,6 +219,7 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightElJER *
+                                 process.analyzeBTagsEl *
                                  
                                  process.monitorBtagWeightingEl *
                                  process.analyzeSUSYBjets1b1e_1 *
