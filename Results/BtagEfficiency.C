@@ -162,7 +162,7 @@ int BtagEfficiency()
 		       Temp->Scale(0.013);
 		       Temp->SetMaximum(10000);
 		       Temp->SetMinimum(0.1);
-		       Temp->GetYaxis()->SetTitle("Selected Jets");
+		       Temp->GetYaxis()->SetTitle("Matched Jets");
 		     }
 
 		   // Axes
