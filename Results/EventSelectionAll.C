@@ -88,7 +88,7 @@ void EventSelectionAll(){
 // 	addMCHistogram("analyzeSUSY2b", "1/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY2b", "1/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
 
-// 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 0);
+ 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Et", "p_{T}^{jet1}","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet1_Et", "p_{T}^{jet2}","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 0);
@@ -104,7 +104,7 @@ void EventSelectionAll(){
 //  	addMCHistogram("analyzeSUSY3b", "1/YMET",            "Y_{MET}","Events", 0,  200, 0.1, 1e3, -0.1, 2.1, 0);
 
 //  	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets_2", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 1);
-  	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 0);
+//   	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 0);
 
 // 	addMCHistogram("analyzeSUSY",   "leptonSelection/nJets", "Number of jets","Events", -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/nJets",    "Number of jets","Events",  3.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
@@ -172,7 +172,8 @@ void EventSelectionAll(){
 	    
 	    sr.pad1->cd(); // stack
 	    
-	    TLegend *leg = new TLegend(0.68, 0.45, 0.9499, 0.9);
+	    //TLegend *leg = new TLegend(0.68, 0.45, 0.9499, 0.9);
+	    TLegend *leg = new TLegend(.1,.45,.37,.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
  	    leg->AddEntry(data,      "Data",             "lep");

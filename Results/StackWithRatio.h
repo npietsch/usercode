@@ -209,7 +209,7 @@ class StackWithRatio{
 
       // ratio
       pad2->cd();
-      theData->SetNdivisions(5, "X");
+      //theData->SetNdivisions(5, "X");
       theData->SetTitleOffset(0.9, "x");
       theData->SetTitleOffset(0.5, "y");
       theData->SetYTitle(yRatioTitle);
@@ -222,7 +222,6 @@ class StackWithRatio{
       if(ratioYmin!=ratioYmax){
 	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);
       }
-      
       // mean ratio 
       double imc  =sumMC->Integral();
       double idata=theData->Integral();
