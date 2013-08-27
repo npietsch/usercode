@@ -19,7 +19,7 @@ process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 
 #Choose input files
 process.source = cms.Source("PoolSource",
-                                                        fileNames = cms.untracked.vstring(
+                            fileNames = cms.untracked.vstring(
     '/store/user/cakir/Summer11/WJets_HT250_300//Summer11_100_1_Bml.root',
     '/store/user/cakir/Summer11/WJets_HT250_300//Summer11_101_1_fW5.root',
     '/store/user/cakir/Summer11/WJets_HT250_300//Summer11_10_1_vPs.root',

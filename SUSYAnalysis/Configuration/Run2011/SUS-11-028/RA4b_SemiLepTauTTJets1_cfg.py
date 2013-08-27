@@ -19,9 +19,9 @@ process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
-process.preselectionLepHTMC2 = process.preselectionSemiLepTau
-process.preselectionMuHTMC2 = process.preselectionSemiLepTau
-process.preselectionElHTMC2 = process.preselectionSemiLepTau
+process.preselectionLepHTMC2 = process.preselectionSemiLepTauLep
+process.preselectionMuHTMC2 = process.preselectionSemiLepTauLep
+process.preselectionElHTMC2 = process.preselectionSemiLepTauLep
 
 # Choose input files
 process.source = cms.Source("PoolSource",
