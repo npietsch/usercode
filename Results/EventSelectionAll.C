@@ -196,6 +196,13 @@ void EventSelectionAll(){
 	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV");
 	    label->Draw();
 
+	    // TLine
+	    TLine * line = new TLine(3.3, 0.1, 3.3, 1e5);
+	    line->SetLineWidth(2);
+	    line->SetLineStyle(2);
+	    line->SetLineColor(1);
+	    line->Draw("same");
+
 // 	    TLatex *t1 = new TLatex(0,1.8*Ymax[hdx],"L = 4.98 fb^{-1}, #sqrt{s} = 7 TeV");
 // 	    t1->SetTextSize(0.05);
 // 	    t1->Draw();
@@ -203,6 +210,5 @@ void EventSelectionAll(){
 	    TString NAME = Prefix[hdx]+"1l_"+Names[hdx]+".pdf";
 	    NAME.ReplaceAll("/", "_");
 	    c1->SaveAs(NAME);
-	  }
-	
+	  }	
 }

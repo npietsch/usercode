@@ -56,7 +56,7 @@ void addHistogram(TString name, TString label, int color, int lineStyle, int lin
 // main function
 int BtagEfficiency()
 {
-  bool Normalize=false;
+  bool Normalize=true;
 
   //--------------------------------------------------------------
   // Declare Samples
@@ -228,13 +228,20 @@ int BtagEfficiency()
 		 }
 	     }
 	   
-	   // 	   // Draw legend and labels
+	   // Draw legend and labels
  	   leg->Draw();
  	   label->Draw();
 	   
+	   // TLine
+	   TLine * line = new TLine(3.3, 0.00001, 3.3, 1);
+	   line->SetLineWidth(2);
+	   line->SetLineStyle(2);
+	   line->SetLineColor(1);
+	   line->Draw();
+	   
 	   // Save canvas
 	   if(Normalize == true) c1->SaveAs(Samples[fdx]+"_"+Selections[sdx]+"_normalized.pdf");
-	   else c1->SaveAs(Samples[fdx]+"_"+Selections[sdx]=".pdf"); 
+	   else c1->SaveAs(Samples[fdx]+"_"+Selections[sdx]+".pdf"); 
 	 }
      }
 }
