@@ -20,6 +20,8 @@ process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
 process.preselectionLepHTMC2 = process.preselectionSemiLepElMu
+process.preselectionMuHTMC2 = process.preselectionSemiLepElMu
+process.preselectionElHTMC2 = process.preselectionSemiLepElMu
 
 # Choose input files
 process.source = cms.Source("PoolSource",
