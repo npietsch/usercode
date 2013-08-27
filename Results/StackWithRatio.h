@@ -216,8 +216,8 @@ class StackWithRatio{
       theData->GetXaxis()->SetTitleSize(0.12);
       //dk theData->GetYaxis()->SetTitleSize(0.09);
       theData->GetYaxis()->SetTitleSize(0.1);
-      theData->GetYaxis()->SetLabelSize(0.09);
-      theData->GetXaxis()->SetLabelSize(0.09);
+      theData->GetYaxis()->SetLabelFont(0.09);
+      theData->GetXaxis()->SetLabelFont(0.09);
       
       if(ratioYmin!=ratioYmax){
 	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);

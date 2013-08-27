@@ -11,7 +11,8 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TPaveText.h"
-#include <TDRStyle_Projection.h>
+#include <TDRStyle.h>
+//#include <TDRStyle_Projection.h>
 
 vector<TString> Histograms;
 vector<TString> XLabels;
@@ -67,27 +68,29 @@ int ProjectionX()
   // Sample
   //-------------------------------------------------------------------------------
 
-  TFile* TTJets = new TFile("WJetsHT.root", "READ");
+  TFile* WJetsHT = new TFile("WJetsHT.root", "READ");
+
+
 
   //-------------------------------------------------------------------------------
   // addHistogram
   //-------------------------------------------------------------------------------
 
-  addHistogram("HT_YMET",    "HT [GeV]", 0, 1000);
+  addHistogram("HT_YMET", "H_{T} [GeV]", 300, 1000);
   
   //-------------------------------------------------------------------------------
   // addSelectionStep(TString step, TString selectionLabel)
   //-------------------------------------------------------------------------------
  
-  addSelectionStep("analyzeSUSY1m_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY1m_jetSelection", "lepton selection");
 
   //-------------------------------------------------------------------------------
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker
   //-------------------------------------------------------------------------------
 
-  addBin(9,  12,  "4 <  Y_{MET} < 6", 2, 22);
-  addBin(13, 20,  "6 < Y_{MET} < 10", 4, 23);
-  addBin(21, -1,  "Y_{MET} > 10 ",    1, 20);
+  addBin(7,  12,  "#kern[1]{3} < Y_{MET} < 6",   2, 22);
+  addBin(13, 20,  "#kern[1]{6} < Y_{MET} < 10",  4, 23);
+  addBin(21, -1,  "10 < Y_{MET}",                1, 20);
 
   //-------------------------------------------------------------------------------
   // Set style 
@@ -110,13 +113,22 @@ int ProjectionX()
 	  
 	  TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx], 1);
 
-	  TLegend *leg = new TLegend(.64,.62,.91,.89);
+	  TLegend *leg = new TLegend(.55,.62,.95,.93);
 	  leg->SetTextFont(42);
+	  leg->SetTextSize(0.05);
 	  leg->SetFillColor(0);
 	  leg->SetLineColor(1);
 	  leg->SetShadowColor(0);
 
-	  TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
+	  TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	  label->SetFillColor(0);
+	  label->SetTextFont(42);
+	  label->SetTextSize(0.043);
+	  label->SetBorderSize(0);
+	  label->SetTextAlign(12);
+	  TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+
+	  TH2F* Hist = (TH2F*)WJetsHT->Get(Selections[sdx]+"/"+Histograms[hdx]);
 
 	  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
 	    {
@@ -128,11 +140,19 @@ int ProjectionX()
 	      // edit projection
 	      Projection->SetTitle("");
 	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-	      Projection->GetXaxis()->SetTitleOffset(1.4);
+	      Projection->GetXaxis()->SetTitleOffset(1.2);
+	      Projection->GetXaxis()->SetTitleSize(0.05);
+	      Projection->GetXaxis()->SetTitleFont(42);
+	      Projection->GetYaxis()->SetTitleSize(0.05);
+	      Projection->GetYaxis()->SetTitleFont(42);
+
+	      Projection->GetYaxis()->SetTitleOffset(1.4);
 	      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-	      Projection->GetYaxis()->SetTitle("# events");
+	      Projection->GetYaxis()->SetTitle("a.u.");
 	      Projection->SetLineColor(BinColors[bin]);
 	      Projection->SetLineWidth(2);
+	      Projection->GetYaxis()->SetLabelFont(42);
+	      Projection->GetXaxis()->SetLabelFont(42);
 	      Projection->Scale(1/Projection->Integral(11,-1));
 	      Projection->SetMarkerStyle(MarkerStyles[bin]);
 	      Projection->SetMarkerColor(BinColors[bin]);
@@ -142,7 +162,8 @@ int ProjectionX()
 	      else Projection->DrawCopy("same");
 	    }
 	  leg->Draw();
-	  canvas->SetLogy();
+	  label->Draw();
+	  //canvas->SetLogy();
 	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	}
     }
