@@ -1,4 +1,4 @@
-1#----------------------------------------------------
+#----------------------------------------------------
 # To run on the NAF, type:
 #
 # export NJS_QUEUE=12 
@@ -20,6 +20,8 @@ process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_TTJetsFall11.root"
 
 process.preselectionLepHTMC2 = process.preselectionDiLep
+process.preselectionMuHTMC2 = process.preselectionDiLep
+process.preselectionElHTMC2 = process.preselectionDiLep
 
 # Choose input files
 process.source = cms.Source("PoolSource",
