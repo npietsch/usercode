@@ -141,7 +141,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   mlb_      = fs->make<TH1F>("mlb",     "mlb",     80, 0., 400.);
   mLepTop_  = fs->make<TH1F>("mLepTop", "mLepTop", 80, 0., 400.);
 
-  YMET_     = fs->make<TH1F>("YMET", "YMET", 25, 0., 25);
+  YMET_     = fs->make<TH1F>("YMET", "YMET",     25, 0., 25);
+  METHT_    = fs->make<TH1F>("METHT","METHT",    50, 0., 50);
   METSig_   = fs->make<TH1F>("METSig", "METSig", 50, 0., 25);
   LepPt_    = fs->make<TH1F>("LepPt",      "Lepton Pt",  50,   0., 1000.);
   LepPtSig_ = fs->make<TH1F>("LepPtSig", "LepPtSig", 50, 0., 25);
@@ -584,7 +585,6 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   nLeptons_  ->Fill(nLeptons,   weight);
 
   //std::cout << "Test5" << std::endl;
-
   // MT
   double MT=LepHT+HT+(*met)[0].et();
   MT_->Fill(MT, weight);
@@ -648,7 +648,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   
   // YMET
   double YMET=((*met)[0].et())/(sqrt(HT));  
-  YMET_->Fill(YMET, weight);
+  YMET_->Fill(YMET, weight);  
+  METHT_->Fill((*met)[0].et()/HT, weight);
 
   // MET significance
   double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
@@ -665,6 +666,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       LepPt_   ->Fill(singleLepton->et());
       LepPtSig_->Fill(singleLepton->et()/sqrt(HT), weight);
     }
+
+  NumEvents_->Fill(1, weight);
 
   //-------------------------------------------------
   // Btagging

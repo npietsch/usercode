@@ -289,6 +289,9 @@ preselectionElHTAllData = cms.Sequence(goodVertices *
 # load and configure modules to filter on member functions of TtGenEvent
 #---------------------------------------------------------------------------
 
+from TopQuarkAnalysis.TopEventProducers.sequences.ttGenEvent_cff import *
+decaySubset.fillMode = "kME"
+
 from TopQuarkAnalysis.TopEventProducers.producers.TtGenEvtFilter_cfi import *
 
 SemiLepElMuTtGenEventFilter = ttGenEventFilter.clone(cut="semiLeptonicChannel()=1 || semiLeptonicChannel()=2")
@@ -305,29 +308,34 @@ TauTtGenEventFilter         = ttGenEventFilter.clone(cut="semiLeptonicChannel()=
 preselectionSemiLepElMu = cms.Sequence(goodVertices *
                                        oneGoodVertex *
                                        scrapingVeto *
+                                       makeGenEvt *
                                        SemiLepElMuTtGenEventFilter
                                        )
 
 preselectionSemiLepTau = cms.Sequence(goodVertices *
                                       oneGoodVertex *
                                       scrapingVeto *
+                                      makeGenEvt *
                                       SemiLepTauTtGenEventFilter
                                       )
 
 preselectionDiLep = cms.Sequence(goodVertices *
                                  oneGoodVertex *
                                  scrapingVeto *
+                                 makeGenEvt *
                                  DiLepTtGenEventFilter
                                  )
 
 preselectionDiLepElMu = cms.Sequence(goodVertices *
                                      oneGoodVertex *
                                      scrapingVeto *
+                                     makeGenEvt *
                                      DiLepElMuTtGenEventFilter
                                      )
 
 preselectionDiLepTau = cms.Sequence(goodVertices *
                                     oneGoodVertex *
                                     scrapingVeto *
+                                    makeGenEvt *
                                     DiLepTauTtGenEventFilter
                                     )

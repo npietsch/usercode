@@ -534,6 +534,8 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   nPV_noWgt_->Fill(PVSrc->size());
   nPV_->Fill(PVSrc->size(),weightPU);
 
+  NumEvents_->Fill(1, weight);
+
   //-------------------------------------------------
   // Basic variables
   //-------------------------------------------------
