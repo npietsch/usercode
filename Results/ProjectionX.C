@@ -14,6 +14,10 @@
 #include <TDRStyle.h>
 //#include <TDRStyle_Projection.h>
 
+vector<TFile*> Files;
+vector<TString> Samples;
+vector<TString> Names;
+
 vector<TString> Histograms;
 vector<TString> XLabels;
 vector<unsigned int> FirstValues;
@@ -28,9 +32,15 @@ vector<TString> BinLabels;
 vector<unsigned int> BinColors;
 vector<unsigned int> MarkerStyles;
 
-// add histogram
-void addHistogram(TString name, TString xLabel, int firstValue, int lastValue);
+// addSample
+void addSample(TFile* file, TString sample, TString name)
+{
+  Files.push_back(file);
+  Samples.push_back(sample);
+  Names.push_back(name);
+}
 
+// add histogram
 void addHistogram(TString name, TString xLabel, int firstValue, int lastValue)
 {
   Histograms.push_back(name);
@@ -40,8 +50,6 @@ void addHistogram(TString name, TString xLabel, int firstValue, int lastValue)
 }
 
 // add selection step
-void addSelectionStep(TString step, TString selectionLabel);
-
 void addSelectionStep(TString step, TString selectionLabel)
 {
   Selections.push_back(step);
@@ -49,8 +57,6 @@ void addSelectionStep(TString step, TString selectionLabel)
 }
 
 // add bin
-void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker);
-
 void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker)
 {
   FirstBins.push_back(firstBin);
@@ -63,34 +69,37 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 // main function
 int ProjectionX()
 {
+  TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
+  //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
+  TFile* TTJets  = new TFile("Test.root", "READ");
 
-  //-------------------------------------------------------------------------------
-  // Sample
-  //-------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------------------
+  // addSample(TFile* file, TString sample, TString name)
+  //-------------------------------------------------------------------------------------------------------------------
 
-  TFile* WJetsHT = new TFile("WJetsHT.root", "READ");
-
-
+  addSample(WJetsHT, "WJetsHT", "W+Jets");
+  addSample(TTJets,  "TTJets",  "t#bar{t}+Jets");
 
   //-------------------------------------------------------------------------------
   // addHistogram
   //-------------------------------------------------------------------------------
 
-  addHistogram("HT_YMET", "H_{T} [GeV]", 300, 1000);
+  addHistogram("HT_YMET", "H_{T} [GeV]", 360, 1000);
   
   //-------------------------------------------------------------------------------
   // addSelectionStep(TString step, TString selectionLabel)
   //-------------------------------------------------------------------------------
  
-  addSelectionStep("analyzeSUSY1m_jetSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY1e_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeSUSY1e_jetSelection",    "jet selection");
 
   //-------------------------------------------------------------------------------
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker
   //-------------------------------------------------------------------------------
 
-  addBin(7,  12,  "#kern[1]{3} < Y_{MET} < 6",   2, 22);
-  addBin(13, 20,  "#kern[1]{6} < Y_{MET} < 10",  4, 23);
-  addBin(21, -1,  "10 < Y_{MET}",                1, 20);
+  addBin(8,  12,  "#kern[0]{3.5} < Y_{MET} < 6",   2, 22);
+  addBin(13, 20,  "#kern[1]{6} < Y_{MET} < 10",    4, 23);
+  addBin(21, -1,  "10 < Y_{MET}",                  1, 20);
 
   //-------------------------------------------------------------------------------
   // Set style 
@@ -102,104 +111,72 @@ int ProjectionX()
   // Plot
   //-------------------------------------------------------------------------------
 
-  for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
-    { 
-      std::cout << "\n" << Histograms[hdx] << std::endl;
-      std::cout << "-----------------------" << std::endl;
-
-      for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
-	{
-	  std::cout << Selections[sdx] << "_" << Histograms[hdx] << std::endl;
+  for(int fdx=0; fdx<(int)Files.size(); ++fdx)
+    {
+      for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
+	{ 
+	  std::cout << "\n" << Histograms[hdx] << std::endl;
+	  std::cout << "-----------------------" << std::endl;
 	  
-	  TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx],Selections[sdx]+"_"+Histograms[hdx], 1);
-
-	  TLegend *leg = new TLegend(.55,.62,.95,.93);
-	  leg->SetTextFont(42);
-	  leg->SetTextSize(0.05);
-	  leg->SetFillColor(0);
-	  leg->SetLineColor(1);
-	  leg->SetShadowColor(0);
-
-	  TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
-	  label->SetFillColor(0);
-	  label->SetTextFont(42);
-	  label->SetTextSize(0.043);
-	  label->SetBorderSize(0);
-	  label->SetTextAlign(12);
-	  TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
-
-	  TH2F* Hist = (TH2F*)WJetsHT->Get(Selections[sdx]+"/"+Histograms[hdx]);
-
-	  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
+	  for(int sdx=0; sdx<(int)Selections.size(); ++sdx)
 	    {
-	      std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
-
-	      // create projection
-	      TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+	      std::cout << Selections[sdx] << "_" << Histograms[hdx] << std::endl;
 	      
-	      // edit projection
-	      Projection->SetTitle("");
-	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-	      Projection->GetXaxis()->SetTitleOffset(1.2);
-	      Projection->GetXaxis()->SetTitleSize(0.05);
-	      Projection->GetXaxis()->SetTitleFont(42);
-	      Projection->GetYaxis()->SetTitleSize(0.05);
-	      Projection->GetYaxis()->SetTitleFont(42);
-
-	      Projection->GetYaxis()->SetTitleOffset(1.4);
-	      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-	      Projection->GetYaxis()->SetTitle("a.u.");
-	      Projection->SetLineColor(BinColors[bin]);
-	      Projection->SetLineWidth(2);
-	      Projection->GetYaxis()->SetLabelFont(42);
-	      Projection->GetXaxis()->SetLabelFont(42);
-	      Projection->Scale(1/Projection->Integral(11,-1));
-	      Projection->SetMarkerStyle(MarkerStyles[bin]);
-	      Projection->SetMarkerColor(BinColors[bin]);
-	      leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
-
-	      if(bin == 0) Projection->DrawCopy();
-	      else Projection->DrawCopy("same");
+	      TCanvas *canvas = new TCanvas(Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
+	      
+	      TLegend *leg = new TLegend(.55,.62,.95,.93);
+	      leg->SetTextFont(42);
+	      leg->SetTextSize(0.05);
+	      leg->SetFillColor(0);
+	      leg->SetLineColor(1);
+	      leg->SetShadowColor(0);
+	      
+	      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	      label->SetFillColor(0);
+	      label->SetTextFont(42);
+	      label->SetTextSize(0.043);
+	      label->SetBorderSize(0);
+	      label->SetTextAlign(12);
+	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+	      
+	      TH2F* Hist = (TH2F*)Files[fdx]->Get(Selections[sdx]+"/"+Histograms[hdx]);
+	      
+	      for(int bin=0; bin<(int)FirstBins.size(); ++bin)
+		{
+		  std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
+		  
+		  // create projection
+		  TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+		  
+		  // edit projection
+		  Projection->SetTitle("");
+		  Projection->GetXaxis()->SetTitle(XLabels[hdx]);
+		  Projection->GetXaxis()->SetTitleOffset(1.2);
+		  Projection->GetXaxis()->SetTitleSize(0.05);
+		  Projection->GetXaxis()->SetTitleFont(42);
+		  Projection->GetYaxis()->SetTitleSize(0.05);
+		  Projection->GetYaxis()->SetTitleFont(42);
+		  
+		  Projection->GetYaxis()->SetTitleOffset(1.4);
+		  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
+		  Projection->GetYaxis()->SetTitle("a.u.");
+		  Projection->SetLineColor(BinColors[bin]);
+		  Projection->SetLineWidth(2);
+		  Projection->GetYaxis()->SetLabelFont(42);
+		  Projection->GetXaxis()->SetLabelFont(42);
+		  Projection->Scale(1/Projection->Integral(9,24));
+		  Projection->SetMarkerStyle(MarkerStyles[bin]);
+		  Projection->SetMarkerColor(BinColors[bin]);
+		  leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
+		  
+		  if(bin == 0) Projection->DrawCopy();
+		  else Projection->DrawCopy("same");
+		}
+	      leg->Draw();
+	      label->Draw();
+	      //canvas->SetLogy();
+	      canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+".pdf");
 	    }
-	  leg->Draw();
-	  label->Draw();
-	  //canvas->SetLogy();
-	  canvas->SaveAs(Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_log.pdf");
 	}
     }
-
-// 	  TCanvas *canvas = new TCanvas(Histograms[hdx],Histograms[hdx],1);
-	  
-// 	  TLegend *leg = new TLegend(.64,.18,.91,.45);
-// 	  leg->SetTextFont(42);
-// 	  leg->SetFillColor(0);
-// 	  leg->SetLineColor(1);
-// 	  leg->SetShadowColor(0);
-	  
-// 	  for(int bin=0; bin<(int)bins.size(); ++bin)
-// 	    {
-// 	      std::cout << "bin " << bin << std::cout;
-	      
-// 	      // create projection
-// 	      TH2F* Hist = (TH2F*)TTJets->Get(Selections[sdx]+"/"+Histograms[hdx]);
-// 	      TH1F* Projection = (TH1F*)Hist->ProjectionX("", bins[bin], bins[bin],"");
-	      
-// 	      // edit projection
-// 	      Projection->SetTitle("");
-// 	      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
-// 	      Projection->GetXaxis()->SetTitleOffset(1.4);
-// 	      Projection->GetXaxis()->SetRangeUser(0,400);
-// 	      Projection->GetYaxis()->SetTitle("# events");
-// 	      Projection->SetLineColor(LineColors[sdx]);
-// 	      Projection->SetLineWidth(2);
-// 	      leg->AddEntry(Projection->Clone(),Labels[sdx],"l P");
-	      
-// 	      if(bin == 0) Projection->DrawCopy();
-// 	      else Projection->DrawCopy("same");
-	      // }
-	  //leg->Draw();
-	  // 	  canvas->SetLogy();
-	  
-	  // 	  canvas->SaveAs(Histograms[hdx]+"_reco.pdf");
-	  
 }
