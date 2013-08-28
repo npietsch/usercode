@@ -402,7 +402,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   edm::Handle<SUSYEvent> SUSYEvt;
   evt.getByLabel(SUSYEvent_, SUSYEvt);
 
-  if(SUSYEvt->nJets() <= nJetsCut_[0] || SUSYEvt->nJets() >= nJetsCut_[1]) return;
+  if(SUSYEvt->nJets() < nJetsCut_[0]  || SUSYEvt->nJets() > nJetsCut_[1]) return;
   if(SUSYEvt->HT()    < HTCut_[0]     || SUSYEvt->HT()    >  HTCut_[1]   ) return;
   if(SUSYEvt->MET()   < METCut_[0]    || SUSYEvt->MET()   >  METCut_[1]  ) return;
   if(SUSYEvt->YMET()  < YMETCut_[0]   || SUSYEvt->YMET()  >  YMETCut_[1] ) return;
