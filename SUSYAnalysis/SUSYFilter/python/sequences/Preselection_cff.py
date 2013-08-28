@@ -339,3 +339,31 @@ preselectionDiLepTau = cms.Sequence(goodVertices *
                                     makeGenEvt *
                                     DiLepTauTtGenEventFilter
                                     )
+
+
+preselectionFullHad = cms.Sequence(goodVertices *
+                                   oneGoodVertex *
+                                   scrapingVeto *
+                                   makeGenEvt *
+                                   FullHadTtGenEventFilter
+                                   )
+
+from TopQuarkAnalysis.TopSkimming.TtSemiLeptonicFilter_cfi import *
+
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchA.electron = False
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchA.muon     = False
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchA.tau      = True
+
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchB.electron = False
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchB.muon     = False
+ttSemiLeptonicFilter.allowedTopDecays.decayBranchB.tau      = True
+
+#ttSemiLeptonicFilter.restrictTauDecays.oneProng   = True
+#ttSemiLeptonicFilter.restrictTauDecays.threeProng = True
+
+preselectionSemiLepTauLep = cms.Sequence(goodVertices *
+                                         oneGoodVertex *
+                                         scrapingVeto *
+                                         makeGenEvt *
+                                         ttSemiLeptonicFilter
+                                         )

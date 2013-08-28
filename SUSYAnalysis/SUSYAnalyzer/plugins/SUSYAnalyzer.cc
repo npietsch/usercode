@@ -655,11 +655,19 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   double sigmaX2 = (*met)[0].getSignificanceMatrix()(0,0);
   double sigmaY2 = (*met)[0].getSignificanceMatrix()(1,1);
   double METSig  = 0;
-  if(sigmaX2<1.e10 && sigmaY2<1.e10) METSig = (*met)[0].significance();
+  if(sigmaX2<1.e10 && sigmaY2<1.e10)
+    {
+      METSig = (*met)[0].significance();
+      std::cout << "METSig: " << METSig << std::endl;
+    }
   // Use the sqrt of the significance
-  if (METSig > 0.) METSig = sqrt(METSig);
+  if (METSig > 0.)
+    {
+      METSig = sqrt(METSig);
+      METSig_->Fill(METSig, weight);
+    }
   METSig_->Fill(METSig, weight);
-
+  
   // Lepton pt significance
   if(singleLepton != 0)
     {
@@ -667,7 +675,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       LepPtSig_->Fill(singleLepton->et()/sqrt(HT), weight);
     }
 
-  NumEvents_->Fill(1, weight);
+  NumEvents_->Fill(0.5, weight);
 
   //-------------------------------------------------
   // Btagging

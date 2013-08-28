@@ -402,10 +402,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   edm::Handle<SUSYEvent> SUSYEvt;
   evt.getByLabel(SUSYEvent_, SUSYEvt);
 
-  if(SUSYEvt->nJets() < nJetsCut_[0] || SUSYEvt->nJets() > nJetsCut_[1]) return;
-  if(SUSYEvt->HT()    < HTCut_[0]    || SUSYEvt->HT()    > HTCut_[1]   ) return;
-  if(SUSYEvt->MET()   < METCut_[0]   || SUSYEvt->MET()   > METCut_[1]  ) return;
-  if(SUSYEvt->YMET()  < YMETCut_[0]  || SUSYEvt->YMET()  > YMETCut_[1] ) return;
+  if(SUSYEvt->nJets() <= nJetsCut_[0] || SUSYEvt->nJets() >= nJetsCut_[1]) return;
+  if(SUSYEvt->HT()    < HTCut_[0]     || SUSYEvt->HT()    >  HTCut_[1]   ) return;
+  if(SUSYEvt->MET()   < METCut_[0]    || SUSYEvt->MET()   >  METCut_[1]  ) return;
+  if(SUSYEvt->YMET()  < YMETCut_[0]   || SUSYEvt->YMET()  >  YMETCut_[1] ) return;
 
   //--------------------------------------------------
   // Handles
@@ -534,7 +534,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
   nPV_noWgt_->Fill(PVSrc->size());
   nPV_->Fill(PVSrc->size(),weightPU);
 
-  NumEvents_->Fill(1, weight);
+  NumEvents_->Fill(0.5, weight);
 
   //-------------------------------------------------
   // Basic variables
