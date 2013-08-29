@@ -86,6 +86,12 @@ int ProjectionX()
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
+  double LogMin=0.001;
+  double LogMax=0.8;
+
+  double Min=0;
+  double Max=0.5;
+
   TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
   //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
   TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets.root", "READ");
@@ -204,11 +210,13 @@ int ProjectionX()
 			  Projection->GetXaxis()->SetTitleOffset(1.2);
 			  Projection->GetXaxis()->SetTitleSize(0.05);
 			  Projection->GetXaxis()->SetTitleFont(42);
+			  Projection->GetXaxis()->SetLabelFont(42);
 			  
 			  Projection->GetYaxis()->SetTitle("a.u.");
 			  Projection->GetYaxis()->SetTitleOffset(1.4);
 			  Projection->GetYaxis()->SetTitleSize(0.05);
 			  Projection->GetYaxis()->SetTitleFont(42);
+			  Projection->GetYaxis()->SetLabelFont(42);
 			  
 			  // edit lines and marker
 			  Projection->SetLineColor(BinColors[bin]);
@@ -228,6 +236,24 @@ int ProjectionX()
 		  
 		      // draw labels
 		      label->Draw();
+		      	
+		      // draw TLine
+		      if(Log = true)
+			{
+			  TLine * line = new TLine(3, LogMin, 3, LogMax);
+			  line->SetLineWidth(2);
+			  line->SetLineStyle(2);
+			  line->SetLineColor(1);
+			  line->Draw();
+			}
+		      else
+			{
+			  TLine * line = new TLine(3, Min, 3, Max);
+			  line->SetLineWidth(2);
+			  line->SetLineStyle(2);
+			  line->SetLineColor(1);
+			  line->Draw();
+			}
 		      
 		      // save canvas
 		      if(Log == true)
@@ -290,11 +316,13 @@ int ProjectionX()
 		      Projection->GetXaxis()->SetTitleOffset(1.2);
 		      Projection->GetXaxis()->SetTitleSize(0.05);
 		      Projection->GetXaxis()->SetTitleFont(42);
+		      Projection->GetXaxis()->SetLabelFont(42);
 
 		      Projection->GetYaxis()->SetTitle("a.u.");
 		      Projection->GetYaxis()->SetTitleOffset(1.4);
 		      Projection->GetYaxis()->SetTitleSize(0.05);
 		      Projection->GetYaxis()->SetTitleFont(42);
+		      Projection->GetYaxis()->SetLabelFont(42);
 
 		      // edit lines and marker
 		      Projection->SetLineColor(BinColors[bin]);
@@ -315,6 +343,24 @@ int ProjectionX()
 		  // draw labels
 		  label->Draw();
 		  
+		  // draw TLine
+		  if(Log = true)
+		    {
+		      TLine * line = new TLine(3, LogMin, 3, LogMax);
+		      line->SetLineWidth(2);
+		      line->SetLineStyle(2);
+		      line->SetLineColor(1);
+		      line->Draw();
+		    }
+		  else
+		    {
+		      TLine * line = new TLine(3, Min, 3, Max);
+		      line->SetLineWidth(2);
+		      line->SetLineStyle(2);
+		      line->SetLineColor(1);
+		      line->Draw();
+		    }
+
 		  // save canvas
 		  if(Log == true)
 		    {
