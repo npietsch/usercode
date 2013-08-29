@@ -285,15 +285,24 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   // Only when TTJets is set to true in cfg file
   //-------------------------------------------------
   
-  pv_             = fs->make<TH1F>("pv",             "pv",                 50, 0., 1000);
-  smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",          50, 0., 1000);
+  pv_             = fs->make<TH1F>("pv",             "pv",                  50, 0., 1000);
+  smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",           50, 0., 1000);
 
-  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",       50, 0., 1000,  16, -0.5, 15.5);
-  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",      60, 0., 600.,  16, -0.5, 15.5);
-  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",      60, 0., 600.,  16, -0.5, 15.5);
+  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",        50, 0., 1000,  16, -0.5, 15.5);
+  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",       60, 0., 600.,  16, -0.5, 15.5);
+  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",       60, 0., 600.,  16, -0.5, 15.5);
 
-  pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",          50, 0., 1000,   50,  0., 1000);
-  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv", 50, 0., 1000,   50,  0., 1000);
+  pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,  0., 1000);
+  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,  0., 1000);
+
+  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250); 
+  HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     50., 0.,1000,   40,   0.,   2); 
+
+  HadMET_400HT500_ = fs->make<TH1F>("HadMET_400HT500_", "hadronic MET", 50, -250, 250);
+  HadMET_500HT600_ = fs->make<TH1F>("HadMET_500HT600_", "hadronic MET", 50, -250, 250);
+  HadMET_600HT700_ = fs->make<TH1F>("HadMET_600HT700_", "hadronic MET", 50, -250, 250);
+  HadMET_700HT800_ = fs->make<TH1F>("HadMET_700HT800_", "hadronic MET", 50, -250, 250);
+  HadMET_800HTInf_ = fs->make<TH1F>("HadMET_800HTInf_", "hadronic MET", 50, -250, 250);
 
   //-------------------------------------------------
   // Only when TTJetsHyp is set to true in cfg file
@@ -912,8 +921,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       evt.getByLabel(TtGenEvent_, genEvent);
       
       if(genEvent->isTtBar())
-	{
-	  
+	{	  
 	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
 	    {      
 	      double NuPt = genEvent->singleNeutrino()->pt();
@@ -932,6 +940,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      double mlv_gen = sqrt(2*(NuPt*LepPt-NuPx*LepPx-NuPy*LepPy));
 	      
 	      double mlv_reco = 0;
+	      
+	      double HadMET=(*met)[0].et()-NuPt;
+	      double METRatio=((*met)[0].et())/NuPt;
+
 	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
 
 	      double smearedPv = sqrt(pow(NuPx+DeltaRecoGenJetPySum,2)+pow(NuPx+DeltaRecoGenJetPySum,2));
@@ -945,6 +957,15 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
 	      pv_MET_         -> Fill(NuPt,      (*met)[0].et(), weight);
 	      smearedPv_MET_  -> Fill(smearedPv, (*met)[0].et(), weight);
+
+	      HT_HadMET_   -> Fill(HT, HadMET,   weight);
+	      HT_METRatio_ -> Fill(HT, METRatio, weight);
+
+	      if(400 < HT && HT < 500)      HadMET_400HT500_ -> Fill(HadMET, weight);
+	      else if(500 < HT && HT < 600) HadMET_500HT600_ -> Fill(HadMET, weight);
+	      else if(600 < HT && HT < 700) HadMET_600HT700_ -> Fill(HadMET, weight);
+	      else if(700 < HT && HT < 800) HadMET_700HT800_ -> Fill(HadMET, weight);
+	      else if(HT > 800)             HadMET_800HTInf_ -> Fill(HadMET, weight);
 	    }
 	}
     }

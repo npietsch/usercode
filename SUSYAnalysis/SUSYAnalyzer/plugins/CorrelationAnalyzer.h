@@ -263,6 +263,15 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   
   TH2F* pv_MET_;
   TH2F* smearedPv_MET_;
+
+  TH2F* HT_HadMET_;
+  TH2F* HT_METRatio_;
+
+  TH1F* HadMET_400HT500_;
+  TH1F* HadMET_500HT600_;
+  TH1F* HadMET_600HT700_;
+  TH1F* HadMET_700HT800_;
+  TH1F* HadMET_800HTInf_;
   
   //-------------------------------------------------
   // Only when TTJetsHyp is set to true in cfg file

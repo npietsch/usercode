@@ -10,7 +10,7 @@ analyzeCorrelation.muons          = "goodMuons"
 analyzeCorrelation.electrons      = "goodElectrons"
 analyzeCorrelation.met            = "scaledJetEnergy:patMETsPF"
 analyzeCorrelation.useEventWeight = True
-analyzeCorrelation.TTJets         = False
+analyzeCorrelation.TTJets         = True
 
 ## clone and configure modules for different inclusive MET cuts
 analyzeCorrelation1m_MET60ToInf  = analyzeCorrelation.clone()
