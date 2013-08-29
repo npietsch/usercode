@@ -920,7 +920,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       edm::Handle<TtGenEvent> genEvent;
       evt.getByLabel(TtGenEvent_, genEvent);
       
-      if(genEvent->isTtBar())
+      if(genEvent.isValid())
 	{	  
 	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
 	    {      
