@@ -82,9 +82,9 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 // main function
 int ProjectionY()
 {
-  bool Log = false;
-  bool SeparateChannels = true;
-  bool CombineChannels = false;
+  bool Log = true;
+  bool SeparateChannels = false;
+  bool CombineChannels = true;
 
   double LogMin=0.001;
   double LogMax=0.8;
@@ -104,19 +104,19 @@ int ProjectionY()
   // add addSample(TFile* file, TString sample, TString name)
   //--------------------------------------------------------------------------------------------------
 
-  //addSample(WJetsHT, "WJetsHT", "W+Jets");
+  addSample(WJetsHT, "WJetsHT", "W+Jets");
   addSample(SemiLepElMu,"SemiLepElMuTTJets", "Semilep. t#bar{t}+Jets e/#mu");
   //addSample(SemiLepTau, "SemiLepTauTTJets",  "Semilep. t#bar{t}+Jets #tau");
   //addSample(DiLep,      "DiLepTTJets",       "Dilep. t#bar{t}+Jets");
   //addSample(FullHad,    "FullHadTTJets",     "Fullhad. t#bar{t}+Jets");
-  //addSample(SingleTop,    "SingleTop",        "Single Top");
+  addSample(SingleTop,    "SingleTop",        "Single Top");
 
   //--------------------------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_YMET",     "Y_{MET} [GeV^{#frac{1}{2}}]", 0, 25, 1);
-  //addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 1);
+  // addHistogram("HT_YMET",     "Y_{MET} [GeV^{#frac{1}{2}}]", 0, 25, 0);
+  addHistogram("HT_LepPtSig", "p_{T}^{#nu}/ #sqrt{H_{T}} [GeV^{#frac{1}{2}}]", 360, 1000, 0);
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -150,9 +150,10 @@ int ProjectionY()
   //addBin(18, 23,  "9 < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1, 20);
 
   
+  //--------------------------------------------------------------------------------------------------
   // Set style 
+  //--------------------------------------------------------------------------------------------------
   
-
   setTDRStyle();
   
   
@@ -202,7 +203,7 @@ int ProjectionY()
 			  // edit ranges and scale
 			  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
 			  Projection->Scale(1/Projection->Integral(7,-1));
-			  if(Log = true)
+			  if(Log == true)
 			    {
 			      Projection->SetMinimum(LogMin);
 			      Projection->SetMaximum(LogMax);
@@ -248,7 +249,7 @@ int ProjectionY()
 		      label->Draw();
 		      		  
 		      // draw TLine
-		      if(Log = true)
+		      if(Log == true)
 			{
 			  TLine * line = new TLine(3, LogMin, 3, LogMax);
 			  line->SetLineWidth(2);
@@ -282,7 +283,7 @@ int ProjectionY()
 		{
 		  std::cout << Modules[sdx]+"1l"+Selections[sdx] << "_" << Histograms[hdx] << std::endl;
 		  
-		  TCanvas *canvas = new TCanvas(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
+		  TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		  
 		  TLegend *leg = new TLegend(.53,.62,.95,.93);
 		  leg->SetTextFont(42);
@@ -318,7 +319,7 @@ int ProjectionY()
 		      // edit ranges and scale
 		      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
 		      Projection->Scale(1/Projection->Integral(9,24));
-		      if(Log = true)
+		      if(Log == true)
 			{
 			  Projection->SetMinimum(LogMin);
 			  Projection->SetMaximum(LogMax);
@@ -364,13 +365,13 @@ int ProjectionY()
 		  label->Draw();
 		  
 		  // draw TLine
-		  if(Log = true)
+		  if(Log == true)
 		    {
 		      TLine * line = new TLine(3, LogMin, 3, LogMax);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      //line->Draw();
+		      line->Draw();
 		    }
 		  else
 		    {
@@ -378,18 +379,18 @@ int ProjectionY()
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      //line->Draw();
+		      line->Draw();
 		    }
 
 		  // save canvas
 		  if(Log == true)
 		    {
 		      canvas->SetLogy();
-		      canvas->SaveAs(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+"_log.pdf");
+		      canvas->SaveAs(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+"_log.pdf");
 		    }
 		  else
 		    {
-		      canvas->SaveAs(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+".pdf");
+		      canvas->SaveAs(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+".pdf");
 		    }
 		}
 	    }  

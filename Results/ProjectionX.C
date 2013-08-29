@@ -82,8 +82,8 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 // main function
 int ProjectionX()
 {
-  bool Log = false;
-  bool SeparateChannels = false;
+  bool Log = true;
+  bool SeparateChannels = true;
   bool CombineChannels = true;
 
   double LogMin=0.001;
@@ -115,8 +115,8 @@ int ProjectionX()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_YMET",     "H_{T} [GeV]", 360, 1000, 1);
-  //addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 1);
+  //addHistogram("HT_YMET",     "H_{T} [GeV]", 360, 1000, 0);
+  addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 0);
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -136,27 +136,26 @@ int ProjectionX()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(7,  10,  "3 < Y_{MET} < 5",   kRed-4,  22);
-  addBin(11, 14,  "5 < Y_{MET} < 7",   kBlue-7, 23);
-  addBin(15, 18,  "7 < Y_{MET} < 9",   1,       20);
-  addBin(19, 21,  "9 < Y_{MET} < 11",  kRed+2,  21);
+//   addBin(7,  12,  "#kern[1]{3} < Y_{MET} < 6",   kRed-4,  22);
+//   addBin(13, 18,  "#kern[1]{6} < Y_{MET} < 9",   kBlue-7, 23);
+//   addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",   1,       20);
+//   addBin(25, 30,  "12 < Y_{MET} < 15",  kRed+2,  21);
 
-//   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
-//   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);
-//   addBin(18, 23,  "9 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 12",  1, 20);
+  addBin(7,  12,  "#kern[1]{3} < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   kRed-4,  22);
+  addBin(13, 18,  "#kern[1]{6} < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   kBlue-7, 23);
+  addBin(19, 24,  "#kern[1]{9} < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1,       20);
+  addBin(25, 30,  "12 < p_{T}^{lep}/ #sqrt{H_{T}} < 15",           kRed+2 , 21);
 
-  //addBin(7,  12,  "3 < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   2, 22);
-  //addBin(13, 18,  "6 < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   4, 23);
-  //addBin(18, 23,  "9 < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1, 20);
-
-  
+  //--------------------------------------------------------------------------------------------------
   // Set style 
-  
+  //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
   
-  
+  //--------------------------------------------------------------------------------------------------
   // Plot
+  //--------------------------------------------------------------------------------------------------
+
   for(int fdx=0; fdx<(int)Files.size(); ++fdx)
     {
       for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
@@ -176,8 +175,8 @@ int ProjectionX()
 		      
 		      TLegend *leg = new TLegend(.55,.62,.95,.93);
 		      leg->SetTextFont(42);
-		      leg->SetTextSize(0.05);
-		      //leg->SetTextSize(0.043);
+		      //leg->SetTextSize(0.05);
+		      leg->SetTextSize(0.04);
 		      leg->SetFillColor(0);
 		      leg->SetLineColor(1);
 		      leg->SetShadowColor(0);
@@ -201,7 +200,7 @@ int ProjectionX()
 			  
 			  // edit ranges and scale
 			  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-			  Projection->Scale(1/Projection->Integral(9,24));
+			  Projection->Scale(1/Projection->Integral(1,-1));
 			  
 			  // edit titles
 			  Projection->SetTitle("");
@@ -238,7 +237,7 @@ int ProjectionX()
 		      label->Draw();
 		      	
 		      // draw TLine
-		      if(Log = true)
+		      if(Log == true)
 			{
 			  TLine * line = new TLine(3, LogMin, 3, LogMax);
 			  line->SetLineWidth(2);
@@ -276,8 +275,8 @@ int ProjectionX()
 		  
 		  TLegend *leg = new TLegend(.55,.62,.95,.93);
 		  leg->SetTextFont(42);
-		  leg->SetTextSize(0.05);
-		  //leg->SetTextSize(0.043);
+		  //leg->SetTextSize(0.05);
+		  leg->SetTextSize(0.04);
 		  leg->SetFillColor(0);
 		  leg->SetLineColor(1);
 		  leg->SetShadowColor(0);
@@ -307,7 +306,7 @@ int ProjectionX()
 		      
 		      // edit ranges and scale
 		      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-		      Projection->Scale(1/Projection->Integral(9,24));
+		      Projection->Scale(1/Projection->Integral(1,-1));
 
 		      // edit titles
 		      Projection->SetTitle("");
@@ -344,7 +343,7 @@ int ProjectionX()
 		  label->Draw();
 		  
 		  // draw TLine
-		  if(Log = true)
+		  if(Log == true)
 		    {
 		      TLine * line = new TLine(3, LogMin, 3, LogMax);
 		      line->SetLineWidth(2);
