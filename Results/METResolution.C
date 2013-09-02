@@ -20,8 +20,8 @@ vector<TString> Names;
 
 vector<TString> Histograms;
 vector<TString> XLabels;
-vector<unsigned int> FirstValues;
-vector<unsigned int> LastValues;
+vector<double> FirstValues;
+vector<double> LastValues;
 vector<unsigned int> DrawLegend;
 
 vector<TString> Modules;
@@ -45,7 +45,7 @@ void addSample(TFile* file, TString sample, TString name)
 }
 
 // add histogram
-void addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend)
+void addHistogram(TString name, TString xLabel, double firstValue, double lastValue, int drawLegend)
 {
   Histograms.push_back(name);
   XLabels.push_back(xLabel);
@@ -83,48 +83,34 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 int METResolution()
 {
   bool Log = true;
-  bool SeparateChannels = true;
+  bool SeparateChannels = false;
   bool CombineChannels = true;
 
   double LogMin=0.001;
-  double LogMax=0.8;
+  double LogMax=0.4;
 
   double Min=0;
-  double Max=0.5;
+  double Max=0.18;
 
-  TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
-  //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
   TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets_Correlation.root", "READ");
-  TFile* SemiLepTau  = new TFile("SemiLepTauTTJets.root",  "READ");
-  TFile* DiLep       = new TFile("DiLepTTJets.root", "READ");
-  TFile* FullHad     = new TFile("FullHadTTJets.root", "READ");
-  TFile* SingleTop   = new TFile("SingleTop.root", "READ");
-
+  
   //--------------------------------------------------------------------------------------------------
   // add addSample(TFile* file, TString sample, TString name)
   //--------------------------------------------------------------------------------------------------
 
-  //addSample(WJetsHT, "WJetsHT", "W+Jets");
   addSample(SemiLepElMu,"SemiLepElMuTTJets", "Semilep. t#bar{t}+Jets e/#mu");
-  //addSample(SemiLepTau, "SemiLepTauTTJets",  "Semilep. t#bar{t}+Jets #tau");
-  //addSample(DiLep,      "DiLepTTJets",       "Dilep. t#bar{t}+Jets");
-  //addSample(FullHad,    "FullHadTTJets",     "Fullhad. t#bar{t}+Jets");
-  //addSample(SingleTop,    "SingleTop",        "Single Top");
-
+  
   //--------------------------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  //addHistogram("HT_YMET",     "H_{T} [GeV]", 360, 1000, 0);
-  //addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 0);
-  addHistogram("HT_HadMET", "H_{T} [GeV]", 360, 1000, 0);
-  
+  addHistogram("HT_HadMET", "#slash{E}_{T}^{fake} [GeV]", -200., 200., 1);
+
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf", "nJets > 4");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -137,31 +123,28 @@ int METResolution()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-//   addBin(7,  12,  "#kern[1]{3} < Y_{MET} < 6",   kRed-4,  22);
-//   addBin(13, 18,  "#kern[1]{6} < Y_{MET} < 9",   kBlue-7, 23);
-//   addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",   1,       20);
-//   addBin(25, 30,  "12 < Y_{MET} < 15",  kRed+2,  21);
+  addBin(21, 25,  "400 < H_{T} < 500",   kRed-4,  22);
+  addBin(26, 30,  "500 < H_{T} < 600",   kBlue-7, 23);
+  addBin(31, 35,  "600 < H_{T} < 700",   1,       20);
+  addBin(36, 40,  "700 < H_{T} < 800",   kRed+2,  21);
 
-//   addBin(7,  12,  "#kern[1]{3} < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   kRed-4,  22);
-//   addBin(13, 18,  "#kern[1]{6} < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   kBlue-7, 23);
-//   addBin(19, 24,  "#kern[1]{9} < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1,       20);
-//   addBin(25, 30,  "12 < p_{T}^{lep}/ #sqrt{H_{T}} < 15",           kRed+2 , 21);
+//   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
+//   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);
+//   addBin(18, 23,  "9 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 12",  1, 20);
 
-  addBin(7,  12,  "#kern[1]{3} < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   kRed-4,  22);
-  addBin(13, 18,  "#kern[1]{6} < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   kBlue-7, 23);
-  addBin(19, 24,  "#kern[1]{9} < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1,       20);
-  addBin(25, 30,  "12 < p_{T}^{lep}/ #sqrt{H_{T}} < 15",           kRed+2 , 21);
+  //addBin(7,  12,  "3 < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   2, 22);
+  //addBin(13, 18,  "6 < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   4, 23);
+  //addBin(18, 23,  "9 < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1, 20);
 
+  
   //--------------------------------------------------------------------------------------------------
   // Set style 
   //--------------------------------------------------------------------------------------------------
-
+  
   setTDRStyle();
   
-  //--------------------------------------------------------------------------------------------------
+  
   // Plot
-  //--------------------------------------------------------------------------------------------------
-
   for(int fdx=0; fdx<(int)Files.size(); ++fdx)
     {
       for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
@@ -179,10 +162,11 @@ int METResolution()
 		      
 		      TCanvas *canvas = new TCanvas(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		      
-		      TLegend *leg = new TLegend(.55,.62,.95,.93);
+		      //TLegend *leg = new TLegend(.53,.62,.95,.93);
+		      TLegend *leg = new TLegend(.58,.67,1,.98);
 		      leg->SetTextFont(42);
-		      //leg->SetTextSize(0.05);
-		      leg->SetTextSize(0.04);
+		      leg->SetTextSize(0.05);
+		      //leg->SetTextSize(0.043);
 		      leg->SetFillColor(0);
 		      leg->SetLineColor(1);
 		      leg->SetShadowColor(0);
@@ -202,13 +186,24 @@ int METResolution()
 			  std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
 			  
 			  // create projection
-			  TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+			  TH1F* Projection = (TH1F*)Hist->ProjectionY(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
 			  
 			  // edit ranges and scale
+			  std::cout << FirstValues[hdx] << std::endl;
+
 			  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-			  Projection->Scale(1/Projection->Integral(1,-1));
-			  
-			  // edit titles
+			  Projection->Scale(1/Projection->Integral(0,-1));
+			  if(Log == true)
+			    {
+			      Projection->SetMinimum(LogMin);
+			      Projection->SetMaximum(LogMax);
+			    }
+			  else
+			    {
+			      Projection->SetMinimum(Min);
+			      Projection->SetMaximum(Max);
+			    } 
+			  // edit titles and labels
 			  Projection->SetTitle("");
 			  
 			  Projection->GetXaxis()->SetTitle(XLabels[hdx]);
@@ -222,6 +217,7 @@ int METResolution()
 			  Projection->GetYaxis()->SetTitleSize(0.05);
 			  Projection->GetYaxis()->SetTitleFont(42);
 			  Projection->GetYaxis()->SetLabelFont(42);
+			    
 			  
 			  // edit lines and marker
 			  Projection->SetLineColor(BinColors[bin]);
@@ -233,7 +229,7 @@ int METResolution()
 			  leg->AddEntry(Projection->Clone(),BinLabels[bin],"l P");
 			  
 			  if(bin == 0) Projection->DrawCopy();
-			  else Projection->DrawCopy("same");
+			  else Projection->DrawCopy("same");;
 			}
 		      
 		      // draw legend
@@ -241,34 +237,34 @@ int METResolution()
 		  
 		      // draw labels
 		      label->Draw();
-		      	
+		      		  
 		      // draw TLine
 		      if(Log == true)
 			{
-			  TLine * line = new TLine(3, LogMin, 3, LogMax);
+			  TLine * line = new TLine(0, LogMin, 0, LogMax);
 			  line->SetLineWidth(2);
 			  line->SetLineStyle(2);
 			  line->SetLineColor(1);
-			  line->Draw();
+			  //line->Draw();
 			}
 		      else
 			{
-			  TLine * line = new TLine(3, Min, 3, Max);
+			  TLine * line = new TLine(0, Min, 0, Max);
 			  line->SetLineWidth(2);
 			  line->SetLineStyle(2);
 			  line->SetLineColor(1);
-			  line->Draw();
+			  //line->Draw();
 			}
 		      
 		      // save canvas
 		      if(Log == true)
 			{
 			  canvas->SetLogy();
-			  canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+"_log.pdf");
+			  canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+"_log.pdf");
 			}
 		      else
 			{
-			  canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+".pdf");
+			  canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+".pdf");
 			}
 		    }
 		}
@@ -277,12 +273,13 @@ int METResolution()
 		{
 		  std::cout << Modules[sdx]+"1l"+Selections[sdx] << "_" << Histograms[hdx] << std::endl;
 		  
-		  TCanvas *canvas = new TCanvas(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
+		  TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		  
-		  TLegend *leg = new TLegend(.55,.62,.95,.93);
+		  //TLegend *leg = new TLegend(.53,.62,.95,.93);
+		  TLegend *leg = new TLegend(.58,.67,1,.98);
 		  leg->SetTextFont(42);
-		  //leg->SetTextSize(0.05);
-		  leg->SetTextSize(0.04);
+		  leg->SetTextSize(0.05);
+		  //leg->SetTextSize(0.043);
 		  leg->SetFillColor(0);
 		  leg->SetLineColor(1);
 		  leg->SetShadowColor(0);
@@ -308,13 +305,23 @@ int METResolution()
 		      std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
 		      
 		      // create projection
-		      TH1F* Projection = (TH1F*)Hist->ProjectionX(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
+		      TH1F* Projection = (TH1F*)Hist->ProjectionY(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
 		      
 		      // edit ranges and scale
 		      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-		      Projection->Scale(1/Projection->Integral(1,-1));
-
-		      // edit titles
+		      Projection->Scale(1/Projection->Integral(0,-1));
+		      if(Log == true)
+			{
+			  Projection->SetMinimum(LogMin);
+			  Projection->SetMaximum(LogMax);
+			}
+		      else
+			{
+			  Projection->SetMinimum(Min);
+			  Projection->SetMaximum(Max);
+			}
+		      
+		      // edit titles and labels
 		      Projection->SetTitle("");
 
 		      Projection->GetXaxis()->SetTitle(XLabels[hdx]);
@@ -340,6 +347,9 @@ int METResolution()
 		      
 		      if(bin == 0) Projection->DrawCopy();
 		      else Projection->DrawCopy("same");
+
+		      std::cout << Projection->GetMean() << std::endl;
+		      std::cout << Projection->GetRMS() << std::endl;
 		    }
 		  
 		  // draw legend
@@ -351,7 +361,7 @@ int METResolution()
 		  // draw TLine
 		  if(Log == true)
 		    {
-		      TLine * line = new TLine(3, LogMin, 3, LogMax);
+		      TLine * line = new TLine(0, LogMin, 0, LogMax);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
@@ -359,7 +369,7 @@ int METResolution()
 		    }
 		  else
 		    {
-		      TLine * line = new TLine(3, Min, 3, Max);
+		      TLine * line = new TLine(0, Min, 0, Max);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
@@ -370,11 +380,11 @@ int METResolution()
 		  if(Log == true)
 		    {
 		      canvas->SetLogy();
-		      canvas->SaveAs(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+"_log.pdf");
+		      canvas->SaveAs(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+"_log.pdf");
 		    }
 		  else
 		    {
-		      canvas->SaveAs(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+".pdf");
+		      canvas->SaveAs(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionY_"+Samples[fdx]+".pdf");
 		    }
 		}
 	    }  
