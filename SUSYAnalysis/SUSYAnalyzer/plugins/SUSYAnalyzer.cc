@@ -129,13 +129,14 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
       Electron_Eta_.push_back(fs->make<TH1F>(histname2,histname2, 60, -3, 3));
     }
 
-  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,   6.5);
-  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,   6.5);
-  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,  12.5);
-  LeptonPt_    = fs->make<TH1F>("LeptonPt",   "Lepton Pt",  60,   0.,  600.);
-  LeptonEta_   = fs->make<TH1F>("LeptonEta",  "Lepton Eta", 60,   -3,    3.);
+  nMuons_      = fs->make<TH1F>("nMuons",     "nMuons",      7, -0.5,    6.5);
+  nElectrons_  = fs->make<TH1F>("nElectrons", "nElectrons",  7, -0.5,    6.5);
+  nLeptons_    = fs->make<TH1F>("nLeptons",   "nLeptons",   13, -0.5,   12.5);
+  LeptonPt_    = fs->make<TH1F>("LeptonPt",   "Lepton Pt",  60,   0.,   600.);
+  LeptonEta_   = fs->make<TH1F>("LeptonEta",  "Lepton Eta", 60,   -3,     3.);
 
-  MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
+  MT_          = fs->make<TH1F>("MT",      "MT",            40,    0., 2000.);
+  METfrac_     = fs->make<TH1F>("METfrac", "MET fraction",  40,    0.,    1.);
 
   mT_       = fs->make<TH1F>("mT",      "mT",      40, 0., 400.);
   mlb_      = fs->make<TH1F>("mlb",     "mlb",     80, 0., 400.);
@@ -587,8 +588,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   //std::cout << "Test5" << std::endl;
   // MT
   double MT=LepHT+HT+(*met)[0].et();
-  MT_->Fill(MT, weight);
-  
+  MT_      ->Fill(MT, weight);
+  METfrac_ ->Fill((*met)[0].et()/MT, weight);
+
   const reco::LeafCandidate * singleLepton = 0;
 
   // mT

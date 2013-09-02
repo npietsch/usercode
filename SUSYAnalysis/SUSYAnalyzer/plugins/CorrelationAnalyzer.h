@@ -140,6 +140,7 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH1F* nVetoLeptons_;
 
   TH1F* MT_;
+  TH1F* METfrac_;
 
   TH1F* mT_;
   TH1F* mlb_;

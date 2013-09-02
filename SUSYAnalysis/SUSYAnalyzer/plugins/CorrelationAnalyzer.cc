@@ -156,7 +156,8 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   LeptonEta_     = fs->make<TH1F>("LeptonEta",    "Lepton Eta",    60,   -3,    3.);
   nVetoLeptons_  = fs->make<TH1F>("nVetoLeptons", "nVetoLeptons",  13, -0.5,  12.5);
 
-  MT_          = fs->make<TH1F>("MT","MT", 40, 0., 2000.);
+  MT_          = fs->make<TH1F>("MT",      "MT",            40, 0., 2000.);
+  METfrac_     = fs->make<TH1F>("METfrac", "MET fraction",  40, 0.,    1.);
 
   mT_       = fs->make<TH1F>("mT",      "mT",      40, 0., 400.);
   mlb_      = fs->make<TH1F>("mlb",     "mlb",     40, 0., 400.);
@@ -659,7 +660,8 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
   // MT
   double MT=LepHT+HT+(*met)[0].et();
-  MT_->Fill(MT, weight);
+  MT_      ->Fill(MT, weight);
+  METfrac_ ->Fill((*met)[0].et()/MT, weight);
   
   const reco::LeafCandidate * singleLepton = 0;
 
