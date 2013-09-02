@@ -298,11 +298,21 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250); 
   HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     50., 0.,1000,   40,   0.,   2); 
 
-  HadMET_400HT500_ = fs->make<TH1F>("HadMET_400HT500_", "hadronic MET", 50, -250, 250);
-  HadMET_500HT600_ = fs->make<TH1F>("HadMET_500HT600_", "hadronic MET", 50, -250, 250);
-  HadMET_600HT700_ = fs->make<TH1F>("HadMET_600HT700_", "hadronic MET", 50, -250, 250);
-  HadMET_700HT800_ = fs->make<TH1F>("HadMET_700HT800_", "hadronic MET", 50, -250, 250);
-  HadMET_800HTInf_ = fs->make<TH1F>("HadMET_800HTInf_", "hadronic MET", 50, -250, 250);
+  HadMET_400HT500_  = fs->make<TH1F>("HadMET_400HT500_",  "hadronic MET", 50, -250, 250);
+  HadMET_500HT600_  = fs->make<TH1F>("HadMET_500HT600_",  "hadronic MET", 50, -250, 250);
+  HadMET_600HT700_  = fs->make<TH1F>("HadMET_600HT700_",  "hadronic MET", 50, -250, 250);
+  HadMET_700HT800_  = fs->make<TH1F>("HadMET_700HT800_",  "hadronic MET", 50, -250, 250);
+  HadMET_800HT900_  = fs->make<TH1F>("HadMET_800HT900_",  "hadronic MET", 50, -250, 250);
+  HadMET_900HT1000_ = fs->make<TH1F>("HadMET_900HT1000_", "hadronic MET", 50, -250, 250);
+  HadMET_1000HTInf_ = fs->make<TH1F>("HadMET_1000HTInf_", "hadronic MET", 50, -250, 250);
+
+  NuPt_400HT500_  = fs->make<TH1F>("NuPt_400HT500_",  "pT nu", 50, -250, 250);
+  NuPt_500HT600_  = fs->make<TH1F>("NuPt_500HT600_",  "pT nu", 50, -250, 250);
+  NuPt_600HT700_  = fs->make<TH1F>("NuPt_600HT700_",  "pT nu", 50, -250, 250);
+  NuPt_700HT800_  = fs->make<TH1F>("NuPt_700HT800_",  "pT nu", 50, -250, 250);
+  NuPt_800HT900_  = fs->make<TH1F>("NuPt_800HT900_",  "pT nu", 50, -250, 250);
+  NuPt_900HT1000_ = fs->make<TH1F>("NuPt_900HT1000_", "pT nu", 50, -250, 250);
+  NuPt_1000HTInf_ = fs->make<TH1F>("NuPt_1000HTInf_", "pT nu", 50, -250, 250);
 
   //-------------------------------------------------
   // Only when TTJetsHyp is set to true in cfg file
@@ -961,11 +971,45 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      HT_HadMET_   -> Fill(HT, HadMET,   weight);
 	      HT_METRatio_ -> Fill(HT, METRatio, weight);
 
-	      if(400 < HT && HT < 500)      HadMET_400HT500_ -> Fill(HadMET, weight);
-	      else if(500 < HT && HT < 600) HadMET_500HT600_ -> Fill(HadMET, weight);
-	      else if(600 < HT && HT < 700) HadMET_600HT700_ -> Fill(HadMET, weight);
-	      else if(700 < HT && HT < 800) HadMET_700HT800_ -> Fill(HadMET, weight);
-	      else if(HT > 800)             HadMET_800HTInf_ -> Fill(HadMET, weight);
+	      if(400 < HT && HT < 500)
+		{
+		  HadMET_400HT500_ -> Fill(HadMET, weight);
+		  NuPt_400HT500_   -> Fill(NuPt, weight);
+		}
+	      else if(500 < HT && HT < 600) 
+		{
+		  HadMET_500HT600_ -> Fill(HadMET, weight);
+		  NuPt_500HT600_   -> Fill(NuPt, weight);
+		}
+	      
+	      else if(600 < HT && HT < 700) 
+		{
+		  HadMET_600HT700_  -> Fill(HadMET, weight);
+		  NuPt_600HT700_    -> Fill(NuPt, weight);
+		}
+	      else if(700 < HT && HT < 800) 
+		{
+		  HadMET_700HT800_  -> Fill(HadMET, weight);
+		  NuPt_700HT800_    -> Fill(NuPt, weight);
+		}
+	      
+	      else if(800 < HT && HT < 900)
+		{
+		  HadMET_800HT900_  -> Fill(HadMET, weight);
+		  NuPt_800HT900_    -> Fill(NuPt, weight);
+		}
+	      
+	      else if(900 < HT && HT < 1000)
+		{
+		  HadMET_900HT1000_ -> Fill(HadMET, weight);
+		  NuPt_900HT1000_   -> Fill(NuPt, weight);
+		}
+	      
+	      else if(HT > 1000)
+		{
+		  HadMET_1000HTInf_ -> Fill(HadMET, weight);
+		  NuPt_1000HTInf_   -> Fill(NuPt, weight);
+		}		
 	    }
 	}
     }
