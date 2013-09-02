@@ -200,8 +200,8 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
-  HT_MET_   = fs->make<TH2F>("HT_MET",   "HT vs. MET",   50, 0., 2000., 50, 0., 1000.);
-  HT_LepPt_ = fs->make<TH2F>("HT_LepPt", "HT vs. LepPt", 50, 0., 2000., 25, 0.,   50.);
+  HT_MET_   = fs->make<TH2F>("HT_MET",   "HT vs. MET",   40, 0., 2000., 50, 0., 1000.);
+  HT_LepPt_ = fs->make<TH2F>("HT_LepPt", "HT vs. LepPt", 40, 0., 2000., 25, 0.,   50.);
 
   //-------------------------------------------------------
   // YMET, MET significnace, Lepton pt significance vs HT
@@ -209,15 +209,15 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
 
   // NP: Original binning for HT_YMET: 0-2000 80 bins, 0-20 80
 
-  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
-  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     40, 0., 2000., 50,   0.,   25.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     40, 0., 2000., 50,   0.,   25.);
 
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   40, 0., 2000., 50,   0.,   25.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   40, 0., 2000., 50,   0.,   25.);
   
-  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50,   0.,   25.);
+  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     40, 0.,   25., 50,   0.,   25.);
 
-  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50,   0.,   25.);
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 40, 0., 2000., 50,   0.,   25.);
 
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
@@ -306,6 +306,14 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   HadMET_800HT900_  = fs->make<TH1F>("HadMET_800HT900_",  "hadronic MET", 50, -250, 250);
   HadMET_900HT1000_ = fs->make<TH1F>("HadMET_900HT1000_", "hadronic MET", 50, -250, 250);
   HadMET_1000HTInf_ = fs->make<TH1F>("HadMET_1000HTInf_", "hadronic MET", 50, -250, 250);
+
+  HadMET_400HT500_2_  = fs->make<TH1F>("HadMET_400HT500_2_",  "hadronic MET", 50, -250, 250);
+  HadMET_500HT600_2_  = fs->make<TH1F>("HadMET_500HT600_2_",  "hadronic MET", 50, -250, 250);
+  HadMET_600HT700_2_  = fs->make<TH1F>("HadMET_600HT700_2_",  "hadronic MET", 50, -250, 250);
+  HadMET_700HT800_2_  = fs->make<TH1F>("HadMET_700HT800_2_",  "hadronic MET", 50, -250, 250);
+  HadMET_800HT900_2_  = fs->make<TH1F>("HadMET_800HT900_2_",  "hadronic MET", 50, -250, 250);
+  HadMET_900HT1000_2_ = fs->make<TH1F>("HadMET_900HT1000_2_", "hadronic MET", 50, -250, 250);
+  HadMET_1000HTInf_2_ = fs->make<TH1F>("HadMET_1000HTInf_2_", "hadronic MET", 50, -250, 250);
 
   NuPt_400HT500_  = fs->make<TH1F>("NuPt_400HT500_",  "pT nu", 50, -250, 250);
   NuPt_500HT600_  = fs->make<TH1F>("NuPt_500HT600_",  "pT nu", 50, -250, 250);
@@ -973,44 +981,53 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      HT_HadMET_   -> Fill(HT, HadMET,   weight);
 	      HT_METRatio_ -> Fill(HT, METRatio, weight);
 
+	      if(NuPt > HadMET) HT_HadMET_2_ -> Fill(HT, HadMET,  weight);
+
 	      if(400 < HT && HT < 500)
 		{
 		  HadMET_400HT500_ -> Fill(HadMET, weight);
 		  NuPt_400HT500_   -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_400HT500_2_ -> Fill(HadMET, weight);
 		}
 	      else if(500 < HT && HT < 600) 
 		{
 		  HadMET_500HT600_ -> Fill(HadMET, weight);
 		  NuPt_500HT600_   -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_500HT600_2_ -> Fill(HadMET, weight);
 		}
 	      
 	      else if(600 < HT && HT < 700) 
 		{
 		  HadMET_600HT700_  -> Fill(HadMET, weight);
 		  NuPt_600HT700_    -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_600HT700_2_ -> Fill(HadMET, weight);
 		}
 	      else if(700 < HT && HT < 800) 
 		{
 		  HadMET_700HT800_  -> Fill(HadMET, weight);
 		  NuPt_700HT800_    -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_700HT800_2_ -> Fill(HadMET, weight);
 		}
 	      
 	      else if(800 < HT && HT < 900)
 		{
 		  HadMET_800HT900_  -> Fill(HadMET, weight);
 		  NuPt_800HT900_    -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_800HT900_2_ -> Fill(HadMET, weight);
 		}
 	      
 	      else if(900 < HT && HT < 1000)
 		{
 		  HadMET_900HT1000_ -> Fill(HadMET, weight);
 		  NuPt_900HT1000_   -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_900HT1000_2_ -> Fill(HadMET, weight);
 		}
 	      
 	      else if(HT > 1000)
 		{
 		  HadMET_1000HTInf_ -> Fill(HadMET, weight);
 		  NuPt_1000HTInf_   -> Fill(NuPt, weight);
+		  if(NuPt > HadMET) HadMET_1000HTInf_2_ -> Fill(HadMET, weight);
 		}		
 	    }
 	}

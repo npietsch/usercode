@@ -180,8 +180,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   // MET, Lepton pt vs. HT
   //-------------------------------------------------
 
-  HT_MET_   = fs->make<TH2F>("HT_MET",   "HT vs. MET",   50, 0., 2000., 50, 0., 1000.);
-  HT_LepPt_ = fs->make<TH2F>("HT_LepPt", "HT vs. LepPt", 50, 0., 2000., 25, 0.,   50.);
+  HT_MET_   = fs->make<TH2F>("HT_MET",   "HT vs. MET",   40, 0., 2000., 50, 0., 1000.);
+  HT_LepPt_ = fs->make<TH2F>("HT_LepPt", "HT vs. LepPt", 40, 0., 2000., 25, 0.,   50.);
 
   //-------------------------------------------------------
   // YMET, MET significnace, Lepton pt significance vs HT
@@ -189,15 +189,15 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
 
   // NP: Original binning for HT_YMET: 0-2000 80 bins, 0-20 80
 
-  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
-  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     50, 0., 2000., 50,   0.,   25.);
+  HT_YMET_         = fs->make<TH2F>("HT_YMET",         "HT vs. YMET",     40, 0., 2000., 50,   0.,   25.);
+  HT_YMET_noWgt_   = fs->make<TH2F>("HT_YMET_noWgt",   "HT vs. YMET",     40, 0., 2000., 50,   0.,   25.);
 
-  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
-  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   50, 0., 2000., 50,   0.,   25.);
+  HT_METSig_       = fs->make<TH2F>("HT_METSig",       "HT vs. METSig",   40, 0., 2000., 50,   0.,   25.);
+  HT_METSig_noWgt_ = fs->make<TH2F>("HT_METSig_noWgt", "HT vs. METSig",   40, 0., 2000., 50,   0.,   25.);
   
-  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     50, 0.,   25., 50,   0.,   25.);
+  METSig_YMET_     = fs->make<TH2F>("METSig_YMET",     "METSig_YMET",     40, 0.,   25., 50,   0.,   25.);
 
-  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 50, 0., 2000., 50,   0.,   25.);
+  HT_LepPtSig_     = fs->make<TH2F>("HT_LepPtSig",     "HT vs. LepPtSig", 40, 0., 2000., 50,   0.,   25.);
 
   HT_LepPtSig_smeared_ = fs->make<TH2F>("HT_LepPtSig_smeared","HT vs. LepPtSig", 80, 0., 2000., 80, 0., 20. );
   LepPtSig_smearFactor_ = fs->make<TH1F>("LepPtSig_smearFactor","LepPtSig_smearFactor", 100, 0., 10. );
