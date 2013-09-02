@@ -106,7 +106,7 @@ int METResolution()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_HadMET", "#slash{E}_{T}^{fake} [GeV]", -200., 200., 1);
+  addHistogram("HT_HadMET", "#Delta#slash{E}_{T} [GeV]", -200., 200., 1);
 
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -282,9 +282,9 @@ int METResolution()
 		  TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		  
 		  //TLegend *leg = new TLegend(.53,.62,.95,.93);
-		  TLegend *leg = new TLegend(.63,.72,1,1);
+		  TLegend *leg = new TLegend(.66,.72,1,1);
 		  leg->SetTextFont(42);
-		  leg->SetTextSize(0.045);
+		  leg->SetTextSize(0.042);
 		  //leg->SetTextSize(0.043);
 		  leg->SetFillColor(0);
 		  leg->SetLineColor(1);
