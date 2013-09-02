@@ -57,3 +57,26 @@ analyzeCorrelation1e_nJets1To1.nJetsCut     = 1,1
 analyzeCorrelation1e_nJets2To2.nJetsCut     = 2,2
 analyzeCorrelation1e_nJets3To3.nJetsCut     = 3,3
 analyzeCorrelation1e_nJets4ToInf.nJetsCut   = 4,999
+
+
+#----------------------------------------------------
+# Clone and configure TtGenEventAnalyzer modules
+#----------------------------------------------------
+
+from SUSYAnalysis.SUSYAnalyzer.TtGenEventAnalyzer_cfi import *
+
+analyzeTtGenEvent1m_noCuts           = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_preselection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_leptonSelection  = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_jetSelection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_HTSelection      = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_METSelection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1m_mTSelection      = analyzeTtGenEvent.clone()
+
+analyzeTtGenEvent1e_noCuts           = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_preselection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_leptonSelection  = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_jetSelection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_HTSelection      = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_METSelection     = analyzeTtGenEvent.clone()
+analyzeTtGenEvent1e_mTSelection      = analyzeTtGenEvent.clone()
