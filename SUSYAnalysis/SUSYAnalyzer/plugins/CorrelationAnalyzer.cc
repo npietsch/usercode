@@ -296,7 +296,8 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,  0., 1000);
   smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,  0., 1000);
 
-  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250); 
+  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250);
+  HT_HadMET_2_    = fs->make<TH2F>("HT_HadMET_2",    "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250); 
   HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     50., 0.,1000,   40,   0.,   2); 
 
   HadMET_400HT500_  = fs->make<TH1F>("HadMET_400HT500_",  "hadronic MET", 50, -250, 250);
@@ -940,10 +941,16 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       edm::Handle<TtGenEvent> genEvent;
       evt.getByLabel(TtGenEvent_, genEvent);
       
+      //std::cout << "Test 0" << std::endl;
+
       if(genEvent.isValid())
 	{	  
+	  //std::cout << "Test 1" << std::endl; 
+
 	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
 	    {      
+	      //std::cout << "Test 2" << std::endl; 
+	      
 	      double NuPt = genEvent->singleNeutrino()->pt();
 	      double NuPx = genEvent->singleNeutrino()->px();
 	      double NuPy = genEvent->singleNeutrino()->py();
@@ -966,6 +973,8 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
 	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
 
+	      //std::cout << "Test 3" << std::endl;
+
 	      double smearedPv = sqrt(pow(NuPx+DeltaRecoGenJetPySum,2)+pow(NuPx+DeltaRecoGenJetPySum,2));
 
 	      pv_             -> Fill(NuPt,      weight);
@@ -978,11 +987,20 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      pv_MET_         -> Fill(NuPt,      (*met)[0].et(), weight);
 	      smearedPv_MET_  -> Fill(smearedPv, (*met)[0].et(), weight);
 
+	      //std::cout << "Test 4" << std::endl;
+
 	      HT_HadMET_   -> Fill(HT, HadMET,   weight);
+
+	      //std::cout << "Test 5" << std::endl;
+
 	      HT_METRatio_ -> Fill(HT, METRatio, weight);
+
+	      //std::cout << "Test 6" << std::endl;
 
 	      if(NuPt > HadMET) HT_HadMET_2_ -> Fill(HT, HadMET,  weight);
 
+	      //std::cout << "Test 7" << std::endl; 
+	  
 	      if(400 < HT && HT < 500)
 		{
 		  HadMET_400HT500_ -> Fill(HadMET, weight);
@@ -1028,7 +1046,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 		  HadMET_1000HTInf_ -> Fill(HadMET, weight);
 		  NuPt_1000HTInf_   -> Fill(NuPt, weight);
 		  if(NuPt > HadMET) HadMET_1000HTInf_2_ -> Fill(HadMET, weight);
-		}		
+		}
+	
+	      //std::cout << "Test 8" << std::endl;		
+	      
 	    }
 	}
     }
