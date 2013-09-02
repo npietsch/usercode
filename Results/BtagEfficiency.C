@@ -111,7 +111,7 @@ int BtagEfficiency()
 	   // legend
 	   //TLegend *leg = new TLegend(.59,.67,.90,.88);
 	   //TLegend *leg = new TLegend(.59,.19,.90,.40);
-	   TLegend *leg = new TLegend(.19,.59,.45,.88);
+	   TLegend *leg = new TLegend(.14,.64,.4,.93);
 	   leg->SetTextFont(42);
 	   leg->SetTextSize(0.05);
 	   leg->SetFillColor(0);
