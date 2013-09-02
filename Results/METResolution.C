@@ -36,6 +36,8 @@ vector<TString> BinLabels;
 vector<unsigned int> BinColors;
 vector<unsigned int> MarkerStyles;
 
+vector<double> HTAverage;
+
 // addSample
 void addSample(TFile* file, TString sample, TString name)
 {
@@ -86,7 +88,7 @@ int METResolution()
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
-  double LogMin=0.001;
+  double LogMin=0.0001;
   double LogMax=0.4;
 
   double Min=0;
@@ -123,11 +125,15 @@ int METResolution()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(21, 25,  "400 < H_{T} < 500",   kRed-4,  22);
-  addBin(26, 30,  "500 < H_{T} < 600",   kBlue-7, 23);
-  addBin(31, 35,  "600 < H_{T} < 700",   1,       20);
-  addBin(36, 40,  "700 < H_{T} < 800",   kRed+2,  21);
+  addBin(19, 25,  "360 < H_{T} < 500",   kRed-4,  22);
+  addBin(26, 32,  "500 < H_{T} < 640",   kBlue-7, 23);
+  addBin(33, 39,  "640 < H_{T} < 780",   1,       20);
+  addBin(39, 45,  "780 < H_{T} < 920",   kRed+2,  21);
 
+//   addBin(21, 30,  "400 < H_{T} < 600",   kRed-4,  22);
+//   addBin(31, 40,  "600 < H_{T} < 800",   kBlue-7, 23);
+//   addBin(41, 50,  "800 < H_{T} < 1000",   1,       20);
+  
 //   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
 //   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);
 //   addBin(18, 23,  "9 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 12",  1, 20);
@@ -276,15 +282,15 @@ int METResolution()
 		  TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		  
 		  //TLegend *leg = new TLegend(.53,.62,.95,.93);
-		  TLegend *leg = new TLegend(.58,.67,1,.98);
+		  TLegend *leg = new TLegend(.63,.72,1,1);
 		  leg->SetTextFont(42);
-		  leg->SetTextSize(0.05);
+		  leg->SetTextSize(0.045);
 		  //leg->SetTextSize(0.043);
 		  leg->SetFillColor(0);
 		  leg->SetLineColor(1);
 		  leg->SetShadowColor(0);
 		  
-		  TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+		  TPaveText *label = new TPaveText(0.14,0.94,0.57,1.,"NDC");
 		  label->SetFillColor(0);
 		  label->SetTextFont(42);
 		  label->SetTextSize(0.043);
@@ -292,23 +298,35 @@ int METResolution()
 		  label->SetTextAlign(12);
 		  TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
 		  
-		  TH2F* Hist = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[0]+Selections[sdx]+"/"+Histograms[hdx]);
-		  
+		  TH2F* Hist  = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[0]+Selections[sdx]+"/"+Histograms[hdx]);
+
 		  for(int ddx=1; ddx<(int)Channels.size(); ++ddx)
 		    {
 		      TH2F* Hist2 = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[ddx]+Selections[sdx]+"/"+Histograms[hdx]);
 		      Hist->Add(Hist2);
 		    }
 
+		  TH1F* ProjectionHT = (TH1F*)Hist2->ProjectionX(Histograms[hdx], 0, -1,"");
+		  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
+		    {
+		      ProjectionHT->GetXaxis()->SetRangeUser(FirstBins[bin]*20-20,LastBins[bin]*20-20);
+		      std::cout << ProjectionHT->GetMean() << std::endl;
+
+		      HTAverage.push_back(ProjectionHT->GetMean());
+
+		      ProjectionHT->Clear();
+		    }
+
 		  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
 		    {
 		      std::cout << "bins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
-		      
+
 		      // create projection
 		      TH1F* Projection = (TH1F*)Hist->ProjectionY(Histograms[hdx], FirstBins[bin], LastBins[bin],"");
 		      
 		      // edit ranges and scale
 		      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
+		      
 		      Projection->Scale(1/Projection->Integral(0,-1));
 		      if(Log == true)
 			{
@@ -350,6 +368,7 @@ int METResolution()
 
 		      std::cout << Projection->GetMean() << std::endl;
 		      std::cout << Projection->GetRMS() << std::endl;
+		      std::cout << Projection->GetRMS()/sqrt(HTAverage[bin]) << std::endl;
 		    }
 		  
 		  // draw legend
