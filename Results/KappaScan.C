@@ -12,7 +12,6 @@
 #include "TLegend.h"
 #include "TPaveText.h"
 #include <TDRStyle.h>
-//#include <TDRStyle_Projection.h>
 
 vector<TFile*> Files;
 vector<TString> Samples;
@@ -108,7 +107,10 @@ int KappaScan()
   //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
-  
+  tdrStyle->SetPadLeftMargin(0.16);
+  tdrStyle->SetPadRightMargin(0.14);
+  tdrStyle->SetPalette(1);
+
   //--------------------------------------------------------------------------------------------------
   // Plot
   //--------------------------------------------------------------------------------------------------
@@ -130,13 +132,13 @@ int KappaScan()
 		      
 		      TCanvas *canvas = new TCanvas(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		      
-		      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+		      TPaveText *label = new TPaveText(0.12,0.94,0.94,1.,"NDC");
 		      label->SetFillColor(0);
 		      label->SetTextFont(42);
-		      label->SetTextSize(0.043);
+		      label->SetTextSize(0.04);
 		      label->SetBorderSize(0);
 		      label->SetTextAlign(12);
-		      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, "+ChannelLabels[cdx]);
+		      TText *text=label->AddText("Simulation, 4.98 fb^{-1}, #sqrt{s} = 7 TeV, "+ChannelLabels[cdx]);
 		      
 		      TH2F* Hist = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[cdx]+Selections[sdx]+"/"+Histograms[hdx]);
 		      
@@ -145,10 +147,10 @@ int KappaScan()
 
 		      TH2F* Scan=new TH2F("Scan", "Scan", 40, 0, 2000, 50, 0, 25);
 
-		      for(int binX=13; binX<=25; ++binX)
+		      for(int binX=13; binX<=22; ++binX)
 			{
 
-			  for(int binY=10; binY<=25; ++binY)
+			  for(int binY=10; binY<=18; ++binY)
 			    {
 			      //std::cout << "x bin: " << binX << ", y bin: " << binY << std::endl;
 
@@ -164,9 +166,33 @@ int KappaScan()
 			      Scan->SetBinContent(binX, binY, Kappa);
 			    }
 			}
+
+		      // edit titles
+		      Scan->SetTitle("");
 		      
-		      Scan->Draw();
-		      canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_ProjectionX_"+Samples[fdx]+".pdf");                      
+		      Scan->GetXaxis()->SetTitle(XLabels[hdx]);
+		      Scan->GetXaxis()->SetTitleOffset(1.2);
+		      Scan->GetXaxis()->SetTitleSize(0.05);
+		      Scan->GetXaxis()->SetTitleFont(42);
+		      Scan->GetXaxis()->SetLabelFont(42);
+		      Scan->GetXaxis()->SetNdivisions(507);
+
+		      Scan->GetYaxis()->SetTitle(YLabels[hdx]);
+		      Scan->GetYaxis()->SetTitleOffset(1.2);
+		      Scan->GetYaxis()->SetTitleSize(0.05);
+		      Scan->GetYaxis()->SetTitleFont(42);
+		      Scan->GetYaxis()->SetLabelFont(42);
+		      
+		      // edit ranges
+		      Scan->GetXaxis()->SetRangeUser(300,1100);
+		      Scan->GetYaxis()->SetRangeUser(2,9);
+		      Scan->GetZaxis()->SetRangeUser(1.,1.3);
+
+		      Scan->Draw("colz");
+
+		      label->Draw();
+
+		      canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_Scan_"+Samples[fdx]+".pdf");                      
 		    }
 		}
 	    }      
