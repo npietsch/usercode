@@ -383,7 +383,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
-
+  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
+  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
+  
   //-------------------------------------------------
   // Event weighting
   //----------------------f--------------------------
@@ -418,11 +420,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       
       // Btag efficiency weights
       if(useBtagEventWgt_ ||useInclusiveBtagEventWgt_)
-	{
-	  // Btag weights
-	  edm::Handle<std::vector<double> > BtagEventWeightsHandle;
-	  evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
-	  
+	{	  
 	  if(useBtagEventWgt_)
 	    {
 	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
@@ -660,7 +658,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   if(sigmaX2<1.e10 && sigmaY2<1.e10)
     {
       METSig = (*met)[0].significance();
-      std::cout << "METSig: " << METSig << std::endl;
+      //std::cout << "METSig: " << METSig << std::endl;
     }
   // Use the sqrt of the significance
   if (METSig > 0.)
@@ -714,6 +712,9 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       Bjets_Eta_ ->Fill((*bjets)[bdx].eta(), weight);
     }
   
+  //if(BtagEventWeightsHandle.isValid()) std::cout << "BtagEventWeightsHandle is valid()" << std::endl;
+  //else std::cout << "BtagEventWeightsHandle is not valid" << std::endl;
+
   //-------------------------------------------------
   // MET, Lepton pt vs. HT
   //-------------------------------------------------
@@ -861,7 +862,7 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       edm::Handle<TtGenEvent> genEvent;
       evt.getByLabel(TtGenEvent_, genEvent);
       
-      if(genEvent->isTtBar())
+      if(genEvent.isValid())
 	{
 	  if(genEvent->isSemiLeptonic(WDecay::kMuon) ||  genEvent->isSemiLeptonic(WDecay::kElec))
 	    {      

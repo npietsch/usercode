@@ -296,9 +296,9 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,  0., 1000);
   smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,  0., 1000);
 
-  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250);
-  HT_HadMET_2_    = fs->make<TH2F>("HT_HadMET_2",    "hadronic MET vs. HT", 50., 0.,1000,   50, -250, 250); 
-  HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     50., 0.,1000,   40,   0.,   2); 
+  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 40., 0.,2000,   50, -250, 250);
+  HT_HadMET_2_    = fs->make<TH2F>("HT_HadMET_2",    "hadronic MET vs. HT", 40., 0.,2000,   50, -250, 250); 
+  HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     40., 0.,2000,   40,   0.,   2); 
 
   HadMET_400HT500_  = fs->make<TH1F>("HadMET_400HT500_",  "hadronic MET", 50, -250, 250);
   HadMET_500HT600_  = fs->make<TH1F>("HadMET_500HT600_",  "hadronic MET", 50, -250, 250);

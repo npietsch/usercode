@@ -16,7 +16,7 @@ process.options = cms.untracked.PSet(
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string('Correlation.root')
+                                   fileName = cms.string('Bjets.root')
                                    )
 
 process.load("Configuration.StandardSequences.Geometry_cff")
@@ -35,16 +35,10 @@ process.scaledJetEnergy.inputMETs = "patMETsPF"
 process.scaledJetEnergy.doJetSmearing = True
 
 #------------------------------------------------------------------
-# Load and configure modules to create SUSYGenEvent and SUSYEvent
+# Load modules to create SUSYGenEvent
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
-process.load("SUSYAnalysis.SUSYEventProducers.producers.SUSYEventProducer_cfi")
-
-process.SUSYEvt.muons     = "goodMuons"
-process.SUSYEvt.electrons = "goodElectrons"
-process.SUSYEvt.jets      = "goodJets"
-process.SUSYEvt.mets      = "scaledJetEnergy:patMETsPF"
 
 #------------------------------------------------------------------
 # Load and configure module for cross-section weighting
@@ -109,7 +103,43 @@ process.goodMETs.src = "scaledJetEnergy:patMETsPF"
 # Load analyzer modules
 #------------------------------------------------------------------
 
-process.load("SUSYAnalysis.SUSYAnalyzer.sequences.CorrelationMC_cff")
+process.load("SUSYAnalysis.SUSYAnalyzer.sequences.SUSYBjetsAnalysis_cff")
+
+# clone and configure modules to monitor b-tag efficiency weighting
+process.monitorBtagWeightingMu                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingMu.useBtagEventWeight = True
+process.monitorBtagWeightingMu.BtagEventWeights   = "btagEventWeightMuJER:RA4bEventWeights"
+process.monitorBtagWeightingMu.BtagJetWeights     = "btagEventWeightMuJER:RA4bJetWeights"
+
+process.monitorBtagWeightingMu_2 = process.monitorBtagWeightingMu.clone()
+process.monitorBtagWeightingMu_3 = process.monitorBtagWeightingMu.clone()
+
+process.monitorBtagWeightingEl                    = process.analyzeSUSY.clone()
+process.monitorBtagWeightingEl.useBtagEventWeight = True
+process.monitorBtagWeightingEl.BtagEventWeights   = "btagEventWeightElJER:RA4bEventWeights"
+process.monitorBtagWeightingEl.BtagJetWeights     = "btagEventWeightElJER:RA4bJetWeights"
+
+process.monitorBtagWeightingEl_2 = process.monitorBtagWeightingEl.clone()
+process.monitorBtagWeightingEl_3 = process.monitorBtagWeightingEl.clone()
+
+# clone and configure modules to monitor muon and electron quantities
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4MuonAnalyzer_cfi")
+
+process.analyzeRA4Muons.jets           = "goodJets"
+process.analyzeRA4Muons.muons          = "looseMuons"
+process.analyzeRA4Muons.electrons      = "goodElectrons"
+process.analyzeRA4Muons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Muons.PVSrc          = "goodVertices"
+process.analyzeRA4Muons.useEventWeight = True
+
+process.load("SUSYAnalysis.SUSYAnalyzer.RA4ElectronAnalyzer_cfi")
+
+process.analyzeRA4Electrons.jets           = "goodJets"
+process.analyzeRA4Electrons.muons          = "goodMuons"
+process.analyzeRA4Electrons.electrons      = "looseElectrons"
+process.analyzeRA4Electrons.met            = "scaledJetEnergy:patMETsPF"
+process.analyzeRA4Electrons.PVSrc          = "goodVertices"
+process.analyzeRA4Electrons.useEventWeight = True
 
 #--------------------------
 # Temp
@@ -136,35 +166,33 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *
-                                 process.SUSYEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
                                  # execute filter and analyzer modules
-                                 process.analyzeTtGenEvent1m_noCuts *
+                                 process.analyzeSUSYBjets1m_noCuts *
                                  
                                  process.MuHadSelection *
-                                 process.analyzeTtGenEvent1m_preselection *
+                                 process.analyzeSUSYBjets1m_preselection *
+                                 process.analyzeRA4Muons *
                                  
                                  process.muonSelection*
-                                 process.analyzeTtGenEvent1m_leptonSelection *
+                                 process.analyzeSUSYBjets1m_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1m_jetSelection *
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightMuJER *
-
-                                 process.analyzeCorrelation1m_MET60ToInf *
-                                 process.analyzeCorrelation1m_MET100ToInf *
-                                 process.analyzeCorrelation1m_MET150ToInf *
-                                 process.analyzeCorrelation1m_MET200ToInf *
-                                 process.analyzeCorrelation1m_MET250ToInf *
+                                 process.analyzeBTagsMu *
                                  
-                                 process.analyzeCorrelation1m_nJets1To1 *
-                                 process.analyzeCorrelation1m_nJets2To2 *
-                                 process.analyzeCorrelation1m_nJets3To3 *
-                                 process.analyzeCorrelation1m_nJets4ToInf *
-
-                                 process.jetSelection *
-                                 process.analyzeTtGenEvent1m_jetSelection
+                                 process.monitorBtagWeightingMu *
+                                 process.analyzeSUSYBjets1b1m_1 *
+                                 process.analyzeSUSYBjets2b1m_1 *
+                                 process.analyzeSUSYBjets3b1m_1 *
+                                 process.analyzeSUSYBjets0b1m_2 *
+                                 process.analyzeSUSYBjets1b1m_2 *
+                                 process.analyzeSUSYBjets2b1m_2                                   
                                  )
 
 ## electron selection path
@@ -173,33 +201,31 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  process.scaledJetEnergy *
                                  process.preselectionElHTMC2 *
                                  process.makeObjects *
-                                 process.SUSYEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
                                  # execute filter and analyzer modules
-                                 process.analyzeTtGenEvent1e_noCuts *
-
-                                 process.ElHadSelection *
-                                 process.analyzeTtGenEvent1e_preselection *
+                                 process.analyzeSUSYBjets1e_noCuts *
                                  
-                                 process.electronSelection *
-                                 process.analyzeTtGenEvent1e_leptonSelection *
+                                 process.ElHadSelection *
+                                 process.analyzeSUSYBjets1e_preselection *
+                                 process.analyzeRA4Electrons *
+                                 
+                                 process.electronSelection*
+                                 process.analyzeSUSYBjets1e_leptonSelection *
+                                 
+                                 process.jetSelection*
+                                 process.analyzeSUSYBjets1e_jetSelection *
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightElJER *
-
-                                 process.analyzeCorrelation1e_MET60ToInf *
-                                 process.analyzeCorrelation1e_MET100ToInf *
-                                 process.analyzeCorrelation1e_MET150ToInf *
-                                 process.analyzeCorrelation1e_MET200ToInf *
-                                 process.analyzeCorrelation1e_MET250ToInf *
-
-                                 process.analyzeCorrelation1e_nJets1To1 *
-                                 process.analyzeCorrelation1e_nJets2To2 *
-                                 process.analyzeCorrelation1e_nJets3To3 *
-                                 process.analyzeCorrelation1e_nJets4ToInf *
-
-                                 process.jetSelection *
-                                 process.analyzeTtGenEvent1e_leptonSelection
+                                 process.analyzeBTagsEl *
+                                 
+                                 process.monitorBtagWeightingEl *
+                                 process.analyzeSUSYBjets1b1e_1 *
+                                 process.analyzeSUSYBjets2b1e_1 *
+                                 process.analyzeSUSYBjets3b1e_1 *
+                                 process.analyzeSUSYBjets0b1e_2 *
+                                 process.analyzeSUSYBjets1b1e_2 *
+                                 process.analyzeSUSYBjets2b1e_2                                   
                                  )
