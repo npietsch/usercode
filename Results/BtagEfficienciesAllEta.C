@@ -111,7 +111,7 @@ int BtagEfficienciesAllEta()
   // addSelectionStep(TString name, int lc, TString sn);
   //-----------------------------------------------------
 
-  addSelectionStep(" ", 8, "RA4b");
+  addSelectionStep("", 8, "RA4b");
 
   //-----------------------------------------------------
   // set Style
@@ -137,13 +137,12 @@ int BtagEfficienciesAllEta()
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.56,.18,.90,.42);
+	      TLegend *leg = new TLegend(.61,.13,.95,.37);
 	      leg->SetTextFont(42);
 	      leg->SetTextSize(0.06);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
 	      leg->SetShadowColor(0);
-	      leg->SetLineColor(0);
       
 	      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
 	      label->SetFillColor(0);
@@ -151,7 +150,7 @@ int BtagEfficienciesAllEta()
 	      label->SetTextSize(0.043);
 	      label->SetBorderSize(0);
 	      label->SetTextAlign(12);
-	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, electron channel");
+	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
 
 	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
 	      label2->SetFillColor(0);
@@ -162,15 +161,17 @@ int BtagEfficienciesAllEta()
 	      // declare Maximum and ybin
 	      double Maximum=0;
 
-	      std::cout << "Test 1" << std::endl
+	      std::cout << "Test 1" << std::endl;
 
 	      // loop over files
 	      for(int f=0; f<(int)Files.size(); ++f)
 		{
 		  std::cout << "File: " <<  Files[f] << std::endl;
 
+		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
+
+		  //TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  //TH1F* Pt2_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //Pt_->Add(Pt2_);
 
 		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
