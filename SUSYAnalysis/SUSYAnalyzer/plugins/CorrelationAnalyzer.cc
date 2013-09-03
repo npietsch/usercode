@@ -788,7 +788,18 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       Bjets_Et_  ->Fill((*bjets)[bdx].et(),  weight);
       Bjets_Eta_ ->Fill((*bjets)[bdx].eta(), weight);
     }
-  
+    
+//   if(BtagEventWeightsHandle.isValid())
+//     {
+//       std::cout << "BtagEventWeightsHandle is valid()" << std::endl;
+     
+//       nJets_,(*BtagEventWeightsHandle)[0]*weight
+//     }
+//   else
+//     {
+//       std::cout << "BtagEventWeightsHandle is not valid" << std::endl;
+//     }
+
   //-------------------------------------------------
   // MET, Lepton pt vs. HT
   //-------------------------------------------------

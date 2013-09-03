@@ -171,6 +171,8 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH1F* Bjets_Et_;
   TH1F* Bjets_Eta_;
 
+  TH2F* nJets_BtagRatio_;
+
   //-----------------------
   // MET, Lepton pt vs. HT
   //-----------------------
