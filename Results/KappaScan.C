@@ -72,6 +72,8 @@ int KappaScan()
 {
   bool SeparateChannels = true;
 
+  double Xmin=13;
+  double Ymin=9;
 
   // files
    TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets.root", "READ");
@@ -147,10 +149,10 @@ int KappaScan()
 
 		      TH2F* Scan=new TH2F("Scan", "Scan", 40, 0, 2000, 50, 0, 25);
 
-		      for(int binX=13; binX<=22; ++binX)
+		      for(int binX=Xmin; binX<=22; ++binX)
 			{
 
-			  for(int binY=10; binY<=18; ++binY)
+			  for(int binY=Ymin; binY<=18; ++binY)
 			    {
 			      //std::cout << "x bin: " << binX << ", y bin: " << binY << std::endl;
 
@@ -184,13 +186,26 @@ int KappaScan()
 		      Scan->GetYaxis()->SetLabelFont(42);
 		      
 		      // edit ranges
-		      Scan->GetXaxis()->SetRangeUser(300,1100);
+		      Scan->GetXaxis()->SetRangeUser(300,1150);
 		      Scan->GetYaxis()->SetRangeUser(2,9);
-		      Scan->GetZaxis()->SetRangeUser(1.,1.3);
+		      Scan->GetZaxis()->SetRangeUser(0.9,1.3);
 
 		      Scan->Draw("colz");
 
 		      label->Draw();
+
+		      // draw TLines
+		      TLine * line = new TLine(LowerBinsX[hdx]*40-40, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*40-40, 9.5);
+		      line->SetLineWidth(2);
+		      line->SetLineStyle(1);
+		      line->SetLineColor(1);
+		      line->Draw();
+		      		      
+		      TLine * line2= new TLine(LowerBinsX[hdx]*40-40, LowerBinsY[hdx]*0.5-0.5, 1200, LowerBinsY[hdx]*0.5-0.5);
+		      line2->SetLineWidth(2);
+		      line2->SetLineStyle(1);
+		      line2->SetLineColor(1);
+		      line2->Draw();
 
 		      canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_Scan_"+Samples[fdx]+".pdf");                      
 		    }
