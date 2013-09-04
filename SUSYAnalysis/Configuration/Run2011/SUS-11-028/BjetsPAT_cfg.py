@@ -148,23 +148,26 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.muonSelection*
                                  process.analyzeTtGenEvent1m_leptonSelection *
+                                 process.analyzeCorrelation1m_leptonSelection *
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightMuJER *
 
-                                 process.analyzeCorrelation1m_MET60ToInf *
-                                 process.analyzeCorrelation1m_MET100ToInf *
-                                 process.analyzeCorrelation1m_MET150ToInf *
-                                 process.analyzeCorrelation1m_MET200ToInf *
-                                 process.analyzeCorrelation1m_MET250ToInf *
+                                 process.analyzeCorrelation1m_MET60To100 *
+                                 process.analyzeCorrelation1m_MET100To150 *
+                                 process.analyzeCorrelation1m_MET150To200 *
+                                 process.analyzeCorrelation1m_MET200To300 *
+                                 process.analyzeCorrelation1m_MET300ToInf *
                                  
                                  process.analyzeCorrelation1m_nJets1To1 *
                                  process.analyzeCorrelation1m_nJets2To2 *
                                  process.analyzeCorrelation1m_nJets3To3 *
-                                 process.analyzeCorrelation1m_nJets4ToInf *
+                                 process.analyzeCorrelation1m_nJets4To4 *
+                                 process.analyzeCorrelation1m_nJets5To5 *
 
                                  process.jetSelection *
-                                 process.analyzeTtGenEvent1m_jetSelection
+                                 process.analyzeTtGenEvent1m_jetSelection *
+                                 process.analyzeCorrelation1m_jetSelection 
                                  )
 
 ## electron selection path
@@ -185,21 +188,24 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.electronSelection *
                                  process.analyzeTtGenEvent1e_leptonSelection *
+                                 process.analyzeCorrelation1e_leptonSelection *
                                  
                                  # execute b-tag producer modules and analyzer modules
                                  process.btagEventWeightElJER *
 
-                                 process.analyzeCorrelation1e_MET60ToInf *
-                                 process.analyzeCorrelation1e_MET100ToInf *
-                                 process.analyzeCorrelation1e_MET150ToInf *
-                                 process.analyzeCorrelation1e_MET200ToInf *
-                                 process.analyzeCorrelation1e_MET250ToInf *
+                                 process.analyzeCorrelation1e_MET60To100 *
+                                 process.analyzeCorrelation1e_MET100To150 *
+                                 process.analyzeCorrelation1e_MET150To200 *
+                                 process.analyzeCorrelation1e_MET200To300 *
+                                 process.analyzeCorrelation1e_MET300ToInf *
 
                                  process.analyzeCorrelation1e_nJets1To1 *
                                  process.analyzeCorrelation1e_nJets2To2 *
                                  process.analyzeCorrelation1e_nJets3To3 *
-                                 process.analyzeCorrelation1e_nJets4ToInf *
-
+                                 process.analyzeCorrelation1e_nJets4To4 *
+                                 process.analyzeCorrelation1e_nJets5To5 *
+                              
                                  process.jetSelection *
-                                 process.analyzeTtGenEvent1e_leptonSelection
+                                 process.analyzeTtGenEvent1e_leptonSelection *
+                                 process.analyzeCorrelation1e_jetSelection 
                                  )

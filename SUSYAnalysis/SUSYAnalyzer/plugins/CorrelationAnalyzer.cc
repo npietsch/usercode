@@ -987,7 +987,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      double mlv_reco = 0;
 	      
 	      double HadMET = (*met)[0].et()-NuPt;
-	      double fakeMET = sqrt(pow((*met)[0].px()-(*muons)[0].px(),2)+pow((*met)[0].py()-(*muons)[0].py(),2));
+	      double fakeMET = sqrt(pow((*met)[0].px()-NuPx,2)+pow((*met)[0].py()-NuPy,2));
 	      
 	      double MET_NuPt_Ratio = ((*met)[0].et())/NuPt;
 	      double MET_HadMET_Ratio = ((*met)[0].et())/HadMET;
