@@ -106,7 +106,7 @@ int METResolution()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_HadMET", "#Delta#slash{E}_{T} [GeV]", -200., 200., 1);
+  addHistogram("HT_HadMET_2", "#slash{E}_{T}#kern[0.5]{-}#kern[0.2]{p_{T}^{#nu}} [GeV]", -200., 200., 0);
 
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -125,10 +125,10 @@ int METResolution()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(19, 25,  "360 < H_{T} < 500",   kRed-4,  22);
-  addBin(26, 32,  "500 < H_{T} < 640",   kBlue-7, 23);
-  addBin(33, 39,  "640 < H_{T} < 780",   1,       20);
-  addBin(39, 45,  "780 < H_{T} < 920",   kRed+2,  21);
+  addBin(8,  10,  "375 < H_{T} < 500",   kRed-4,  22);
+  addBin(11, 13,  "500 < H_{T} < 650",   kBlue-7, 23);
+  addBin(14, 16,  "650 < H_{T} < 800",   1,       20);
+  addBin(17, 19,  "800 < H_{T} < 950",   kRed+2,  21);
 
 //   addBin(21, 30,  "400 < H_{T} < 600",   kRed-4,  22);
 //   addBin(31, 40,  "600 < H_{T} < 800",   kBlue-7, 23);
@@ -309,7 +309,7 @@ int METResolution()
 		  TH1F* ProjectionHT = (TH1F*)Hist2->ProjectionX(Histograms[hdx], 0, -1,"");
 		  for(int bin=0; bin<(int)FirstBins.size(); ++bin)
 		    {
-		      ProjectionHT->GetXaxis()->SetRangeUser(FirstBins[bin]*20-20,LastBins[bin]*20-20);
+		      ProjectionHT->GetXaxis()->SetRangeUser(FirstBins[bin]*50-50,LastBins[bin]*50-50);
 		      std::cout << ProjectionHT->GetMean() << std::endl;
 
 		      HTAverage.push_back(ProjectionHT->GetMean());

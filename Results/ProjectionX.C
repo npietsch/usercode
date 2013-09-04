@@ -90,13 +90,13 @@ int ProjectionX()
   double LogMax=0.8;
 
   double Min=0;
-  double Max=0.3;
+  double Max=0.5;
 
-  int NormBin=10;
+  int NormBin=9;
 
   TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
   //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
-  TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets.root", "READ");
+  TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets_Correlation.root", "READ");
   TFile* SemiLepTau  = new TFile("SemiLepTauTTJets.root",  "READ");
   TFile* DiLep       = new TFile("DiLepTTJets.root", "READ");
   TFile* FullHad     = new TFile("FullHadTTJets.root", "READ");
@@ -117,15 +117,19 @@ int ProjectionX()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_YMET",     "H_{T} [GeV]", 360, 1000, 1);
+  addHistogram("HT_YMET",     "H_{T} [GeV]", 400, 1000, 1);
   //addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 0);
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
+  //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets1To1",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets2To2",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)

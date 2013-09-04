@@ -82,7 +82,7 @@ void addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marke
 // main function
 int ProjectionY()
 {
-  bool Log = true;
+  bool Log = false;
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
@@ -90,11 +90,11 @@ int ProjectionY()
   double LogMax=0.8;
 
   double Min=0;
-  double Max=0.5;
+  double Max=0.15;
 
   TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
   //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
-  TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets.root", "READ");
+  TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets_Correlation.root", "READ");
   TFile* SemiLepTau  = new TFile("SemiLepTauTTJets.root",  "READ");
   TFile* DiLep       = new TFile("DiLepTTJets.root", "READ");
   TFile* FullHad     = new TFile("FullHadTTJets.root", "READ");
@@ -104,26 +104,28 @@ int ProjectionY()
   // add addSample(TFile* file, TString sample, TString name)
   //--------------------------------------------------------------------------------------------------
 
-  addSample(WJetsHT, "WJetsHT", "W+Jets");
+  //addSample(WJetsHT, "WJetsHT", "W+Jets");
   addSample(SemiLepElMu,"SemiLepElMuTTJets", "Semilep. t#bar{t}+Jets e/#mu");
   //addSample(SemiLepTau, "SemiLepTauTTJets",  "Semilep. t#bar{t}+Jets #tau");
   //addSample(DiLep,      "DiLepTTJets",       "Dilep. t#bar{t}+Jets");
   //addSample(FullHad,    "FullHadTTJets",     "Fullhad. t#bar{t}+Jets");
-  addSample(SingleTop,    "SingleTop",        "Single Top");
+  //addSample(SingleTop,    "SingleTop",        "Single Top");
 
   //--------------------------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
   // addHistogram("HT_YMET",     "Y_{MET} [GeV^{#frac{1}{2}}]", 0, 25, 0);
-  addHistogram("HT_LepPtSig", "p_{T}^{#nu}/ #sqrt{H_{T}} [GeV^{#frac{1}{2}}]", 360, 1000, 0);
+  //addHistogram("HT_LepPtSig", "p_{T}^{#nu}/ #sqrt{H_{T}} [GeV^{#frac{1}{2}}]", 360, 1000, 0);
   
+  addHistogram("HT_METRatio", "#slash{E}_{T}/p_{T}^{#nu}", 0, 2, 1);
+
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
+  //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -136,10 +138,10 @@ int ProjectionY()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(10, 12, "360 < H_{T} < 480",   kRed-4,  22);
-  addBin(13, 15,  "480 < H_{T} < 600",  kBlue-7, 23);
-  addBin(16, 18,  "600 < H_{T} < 720",  1,       20);
-  addBin(19, 21,  "720 < H_{T} < 840",  kRed+2,  21);
+  addBin(11, 12, "400 < H_{T} < 500",  kRed-4,  22);
+  addBin(13, 14, "500 < H_{T} < 600",  kBlue-7, 23);
+  addBin(15, 16, "600 < H_{T} < 700",  1,       20);
+  addBin(17, 18, "700 < H_{T} < 800",  kRed+2,  21);
 
 //   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
 //   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);
@@ -149,7 +151,8 @@ int ProjectionY()
   //addBin(13, 18,  "6 < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   4, 23);
   //addBin(18, 23,  "9 < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1, 20);
 
-  
+  //addBin(1, -1, "H_{T}",  kRed-4,  22);
+
   //--------------------------------------------------------------------------------------------------
   // Set style 
   //--------------------------------------------------------------------------------------------------
@@ -202,7 +205,7 @@ int ProjectionY()
 			  
 			  // edit ranges and scale
 			  Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-			  Projection->Scale(1/Projection->Integral(7,-1));
+			  Projection->Scale(1/Projection->Integral(1,-1));
 			  if(Log == true)
 			    {
 			      Projection->SetMinimum(LogMin);
@@ -318,7 +321,7 @@ int ProjectionY()
 		      
 		      // edit ranges and scale
 		      Projection->GetXaxis()->SetRangeUser(FirstValues[hdx],LastValues[hdx]);
-		      Projection->Scale(1/Projection->Integral(9,24));
+		      Projection->Scale(1/Projection->Integral(1,-1));
 		      if(Log == true)
 			{
 			  Projection->SetMinimum(LogMin);
@@ -371,7 +374,7 @@ int ProjectionY()
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      line->Draw();
+		      //line->Draw();
 		    }
 		  else
 		    {
@@ -379,7 +382,7 @@ int ProjectionY()
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      line->Draw();
+		      //line->Draw();
 		    }
 
 		  // save canvas

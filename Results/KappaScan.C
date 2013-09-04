@@ -95,7 +95,7 @@ int KappaScan()
   //--------------------------------------------------------------------------------------------------
   
   //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
