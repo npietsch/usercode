@@ -24,6 +24,7 @@ vector<unsigned int> LowerBinsX;
 vector<unsigned int> UpperBinsX;
 vector<unsigned int> LowerBinsY;
 vector<unsigned int> UpperBinsY;
+vector<TString> Labels;
 
 vector<TString> Modules;
 vector<TString> Selections;
@@ -41,7 +42,7 @@ void addSample(TFile* file, TString sample, TString name)
 }
 
 // add histogram
-void addHistogram(TString name, TString xLabel, TString yLabel, int lowerBinX, int upperBinX, int lowerBinY, int upperBinY )
+void addHistogram(TString name, TString xLabel, TString yLabel, int lowerBinX, int upperBinX, int lowerBinY, int upperBinY, TString label )
 {
   Histograms.push_back(name);
   XLabels.push_back(xLabel);
@@ -50,6 +51,7 @@ void addHistogram(TString name, TString xLabel, TString yLabel, int lowerBinX, i
   UpperBinsX.push_back(upperBinX);
   LowerBinsY.push_back(lowerBinY);
   UpperBinsY.push_back(upperBinY);
+  Labels.push_back(label);
 }
 
 // add selection step
@@ -71,12 +73,13 @@ void addChannel(TString channel, TString channelLabel)
 int KappaScan()
 {
   bool SeparateChannels = true;
+  bool CombinedChannels = true;
 
   double Xmin=13;
   double Ymin=9;
 
   // files
-   TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets.root", "READ");
+   TFile* SemiLepElMu = new TFile("SemiLepElMuTTJets_Correlation.root", "READ");
    
   //--------------------------------------------------------------------------------------------------
   // add addSample(TFile* file, TString sample, TString name)
@@ -88,21 +91,24 @@ int KappaScan()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 7, 51);
+  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 8, 41, 7, 51,  "350_3");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 9, 41, 7, 51,  "400_3");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 7, 51, "450_3");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 11, 41, 7, 51, "500_3");
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
   //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
   //--------------------------------------------------------------------------------------------------
   
   addChannel("m", "muon channel");
-  //addChannel("e", "electron channel");
+  addChannel("e", "electron channel");
   
   //--------------------------------------------------------------------------------------------------
   // Set style 
@@ -130,9 +136,9 @@ int KappaScan()
 		{
 		  for(int cdx=0; cdx<(int)Channels.size(); ++cdx)
 		    {
-		      std::cout << Modules[sdx]+Channels[cdx]+Selections[sdx] << "_" << Histograms[hdx] << std::endl;
+		      std::cout << Modules[sdx]+Channels[cdx]+Selections[sdx] << "/" << Histograms[hdx] << std::endl;
 		      
-		      TCanvas *canvas = new TCanvas(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
+		      TCanvas *canvas = new TCanvas(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx],Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx], 1);
 		      
 		      TPaveText *label = new TPaveText(0.12,0.94,0.94,1.,"NDC");
 		      label->SetFillColor(0);
@@ -149,12 +155,12 @@ int KappaScan()
 
 		      TH2F* Scan=new TH2F("Scan", "Scan", 40, 0, 2000, 50, 0, 25);
 
-		      for(int binX=Xmin; binX<=22; ++binX)
+		      for(int binX=Xmin; binX<=20; ++binX)
 			{
 
-			  for(int binY=Ymin; binY<=18; ++binY)
+			  for(int binY=Ymin; binY<=16; ++binY)
 			    {
-			      //std::cout << "x bin: " << binX << ", y bin: " << binY << std::endl;
+			      std::cout << "x bin: " << binX << ", y bin: " << binY << std::endl;
 
 			      double nA = Hist->Integral(LowerBinsX[hdx], binX,            LowerBinsY[hdx], binY);
 			      double nB = Hist->Integral(binX,            UpperBinsX[hdx], LowerBinsY[hdx], binY);
@@ -163,7 +169,7 @@ int KappaScan()
 
 			      double Kappa=(nD*nA)/(nB*nC);
 			      
-			      //std::cout << Kappa << std::endl;
+			      std::cout << Kappa << std::endl;
 
 			      Scan->SetBinContent(binX, binY, Kappa);
 			    }
@@ -186,30 +192,118 @@ int KappaScan()
 		      Scan->GetYaxis()->SetLabelFont(42);
 		      
 		      // edit ranges
-		      Scan->GetXaxis()->SetRangeUser(300,1150);
-		      Scan->GetYaxis()->SetRangeUser(2,9);
-		      Scan->GetZaxis()->SetRangeUser(0.9,1.3);
+		      Scan->GetXaxis()->SetRangeUser(300,950);
+		      Scan->GetYaxis()->SetRangeUser(2.5,7.5);
+		      Scan->GetZaxis()->SetRangeUser(0.8,1.2);
 
 		      Scan->Draw("colz");
 
 		      label->Draw();
 
 		      // draw TLines
-		      TLine * line = new TLine(LowerBinsX[hdx]*40-40, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*40-40, 9.5);
+		      TLine * line = new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*50-50, 8);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(1);
 		      line->SetLineColor(1);
 		      line->Draw();
 		      		      
-		      TLine * line2= new TLine(LowerBinsX[hdx]*40-40, LowerBinsY[hdx]*0.5-0.5, 1200, LowerBinsY[hdx]*0.5-0.5);
+		      TLine * line2= new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, 1000, LowerBinsY[hdx]*0.5-0.5);
 		      line2->SetLineWidth(2);
 		      line2->SetLineStyle(1);
 		      line2->SetLineColor(1);
 		      line2->Draw();
 
-		      canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_Scan_"+Samples[fdx]+".pdf");                      
+		      canvas->SaveAs(Modules[sdx]+Channels[cdx]+Selections[sdx]+"_"+Histograms[hdx]+"_Scan_"+Labels[hdx]+"_"+Samples[fdx]+".pdf");                      
 		    }
 		}
+
+	      if(CombinedChannels == true)
+		{
+		  std::cout << Modules[sdx]+"1l"+Selections[sdx] << "/" << Histograms[hdx] << std::endl;
+		  
+		  TCanvas *canvas = new TCanvas(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx], 1);
+		  
+		  TPaveText *label = new TPaveText(0.12,0.94,0.94,1.,"NDC");
+		  label->SetFillColor(0);
+		  label->SetTextFont(42);
+		  label->SetTextSize(0.04);
+		  label->SetBorderSize(0);
+		  label->SetTextAlign(12);
+		  TText *text=label->AddText("Simulation, 4.98 fb^{-1}, #sqrt{s} = 7 TeV, "+ChannelLabels[cdx]);
+		  
+		  TH2F* Hist = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[0]+Selections[sdx]+"/"+Histograms[hdx]);
+
+		  for(int cdx=0; cdx<(int)Channels.size(); ++cdx)
+		    {
+		      TH2F* Hist2 = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[cdx]+Selections[sdx]+"/"+Histograms[hdx]);
+		      Hist->Add(Hist2);
+		    }
+		  
+		  std::cout << LowerBinsX[hdx] << std::endl;
+		  std::cout << UpperBinsX[hdx] << std::endl;
+		  
+		  TH2F* Scan=new TH2F("Scan", "Scan", 40, 0, 2000, 50, 0, 25);
+		  
+		  for(int binX=Xmin; binX<=20; ++binX)
+		    {
+		      
+		      for(int binY=Ymin; binY<=16; ++binY)
+			{
+			  std::cout << "x bin: " << binX << ", y bin: " << binY << std::endl;
+			  
+			  double nA = Hist->Integral(LowerBinsX[hdx], binX,            LowerBinsY[hdx], binY);
+			  double nB = Hist->Integral(binX,            UpperBinsX[hdx], LowerBinsY[hdx], binY);
+			  double nC = Hist->Integral(LowerBinsX[hdx], binX,            binY,       UpperBinsY[hdx]);
+			  double nD = Hist->Integral(binX,            UpperBinsX[hdx], binY,       UpperBinsY[hdx]);
+			  
+			  double Kappa=(nD*nA)/(nB*nC);
+			  
+			  std::cout << Kappa << std::endl;
+			  
+			  Scan->SetBinContent(binX, binY, Kappa);
+			}
+		    }
+		  
+		  // edit titles
+		  Scan->SetTitle("");
+		  
+		  Scan->GetXaxis()->SetTitle(XLabels[hdx]);
+		  Scan->GetXaxis()->SetTitleOffset(1.2);
+		  Scan->GetXaxis()->SetTitleSize(0.05);
+		  Scan->GetXaxis()->SetTitleFont(42);
+		  Scan->GetXaxis()->SetLabelFont(42);
+		  Scan->GetXaxis()->SetNdivisions(507);
+		  
+		  Scan->GetYaxis()->SetTitle(YLabels[hdx]);
+		  Scan->GetYaxis()->SetTitleOffset(1.2);
+		  Scan->GetYaxis()->SetTitleSize(0.05);
+		  Scan->GetYaxis()->SetTitleFont(42);
+		  Scan->GetYaxis()->SetLabelFont(42);
+		  
+		  // edit ranges
+		  Scan->GetXaxis()->SetRangeUser(300,950);
+		  Scan->GetYaxis()->SetRangeUser(2.5,7.5);
+		  Scan->GetZaxis()->SetRangeUser(0.8,1.2);
+
+		  Scan->Draw("colz");
+		  
+		  label->Draw();
+		  
+		  // draw TLines
+		  TLine * line = new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*50-50, 8);
+		  line->SetLineWidth(2);
+		  line->SetLineStyle(1);
+		  line->SetLineColor(1);
+		  line->Draw();
+		  
+		  TLine * line2= new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, 1000, LowerBinsY[hdx]*0.5-0.5);
+		  line2->SetLineWidth(2);
+		  line2->SetLineStyle(1);
+		  line2->SetLineColor(1);
+		  line2->Draw();
+		  
+		  canvas->SaveAs(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_Scan_"+Labels[hdx]+"_"+Samples[fdx]+".pdf");                      
+		}      
 	    }      
 	}
     }
