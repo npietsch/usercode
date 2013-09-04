@@ -296,10 +296,17 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,  0., 1000);
   smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,  0., 1000);
 
-  HT_HadMET_      = fs->make<TH2F>("HT_HadMET",      "hadronic MET vs. HT", 40., 0.,2000,   50, -250, 250);
-  HT_HadMET_2_    = fs->make<TH2F>("HT_HadMET_2",    "hadronic MET vs. HT", 40., 0.,2000,   50, -250, 250); 
-  HT_METRatio_    = fs->make<TH2F>("HT_METRatio",    "METRatio vs. HT",     40., 0.,2000,   40,   0.,   2); 
+  HT_HadMET_         = fs->make<TH2F>("HT_HadMET",         "hadronic MET vs. HT",   40., 0.,2000,   50, -250, 250);
+  HT_HadMET_2_       = fs->make<TH2F>("HT_HadMET_2",       "hadronic MET vs. HT",   40., 0.,2000,   50, -250, 250);
+ 
+  HT_fakeMET_        = fs->make<TH2F>("HT_fakeMET",        "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
+  HT_fakeMET_2_      = fs->make<TH2F>("HT_fakeMET_2",      "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
 
+  HT_METNuPtRatio_     = fs->make<TH2F>("HT_METNuPtRatio",     "METNuPtRatio vs. HT",   40., 0.,2000,   40,   0.,   2); 
+  HT_METHadMETRatio_   = fs->make<TH2F>("HT_METHadMETRatio",   "METHadMETRatio vs. HT", 40., 0.,2000,   40,   0.,   2);
+  HT_METfakeMETRatio_  = fs->make<TH2F>("HT_METfakeMETRatio",  "METfakeRatio vs. HT",   40., 0.,2000,   40,   0.,   2);
+  HT_NuPtfakeMETRatio_ = fs->make<TH2F>("HT_NuPtfakeMETRatio", "NuPtfakeRatio vs. HT",   40., 0.,2000,   40,   0.,   2); 
+  
   HadMET_400HT500_  = fs->make<TH1F>("HadMET_400HT500_",  "hadronic MET", 50, -250, 250);
   HadMET_500HT600_  = fs->make<TH1F>("HadMET_500HT600_",  "hadronic MET", 50, -250, 250);
   HadMET_600HT700_  = fs->make<TH1F>("HadMET_600HT700_",  "hadronic MET", 50, -250, 250);
@@ -979,8 +986,13 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      
 	      double mlv_reco = 0;
 	      
-	      double HadMET=(*met)[0].et()-NuPt;
-	      double METRatio=((*met)[0].et())/NuPt;
+	      double HadMET = (*met)[0].et()-NuPt;
+	      double fakeMET = sqrt(pow((*met)[0].px()-(*muons)[0].px(),2)+pow((*met)[0].py()-(*muons)[0].py(),2));
+	      
+	      double MET_NuPt_Ratio = ((*met)[0].et())/NuPt;
+	      double MET_HadMET_Ratio = ((*met)[0].et())/HadMET;
+	      double MET_fakeMET_Ratio = ((*met)[0].et())/fakeMET;
+	      double NuPt_fakeMET_Ratio = NuPt/fakeMET;
 
 	      if(singleLepton != 0) mlv_reco = sqrt(2*(NuPt*singleLepton->pt()-NuPx*singleLepton->px()-NuPy*singleLepton->py()));
 
@@ -1000,15 +1012,20 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
 	      //std::cout << "Test 4" << std::endl;
 
-	      HT_HadMET_   -> Fill(HT, HadMET,   weight);
+	      HT_HadMET_   -> Fill(HT, HadMET,  weight);
+	      HT_fakeMET_  -> Fill(HT, fakeMET, weight);
 
 	      //std::cout << "Test 5" << std::endl;
 
-	      HT_METRatio_ -> Fill(HT, METRatio, weight);
+	      HT_METNuPtRatio_     -> Fill(HT, MET_NuPt_Ratio,     weight);
+	      HT_METHadMETRatio_   -> Fill(HT, MET_HadMET_Ratio,   weight);
+	      HT_METfakeMETRatio_  -> Fill(HT, MET_fakeMET_Ratio,  weight);
+	      HT_NuPtfakeMETRatio_ -> Fill(HT, NuPt_fakeMET_Ratio, weight);
 
 	      //std::cout << "Test 6" << std::endl;
 
-	      if(NuPt > HadMET) HT_HadMET_2_ -> Fill(HT, HadMET,  weight);
+	      if(NuPt > HadMET)  HT_HadMET_2_  -> Fill(HT, HadMET,  weight);
+	      if(NuPt > fakeMET) HT_fakeMET_2_ -> Fill(HT, fakeMET, weight);
 
 	      //std::cout << "Test 7" << std::endl; 
 	  
@@ -1031,7 +1048,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 		  NuPt_600HT700_    -> Fill(NuPt, weight);
 		  if(NuPt > HadMET) HadMET_600HT700_2_ -> Fill(HadMET, weight);
 		}
-	      else if(700 < HT && HT < 800) 
+	      else if(700 < HT && HT < 800)
 		{
 		  HadMET_700HT800_  -> Fill(HadMET, weight);
 		  NuPt_700HT800_    -> Fill(NuPt, weight);
@@ -1080,7 +1097,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	    {
 	      hadWMass_  ->Fill(semiLepEvent->hadronicDecayW(hypoKey_)  ->mass(),  weight);
 	      hadTopMass_->Fill(semiLepEvent->hadronicDecayTop(hypoKey_)->mass(),  weight);
-	      if(hypoKey_ == "kKinFit" )
+	      if(hypoKey_ == "kKinFit")
 		{
 		  chi2_ ->Fill(semiLepEvent->fitChi2(), weight);
 		}
