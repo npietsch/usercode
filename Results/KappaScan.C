@@ -223,17 +223,23 @@ int KappaScan()
 		  
 		  TCanvas *canvas = new TCanvas(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Labels[hdx]+"_"+Samples[fdx], 1);
 		  
+		  std::cout << "Test1" << std::endl;
+
 		  TPaveText *label = new TPaveText(0.12,0.94,0.94,1.,"NDC");
 		  label->SetFillColor(0);
 		  label->SetTextFont(42);
 		  label->SetTextSize(0.04);
 		  label->SetBorderSize(0);
 		  label->SetTextAlign(12);
-		  TText *text=label->AddText("Simulation, 4.98 fb^{-1}, #sqrt{s} = 7 TeV, "+ChannelLabels[cdx]);
+		  TText *text=label->AddText("Simulation, 4.98 fb^{-1}, #sqrt{s} = 7 TeV");
 		  
+		  std::cout << "Test2" << std::endl;
+
 		  TH2F* Hist = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[0]+Selections[sdx]+"/"+Histograms[hdx]);
 
-		  for(int cdx=0; cdx<(int)Channels.size(); ++cdx)
+		  std::cout << "Test3" << std::endl;
+
+		  for(int cdx=1; cdx<(int)Channels.size(); ++cdx)
 		    {
 		      TH2F* Hist2 = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[cdx]+Selections[sdx]+"/"+Histograms[hdx]);
 		      Hist->Add(Hist2);
@@ -242,7 +248,7 @@ int KappaScan()
 		  std::cout << LowerBinsX[hdx] << std::endl;
 		  std::cout << UpperBinsX[hdx] << std::endl;
 		  
-		  TH2F* Scan=new TH2F("Scan", "Scan", 40, 0, 2000, 50, 0, 25);
+		  TH2F* Scan2=new TH2F("Scan2", "Scan2", 40, 0, 2000, 50, 0, 25);
 		  
 		  for(int binX=Xmin; binX<=20; ++binX)
 		    {
@@ -260,32 +266,32 @@ int KappaScan()
 			  
 			  std::cout << Kappa << std::endl;
 			  
-			  Scan->SetBinContent(binX, binY, Kappa);
+			  Scan2->SetBinContent(binX, binY, Kappa);
 			}
 		    }
 		  
 		  // edit titles
-		  Scan->SetTitle("");
+		  Scan2->SetTitle("");
 		  
-		  Scan->GetXaxis()->SetTitle(XLabels[hdx]);
-		  Scan->GetXaxis()->SetTitleOffset(1.2);
-		  Scan->GetXaxis()->SetTitleSize(0.05);
-		  Scan->GetXaxis()->SetTitleFont(42);
-		  Scan->GetXaxis()->SetLabelFont(42);
-		  Scan->GetXaxis()->SetNdivisions(507);
+		  Scan2->GetXaxis()->SetTitle(XLabels[hdx]);
+		  Scan2->GetXaxis()->SetTitleOffset(1.2);
+		  Scan2->GetXaxis()->SetTitleSize(0.05);
+		  Scan2->GetXaxis()->SetTitleFont(42);
+		  Scan2->GetXaxis()->SetLabelFont(42);
+		  Scan2->GetXaxis()->SetNdivisions(507);
 		  
-		  Scan->GetYaxis()->SetTitle(YLabels[hdx]);
-		  Scan->GetYaxis()->SetTitleOffset(1.2);
-		  Scan->GetYaxis()->SetTitleSize(0.05);
-		  Scan->GetYaxis()->SetTitleFont(42);
-		  Scan->GetYaxis()->SetLabelFont(42);
+		  Scan2->GetYaxis()->SetTitle(YLabels[hdx]);
+		  Scan2->GetYaxis()->SetTitleOffset(1.2);
+		  Scan2->GetYaxis()->SetTitleSize(0.05);
+		  Scan2->GetYaxis()->SetTitleFont(42);
+		  Scan2->GetYaxis()->SetLabelFont(42);
 		  
 		  // edit ranges
-		  Scan->GetXaxis()->SetRangeUser(300,950);
-		  Scan->GetYaxis()->SetRangeUser(2.5,7.5);
-		  Scan->GetZaxis()->SetRangeUser(0.8,1.2);
+		  Scan2->GetXaxis()->SetRangeUser(300,950);
+		  Scan2->GetYaxis()->SetRangeUser(2.5,7.5);
+		  Scan2->GetZaxis()->SetRangeUser(0.8,1.2);
 
-		  Scan->Draw("colz");
+		  Scan2->Draw("colz");
 		  
 		  label->Draw();
 		  
