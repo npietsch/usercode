@@ -267,6 +267,15 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* pv_MET_;
   TH2F* smearedPv_MET_;
 
+  TH2F* NuPt_fakeMET_375HT500_;
+  TH2F* NuPt_fakeMET_500HT650_;
+  TH2F* NuPt_fakeMET_650HT800_;
+  TH2F* NuPt_fakeMET_800HT950_;
+
+  TH2F* NuPt_fakeMET_;
+  TH2F* NuPt_MET_;
+  TH2F* fakeMET_MET_;
+
   TH2F* HT_HadMET_;
   TH2F* HT_HadMET_2_;
   TH2F* HT_fakeMET_;
