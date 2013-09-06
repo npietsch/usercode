@@ -19,13 +19,23 @@ int Colz()
   TH1F* Hist1=(TH1F*)Files[0]->Get("analyzeCorrelation1m_jetSelection/NuPt_fakeMET");
   TH1F* Hist2=(TH1F*)Files[0]->Get("analyzeCorrelation1e_jetSelection/NuPt_fakeMET");
 
+  //--------------------------------------------------------------------------------------------------
+  // Set style 
+  //--------------------------------------------------------------------------------------------------
+
+  setTDRStyle();
+  tdrStyle->SetPadLeftMargin(0.16);
+  tdrStyle->SetPadRightMargin(0.14);
+  tdrStyle->SetPalette(1);
+
+  //--------------------------------------------------------------------------------------------------
+  // Plot
+  //--------------------------------------------------------------------------------------------------
+
+
   Hist1->Add(Hist2);
 
   TCanvas *c1 =new TCanvas("Test", "Test", 1);
-
-  setTDRStyle();
-
-  tdrStyle->SetPalette(1);
 
   Hist1->GetXaxis()->SetRangeUser(0,500);
   Hist1->GetYaxis()->SetRangeUser(0,500);
