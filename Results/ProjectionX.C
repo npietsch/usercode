@@ -126,10 +126,13 @@ int ProjectionX()
   
   //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
   //addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
-  addSelectionStep("analyzeCorrelation1", "_nJets1To1",    "jet selection");
+  //addSelectionStep("analyzeCorrelation1", "_nJets1To1",    "jet selection");
   addSelectionStep("analyzeCorrelation1", "_nJets2To2",    "jet selection");
   addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "jet selection");
-  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets4To4",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets5To5",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets6To6",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_nJets7To7",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -144,8 +147,8 @@ int ProjectionX()
 
   addBin(7,  12,  "#kern[1]{3} < Y_{MET} < 6",   kRed-4,  22);
   addBin(13, 18,  "#kern[1]{6} < Y_{MET} < 9",   kBlue-7, 23);
-  addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",   1,       20);
-  addBin(25, 30,  "12 < Y_{MET} < 15",  kRed+2,  21);
+  addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",  1,       20);
+  addBin(25, 30,  "12 < Y_{MET} < 15",           kRed+2,  21);
 
 //   addBin(7,  12,  "#kern[1]{3} < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   kRed-4,  22);
 //   addBin(13, 18,  "#kern[1]{6} < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   kBlue-7, 23);
