@@ -36,6 +36,7 @@ vector<TString> ChannelLabels;
 vector<unsigned int> FirstBins;
 vector<unsigned int> LastBins;
 vector<TString> BinLabels;
+vector<TString> BinNames;
 
 // addSample
 void addSample(TFile* file, TString sample, TString name)
@@ -73,17 +74,18 @@ void addChannel(TString channel, TString channelLabel)
 }
 
 // add bin
-void addBin(int firstBin, int lastBin, TString binLabel)
+void addBin(int firstBin, int lastBin, TString binLabel, TString binName)
 {
   FirstBins.push_back(firstBin);
   LastBins.push_back(lastBin);
   BinLabels.push_back(binLabel);
+  BinNames.push_back(binName);
 }
 
 // main function
 int ProjectionY_nJets()
 {
-  bool Log = true;
+  bool Log = false;
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
@@ -91,7 +93,7 @@ int ProjectionY_nJets()
   double LogMax=0.8;
 
   double Min=0;
-  double Max=0.5;
+  double Max=0.45;
 
   int NormBin=0;
 
@@ -118,13 +120,14 @@ int ProjectionY_nJets()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  //addHistogram("HT_MET",     "#slash{$}_{T} [GeV]",        0, 500, 1);
-  addHistogram("HT_fakeMET", "#slash{$}_{T}^{fake} [GeV]", 0, 200, 1);
+  addHistogram("HT_MET",     "#slash{E}_{T} [GeV]",        0, 500, 1);
+  //addHistogram("HT_fakeMET", "#slash{E}_{T}^{fake} [GeV]", 0, 200, 1);
 
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel, int binColor, int marker)
   //--------------------------------------------------------------------------------------------------
   
+  //addSelectionStep("analyzeCorrelation1", "_nJets1To1",    "nJets = 1", 1,         25);
   addSelectionStep("analyzeCorrelation1", "_nJets2To2",    "nJets = 2", kRed-4,    20);
   addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "nJets = 3", kGreen-3,  21);
   addSelectionStep("analyzeCorrelation1", "_nJets4To4",    "nJets = 4", kBlue-7,   22);
@@ -153,10 +156,13 @@ int ProjectionY_nJets()
   // addBin(int firstBin, int lastBin, TString binLabel) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(7,  10, "375 < H_{T} < 450");
-  addBin(11, 14, "450 < H_{T} < 550");
-  addBin(15, 18, "550 < H_{T} < 650");
-  addBin(19, 22, "650 < H_{T} < 750");
+  addBin(7,  10, "375 < H_{T} < 450", "375HT450");
+  addBin(11, 14, "450 < H_{T} < 550", "450HT550");
+  addBin(15, 18, "550 < H_{T} < 650", "550HT650");
+  addBin(19, 22, "650 < H_{T} < 750", "650HT750");
+  addBin(23, 26, "750 < H_{T} < 850", "750HT850");
+  addBin(27, 31, "850 < H_{T} < 1000","850HT1000");
+
 
 //   addBin(7,  11, "375 < H_{T} < 500");
 //   addBin(12, 16, "500 < H_{T} < 650");
@@ -189,12 +195,14 @@ int ProjectionY_nJets()
 
 		      std::cout << "\nbins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
 		      
-		      TCanvas *canvas = new TCanvas(Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx],Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx], 1);
+		      //TCanvas *canvas = new TCanvas(Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx],Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx], 1);
+
+		      TCanvas *canvas = new TCanvas(Histograms[hdx]+"_1"+Channels[cdx]+"_"+BinNames[bin]+"_"+Samples[fdx],Histograms[hdx]+"_1"+Channels[cdx]+"_"+BinNames[bin]+"_"+Samples[fdx], 1);
 
 		      TLegend *leg = new TLegend(.65,.62,.95,.93);
 		      leg->SetTextFont(42);
-		      leg->SetTextSize(0.05);
-		      //leg->SetTextSize(0.04);
+		      //leg->SetTextSize(0.05);
+		      leg->SetTextSize(0.045);
 		      leg->SetFillColor(0);
 		      leg->SetLineColor(1);
 		      leg->SetShadowColor(0);
@@ -268,11 +276,11 @@ int ProjectionY_nJets()
 		      if(Log == true)
 			{
 			  canvas->SetLogy();
-			  canvas->SaveAs(Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx]+"_log.pdf");
+			  canvas->SaveAs(Histograms[hdx]+"_1"+Channels[cdx]+"_"+BinNames[bin]+"_"+Samples[fdx]+"_log.pdf");
 			}
 		      else
 			{	
-			  canvas->SaveAs(Histograms[hdx]+"_1"+Channels[cdx]+"_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx]+".pdf");
+			  canvas->SaveAs(Histograms[hdx]+"_1"+Channels[cdx]+"_"+BinNames[bin]+"_"+Samples[fdx]+".pdf");
 			}
 		    }
 		}
@@ -285,12 +293,12 @@ int ProjectionY_nJets()
 		  
 		  std::cout << "\nbins " << FirstBins[bin] << " - " << LastBins[bin] << std::endl;
 		  
-		  TCanvas *canvas = new TCanvas(Histograms[hdx]+"_1l_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx],Histograms[hdx]+"_1l_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx], 1);
+		  TCanvas *canvas = new TCanvas(Histograms[hdx]+"_1l_"+BinNames[bin]+"_"+Samples[fdx],Histograms[hdx]+"_1l_"+BinNames[bin]+"_"+Samples[fdx], 1);
 		  
-		  TLegend *leg = new TLegend(.65,.62,.95,.93);
+		  TLegend *leg = new TLegend(.70,.62,.95,.93);
 		  leg->SetTextFont(42);
-		  leg->SetTextSize(0.05);
-		  //leg->SetTextSize(0.04);
+		  //leg->SetTextSize(0.05);
+		  leg->SetTextSize(0.045);
 		  leg->SetFillColor(0);
 		  leg->SetLineColor(1);
 		  leg->SetShadowColor(0);
@@ -373,11 +381,11 @@ int ProjectionY_nJets()
 		  if(Log == true)
 		    {
 		      canvas->SetLogy();
-		      canvas->SaveAs(Histograms[hdx]+"_1l_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx]+"_log.pdf");
+		      canvas->SaveAs(Histograms[hdx]+"_1l_"+BinNames[bin]+"_"+Samples[fdx]+"_log.pdf");
 		    }
 		  else
 		    {	
-		      canvas->SaveAs(Histograms[hdx]+"_1l_"+FirstBins[bin]+"_"+LastBins[bin]+"_"+Samples[fdx]+".pdf");
+		      canvas->SaveAs(Histograms[hdx]+"_1l_"+BinNames[bin]+"_"+Samples[fdx]+".pdf");
 		    }
 		}
 	    }
