@@ -258,6 +258,7 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   //-------------------------------------------------
 
   HT_mT_           = fs->make<TH2F>("HT_mT",          "HT vs. mT",      50, 0., 2000., 60,    0.,   600.);
+  HT_nJets_        = fs->make<TH2F>("HT_nJets",       "HT vs. nJets",   50, 0., 2000., 16,  -0.5,   15.5);
   mT_nJets_        = fs->make<TH2F>("mT_nJets" ,      "mT vs. nJets",   60, 0.,  600., 16,  -0.5,   15.5);
   MET_nJets_       = fs->make<TH2F>("MET_nJets",      "MET vs. nJets",  50, 0., 1000., 16,  -0.5,   15.5);
   YMET_nJets_      = fs->make<TH2F>("YMET_nJets",     "YMET vs. nJets", 25, 0.,   25., 16,  -0.5,   15.5);
@@ -942,6 +943,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
       mT_nJets_ ->Fill(mT, jets->size(), weight);
     }
 
+  HT_nJets_   ->Fill(HT,              jets->size(), weight);
   MET_nJets_  ->Fill((*met)[0].et(),  jets->size(), weight);
   YMET_nJets_ ->Fill(YMET, jets->size(), weight);
 
