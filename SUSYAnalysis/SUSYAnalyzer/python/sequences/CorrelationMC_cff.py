@@ -12,7 +12,6 @@ analyzeCorrelation.met            = "scaledJetEnergy:patMETsPF"
 analyzeCorrelation.useEventWeight = True
 analyzeCorrelation.TTJets         = True
 
-
 ## clone and configure modules for different event selection steps
 analyzeCorrelation1m_leptonSelection  = analyzeCorrelation.clone()
 analyzeCorrelation1m_jetSelection     = analyzeCorrelation.clone()
@@ -51,24 +50,32 @@ analyzeCorrelation1m_nJets2To2   = analyzeCorrelation.clone()
 analyzeCorrelation1m_nJets3To3   = analyzeCorrelation.clone()
 analyzeCorrelation1m_nJets4To4   = analyzeCorrelation.clone()
 analyzeCorrelation1m_nJets5To5   = analyzeCorrelation.clone()
+analyzeCorrelation1m_nJets6To6   = analyzeCorrelation.clone()
+analyzeCorrelation1m_nJets7To7   = analyzeCorrelation.clone()
 
 analyzeCorrelation1m_nJets1To1.nJetsCut   = 1,1
 analyzeCorrelation1m_nJets2To2.nJetsCut   = 2,2
 analyzeCorrelation1m_nJets3To3.nJetsCut   = 3,3
 analyzeCorrelation1m_nJets4To4.nJetsCut   = 4,4
 analyzeCorrelation1m_nJets5To5.nJetsCut   = 5,5
+analyzeCorrelation1m_nJets6To6.nJetsCut   = 6,6
+analyzeCorrelation1m_nJets7To7.nJetsCut   = 7,7
 
 analyzeCorrelation1e_nJets1To1   = analyzeCorrelation.clone()
 analyzeCorrelation1e_nJets2To2   = analyzeCorrelation.clone()
 analyzeCorrelation1e_nJets3To3   = analyzeCorrelation.clone()
 analyzeCorrelation1e_nJets4To4   = analyzeCorrelation.clone()
 analyzeCorrelation1e_nJets5To5   = analyzeCorrelation.clone()
+analyzeCorrelation1e_nJets6To6   = analyzeCorrelation.clone()
+analyzeCorrelation1e_nJets7To7   = analyzeCorrelation.clone()
 
 analyzeCorrelation1e_nJets1To1.nJetsCut   = 1,1
 analyzeCorrelation1e_nJets2To2.nJetsCut   = 2,2
 analyzeCorrelation1e_nJets3To3.nJetsCut   = 3,3
 analyzeCorrelation1e_nJets4To4.nJetsCut   = 4,4
 analyzeCorrelation1e_nJets5To5.nJetsCut   = 5,5
+analyzeCorrelation1e_nJets6To6.nJetsCut   = 6,6
+analyzeCorrelation1e_nJets7To7.nJetsCut   = 7,7
 
 #----------------------------------------------------
 # Clone and configure TtGenEventAnalyzer modules

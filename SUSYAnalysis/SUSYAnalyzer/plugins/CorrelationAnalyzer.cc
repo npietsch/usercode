@@ -289,18 +289,26 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   pv_             = fs->make<TH1F>("pv",             "pv",                  50, 0., 1000);
   smearedPv_      = fs->make<TH1F>("smearedPv",      "smearedPv",           50, 0., 1000);
 
-  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",        50, 0., 1000,  16, -0.5, 15.5);
-  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",       60, 0., 600.,  16, -0.5, 15.5);
-  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",       60, 0., 600.,  16, -0.5, 15.5);
+  pv_nJets_       = fs->make<TH2F>("pv_nJets",       "nJets vs. pv",        50, 0., 1000,   16,  -0.5, 15.5);
+  mlv_nJets_gen_  = fs->make<TH2F>("mlv_nJets_gen",  "mlv vs. nJets",       60, 0., 600.,   16,  -0.5, 15.5);
+  mlv_nJets_reco_ = fs->make<TH2F>("mlv_nJets_reco", "mlv vs. nJets",       60, 0., 600.,   16,  -0.5, 15.5);
 
-  pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,  0., 1000);
-  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,  0., 1000);
+  pv_MET_         = fs->make<TH2F>("pv_MET",         "MET vs.pv",           50, 0., 1000,   50,   0., 1000);
+  smearedPv_MET_  = fs->make<TH2F>("smearedPv_MET",  "MET vs. smeared pv",  50, 0., 1000,   50,   0., 1000);
+
+  NuPt_nJets_     = fs->make<TH2F>("NuPt_nJets",     "nJets vs.NuPt",       50, 0., 1000,   16, -0.5, 1000);
+  fakeMET_nJets_  = fs->make<TH2F>("fakeMET_nJets",  "nJets vs.fakeMET",    50, 0., 1000,   16, -0.5, 1000);
 
   HT_HadMET_         = fs->make<TH2F>("HT_HadMET",         "hadronic MET vs. HT",   40., 0.,2000,   50, -250, 250);
   HT_HadMET_2_       = fs->make<TH2F>("HT_HadMET_2",       "hadronic MET vs. HT",   40., 0.,2000,   50, -250, 250);
  
   HT_fakeMET_        = fs->make<TH2F>("HT_fakeMET",        "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
   HT_fakeMET_2_      = fs->make<TH2F>("HT_fakeMET_2",      "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
+
+  HT_fakeMET_        = fs->make<TH2F>("HT_fakeMET",        "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
+  HT_fakeMET_2_      = fs->make<TH2F>("HT_fakeMET_2",      "fake MET vs. HT",   40., 0.,2000,   50, -250, 250);
+
+  HT_NuPt_           = fs->make<TH2F>("HT_NuPt",           "NuPt vs. HT",       40., 0.,2000,   50,   0., 1000);
 
   NuPt_fakeMET_375HT500_ = fs->make<TH2F>("NuPt_fakeMET_375HT500", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
   NuPt_fakeMET_500HT650_ = fs->make<TH2F>("NuPt_fakeMET_500HT650", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
@@ -1019,6 +1027,9 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      pv_MET_         -> Fill(NuPt,      (*met)[0].et(), weight);
 	      smearedPv_MET_  -> Fill(smearedPv, (*met)[0].et(), weight);
 
+	      NuPt_nJets_    -> Fill(NuPt,           jets->size(), weight);
+	      fakeMET_nJets_ -> Fill(fakeMET,        jets->size(), weight);
+
 	      NuPt_fakeMET_ ->Fill(NuPt,    fakeMET,        weight);
 	      NuPt_MET_     ->Fill(NuPt,    (*met)[0].et(), weight);
 	      fakeMET_MET_  ->Fill(fakeMET, (*met)[0].et(), weight);
@@ -1032,6 +1043,7 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 
 	      HT_HadMET_   -> Fill(HT, HadMET,  weight);
 	      HT_fakeMET_  -> Fill(HT, fakeMET, weight);
+	      HT_NuPt_     -> Fill(HT, NuPt,    weight);
 
 	      //std::cout << "Test 5" << std::endl;
 
