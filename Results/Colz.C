@@ -122,8 +122,8 @@ int Colz()
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
 
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)

@@ -85,15 +85,15 @@ void addBin(int firstBin, int lastBin, TString binLabel, TString binName)
 // main function
 int ProjectionY_nJets()
 {
-  bool Log = false;
+  bool Log = true;
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
   double LogMin=0.001;
-  double LogMax=0.8;
+  double LogMax=0.3;
 
   double Min=0;
-  double Max=0.45;
+  double Max=0.25;
 
   int NormBin=0;
 
@@ -120,8 +120,8 @@ int ProjectionY_nJets()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("HT_MET",     "#slash{E}_{T} [GeV]",        0, 500, 1);
-  //addHistogram("HT_fakeMET", "#slash{E}_{T}^{fake} [GeV]", 0, 200, 1);
+  //addHistogram("HT_MET",     "#slash{E}_{T} [GeV]",        0, 500, 1);
+  addHistogram("HT_fakeMET", "#slash{E}_{T}^{fake} [GeV]", 0, 200, 1);
 
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel, int binColor, int marker)
