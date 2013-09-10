@@ -142,9 +142,11 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  
                                  # execute filter and analyzer modules
                                  process.analyzeTtGenEvent1m_noCuts *
+                                 process.analyzeCorrelation1m_noCuts *
                                  
                                  process.MuHadSelection *
                                  process.analyzeTtGenEvent1m_preselection *
+                                 process.analyzeCorrelation1m_preselection *
                                  
                                  process.muonSelection*
                                  process.analyzeTtGenEvent1m_leptonSelection *
@@ -184,9 +186,11 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  
                                  # execute filter and analyzer modules
                                  process.analyzeTtGenEvent1e_noCuts *
+                                 process.analyzeCorrelation1e_noCuts *
 
                                  process.ElHadSelection *
                                  process.analyzeTtGenEvent1e_preselection *
+                                 process.analyzeCorrelation1e_preselection *
                                  
                                  process.electronSelection *
                                  process.analyzeTtGenEvent1e_leptonSelection *
