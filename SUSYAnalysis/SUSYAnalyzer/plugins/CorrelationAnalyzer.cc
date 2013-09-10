@@ -311,6 +311,12 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
 
   HT_NuPt_           = fs->make<TH2F>("HT_NuPt",           "NuPt vs. HT",       40., 0.,2000,   50,   0., 1000);
 
+  HT_NuPtSig_        = fs->make<TH2F>("HT_NuPtSig",        "HT vs. NuPtSig",    40, 0., 2000., 50,   0.,   25.);
+  HT_fakeMETSig_     = fs->make<TH2F>("HT_fakeMETSig",     "HT vs. fakeMETSig", 40, 0., 2000., 50,   0.,   25.);
+
+  NuPt_fakeMET_0HT125_   = fs->make<TH2F>("NuPt_fakeMET_0HT125",   "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
+  NuPt_fakeMET_125HT250_ = fs->make<TH2F>("NuPt_fakeMET_125HT250", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
+  NuPt_fakeMET_250HT375_ = fs->make<TH2F>("NuPt_fakeMET_250HT375", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
   NuPt_fakeMET_375HT500_ = fs->make<TH2F>("NuPt_fakeMET_375HT500", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
   NuPt_fakeMET_500HT650_ = fs->make<TH2F>("NuPt_fakeMET_500HT650", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
   NuPt_fakeMET_650HT800_ = fs->make<TH2F>("NuPt_fakeMET_650HT800", "fakeMET vs. NuPt", 50, 0., 1000, 50, 0., 1000.);
@@ -320,10 +326,12 @@ CorrelationAnalyzer::CorrelationAnalyzer(const edm::ParameterSet& cfg):
   NuPt_MET_     = fs->make<TH2F>("NuPt_MET",     "MET vs. NuPt",     50, 0., 1000, 50, 0., 1000.);
   fakeMET_MET_  = fs->make<TH2F>("fakeMET_MET",  "fakeMET vs. MET",  50, 0., 1000, 50, 0., 1000.);
 
-  HT_METNuPtRatio_     = fs->make<TH2F>("HT_METNuPtRatio",     "METNuPtRatio vs. HT",   40., 0.,2000,   80,   0.,   4); 
-  HT_METHadMETRatio_   = fs->make<TH2F>("HT_METHadMETRatio",   "METHadMETRatio vs. HT", 40., 0.,2000,   80,   0.,   4);
-  HT_METfakeMETRatio_  = fs->make<TH2F>("HT_METfakeMETRatio",  "METfakeRatio vs. HT",   40., 0.,2000,   80,   0.,   4);
-  HT_NuPtfakeMETRatio_ = fs->make<TH2F>("HT_NuPtfakeMETRatio", "NuPtfakeRatio vs. HT",  40., 0.,2000,   50,   0.,  10); 
+  HT_METNuPtRatio_      = fs->make<TH2F>("HT_METNuPtRatio",      "METNuPtRatio vs. HT",   40., 0.,2000,   80,   0.,   4); 
+  HT_METHadMETRatio_    = fs->make<TH2F>("HT_METHadMETRatio",    "METHadMETRatio vs. HT", 40., 0.,2000,   80,   0.,   4);
+  HT_METfakeMETRatio_   = fs->make<TH2F>("HT_METfakeMETRatio",   "METfakeRatio vs. HT",   40., 0.,2000,   80,   0.,   4);
+  HT_NuPtfakeMETRatio_  = fs->make<TH2F>("HT_NuPtfakeMETRatio",  "NuPtfakeRatio vs. HT",  40., 0.,2000,   20,   0.,  10);
+  HT_NuPtfakeMETRatio2_ = fs->make<TH2F>("HT_NuPtfakeMETRatio2", "NuPtfakeRatio vs. HT",  40., 0.,2000,   40,   0.,  10);
+  HT_NuPtfakeMETRatio3_ = fs->make<TH2F>("HT_NuPtfakeMETRatio3", "NuPtfakeRatio vs. HT",  40., 0.,2000,   40,   0.,  10); 
   
   HadMET_400HT500_  = fs->make<TH1F>("HadMET_400HT500_",  "hadronic MET", 50, -250, 250);
   HadMET_500HT600_  = fs->make<TH1F>("HadMET_500HT600_",  "hadronic MET", 50, -250, 250);
@@ -1036,7 +1044,10 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      NuPt_MET_     ->Fill(NuPt,    (*met)[0].et(), weight);
 	      fakeMET_MET_  ->Fill(fakeMET, (*met)[0].et(), weight);
 
-	      if(375 < HT && HT < 500)       NuPt_fakeMET_375HT500_ ->Fill(NuPt, fakeMET, weight);
+	      if (HT < 125)                  NuPt_fakeMET_0HT125_   ->Fill(NuPt, fakeMET, weight);
+	      else if (125 < HT && HT < 250) NuPt_fakeMET_125HT250_ ->Fill(NuPt, fakeMET, weight);
+	      else if (250 < HT && HT < 375) NuPt_fakeMET_250HT375_ ->Fill(NuPt, fakeMET, weight);
+	      else if (375 < HT && HT < 500) NuPt_fakeMET_375HT500_ ->Fill(NuPt, fakeMET, weight);
 	      else if (500 < HT && HT < 650) NuPt_fakeMET_500HT650_ ->Fill(NuPt, fakeMET, weight);
 	      else if (650 < HT && HT < 800) NuPt_fakeMET_650HT800_ ->Fill(NuPt, fakeMET, weight);
 	      else if (800 < HT && HT < 950) NuPt_fakeMET_800HT950_ ->Fill(NuPt, fakeMET, weight);
@@ -1047,12 +1058,17 @@ CorrelationAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup
 	      HT_fakeMET_  -> Fill(HT, fakeMET, weight);
 	      HT_NuPt_     -> Fill(HT, NuPt,    weight);
 
+	      HT_NuPtSig_    -> Fill(HT, NuPt/sqrt(HT),    weight);
+	      HT_fakeMETSig_ -> Fill(HT, fakeMET/sqrt(HT), weight);
+
 	      //std::cout << "Test 5" << std::endl;
 
-	      HT_METNuPtRatio_     -> Fill(HT, MET_NuPt_Ratio,     weight);
-	      HT_METHadMETRatio_   -> Fill(HT, MET_HadMET_Ratio,   weight);
-	      HT_METfakeMETRatio_  -> Fill(HT, MET_fakeMET_Ratio,  weight);
-	      HT_NuPtfakeMETRatio_ -> Fill(HT, NuPt_fakeMET_Ratio, weight);
+	      HT_METNuPtRatio_      -> Fill(HT, MET_NuPt_Ratio,     weight);
+	      HT_METHadMETRatio_    -> Fill(HT, MET_HadMET_Ratio,   weight);
+	      HT_METfakeMETRatio_   -> Fill(HT, MET_fakeMET_Ratio,  weight);
+	      HT_NuPtfakeMETRatio_  -> Fill(HT, NuPt_fakeMET_Ratio, weight);
+	      HT_NuPtfakeMETRatio2_ -> Fill(HT, NuPt_fakeMET_Ratio, weight);
+	      if(NuPt > 100) HT_NuPtfakeMETRatio3_ -> Fill(HT, NuPt_fakeMET_Ratio, weight);
 
 	      //std::cout << "Test 6" << std::endl;
 

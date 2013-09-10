@@ -13,9 +13,13 @@ analyzeCorrelation.useEventWeight = True
 analyzeCorrelation.TTJets         = True
 
 ## clone and configure modules for different event selection steps
+analyzeCorrelation1m_noCuts           = analyzeCorrelation.clone()
+analyzeCorrelation1m_preselection     = analyzeCorrelation.clone()
 analyzeCorrelation1m_leptonSelection  = analyzeCorrelation.clone()
 analyzeCorrelation1m_jetSelection     = analyzeCorrelation.clone()
 
+analyzeCorrelation1e_noCuts           = analyzeCorrelation.clone()
+analyzeCorrelation1e_preselection     = analyzeCorrelation.clone()
 analyzeCorrelation1e_leptonSelection  = analyzeCorrelation.clone()
 analyzeCorrelation1e_jetSelection     = analyzeCorrelation.clone()
 
