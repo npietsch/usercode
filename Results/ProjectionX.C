@@ -87,10 +87,10 @@ int ProjectionX()
   bool CombineChannels = true;
 
   double LogMin=0.001;
-  double LogMax=0.4;
+  double LogMax=0.6;
 
   double Min=0;
-  double Max=0.3;
+  double Max=0.6;
 
   int NormBin=9;
 
@@ -111,22 +111,21 @@ int ProjectionX()
   //addSample(SemiLepTau, "SemiLepTauTTJets",  "Semilep. t#bar{t}+Jets #tau");
   //addSample(DiLep,      "DiLepTTJets",       "Dilep. t#bar{t}+Jets");
   //addSample(FullHad,    "FullHadTTJets",     "Fullhad. t#bar{t}+Jets");
-  //addSample(SingleTop,    "SingleTop",        "Single Top");
+  //addSample(SingleTop,  "SingleTop",         "Single Top");
 
   //--------------------------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  //addHistogram("HT_YMET",     "H_{T} [GeV]", 400, 1000, 1);
+  //addHistogram("HT_YMET",     "H_{T} [GeV]", 350, 1000, 1);
   //addHistogram("HT_LepPtSig", "H_{T} [GeV]", 360, 1000, 0);
-  addHistogram("HT_nJets", "H_{T} [GeV]", 360, 1000, 1);
+  //addHistogram("HT_nJets", "H_{T} [GeV]", 360, 1000, 1);
+  addHistogram("HT_YMET", "Y_{p_{T}^{#nu}} [GeV]", 350, 1000, 1);
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  //addSelectionStep("analyzeSUSY1", "_jetSelection",    "jet selection");
   //addSelectionStep("analyzeCorrelation1", "_nJets1To1",    "jet selection");
   //addSelectionStep("analyzeCorrelation1", "_nJets2To2",    "jet selection");
   //addSelectionStep("analyzeCorrelation1", "_nJets3To3",    "jet selection");
@@ -135,8 +134,9 @@ int ProjectionX()
   //addSelectionStep("analyzeCorrelation1", "_nJets6To6",    "jet selection");
   //addSelectionStep("analyzeCorrelation1", "_nJets7To7",    "jet selection");
   
-  addSelectionStep("analyzeCorrelation1", "_leptonSelection",    "lepton selection");
-  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
+  //addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
+  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
 
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -154,18 +154,28 @@ int ProjectionX()
 //   addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",  1,       20);
 //   addBin(25, 30,  "12 < Y_{MET} < 15",           kRed+2,  21);
 
+//   addBin(7,  12,  "#kern[1]{3} < Y_{p_{T}} < 6",   kRed-4,  22);
+//   addBin(13, 18,  "#kern[1]{6} < Y_{MET} < 9",   kBlue-7, 23);
+//   addBin(19, 24,  "#kern[1]{7} < Y_{MET} < 12",  1,       20);
+//   addBin(25, 30,  "12 < Y_{MET} < 15",           kRed+2,  21);
+
 //   addBin(7,  12,  "#kern[1]{3} < p_{T}^{lep}/ #sqrt{H_{T}} < 6",   kRed-4,  22);
 //   addBin(13, 18,  "#kern[1]{6} < p_{T}^{lep}/ #sqrt{H_{T}} < 9",   kBlue-7, 23);
 //   addBin(19, 24,  "#kern[1]{9} < p_{T}^{lep}/ #sqrt{H_{T}} < 12",  1,       20);
 //   addBin(25, 30,  "12 < p_{T}^{lep}/ #sqrt{H_{T}} < 15",           kRed+2 , 21);
 
+//   addBin(5, 5,  "nJets = 4",   kBlue-7,  22);
+//   addBin(6, 6,  "nJets = 5",   kRed+2,   23);
+//   addBin(7, 7,  "nJets = 6",   1,        20);
+//   addBin(8, 8,  "nJets = 7",   kRed-4,   20);
+//   addBin(9, 9,  "nJets = 8",   kGreen-3, 21);
+ 
+//   addBin(3, 3,  "nJets = 2",   kRed-4,   20);
+//   addBin(4, 4,  "nJets = 3",   kGreen-3, 21);
+//   addBin(5, 5,  "nJets = 4",   kBlue-7,  22);
+//   addBin(6, 6,  "nJets = 5",   kRed+2,   23);
+//   addBin(7, 7,  "nJets = 6",   1,        20);
 
-  addBin(3, 3,  "nJets = 2",   kRed-4,   20);
-  addBin(4, 4,  "nJets = 3",   kGreen-3, 21);
-  addBin(5, 5,  "nJets = 4",   kBlue-7,  22);
-  addBin(6, 6,  "nJets = 5",   kRed+2,   23);
-  addBin(7, 7,  "nJets = 6",   1,        20);
-  
   //--------------------------------------------------------------------------------------------------
   // Set style 
   //--------------------------------------------------------------------------------------------------
@@ -303,7 +313,7 @@ int ProjectionX()
 		  
 		  TCanvas *canvas = new TCanvas(Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"1l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		  
-		  TLegend *leg = new TLegend(.68,.62,.95,.93);
+		  TLegend *leg = new TLegend(.55,.62,.95,.93);
 		  leg->SetTextFont(42);
 		  leg->SetTextSize(0.05);
 		  //leg->SetTextSize(0.04);

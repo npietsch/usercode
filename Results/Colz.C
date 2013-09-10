@@ -112,20 +112,23 @@ int Colz()
   //--------------------------------------------------------------------------------------------------
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
-  
-  addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
-  addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
-  addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
-  addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
+   
+  addHistogram("NuPt_fakeMET_0HT125",    "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "0 < H_{T} < 125");
+  addHistogram("NuPt_fakeMET_125HT250",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "125 < H_{T} < 250");
+  addHistogram("NuPt_fakeMET_250HT375",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "250 < H_{T} < 375");
+//   addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
+//   addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
+//   addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
+//   addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
   addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
-  addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
-  addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
+  //addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
+  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
 
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)

@@ -76,7 +76,7 @@ void addChannel(TString channel, TString channelLabel)
 }
 
 // main function
-int Colz()
+int Colz600600()
 {
   bool Log = true;
   bool SeparateChannels = false;
@@ -113,10 +113,8 @@ int Colz()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
-  addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
-  addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
-  addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
+  addHistogram("HT_nJets",  "H_{T} [GeV]", "nJets", 0, 1000, 0.5, 15.5, "375 < H_{T} < 1000");
+
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -139,13 +137,13 @@ int Colz()
   //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
-  tdrStyle->SetPadLeftMargin(0.08);
-  tdrStyle->SetPadRightMargin(0.12);
+  tdrStyle->SetPadLeftMargin(0.12);
+  tdrStyle->SetPadRightMargin(0.19);
   tdrStyle->SetPadTopMargin(0.1);
   tdrStyle->SetPadBottomMargin(0.14);
   tdrStyle->SetPalette(1);
-  tdrStyle->SetCanvasDefH(400);
-  tdrStyle->SetCanvasDefW(1000);
+  tdrStyle->SetCanvasDefH(600);
+  tdrStyle->SetCanvasDefW(600);
 
 
   //--------------------------------------------------------------------------------------------------
@@ -205,7 +203,7 @@ int Colz()
 		      Hist->GetXaxis()->SetLabelFont(42);
 		      
 		      Hist->GetYaxis()->SetTitle(YLabels[hdx]);
-		      Hist->GetYaxis()->SetTitleOffset(0.8);
+		      Hist->GetYaxis()->SetTitleOffset(0.9);
 		      Hist->GetYaxis()->SetTitleSize(0.05);
 		      Hist->GetYaxis()->SetTitleFont(42);
 		      Hist->GetYaxis()->SetLabelFont(42);
@@ -244,13 +242,13 @@ int Colz()
 		      
 		      TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		      
-		      TPaveText *label = new TPaveText(0.06,0.92,0.96,1.,"NDC");
+		      TPaveText *label = new TPaveText(0.07,0.92,0.96,1.,"NDC");
 		      label->SetFillColor(0);
 		      label->SetTextFont(42);
 		      label->SetTextSize(0.06);
 		      label->SetBorderSize(0);
 		      label->SetTextAlign(12);
-		      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, "+HistogramLabels[hdx]);
+		      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
 		      
  		      TH2F* Hist = (TH2F*)Files[fdx]->Get(Modules[sdx]+Channels[0]+Selections[sdx]+"/"+Histograms[hdx]);
 
@@ -281,22 +279,22 @@ int Colz()
 		      Hist->SetTitle("");
 		      
 		      Hist->GetXaxis()->SetTitle(XLabels[hdx]);
-		      Hist->GetXaxis()->SetTitleOffset(0.9);
-		      Hist->GetXaxis()->SetTitleSize(0.07);
+		      Hist->GetXaxis()->SetTitleOffset(1.1);
+		      Hist->GetXaxis()->SetTitleSize(0.06);
 		      Hist->GetXaxis()->SetTitleFont(42);
 		      Hist->GetXaxis()->SetLabelFont(42);
 		      Hist->GetXaxis()->SetLabelSize(0.05);
 		      
 		      Hist->GetYaxis()->SetTitle(YLabels[hdx]);
-		      Hist->GetYaxis()->SetTitleOffset(0.5);
-		      Hist->GetYaxis()->SetTitleSize(0.07);
+		      Hist->GetYaxis()->SetTitleOffset(1.);
+		      Hist->GetYaxis()->SetTitleSize(0.06);
 		      Hist->GetYaxis()->SetTitleFont(42);
 		      Hist->GetYaxis()->SetLabelFont(42);
 		      Hist->GetYaxis()->SetLabelSize(0.05);
 
 		      Hist->GetZaxis()->SetTitle("Events");
-		      Hist->GetZaxis()->SetTitleOffset(0.5);
-		      Hist->GetZaxis()->SetTitleSize(0.07);
+		      Hist->GetZaxis()->SetTitleOffset(1.1);
+		      Hist->GetZaxis()->SetTitleSize(0.06);
 		      Hist->GetZaxis()->SetTitleFont(42);
 		      Hist->GetZaxis()->SetLabelFont(42);
 		      Hist->GetZaxis()->SetLabelSize(0.05);
