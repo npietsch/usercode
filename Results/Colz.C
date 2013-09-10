@@ -113,17 +113,19 @@ int Colz()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 400, 0, 200, "375 < H_{T} < 500");
-  addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 400, 0, 200, "500 < H_{T} < 650");
-  addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 400, 0, 200, "650 < H_{T} < 800");
-  addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 400, 0, 200, "800 < H_{T} < 950");
+  addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
+  addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
+  addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
+  addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
+  addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
+  addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
   addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
-  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
 
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -137,13 +139,13 @@ int Colz()
   //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
-  tdrStyle->SetPadLeftMargin(0.1);
-  tdrStyle->SetPadRightMargin(0.14);
+  tdrStyle->SetPadLeftMargin(0.08);
+  tdrStyle->SetPadRightMargin(0.12);
   tdrStyle->SetPadTopMargin(0.1);
   tdrStyle->SetPadBottomMargin(0.14);
   tdrStyle->SetPalette(1);
   tdrStyle->SetCanvasDefH(400);
-  tdrStyle->SetCanvasDefW(800);
+  tdrStyle->SetCanvasDefW(1000);
 
 
   //--------------------------------------------------------------------------------------------------
@@ -242,7 +244,7 @@ int Colz()
 		      
 		      TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		      
-		      TPaveText *label = new TPaveText(0.1,0.92,0.96,1.,"NDC");
+		      TPaveText *label = new TPaveText(0.06,0.92,0.96,1.,"NDC");
 		      label->SetFillColor(0);
 		      label->SetTextFont(42);
 		      label->SetTextSize(0.06);
@@ -286,14 +288,14 @@ int Colz()
 		      Hist->GetXaxis()->SetLabelSize(0.05);
 		      
 		      Hist->GetYaxis()->SetTitle(YLabels[hdx]);
-		      Hist->GetYaxis()->SetTitleOffset(0.7);
+		      Hist->GetYaxis()->SetTitleOffset(0.5);
 		      Hist->GetYaxis()->SetTitleSize(0.07);
 		      Hist->GetYaxis()->SetTitleFont(42);
 		      Hist->GetYaxis()->SetLabelFont(42);
 		      Hist->GetYaxis()->SetLabelSize(0.05);
 
 		      Hist->GetZaxis()->SetTitle("Events");
-		      Hist->GetZaxis()->SetTitleOffset(0.6);
+		      Hist->GetZaxis()->SetTitleOffset(0.5);
 		      Hist->GetZaxis()->SetTitleSize(0.07);
 		      Hist->GetZaxis()->SetTitleFont(42);
 		      Hist->GetZaxis()->SetLabelFont(42);
