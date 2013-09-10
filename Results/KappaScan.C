@@ -72,7 +72,7 @@ void addChannel(TString channel, TString channelLabel)
 // main function
 int KappaScan()
 {
-  bool SeparateChannels = true;
+  bool SeparateChannels = false;
   bool CombinedChannels = true;
 
   double Xmin=13;
@@ -91,20 +91,21 @@ int KappaScan()
   // addHistogram(TString name, TString xLabel, int firstValue, int lastValue, int drawLegend) 
   //--------------------------------------------------------------------------------------------------
   
-  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 8,  41, 7, 51, "375_3");
-  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 7, 51, "450_3");
-  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 12, 41, 7, 51, "550_3");
+  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 8,  41, 7, 51, "375_3");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 7, 51, "450_3");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 12, 41, 7, 51, "550_3");
 
-  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 8,  41, 8, 51, "375_35");
-  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 8, 51, "450_35");
-  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 12, 41, 8, 51, "550_35");
+  addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 8,  41, 8, 51, "375_35");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 10, 41, 8, 51, "450_35");
+  //addHistogram("HT_YMET", "H_{T} [GeV]", "Y_{MET} [GeV^{#frac{1}{2}}]", 12, 41, 8, 51, "550_35");
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
+  addSelectionStep("analyzeCorrelation1", "_noCuts", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
@@ -114,7 +115,7 @@ int KappaScan()
   addChannel("e", "electron channel");
   
   //--------------------------------------------------------------------------------------------------
-  // Set style 
+  // Set style
   //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
@@ -299,13 +300,13 @@ int KappaScan()
 		  label->Draw();
 		  
 		  // draw TLines
-		  TLine * line = new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*50-50, 8);
+		  TLine * line = new TLine(LowerBinsX[hdx]*50-25, LowerBinsY[hdx]*0.5-0.5, LowerBinsX[hdx]*50-25, 8);
 		  line->SetLineWidth(2);
 		  line->SetLineStyle(1);
 		  line->SetLineColor(1);
 		  line->Draw();
 		  
-		  TLine * line2= new TLine(LowerBinsX[hdx]*50-50, LowerBinsY[hdx]*0.5-0.5, 1000, LowerBinsY[hdx]*0.5-0.5);
+		  TLine * line2= new TLine(LowerBinsX[hdx]*50-25, LowerBinsY[hdx]*0.5-0.5, 1000, LowerBinsY[hdx]*0.5-0.5);
 		  line2->SetLineWidth(2);
 		  line2->SetLineStyle(1);
 		  line2->SetLineColor(1);

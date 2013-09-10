@@ -86,11 +86,11 @@ int ProjectionY()
   bool SeparateChannels = false;
   bool CombineChannels = true;
 
-  double LogMin=0.001;
-  double LogMax=0.8;
+  double LogMin=0.003;
+  double LogMax=0.08;
 
   double Min=0;
-  double Max=0.15;
+  double Max=0.07;
 
   TFile* WJetsHT = new TFile("WJetsHT.root",      "READ");
   //TFile* TTJets  = new TFile("TTJetsFall11.root", "READ");
@@ -118,15 +118,17 @@ int ProjectionY()
   // addHistogram("HT_YMET",     "Y_{MET} [GeV^{#frac{1}{2}}]", 0, 25, 0);
   //addHistogram("HT_LepPtSig", "p_{T}^{#nu}/ #sqrt{H_{T}} [GeV^{#frac{1}{2}}]", 360, 1000, 0);
   
-  addHistogram("HT_METRatio", "#slash{E}_{T}/p_{T}^{#nu}", 0, 2, 1);
+  addHistogram("HT_NuPtfakeMETRatio", "p_{T}^{#nu}#kern[0.3]{/}#slash{E}_{T}^{fake}", 0, 10, 1);
  
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  //addSelectionStep("analyzeSUSY1", "_leptonSelection", "lepton selection");
-  addSelectionStep("analyzeCorrelation1", "_nJets4ToInf",    "jet selection");
-  
+  addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
+  //addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
+  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
+   
   //--------------------------------------------------------------------------------------------------
   // addChannel(TString channel, TString channelLabel)
   //--------------------------------------------------------------------------------------------------
@@ -138,10 +140,10 @@ int ProjectionY()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-  addBin(11, 12, "400 < H_{T} < 500",  kRed-4,  22);
-  addBin(13, 14, "500 < H_{T} < 600",  kBlue-7, 23);
-  addBin(15, 16, "600 < H_{T} < 700",  1,       20);
-  addBin(17, 18, "700 < H_{T} < 800",  kRed+2,  21);
+  addBin(8,  10, "375 < H_{T} < 500",  kRed-4,  22);
+  addBin(11, 13, "500 < H_{T} < 650",  kBlue-7, 23);
+  addBin(14, 16, "650 < H_{T} < 800",  1,       20);
+  addBin(17, 19, "800 < H_{T} < 950",  kRed+2,  21);
 
 //   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
 //   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);
@@ -370,19 +372,19 @@ int ProjectionY()
 		  // draw TLine
 		  if(Log == true)
 		    {
-		      TLine * line = new TLine(3, LogMin, 3, LogMax);
+		      TLine * line = new TLine(1, LogMin, 1, LogMax);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      //line->Draw();
+		      line->Draw();
 		    }
 		  else
 		    {
-		      TLine * line = new TLine(3, Min, 3, Max);
+		      TLine * line = new TLine(1, Min, 1, Max);
 		      line->SetLineWidth(2);
 		      line->SetLineStyle(2);
 		      line->SetLineColor(1);
-		      //line->Draw();
+		      line->Draw();
 		    }
 
 		  // save canvas
