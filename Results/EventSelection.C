@@ -61,8 +61,8 @@ void EventSelection(){
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets",  "Events",        -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nPV", "Number of primary vertices", "Events",  -0.5,  50.5, 0.1, 1e5, -0.1, 2.1, 1);
 
-	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{electron}","Events",  0,  500, 0.1, 1e5, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{electron}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
+	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{lepton}","Events",  0,  500, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{lepton}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 
 //	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b1m_1/HT", "H_{T} [GeV]","Events / 50 GeV",  0, 2000, 0.1, 1e3, -0.1, 2.1, 1);
@@ -140,7 +140,7 @@ void EventSelection(){
 	    
 	    sr.pad1->cd(); // stack
 	    
-	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
+	    TLegend *leg = new TLegend(0.68, 0.45, 0.9499, 0.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
 	    leg->AddEntry(MuHad,     "Data",             "lep");
@@ -154,13 +154,13 @@ void EventSelection(){
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
 	    	    
-	    TPaveText *label = new TPaveText(0.06,0.94,0.99,1.,"NDC");
+	    TPaveText *label = new TPaveText(0.08,0.94,0.99,1.,"NDC");
 	    label->SetFillColor(0);
 	    label->SetTextFont(62);
-	    label->SetTextSize(0.05);
+	    label->SetTextSize(0.06);
 	    label->SetBorderSize(0);
 	    label->SetTextAlign(12);
-	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV");
+	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV, electron channel");
 	    label->Draw();
 
 // 	    TLatex *t1 = new TLatex(0,1.8e5,"L = 4.98 fb^{-1}, #sqrt{s} = 7 TeV");

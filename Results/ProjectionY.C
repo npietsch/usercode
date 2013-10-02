@@ -124,9 +124,9 @@ int ProjectionY()
   // addSelectionStep(TString module, TString step, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------
   
-  addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
-  addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
-  addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
+  //addSelectionStep("analyzeCorrelation1", "_noCuts",          "no cuts");
+  //addSelectionStep("analyzeCorrelation1", "_preselection",    "preselection");
+  //addSelectionStep("analyzeCorrelation1", "_leptonSelection", "lepton selection");
   addSelectionStep("analyzeCorrelation1", "_jetSelection",    "jet selection");
    
   //--------------------------------------------------------------------------------------------------
@@ -140,15 +140,15 @@ int ProjectionY()
   // addBin(int firstBin, int lastBin, TString binLabel, int binColor, int marker) 
   //--------------------------------------------------------------------------------------------------
 
-//   addBin(8,  10, "375 < H_{T} < 500",  kRed-4,  22);
-//   addBin(11, 13, "500 < H_{T} < 650",  kBlue-7, 23);
-//   addBin(14, 16, "650 < H_{T} < 800",  1,       20);
-//   addBin(17, 19, "800 < H_{T} < 950",  kRed+2,  21);
+  addBin(8,  10, "375 < H_{T} < 500",  kRed-4,  22);
+  addBin(11, 13, "500 < H_{T} < 650",  kBlue-7, 23);
+  addBin(14, 16, "650 < H_{T} < 800",  1,       20);
+  addBin(17, 19, "800 < H_{T} < 950",  kRed+2,  21);
 
-  addBin(13, 14, "600 < H_{T} < 700",  kRed-4,  22);
-  addBin(15, 16, "700 < H_{T} < 800",  kBlue-7, 23);
-  addBin(17, 18, "800 < H_{T} < 900",  1,       20);
-  addBin(19, 20, "900 < H_{T} < 1000", kRed+2,  21);
+//   addBin(13, 14, "600 < H_{T} < 700",  kRed-4,  22);
+//   addBin(15, 16, "700 < H_{T} < 800",  kBlue-7, 23);
+//   addBin(17, 18, "800 < H_{T} < 900",  1,       20);
+//   addBin(19, 20, "900 < H_{T} < 1000", kRed+2,  21);
   
 //   addBin(7,  12,  "3 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 6",   2, 22);
 //   addBin(13, 18,  "6 < #frac{p_{T}^{lep}}{#sqrt{H_{T}}} < 9",   4, 23);

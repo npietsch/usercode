@@ -157,15 +157,15 @@ class StackWithRatio{
       pad1->SetTicky(1);
       pad1->SetLogy();
       pad1->SetBottomMargin(0);
-      pad1->SetLeftMargin(0.1);
+      pad1->SetLeftMargin(0.12);
       // lower pad - ratio
       pad2 = new TPad("pad2","pad2",0,0,1,0.31);
       pad2->SetTickx(1);
       pad2->SetTicky(1);
       pad2->SetLogy(kFALSE);
-      pad2->SetBottomMargin(0.3);
+      pad2->SetBottomMargin(0.35);
       pad2->SetTopMargin(0);
-      pad2->SetLeftMargin(0.1);
+      pad2->SetLeftMargin(0.12);
       pad1->Draw();
       pad2->Draw();
       // stack
@@ -186,12 +186,14 @@ class StackWithRatio{
       frame->Reset();
       frame->SetStats(0);
       frame->SetTitle("");
-      frame->SetTitleOffset(1.2, "x");
+      frame->SetTitleOffset(1.1, "x");
       frame->SetTitleOffset(1.0, "y");
       frame->SetYTitle(yStackTitle);
       frame->GetXaxis()->SetRangeUser(xmin, xmax);
-      //dk
-      frame->GetYaxis()->SetTitleSize(0.05);
+      frame->GetYaxis()->SetTitleSize(0.065);
+      frame->GetYaxis()->SetTitleFont(62);
+      //frame->GetYaxis()->SetLabelFont(42);
+      //frame->GetXaxis()->SetLabelFont(42);
       
       if(stackYmin!=stackYmax){
 	frame->GetYaxis()->SetRangeUser(stackYmin, stackYmax);
@@ -210,14 +212,15 @@ class StackWithRatio{
       // ratio
       pad2->cd();
       //theData->SetNdivisions(5, "X");
-      theData->SetTitleOffset(0.9, "x");
-      theData->SetTitleOffset(0.5, "y");
+      theData->SetTitleOffset(1.1, "x");
+      theData->SetTitleOffset(0.6, "y");
       theData->SetYTitle(yRatioTitle);
-      theData->GetXaxis()->SetTitleSize(0.12);
-      //dk theData->GetYaxis()->SetTitleSize(0.09);
+      theData->GetXaxis()->SetTitleSize(0.14);
       theData->GetYaxis()->SetTitleSize(0.1);
-      theData->GetYaxis()->SetLabelFont(0.09);
-      theData->GetXaxis()->SetLabelFont(0.09);
+      theData->GetYaxis()->SetLabelFont(62);
+      theData->GetXaxis()->SetLabelFont(62);
+      theData->GetYaxis()->SetLabelSize(0.1);
+      theData->GetXaxis()->SetLabelSize(0.1 );
       
       if(ratioYmin!=ratioYmax){
 	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);
