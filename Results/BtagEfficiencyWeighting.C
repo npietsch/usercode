@@ -65,21 +65,25 @@ int BtagEfficiencyWeighting()
 
   //addSample(TTJets,    "t#bar{t}+Jets", kRed+2,   21, 1.1, 7, "TTJets");
   //addSample(SingleTop, "Single Top",    kRed,     22, 1.4, 7, "SingleTop");
-  //addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
+  addSample(WJetsHT,   "W+Jets",        1,        23, 1.4, 7, "WJetsHT");
 
   //addSample(ZJets,     "Z+Jets",        kGreen+2, 21, 0.9, 7, "ZJets");
   //addSample(QCD,       "QCD",           kBlue,    21, 0.9, 7, "QCD");
 
 //   addSample(LM3,  "LM3",  kRed,     20, 1.1, 7);
   //addSample(LM6,  "LM6",  kBlue,    21, 0.9, 7, "LM6");
-  addSample(LM8,  "LM8",  kRed,     21, 0.9, 7, "LM8");
-//   addSample(LM13, "LM13", kGreen+2, 22, 1.2, 7);
+  //addSample(LM8,  "LM8",  kRed,     21, 0.9, 7, "LM8");
+  //   addSample(LM13, "LM13", kGreen+2, 22, 1.2, 7);
 
   //-----------------------------------------------------
   // set Style
   //-----------------------------------------------------
 
   setTDRStyle();
+  gStyle->SetPadLeftMargin(0.16);
+  gStyle->SetPadRightMargin(0.05);
+  gStyle->SetPadTopMargin(0.08);
+  gStyle->SetPadBottomMargin(0.14);
  
   //-----------------------------------------------------
   // Make plots
@@ -93,9 +97,10 @@ int BtagEfficiencyWeighting()
       // Define canvas, legend and labels
       TCanvas *canvas =new TCanvas(Labels[f],Labels[f],1);
       
-      //TLegend *leg = new TLegend(.59,.67,.90,.88);
-      TLegend *leg = new TLegend(.59,.19,.90,.40);
-      leg->SetTextFont(42);
+      //TLegend *leg = new TLegend(.64,.29,.95,.50);
+      TLegend *leg = new TLegend(.64,.71,.95,.92);
+      //TLegend *leg = new TLegend(.64,.14,.95,.35);
+      leg->SetTextFont(62);
       leg->SetTextSize(0.05);
       leg->SetFillColor(0);
       leg->SetLineColor(1);
@@ -103,13 +108,15 @@ int BtagEfficiencyWeighting()
       leg->SetLineColor(1);
       leg->AddEntry((TObject*)0, Labels[f], "");
 
-      TPaveText *label = new TPaveText(0.22,0.94,0.99,1.,"NDC");
+      //TPaveText *label = new TPaveText(0.25,0.94,0.99,1.,"NDC");
+      TPaveText *label = new TPaveText(0.12,0.94,0.99,1.,"NDC");
       label->SetFillColor(0);
-      label->SetTextFont(42);
-      label->SetTextSize(0.043);
+      label->SetTextFont(62);
+      //label->SetTextSize(0.04);
+      label->SetTextSize(0.045);
       label->SetBorderSize(0);
       label->SetTextAlign(12);
-      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, electron channel");
       
       //--------------------------------------
       // Define and draw b-tags histogram
@@ -130,20 +137,20 @@ int BtagEfficiencyWeighting()
       cuts_->GetXaxis()->SetTitle("Number of b-jets");
       cuts_->SetNdivisions(5, "X");
       cuts_->GetXaxis()->SetTitleSize(0.05);
-      cuts_->GetXaxis()->SetTitleFont(42);
-      cuts_->GetXaxis()->SetTitleOffset(1.2);
+      cuts_->GetXaxis()->SetTitleFont(62);
+      cuts_->GetXaxis()->SetTitleOffset(1.4);
       
       cuts_->GetYaxis()->SetTitle("Events");
       cuts_->SetNdivisions(505, "Y");
-      cuts_->GetYaxis()->SetTitleOffset(1.5);
+      cuts_->GetYaxis()->SetTitleOffset(1.7);
       cuts_->GetYaxis()->SetTitleSize(0.05);
-      cuts_->GetYaxis()->SetTitleFont(42);
+      cuts_->GetYaxis()->SetTitleFont(62);
 
       // Labels
       cuts_->SetLabelColor(1, "XYZ");
-      cuts_->SetLabelFont(42, "XYZ");
+      cuts_->SetLabelFont(62, "XYZ");
       cuts_->SetLabelOffset(0.007, "XYZ");
-      cuts_->SetLabelSize(0.04, "XYZ");
+      cuts_->SetLabelSize(0.05, "XYZ");
 
       // Define marker
       cuts_->SetMarkerStyle(22);
@@ -225,7 +232,12 @@ int BtagEfficiencyWeighting()
 
       leg->Draw();
       label->Draw();
-  
+
+      cuts_->GetXaxis()->SetBinLabel(1,"0");
+      cuts_->GetXaxis()->SetBinLabel(2,"1");
+      cuts_->GetXaxis()->SetBinLabel(3,"2");
+      cuts_->GetXaxis()->SetBinLabel(4,"#geq 3");
+
       canvas->SaveAs("BtagEfficiencyWeighting_"+Names[f]+"_El.pdf");
     }
 

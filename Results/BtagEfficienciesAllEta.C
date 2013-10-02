@@ -103,9 +103,9 @@ int BtagEfficienciesAllEta()
   // Flavors
   //-----------------------------------------------------
 
-  Flavors.push_back("B");
-  //Flavors.push_back("C");
-  //Flavors.push_back("L");
+  //Flavors.push_back("B");
+  Flavors.push_back("C");
+  Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -118,7 +118,12 @@ int BtagEfficienciesAllEta()
   //-----------------------------------------------------
 
   setTDRStyle();
- 
+  gStyle->SetPadLeftMargin(0.16);
+  gStyle->SetPadRightMargin(0.05);
+  gStyle->SetPadTopMargin(0.08);
+  gStyle->SetPadBottomMargin(0.14);
+
+
   // loop over algorithms
   for(int a=0; a<Algos.size(); ++a)
     {
@@ -137,17 +142,17 @@ int BtagEfficienciesAllEta()
 	      // Define canvas, legend and labels
 	      TCanvas *canvas =new TCanvas(SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",SelectionNames[s]+"_"+Algos[a]+"_"+Flavors[flv]+"_Pt",1);
 
-	      TLegend *leg = new TLegend(.61,.13,.95,.37);
-	      leg->SetTextFont(42);
-	      leg->SetTextSize(0.06);
+	      TLegend *leg = new TLegend(.63,.14,.95,.38);
+	      leg->SetTextFont(62);
+	      leg->SetTextSize(0.05);
 	      leg->SetFillColor(0);
 	      leg->SetLineColor(1);
 	      leg->SetShadowColor(0);
       
-	      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	      TPaveText *label = new TPaveText(0.12,0.94,0.99,1.,"NDC");
 	      label->SetFillColor(0);
-	      label->SetTextFont(42);
-	      label->SetTextSize(0.043);
+	      label->SetTextFont(62);
+	      label->SetTextSize(0.045);
 	      label->SetBorderSize(0);
 	      label->SetTextAlign(12);
 	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
@@ -168,14 +173,14 @@ int BtagEfficienciesAllEta()
 		{
 		  std::cout << "File: " <<  Files[f] << std::endl;
 
-		  std::cout << "bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
+		  std::cout << "bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt" << std::endl;
 
 		  //TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
-		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
+		  TH1F* Pt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsPt");
 		  //Pt_->Add(Pt2_);
 
-		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
-		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bMu"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  TH1F* TaggedPt_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
+		  //TH1F* TaggedPt2_=(TH1F*)Files[f]->Get("bTagEffRA4bEl"+Algos[a]+Steps[s]+"/Num"+Flavors[flv]+"JetsTaggedPt");
 		  //TaggedPt_->Add(TaggedPt2_);
 
 		  TaggedPt_->Divide(Pt_);
@@ -255,12 +260,25 @@ int BtagEfficienciesAllEta()
 		    {
 		      Tmp2_->SetMaximum(0.12);
 		      Tmp2_->SetMinimum(0);
-		      Tmp2_->GetXaxis()->SetTitle("light quark/gluon jet p_{T} [GeV]");
+		      Tmp2_->GetXaxis()->SetTitle("udsg-jet p_{T} [GeV]");
 		      Tmp2_->GetYaxis()->SetTitle("mistag efficiency");
 		    }
 
-		  Tmp2_->GetXaxis()->SetTitleOffset(1.2); 
-		  Tmp2_->GetYaxis()->SetTitleOffset(1.4);
+		  Tmp2_->GetXaxis()->SetTitleOffset(1.4); 
+		  Tmp2_->GetYaxis()->SetTitleOffset(1.7);
+		  Tmp2_->GetXaxis()->SetTitleFont(62); 
+		  Tmp2_->GetYaxis()->SetTitleFont(62);
+		  Tmp2_->GetXaxis()->SetTitleSize(0.05); 
+		  Tmp2_->GetYaxis()->SetTitleSize(0.05);
+		  
+		  // Labels
+		  Tmp2_->GetXaxis()->SetLabelFont(62);
+		  Tmp2_->GetXaxis()->SetLabelOffset(0.007);
+		  Tmp2_->GetXaxis()->SetLabelSize(0.05);
+
+		  Tmp2_->GetYaxis()->SetLabelFont(62);
+		  Tmp2_->GetYaxis()->SetLabelOffset(0.007);
+		  Tmp2_->GetYaxis()->SetLabelSize(0.05);
 		  
 		  Tmp2_->SetLineColor(SampleColors[f]);
 		  Tmp2_->SetLineWidth(1);
@@ -286,7 +304,7 @@ int BtagEfficienciesAllEta()
 	      label->Draw();
 	      //label2->Draw();
 	      
-	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_Mu.pdf");
+	      canvas->SaveAs(Algos[a]+"_"+Flavors[flv]+"jetsEfficiency_El.pdf");
 	    }
 	}
     }

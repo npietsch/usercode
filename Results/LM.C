@@ -110,7 +110,7 @@ void LM(){
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
 	    	    
-	    TPaveText *label = new TPaveText(0.15,0.91,0.99,1.,"NDC");
+	    TPaveText *label = new TPaveText(0.09,0.91,0.99,1.,"NDC");
 	    label->SetFillColor(0);
 	    label->SetTextFont(62);
 	    label->SetTextSize(0.05);

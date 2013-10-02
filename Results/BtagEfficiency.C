@@ -111,30 +111,31 @@ int BtagEfficiency()
 	   // legend
 	   //TLegend *leg = new TLegend(.59,.67,.90,.88);
 	   //TLegend *leg = new TLegend(.59,.19,.90,.40);
-	   TLegend *leg = new TLegend(.14,.64,.4,.93);
-	   leg->SetTextFont(42);
+	   //TLegend *leg = new TLegend(.14,.64,.4,.93);
+	   TLegend *leg = new TLegend(.14,.70,.43,.93);
+	   leg->SetTextFont(62);
 	   leg->SetTextSize(0.05);
 	   leg->SetFillColor(0);
 	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
 	   leg->SetLineColor(1);
-	   leg->AddEntry((TObject*)0, Names[fdx], "");
+	   //leg->AddEntry((TObject*)0, Names[fdx], "");
 
 	   // label
 	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
 	   label->SetFillColor(0);
-	   label->SetTextFont(42);
-	   label->SetTextSize(0.043);
+	   label->SetTextFont(62);
+	   label->SetTextSize(0.05);
 	   label->SetBorderSize(0);
 	   label->SetTextAlign(12);
 
 	   if(Normalize == true)
 	     {
-	       TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
+	       TText *text=label->AddText(Names[fdx]+" Simulation, #sqrt{s} = 7 TeV");
 	     }
 	       else
 	     {
-	       TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
+	       TText *text=label->AddText(Names[fdx]+" Simulation, #sqrt{s} = 7 TeV");
 	     }
 
 	   for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
@@ -168,18 +169,18 @@ int BtagEfficiency()
 		   // Axes
 		   Temp->GetXaxis()->SetTitle("B-discriminator");
 		   Temp->GetXaxis()->SetTitleSize(0.05);
-		   Temp->GetXaxis()->SetTitleFont(42);
+		   Temp->GetXaxis()->SetTitleFont(62);
 		   Temp->GetXaxis()->SetTitleOffset(1.2);
 		   
 		   Temp->GetYaxis()->SetTitleOffset(1.5);
 		   Temp->GetYaxis()->SetTitleSize(0.05);
-		   Temp->GetYaxis()->SetTitleFont(42);
+		   Temp->GetYaxis()->SetTitleFont(62);
 		   
 		   // Labels
 		   Temp->SetLabelColor(1, "XYZ");
-		   Temp->SetLabelFont(42, "XYZ");
+		   Temp->SetLabelFont(62, "XYZ");
 		   Temp->SetLabelOffset(0.007, "XYZ");
-		   Temp->SetLabelSize(0.04, "XYZ");
+		   Temp->SetLabelSize(0.05, "XYZ");
 
 		   // Line color, style, and width
 		   Temp->SetLineColor(Colors[hdx]);
