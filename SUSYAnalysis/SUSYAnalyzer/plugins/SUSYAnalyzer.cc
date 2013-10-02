@@ -504,7 +504,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
     {  
       if(i<8)
 	{
-	  Jet_Et_[i] ->Fill((*jets)[i].et(),  weight);
+	  Jet_Et_[i]  ->Fill((*jets)[i].et(),  weight);
+	  Jet_Eta_[i] ->Fill((*jets)[i].eta(),  weight);
 	}
       Jets_Et_  ->Fill((*jets)[i].et(),  weight);
       Jets_Eta_ ->Fill((*jets)[i].eta(), weight);
