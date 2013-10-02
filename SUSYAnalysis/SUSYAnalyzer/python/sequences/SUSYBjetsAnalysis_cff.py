@@ -12,6 +12,8 @@ analyzeSUSY.useEventWeight = True
 
 ## clone modules for muon channel
 analyzeSUSY1m_noCuts = analyzeSUSY.clone()
+analyzeSUSY1m_preselectionHT = analyzeSUSY.clone()
+analyzeSUSY1m_preselectionMET = analyzeSUSY.clone()
 analyzeSUSY1m_preselection = analyzeSUSY.clone()
 analyzeSUSY1m_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1m_jetSelection = analyzeSUSY.clone()
@@ -57,6 +59,8 @@ analyzeSUSY2b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
 ## clone modules for electron channel
 analyzeSUSY1e_noCuts = analyzeSUSY.clone()
+analyzeSUSY1e_preselectionHT = analyzeSUSY.clone()
+analyzeSUSY1e_preselectionMET = analyzeSUSY.clone()
 analyzeSUSY1e_preselection = analyzeSUSY.clone()
 analyzeSUSY1e_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1e_jetSelection = analyzeSUSY.clone()
