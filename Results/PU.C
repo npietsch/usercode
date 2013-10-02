@@ -72,14 +72,14 @@ int PU()
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed+2,   0, 0);
-  addSample(SingleTop,    "SingleTop", "Single Top",       1, kRed,     0, 0);
-  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kGreen+2, 0, 0);
+  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed,     0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kGreen-3, 0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kBlue-7,  0, 0);
   addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
-  addSample(QCD,          "QCD",       "QCD",              1, kBlue,    0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kRed+2,   0, 0);
   
-  addSample(LM6,       "LM6",     "LM6",          1, 1,        0, 0);
-  addSample(LM8,       "LM8",     "LM8",          1, 1,        0, 0);
+  addSample(LM6,       "LM6",     "LM6",          1, kBlack,       0, 0);
+  addSample(LM8,       "LM8",     "LM8",          1, kBlue,        0, 0);
   
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -103,6 +103,10 @@ int PU()
   //------------ 
 
   setTDRStyle();
+  gStyle->SetPadLeftMargin(0.16);
+  gStyle->SetPadRightMargin(0.05);
+  gStyle->SetPadTopMargin(0.08);
+  gStyle->SetPadBottomMargin(0.14);
 
   //--------
   // Plot
@@ -120,19 +124,19 @@ int PU()
 	 {
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
-	   // legend
-	   TLegend *leg = new TLegend(.29,.68,.91,.89);
-	   leg->SetTextFont(42);
-	   leg->SetTextSize(0.043);
+	   TLegend *leg = new TLegend(.34,.7,.95,.92);
+	   leg->SetTextFont(62);
+	   leg->SetTextSize(0.04);
 	   leg->SetFillColor(0);
+	   leg->SetLineColor(1);
 	   leg->SetShadowColor(0);
 	   leg->SetLineColor(1);
-      
+	   
 	   // label
-	   TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
+	   TPaveText *label = new TPaveText(0.12,0.94,0.99,1.,"NDC");
 	   label->SetFillColor(0);
-	   label->SetTextFont(42);
-	   label->SetTextSize(0.043);
+	   label->SetTextFont(62);
+	   label->SetTextSize(0.045);
 	   label->SetBorderSize(0);
 	   label->SetTextAlign(12);
 	   TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV");
@@ -156,17 +160,17 @@ int PU()
 	   // Axes
 	   Temp1->GetXaxis()->SetTitle("Number of PU interactions");
 	   Temp1->GetXaxis()->SetTitleSize(0.05);
-	   Temp1->GetXaxis()->SetTitleFont(42);
-	   Temp1->GetXaxis()->SetTitleOffset(1.2);
+	   Temp1->GetXaxis()->SetTitleFont(62);
+	   Temp1->GetXaxis()->SetTitleOffset(1.4);
 
 	   Temp1->GetYaxis()->SetTitle("a.u.");
-	   Temp1->GetYaxis()->SetTitleOffset(1.5);
+	   Temp1->GetYaxis()->SetTitleOffset(1.7);
 	   Temp1->GetYaxis()->SetTitleSize(0.05);
-	   Temp1->GetYaxis()->SetTitleFont(42);
+	   Temp1->GetYaxis()->SetTitleFont(62);
 
 	   // Labels
 	   Temp1->SetLabelColor(1, "XYZ");
-	   Temp1->SetLabelFont(42, "XYZ");
+	   Temp1->SetLabelFont(62, "XYZ");
 	   Temp1->SetLabelOffset(0.007, "XYZ");
 	   Temp1->SetLabelSize(0.04, "XYZ");
 
