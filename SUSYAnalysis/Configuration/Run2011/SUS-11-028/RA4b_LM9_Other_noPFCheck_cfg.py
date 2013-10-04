@@ -27,7 +27,9 @@ process.btagEventWeightElJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/dat
 process.goodMuons = process.vertexSelectedGoodMuons.clone()
 process.analyzeRA4Muons.pfMuons = "goodMuons"
 
-
+process.preselectionMuHTMC2 = process.preselectionOther
+process.preselectionElHTMC2 = process.preselectionOther
+process.preselectionLepHTMC2 = process.preselectionOther
 
 # Choose input files
 process.source = cms.Source("PoolSource",
