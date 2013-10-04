@@ -103,9 +103,9 @@ int BtagEfficienciesAllEta()
   // Flavors
   //-----------------------------------------------------
 
-  //Flavors.push_back("B");
-  Flavors.push_back("C");
-  Flavors.push_back("L");
+  Flavors.push_back("B");
+  //Flavors.push_back("C");
+  //Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -155,7 +155,7 @@ int BtagEfficienciesAllEta()
 	      label->SetTextSize(0.045);
 	      label->SetBorderSize(0);
 	      label->SetTextAlign(12);
-	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, muon channel");
+	      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, electron channel");
 
 	      TPaveText *label2 = new TPaveText(0.33,0.23,0.53,0.33,"NDC");
 	      label2->SetFillColor(0);

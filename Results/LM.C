@@ -41,21 +41,23 @@ void LM(){
 	double SF=1; // scale factor - missing part lepton id
 	//double nEvt=421190;
 	//double Xsec=1.029;
-	double nEvt=427625;
-	double Xsec=0.404;
+	//double nEvt=427625;
+	//double Xsec=0.404;
+	double nEvt=437030;
+	double Xsec=10.82472;
 	// define files
-	TFile* All_file          = new TFile("LM6.root",          "READ");
-	TFile* GluinoPair_file   = new TFile("LM6_GluinoPair.root",          "READ");
-	TFile* GluinoSquark_file = new TFile("LM6_GluinoSquark.root",          "READ");
-	TFile* SquarkPair_file   = new TFile("LM6_SquarkPair.root",          "READ");
-	TFile* StopSbottom_file  = new TFile("LM6_StopSbottom.root",          "READ");
-	TFile* Other_file        = new TFile("LM6_Other.root",          "READ");
+	TFile* All_file          = new TFile("LM9.root",          "READ");
+	TFile* GluinoPair_file   = new TFile("LM9_GluinoPair.root",          "READ");
+	TFile* GluinoSquark_file = new TFile("LM9_GluinoSquark.root",          "READ");
+	TFile* SquarkPair_file   = new TFile("LM9_SquarkPair.root",          "READ");
+	TFile* StopSbottom_file  = new TFile("LM9_StopSbottom.root",          "READ");
+	TFile* Other_file        = new TFile("LM9_Other.root",          "READ");
 
 	TFile* Dummy_file        = new TFile("Dummy.root",          "READ");
 
  	//addMCHistogram(TString name, int xmin, int xmax)
 // 	addMCHistogram("analyzeBino_45Jets_1/HT",         "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e6, -0.1, 2.1, 1);
- 	addMCHistogram("analyzeSUSYGenEvent1m_noCuts/nrBQuarks", "Number of b-quarks", "Events", 0, 6, 0.1, 1900, -0.1, 2.1, 1);
+ 	addMCHistogram("analyzeSUSYGenEvent1m_noCuts/nrBQuarks", "Number of b-quarks", "Events", 0, 6, 0.1, 50000, -0.1, 2.1, 1);
 	//addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of jets", "Events", 0, 14, 0.1, 20, -0.1, 2.1, 1);
 	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
 	  {
