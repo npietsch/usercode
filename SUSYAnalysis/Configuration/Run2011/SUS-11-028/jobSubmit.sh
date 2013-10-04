@@ -28,6 +28,14 @@ nafJobSplitter.pl -q 1 32 RA4b_LM8_GluinoSquark_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_SquarkPair_noPFCheck_cfg.py
 nafJobSplitter.pl -q 1 32 RA4b_LM8_Other_noPFCheck_cfg.py
 
+nafJobSplitter.pl -q 1 31 RA4b_LM9_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_StopPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_SbottomPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_GluinoPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_GluinoSquark_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_SquarkPair_noPFCheck_cfg.py
+nafJobSplitter.pl -q 1 31 RA4b_LM9_Other_noPFCheck_cfg.py
+
 nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets1_cfg.py
 nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets2_cfg.py
 nafJobSplitter.pl -q 12 50 RA4b_Fall11_TTJets3_cfg.py
