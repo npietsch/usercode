@@ -7,7 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.MessageLogger.categories.append('ParticleListDrawer')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000),
+    input = cms.untracked.int32(50000),
     skipEvents = cms.untracked.uint32(0)
 )
 
@@ -174,6 +174,9 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
 
                                  ###---------------------------------###
                                  ###--- only to for cutflow-table ---###
+                                 process.muonSelection *
+                                 process.analyzeSUSY1m_preselectionLepton *
+                                 
                                  process.filterGoodHT *
                                  process.analyzeSUSY1m_preselectionHT *
                                  
@@ -186,7 +189,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  process.analyzeSUSYBjets1m_preselection *
                                  process.analyzeRA4Muons *
                                  
-                                 process.analyzeRA4Muons *
+                                 process.muonSelection *
 
                                  process.analyzeSUSYBjets1m_leptonSelection *
                                  
@@ -220,11 +223,14 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
 
                                  ###---------------------------------###
                                  ###--- only to for cutflow-table ---###
+                                 process.electronSelection *
+                                 process.analyzeSUSY1e_preselectionLepton *
+                                 
                                  process.filterGoodHT *
-                                 process.analyzeSUSY1m_preselectionHT *
+                                 process.analyzeSUSY1e_preselectionHT *
                                  
                                  process.oneGoodMET *
-                                 process.analyzeSUSY1m_preselectionMET *
+                                 process.analyzeSUSY1e_preselectionMET *
                                  ###--- only to for cutflow-table ---###
                                  ###---------------------------------###
                                  
