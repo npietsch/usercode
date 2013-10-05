@@ -12,6 +12,9 @@
 #include "TLegend.h"
 #include "TPaveText.h"
 #include <TDRStyle.h>
+#include <stdio.h>
+#include <math.h> 
+
 
 vector<TFile*> MCFiles;
 vector<TString> MCLabels;
@@ -21,8 +24,11 @@ vector<unsigned int> MCLineColors;
 vector<unsigned int> MCFillColors;
 vector<unsigned int> MCFillStyles;
 
-vector<TString> SelectionSteps;
-vector<TString> SelectionLabels;
+vector<TString> MuSelectionSteps;
+vector<TString> MuSelectionLabels;
+
+vector<TString> ElSelectionSteps;
+vector<TString> ElSelectionLabels;
 
 void addMCSample(TFile* MCSample, TString MCName, TString MCLabel, double MCWeight, int MCLc, int MCFc, int MCFs)
 {
@@ -35,52 +41,92 @@ void addMCSample(TFile* MCSample, TString MCName, TString MCLabel, double MCWeig
   MCFillStyles.push_back(MCFs);
 }
 
-void addSelection(TString selectionStep, TString selectionLabel)
+void addMuSelection(TString MuSelectionStep, TString MuSelectionLabel)
 {
-  SelectionSteps.push_back(selectionStep);
-  SelectionLabels.push_back(selectionLabel);
+  MuSelectionSteps.push_back(MuSelectionStep);
+  MuSelectionLabels.push_back(MuSelectionLabel);
+}
+
+void addElSelection(TString ElSelectionStep, TString ElSelectionLabel)
+{
+  ElSelectionSteps.push_back(ElSelectionStep);
+  ElSelectionLabels.push_back(ElSelectionLabel);
 }
 
 // main function
 int Cutflow()
 {
+  double Lumi=4.980;
+
   //--------------------------------------------------------------
   // Samples
   //--------------------------------------------------------------
 
   TFile* TTJetsFall11  = new TFile("TTJetsFall11_new.root", "READ");
   TFile* SingleTop     = new TFile("SingleTop_new.root",    "READ");
-  //TFile* ZJets         = new TFile("ZJets_new.root",       "READ");
+  TFile* ZJets         = new TFile("ZJets_new.root",        "READ");
   TFile* WJetsHT       = new TFile("WJetsHT_new.root",      "READ");
   TFile* QCD           = new TFile("QCD_new.root",          "READ");
+
+  TFile* MuHad         = new TFile("MuHad_new.root",        "READ");
+  TFile* ElHad         = new TFile("ElHad_new.root",        "READ");
+
+  TFile* AllSM         = new TFile("AllSM_new.root",        "READ");
   
-  //TFile* LM6           = new TFile("LM6_new.root",         "READ");
-  //TFile* LM8           = new TFile("LM8_new.root",         "READ");
-  //TFile* LM9           = new TFile("LM9_new.root",         "READ");
-  
-  TFile* MuHad         = new TFile("MuHad_new.root",         "READ");
-  TFile* ElHad         = new TFile("ElHad_new.root",         "READ");
+  TFile* LM6           = new TFile("LM6_new.root",          "READ");
+  TFile* LM8           = new TFile("LM8_new.root",          "READ");
+  TFile* LM9           = new TFile("LM9_new.root",          "READ");
 
   //--------------------------------------------------------------------------------------------------------------
   // addMCSample(TFile* MCSample, TString MCName, TString MCLabel, double MCWeight, int MCLc, int MCFc, int MCFs)
   //--------------------------------------------------------------------------------------------------------------
 
-  addMCSample(TTJetsFall11, "TTJets",    "$\\textmd{t}\\bar{\\textmd{t}}$+Jets",   1, kRed,      0, 0);
-  addMCSample(SingleTop,    "SingleTop", "Single Top",      1, kGreen-3,  0, 0);
-  //addMCSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",  1, kBlue-7,   0, 0);
-  addMCSample(WJetsHT,      "WJets",     "W+Jets",          1, kYellow-4, 0, 0);
-  addMCSample(QCD,          "QCD",       "QCD",             1, kRed+2,    0, 0);
+//   addMCSample(TTJetsFall11, "TTJets",    "$\\textmd{t}\\bar{\\textmd{t}}$+Jets",   Lumi, kRed,      0, 0);
+//   addMCSample(SingleTop,    "SingleTop", "Single Top",      Lumi, kGreen-3,  0, 0);
+//   addMCSample(WJetsHT,      "WJets",     "W+Jets",          Lumi, kYellow-4, 0, 0);
+//   addMCSample(ZJets,        "ZJets",     "$\\textmd{Z}/\\gamma^{*}$+Jets",  Lumi, kBlue-7,   0, 0);
+//   addMCSample(QCD,          "QCD",       "QCD",             Lumi, kRed+2,    0, 0);
   
-  //addMCSample(LM6,          "LM6",       "LM6",             1, kBlack,    0, 0);
-  //addMCSample(LM8,          "LM8",       "LM8",             1, kBlue,     0, 0);
-  //addMCSample(LM9,          "LM9",       "LM9",             1, kRed,      0, 0);
+  addMCSample(MuHad,        "MuHad",     "Data",            1,    kBlack,    0, 0);
+  addMCSample(AllSM,        "AllSM",     "all SM",          Lumi, kBlue,     0, 0);
+
+  addMCSample(LM6,          "LM6",       "LM6",             Lumi, kBlack,    0, 0);
+  addMCSample(LM8,          "LM8",       "LM8",             Lumi, kBlue,     0, 0);
+  addMCSample(LM9,          "LM9",       "LM9",             Lumi, kRed,      0, 0);
   
+
   //--------------------------------------------------------------------------------------------------------------
-  // addSelection(TString selection, TString selectionLabel)
+  // addMuSelection(TString selection, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------------------
 
-  addSelection("analyzeSUSY1m_noCuts", "no Cuts");
+  addMuSelection("analyzeSUSY1m_noCuts", "no Cuts");
+  addMuSelection("analyzeSUSY1m_preselectionLepton", "lepton selection");
+  addMuSelection("analyzeSUSY1m_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
+  addMuSelection("analyzeSUSY1m_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
+  addMuSelection("analyzeSUSY1m_jetSelection", "jet selection");
+//   addMuSelection("analyzeSUSY0b1m_2",   "0 b-tags");
+//   addMuSelection("analyzeSUSY1b1m_2",   "1 b-tag");
+//   addMuSelection("analyzeSUSY2b1m_2",   "2 b-tags");
+//   addMuSelection("analyzeSUSY1b1m_1",   "$> 1$ b-tags");
+//   addMuSelection("analyzeSUSY2b1m_1",   "$> 2$ b-tags");
+//   addMuSelection("analyzeSUSY3b1m_1",   "$> 3$ b-tags");
+    
+  //--------------------------------------------------------------------------------------------------------------
+  // addElSelection(TString selection, TString selectionLabel)
+  //--------------------------------------------------------------------------------------------------------------
   
+  addElSelection("analyzeSUSY1e_noCuts", "no Cuts");
+  addElSelection("analyzeSUSY1e_preselectionLepton", "lepton selection");
+  addElSelection("analyzeSUSY1e_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
+  addElSelection("analyzeSUSY1e_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
+  addElSelection("analyzeSUSY1e_jetSelection", "jet selection");
+//   addElSelection("analyzeSUSY0b1e_2",   "0 b-tags");
+//   addElSelection("analyzeSUSY1b1e_2",   "1 b-tag");
+//   addElSelection("analyzeSUSY2b1e_2",   "2 b-tags");
+//   addElSelection("analyzeSUSY1b1e_1",   "$> 1$ b-tags");
+//   addElSelection("analyzeSUSY2b1e_1",   "$> 2$ b-tags");
+//   addElSelection("analyzeSUSY3b1e_1",   "$> 3$ b-tags");
+
   //------------
   // set style 
   //------------ 
@@ -95,7 +141,14 @@ int Cutflow()
   // Create tables
   //------------------
 
-  std::cout << "\n" << std::endl;
+
+  //---------------------
+  // Muon channel
+  //---------------------
+
+  std::cout << "\nMuon channel" << std::endl;
+  std::cout << "----------------\n" << std::endl;
+
 
   std::cout << "\\begin{table*}[htb]" << std::endl;
   std::cout << "\\caption{CAPTION}" << std::endl;
@@ -108,7 +161,7 @@ int Cutflow()
       std::cout << "c|";
     }
   std::cout << "}" << std::endl;
-  std::cout << "\\hline\n" << std::endl;
+  std::cout << "\\hline" << std::endl;
 
   // head line
   std::cout << "Selection";
@@ -122,25 +175,147 @@ int Cutflow()
   std::cout << "\\hline" << std::endl;
   std::cout << "\\hline" << std::endl;
   
-//   //loop over selections
-//   for(int sdx=0; sdx<(int)SelectionSteps.size(); ++sdx)
-//     {
-//       std::cout << "\n"<< SelectionLabels[sdx] << std::endl;
-//       std::cout << "---------------" << std::endl;
+  //loop over selections
+  for(int sdx=0; sdx<(int)MuSelectionSteps.size(); ++sdx)
+    {
+      std::cout << MuSelectionLabels[sdx];
       
-//       // loop over MC samples
-//       for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
-// 	{
-
-// 	  std::cout << "\n"<< MCNames[fdx] << std::endl;
-       
-// 	}
-//     }
-
-  std::cout << "\n" << std::endl;
+      // loop over MC samples
+      for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+	{
+	  TH1F* Temp=(TH1F*)MCFiles[fdx]->Get(MuSelectionSteps[sdx]+"/"+"NumEvents");
+	  double Events=MCWeights[fdx]*Temp->Integral(0,-1);
+	  std::cout << " & " << Events;
+	}
+      std::cout << " \\\\" << std::endl;
+    }
+  
+  std::cout << "\\hline" << std::endl;
 
   std::cout << "\\end{tabular}" << std::endl;
   std::cout << "\\end{center}" << std::endl;
   std::cout << "\\end{table*}" << std::endl;
+
+  //---------------------
+  // Electron channel
+  //---------------------
+
+  std::cout << "\nElectron channel" << std::endl;
+  std::cout << "----------------\n" << std::endl;
+
+  std::cout << "\\begin{table*}[htb]" << std::endl;
+  std::cout << "\\caption{CAPTION}" << std::endl;
+  std::cout << "\\begin{center}" << std::endl;
+  std::cout << "\\begin{tabular}{|l|";
   
+   // loop over MC samples
+  for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+    {
+      std::cout << "c|";
+    }
+  std::cout << "}" << std::endl;
+  std::cout << "\\hline" << std::endl;
+
+  // head line
+  std::cout << "Selection";
+   // loop over MC samples
+  for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+    {
+      std::cout << " & " << MCLabels[fdx];
+    }
+  std::cout << " \\\\" << std::endl;
+
+  std::cout << "\\hline" << std::endl;
+  std::cout << "\\hline" << std::endl;
+  
+  //loop over selections
+  for(int sdx=0; sdx<(int)ElSelectionSteps.size(); ++sdx)
+    {
+      std::cout << ElSelectionLabels[sdx];
+      
+      // loop over MC samples
+      for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+	{
+	  TH1F* Temp=(TH1F*)MCFiles[fdx]->Get(ElSelectionSteps[sdx]+"/"+"NumEvents");
+	  double Events=MCWeights[fdx]*Temp->Integral(0,-1);
+	  std::cout << " & " << Events;
+	}
+      std::cout << " \\\\" << std::endl;
+    }
+  
+  std::cout << "\\hline" << std::endl;
+
+  std::cout << "\\end{tabular}" << std::endl;
+  std::cout << "\\end{center}" << std::endl;
+  std::cout << "\\end{table*}" << std::endl;
+
+  //---------------------
+  // Combined channel
+  //---------------------
+
+  std::cout << "\nCombined channel" << std::endl;
+  std::cout << "----------------\n" << std::endl;
+
+  std::cout << "\\begin{table*}[htb]" << std::endl;
+  std::cout << "\\caption{CAPTION}" << std::endl;
+  std::cout << "\\begin{center}" << std::endl;
+  std::cout << "\\begin{tabular}{|l|";
+  
+   // loop over MC samples
+  for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+    {
+      std::cout << "c|";
+    }
+  std::cout << "}" << std::endl;
+  std::cout << "\\hline" << std::endl;
+
+  // head line
+  std::cout << "Selection";
+   // loop over MC samples
+  for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+    {
+      std::cout << " & " << MCLabels[fdx];
+    }
+  std::cout << " \\\\" << std::endl;
+
+  std::cout << "\\hline" << std::endl;
+  std::cout << "\\hline" << std::endl;
+  
+  //loop over selections
+  for(int sdx=0; sdx<(int)MuSelectionSteps.size(); ++sdx)
+    {
+      std::cout << MuSelectionLabels[sdx];
+      
+      // loop over MC samples
+      for(int fdx=0; fdx<(int)MCFiles.size(); ++fdx)
+	{
+	  //std::cout << MCNames[sdx] << std::endl;
+
+	  if(MCNames[fdx] == "MuHad")
+	    {
+	      //std::cout << "Data" << std::endl;
+	      
+	      TH1F* TempMu=(TH1F*)MuHad->Get(MuSelectionSteps[sdx]+"/"+"NumEvents");
+	      TH1F* TempEl=(TH1F*)ElHad->Get(ElSelectionSteps[sdx]+"/"+"NumEvents");
+	      
+	      double Events=MCWeights[fdx]*(TempMu->Integral(0,-1)+TempEl->Integral(0,-1));
+	      std::cout << " & " << Events; 
+	    }
+	  else
+	    {
+	      TH1F* TempMu=(TH1F*)MCFiles[fdx]->Get(MuSelectionSteps[sdx]+"/"+"NumEvents");
+	      TH1F* TempEl=(TH1F*)MCFiles[fdx]->Get(ElSelectionSteps[sdx]+"/"+"NumEvents");
+	      
+	      double Events=MCWeights[fdx]*(TempMu->Integral(0,-1)+TempEl->Integral(0,-1));
+	      std::cout << " & " << Events;
+	    }
+	}
+      std::cout << " \\\\" << std::endl;
+    }
+  
+  std::cout << "\\hline" << std::endl;
+
+  std::cout << "\\end{tabular}" << std::endl;
+  std::cout << "\\end{center}" << std::endl;
+  std::cout << "\\end{table*}" << std::endl;
 }
