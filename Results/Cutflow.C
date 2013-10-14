@@ -56,76 +56,88 @@ void addElSelection(TString ElSelectionStep, TString ElSelectionLabel)
 // main function
 int Cutflow()
 {
-  double Lumi=4.980;
+  double Lumi=0.97*4.980;
 
   //--------------------------------------------------------------
   // Samples
   //--------------------------------------------------------------
 
-  TFile* TTJetsFall11  = new TFile("TTJetsFall11_new.root", "READ");
-  TFile* SingleTop     = new TFile("SingleTop_new.root",    "READ");
-  TFile* ZJets         = new TFile("ZJets_new.root",        "READ");
-  TFile* WJetsHT       = new TFile("WJetsHT_new.root",      "READ");
-  TFile* QCD           = new TFile("QCD_new.root",          "READ");
+  TFile* TTJetsFall11 = new TFile("TTJetsFall11_new.root", "READ");
+  TFile* SemiLepElMu  = new TFile("SemiLepElMu.root",      "READ");
+  TFile* SemiLepTau   = new TFile("SemiLepTau.root",       "READ");
+  TFile* DiLep        = new TFile("DiLep.root",            "READ");
+  TFile* FullHad      = new TFile("FullHad.root",          "READ");
 
-  TFile* MuHad         = new TFile("MuHad_new.root",        "READ");
-  TFile* ElHad         = new TFile("ElHad_new.root",        "READ");
+//   TFile* SingleTop     = new TFile("SingleTop_new.root",    "READ");
+//   TFile* ZJets         = new TFile("ZJets_new.root",        "READ");
+//   TFile* WJetsHT       = new TFile("WJetsHT_new.root",      "READ");
+//   TFile* QCD           = new TFile("QCD_new.root",          "READ");
 
-  TFile* AllSM         = new TFile("AllSM_new.root",        "READ");
+//   TFile* MuHad         = new TFile("MuHad_new.root",        "READ");
+//   TFile* ElHad         = new TFile("ElHad_new.root",        "READ");
+
+//   TFile* AllSM         = new TFile("AllSM_new.root",        "READ");
   
-  TFile* LM6           = new TFile("LM6_new.root",          "READ");
-  TFile* LM8           = new TFile("LM8_new.root",          "READ");
-  TFile* LM9           = new TFile("LM9_new.root",          "READ");
+//   TFile* LM6           = new TFile("LM6_new.root",          "READ");
+//   TFile* LM8           = new TFile("LM8_new.root",          "READ");
+//   TFile* LM9           = new TFile("LM9_new.root",          "READ");
 
   //--------------------------------------------------------------------------------------------------------------
   // addMCSample(TFile* MCSample, TString MCName, TString MCLabel, double MCWeight, int MCLc, int MCFc, int MCFs)
   //--------------------------------------------------------------------------------------------------------------
 
-//   addMCSample(TTJetsFall11, "TTJets",    "$\\textmd{t}\\bar{\\textmd{t}}$+Jets",   Lumi, kRed,      0, 0);
-//   addMCSample(SingleTop,    "SingleTop", "Single Top",      Lumi, kGreen-3,  0, 0);
-//   addMCSample(WJetsHT,      "WJets",     "W+Jets",          Lumi, kYellow-4, 0, 0);
-//   addMCSample(ZJets,        "ZJets",     "$\\textmd{Z}/\\gamma^{*}$+Jets",  Lumi, kBlue-7,   0, 0);
-//   addMCSample(QCD,          "QCD",       "QCD",             Lumi, kRed+2,    0, 0);
-  
-  addMCSample(MuHad,        "MuHad",     "Data",            1,    kBlack,    0, 0);
-  addMCSample(AllSM,        "AllSM",     "all SM",          Lumi, kBlue,     0, 0);
+  addMCSample(TTJetsFall11,"TTJets",  "All $\\textmd{t}\\bar{\\textmd{t}}$+Jets",   Lumi, kRed,      0, 0);
+  addMCSample(SemiLepElMu, "TTJets",  "Semilep. $e/\\mu$",  0.97*0.013178471, kRed,      0, 0);
+  addMCSample(SemiLepTau,  "TTJets",  "Semilep. $\\tau$",   0.97*0.013178471, kRed,      0, 0);
+  addMCSample(DiLep,       "TTJets",  "Dileptonic",         0.97*0.013178471, kRed,      0, 0);
+  addMCSample(FullHad,     "TTJets",  "Fullhadronic",       0.97*0.013178471, kRed,      0, 0);
 
-  addMCSample(LM6,          "LM6",       "LM6",             Lumi, kBlack,    0, 0);
-  addMCSample(LM8,          "LM8",       "LM8",             Lumi, kBlue,     0, 0);
-  addMCSample(LM9,          "LM9",       "LM9",             Lumi, kRed,      0, 0);
+  //addMCSample(SingleTop,    "SingleTop", "Single Top",      Lumi, kGreen-3,  0, 0);
+  //addMCSample(WJetsHT,      "WJets",     "W+Jets",          Lumi, kYellow-4, 0, 0);
+  //addMCSample(ZJets,        "ZJets",     "$\\textmd{Z}/\\gamma^{*}$+Jets",  Lumi, kBlue-7,   0, 0);
+  //addMCSample(QCD,          "QCD",       "QCD",             Lumi, kRed+2,    0, 0);
+  
+  //addMCSample(MuHad,        "MuHad",     "Data",            1,    kBlack,    0, 0);
+  //addMCSample(AllSM,        "AllSM",     "all SM",          Lumi, kBlue,     0, 0);
+  
+  //addMCSample(LM6,          "LM6",       "LM6",             Lumi, kBlack,    0, 0);
+  //addMCSample(LM8,          "LM8",       "LM8",             Lumi, kBlue,     0, 0);
+  //addMCSample(LM9,          "LM9",       "LM9",             Lumi, kRed,      0, 0);
   
 
   //--------------------------------------------------------------------------------------------------------------
   // addMuSelection(TString selection, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------------------
 
-  addMuSelection("analyzeSUSY1m_noCuts", "no Cuts");
-  addMuSelection("analyzeSUSY1m_preselectionLepton", "lepton selection");
-  addMuSelection("analyzeSUSY1m_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
-  addMuSelection("analyzeSUSY1m_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
-  addMuSelection("analyzeSUSY1m_jetSelection", "jet selection");
-//   addMuSelection("analyzeSUSY0b1m_2",   "0 b-tags");
-//   addMuSelection("analyzeSUSY1b1m_2",   "1 b-tag");
-//   addMuSelection("analyzeSUSY2b1m_2",   "2 b-tags");
-//   addMuSelection("analyzeSUSY1b1m_1",   "$> 1$ b-tags");
-//   addMuSelection("analyzeSUSY2b1m_1",   "$> 2$ b-tags");
-//   addMuSelection("analyzeSUSY3b1m_1",   "$> 3$ b-tags");
+  //addMuSelection("analyzeSUSY1m_noCuts", "event cleaning");
+  //addMuSelection("analyzeSUSY1m_preselectionLepton", "lepton selection");
+  //addMuSelection("analyzeSUSY1m_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
+  //addMuSelection("analyzeSUSY1m_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
+  addMuSelection("analyzeSUSY1m_leptonSelection", "lepton selection");
+  addMuSelection("analyzeSUSY1m_jetSelection",    "jet selection");
+  addMuSelection("analyzeSUSY0b1m_2",   "0 b-tags");
+  addMuSelection("analyzeSUSY1b1m_2",   "1 b-tag");
+  addMuSelection("analyzeSUSY2b1m_2",   "2 b-tags");
+  addMuSelection("analyzeSUSY1b1m_1",   "$> 1$ b-tags");
+  addMuSelection("analyzeSUSY2b1m_1",   "$> 2$ b-tags");
+  addMuSelection("analyzeSUSY3b1m_1",   "$> 3$ b-tags");
     
   //--------------------------------------------------------------------------------------------------------------
   // addElSelection(TString selection, TString selectionLabel)
   //--------------------------------------------------------------------------------------------------------------
   
-  addElSelection("analyzeSUSY1e_noCuts", "no Cuts");
-  addElSelection("analyzeSUSY1e_preselectionLepton", "lepton selection");
-  addElSelection("analyzeSUSY1e_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
-  addElSelection("analyzeSUSY1e_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
-  addElSelection("analyzeSUSY1e_jetSelection", "jet selection");
-//   addElSelection("analyzeSUSY0b1e_2",   "0 b-tags");
-//   addElSelection("analyzeSUSY1b1e_2",   "1 b-tag");
-//   addElSelection("analyzeSUSY2b1e_2",   "2 b-tags");
-//   addElSelection("analyzeSUSY1b1e_1",   "$> 1$ b-tags");
-//   addElSelection("analyzeSUSY2b1e_1",   "$> 2$ b-tags");
-//   addElSelection("analyzeSUSY3b1e_1",   "$> 3$ b-tags");
+  //addElSelection("analyzeSUSY1e_noCuts", "event cleaning");
+  //addElSelection("analyzeSUSY1e_preselectionLepton", "lepton selection");
+  //addElSelection("analyzeSUSY1e_preselectionHT", "$H_{T} > 375\\,\\textmd{GeV}$");
+  //addElSelection("analyzeSUSY1e_preselectionMET", "$\\not\\!\\!E_{T} > 60\\,\\textmd{GeV}$");
+  addElSelection("analyzeSUSY1e_leptonSelection", "lepton selection");
+  addElSelection("analyzeSUSY1e_jetSelection",    "jet selection");
+  addElSelection("analyzeSUSY0b1e_2",   "0 b-tags");
+  addElSelection("analyzeSUSY1b1e_2",   "1 b-tag");
+  addElSelection("analyzeSUSY2b1e_2",   "2 b-tags");
+  addElSelection("analyzeSUSY1b1e_1",   "$> 1$ b-tags");
+  addElSelection("analyzeSUSY2b1e_1",   "$> 2$ b-tags");
+  addElSelection("analyzeSUSY3b1e_1",   "$> 3$ b-tags");
 
   //------------
   // set style 

@@ -42,21 +42,22 @@ void EventSelection(){
 	double SF=0.97; // scale factor - missing part lepton id
 
 	// define files
-	TFile* TTJets_file    = new TFile("TTJetsFall11.root", "READ");
-	TFile* SingleTop_file = new TFile("SingleTop.root",    "READ");
-	TFile* WJets_file     = new TFile("WJetsHT.root",      "READ");
-	TFile* ZJets_file     = new TFile("ZJets.root",        "READ");
-	TFile* QCD_file       = new TFile("QCD.root",          "READ");
+	TFile* TTJets_file    = new TFile("TTJetsFall11_new.root", "READ");
+	TFile* SingleTop_file = new TFile("SingleTop_new.root",    "READ");
+	TFile* WJets_file     = new TFile("WJetsHT_new.root",      "READ");
+	TFile* ZJets_file     = new TFile("ZJets_new.root",        "READ");
+	TFile* QCD_file       = new TFile("QCD_new.root",          "READ");
 	
-	TFile* LM3_file       = new TFile("LM3.root",          "READ");
-	TFile* LM6_file       = new TFile("LM6.root",          "READ");
-	TFile* LM8_file       = new TFile("LM8.root",          "READ");
+	//TFile* LM3_file       = new TFile("LM3_new.root",          "READ");
+	TFile* LM6_file       = new TFile("LM6_new.root",          "READ");
+	TFile* LM8_file       = new TFile("LM8_new.root",          "READ");
+	TFile* LM9_file       = new TFile("LM9_new.root",          "READ");
 	
-	TFile* MuHad_file     = new TFile("MuHad.root",        "READ");
-	TFile* ElHad_file     = new TFile("ElHad.root",        "READ");
+	TFile* MuHad_file     = new TFile("MuHad_new.root",        "READ");
+	TFile* ElHad_file     = new TFile("ElHad_new.root",        "READ");
 
 	//addMCHistogram(TString name, int xmin, int xmax)	
-	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  300, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  500, 0.1, 1e5, -0.1, 2.1, 1);
 	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Eta", "#eta^{lepton}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets",  "Events",        -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nPV", "Number of primary vertices", "Events",  -0.5,  50.5, 0.1, 1e5, -0.1, 2.1, 1);
@@ -99,7 +100,7 @@ void EventSelection(){
 	    TH1D* ZJets     = (TH1D*)ZJets_file     ->Get(Histograms[hdx]);
 	    TH1D* QCD       = (TH1D*)QCD_file       ->Get(Histograms[hdx]);
 	    
-	    TH1D* LM3       = (TH1D*)LM3_file       ->Get(Histograms[hdx]);
+	    TH1D* LM9       = (TH1D*)LM9_file       ->Get(Histograms[hdx]);
 	    TH1D* LM6       = (TH1D*)LM6_file       ->Get(Histograms[hdx]);
 	    TH1D* LM8       = (TH1D*)LM8_file       ->Get(Histograms[hdx]);
 	    
@@ -132,8 +133,11 @@ void EventSelection(){
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
-	    sr.AddExtra(LM8,  kBlue,   421190,   0.73*1.41,   1,  2); 
-	    sr.AddExtra(LM6,  kBlack,  427625,   0.404,       2,  3);
+	    //sr.AddExtra(LM8,  kBlue,   421190,   0.73*1.41,   1,  2); 
+	    sr.AddExtra(LM8,  kBlue,   1,        0.001,    1,  2);
+	    //sr.AddExtra(LM6,  kBlack,  427625,   0.404,    2,  3); 
+	    sr.AddExtra(LM6,  kBlack,  1,        0.001,    2,  3);
+	    sr.AddExtra(LM9,  kBlack,  1,        0.001,    2,  3);
 
 	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,700);
 	    sr.DrawClone();

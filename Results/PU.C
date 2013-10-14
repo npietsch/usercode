@@ -67,21 +67,21 @@ int PU()
   TFile* LM9            = new TFile("LM9.root",            "READ");
   //TFile* LM13           = new TFile("LM13.root",           "READ");
 
-  TFile* Data = new TFile("PU_Data_73500.root", "Read"); 
+  TFile* Data = new TFile("PU_Data_73500_new.root", "Read"); 
 
   //-------------------------------------------------------------------------------------------------------------------
   // addSample(TFile* sample, TString name, double weight, int lc, int fc, int fs)
   //-------------------------------------------------------------------------------------------------------------------
 
-  //addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed,     0, 0);
-  //addSample(SingleTop,    "SingleTop", "Single Top",       1, kGreen-3, 0, 0);
-  //addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kBlue-7,  0, 0);
-  //addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
+  addSample(TTJetsFall11, "TTJets",    "t#bar{t}+Jets",    1, kRed,     0, 0);
+  addSample(SingleTop,    "SingleTop", "Single Top",       1, kGreen-3, 0, 0);
+  addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kBlue-7,  0, 0);
+  addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
   //addSample(QCD,          "QCD",       "QCD",              1, kRed+2,   0, 0);
   
   //addSample(LM6,       "LM6",     "LM6",          1, kBlack,       0, 0);
   //addSample(LM8,       "LM8",     "LM8",          1, kBlue,        0, 0);
-  addSample(LM9,       "LM9",     "LM9",          1, kRed,        0, 0);
+  //addSample(LM9,       "LM9",     "LM9",          1, kRed,        0, 0);
   
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -175,6 +175,7 @@ int PU()
 	   Temp1->SetLabelFont(62, "XYZ");
 	   Temp1->SetLabelOffset(0.007, "XYZ");
 	   Temp1->SetLabelSize(0.04, "XYZ");
+	   Temp1->GetXaxis()->SetRangeUser(0,30);
 
 	   Temp1->Draw("Hist");
 

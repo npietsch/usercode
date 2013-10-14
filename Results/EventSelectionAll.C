@@ -85,8 +85,8 @@ void EventSelectionAll(){
 	ElMuAdder ad("./"); // path to root files
 
 	//add MC histogram
-// 	addMCHistogram("analyzeSUSY2b", "1/nPV",       "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY2b", "1/nPV_noWgt", "Number of primaty vertices", "Events", 0,  50, 0.1, 1e4, -0.1, 2.1, 1);
+ 	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",       "Number of primaty vertices", "Events", 0,  25, 0., 5000, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt", "Number of primaty vertices", "Events", 0,  25, 0., 5000, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
@@ -95,10 +95,10 @@ void EventSelectionAll(){
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet2_Et", "p_{T} [GeV]","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet3_Et", "p_{T} [GeV]","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
 
-//	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Eta", "#eta", "Events", -2,  2, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY", "jetSelection/Jet1_Eta", "#eta", "Events", -2,  2, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY", "jetSelection/Jet2_Eta", "#eta", "Events", -2,  2, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY", "jetSelection/Jet3_Eta", "#eta", "Events", -2,  2, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Eta", "#eta", "Events", -3,  3, 0.1, 1e4, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeSUSY", "jetSelection/Jet1_Eta", "#eta", "Events", -3,  3, 0.1, 1e4, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeSUSY", "jetSelection/Jet2_Eta", "#eta", "Events", -3,  3, 0.1, 1e4, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeSUSY", "jetSelection/Jet3_Eta", "#eta", "Events", -3,  3, 0.1, 1e4, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/mT", "m_{T} [GeV]","Events / 10 GeV", 0,  400, 0.1, 1e4, -0.1, 2.1, 1);	
 // 	addMCHistogram("analyzeSUSY1b", "1/mT", "m_{T} [GeV]","Events", 0,  400, 0.1, 5e3, -0.1, 2.1, 1);	
@@ -145,12 +145,15 @@ void EventSelectionAll(){
 // 	addMCHistogram("analyzeSUSY0b", "2/HT",   "H_{T} [GeV]",         "Events",  0,   2000, 0.1, 5e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY0b", "2/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 5e3, -0.1, 2.1, 1);
 
-
+// 	addMCHistogram("analyzeSUSY", "leptonSelection/HT",   "H_{T} [GeV]",         "Events",  0,   2000, 0.1, 5e4, -0.1, 2.1, 1);
+//  	addMCHistogram("analyzeSUSY", "leptonSelection/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 5e4, -0.1, 2.1, 1);
+	
 //  	addMCHistogram("analyzeSUSY", "jetSelection/YMET", "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0, 200, 0.1, 1e4, -0.1, 2.1, 1);
- 	addMCHistogram("analyzeSUSY", "jetSelection/nJets","Number of jets",      "Events",  3.5, 13.5, 0.1, 1e4, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY", "jetSelection/nJets","Number of jets",      "Events",  3.5, 13.5, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/mT",   "m_{T} [GeV]",         "Events",  0,    400, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/HT",   "H_{T} [GeV]",         "Events",  0,   2000, 0.1, 1e4, -0.1, 2.1, 1);
-// 	addMCHistogram("analyzeSUSY", "jetSelection/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 1e4, -0.1, 2.1, 1);  
+// 	addMCHistogram("analyzeSUSY", "jetSelection/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 1e4, -0.1, 2.1, 1);
+	
 	
 
 //  	addMCHistogram("analyzeSUSY1b", "2/YMET", "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0, 200, 0.1, 5e3, -0.1, 2.1, 1);
@@ -171,19 +174,20 @@ void EventSelectionAll(){
 	    // electron and muon data
 	    ad.mName   = MuHistograms[hdx]; // muon histogram
 	    ad.eName   = ElHistograms[hdx]; // electron histogram
-	    TH1D* data =  ad.get("ElHad.root","MuHad.root");
+	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
 	
 	    // SM MC
 	    ad.mName   =  MuHistograms[hdx]; // muon histogram
 	    ad.eName   =  ElHistograms[hdx]; // electron histogram
-	    TH1D* QCD       =  ad.get("QCD.root");
-	    TH1D* ZJets     =  ad.get("ZJets.root");
-	    TH1D* WJets     =  ad.get("WJetsHT.root");
-	    TH1D* SingleTop =  ad.get("SingleTop.root");
-	    TH1D* TTJets    =  ad.get("TTJetsFall11.root");
+	    TH1D* QCD       =  ad.get("QCD_new.root");
+	    TH1D* ZJets     =  ad.get("ZJets_new.root");
+	    TH1D* WJets     =  ad.get("WJetsHT_new.root");
+	    TH1D* SingleTop =  ad.get("SingleTop_new.root");
+	    TH1D* TTJets    =  ad.get("TTJetsFall11_new.root");
 	    // LM signal points
-	    TH1D* LM8       =  ad.get("LM8.root");
-	    TH1D* LM6       =  ad.get("LM6.root");
+	    //TH1D* LM9       =  ad.get("LM9_new.root");
+	    TH1D* LM8       =  ad.get("LM8_new.root");
+	    TH1D* LM6       =  ad.get("LM6_new.root");
 	    
 	    // stack with ratio
 	    StackWithRatio sr(dataLumi, XTitles[hdx], YTitles[hdx], "Data/Simulation");
@@ -210,8 +214,9 @@ void EventSelectionAll(){
 
 	    // add a few signal points
 	    // extra lines in stack: histo, color, nevnts, x-sect, style (line width)
-	    sr.AddExtra(LM8,  kBlue,   421190,   0.73*1.41,   1,  2); 
-	    sr.AddExtra(LM6,  kBlack,  427625,   0.404,       2,  3);
+	    //sr.AddExtra(LM9,  kRed+2,   1,   0.001,   1, 2); 
+	    sr.AddExtra(LM8,  kBlue,    1,   0.001,   1, 2); 
+	    sr.AddExtra(LM6,  kBlack,   1,   0.001,   2, 3);
 
 	    TCanvas* c1 = new TCanvas(MuHistograms[hdx],MuHistograms[hdx],600,700);
 	    sr.DrawClone();
@@ -239,7 +244,7 @@ void EventSelectionAll(){
 	    label->SetTextSize(0.06);
 	    label->SetBorderSize(0);
 	    label->SetTextAlign(12);
-	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV,#kern[0.2]{#geq 0 b-tag}");
+	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV"); //,#kern[0.2]{#geq 0 b-tag}");
 	    label->Draw();
 
 // 	    // TLine
