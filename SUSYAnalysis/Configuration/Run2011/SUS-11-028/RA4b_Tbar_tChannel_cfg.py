@@ -16,13 +16,13 @@ process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 #process.eventWeightPUUp.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleAntiTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
 #process.eventWeightPUDown.MCSampleFile = "TopAnalysis/TopUtils/data/MC_PUDist_Summer11_SingleAntiTop_TuneZ2_t_channel_7TeV_powheg_tauola.root"
 
-process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop_new.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop_new.root"
 process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop.root"
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_SingleTop_new.root"
 process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_SingleTop.root"

@@ -52,7 +52,7 @@ process.load("SUSYAnalysis.SUSYEventProducers.WeightProducer_cfi")
 
 process.load("TopAnalysis.TopUtils.EventWeightPU_cfi")
 
-process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500.root"
+process.eventWeightPU.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_73500_new.root"
 
 process.eventWeightPUUp = process.eventWeightPU.clone()
 process.eventWeightPUUp.DataFile = "SUSYAnalysis/SUSYUtils/data/PU_Data_79380.root"
