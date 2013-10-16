@@ -6,13 +6,13 @@ process.weightProducer.XS = 48.49
 process.weightProducer.NumberEvts = 5327746
 process.weightProducer.Lumi = 1000 ## Lumi in 1/p
 
-process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300_new.root"
+process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300_new.root"
+process.eventWeightPUUp.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300.root"
 process.eventWeightPUUp.MCSampleHistoName   = cms.string("pileup")
 
-process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300_new.root"
+process.eventWeightPUDown.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_WJetsHT300.root"
 process.eventWeightPUDown.MCSampleHistoName   = cms.string("pileup")
 
 process.btagEventWeightMuJER.filename  = "../../../../SUSYAnalysis/SUSYUtils/data/Btag_WJetsHT.root"
