@@ -19,6 +19,13 @@ analyzeSUSY1m_preselection = analyzeSUSY.clone()
 analyzeSUSY1m_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1m_jetSelection = analyzeSUSY.clone()
 
+analyzeSUSY1m_nJets1 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets2 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets3 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets4 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets5 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets6 = analyzeSUSY.clone()
+
 analyzeSUSY1b1m_1 = analyzeSUSY.clone()
 analyzeSUSY2b1m_1 = analyzeSUSY.clone()
 analyzeSUSY3b1m_1 = analyzeSUSY.clone()
@@ -58,6 +65,13 @@ analyzeSUSY2b1m_2.btagBin = 2
 analyzeSUSY2b1m_2.BtagEventWeights = "btagEventWeightMuJER:RA4bSFEventWeights"
 analyzeSUSY2b1m_2.BtagJetWeights   = "btagEventWeightMuJER:RA4bSFJetWeights"
 
+analyzeSUSY1m_nJets1.nJetsCut = 1,1
+analyzeSUSY1m_nJets2.nJetsCut = 2,2
+analyzeSUSY1m_nJets3.nJetsCut = 3,3
+analyzeSUSY1m_nJets4.nJetsCut = 4,4
+analyzeSUSY1m_nJets5.nJetsCut = 5,5
+analyzeSUSY1m_nJets6.nJetsCut = 6,6
+
 ## clone modules for electron channel
 analyzeSUSY1e_noCuts = analyzeSUSY.clone()
 analyzeSUSY1e_preselectionLepton = analyzeSUSY.clone()
@@ -66,6 +80,13 @@ analyzeSUSY1e_preselectionMET = analyzeSUSY.clone()
 analyzeSUSY1e_preselection = analyzeSUSY.clone()
 analyzeSUSY1e_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1e_jetSelection = analyzeSUSY.clone()
+
+analyzeSUSY1e_nJets1 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets2 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets3 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets4 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets5 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets6 = analyzeSUSY.clone()
 
 analyzeSUSY1b1e_1 = analyzeSUSY.clone()
 analyzeSUSY2b1e_1 = analyzeSUSY.clone()
@@ -105,6 +126,13 @@ analyzeSUSY2b1e_2.useBtagEventWeight = True
 analyzeSUSY2b1e_2.btagBin = 2
 analyzeSUSY2b1e_2.BtagEventWeights = "btagEventWeightElJER:RA4bSFEventWeights"
 analyzeSUSY2b1e_2.BtagJetWeights   = "btagEventWeightElJER:RA4bSFJetWeights"
+
+analyzeSUSY1e_nJets1.nJetsCut = 1,1
+analyzeSUSY1e_nJets2.nJetsCut = 2,2
+analyzeSUSY1e_nJets3.nJetsCut = 3,3
+analyzeSUSY1e_nJets4.nJetsCut = 4,4
+analyzeSUSY1e_nJets5.nJetsCut = 5,5
+analyzeSUSY1e_nJets6.nJetsCut = 6,6
 
 # clone modules for analysis of simulated TTJets events
 analyzeSUSY_TTJets        = analyzeSUSY.clone()

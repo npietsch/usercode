@@ -2,6 +2,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtGenEvent.h"
+#include "SUSYAnalysis/SUSYObjects/interface/SUSYEvent.h"
 #include "SUSYAnalysis/SUSYAnalyzer/plugins/SUSYAnalyzer.h"
 #include "AnalysisDataFormats/TopObjects/interface/TtSemiLeptonicEvent.h"
 #include  <stdio.h>
@@ -16,6 +17,12 @@
 using namespace std;
  
 SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
+  SUSYEvent_         (cfg.getParameter<edm::InputTag>("SUSYEvent")),
+  nJetsCut_          (cfg.getParameter<std::vector<int> >("nJetsCut")),
+  HTCut_             (cfg.getParameter<std::vector<double> >("HTCut")),
+  METCut_            (cfg.getParameter<std::vector<double> >("METCut")),
+  YMETCut_           (cfg.getParameter<std::vector<double> >("YMETCut")),
+
   met_               (cfg.getParameter<edm::InputTag>("met") ),
   jets_              (cfg.getParameter<edm::InputTag>("jets") ),
   lightJets_         (cfg.getParameter<edm::InputTag>("lightJets") ),
@@ -23,6 +30,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   muons_             (cfg.getParameter<edm::InputTag>("muons") ),
   electrons_         (cfg.getParameter<edm::InputTag>("electrons") ),
   PVSrc_             (cfg.getParameter<edm::InputTag>("PVSrc") ),
+  GoodPVSrc_         (cfg.getParameter<edm::InputTag>("GoodPVSrc") ),
   PUInfo_            (cfg.getParameter<edm::InputTag>("PUInfo") ),
 
   PUWeight_          (cfg.getParameter<edm::InputTag>("PUWeight") ),
@@ -72,6 +80,8 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   nPU_               = fs->make<TH1F>("nPU",               "nPU",               71, -0.5, 70.5);
   nPV_noWgt_         = fs->make<TH1F>("nPV_noWgt",         "nPV_noWgt",         71, -0.5, 70.5);
   nPV_               = fs->make<TH1F>("nPV",               "nPV",               71, -0.5, 70.5);
+  nGoodPV_noWgt_     = fs->make<TH1F>("nGoodPV_noWgt",     "nGoodPV_noWgt",     71, -0.5, 70.5);
+  nGoodPV_           = fs->make<TH1F>("nGoodPV",           "nGoodPV",           71, -0.5, 70.5);
 
   Weight_        = fs->make<TH1F>("Weight",        "Weight",        50 , 0.,   10. );
   WeightPU_      = fs->make<TH1F>("WeightPU",      "WeightPU",      50 , 0.,   10. );
@@ -309,7 +319,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   Bjets_Eta_Weights_D_ = fs->make<TH1F>("Bjets_Eta_Weights_D", "Bjets_Eta_Weights_D", 60, -3., 3);
 
   Bjets_Eta_Weights_A_670_ = fs->make<TH1F>("Bjets_Eta_Weights_A_670", "Bjets_Eta_Weights_A_670", 90, 0., 900);
-  Bjets_Eta_Weights_B_670_ = fs->make<TH1F>("Bjets_Eta_WePVSrcights_B_670", "Bjets_Eta_Weights_B_670", 90, 0., 900);
+  Bjets_Eta_Weights_B_670_ = fs->make<TH1F>("Bjets_Eta_Weights_B_670", "Bjets_Eta_Weights_B_670", 90, 0., 900);
   Bjets_Eta_Weights_C_670_ = fs->make<TH1F>("Bjets_Eta_Weights_C_670", "Bjets_Eta_Weights_C_670", 90, 0., 900);
   Bjets_Eta_Weights_D_670_ = fs->make<TH1F>("Bjets_Eta_Weights_D_670", "Bjets_Eta_Weights_D_670", 90, 0., 900);
 
@@ -365,6 +375,14 @@ SUSYAnalyzer::~SUSYAnalyzer()
 void
 SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 
+  edm::Handle<SUSYEvent> SUSYEvt;
+  evt.getByLabel(SUSYEvent_, SUSYEvt);
+
+  if(SUSYEvt->nJets() < nJetsCut_[0]  || SUSYEvt->nJets() > nJetsCut_[1]) return;
+  if(SUSYEvt->HT()    < HTCut_[0]     || SUSYEvt->HT()    >  HTCut_[1]   ) return;
+  if(SUSYEvt->MET()   < METCut_[0]    || SUSYEvt->MET()   >  METCut_[1]  ) return;
+  if(SUSYEvt->YMET()  < YMETCut_[0]   || SUSYEvt->YMET()  >  YMETCut_[1] ) return;
+
   //--------------------------------------------------
   // Handles
   //-------------------------------------------------
@@ -383,6 +401,8 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   evt.getByLabel(electrons_, electrons);
   edm::Handle<std::vector<reco::Vertex> > PVSrc;
   evt.getByLabel(PVSrc_, PVSrc);
+  edm::Handle<std::vector<reco::Vertex> > GoodPVSrc;
+  evt.getByLabel(GoodPVSrc_, GoodPVSrc);
   edm::Handle<std::vector<double> > BtagEventWeightsHandle;
   evt.getByLabel(BtagEventWeights_, BtagEventWeightsHandle);
   
@@ -487,8 +507,10 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
   WeightTrigger_->Fill(weightTrigger);
 
   // number of primary vertices
-  nPV_->Fill(PVSrc->size(),weight);
-  nPV_noWgt_->Fill(PVSrc->size(),weightRA2*weightBtagEff*weightTrigger);
+  nPV_           ->Fill(PVSrc->size(),weight                                   );
+  nPV_noWgt_     ->Fill(PVSrc->size(),weightRA2*weightBtagEff*weightTrigger    );
+  nGoodPV_       ->Fill(GoodPVSrc->size(),weight                               );
+  nGoodPV_noWgt_ ->Fill(GoodPVSrc->size(),weightRA2*weightBtagEff*weightTrigger);
 
   //-------------------------------------------------
   // Basic variables

@@ -33,7 +33,13 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   virtual void beginJob() ;
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void endJob() ;
-           	
+                     
+  edm::InputTag SUSYEvent_;
+  std::vector<int> nJetsCut_;
+  std::vector<double> HTCut_;
+  std::vector<double> METCut_;
+  std::vector<double> YMETCut_;
+ 	
   edm::InputTag met_;
   edm::InputTag jets_;
   edm::InputTag lightJets_;
@@ -41,6 +47,7 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   edm::InputTag muons_;
   edm::InputTag electrons_;
   edm::InputTag PVSrc_;
+  edm::InputTag GoodPVSrc_;
   edm::InputTag PUInfo_;
 
   edm::InputTag PUWeight_;
@@ -80,6 +87,8 @@ class SUSYAnalyzer : public edm::EDAnalyzer {
   TH1F* nPU_;
   TH1F* nPV_noWgt_;       
   TH1F* nPV_;
+  TH1F* nGoodPV_noWgt_;       
+  TH1F* nGoodPV_;
   
   TH1F* Weight_ ;
   TH1F* WeightPU_;
