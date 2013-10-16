@@ -24,6 +24,19 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = cms.string('GR_R_42_V19::All')
 
+
+#------------------------------------------------------------------
+# Load and configure modules to create SUSYEvent
+#------------------------------------------------------------------
+
+process.load("SUSYAnalysis.SUSYEventProducers.producers.SUSYEventProducer_cfi")
+
+process.SUSYEvt.muons     = "goodMuons"
+process.SUSYEvt.electrons = "goodElectrons"
+process.SUSYEvt.jets      = "goodJets"
+process.SUSYEvt.mets      = "patMETsPF"
+
+
 #------------------------------------------------------------------
 # Load modules for preselection
 #------------------------------------------------------------------
@@ -77,6 +90,7 @@ process.TriggerWeightProducer = TriggerWeightProducer.clone()
 process.Selection0b1m_1 = cms.Path(# execute preselection and producer modules
                                    process.preselectionMuHTAllData *
                                    process.makeObjects *
+                                   process.SUSYEvt *
                                    process.TriggerWeightProducer *
                                    
                                    # execute filter and analyzer modules
@@ -101,6 +115,13 @@ process.Selection0b1m_1 = cms.Path(# execute preselection and producer modules
                                    
                                    process.muonSelection*
                                    process.analyzeSUSYBjets1m_leptonSelection *
+
+                                   process.analyzeSUSY1m_nJets1 *
+                                   process.analyzeSUSY1m_nJets2 *
+                                   process.analyzeSUSY1m_nJets3 *
+                                   process.analyzeSUSY1m_nJets4 *
+                                   process.analyzeSUSY1m_nJets5 *
+                                   process.analyzeSUSY1m_nJets6 *
                                    
                                    process.jetSelection*
                                    process.analyzeSUSYBjets1m_jetSelection
@@ -186,6 +207,7 @@ process.Selection2b1m_2 = cms.Path(# execute filter and b-tag producer modules
 process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
                                    process.preselectionElHTAllData *
                                    process.makeObjects *
+                                   process.SUSYEvt *
                                    process.TriggerWeightProducer *
                                    
                                    # execute filter and analyzer modules
@@ -210,6 +232,13 @@ process.Selection0b1e_1 = cms.Path(# execute preselection and producer modules
                                    
                                    process.electronSelection*
                                    process.analyzeSUSYBjets1e_leptonSelection *
+                                   
+                                   process.analyzeSUSY1e_nJets1 *
+                                   process.analyzeSUSY1e_nJets2 *
+                                   process.analyzeSUSY1e_nJets3 *
+                                   process.analyzeSUSY1e_nJets4 *
+                                   process.analyzeSUSY1e_nJets5 *
+                                   process.analyzeSUSY1e_nJets6 *
                                    
                                    process.jetSelection*
                                    process.analyzeSUSYBjets1e_jetSelection

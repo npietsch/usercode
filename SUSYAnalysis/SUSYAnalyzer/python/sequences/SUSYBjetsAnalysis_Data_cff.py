@@ -10,7 +10,7 @@ analyzeSUSY.muons          = "goodMuons"
 analyzeSUSY.electrons      = "goodElectrons"
 analyzeSUSY.useTriggerEventWeight = True
 
-## clone modules for muon channel
+## clone and configure modules for muon channel
 analyzeSUSY1m_noCuts = analyzeSUSY.clone()
 analyzeSUSY1m_preselectionLepton = analyzeSUSY.clone()
 analyzeSUSY1m_preselectionHT = analyzeSUSY.clone()
@@ -18,6 +18,13 @@ analyzeSUSY1m_preselectionMET = analyzeSUSY.clone()
 analyzeSUSY1m_preselection = analyzeSUSY.clone()
 analyzeSUSY1m_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1m_jetSelection = analyzeSUSY.clone()
+
+analyzeSUSY1m_nJets1 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets2 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets3 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets4 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets5 = analyzeSUSY.clone()
+analyzeSUSY1m_nJets6 = analyzeSUSY.clone()
 
 analyzeSUSY1b1m_1 = analyzeSUSY.clone()
 analyzeSUSY2b1m_1 = analyzeSUSY.clone()
@@ -27,7 +34,14 @@ analyzeSUSY0b1m_2 = analyzeSUSY.clone()
 analyzeSUSY1b1m_2 = analyzeSUSY.clone()
 analyzeSUSY2b1m_2 = analyzeSUSY.clone()
 
-## clone modules for electron channel
+analyzeSUSY1m_nJets1.nJetsCut = 1,1
+analyzeSUSY1m_nJets2.nJetsCut = 2,2
+analyzeSUSY1m_nJets3.nJetsCut = 3,3
+analyzeSUSY1m_nJets4.nJetsCut = 4,4
+analyzeSUSY1m_nJets5.nJetsCut = 5,5
+analyzeSUSY1m_nJets6.nJetsCut = 6,6
+
+## clone and configure modules for electron channel
 analyzeSUSY1e_noCuts = analyzeSUSY.clone()
 analyzeSUSY1e_preselectionLepton = analyzeSUSY.clone()
 analyzeSUSY1e_preselectionHT = analyzeSUSY.clone()
@@ -36,6 +50,13 @@ analyzeSUSY1e_preselection = analyzeSUSY.clone()
 analyzeSUSY1e_leptonSelection = analyzeSUSY.clone()
 analyzeSUSY1e_jetSelection = analyzeSUSY.clone()
 
+analyzeSUSY1e_nJets1 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets2 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets3 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets4 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets5 = analyzeSUSY.clone()
+analyzeSUSY1e_nJets6 = analyzeSUSY.clone()
+
 analyzeSUSY1b1e_1 = analyzeSUSY.clone()
 analyzeSUSY2b1e_1 = analyzeSUSY.clone()
 analyzeSUSY3b1e_1 = analyzeSUSY.clone()
@@ -43,6 +64,13 @@ analyzeSUSY3b1e_1 = analyzeSUSY.clone()
 analyzeSUSY0b1e_2 = analyzeSUSY.clone()
 analyzeSUSY1b1e_2 = analyzeSUSY.clone()
 analyzeSUSY2b1e_2 = analyzeSUSY.clone()
+
+analyzeSUSY1e_nJets1.nJetsCut = 1,1
+analyzeSUSY1e_nJets2.nJetsCut = 2,2
+analyzeSUSY1e_nJets3.nJetsCut = 3,3
+analyzeSUSY1e_nJets4.nJetsCut = 4,4
+analyzeSUSY1e_nJets5.nJetsCut = 5,5
+analyzeSUSY1e_nJets6.nJetsCut = 6,6
 
 #----------------------------------------------------
 # Define analyzer sequences
