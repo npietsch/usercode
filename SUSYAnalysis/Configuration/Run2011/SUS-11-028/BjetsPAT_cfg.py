@@ -35,10 +35,16 @@ process.scaledJetEnergy.inputMETs = "patMETsPF"
 process.scaledJetEnergy.doJetSmearing = True
 
 #------------------------------------------------------------------
-# Load modules to create SUSYGenEvent
+# Load and configure modules to create SUSYGenEvent and SUSYEvent
 #------------------------------------------------------------------
 
 process.load("SUSYAnalysis.SUSYEventProducers.sequences.SUSYGenEvent_cff")
+process.load("SUSYAnalysis.SUSYEventProducers.producers.SUSYEventProducer_cfi")
+
+process.SUSYEvt.muons     = "goodMuons"
+process.SUSYEvt.electrons = "goodElectrons"
+process.SUSYEvt.jets      = "goodJets"
+process.SUSYEvt.mets      = "scaledJetEnergy:patMETsPF"
 
 #------------------------------------------------------------------
 # Load and configure module for cross-section weighting
@@ -166,6 +172,7 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  process.scaledJetEnergy *
                                  process.preselectionMuHTMC2 *
                                  process.makeObjects *
+                                 process.SUSYEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
@@ -192,6 +199,13 @@ process.MuonSelection = cms.Path(# execute producer and preselection modules
                                  process.muonSelection *
 
                                  process.analyzeSUSYBjets1m_leptonSelection *
+
+                                 process.analyzeSUSY1m_nJets1 *
+                                 process.analyzeSUSY1m_nJets2 *
+                                 process.analyzeSUSY1m_nJets3 *
+                                 process.analyzeSUSY1m_nJets4 *
+                                 process.analyzeSUSY1m_nJets5 *
+                                 process.analyzeSUSY1m_nJets6 *
                                  
                                  process.jetSelection*
                                  process.analyzeSUSYBjets1m_jetSelection *
@@ -215,6 +229,7 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  process.scaledJetEnergy *
                                  process.preselectionElHTMC2 *
                                  process.makeObjects *
+                                 process.SUSYEvt *
                                  process.eventWeightPU *
                                  process.weightProducer *
                                  
@@ -240,6 +255,13 @@ process.ElectronSelection = cms.Path(# execute producer and preselection modules
                                  
                                  process.electronSelection*
                                  process.analyzeSUSYBjets1e_leptonSelection *
+
+                                 process.analyzeSUSY1e_nJets1 *
+                                 process.analyzeSUSY1e_nJets2 *
+                                 process.analyzeSUSY1e_nJets3 *
+                                 process.analyzeSUSY1e_nJets4 *
+                                 process.analyzeSUSY1e_nJets5 *
+                                 process.analyzeSUSY1e_nJets6 *
                                  
                                  process.jetSelection*
                                  process.analyzeSUSYBjets1e_jetSelection *
