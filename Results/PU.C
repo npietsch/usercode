@@ -54,12 +54,12 @@ int PU()
   //--------------------------------------------------------------
 
   //TFile* TTJetsSummer11 = new TFile("TTJetsSummer11.root", "READ");
-  TFile* TTJetsFall11   = new TFile("TTJetsFall11.root",   "READ");
-  TFile* SingleTop      = new TFile("SingleTop.root",      "READ");
-  TFile* ZJets          = new TFile("ZJets.root",          "READ");
+  TFile* TTJetsFall11   = new TFile("TTJetsFall11_new.root",   "READ");
+  TFile* SingleTop      = new TFile("SingleTop_new.root",      "READ");
+  TFile* ZJets          = new TFile("ZJets_new.root",          "READ");
   //TFile* WJets          = new TFile("WJets.root",          "READ");
-  TFile* WJetsHT        = new TFile("WJetsHT.root",        "READ");
-  TFile* QCD            = new TFile("QCD.root",            "READ");
+  TFile* WJetsHT        = new TFile("WJetsHT_new.root",        "READ");
+  TFile* QCD            = new TFile("QCD_new.root",            "READ");
   
   //TFile* LM3            = new TFile("LM3.root",            "READ");
   TFile* LM6            = new TFile("LM6.root",            "READ");

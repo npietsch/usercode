@@ -85,9 +85,15 @@ void EventSelectionAll(){
 	ElMuAdder ad("./"); // path to root files
 
 	//add MC histogram
- 	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",       "Number of primaty vertices", "Events", 0,  25, 0., 5000, -0.1, 2.1, 1);
-	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt", "Number of primaty vertices", "Events", 0,  25, 0., 5000, -0.1, 2.1, 1);
+ 	addMCHistogram("analyzeSUSY", "leptonSelection/nPV",        "Number of primary vertices", "Events", 0,  25, 0.1, 5000, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY", "leptonSelection/nPV_noWgt",  "Number of primary vertices", "Events", 0,  25, 0.1, 5000, -0.1, 2.1, 1);
+	
+ 	addMCHistogram("analyzeSUSY", "jetSelection/nPV",        "Number of primary vertices", "Events", 0,  25, 0.1, 2000, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY", "jetSelection/nPV_noWgt",  "Number of primary vertices", "Events", 0,  25, 0.1, 2000, -0.1, 2.1, 1);
 
+ 	addMCHistogram("analyzeSUSY2b", "1/nPV",        "Number of primary vertices", "Events", 0,  25, 0.1, 600, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY2b", "1/nPV_noWgt",  "Number of primary vertices", "Events", 0,  25, 0.1, 600, -0.1, 2.1, 1);
+	
 // 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Et", "p_{T} [GeV]","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
@@ -183,7 +189,7 @@ void EventSelectionAll(){
 	    TH1D* ZJets     =  ad.get("ZJets_new.root");
 	    TH1D* WJets     =  ad.get("WJetsHT_new.root");
 	    TH1D* SingleTop =  ad.get("SingleTop_new.root");
-	    TH1D* TTJets    =  ad.get("TTJetsFall11_new.root");
+	    TH1D* TTJets    =  ad.get("TTJetsFall11_test.root");
 	    // LM signal points
 	    //TH1D* LM9       =  ad.get("LM9_new.root");
 	    TH1D* LM8       =  ad.get("LM8_new.root");
