@@ -57,12 +57,12 @@ void EventSelection(){
 	TFile* ElHad_file     = new TFile("ElHad_new.root",        "READ");
 
 	//addMCHistogram(TString name, int xmin, int xmax)	
-	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  500, 0.1, 1e5, -0.1, 2.1, 1);
+	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  500, 0.1, 1e4, -0.1, 2.1, 1);
 	addMCHistogram("analyzeSUSY1m_leptonSelection/Muon0_Eta", "#eta^{lepton}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nJets", "Number of Jets",  "Events",        -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1m_leptonSelection/nPV", "Number of primary vertices", "Events",  -0.5,  50.5, 0.1, 1e5, -0.1, 2.1, 1);
 
-// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  500, 0.1, 1e5, -0.1, 2.1, 1);
+// 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Pt",  "p_{T}^{lepton} [GeV]","Events",  0,  500, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1e_leptonSelection/Electron0_Eta", "#eta^{lepton}", "Events", -3,    3, 0.1, 1e4, -0.1, 2.1, 0);
 
 //	addMCHistogram("analyzeSUSY1m_jetSelection/HT",    "HT [GeV]","Events / 50 GeV", 0,  2000, 0.1, 1e5, -0.1, 2.1, 1);

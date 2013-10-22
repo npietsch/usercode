@@ -62,9 +62,9 @@ int PU()
   TFile* QCD            = new TFile("QCD_new.root",            "READ");
   
   //TFile* LM3            = new TFile("LM3.root",            "READ");
-  TFile* LM6            = new TFile("LM6.root",            "READ");
-  TFile* LM8            = new TFile("LM8.root",            "READ");
-  TFile* LM9            = new TFile("LM9.root",            "READ");
+  TFile* LM6            = new TFile("LM6_new.root",            "READ");
+  TFile* LM8            = new TFile("LM8_new.root",            "READ");
+  TFile* LM9            = new TFile("LM9_new.root",            "READ");
   //TFile* LM13           = new TFile("LM13.root",           "READ");
 
   TFile* Data = new TFile("PU_Data_73500_new.root", "Read"); 
@@ -77,11 +77,11 @@ int PU()
   addSample(SingleTop,    "SingleTop", "Single Top",       1, kGreen-3, 0, 0);
   addSample(ZJets,        "ZJets",     "Z/#gamma*+Jets",   1, kBlue-7,  0, 0);
   addSample(WJetsHT,      "WJets",     "W+Jets",           1, 1,        0, 0);
-  //addSample(QCD,          "QCD",       "QCD",              1, kRed+2,   0, 0);
+  addSample(QCD,          "QCD",       "QCD",              1, kRed+2,   0, 0);
   
-  //addSample(LM6,       "LM6",     "LM6",          1, kBlack,       0, 0);
-  //addSample(LM8,       "LM8",     "LM8",          1, kBlue,        0, 0);
-  //addSample(LM9,       "LM9",     "LM9",          1, kRed,        0, 0);
+  addSample(LM6,       "LM6",     "LM6",          1, kBlack,       0, 0);
+  addSample(LM8,       "LM8",     "LM8",          1, kBlue,        0, 0);
+  addSample(LM9,       "LM9",     "LM9",          1, kRed,        0, 0);
   
 //   addSample(LM3,       "LM3",         1, kRed+2,   0, 0);
 //   addSample(LM8,       "LM8",         1, 1,        0, 0);
@@ -126,7 +126,7 @@ int PU()
 	 {
 	   TCanvas *c1=new TCanvas(Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx],Selections[sdx]+"_"+Histograms[0]+"_"+Labels[ndx], 1);
 	   
-	   TLegend *leg = new TLegend(.34,.7,.95,.92);
+	   TLegend *leg = new TLegend(.58,.65,.95,.92);
 	   leg->SetTextFont(62);
 	   leg->SetTextSize(0.04);
 	   leg->SetFillColor(0);
@@ -212,9 +212,10 @@ int PU()
 	   Temp3->Draw("same E");
 
 	   // Add entries to legend
-	   leg->AddEntry(Temp2,Labels[ndx]+" w/o reweighting","l P");
-	   leg->AddEntry(Temp1,Labels[ndx]+" w reweighting","l P");
-	   leg->AddEntry(Temp3,"Run 2011","l P");
+	   leg->AddEntry(Temp3,"Data","l P");
+	   leg->AddEntry((TObject*)0, Labels[ndx]+":", "");
+	   leg->AddEntry(Temp2,"w/o reweighting","l P");
+	   leg->AddEntry(Temp1,"w reweighting","l P");
 	   	 
 	   // Draw legend and labels
 	   leg->Draw();

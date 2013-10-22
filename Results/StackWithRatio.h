@@ -155,7 +155,7 @@ class StackWithRatio{
       pad1 = new TPad("pad1","pad1",0,0.3,1,0.98);
       pad1->SetTickx(1);
       pad1->SetTicky(1);
-      //pad1->SetLogy();
+      pad1->SetLogy();
       pad1->SetBottomMargin(0);
       pad1->SetLeftMargin(0.12);
       // lower pad - ratio
@@ -211,7 +211,7 @@ class StackWithRatio{
 
       // ratio
       pad2->cd();
-      //theData->SetNdivisions(11, "X");
+      theData->SetNdivisions(11, "X");
       theData->SetTitleOffset(1.1, "x");
       theData->SetTitleOffset(0.6, "y");
       theData->SetYTitle(yRatioTitle);
