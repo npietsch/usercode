@@ -7,6 +7,11 @@
 
 from BjetsPAT_cfg import *
 
+process.weightProducer.Method = "Constant"
+process.weightProducer.XS = 1.0293
+process.weightProducer.NumberEvts = 421190
+process.weightProducer.Lumi = 1000 ## Lumi in 1/p
+
 process.eventWeightPU.MCSampleFile = "SUSYAnalysis/SUSYUtils/data/PU_LM8.root"
 process.eventWeightPU.MCSampleHistoName   = cms.string("pileup")
 
