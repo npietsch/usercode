@@ -1,7 +1,10 @@
 #include "StackMC.h"
 #include "tdrStyle.h"
 
-vector<TString> Histograms;
+vector<TString> MuHistograms;
+vector<TString> ElHistograms;
+vector<TString> Prefix;
+vector<TString> Names;
 vector<TString> XTitles;
 vector<TString> YTitles;
 vector<double> Xmin;
@@ -12,9 +15,12 @@ vector<double> Smin;
 vector<double> Smax;
 vector<int> Legend;
 
-void addMCHistogram(TString name, TString XTitle, TString YTitle, double xmin, double xmax, double ymin, double ymax, double smin, double smax, int legend)
+void addMCHistogram(TString prefix, TString name, TString XTitle, TString YTitle, double xmin, double xmax, double ymin, double ymax, double smin, double smax, int legend)
 {
-  Histograms.push_back(name);
+  Prefix.push_back(prefix);
+  Names.push_back(name);
+  MuHistograms.push_back(prefix+"1m_"+name);
+  ElHistograms.push_back(prefix+"1e_"+name);
   XTitles.push_back(XTitle);
   YTitles.push_back(YTitle);
   Xmin.push_back(xmin);
@@ -26,8 +32,44 @@ void addMCHistogram(TString name, TString XTitle, TString YTitle, double xmin, d
   Legend.push_back(legend);
 }
 
+class ElMuAdder {
+public:
+  
+  TString path; // directory name for files
+  TString mName;// root dir/histo for muons
+  TString eName;// root dir/histo for electrons
+  
+  ElMuAdder(const char* pth="./") : path(pth) {};
+  
+  // 2 file arguments -> add e+m from different files e.g. data
+  // this is considered to be data not added to sum histo
+  TH1D* get(const TString& eFile, const TString& mFile){
+    TFile mfile(path+mFile);
+    TFile efile(path+eFile);
+    TH1D* mH = (TH1D*)mfile.Get(mName);
+    TH1D* eH = (TH1D*)efile.Get(eName);
+    gROOT->cd();
+    TH1D*  H = mH->Clone();
+    H->Add(eH);
+    return H;
+  }
+  
+  // 1 file argument -> add e+m from same files e.g. mc
+  //	this is considered to be MC -> added to sum histo
+  TH1D* get(const TString& File){ //
+    TFile file(path+File);
+    TH1D* mH = (TH1D*)file.Get(mName);
+    TH1D* eH = (TH1D*)file.Get(eName);
+    gROOT->cd();
+    TH1D*  H = mH->Clone();// Sumw2() is copied as well
+    H->Add(eH);
+    return H;
+  }
+};
+
+
 //-------------------- main --------------------
-void LM(){
+void LM_2(){
 
 	setTDRStyle();
 	gStyle->SetPadTopMargin(0.1);
@@ -39,40 +81,37 @@ void LM(){
    
 	double dataLumi = 4980;//4965.876/pb. -20/pb in ele
 	double SF=1; // scale factor - missing part lepton id
-	double nEvt=1;
-	double Xsec=0.001;
-	//double nEvt=427625;
-	//double Xsec=0.404;
+	//double nEvt=421190;
+	//double Xsec=1.0293;
+	double nEvt=427625;
+	double Xsec=0.404;
 	//double nEvt=437030;
 	//double Xsec=10.82472;
-	// define files
-	TFile* All_file          = new TFile("LM8.root",          "READ");
-	TFile* GluinoPair_file   = new TFile("LM8_GluinoPair.root",          "READ");
-	TFile* GluinoSquark_file = new TFile("LM8_GluinoSquark.root",          "READ");
-	TFile* SquarkPair_file   = new TFile("LM8_SquarkPair.root",          "READ");
-	TFile* StopSbottom_file  = new TFile("LM8_StopSbottom.root",          "READ");
-	TFile* Other_file        = new TFile("LM8_Other.root",          "READ");
 
-	TFile* Dummy_file        = new TFile("Dummy.root",          "READ");
+	ElMuAdder ad("./"); // path to root files
 
- 	//addMCHistogram(TString name, int xmin, int xmax)
-// 	addMCHistogram("analyzeBino_45Jets_1/HT",         "H_{T} [GeV]",         "Events / 50 GeV", 500,  5000, 1, 1e6, -0.1, 2.1, 1);
- 	addMCHistogram("analyzeSUSYGenEvent1m_leptonSelection/nrJets", "Number of jets", "Events", 0, 8, 0.1, 5000, -0.1, 2.1, 1);
+
+	addMCHistogram("analyzeSUSYGenEvent",   "leptonSelection/nrJets", "Number of jets","Events", -0.5,  13.5, 0, 95, -0.1, 2.1, 1);
+
 	//addMCHistogram("analyzeSUSY3b1m_1/nJets", "Number of jets", "Events", 0, 14, 0.1, 20, -0.1, 2.1, 1);
-	for(int hdx=0; hdx<(int)Histograms.size(); ++hdx)
+	for(int hdx=0; hdx<(int)MuHistograms.size(); ++hdx)
 	  {
-	    std::cout << Histograms[hdx] << std::endl;
+	    std::cout << MuHistograms[hdx] << std::endl;
+	    std::cout << ElHistograms[hdx] << std::endl;
 
-	    // get histograms
-	    TH1D* All          = (TH1D*)All_file          ->Get(Histograms[hdx]);
-	    TH1D* GluinoPair   = (TH1D*)GluinoPair_file   ->Get(Histograms[hdx]);
-	    TH1D* GluinoSquark = (TH1D*)GluinoSquark_file ->Get(Histograms[hdx]);
-	    TH1D* SquarkPair   = (TH1D*)SquarkPair_file   ->Get(Histograms[hdx]);
-	    TH1D* StopSbottom  = (TH1D*)StopSbottom_file  ->Get(Histograms[hdx]);
-	    TH1D* Other        = (TH1D*)Other_file        ->Get(Histograms[hdx]);
-L
-	    TH1D* Dummy     = (TH1D*)Dummy_file     ->Get(Histograms[hdx]);
+	    ad.mName   =  MuHistograms[hdx]; // muon histogram	    
+	    ad.eName   =  ElHistograms[hdx]; // electron histogram
 	    
+ 	    // get histograms
+	    TH1D* All          = ad.get("LM6_new.root");
+	    TH1D* GluinoPair   = ad.get("LM6_GluinoPair_new.root");
+	    TH1D* GluinoSquark = ad.get("LM6_GluinoSquark_new.root");
+	    TH1D* SquarkPair   = ad.get("LM6_SquarkPair_new.root");
+	    TH1D* StopSbottom  = ad.get("LM6_StopSbottom_new.root");
+	    TH1D* Other        = ad.get("LM6_Other_new.root");
+
+	    TH1D* Dummy        = ad.get("Dummy.root");
+
 	    // stack with ratio
 	    StackWithRatio sr(dataLumi, XTitles[hdx], YTitles[hdx], "Data/Simulation");
 	    sr.SetXRange(Xmin[hdx],Xmax[hdx]);
@@ -96,7 +135,7 @@ L
 	    sr.Add(GluinoPair,   kYellow-4, nEvt, Xsec);
 	    sr.Add(StopSbottom,  kRed-4,    nEvt, Xsec);
 
-	    TCanvas* c1 = new TCanvas(Histograms[hdx],Histograms[hdx],600,600);
+	    TCanvas* c1 = new TCanvas(Prefix[hdx]+"1l_"+Names[hdx],Prefix[hdx]+"1l_"+Names[hdx],600,600);
 	    //c1->SetLogy();
 
 	    sr.DrawClone();
@@ -125,7 +164,7 @@ L
 // 	    t1->SetTextSize(0.05);
 // 	    t1->Draw();
 
-	    TString NAME = Histograms[hdx]+".pdf";
+	    TString NAME = Prefix[hdx]+"1l_"+Names[hdx]+".pdf";
 	    NAME.ReplaceAll("/", "_");
 	    c1->SaveAs(NAME);
 	  }
