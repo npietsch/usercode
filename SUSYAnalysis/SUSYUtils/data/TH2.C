@@ -134,6 +134,8 @@ int TH2()
       
       MuTag_->Draw("colz");
       label->Draw("same");
+
+      canvas->SaveAs("BtagEfficiency.pdf");
     }
 }
 

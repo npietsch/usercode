@@ -145,7 +145,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   LeptonPt_    = fs->make<TH1F>("LeptonPt",   "Lepton Pt",  60,   0.,   600.);
   LeptonEta_   = fs->make<TH1F>("LeptonEta",  "Lepton Eta", 60,   -3,     3.);
 
-  MT_          = fs->make<TH1F>("MT",      "MT",            40,    0., 2000.);
+  MT_          = fs->make<TH1F>("MT",      "MT",            40,    0., 4000.);
   METfrac_     = fs->make<TH1F>("METfrac", "MET fraction",  40,    0.,    1.);
 
   mT_       = fs->make<TH1F>("mT",      "mT",      40, 0., 400.);
