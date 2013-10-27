@@ -62,29 +62,30 @@ int Cutflow()
   // Samples
   //--------------------------------------------------------------
 
-  //TFile* TTJetsFall11 = new TFile("TTJetsFall11_new.root", "READ");
-  //TFile* SemiLepElMu  = new TFile("SemiLepElMu_new.root",      "READ");
-  //TFile* SemiLepTau   = new TFile("SemiLepTau_new.root",       "READ");
-  //TFile* DiLep        = new TFile("DiLep_new.root",            "READ");
-  //TFile* FullHad      = new TFile("FullHad_new.root",          "READ");
+  TFile* TTJetsFall11 = new TFile("TTJetsFall11_new.root", "READ");
+  TFile* SemiLepElMu  = new TFile("SemiLepElMuTTJets_new.root",      "READ");
+  TFile* SemiLepTau   = new TFile("SemiLepTauTTJets_new.root",       "READ");
+  TFile* DiLep        = new TFile("DiLepTTJets_new.root",            "READ");
+  TFile* FullHad      = new TFile("FullHadTTJets_new.root",          "READ");
 
-   TFile* SingleTop     = new TFile("SingleTop_new.root",    "READ");
+  TFile* SingleTop     = new TFile("SingleTop_new.root",    "READ");
 
-   TFile* SingleTop_b   = new TFile("SingleTop_b_new.root",  "READ");
-   TFile* SingleTop_q   = new TFile("SingleTop_q_new.root",  "READ");
-   TFile* SingleTop_W   = new TFile("SingleTop_W_new.root",  "READ");
+  TFile* SingleTop_b   = new TFile("SingleTop_b_new.root",  "READ");
+  TFile* SingleTop_q   = new TFile("SingleTop_q_new.root",  "READ");
+  TFile* SingleTop_W   = new TFile("SingleTop_W_new.root",  "READ");
 
    //TFile* ZJets         = new TFile("ZJets_new.root",        "READ");
    //TFile* WJetsHT       = new TFile("WJetsHT_new.root",      "READ");
    //TFile* QCD           = new TFile("QCD_new.root",          "READ");
 
-   //TFile* MuHad         = new TFile("MuHad_new.root",        "READ");
-   //TFile* ElHad         = new TFile("ElHad_new.root",        "READ");
+   TFile* LM6           = new TFile("LM6_new.root",          "READ");
+   TFile* LM8           = new TFile("LM8_new.root",          "READ");
 
-   //TFile* AllSM         = new TFile("AllSM_new.root",        "READ");
+   TFile* MuHad         = new TFile("MuHad_new.root",        "READ");
+   TFile* ElHad         = new TFile("ElHad_new.root",        "READ");
+
+   TFile* AllSM         = new TFile("AllSM_new.root",        "READ");
   
-   //TFile* LM6           = new TFile("LM6_new.root",          "READ");
-   //TFile* LM8           = new TFile("LM8_new.root",          "READ");
 //   TFile* LM9           = new TFile("LM9_new.root",          "READ");
 
   //--------------------------------------------------------------------------------------------------------------
@@ -92,26 +93,27 @@ int Cutflow()
   //--------------------------------------------------------------------------------------------------------------
 
   //addMCSample(TTJetsFall11,"TTJets",  "All $\\textmd{t}\\bar{\\textmd{t}}$+Jets",   Lumi, kRed,      0, 0);
-  //addMCSample(SemiLepElMu, "TTJets",  "Semilep. $e/\\mu$",  0.97*0.013178471, kRed,      0, 0);
-  //addMCSample(SemiLepTau,  "TTJets",  "Semilep. $\\tau$",   0.97*0.013178471, kRed,      0, 0);
+  addMCSample(SemiLepElMu, "TTJets",  "Semilep. $e/\\mu$",  0.97*0.013178471, kRed,      0, 0);
+  addMCSample(SemiLepTau,  "TTJets",  "Semilep. $\\tau$",   0.97*0.013178471, kRed,      0, 0);
   //addMCSample(DiLep,       "TTJets",  "Dileptonic",         0.97*0.013178471, kRed,      0, 0);
   //addMCSample(FullHad,     "TTJets",  "Fullhadronic",       0.97*0.013178471, kRed,      0, 0);
 
-  addMCSample(SingleTop,    "SingleTop", "Single Top",      Lumi, kGreen-3,  0, 0);
+  //addMCSample(SingleTop,    "SingleTop", "Single Top",      Lumi, kGreen-3,  0, 0);
 
-  addMCSample(SingleTop_b,  "SingleTop_b", "t+b",      Lumi, kGreen-3,  0, 0);
-  addMCSample(SingleTop_q,  "SingleTop_q", "t+q",      Lumi, kGreen-3,  0, 0);
-  addMCSample(SingleTop_W,  "SingleTop_w", "t+W",      Lumi, kGreen-3,  0, 0);
+  //addMCSample(SingleTop_b,  "SingleTop_b", "t+b",      Lumi, kGreen-3,  0, 0);
+  //addMCSample(SingleTop_q,  "SingleTop_q", "t+q",      Lumi, kGreen-3,  0, 0);
+  //addMCSample(SingleTop_W,  "SingleTop_w", "t+W",      Lumi, kGreen-3,  0, 0);
 
   //addMCSample(WJetsHT,      "WJets",     "W+Jets",          Lumi, kYellow-4, 0, 0);
   //addMCSample(ZJets,        "ZJets",     "$\\textmd{Z}/\\gamma^{*}$+Jets",  Lumi, kBlue-7,   0, 0);
   //addMCSample(QCD,          "QCD",       "QCD",             Lumi, kRed+2,    0, 0);
   
-  //addMCSample(ElHad,        "ElHad",     "Data",            1,    kBlack,    0, 0);
-  //addMCSample(AllSM,        "AllSM",     "all SM",          Lumi, kBlue,     0, 0);
-  
   //addMCSample(LM6,          "LM6",       "LM6",             Lumi, kBlack,    0, 0);
   //addMCSample(LM8,          "LM8",       "LM8",             Lumi, kBlue,     0, 0);
+
+  //addMCSample(MuHad,        "MuHad",     "Data",            1,    kBlack,    0, 0);
+  addMCSample(AllSM,        "AllSM",     "All SM",          Lumi, kBlue,     0, 0);
+  
   //addMCSample(LM9,          "LM9",       "LM9",             Lumi, kRed,      0, 0);
   
 
@@ -330,6 +332,12 @@ int Cutflow()
 	      
 	      double Events=MCWeights[fdx]*(TempMu->Integral(0,-1)+TempEl->Integral(0,-1));
 	      std::cout << " & " << Events;
+
+// 	      TH1F* TempMu=(TH1F*)MCFiles[fdx]->Get(MuSelectionSteps[sdx]+"/"+"nJets");
+// 	      TH1F* TempEl=(TH1F*)MCFiles[fdx]->Get(ElSelectionSteps[sdx]+"/"+"nJets");
+	      
+// 	      double Events=MCWeights[fdx]*(TempMu->Integral(9,-1)+TempEl->Integral(9,-1));
+// 	      std::cout << " & " << Events;
 	    }
 	}
       std::cout << " \\\\" << std::endl;

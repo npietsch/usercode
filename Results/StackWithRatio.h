@@ -211,7 +211,7 @@ class StackWithRatio{
 
       // ratio
       pad2->cd();
-      //theData->SetNdivisions(11, "X");
+      //theData->SetNdivisions(7, "X");
       theData->SetTitleOffset(1.1, "x");
       theData->SetTitleOffset(0.6, "y");
       theData->SetYTitle(yRatioTitle);
@@ -221,6 +221,11 @@ class StackWithRatio{
       theData->GetXaxis()->SetLabelFont(62);
       theData->GetYaxis()->SetLabelSize(0.1);
       theData->GetXaxis()->SetLabelSize(0.1 );
+      
+/*       theData->GetXaxis()->SetBinLabel(1,"0"); */
+/*       theData->GetXaxis()->SetBinLabel(2,"1"); */
+/*       theData->GetXaxis()->SetBinLabel(3,"2"); */
+/*       theData->GetXaxis()->SetBinLabel(4,"#geq 3"); */
       
       if(ratioYmin!=ratioYmax){
 	theData->GetYaxis()->SetRangeUser(ratioYmin, ratioYmax);
