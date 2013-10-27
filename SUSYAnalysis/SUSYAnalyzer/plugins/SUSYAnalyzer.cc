@@ -75,7 +75,7 @@ SUSYAnalyzer::SUSYAnalyzer(const edm::ParameterSet& cfg):
   //-------------------------------------------------
 
   btagWeights_noWgt_ = fs->make<TH1F>("btagWeights_noWgt", "btagWeights_noWgt",  4, -0.5,  3.5);
-  btagWeights_PUWgt_ = fs->make<TH1F>("btagWeights_PUWgt", "btagWeights_PUWgt",  4, -0.5,  3.5);
+  btagWeights_Wgt_   = fs->make<TH1F>("btagWeights_Wgt", "btagWeights_Wgt",  4, -0.5,  3.5);
   nPU_noWgt_         = fs->make<TH1F>("nPU_noWgt",         "nPU_noWgt",         71, -0.5, 70.5);
   nPU_               = fs->make<TH1F>("nPU",               "nPU",               71, -0.5, 70.5);
   nPV_noWgt_         = fs->make<TH1F>("nPV_noWgt",         "nPV_noWgt",         71, -0.5, 70.5);
@@ -440,7 +440,18 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
       
       // Btag efficiency weights
       if(useBtagEventWgt_ ||useInclusiveBtagEventWgt_)
-	{	  
+	{	
+	  
+	  btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
+	  btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
+	  btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
+	  btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
+	  
+	  btagWeights_Wgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weightRA2*weightPU);
+	  btagWeights_Wgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weightRA2*weightPU);
+	  btagWeights_Wgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weightRA2*weightPU);
+	  btagWeights_Wgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weightRA2*weightPU); 
+  
 	  if(useBtagEventWgt_)
 	    {
 	      weightBtagEff=(*BtagEventWeightsHandle)[btagBin_];
@@ -449,16 +460,6 @@ SUSYAnalyzer::analyze(const edm::Event& evt, const edm::EventSetup& setup){
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[1]): " << (*BtagEventWeightsHandle)[1] <<std::endl;
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[2]): " << (*BtagEventWeightsHandle)[2] <<std::endl;
 	      //std::cout << "SUSAnalyzer.cc (*BtagEventWeightsHandle)[3]): " << (*BtagEventWeightsHandle)[3] <<std::endl;
-
-	      btagWeights_noWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]);
-	      btagWeights_noWgt_->Fill(1, (*BtagEventWeightsHandle)[1]);
-	      btagWeights_noWgt_->Fill(2, (*BtagEventWeightsHandle)[2]);
-	      btagWeights_noWgt_->Fill(3, (*BtagEventWeightsHandle)[3]);
-	      
-	      btagWeights_PUWgt_->Fill(0.,(*BtagEventWeightsHandle)[0]*weight);
-	      btagWeights_PUWgt_->Fill(1, (*BtagEventWeightsHandle)[1]*weight);
-	      btagWeights_PUWgt_->Fill(2, (*BtagEventWeightsHandle)[2]*weight);
-	      btagWeights_PUWgt_->Fill(3, (*BtagEventWeightsHandle)[3]*weight); 
 	    }
          
 	  if(useInclusiveBtagEventWgt_)
