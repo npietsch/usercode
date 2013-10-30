@@ -116,10 +116,10 @@ int Colz()
   addHistogram("NuPt_fakeMET_0HT125",    "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "0 < H_{T} < 125");
   addHistogram("NuPt_fakeMET_125HT250",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "125 < H_{T} < 250");
   addHistogram("NuPt_fakeMET_250HT375",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "250 < H_{T} < 375");
-//   addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
-//   addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
-//   addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
-//   addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
+   addHistogram("NuPt_fakeMET_375HT500",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "375 < H_{T} < 500");
+   addHistogram("NuPt_fakeMET_500HT650",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "500 < H_{T} < 650");
+   addHistogram("NuPt_fakeMET_650HT800",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "650 < H_{T} < 800");
+   addHistogram("NuPt_fakeMET_800HT950",  "P_{T}^{#nu} [GeV]", "#slash{E}_{T}^{fake} [GeV]", 0, 500, 0, 200, "800 < H_{T} < 950");
   
   //--------------------------------------------------------------------------------------------------
   // addSelectionStep(TString module, TString step, TString selectionLabel)
@@ -142,10 +142,10 @@ int Colz()
   //--------------------------------------------------------------------------------------------------
 
   setTDRStyle();
-  tdrStyle->SetPadLeftMargin(0.08);
+  tdrStyle->SetPadLeftMargin(0.09);
   tdrStyle->SetPadRightMargin(0.12);
   tdrStyle->SetPadTopMargin(0.1);
-  tdrStyle->SetPadBottomMargin(0.14);
+  tdrStyle->SetPadBottomMargin(0.15);
   tdrStyle->SetPalette(1);
   tdrStyle->SetCanvasDefH(400);
   tdrStyle->SetCanvasDefW(1000);
@@ -174,8 +174,8 @@ int Colz()
 
 		      TPaveText *label = new TPaveText(0.14,0.94,0.99,1.,"NDC");
 		      label->SetFillColor(0);
-		      label->SetTextFont(42);
-		      label->SetTextSize(0.043);
+		      label->SetTextFont(62);
+		      label->SetTextSize(0.05);
 		      label->SetBorderSize(0);
 		      label->SetTextAlign(12);
 		      TText *text=label->AddText("Simulation, #sqrt{s} = 7 TeV, "+ChannelLabels[cdx]);
@@ -204,20 +204,20 @@ int Colz()
 		      Hist->GetXaxis()->SetTitle(XLabels[hdx]);
 		      Hist->GetXaxis()->SetTitleOffset(1.1);
 		      Hist->GetXaxis()->SetTitleSize(0.05);
-		      Hist->GetXaxis()->SetTitleFont(42);
-		      Hist->GetXaxis()->SetLabelFont(42);
+		      Hist->GetXaxis()->SetTitleFont(62);
+		      Hist->GetXaxis()->SetLabelFont(62);
 		      
 		      Hist->GetYaxis()->SetTitle(YLabels[hdx]);
 		      Hist->GetYaxis()->SetTitleOffset(0.8);
 		      Hist->GetYaxis()->SetTitleSize(0.05);
-		      Hist->GetYaxis()->SetTitleFont(42);
-		      Hist->GetYaxis()->SetLabelFont(42);
+		      Hist->GetYaxis()->SetTitleFont(62);
+		      Hist->GetYaxis()->SetLabelFont(62);
 		      
 		      Hist->GetZaxis()->SetTitle("Events");
 		      Hist->GetZaxis()->SetTitleOffset(0.6);
 		      Hist->GetZaxis()->SetTitleSize(0.05);
-		      Hist->GetZaxis()->SetTitleFont(42);
-		      Hist->GetZaxis()->SetLabelFont(42);
+		      Hist->GetZaxis()->SetTitleFont(62);
+		      Hist->GetZaxis()->SetLabelFont(62);
 
 		      Hist->Draw("colz");
 		      
@@ -247,9 +247,9 @@ int Colz()
 		      
 		      TCanvas *canvas = new TCanvas(Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx],Modules[sdx]+"l"+Selections[sdx]+"_"+Histograms[hdx]+"_"+Samples[fdx], 1);
 		      
-		      TPaveText *label = new TPaveText(0.06,0.92,0.96,1.,"NDC");
+		      TPaveText *label = new TPaveText(0.048,0.92,0.96,1.,"NDC");
 		      label->SetFillColor(0);
-		      label->SetTextFont(42);
+		      label->SetTextFont(62);
 		      label->SetTextSize(0.06);
 		      label->SetBorderSize(0);
 		      label->SetTextAlign(12);
@@ -284,24 +284,24 @@ int Colz()
 		      Hist->SetTitle("");
 		      
 		      Hist->GetXaxis()->SetTitle(XLabels[hdx]);
-		      Hist->GetXaxis()->SetTitleOffset(0.9);
-		      Hist->GetXaxis()->SetTitleSize(0.07);
-		      Hist->GetXaxis()->SetTitleFont(42);
-		      Hist->GetXaxis()->SetLabelFont(42);
+		      Hist->GetXaxis()->SetTitleOffset(1.1);
+		      Hist->GetXaxis()->SetTitleSize(0.06);
+		      Hist->GetXaxis()->SetTitleFont(62);
+		      Hist->GetXaxis()->SetLabelFont(62);
 		      Hist->GetXaxis()->SetLabelSize(0.05);
 		      
 		      Hist->GetYaxis()->SetTitle(YLabels[hdx]);
-		      Hist->GetYaxis()->SetTitleOffset(0.5);
-		      Hist->GetYaxis()->SetTitleSize(0.07);
-		      Hist->GetYaxis()->SetTitleFont(42);
-		      Hist->GetYaxis()->SetLabelFont(42);
+		      Hist->GetYaxis()->SetTitleOffset(0.7);
+		      Hist->GetYaxis()->SetTitleSize(0.06);
+		      Hist->GetYaxis()->SetTitleFont(62);
+		      Hist->GetYaxis()->SetLabelFont(62);
 		      Hist->GetYaxis()->SetLabelSize(0.05);
 
 		      Hist->GetZaxis()->SetTitle("Events");
-		      Hist->GetZaxis()->SetTitleOffset(0.5);
-		      Hist->GetZaxis()->SetTitleSize(0.07);
-		      Hist->GetZaxis()->SetTitleFont(42);
-		      Hist->GetZaxis()->SetLabelFont(42);
+		      Hist->GetZaxis()->SetTitleOffset(0.6);
+		      Hist->GetZaxis()->SetTitleSize(0.06);
+		      Hist->GetZaxis()->SetTitleFont(62);
+		      Hist->GetZaxis()->SetLabelFont(62);
 		      Hist->GetZaxis()->SetLabelSize(0.05);
 
 		      Hist->Draw("colz");

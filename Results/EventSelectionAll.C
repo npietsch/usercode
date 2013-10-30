@@ -118,8 +118,8 @@ void EventSelectionAll(){
 //  	addMCHistogram("analyzeSUSY3b", "1/YMET",            "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0,  200, 0.1, 1e3, -0.1, 2.1, 1);
 
   	//addMCHistogram("analyzeSUSY",   "jetSelection/nBjets_2", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 1);
-   	//addMCHistogram("analyzeSUSY",   "jetSelection/nBjets",  "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 0);
-   	addMCHistogram("analyzeSUSY1b", "1/btagWeights_Wgt", "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 0);
+   	addMCHistogram("analyzeSUSY",   "jetSelection/nBjets",  "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 1);
+   	//addMCHistogram("analyzeSUSY1b", "1/btagWeights_Wgt", "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 1);
 
 //	addMCHistogram("analyzeSUSY",   "leptonSelection/nJets", "Number of jets","Events", -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/nJets",    "Number of jets","Events",  3.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
@@ -234,14 +234,14 @@ void EventSelectionAll(){
 	for(int hdx=0; hdx<(int)MuHistograms.size(); ++hdx)
 	  {
 // 	    // electron and muon data
-  	    ad.mName   = "analyzeSUSY1m_jetSelection/nBjets"; // muon histogram
-  	    ad.eName   = "analyzeSUSY1e_jetSelection/nBjets"; // electron histogram
-  	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
+//   	    ad.mName   = "analyzeSUSY1m_jetSelection/nBjets"; // muon histogram
+//   	    ad.eName   = "analyzeSUSY1e_jetSelection/nBjets"; // electron histogram
+//   	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
       
 //  	    // electron and muon data
-//  	    ad.mName   = MuHistograms[hdx]; // muon histogram
-//  	    ad.eName   = ElHistograms[hdx]; // electron histogram
-//  	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
+  	    ad.mName   = MuHistograms[hdx]; // muon histogram
+  	    ad.eName   = ElHistograms[hdx]; // electron histogram
+  	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
 	   
 	    // SM MC
 	    ad.mName   =  MuHistograms[hdx]; // muon histogram
@@ -291,8 +291,9 @@ void EventSelectionAll(){
 	    sr.pad1->cd(); // stack
 	    
 	    //TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
-	    TLegend *leg = new TLegend(.12,.45,.39,.9);
-	    leg->SetTextSize(0.05);
+	    TLegend *leg = new TLegend(0.76, 0.57, 0.99, 0.99);
+	    //TLegend *leg = new TLegend(.12,.45,.39,.9);
+	    leg->SetTextSize(0.045);
 	    leg->SetFillColor(0);
  	    leg->AddEntry(data,      "Data",             "lep");
  	    leg->AddEntry(TTJets,    "t#bar{t} + Jets",  "f");
@@ -305,15 +306,15 @@ void EventSelectionAll(){
 	    leg->SetBorderSize(1);
 	    if(Legend[hdx] == 1) leg->Draw();
 	    
-	    TPaveText *label = new TPaveText(0.08,0.94,0.99,1.,"NDC");
+	    TPaveText *label = new TPaveText(0.08,0.94,0.72,1.,"NDC");
 	    label->SetFillColor(0);
 	    label->SetTextFont(62);
 	    label->SetTextSize(0.06);
 	    label->SetBorderSize(0);
 	    label->SetTextAlign(12);
-	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV, #kern[0.1]{w/ weights}");//, #kern[0.1]{4 jets}");
+	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV");//, #kern[0.1]{4 jets}");
 	    label->Draw();
-	    
+
 // 	    // TLine
 // 	    TLine * line = new TLine(3.3, 0.1, 3.3, 1e5);
 // 	    line->SetLineWidth(2);
