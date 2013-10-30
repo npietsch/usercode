@@ -97,7 +97,7 @@ void EventSelectionAll(){
  	//addMCHistogram("analyzeSUSY2b", "1/nPV",        "Number of primary vertices", "Events", 0,  25, 0.1, 600, -0.1, 2.1, 1);
 	//addMCHistogram("analyzeSUSY2b", "1/nPV_noWgt",  "Number of primary vertices", "Events", 0,  25, 0.1, 600, -0.1, 2.1, 1);
 	
-// 	addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Events", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
+ 	//addMCHistogram("analyzeSUSY", "jetSelection/TCHE", "B-discriminator", "Selected jets", -20,  20, 0.1, 1e5, -0.1, 2.1, 1);
 
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet0_Et", "p_{T} [GeV]","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY", "jetSelection/Jet1_Et", "p_{T} [GeV]","Events", 0,  900, 0.1, 1e4, -0.1, 2.1, 1);
@@ -118,9 +118,8 @@ void EventSelectionAll(){
 //  	addMCHistogram("analyzeSUSY3b", "1/YMET",            "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0,  200, 0.1, 1e3, -0.1, 2.1, 1);
 
   	//addMCHistogram("analyzeSUSY",   "jetSelection/nBjets_2", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 1);
-   	//addMCHistogram("analyzeSUSY",  "jetSelection/nBjets",  "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 0);
-   	addMCHistogram("analyzeSUSY1b",  "2/btagWeights_PUWgt", "Number of b-jets","Events", -0.5,  5.5, 0.1, 1e5, -0.1, 2.1, 0);
-
+   	//addMCHistogram("analyzeSUSY",   "jetSelection/nBjets",  "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 0);
+   	addMCHistogram("analyzeSUSY1b", "1/btagWeights_Wgt", "Number of b-jets","Events", -0.5,  5.5, 1, 1e5, -0.1, 2.1, 0);
 
 //	addMCHistogram("analyzeSUSY",   "leptonSelection/nJets", "Number of jets","Events", -0.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY",   "jetSelection/nJets",    "Number of jets","Events",  3.5,  13.5, 0.1, 1e5, -0.1, 2.1, 1);
@@ -164,14 +163,12 @@ void EventSelectionAll(){
 
 // 	addMCHistogram("analyzeSUSY1b", "1/MET", "#slash{E}_{T} [GeV]","Events",  0, 800, 0.1, 1e4, -0.1, 2.1, 1);
 //  	addMCHistogram("analyzeSUSY3b", "1/MET", "#slash{E}_{T} [GeV]","Events",  0, 800, 0.1, 1e3, -0.1, 2.1, 1);
-
 	
 //  	addMCHistogram("analyzeSUSY1b", "1/YMET",            "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0,  200, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/mT", "m_{T} [GeV]","Events", 0,  400, 0.1, 5e3, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/HT", "H_{T} [GeV]","Events",  0, 2000, 0.1, 1e4, -0.1, 2.1, 1);
 // 	addMCHistogram("analyzeSUSY1b", "1/MET", "#slash{E}_{T} [GeV]","Events",  0, 800, 0.1, 1e4, -0.1, 2.1, 1);
-
 
 	//addMCHistogram("analyzeSUSY3b", "1/YMET",            "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0,  200, 0.1, 1e3, -0.1, 2.1, 1);
 	//addMCHistogram("analyzeSUSY3b", "1/nJets",               "Number of jets","Events",  3.5,  13.5, 0.1, 1e4, -0.1, 2.1, 1);
@@ -198,7 +195,6 @@ void EventSelectionAll(){
 // 	addMCHistogram("analyzeSUSY", "jetSelection/HT",   "H_{T} [GeV]",         "Events",  0,   2000, 0.1, 1e4, -0.1, 2.1, 1);
 //  	addMCHistogram("analyzeSUSY", "jetSelection/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 1e4, -0.1, 2.1, 1);
 	
-
   	//addMCHistogram("analyzeSUSY0b", "2/YMET", "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0, 200, 0.1, 1e4, -0.1, 2.1, 1);
  	//addMCHistogram("analyzeSUSY0b", "2/nJets","Number of jets",      "Events",  3.5, 13.5, 0.1, 1e4, -0.1, 2.1, 1);
  	//addMCHistogram("analyzeSUSY0b", "2/mT",   "m_{T} [GeV]",         "Events",  0,    400, 0.1, 1e4, -0.1, 2.1, 1);
@@ -217,7 +213,6 @@ void EventSelectionAll(){
  	//addMCHistogram("analyzeSUSY2b", "1/HT",   "H_{T} [GeV]",         "Events",  0,   2000, 0.1, 5e3, -0.1, 2.1, 1);
  	//addMCHistogram("analyzeSUSY2b", "1/MET", "#slash{E}_{T} [GeV]",  "Events",  0,    800, 0.1, 5e3, -0.1, 2.1, 1);
 
-	
   	//addMCHistogram("analyzeSUSY3b", "1/YMET",  "Y_{MET} [GeV^{#frac{1}{2}}]","Events", 0, 200, 0.1, 5e3, -0.1, 2.1, 1);
  	//addMCHistogram("analyzeSUSY3b", "1/nJets","Number of jets",      "Events",  3.5, 13.5, 0.1, 5e3, -0.1, 2.1, 1);
  	//addMCHistogram("analyzeSUSY3b", "1/mT",   "m_{T} [GeV]",         "Events",  0,    400, 0.1, 5e3, -0.1, 2.1, 1);
@@ -238,15 +233,15 @@ void EventSelectionAll(){
 
 	for(int hdx=0; hdx<(int)MuHistograms.size(); ++hdx)
 	  {
-	    // electron and muon data
-	    ad.mName   = "analyzeSUSY1m_jetSelection/nBjets"; // muon histogram
-	    ad.eName   = "analyzeSUSY1e_jetSelection/nBjets"; // electron histogram
-	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
-	
 // 	    // electron and muon data
-// 	    ad.mName   = MuHistograms[hdx]; // muon histogram
-// 	    ad.eName   = ElHistograms[hdx]; // electron histogram
-// 	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
+  	    ad.mName   = "analyzeSUSY1m_jetSelection/nBjets"; // muon histogram
+  	    ad.eName   = "analyzeSUSY1e_jetSelection/nBjets"; // electron histogram
+  	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
+      
+//  	    // electron and muon data
+//  	    ad.mName   = MuHistograms[hdx]; // muon histogram
+//  	    ad.eName   = ElHistograms[hdx]; // electron histogram
+//  	    TH1D* data =  ad.get("ElHad_new.root","MuHad_new.root");
 	   
 	    // SM MC
 	    ad.mName   =  MuHistograms[hdx]; // muon histogram
@@ -295,8 +290,8 @@ void EventSelectionAll(){
 	    
 	    sr.pad1->cd(); // stack
 	    
-	    TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
-	    //TLegend *leg = new TLegend(.12,.45,.39,.9);
+	    //TLegend *leg = new TLegend(0.68, 0.48, 0.9499, 0.9);
+	    TLegend *leg = new TLegend(.12,.45,.39,.9);
 	    leg->SetTextSize(0.05);
 	    leg->SetFillColor(0);
  	    leg->AddEntry(data,      "Data",             "lep");
@@ -316,7 +311,7 @@ void EventSelectionAll(){
 	    label->SetTextSize(0.06);
 	    label->SetBorderSize(0);
 	    label->SetTextAlign(12);
-	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV, #kern[0.1]{4 jets}");
+	    TText *text=label->AddText("4.98 fb^{-1}, #sqrt{s} = 7 TeV, #kern[0.1]{w/ weights}");//, #kern[0.1]{4 jets}");
 	    label->Draw();
 	    
 // 	    // TLine

@@ -103,9 +103,9 @@ int BtagEfficienciesAllEta()
   // Flavors
   //-----------------------------------------------------
 
-  Flavors.push_back("B");
+  //Flavors.push_back("B");
   //Flavors.push_back("C");
-  //Flavors.push_back("L");
+  Flavors.push_back("L");
 
   //-----------------------------------------------------
   // addSelectionStep(TString name, int lc, TString sn);
@@ -300,7 +300,7 @@ int BtagEfficienciesAllEta()
 	      std::cout << "Maximum: " << Maximum << std::endl;
 	      std::cout << "==============================" << std::endl;
 	      
-	      leg->Draw();
+	      //leg->Draw();
 	      label->Draw();
 	      //label2->Draw();
 	      
