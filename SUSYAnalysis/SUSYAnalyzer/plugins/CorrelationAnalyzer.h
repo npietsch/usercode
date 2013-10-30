@@ -279,6 +279,14 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* NuPt_fakeMET_650HT800_;
   TH2F* NuPt_fakeMET_800HT950_;
 
+  TH2F* NuPt_fakeMET_0HT150_;
+  TH2F* NuPt_fakeMET_150HT375_;
+  TH2F* NuPt_fakeMET_375HT600_;
+  TH2F* NuPt_fakeMET_600HT800_;
+  TH2F* NuPt_fakeMET_800HT1000_;
+  TH2F* NuPt_fakeMET_1000HT1200_;
+  TH2F* NuPt_fakeMET_1200HT1400_;
+
   TH2F* NuPt_fakeMET_;
   TH2F* NuPt_MET_;
   TH2F* fakeMET_MET_;
@@ -298,6 +306,7 @@ class CorrelationAnalyzer : public edm::EDAnalyzer {
   TH2F* HT_NuPtfakeMETRatio_;
   TH2F* HT_NuPtfakeMETRatio2_;
   TH2F* HT_NuPtfakeMETRatio3_;
+  TH2F* HT_NuPtfakeMETRatio4_;
 
   TH1F* HadMET_400HT500_;
   TH1F* HadMET_500HT600_;

@@ -108,6 +108,7 @@ int TH2()
       MuTag_->GetYaxis()->SetTitleOffset(0.6);
       MuTag_->GetYaxis()->SetTitleSize(0.07);
       MuTag_->GetYaxis()->SetTitleFont(42);
+      MuTag_->GetYaxis()->SetRangeUser(0,2.4);
       
       MuTag_->GetZaxis()->SetTitle("b-tag efficiency");
       MuTag_->GetZaxis()->SetTitleOffset(0.7);
